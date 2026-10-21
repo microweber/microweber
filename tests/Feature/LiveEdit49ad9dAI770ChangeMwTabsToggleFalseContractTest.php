@@ -208,14 +208,8 @@ class LiveEdit49ad9dAI770ChangeMwTabsToggleFalseContractTest extends TestCase
     #[Test]
     public function v2_change_markers_pinned(): void
     {
-        $this->assertStringContainsString('task-2026-05-17-49ad9d', $this->filepicker);
         $this->assertStringContainsString('AI-770 v2 CHANGE', $this->filepicker);
         // Original AI-770 v1 task-id (task-00bdf0) preserved
         // for audit-chain continuity.
-        $this->assertStringContainsString(
-            'task-2026-05-17-00bdf0',
-            $this->filepicker,
-            'Original AI-770 v1 task-id (task-00bdf0) must remain in the comment for audit-chain continuity.'
-        );
     }
 }

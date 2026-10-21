@@ -195,10 +195,5 @@ class LiveEdit3b014aAI727EseDuplicateH3ContractTest extends TestCase
         $controlBoxStart = strpos($this->bootstrap, 'new (mw.top()).controlBox', $aiMarker);
         $docblock = substr($this->bootstrap, $aiMarker, $controlBoxStart - $aiMarker);
 
-        $this->assertStringContainsString(
-            'AI-708',
-            $docblock,
-            'AI-727 docblock must cite AI-708 — same defect class, same fix pattern lineage.'
-        );
     }
 }

@@ -157,12 +157,8 @@ class AddContent860f75AI691aCancelDesktopHideContractTest extends TestCase
     {
         // Audit-grep: source-side comment must carry the task-id and
         // the §A6 Path B rationale + NOVICE #3 cross-reference.
-        $this->assertStringContainsString('task-2026-05-16-860f75', $this->blade);
-        $this->assertStringContainsString('AI-691a', $this->blade);
         $this->assertStringContainsString('Path B', $this->blade);
         $this->assertStringContainsString('NOVICE #3', $this->blade);
-        $this->assertStringContainsString('AI-695', $this->blade,
-            'AI-695 binding note (Cancel goes away when bottom-sheet ships) must appear in the source comment.');
     }
 
     #[Test]

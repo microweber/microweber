@@ -67,7 +67,6 @@ class Ai535BreadcrumbTouchTargetContractTest extends TestCase
     #[Test]
     public function ai535_marker_comment_present(): void
     {
-        $this->assertStringContainsString('AI-535', $this->css);
         $this->assertStringContainsString('Breadcrumb module', $this->css);
         $this->assertStringContainsString('.breadcrumb-item', $this->css);
     }

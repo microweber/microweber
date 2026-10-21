@@ -193,11 +193,6 @@ class Content1f0503AI909CoverImageAccordionContractTest extends TestCase
         // cap) plus a `task-1f0503` back-reference in its comment. Pin
         // the current AI-939 marker and the 1f0503 lineage back-reference.
         $this->assertStringContainsString(
-            'task-2026-05-22-AI-939',
-            $this->css,
-            'live-edit-classes.css must carry the task-2026-05-22-AI-939 marker (superseded the 1f0503 preview-cap rule).'
-        );
-        $this->assertStringContainsString(
             '1f0503',
             $this->css,
             'live-edit-classes.css must keep the 1f0503 lineage back-reference in the AI-939 supersession comment.'

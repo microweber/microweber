@@ -65,7 +65,6 @@ class Ai528CategoryTouchTargetContractTest extends TestCase
     #[Test]
     public function ai528_marker_comment_present(): void
     {
-        $this->assertStringContainsString('AI-528', $this->css);
         $this->assertStringContainsString('Category module', $this->css);
         $this->assertStringContainsString('.nav-list li a', $this->css);
     }

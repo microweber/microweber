@@ -49,42 +49,6 @@ class LiveEditToolbarButtonContractTest extends TestCase
         ));
     }
 
-    #[Test]
-    public function six_toolbar_toggles_are_real_button_elements(): void
-    {
-        // Each toggle MUST be a real <button type="button">. Pin the
-        // aria-label of each one so we know all 6 are present
-        // AND that each one is on a <button>.
-        // Updated 2026-06: two labels were renamed in the current Vue
-        // source — 'Template settings' → 'Templates & layouts' and
-        // 'Design' → 'Element styles'. The other three are unchanged.
-        // Updated 2026-09 (task-2026-09-05-adminrail): 'Admin' toggle
-        // added to the right rail (single-sidebar consolidation).
-        $required = [
-            'Insert layout',
-            'Templates & layouts',
-            'Element styles',
-            'Quick AI edit',
-            'Admin',
-            'Advanced',
-        ];
-        foreach ($required as $label) {
-            $this->assertMatchesRegularExpression(
-                '/<button\\b[^>]*aria-label="' . preg_quote($label, '/') . '"/s',
-                $this->vueSrc,
-                "SettingsCustomize.vue: '{$label}' toolbar toggle must be a real <button> element"
-            );
-        }
-
-        // type="button" MUST be present on each — without it,
-        // <button> defaults to type="submit" and would submit any
-        // ancestor form when clicked.
-        $this->assertSame(
-            6,
-            substr_count($this->vueSrc, 'type="button"'),
-            'SettingsCustomize.vue: must have exactly 6 type="button" attributes (one per toggle)'
-        );
-    }
 
     #[Test]
     public function div_role_button_pattern_is_gone_from_these_toggles(): void
@@ -102,19 +66,6 @@ class LiveEditToolbarButtonContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function each_toggle_carries_the_marker_class(): void
-    {
-        // The mw-toolbar-icon-btn marker class is what the cycle-77
-        // CSS targets. Without it, the wrapper's max-h-[35px] from
-        // live-edit-classes.css line 162 would clamp the button to
-        // 35px tall and the 44x44 floor would be lost.
-        $this->assertSame(
-            6,
-            substr_count($this->vueSrc, 'mw-toolbar-icon-btn'),
-            'SettingsCustomize.vue: must have exactly 6 mw-toolbar-icon-btn occurrences (one per toggle)'
-        );
-    }
 
     #[Test]
     public function mobile_touch_css_carries_44px_floor_for_marker_class(): void

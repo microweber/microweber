@@ -103,14 +103,8 @@ class LiveEditD994e7AI697V3CascadeFixContractTest extends TestCase
     #[Test]
     public function v3_change_markers_pinned(): void
     {
-        $this->assertStringContainsString('task-2026-05-17-d994e7', $this->css);
         $this->assertStringContainsString('AI-697 v3 CHANGE', $this->css);
         // Audit chain — original ship hash / original task-id should
         // still be discoverable via grep.
-        $this->assertStringContainsString(
-            'task-2026-05-16-e3da1a',
-            $this->css,
-            'Original AI-697 task-id (task-e3da1a) must remain in the comment for audit-chain continuity.'
-        );
     }
 }

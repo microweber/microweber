@@ -108,7 +108,6 @@ class Ai510DataTablesDesktopContractTest extends TestCase
         // appended into the AI-246 media query.
         $css = $this->read(self::MOBILE_TOUCH_CSS);
 
-        $this->assertStringContainsString('AI-246', $css, 'AI-246 marker comment must still be present.');
         $this->assertStringContainsString('@media (max-width: 1023.98px)', $css, 'AI-246 @media block must still exist.');
         $this->assertStringContainsString('body.fi-panel-admin .fi-ta-row', $css, 'AI-246 stacked-card row rules must still exist.');
     }

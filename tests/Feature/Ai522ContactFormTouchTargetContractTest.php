@@ -74,7 +74,6 @@ class Ai522ContactFormTouchTargetContractTest extends TestCase
     #[Test]
     public function ai522_marker_comment_present(): void
     {
-        $this->assertStringContainsString('AI-522', $this->css);
         $this->assertStringContainsString('ContactForm', $this->css);
         $this->assertStringContainsString('.contact-form-container', $this->css);
     }

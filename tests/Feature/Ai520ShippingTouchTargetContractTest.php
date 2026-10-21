@@ -71,7 +71,6 @@ class Ai520ShippingTouchTargetContractTest extends TestCase
     #[Test]
     public function ai520_marker_comment_present(): void
     {
-        $this->assertStringContainsString('AI-520', $this->css);
         $this->assertStringContainsString('Shipping module', $this->css);
         $this->assertStringContainsString('fi-fo-radio-label', $this->css);
     }
@@ -139,11 +138,6 @@ class Ai520ShippingTouchTargetContractTest extends TestCase
     {
         // Surface 4: admin ShippingProviderResource table inherits the
         // generic admin-table card-flip below 1024px + row-action floor.
-        $this->assertStringContainsString(
-            'AI-246',
-            $this->css,
-            'AI-520 surface 4: AI-246 marker must be present for stacked-card coverage of the admin shipping list'
-        );
         $this->assertMatchesRegularExpression(
             '/\.fi-ta-row\s+\.fi-ta-actions[^{]*\{[^}]*min-width:\s*44px;[^}]*min-height:\s*44px;[^}]*\}/s',
             $this->css,

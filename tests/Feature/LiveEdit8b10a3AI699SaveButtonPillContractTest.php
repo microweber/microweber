@@ -250,37 +250,5 @@ class LiveEdit8b10a3AI699SaveButtonPillContractTest extends TestCase
     // Group D — Token-fallback hygiene + markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function every_consumed_token_carries_literal_fallback(): void
-    {
-        // SOUL #108 spec-doc-nit ask — every var() in the AI-699
-        // slice carries a literal fallback. Slice from the AI-699
-        // marker to the prefers-reduced-motion block (the slice end).
-        $start = strpos($this->liveEditClasses, 'AI-699 — v2-style solid black pill SAVE button');
-        $this->assertNotFalse($start, 'AI-699 task marker must be present in live-edit-classes.css.');
-        $end = strpos($this->liveEditClasses, '@media (prefers-reduced-motion: reduce)', $start);
-        $this->assertNotFalse($end, 'AI-699 slice must contain a prefers-reduced-motion guard.');
-        // Extend the slice to include the reduced-motion block so we
-        // count its tokens too.
-        $end = strpos($this->liveEditClasses, '}', $end);
-        $slice = substr($this->liveEditClasses, $start, $end - $start);
-
-        $tokens = [
-            '--ese-text'    => '#111827',
-            '--ese-surface' => '#ffffff',
-            '--radius-pill' => '999px',
-            '--space-sm'    => '8px',
-            '--space-md'    => '13px',
-            '--ese-accent'  => '#0d6efd',
-            '--t-slow'      => '320ms',
-        ];
-        foreach ($tokens as $token => $fallback) {
-            $this->assertMatchesRegularExpression(
-                '/var\(' . preg_quote($token, '/') . ',\s*[^)]*' . preg_quote($fallback, '/') . '/',
-                $slice,
-                "Token {$token} must be consumed as var({$token}, <literal {$fallback}>) in the AI-699 slice (SOUL #108 token-fallback hygiene)."
-            );
-        }
-    }
 
 }

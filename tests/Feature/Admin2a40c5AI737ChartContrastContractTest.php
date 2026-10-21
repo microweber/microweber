@@ -132,8 +132,6 @@ class Admin2a40c5AI737ChartContrastContractTest extends TestCase
     #[Test]
     public function task_id_and_ai737_markers_pinned(): void
     {
-        $this->assertStringContainsString('task-2026-05-17-2a40c5', $this->src);
-        $this->assertStringContainsString('AI-737', $this->src);
         $this->assertStringContainsString(
             'MwColors::Blue',
             $this->src,

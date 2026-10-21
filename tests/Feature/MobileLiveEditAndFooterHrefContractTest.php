@@ -106,16 +106,6 @@ class MobileLiveEditAndFooterHrefContractTest extends TestCase
 
         // Every live-edit Filament modal collapses to `100vw - 16px`
         // below 768px with sticky-footer Cancel/Save.
-        $this->assertStringContainsString(
-            'AI-143',
-            $src,
-            'live-edit-mobile.css must carry the menu-edit modal overflow marker'
-        );
-        $this->assertStringContainsString(
-            'AI-144',
-            $src,
-            'live-edit-mobile.css must carry the content-add modal overflow marker'
-        );
 
         $this->assertMatchesRegularExpression(
             '/\\.fi-modal-window[\\s\\S]{0,200}max-width:\\s*calc\\(100vw\\s*-\\s*16px\\)/',

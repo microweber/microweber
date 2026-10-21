@@ -47,7 +47,6 @@ class Ai518aAi603CreativeEvalContractTest extends TestCase
     #[Test]
     public function ai518a_marker_present_with_critical_rationale(): void
     {
-        $this->assertStringContainsString('AI-518a', $this->css);
         $this->assertStringContainsString('CRITICAL', $this->css);
     }
 
@@ -67,7 +66,6 @@ class Ai518aAi603CreativeEvalContractTest extends TestCase
     #[Test]
     public function ai603_marker_present_with_high_rationale(): void
     {
-        $this->assertStringContainsString('AI-603', $this->css);
         $this->assertStringContainsString('Slider', $this->css);
         $this->assertStringContainsString('inline `<style>`', $this->css);
     }

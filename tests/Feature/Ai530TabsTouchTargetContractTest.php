@@ -65,7 +65,6 @@ class Ai530TabsTouchTargetContractTest extends TestCase
     #[Test]
     public function ai530_marker_comment_present(): void
     {
-        $this->assertStringContainsString('AI-530', $this->css);
         $this->assertStringContainsString('Tabs module', $this->css);
         $this->assertStringContainsString('.card-header', $this->css);
     }

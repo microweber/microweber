@@ -196,7 +196,6 @@ class Shop2747f0AI866CartCounterBadgeBrandBlueContractTest extends TestCase
     public function served_mirror_carries_ai866_v2_rule(): void
     {
         $served = (string) file_get_contents($this->servedMirrorPath());
-        $this->assertStringContainsString('task-2026-05-18-2747f0', $served);
         $this->assertStringContainsString('.js-shopping-cart-quantity.btn.btn-outline-primary,', $served);
         $this->assertStringContainsString('.btn-shopping-cart > span.btn.btn-outline-primary {', $served);
         $this->assertStringContainsString('background-color: #0d6efd !important;', $served);

@@ -109,7 +109,6 @@ class Admin6027b9AI788DescriptionsWiredToWizardContractTest extends TestCase
     #[Test]
     public function task_id_and_ai788_change_markers_present(): void
     {
-        $this->assertStringContainsString('task-2026-05-17-6027b9', $this->listCustomFields);
         $this->assertStringContainsString('AI-788 CHANGE', $this->listCustomFields);
     }
 }

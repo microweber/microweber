@@ -241,8 +241,6 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
     public function ai724_chrome_rules_still_present(): void
     {
         // Regression guard: AI-724 chrome fixes must not be overwritten.
-        $this->assertStringContainsString('task-2026-05-22-747f20', $this->ese,
-            'AI-724 task marker must still be present (chrome fixes not overwritten)');
         $this->assertStringContainsString('.element-style-editor-toggle-wrapper .mw-admin-action-links', $this->eseStripped,
             'AI-724 accordion label rule must still be present');
     }

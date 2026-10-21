@@ -68,7 +68,6 @@ class Ai532RatingTouchTargetContractTest extends TestCase
     #[Test]
     public function ai532_marker_comment_present(): void
     {
-        $this->assertStringContainsString('AI-532', $this->css);
         $this->assertStringContainsString('Rating module', $this->css);
         $this->assertStringContainsString('.module-rating .starrr', $this->css);
     }

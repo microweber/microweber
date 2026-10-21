@@ -156,8 +156,6 @@ class LiveEdit0c4aa5AI772UrlTabPolishContractTest extends TestCase
     #[Test]
     public function task_id_ai772_and_ai771_followup_markers_pinned(): void
     {
-        $this->assertStringContainsString('task-2026-05-17-0c4aa5', $this->filepicker);
-        $this->assertStringContainsString('AI-772', $this->filepicker);
         // AI-771 deferred-followup hint discoverable in source.
         $this->assertStringContainsString(
             'AI-771-followup',

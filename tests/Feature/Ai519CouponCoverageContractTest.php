@@ -115,11 +115,6 @@ class Ai519CouponCoverageContractTest extends TestCase
     {
         // AI-246 admin-table stacked-card flip below 1024px covers the
         // coupon list table (and every other admin resource list).
-        $this->assertStringContainsString(
-            'AI-246',
-            $this->css,
-            'AI-519 surface 3: AI-246 marker must be present for stacked-card coverage'
-        );
         // AI-221 row-action floors `.fi-ta-row .fi-ta-actions .fi-icon-btn`
         // to 44x44 — covers the per-row coupon-edit / coupon-delete icons.
         $this->assertMatchesRegularExpression(

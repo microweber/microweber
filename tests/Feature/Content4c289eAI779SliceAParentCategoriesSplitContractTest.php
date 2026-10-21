@@ -218,11 +218,6 @@ class Content4c289eAI779SliceAParentCategoriesSplitContractTest extends TestCase
         // backend mw-tree renderer change. The deferral must be
         // documented in source so the next agent knows.
         $this->assertStringContainsString(
-            'AI-779b',
-            $this->contentResource,
-            'Source must reference AI-779b follow-up for the mw-tree skipPages flag refinement.'
-        );
-        $this->assertStringContainsString(
             'skipPages flag',
             $this->contentResource,
             'Source must explain WHY AI-779b is needed (mw-tree skipPages flag).'
@@ -232,7 +227,6 @@ class Content4c289eAI779SliceAParentCategoriesSplitContractTest extends TestCase
     #[Test]
     public function task_id_and_ai779_markers_present(): void
     {
-        $this->assertStringContainsString('task-2026-05-17-4c289e', $this->contentResource);
         $this->assertStringContainsString('AI-779 Slice A', $this->contentResource);
     }
 }

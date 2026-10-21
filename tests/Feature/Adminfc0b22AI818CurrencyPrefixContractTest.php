@@ -216,11 +216,6 @@ class Adminfc0b22AI818CurrencyPrefixContractTest extends TestCase
         $self = (string) file_get_contents(__FILE__);
 
         $this->assertStringContainsString(
-            'AI-818a',
-            $self,
-            'AI-818 docblock must call out the AI-818a ProductVariantManager follow-up so the variant pricing surface is on record.'
-        );
-        $this->assertStringContainsString(
             'ProductVariantManager',
             $self,
             'AI-818 docblock must reference ProductVariantManager by name so a future audit can locate the surface.'

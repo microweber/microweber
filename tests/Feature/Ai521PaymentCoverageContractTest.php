@@ -145,11 +145,6 @@ class Ai521PaymentCoverageContractTest extends TestCase
         // Surface 4: admin PaymentResource / PaymentProviderResource
         // tables both inherit the generic admin-table card-flip below
         // 1024px + row-action floor.
-        $this->assertStringContainsString(
-            'AI-246',
-            $this->css,
-            'AI-521 surface 4: AI-246 marker must be present for stacked-card coverage of the admin payment list'
-        );
         $this->assertMatchesRegularExpression(
             '/\.fi-ta-row\s+\.fi-ta-actions[^{]*\{[^}]*min-width:\s*44px;[^}]*min-height:\s*44px;[^}]*\}/s',
             $this->css,

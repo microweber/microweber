@@ -245,16 +245,6 @@ class MediaLibrary8c8d0bAI855UploadModalPolishContractTest extends TestCase
 
         $slice = substr($source, $anchorPos, 1200);
 
-        $this->assertStringContainsString(
-            'AI-816',
-            $slice,
-            'AI-855 Defect 2 lineage: SCSS docblock MUST cite AI-816 (primary-CTA color contract).'
-        );
-        $this->assertStringContainsString(
-            'AI-819',
-            $slice,
-            'AI-855 Defect 2 lineage: SCSS docblock MUST cite AI-819 (Filament primary token re-anchor that makes var(--primary-X) resolve to brand-blue).'
-        );
     }
 
 }

@@ -53,11 +53,6 @@ class ModuleContractsPhase1ContractTest extends TestCase
                 $src,
                 "{$rel}: must declare an `interface ...Contract` (not a class)"
             );
-            $this->assertStringContainsString(
-                'AI-105',
-                $src,
-                "{$rel}: must carry the module-contracts audit-trail marker"
-            );
         }
     }
 

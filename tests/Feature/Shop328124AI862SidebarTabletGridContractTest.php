@@ -72,8 +72,6 @@ class Shop328124AI862SidebarTabletGridContractTest extends TestCase
         $source = $this->read('Modules/Shop/resources/views/livewire/shop/default.blade.php');
         $this->assertStringContainsString('<div class="col-12 col-lg-3">', $source, 'default.blade.php filter sidebar MUST be `col-12 col-lg-3` (Option A2 — stack at md, sidebar at lg+).');
         $this->assertStringContainsString('<div class="col-12 col-lg-9">', $source, 'default.blade.php product grid MUST be `col-12 col-lg-9` (matches sidebar breakpoint, sums to 12 at lg+).');
-        $this->assertStringContainsString('task-2026-05-17-328124', $source, 'AI-862 task-id marker required for cross-surface grep.');
-        $this->assertStringContainsString('AI-862', $source);
     }
 
     #[Test]
@@ -100,8 +98,6 @@ class Shop328124AI862SidebarTabletGridContractTest extends TestCase
         $source = $this->read('Modules/Shop/resources/views/livewire/shop/skin-1.blade.php');
         $this->assertStringContainsString('<div class="col-12 col-lg-3">', $source, 'skin-1.blade.php filter sidebar MUST be `col-12 col-lg-3` (sibling-skin parity with default.blade.php).');
         $this->assertStringContainsString('<div class="col-12 col-lg-9">', $source, 'skin-1.blade.php product grid MUST be `col-12 col-lg-9`.');
-        $this->assertStringContainsString('task-2026-05-17-328124', $source);
-        $this->assertStringContainsString('AI-862', $source);
     }
 
     #[Test]

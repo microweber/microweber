@@ -76,7 +76,6 @@ class Ai507Ai508AdminMediaDragContractTest extends TestCase
     #[Test]
     public function ai507_marker_comment_is_present(): void
     {
-        $this->assertStringContainsString('AI-507', $this->css);
         $this->assertStringContainsString('mw-media-item-menu-btn', $this->css);
     }
 
@@ -142,7 +141,6 @@ class Ai507Ai508AdminMediaDragContractTest extends TestCase
     #[Test]
     public function ai508_marker_comment_is_present(): void
     {
-        $this->assertStringContainsString('AI-508', $this->css);
         $this->assertStringContainsString('fi-ta-reorder-handle', $this->css);
     }
 

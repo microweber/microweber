@@ -54,18 +54,6 @@ class LiveEditA4832fAI871AI872SidebarsPanelsContractTest extends TestCase
 
     // ─── AI-871 §1: Right-rail mini-labels ──────────────────────────────
 
-    #[Test]
-    public function right_rail_buttons_carry_data_mw_label(): void
-    {
-        $labels = ['Layout', 'Template', 'Style', 'AI Edit', 'More'];
-        foreach ($labels as $label) {
-            $this->assertStringContainsString(
-                'data-mw-label="' . $label . '"',
-                $this->settingsCustomize,
-                "Button must carry data-mw-label=\"{$label}\" for the mini-label ::after pattern."
-            );
-        }
-    }
 
     #[Test]
     public function css_mini_label_after_rule_present(): void

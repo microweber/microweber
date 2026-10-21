@@ -126,7 +126,6 @@ class ShopAdaa6aAI867NouislideHandleOverflowContractTest extends TestCase
     public function served_mirror_carries_ai867_rule(): void
     {
         $served = (string) file_get_contents($this->servedMirrorPath());
-        $this->assertStringContainsString('task-2026-05-18-adaa6a', $served);
         $this->assertStringContainsString('.noUi-target,', $served);
         $this->assertStringContainsString('margin-right: 18px;', $served);
     }
@@ -143,7 +142,6 @@ class ShopAdaa6aAI867NouislideHandleOverflowContractTest extends TestCase
         // specificity-bumped 2-selector list with literal `#0d6efd`. Sentinel
         // updated to track the v2 shape.
         $source = $this->srcContents();
-        $this->assertStringContainsString('task-2026-05-18-2747f0', $source, 'AI-866 task marker must stay intact (carries v2 absorption).');
         $this->assertStringContainsString('.js-shopping-cart-quantity.btn.btn-outline-primary,', $source, 'AI-866 v2 specificity-bumped selector must stay intact.');
         $this->assertStringContainsString('background-color: #0d6efd !important;', $source, 'AI-866 v2 literal brand-blue background must stay intact.');
     }

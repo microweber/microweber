@@ -84,7 +84,6 @@ class Ai531SocialLinksTouchTargetContractTest extends TestCase
     #[Test]
     public function ai531_marker_comment_present(): void
     {
-        $this->assertStringContainsString('AI-531', $this->css);
         $this->assertStringContainsString('SocialLinks module', $this->css);
         $this->assertStringContainsString('.mw-socialLinks', $this->css);
     }

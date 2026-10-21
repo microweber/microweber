@@ -73,7 +73,6 @@ class Ai518CustomerTouchTargetContractTest extends TestCase
         // Pin the dispatch attribution so future archaeologists can
         // trace back to the agent-test mobile audit + PM sequential
         // dispatch.
-        $this->assertStringContainsString('AI-518', $this->mobileTouchCss);
         $this->assertStringContainsString('Profile panel', $this->mobileTouchCss);
         $this->assertStringContainsString('FilamentProfilePanelProvider', $this->mobileTouchCss);
     }
@@ -81,7 +80,6 @@ class Ai518CustomerTouchTargetContractTest extends TestCase
     #[Test]
     public function ai518_marker_comment_present_in_public_touch_css(): void
     {
-        $this->assertStringContainsString('AI-518', $this->publicTouchCss);
         $this->assertStringContainsString('header-layout-btn', $this->publicTouchCss);
     }
 

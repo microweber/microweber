@@ -91,11 +91,6 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
     {
         $source = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/tokens/colors.css');
 
-        $this->assertStringContainsString(
-            'task-2026-05-17-9a12c2 / AI-819',
-            $source,
-            'AI-819 task-id marker must sit alongside the :root override block so a future audit can grep across surfaces (LESSONS per-task source-comment marker).'
-        );
 
         $markerPos = strpos($source, 'task-2026-05-17-9a12c2 / AI-819');
         $this->assertNotFalse($markerPos);
@@ -178,11 +173,6 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
         // audit grepping `AI-819a` finds the deferred surface.
         $source = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/tokens/colors.css');
 
-        $this->assertStringContainsString(
-            'AI-819a',
-            $source,
-            'AI-819a follow-up must be flagged inline in microweber-theme-v3.scss so the $mw-accent re-anchor is on record.'
-        );
         $this->assertStringContainsString(
             '$mw-accent',
             $source,

@@ -68,7 +68,6 @@ class Ai534LogoTouchTargetContractTest extends TestCase
     #[Test]
     public function ai534_marker_comment_present(): void
     {
-        $this->assertStringContainsString('AI-534', $this->css);
         $this->assertStringContainsString('Logo module', $this->css);
         $this->assertStringContainsString('.logo-module .logo-link', $this->css);
     }

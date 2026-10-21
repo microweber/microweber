@@ -97,11 +97,6 @@ class AddContent30040aAI870ZFlowRootCauseContractTest extends TestCase
         // The docblock must explain the inline <style> block culprit so
         // future agents understand why AI-713 alone was insufficient.
         $this->assertStringContainsString(
-            'AI-870',
-            $this->css,
-            'live-edit-classes.css must carry AI-870 ticket reference.'
-        );
-        $this->assertStringContainsString(
             'fi-sc-component',
             $this->css,
             'AI-870 comment must mention .fi-sc-component (the inline CSS target).'

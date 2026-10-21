@@ -155,7 +155,6 @@ class ESEb30fd9Slice17ColourAliasMigrationContractTest extends TestCase
     #[Test]
     public function task_id_marker_present_for_audit_grep(): void
     {
-        $this->assertStringContainsString('task-2026-05-16-b30fd9', $this->src);
         // Should appear in 5 migration loci (one per consumer block touched)
         $count = substr_count($this->src, 'task-2026-05-16-b30fd9');
         $this->assertGreaterThanOrEqual(5, $count,

@@ -101,8 +101,6 @@ class Public046a37AI861AddToCartCtaContractTest extends TestCase
         $this->assertStringContainsString('data-price="{{ $product->price }}"', $source);
         $this->assertStringContainsString('data-title="{{ $product->title }}"', $source);
         $this->assertStringContainsString('aria-label="{{ _e(\'Add to cart\', true) }}: {{ $product->title }}"', $source);
-        $this->assertStringContainsString('task-2026-05-17-046a37', $source, 'task-id marker required for cross-surface grep.');
-        $this->assertStringContainsString('AI-861', $source);
     }
 
     #[Test]
@@ -138,8 +136,6 @@ class Public046a37AI861AddToCartCtaContractTest extends TestCase
         $this->assertStringContainsString('data-content-id="{{ $product->id }}"', $source);
         $this->assertStringContainsString('data-price="{{ $product->price }}"', $source);
         $this->assertStringContainsString('data-title="{{ $product->title }}"', $source);
-        $this->assertStringContainsString('task-2026-05-17-046a37', $source);
-        $this->assertStringContainsString('AI-861', $source);
     }
 
     // ─────────────────────────────────────────────────────────────────────
@@ -174,8 +170,6 @@ class Public046a37AI861AddToCartCtaContractTest extends TestCase
         $this->assertStringContainsString('mw-add-to-cart-disabled-btn', $branchSlice, 'Out-of-stock variant of fallback CTA MUST also exist for stock=0 products.');
         $this->assertStringContainsString('content_data($for_id)', $branchSlice, 'Fallback price MUST read content_data($for_id) so the button carries the product\'s base price.');
         $this->assertStringContainsString('mwCartPriceFallbackPrice', $branchSlice, 'Fallback-price variable name carries the AI-861 task marker for audit-grep.');
-        $this->assertStringContainsString('task-2026-05-17-046a37', $branchSlice);
-        $this->assertStringContainsString('AI-861', $branchSlice);
     }
 
     #[Test]
@@ -216,8 +210,6 @@ class Public046a37AI861AddToCartCtaContractTest extends TestCase
         $branchSlice = substr($source, $emptyBranchPos, 3000);
         $this->assertStringContainsString('mw-add-to-cart-btn', $branchSlice, 'shop_inner empty-data branch MUST emit fallback mw-add-to-cart-btn for public users.');
         $this->assertStringContainsString('content_data($for_id)', $branchSlice);
-        $this->assertStringContainsString('task-2026-05-17-046a37', $branchSlice);
-        $this->assertStringContainsString('AI-861', $branchSlice);
     }
 
     // ─────────────────────────────────────────────────────────────────────

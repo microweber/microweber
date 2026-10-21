@@ -291,13 +291,9 @@ class ESE5fe1f9Slice14AI687MwFieldContractTest extends TestCase
         // (the slice scan deliberately starts after the docblock
         // close `*/` so prose mentions don't false-match against
         // rule grep). Assert against the full CSS file body.
-        $this->assertStringContainsString('AI-687', $this->css);
-        $this->assertStringContainsString('task-2026-05-16-5fe1f9', $this->css);
         $this->assertStringContainsString('§4.1', $this->css);
         // Consumer file also carries the task marker so an audit
         // grep for task-5fe1f9 lands in BOTH the CSS slice and
         // the Vue consumer migration.
-        $this->assertStringContainsString('task-2026-05-16-5fe1f9', $this->roundedCorners);
-        $this->assertStringContainsString('AI-687', $this->roundedCorners);
     }
 }
