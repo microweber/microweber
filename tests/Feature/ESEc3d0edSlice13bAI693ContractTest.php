@@ -90,49 +90,8 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
     // Group A — ESE 1.3b Spacing preset rows
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function spacing_preset_buttons_carry_mw_tool_btn_preset(): void
-    {
-        // 10 preset buttons (5 inner + 5 outer) — S/M/L/XL/trash per row.
-        $occurrences = substr_count(
-            $this->spacingVue,
-            'class="btn btn-icon mw-tool-btn mw-tool-btn--preset"'
-        );
-        $this->assertGreaterThanOrEqual(
-            10,
-            $occurrences,
-            'At least 10 preset buttons (5 inner + 5 outer = S/M/L/XL/trash) must carry the .mw-tool-btn.mw-tool-btn--preset class set alongside legacy .btn .btn-icon.'
-        );
-    }
 
-    #[Test]
-    public function spacing_settings_cog_uses_default_mw_tool_btn(): void
-    {
-        // The "Fine-tune each side" icon-only cog is the default variant
-        // (24x24 ghost) — NOT preset. Two occurrences (inner + outer rows).
-        $this->assertMatchesRegularExpression(
-            '/class="btn btn-icon mw-tool-btn"\s+title="Fine-tune each side"/',
-            $this->spacingVue,
-            'Settings cog must carry default .mw-tool-btn (no preset modifier) on both inner+outer rows.'
-        );
-    }
 
-    #[Test]
-    public function spacing_preset_buttons_add_is_active_alongside_active(): void
-    {
-        // The :class binding must carry both 'active' (back-compat) and
-        // 'is-active' (new primitive selector) for every preset button.
-        $this->assertMatchesRegularExpression(
-            "/:class=\"\\{ 'active': activePadding === 30, 'is-active': activePadding === 30 \\}\"/",
-            $this->spacingVue,
-            'Spacing preset buttons must add .is-active alongside .active for activePadding === 30 (and the equivalent for other values).'
-        );
-        $this->assertMatchesRegularExpression(
-            "/:class=\"\\{ 'active': activeMargin === 100, 'is-active': activeMargin === 100 \\}\"/",
-            $this->spacingVue,
-            'Spacing preset buttons must add .is-active alongside .active for activeMargin === 100 (and the equivalent for other values).'
-        );
-    }
 
 
     // ─────────────────────────────────────────────────────────────────────

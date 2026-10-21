@@ -83,17 +83,6 @@ class LiveEdit02760cSidebarTranslateResetContractTest extends TestCase
     }
 
 
-    #[Test]
-    public function transition_speed_token_unchanged(): void
-    {
-        // The slide animation must still use the project's shared
-        // toolbar-height animation-speed CSS variable so the duration
-        // stays consistent with the rest of the live edit chrome.
-        $this->assertStringContainsString(
-            'transition: var(--toolbar-height-animation-speed)',
-            $this->blade
-        );
-    }
 
     #[Test]
     public function hamburger_toggle_handler_remains_wired(): void

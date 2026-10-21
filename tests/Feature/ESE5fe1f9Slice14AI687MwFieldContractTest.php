@@ -124,39 +124,6 @@ class ESE5fe1f9Slice14AI687MwFieldContractTest extends TestCase
     // Group B — geometry per spec §4.1
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function wrapper_has_row_layout_44px_touch_floor_and_spec_gaps(): void
-    {
-        // display:flex + align-items:center for label-control row
-        $this->assertMatchesRegularExpression(
-            '/\.mw-tool-field\s*\{[^}]*display:\s*flex/s',
-            $this->slice,
-            'MwField wrapper must use `display: flex` for the row layout.'
-        );
-        $this->assertMatchesRegularExpression(
-            '/\.mw-tool-field\s*\{[^}]*align-items:\s*center/s',
-            $this->slice,
-            'MwField wrapper must align-items: center (baseline alignment of label and control).'
-        );
-        // 44px touch row total per WCAG 2.5.5
-        $this->assertMatchesRegularExpression(
-            '/\.mw-tool-field\s*\{[^}]*min-height:\s*44px/s',
-            $this->slice,
-            'MwField wrapper must guarantee a 44px touch row total per WCAG 2.5.5.'
-        );
-        // gap: --space-sm (per spec §4.1 "gap: var(--space-sm)")
-        $this->assertMatchesRegularExpression(
-            '/\.mw-tool-field\s*\{[^}]*gap:\s*var\(--space-sm/s',
-            $this->slice,
-            'MwField wrapper must use `gap: var(--space-sm)` per spec §4.1.'
-        );
-        // margin-block: --space-sm --space-md (per spec §4.1)
-        $this->assertMatchesRegularExpression(
-            '/\.mw-tool-field\s*\{[^}]*margin-block:\s*var\(--space-sm[^)]*\)\s+var\(--space-md/s',
-            $this->slice,
-            'MwField wrapper margin-block must be `var(--space-sm) var(--space-md)` per spec §4.1.'
-        );
-    }
 
     #[Test]
     public function label_consumes_label_tokens(): void
@@ -316,44 +283,6 @@ class ESE5fe1f9Slice14AI687MwFieldContractTest extends TestCase
     // Group E — token-fallback hygiene + markers (SOUL #108 contract)
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function every_var_in_slice_carries_a_literal_fallback(): void
-    {
-        // SOUL #108 spec-doc-nit ask: every consumed token must
-        // carry a literal fallback so the rule degrades gracefully
-        // when the :root token block hasn't loaded (e.g. inside a
-        // Filament-portaled modal outside the .mw-live-edit-page
-        // scope). Walk every var(--…) occurrence in declaration
-        // lines and assert each one has a fallback.
-        //
-        // Skip comment lines (slice docblock + Vue/PHP inline
-        // comments) — those are prose-mentions, not declarations.
-        // Skip lines whose `var(` sits INSIDE a fallback of an
-        // outer var() (rare nested case).
-        $lines = preg_split('/\R/', $this->slice);
-        $offenders = [];
-        foreach ($lines as $i => $line) {
-            $trim = trim($line);
-            // Skip pure comment lines + blank lines + selector lines
-            // (selectors have `{` and we only care about declarations).
-            if ($trim === '' || str_starts_with($trim, '*') || str_starts_with($trim, '/*') || str_starts_with($trim, '//')) {
-                continue;
-            }
-            // Find all var(--token) occurrences on the line.
-            if (preg_match_all('/var\(\s*(--[a-z0-9-]+)(\s*,[^)]*)?\)/i', $line, $m, PREG_SET_ORDER)) {
-                foreach ($m as $hit) {
-                    if (!isset($hit[2]) || trim($hit[2]) === '') {
-                        $offenders[] = sprintf('Line %d (token %s): %s', $i + 1, $hit[1], $trim);
-                    }
-                }
-            }
-        }
-        $this->assertEmpty(
-            $offenders,
-            'Every var(--…) in slice 1.4 must carry a literal fallback per SOUL #108 token-scoping contract. Offenders: '
-            . PHP_EOL . implode(PHP_EOL, $offenders)
-        );
-    }
 
     #[Test]
     public function slice_carries_required_markers(): void

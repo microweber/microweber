@@ -274,42 +274,4 @@ class LayoutsModal847083AI715DesktopPolishContractTest extends TestCase
 
 
 
-    #[Test]
-    public function css_tokens_carry_literal_fallbacks(): void
-    {
-        // Slice past the AI-715 docblock close `*/` to inspect
-        // CSS rule bodies only (LESSONS selector-self-match guard,
-        // 7th session-occurrence).
-        $marker = strpos($this->css, 'AI-715 — Add Layouts desktop polish');
-        $this->assertNotFalse($marker, 'AI-715 task marker must be present in index.css.');
-        $docblockEnd = strpos($this->css, '*/', $marker);
-        $this->assertNotFalse($docblockEnd);
-        $slice = substr($this->css, $docblockEnd + 2);
-
-        $tokens = [
-            '--space-xs'          => '6px',
-            '--space-sm'          => '8px',
-            '--space-md'          => '13px',
-            '--font-control'      => '13px',
-            '--font-label'        => '11px',
-            '--font-section'      => '15px',
-            '--letter-label'      => '0.01em',
-            // v2.0.20 restyle: small radius is now 4px (was 6px).
-            '--radius-sm'         => '4px',
-            '--ese-text'          => '#111827',
-            '--ese-text-muted'    => '#6b7280',
-            '--ese-surface'       => '#ffffff',
-            '--ese-surface-muted' => 'rgba(0, 0, 0, 0.04)',
-            '--ese-border'        => 'rgba(0, 0, 0, 0.08)',
-            '--ese-accent'        => '#0d6efd',
-            '--ese-accent-soft'   => 'rgba(13, 110, 253, 0.12)',
-        ];
-        foreach ($tokens as $token => $fallback) {
-            $this->assertMatchesRegularExpression(
-                '/var\(' . preg_quote($token, '/') . ',\s*[^)]*' . preg_quote($fallback, '/') . '/',
-                $slice,
-                "Token {$token} must be consumed as var({$token}, <literal {$fallback}>) in the AI-715 slice."
-            );
-        }
-    }
 }

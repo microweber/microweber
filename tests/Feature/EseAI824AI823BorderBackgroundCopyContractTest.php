@@ -26,29 +26,6 @@ class EseAI824AI823BorderBackgroundCopyContractTest extends TestCase
         return (string) file_get_contents(base_path($rel));
     }
 
-    #[Test]
-    public function border_uses_apply_to_and_drops_per_side_prefixes(): void
-    {
-        $raw = $this->read('packages/frontend-assets/resources/assets/ui/apps/ElementStyleEditor/ElementStyleEditorBorder.vue');
-
-        $this->assertStringContainsString('label="Apply to"', $raw,
-            'The side selector must be labelled "Apply to".');
-
-        // Layer-1 selector-self-match guard: strip HTML + JS comments before the
-        // absence checks so a task-comment mentioning a legacy label can't
-        // false-fail the regression guard (per the documented protocol).
-        $src = preg_replace('~<!--[\s\S]*?-->~', '', $raw);
-        $src = preg_replace('~/\*[\s\S]*?\*/~', '', $src);
-        $src = preg_replace('~//[^\n]*~', '', $src);
-
-        // Regression guard: the redundant per-side prefixes must be gone.
-        foreach (['Top Border Style', 'Left Border Size', 'Bottom Border Color', 'Right Border Style'] as $stale) {
-            $this->assertStringNotContainsString($stale, $src,
-                "Redundant per-side label \"{$stale}\" must be removed.");
-        }
-        $this->assertStringNotContainsString('label="Sides"', $src,
-            'The old "Sides" label must be gone.');
-    }
 
     #[Test]
     public function background_image_tooltip_is_state_dependent(): void

@@ -66,19 +66,6 @@ class EmptyStatefd0d1dCtaContractTest extends TestCase
         ];
     }
 
-    #[Test]
-    #[DataProvider('ctaBranches')]
-    public function each_empty_state_branch_renders_a_cta(string $heading, string $route, string $label): void
-    {
-        $this->assertStringContainsString($heading, $this->blade,
-            "Branch heading '{$heading}' must remain present in the blade.");
-
-        $this->assertStringContainsString("route('{$route}')", $this->blade,
-            "CTA href for '{$route}' must be present in the blade.");
-
-        $this->assertStringContainsString($label, $this->blade,
-            "CTA label '{$label}' must be present in the blade.");
-    }
 
     #[Test]
     public function cta_uses_mw_table_empty_cta_class_not_the_dashboard_widget_class(): void

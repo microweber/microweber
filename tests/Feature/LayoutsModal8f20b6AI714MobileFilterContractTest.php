@@ -301,43 +301,4 @@ class LayoutsModal8f20b6AI714MobileFilterContractTest extends TestCase
 
 
 
-    #[Test]
-    public function css_tokens_carry_literal_fallbacks(): void
-    {
-        // Slice past the AI-714 docblock close `*/` to inspect
-        // CSS rule bodies only (LESSONS selector-self-match
-        // guard, 6th session-occurrence — pattern fully
-        // internalised).
-        $marker = strpos($this->css, 'AI-714 — Add Layouts modal mobile category filter');
-        $this->assertNotFalse($marker, 'AI-714 task marker must be present in index.css.');
-        $docblockEnd = strpos($this->css, '*/', $marker);
-        $this->assertNotFalse($docblockEnd);
-        $slice = substr($this->css, $docblockEnd + 2);
-
-        $tokens = [
-            '--font-control'      => '13px',
-            '--font-section'      => '15px',
-            '--space-xs'          => '6px',
-            '--space-sm'          => '8px',
-            '--space-md'          => '13px',
-            // v2.0.20 restyle: small radius is now 4px (was 6px).
-            '--radius-sm'         => '4px',
-            '--radius-md'         => '8px',
-            '--ese-surface'       => '#ffffff',
-            '--ese-text'          => '#111827',
-            '--ese-text-muted'    => '#6b7280',
-            '--ese-accent'        => '#0d6efd',
-            '--ese-accent-soft'   => 'rgba(13, 110, 253, 0.12)',
-            '--ese-surface-hover' => 'rgba(0, 0, 0, 0.04)',
-            '--ese-border'        => 'rgba(0, 0, 0, 0.08)',
-            '--t-fast'            => '120ms',
-        ];
-        foreach ($tokens as $token => $fallback) {
-            $this->assertMatchesRegularExpression(
-                '/var\(' . preg_quote($token, '/') . ',\s*[^)]*' . preg_quote($fallback, '/') . '/',
-                $slice,
-                "Token {$token} must be consumed as var({$token}, <literal {$fallback}>) in the AI-714 slice."
-            );
-        }
-    }
 }

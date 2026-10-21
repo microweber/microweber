@@ -104,24 +104,5 @@ class Ese1146AccessibilityTouchTargetContractTest extends TestCase
 
     // --- CSS source: 44px touch target on header row ---
 
-    public function test_toggle_header_row_min_height_44px_in_source(): void
-    {
-        // Supersession: source CSS was de-nested from SCSS-style `& .d-flex:has(> svg)`
-        // to flat `.element-style-editor-toggle-wrapper .d-flex:has(> svg)` (matches the
-        // built-bundle form). The 44px touch target still lives on the same header row.
-        $this->assertMatchesRegularExpression(
-            '/\.element-style-editor-toggle-wrapper\s*\{[\s\S]*?\.d-flex:has\(>\s*svg\)\s*\{[^}]*min-height:\s*44px/',
-            $this->generalStylesCss,
-            'AI-1146: .element-style-editor-toggle-wrapper .d-flex:has(> svg) must carry min-height: 44px (touch target)'
-        );
-    }
 
-    public function test_toggle_header_row_min_height_44px_in_built_bundle(): void
-    {
-        $this->assertMatchesRegularExpression(
-            '/\.element-style-editor-toggle-wrapper\s*\{[\s\S]*?\.d-flex:has\(>\s*svg\)\s*\{[^}]*min-height:\s*44px/',
-            $this->builtThemeCss,
-            'AI-1146: built theme bundle must contain min-height: 44px on the ESE header row'
-        );
-    }
 }

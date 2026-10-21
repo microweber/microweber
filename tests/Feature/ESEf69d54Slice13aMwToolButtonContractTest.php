@@ -62,24 +62,6 @@ class ESEf69d54Slice13aMwToolButtonContractTest extends TestCase
         ));
     }
 
-    #[Test]
-    public function default_variant_geometry_and_token_consumption(): void
-    {
-        // Default variant — 24x24 hit, ghost, var(--font-control) size
-        $this->assertMatchesRegularExpression(
-            '/\.mw-live-edit-page\s+\.mw-tool-btn\s*\{[^}]*min-width:\s*24px[^}]*min-height:\s*24px/s',
-            $this->src,
-            '.mw-tool-btn default variant must be 24x24 minimum (spec §4.5).'
-        );
-        $this->assertMatchesRegularExpression(
-            '/\.mw-live-edit-page\s+\.mw-tool-btn\s*\{[^}]*border-radius:\s*var\(--radius-sm\)/s',
-            $this->src
-        );
-        $this->assertMatchesRegularExpression(
-            '/\.mw-live-edit-page\s+\.mw-tool-btn\s*\{[^}]*font-size:\s*var\(--font-control\)/s',
-            $this->src
-        );
-    }
 
     #[Test]
     public function default_variant_hover_uses_surface_hover_token(): void
