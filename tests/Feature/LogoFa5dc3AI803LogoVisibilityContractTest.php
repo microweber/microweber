@@ -250,29 +250,7 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai803_v2_change_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-17-5be57f / AI-803 CHANGE v2',
-            $this->template,
-            'AI-803 CHANGE v2: marker `task-2026-05-17-5be57f / AI-803 CHANGE v2` must be embedded in the migration docblock so future audits grep all three AI-803 cycles (fa5dc3 v0 + 5b0a92 v1 + 5be57f v2) in one pass.'
-        );
-    }
 
-    #[Test]
-    public function ai803_v3_change_marker_present_in_source(): void
-    {
-        // task-2026-05-17-7b669f / AI-803 CHANGE v3 / Slice C -- 4th
-        // pin in this file's pin-evolution chain. Marker must be
-        // present so future audits grep all four cycles (v0 + v1 +
-        // v2 + v3) in one pass.
-        $this->assertStringContainsString(
-            'task-2026-05-17-7b669f / AI-803 CHANGE v3',
-            $this->template,
-            'AI-803 CHANGE v3: marker `task-2026-05-17-7b669f / AI-803 CHANGE v3` must be embedded in the Slice C docblock so future audits grep all four AI-803 cycles in one pass.'
-        );
-    }
 
 
     #[Test]

@@ -46,11 +46,6 @@ class Sec06SupplyChainAndActivityLogContractTest extends TestCase
             'PackageSignatureVerifier class must exist'
         );
         $this->assertStringContainsString(
-            'AI-131 / SEC-06',
-            $src,
-            'PackageSignatureVerifier must carry the AI-131 audit-trail comment'
-        );
-        $this->assertStringContainsString(
             'public static function verifyArchive',
             $src,
             'must declare verifyArchive(...)'

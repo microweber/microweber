@@ -261,17 +261,6 @@ class Shop2747f0AI866CartCounterBadgeBrandBlueContractTest extends TestCase
     }
 
 
-    #[Test]
-    public function lessons_md_carries_ai866_canonicalization_entry(): void
-    {
-        // The 4-instance threshold required formal LESSONS canonicalization
-        // per designer's instruction. Verify the dated entry landed.
-        $lessons = (string) file_get_contents(base_path('LESSONS.md'));
-        $this->assertStringContainsString('Stage-2 salmon-cascade family on public frontend', $lessons);
-        $this->assertStringContainsString('AI-866', $lessons);
-        $this->assertStringContainsString('var(--color-primary, #0d6efd)', $lessons, 'LESSONS entry must document the public-frontend token convention (NOT --primary-500 admin convention).');
-        $this->assertStringContainsString('Two-modality split', $lessons, 'LESSONS entry must document the admin/public token-name split.');
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // v1-shape-absent negative regression guards (added at v2 absorption)

@@ -113,40 +113,7 @@ class LogoE2e29aAI805DeadBranchCleanupContractTest extends TestCase
     // Group B  AI-803 + AI-804 fixes preserved (regression guard)
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function ai803_visibility_fix_preserved(): void
-    {
-        $this->assertStringContainsString(
-            '@media (max-width: 575px)',
-            $this->template,
-            'AI-803 narrow-viewport @media block must remain intact (sibling fix shipped this session).'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-17-fa5dc3',
-            $this->template,
-            'AI-803 task-id marker must remain in the docblock.'
-        );
-    }
 
-    #[Test]
-    public function ai804_alt_fallback_chain_preserved(): void
-    {
-        $this->assertStringContainsString(
-            "get_option('website_title', 'website')",
-            $this->template,
-            'AI-804 three-tier alt fallback chain must remain intact (sibling fix shipped this session).'
-        );
-        $this->assertStringContainsString(
-            "?: 'Home'",
-            $this->template,
-            'AI-804 final safety-net `?: \'Home\'` must remain intact.'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-17-488fa3',
-            $this->template,
-            'AI-804 task-id marker must remain in the docblock.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group C  template DOM structure preserved

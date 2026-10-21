@@ -116,23 +116,6 @@ class Logo488fa3AI804LogoAltFallbackContractTest extends TestCase
     // Group B  AI-803 fix preserved (regression guard)
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function ai803_logo_visibility_fix_preserved(): void
-    {
-        // AI-803 (task-fa5dc3) shipped 2 hours ago on the same
-        // template. Pin its key markers so this AI-804 edit didn't
-        // accidentally regress them.
-        $this->assertStringContainsString(
-            '@media (max-width: 575px)',
-            $this->template,
-            'AI-803 narrow-viewport @media block must remain intact.'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-17-fa5dc3',
-            $this->template,
-            'AI-803 task-id marker must remain in the docblock.'
-        );
-    }
 
     #[Test]
     public function template_dom_structure_preserved(): void

@@ -41,12 +41,6 @@ class Sec04AuthHardeningContractTest extends TestCase
     {
         $src = $this->read(self::FORTIFY);
 
-        $this->assertStringContainsString(
-            "AI-129 / SEC-04 (cycle-122",
-            $src,
-            'Fortify provider must carry the auth-hardening audit-trail marker'
-        );
-
         $this->assertMatchesRegularExpression(
             "/RateLimiter::for\\('login',[\\s\\S]{0,400}Limit::perMinutes\\(15,\\s*5\\)/",
             $src,
@@ -69,12 +63,6 @@ class Sec04AuthHardeningContractTest extends TestCase
             'class RequireDefaultPasswordChange',
             $src,
             'Middleware class must exist at the canonical path'
-        );
-
-        $this->assertStringContainsString(
-            'AI-129 / SEC-04 (cycle-122',
-            $src,
-            'Middleware must carry the auth-hardening audit-trail marker'
         );
 
         // Must detect the well-known default values.

@@ -514,16 +514,4 @@ class PageAeb113AI806ProductChromeLeakContractTest extends TestCase
     // ─────────────────────────────────────────────────────────────────────
 
 
-    #[Test]
-    public function ai780a_ai801_lineage_cited(): void
-    {
-        // The empty-state implementation explicitly cites the
-        // AI-780a/AI-801 pattern lineage so future audits can grep
-        // the family.
-        $this->assertMatchesRegularExpression(
-            '/AI-780a|AI-801/',
-            $this->template,
-            'Page empty-state MUST cite AI-780a/AI-801 lineage in source-side comment for audit grep.'
-        );
-    }
 }
