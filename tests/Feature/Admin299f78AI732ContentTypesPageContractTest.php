@@ -239,14 +239,4 @@ class Admin299f78AI732ContentTypesPageContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_and_ai732_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-299f78', $this->pageSrc);
-        $this->assertStringContainsString('AI-732', $this->pageSrc);
-        $this->assertStringContainsString('task-2026-05-16-299f78', $this->viewSrc);
-        $this->assertStringContainsString('AI-732', $this->viewSrc);
-        $this->assertStringContainsString('task-2026-05-16-299f78', $this->providerSrc);
-        $this->assertStringContainsString('AI-732', $this->providerSrc);
-    }
 }

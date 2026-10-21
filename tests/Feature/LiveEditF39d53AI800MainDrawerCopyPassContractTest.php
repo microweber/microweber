@@ -189,30 +189,5 @@ class LiveEditF39d53AI800MainDrawerCopyPassContractTest extends TestCase
     // Group E  markers + lineage
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai800_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-f39d53', $this->drawer);
-        $this->assertStringContainsString('AI-800', $this->drawer);
-    }
 
-    #[Test]
-    public function docblock_cites_lineage_and_scope_decision(): void
-    {
-        $this->assertStringContainsString(
-            'AI-700',
-            $this->drawer,
-            'MainDrawer docblock must cite AI-700 (original drawer ship).'
-        );
-        $this->assertStringContainsString(
-            'AI-708',
-            $this->drawer,
-            'AI-800 docblock should cite AI-708 (sibling RightSidebar / bootstrap.js naming layer for cross-surface cascade decision).'
-        );
-        $this->assertStringContainsString(
-            'AI-800a',
-            $this->drawer,
-            'AI-800 docblock should flag AI-800a as the optional cross-surface cascade follow-up.'
-        );
-    }
 }

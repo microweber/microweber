@@ -103,12 +103,4 @@ class AdminCustomers1097ColumnBloatContractTest extends TestCase
         ];
     }
 
-    public function test_ai_1097_task_id_marker_in_customer_resource(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1097',
-            $this->customerResource,
-            'AI-1097: task-id marker comment must be present adjacent to the column-bloat reduction in CustomerResource'
-        );
-    }
 }

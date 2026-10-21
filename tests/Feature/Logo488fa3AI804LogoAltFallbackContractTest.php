@@ -158,10 +158,4 @@ class Logo488fa3AI804LogoAltFallbackContractTest extends TestCase
     // Group C  markers + lineage
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai804_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-488fa3', $this->template);
-        $this->assertStringContainsString('AI-804', $this->template);
-    }
 }

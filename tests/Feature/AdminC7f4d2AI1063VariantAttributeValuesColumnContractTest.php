@@ -119,18 +119,4 @@ class AdminC7f4d2AI1063VariantAttributeValuesColumnContractTest extends TestCase
     // Group D — Task-id markers present
     // -----------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-c7f4d2',
-            $this->source,
-            'AI-1063: source MUST carry the AI-1063 task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-1063',
-            $this->source,
-            'AI-1063: source MUST cite the AI-1063 ticket ID.'
-        );
-    }
 }

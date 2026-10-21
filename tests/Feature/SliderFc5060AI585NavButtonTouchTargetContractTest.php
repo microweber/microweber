@@ -52,12 +52,6 @@ class SliderFc5060AI585NavButtonTouchTargetContractTest extends TestCase
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-fc5060', $this->css,
-            'public-touch.css must carry the AI-585 task marker.');
-    }
 
     // ─── Nav buttons: .mw-slider-v2-buttons-slide ─────────────────────────────
 

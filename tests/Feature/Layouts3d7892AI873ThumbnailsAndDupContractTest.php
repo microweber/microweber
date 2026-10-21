@@ -165,13 +165,4 @@ class Layouts3d7892AI873ThumbnailsAndDupContractTest extends TestCase
         }
     }
 
-    #[Test]
-    public function task_markers_present_in_vue(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-21-3d7892',
-            $this->vue,
-            'ListLayouts.vue must carry the AI-873 task-id marker.'
-        );
-    }
 }

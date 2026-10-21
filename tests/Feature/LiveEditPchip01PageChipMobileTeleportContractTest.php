@@ -258,13 +258,6 @@ class LiveEditPchip01PageChipMobileTeleportContractTest extends TestCase
         $this->assertStringContainsString('transform: none !important', $this->css);
     }
 
-    #[Test]
-    public function task_markers_present_in_source_and_css(): void
-    {
-        // Audit trail.
-        $this->assertStringContainsString('task-2026-05-30-pchip01', $this->vue);
-        $this->assertStringContainsString('task-2026-05-30-pchip01', $this->css);
-    }
 
     #[Test]
     public function teleport_disabled_signature_pinned_no_unconditional_teleport(): void

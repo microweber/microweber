@@ -205,22 +205,6 @@ class Pictures525769AI812EmptyStateGateContractTest extends TestCase
     // Group C  task-id markers (audit grep contract)
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    #[DataProvider('allPicturesTemplatesProvider')]
-    public function task_id_marker_present(string $relativePath): void
-    {
-        $raw = $this->rawTemplate($relativePath);
-        $this->assertStringContainsString(
-            'task-2026-05-17-525769',
-            $raw,
-            "AI-812: {$relativePath} MUST carry the task-id marker for audit grep."
-        );
-        $this->assertStringContainsString(
-            'AI-812',
-            $raw,
-            "AI-812: {$relativePath} MUST cite the ticket ID for audit grep."
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group D  recon-surface guard — no NEW Pictures template can sneak

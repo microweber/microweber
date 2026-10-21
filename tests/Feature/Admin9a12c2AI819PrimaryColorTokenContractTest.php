@@ -388,18 +388,6 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai819_change_task_id_marker_in_source(): void
-    {
-        $scss = $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/support/button/theme.css')
-            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/dark.css')
-            . $this->fileContents('packages/microweber-filament-theme/resources/assets/css/filament/panels/topbar/theme.css');
-        $this->assertStringContainsString(
-            'task-2026-05-17-68e111',
-            $scss,
-            'AI-819 CHANGE absorption ship must embed task-id marker for grep-discoverability per LESSONS.'
-        );
-    }
 
     #[Test]
     public function ai819_change_served_bundle_carries_corrected_selector(): void

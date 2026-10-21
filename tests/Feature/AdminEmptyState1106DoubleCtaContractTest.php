@@ -161,32 +161,6 @@ class AdminEmptyState1106DoubleCtaContractTest extends TestCase
         $this->assertNotFalse($pageBranchStart, 'Page branch must exist in empty-state.blade.php');
     }
 
-    public function test_ai_1106_task_id_marker_in_list_offers(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1106',
-            $this->listOffers,
-            'AI-1106: task-id marker comment must be present adjacent to the visibility-gate change in ListOffers'
-        );
-    }
 
-    public function test_ai_1106_task_id_marker_in_list_shipping(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1106',
-            $this->listShipping,
-            'AI-1106: task-id marker comment must be present adjacent to the visibility-gate change in ListShippingProviders'
-        );
-    }
 
-    public function test_ai_1106_task_id_marker_in_empty_state_blade(): void
-    {
-        // The empty-state blade carries the task-2026-05-28-2f5a6c marker
-        // with AI-1099 (the closely-related payment/shipping empty state ticket).
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c',
-            $this->emptyStateBlade,
-            'AI-1106: task-id marker comment must be present in empty-state.blade.php'
-        );
-    }
 }

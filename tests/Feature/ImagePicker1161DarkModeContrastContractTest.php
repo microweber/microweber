@@ -76,14 +76,6 @@ class ImagePicker1161DarkModeContrastContractTest extends TestCase
         );
     }
 
-    public function test_ai_1161_task_id_marker_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-af5d5b / AI-1161',
-            $this->themeScss,
-            'AI-1161: task-id marker comment must be present adjacent to the fix'
-        );
-    }
 
     // --- Built bundle: cross-pipeline regression guard ---
 

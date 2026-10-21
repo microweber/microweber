@@ -110,20 +110,6 @@ class AdminC5d4b9AI1081ContentTypesNavGroupContractTest extends TestCase
     // Group C -- task-id + AI-1081 markers (audit grep contract)
     // ---------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_present_in_page_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-c5d4b9',
-            $this->pageSource,
-            'AI-1081: ContentTypesPage MUST carry the AI-1081 task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-1081',
-            $this->pageSource,
-            'AI-1081: ContentTypesPage MUST cite the AI-1081 ticket ID.'
-        );
-    }
 
     // ---------------------------------------------------------------------
     // Group D -- recon-delta documented (dispatch said "Website group"

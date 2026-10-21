@@ -47,12 +47,6 @@ class PageE0571bAI736CtaPaginatorContractTest extends TestCase
 
     // ─── Task markers ─────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-e0571b', $this->src,
-            'ListPages.php must carry the AI-736 re-dispatch task marker.');
-    }
 
     // ─── AC 2: CreateAction CTA ───────────────────────────────────────────────
 

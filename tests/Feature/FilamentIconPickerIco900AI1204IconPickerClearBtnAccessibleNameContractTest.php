@@ -148,25 +148,4 @@ class FilamentIconPickerIco900AI1204IconPickerClearBtnAccessibleNameContractTest
         );
     }
 
-    #[Test]
-    public function task_markers_present_in_blade(): void
-    {
-        $this->assertStringContainsString(
-            'AI-1204',
-            $this->blade,
-            'Blade MUST carry the AI-1204 task marker so future audits can locate the fix lineage'
-        );
-
-        $this->assertStringContainsString(
-            'task-2026-05-31-ico900',
-            $this->blade,
-            'Blade MUST carry the task-2026-05-31-ico900 marker for grep-ability'
-        );
-
-        $this->assertStringContainsString(
-            'AI-1203',
-            $this->blade,
-            'Blade SHOULD cite AI-1203 in the docblock so the sister-fix lineage is discoverable from this file'
-        );
-    }
 }

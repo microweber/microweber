@@ -225,29 +225,5 @@ class Teamcard089c8bAI840XssEscapeContractTest extends TestCase
     // Group E — Task-id markers + AI-807 lineage discoverability
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_template(): void
-    {
-        $source = $this->read(self::TEMPLATE);
-        $this->assertStringContainsString(
-            'task-2026-05-17-089c8b',
-            $source,
-            'AI-840: skin-3 docblock must carry the task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-840',
-            $source,
-            'AI-840: skin-3 docblock must carry the AI-840 ticket marker.'
-        );
-    }
 
-    #[Test]
-    public function ai807_lineage_citation_present_in_template(): void
-    {
-        $this->assertStringContainsString(
-            'AI-807',
-            $this->read(self::TEMPLATE),
-            'AI-840: skin-3 docblock must cite AI-807 lineage (XSS family direct mirror per designer dispatch 2026-05-17T12:43:09Z).'
-        );
-    }
 }

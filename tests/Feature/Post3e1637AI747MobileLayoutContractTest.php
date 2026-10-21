@@ -64,12 +64,6 @@ class Post3e1637AI747MobileLayoutContractTest extends TestCase
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-3e1637', $this->css,
-            'mobile-touch.css must carry the AI-747 task marker.');
-    }
 
     // ─── Fix 1: editor container overflow ────────────────────────────────────
 

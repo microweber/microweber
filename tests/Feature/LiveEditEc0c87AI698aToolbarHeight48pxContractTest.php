@@ -101,31 +101,6 @@ class LiveEditEc0c87AI698aToolbarHeight48pxContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function token_carries_task_id_marker_and_rationale(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-16-ec0c87',
-            $this->indexCss,
-            'index.css must carry the AI-698a task-id marker near the toolbar-height redefinition.'
-        );
-        $this->assertStringContainsString(
-            'AI-698a',
-            $this->indexCss
-        );
-        // Sub-slicing rationale captured inline so future agents
-        // understand AI-698b is the layout-grouping continuation.
-        $this->assertStringContainsString(
-            'AI-698b',
-            $this->indexCss,
-            'index.css must reference AI-698b in the docblock so the sub-slicing rationale is discoverable from the source.'
-        );
-        $this->assertStringContainsString(
-            'AI-700',
-            $this->indexCss,
-            'index.css docblock must mention AI-700 (drawer consolidation) as the AI-698b dependency.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group B — Cross-surface token consumers remain in place

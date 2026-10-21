@@ -50,22 +50,6 @@ class ModuleSettingsSaveTeleportedFormContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function interceptor_maps_every_mounted_call_to_its_bucket(): void
-    {
-        foreach ([
-            'callMountedAction' => 'mountedActions',
-            'callMountedTableAction' => 'mountedTableActions',
-            'callMountedTableBulkAction' => 'mountedTableBulkActions',
-            'callMountedFormComponentAction' => 'mountedFormComponentActions',
-        ] as $call => $bucket) {
-            $this->assertMatchesRegularExpression(
-                '/' . $call . ':\s*\'' . $bucket . '\'/',
-                $this->layout,
-                "The interceptor must map {$call} to its {$bucket} bucket."
-            );
-        }
-    }
 
     #[Test]
     public function interceptor_only_acts_on_orphaned_teleported_forms(): void

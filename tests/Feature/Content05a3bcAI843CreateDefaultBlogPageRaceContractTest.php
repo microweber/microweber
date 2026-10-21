@@ -249,34 +249,7 @@ class Content05a3bcAI843CreateDefaultBlogPageRaceContractTest extends TestCase
     // Group C — AI-791 lineage citations + task-id markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_model(): void
-    {
-        $source = $this->readModel();
 
-        $this->assertStringContainsString(
-            'task-2026-05-17-05a3bc',
-            $source,
-            'AI-843: Content::createDefaultBlogPage() docblock must carry the task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-843',
-            $source,
-            'AI-843: Content::createDefaultBlogPage() docblock must carry the AI-843 ticket marker.'
-        );
-    }
-
-    #[Test]
-    public function ai791_lineage_citation_present(): void
-    {
-        $source = $this->readModel();
-
-        $this->assertStringContainsString(
-            'AI-791',
-            $source,
-            'AI-843: docblock must cite AI-791 lineage (preventative complement to AI-791 Slice D + AI-792b cleanup migration).'
-        );
-    }
 
     #[Test]
     public function ai792_layout_file_carry_forward_preserved(): void

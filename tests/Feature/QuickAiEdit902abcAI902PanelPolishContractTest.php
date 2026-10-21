@@ -56,19 +56,6 @@ class QuickAiEdit902abcAI902PanelPolishContractTest extends TestCase
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present_in_all_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-902abc', $this->widgetSvc,
-            'live-edit-widgets-service.js must carry the AI-902 task marker.'
-        );
-        $this->assertStringContainsString('task-2026-05-22-902abc', $this->qaeJs,
-            'quick-ai-edit.js must carry the AI-902 task marker.'
-        );
-        $this->assertStringContainsString('task-2026-05-22-902abc', $this->css,
-            'general-styles.css must carry the AI-902 task marker.'
-        );
-    }
 
     // ─── Item 1: Label fix ────────────────────────────────────────────────────
 

@@ -72,11 +72,6 @@ class AdminCf2dd3AI1042to1046ModulesContentTypesContractTest extends TestCase
         );
     }
 
-    public function test_description_column_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-23-cf2dd3', $this->moduleResourceSrc,
-            'AI-1042 task-id marker must be in ModuleResource');
-    }
 
     // ── Group B: AI-1043 — empty state puzzle icon ────────────────────────────
 
@@ -103,11 +98,6 @@ class AdminCf2dd3AI1042to1046ModulesContentTypesContractTest extends TestCase
         );
     }
 
-    public function test_empty_state_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-23-bbad8f', $this->moduleResourceSrc,
-            'AI-1043 task-id marker must be in ModuleResource');
-    }
 
     // ── Group C: AI-1044 — Content Types subtitle ─────────────────────────────
 
@@ -129,11 +119,6 @@ class AdminCf2dd3AI1042to1046ModulesContentTypesContractTest extends TestCase
         );
     }
 
-    public function test_subtitle_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-23-78686e', $this->contentTypesPageSrc,
-            'AI-1044 task-id marker must be in ContentTypesPage');
-    }
 
     // ── Group D: AI-1045 — AI-732 Jira reference removed ─────────────────────
 
@@ -146,11 +131,6 @@ class AdminCf2dd3AI1042to1046ModulesContentTypesContractTest extends TestCase
         );
     }
 
-    public function test_blade_task_marker_for_ai1045(): void
-    {
-        $this->assertStringContainsString('task-2026-05-23-d1aa85', $this->contentTypesBladeSrc,
-            'AI-1045 task-id marker must be in content-types-page.blade.php');
-    }
 
     // ── Group E: AI-1046 — version badge ─────────────────────────────────────
 
@@ -183,9 +163,4 @@ class AdminCf2dd3AI1042to1046ModulesContentTypesContractTest extends TestCase
         );
     }
 
-    public function test_version_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-23-82ffcf', $this->moduleResourceSrc,
-            'AI-1046 task-id marker must be in ModuleResource');
-    }
 }

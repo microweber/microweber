@@ -176,16 +176,4 @@ class Admin0b912eAI736PagesListCtaContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_and_ai736_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-0b912e', $this->listPagesSrc);
-        $this->assertStringContainsString('AI-736', $this->listPagesSrc);
-        // Surface-3 follow-up hint discoverable in source.
-        $this->assertStringContainsString(
-            'AI-736b',
-            $this->listPagesSrc,
-            'Source must hint at AI-736b — surface 3 row-action collapse follow-up.'
-        );
-    }
 }

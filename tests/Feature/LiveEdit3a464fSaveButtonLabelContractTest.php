@@ -97,9 +97,4 @@ class LiveEdit3a464fSaveButtonLabelContractTest extends TestCase
         $this->assertStringContainsString('id="save-button"', $this->vue);
     }
 
-    #[Test]
-    public function task_id_is_pinned_in_a_comment(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-3a464f', $this->vue);
-    }
 }

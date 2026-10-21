@@ -266,22 +266,6 @@ class Pictures8cf71eAI814ScriptBlockHardeningContractTest extends TestCase
     // Group E  task-id markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    #[DataProvider('affectedTemplatesProvider')]
-    public function task_id_marker_present(string $relativePath, int $expected): void
-    {
-        $raw = $this->rawTemplate($relativePath);
-        $this->assertStringContainsString(
-            'task-2026-05-17-8cf71e',
-            $raw,
-            "AI-814: {$relativePath} MUST carry the task-id marker for audit grep."
-        );
-        $this->assertStringContainsString(
-            'AI-814',
-            $raw,
-            "AI-814: {$relativePath} MUST cite the ticket ID for audit grep."
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group F  count sanity — 6 templates, 8 data-mw-gallery instances total

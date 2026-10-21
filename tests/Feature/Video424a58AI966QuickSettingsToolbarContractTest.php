@@ -127,23 +127,7 @@ class Video424a58AI966QuickSettingsToolbarContractTest extends TestCase
 
     // ── Group D: markers and task-id ─────────────────────────────────────────
 
-    public function test_task_id_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-424a58',
-            $this->src,
-            'Template must carry the AI-966 task-id marker'
-        );
-    }
 
-    public function test_ai_966_ticket_reference_present(): void
-    {
-        $this->assertStringContainsString(
-            'AI-966',
-            $this->src,
-            'Template must reference AI-966 for audit trail'
-        );
-    }
 
     // ── Group E: regression guards ───────────────────────────────────────────
 

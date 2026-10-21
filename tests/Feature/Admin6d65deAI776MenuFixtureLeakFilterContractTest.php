@@ -140,13 +140,4 @@ class Admin6d65deAI776MenuFixtureLeakFilterContractTest extends TestCase
     // Group D — markers + back-compat
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai776_markers_present(): void
-    {
-        $source = (string) file_get_contents(base_path(
-            'Modules/Content/Filament/Admin/ContentResource.php'
-        ));
-        $this->assertStringContainsString('task-2026-05-17-6d65de', $source);
-        $this->assertStringContainsString('AI-776', $source);
-    }
 }

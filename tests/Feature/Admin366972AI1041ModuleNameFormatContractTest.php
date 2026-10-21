@@ -50,14 +50,6 @@ class Admin366972AI1041ModuleNameFormatContractTest extends TestCase
         );
     }
 
-    public function test_task_id_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-23-366972',
-            $this->src,
-            'ModuleResource must carry AI-1041 task-id marker'
-        );
-    }
 
     // ── Group B: AdminDisplayName produces expected output for sample names ───
 

@@ -231,17 +231,4 @@ class LiveEditA4832fAI871AI872SidebarsPanelsContractTest extends TestCase
 
     // ─── Markers ────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-21-a4832f', $this->generalStyles);
-        $this->assertStringContainsString('task-2026-05-21-a4832f', $this->eseApp);
-        $this->assertStringContainsString('task-2026-05-21-a4832f', $this->blogSettings);
-        $this->assertStringContainsString('task-2026-05-21-a4832f', $this->shopSettings);
-        // Supersession (task-2026-06-13-letele2): the AI-872 Pictures controls
-        // (and their a4832f marker) were relocated out of PicturesModuleSettings.php
-        // into the per-skin Design tab JSON schema, which cannot carry a comment
-        // marker. The current PHP file carries the letele2 relocation note instead.
-        $this->assertStringContainsString('task-2026-06-13-letele2', $this->picturesSettings);
-    }
 }

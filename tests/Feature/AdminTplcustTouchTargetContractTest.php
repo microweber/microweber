@@ -176,12 +176,6 @@ class AdminTplcustTouchTargetContractTest extends TestCase
         }
     }
 
-    #[Test]
-    public function tplcust_task_marker_present_in_php_and_blade(): void
-    {
-        $this->assertStringContainsString('task-2026-05-30-tplcust', $this->php);
-        $this->assertStringContainsString('task-2026-05-30-tplcust', $this->blade);
-    }
 
     #[Test]
     public function no_legacy_28x28_zoom_button_remains(): void

@@ -183,16 +183,4 @@ class Canvas561d00AI857AddPostCtaRouteContractTest extends TestCase
     // Group D — task-id markers present
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function extraction_marker_present_in_default_template(): void
-    {
-        $source = $this->templateContents(
-            'Modules/Content/resources/views/templates/default.blade.php'
-        );
-        $this->assertStringContainsString(
-            'task-2026-06-07-pmprod',
-            $source,
-            'default.blade.php must carry the pmprod extraction marker for future audit grep.'
-        );
-    }
 }

@@ -80,23 +80,7 @@ class Frontend3bc697AI1036FourOhFourCtaTextContractTest extends TestCase
 
     // ── Group C: AI-1036 root-cause documented in source ─────────────────────
 
-    public function test_task_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-3bc697',
-            $this->src,
-            '404 view must carry the AI-1036 task-id marker'
-        );
-    }
 
-    public function test_ai1036_ticket_reference_present(): void
-    {
-        $this->assertStringContainsString(
-            'AI-1036',
-            $this->src,
-            '404 view must reference AI-1036 for audit trail'
-        );
-    }
 
     // ── Group D: regression guard — no color without !important on primary ───
 

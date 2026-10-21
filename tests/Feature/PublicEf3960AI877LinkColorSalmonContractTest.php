@@ -105,15 +105,6 @@ class PublicEf3960AI877LinkColorSalmonContractTest extends TestCase
 
     // ─── Source + served mirror parity ───────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-ef3960',
-            $this->src,
-            'public-touch.css must carry the task-2026-05-22-ef3960 marker.'
-        );
-    }
 
     #[Test]
     public function source_and_served_mirror_are_byte_identical(): void

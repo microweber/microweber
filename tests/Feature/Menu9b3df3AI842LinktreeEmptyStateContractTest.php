@@ -217,37 +217,5 @@ class Menu9b3df3AI842LinktreeEmptyStateContractTest extends TestCase
     // Group E — Task-id markers + AI-808 + AI-809 lineage citation
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_linktree(): void
-    {
-        $source = $this->read(self::LINKTREE);
 
-        $this->assertStringContainsString(
-            'task-2026-05-17-9b3df3',
-            $source,
-            'AI-842: linktree.blade.php docblock must carry the task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-842',
-            $source,
-            'AI-842: linktree.blade.php docblock must carry the AI-842 ticket marker.'
-        );
-    }
-
-    #[Test]
-    public function ai808_and_ai809_lineage_citations_present(): void
-    {
-        $source = $this->read(self::LINKTREE);
-
-        $this->assertStringContainsString(
-            'AI-808',
-            $source,
-            'AI-842: linktree.blade.php docblock must cite AI-808 lineage (empty-state family) per designer Round 13.3 closeout.'
-        );
-        $this->assertStringContainsString(
-            'AI-809',
-            $source,
-            'AI-842: linktree.blade.php docblock must cite AI-809 lineage (lnotif + e($menu_name) sibling pattern from the 6 Menu templates).'
-        );
-    }
 }

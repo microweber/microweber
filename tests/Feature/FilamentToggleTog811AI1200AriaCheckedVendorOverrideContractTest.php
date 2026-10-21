@@ -140,19 +140,4 @@ class FilamentToggleTog811AI1200AriaCheckedVendorOverrideContractTest extends Te
         );
     }
 
-    #[Test]
-    public function task_markers_present_in_blade(): void
-    {
-        $this->assertStringContainsString(
-            'AI-1200',
-            $this->blade,
-            'Override MUST carry the AI-1200 task marker so future audits can locate the fix lineage'
-        );
-
-        $this->assertStringContainsString(
-            'task-2026-05-31-tog811',
-            $this->blade,
-            'Override MUST carry the task-2026-05-31-tog811 marker for grep-ability'
-        );
-    }
 }

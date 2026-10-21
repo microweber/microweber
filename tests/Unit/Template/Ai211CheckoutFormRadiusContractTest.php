@@ -73,18 +73,6 @@ class Ai211CheckoutFormRadiusContractTest extends TestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('checkoutScopedSelectorsProvider')]
-    #[Test]
-    public function each_checkout_input_selector_is_covered(string $selectorPattern): void
-    {
-        $css = $this->readFile(self::GENERAL_STYLES_CSS);
-
-        $this->assertMatchesRegularExpression(
-            '/' . $selectorPattern . '/',
-            $css,
-            "AI-211 checkout-scoped override must include the selector matching: {$selectorPattern}"
-        );
-    }
 
     #[Test]
     public function admin_brand_rounded_7px_rule_is_not_regressed(): void

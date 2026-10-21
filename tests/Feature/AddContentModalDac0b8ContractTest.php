@@ -52,15 +52,6 @@ class AddContentModalDac0b8ContractTest extends TestCase
             ));
     }
 
-    #[Test]
-    public function dac0b8_marker_present_in_docblock(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-14-dac0b8',
-            $this->blade,
-            'dac0b8 docblock marker must be present so future agents can trace the improvements'
-        );
-    }
 
     #[Test]
     public function clear_button_touch_target_floor_is_44x44(): void

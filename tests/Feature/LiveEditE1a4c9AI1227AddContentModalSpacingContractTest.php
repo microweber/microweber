@@ -155,13 +155,4 @@ class LiveEditE1a4c9AI1227AddContentModalSpacingContractTest extends TestCase
     // Group E — task-id marker
     // -----------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-e1a4c9',
-            $this->cssSource,
-            'AI-1227: CSS source MUST carry the task-id marker for cross-surface audit grep.'
-        );
-    }
 }

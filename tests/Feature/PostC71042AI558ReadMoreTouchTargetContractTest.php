@@ -94,18 +94,7 @@ class PostC71042AI558ReadMoreTouchTargetContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-c71042', $this->src);
-    }
 
-    #[Test]
-    public function ai558a_followup_documented(): void
-    {
-        // Ensures the follow-up candidate for bare-anchor skins is on record
-        $this->assertStringContainsString('AI-558a', $this->src);
-    }
 
     #[Test]
     public function served_mirror_is_byte_identical(): void

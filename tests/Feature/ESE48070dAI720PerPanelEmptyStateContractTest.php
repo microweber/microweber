@@ -86,26 +86,8 @@ class ESE48070dAI720PerPanelEmptyStateContractTest extends TestCase
 
     // ─── Task markers ─────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present_in_animations_vue(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-48070d', $this->anim,
-            'ElementStyleEditorAnimations.vue must carry the AI-720 task marker.');
-    }
 
-    #[Test]
-    public function task_marker_present_in_layout_vue(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-48070d', $this->layout,
-            'ElementStyleEditorLayoutSettings.vue must carry the AI-720 task marker.');
-    }
 
-    #[Test]
-    public function task_marker_present_in_aichat_vue(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-48070d', $this->aiChat,
-            'ElementStyleEditorAiChat.vue must carry the AI-720 task marker.');
-    }
 
     // ─── Panel 1: Animations ──────────────────────────────────────────────────
 
@@ -286,14 +268,6 @@ class ESE48070dAI720PerPanelEmptyStateContractTest extends TestCase
 
     // ─── AI-724/725 regression guard ─────────────────────────────────────────
 
-    #[Test]
-    public function ai724_and_ai725_task_markers_still_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-747f20', $this->eseCss,
-            'AI-724 chrome dark mode task marker must still be present');
-        $this->assertStringContainsString('task-2026-05-22-06f3f4', $this->eseCss,
-            'AI-725 panel content dark mode task marker must still be present');
-    }
 
     // ─── Bundle probe ─────────────────────────────────────────────────────────
 

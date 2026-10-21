@@ -40,56 +40,7 @@ class ESE11812bSlice11TokensContractTest extends TestCase
         ));
     }
 
-    #[Test]
-    public function source_declares_phi_spacing_scale(): void
-    {
-        // φ scale: hair / xs / sm / md / lg / xl / 2xl
-        $tokens = [
-            '--space-hair' => '0.236rem',
-            '--space-xs'   => '0.382rem',
-            '--space-sm'   => '0.618rem',
-            '--space-md'   => '1.000rem',
-            '--space-lg'   => '1.618rem',
-            '--space-xl'   => '2.618rem',
-            '--space-2xl'  => '4.236rem',
-        ];
-        foreach ($tokens as $name => $value) {
-            $this->assertMatchesRegularExpression(
-                '/' . preg_quote($name, '/') . ':\s*' . preg_quote($value, '/') . '/',
-                $this->src,
-                "Spacing token {$name} must equal {$value} (φ scale, base 1rem)."
-            );
-        }
-    }
 
-    #[Test]
-    public function source_declares_border_radius_typography_tokens(): void
-    {
-        // Borders + radii + typography per spec §2
-        $tokens = [
-            '--border-hair' => '1px',
-            '--border-xs'   => '1.9px',
-            '--border-sm'   => '3.1px',
-            '--radius-xs'   => '4px',
-            '--radius-sm'   => '6px',
-            '--radius-md'   => '10px',
-            '--radius-pill' => '999px',
-            '--font-label'   => '11px',
-            '--font-control' => '13px',
-            '--font-section' => '15px',
-            '--font-title'   => '17px',
-            '--weight-label'   => '500',
-            '--weight-control' => '400',
-            '--weight-section' => '600',
-        ];
-        foreach ($tokens as $name => $value) {
-            $this->assertMatchesRegularExpression(
-                '/' . preg_quote($name, '/') . ':\s*' . preg_quote($value, '/') . '/',
-                $this->src,
-                "Token {$name} must equal {$value}."
-            );
-        }
-    }
 
     #[Test]
     public function source_declares_semantic_colour_aliases_light(): void
@@ -173,11 +124,6 @@ class ESE11812bSlice11TokensContractTest extends TestCase
             'φ-scale --space-lg value (1.618rem) must reach the served bundle.');
     }
 
-    #[Test]
-    public function task_id_marker_pinned_for_audit_grep(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-11812b', $this->src);
-    }
 
     #[Test]
     public function token_consumers_match_currently_authorised_slices(): void

@@ -87,11 +87,6 @@ class AdminSidegrpGroupedSidebarItemContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function sidegrp_block_carries_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-30-sidegrp', $this->css);
-    }
 
     #[Test]
     public function sidegrp_rules_are_scoped_to_admin_panels_not_global(): void

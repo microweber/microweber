@@ -265,42 +265,6 @@ class Postbb503eAI841ShopJsGateContractTest extends TestCase
     // Group E — Task-id markers + AI-806 lineage discoverability
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    #[DataProvider('gatedTemplateProvider')]
-    public function task_id_marker_present_in_template(string $relativePath): void
-    {
-        $source = $this->read($relativePath);
-        $this->assertStringContainsString(
-            'task-2026-05-17-bb503e',
-            $source,
-            "AI-841: {$relativePath} docblock must carry the task-id marker for cross-surface audit grep."
-        );
-        $this->assertStringContainsString(
-            'AI-841',
-            $source,
-            "AI-841: {$relativePath} docblock must carry the AI-841 ticket marker."
-        );
-    }
 
-    #[Test]
-    #[DataProvider('gatedTemplateProvider')]
-    public function ai806_lineage_citation_present_in_template(string $relativePath): void
-    {
-        $this->assertStringContainsString(
-            'AI-806',
-            $this->read($relativePath),
-            "AI-841: {$relativePath} docblock must cite AI-806 lineage (defect-#1 family extension per designer dispatch 2026-05-17T12:43:17Z)."
-        );
-    }
 
-    #[Test]
-    #[DataProvider('gatedTemplateProvider')]
-    public function ai841b_followup_flagged_in_template(string $relativePath): void
-    {
-        $this->assertStringContainsString(
-            'AI-841b',
-            $this->read($relativePath),
-            "AI-841: {$relativePath} docblock must flag the AI-841b follow-up (shared-partial Slice B extraction when ≥3 Posts wrappers join the cart-supporting set)."
-        );
-    }
 }

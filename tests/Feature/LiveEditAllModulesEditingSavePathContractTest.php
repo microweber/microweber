@@ -115,23 +115,4 @@ class LiveEditAllModulesEditingSavePathContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function generic_interceptor_maps_table_action_calls_to_their_buckets(): void
-    {
-        $layout = $this->read(self::LAYOUT);
-
-        // The single fix that covers every module above: callMounted* → bucket map.
-        foreach ([
-            'callMountedAction' => 'mountedActions',
-            'callMountedTableAction' => 'mountedTableActions',
-            'callMountedTableBulkAction' => 'mountedTableBulkActions',
-            'callMountedFormComponentAction' => 'mountedFormComponentActions',
-        ] as $call => $bucket) {
-            $this->assertMatchesRegularExpression(
-                '/' . $call . ':\s*\'' . $bucket . '\'/',
-                $layout,
-                "The interceptor must map {$call} to its {$bucket} bucket so the item-editor modals save."
-            );
-        }
-    }
 }

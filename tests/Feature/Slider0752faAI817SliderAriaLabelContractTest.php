@@ -125,21 +125,6 @@ class Slider0752faAI817SliderAriaLabelContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_markers_present_in_blade(): void
-    {
-        $this->assertStringContainsString(
-            'AI-817',
-            $this->blade,
-            'blade must carry the AI-817 task marker so future audits can locate the fix lineage'
-        );
-
-        $this->assertStringContainsString(
-            'task-2026-05-31',
-            $this->blade,
-            'blade must carry the task-2026-05-31 marker for grep-ability across surfaces'
-        );
-    }
 
     #[Test]
     public function legacy_orphaned_label_pattern_absent(): void

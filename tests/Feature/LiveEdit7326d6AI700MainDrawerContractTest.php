@@ -442,29 +442,7 @@ class LiveEdit7326d6AI700MainDrawerContractTest extends TestCase
     // Group F — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_all_three_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-7326d6', $this->mainDrawer);
-        $this->assertStringContainsString('task-2026-05-16-7326d6', $this->toolbar);
-        $this->assertStringContainsString('task-2026-05-16-7326d6', $this->generalStyles);
-    }
 
-    #[Test]
-    public function ai_698b_unblock_note_present_in_source(): void
-    {
-        // Sub-slicing rationale discoverable from source — same
-        // pattern as AI-698a's AI-698b reference.
-        $this->assertStringContainsString(
-            'AI-698b',
-            $this->mainDrawer,
-            'MainDrawer.vue must reference AI-698b in the docblock so the mutually-unblocks rationale is discoverable from source.'
-        );
-        $this->assertStringContainsString(
-            'AI-698b',
-            $this->generalStyles
-        );
-    }
 
     #[Test]
     public function css_tokens_carry_literal_fallbacks(): void

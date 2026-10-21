@@ -137,19 +137,4 @@ class BackgroundBg811AI1198TabsRadiogroupHeadingContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_markers_present_in_blade(): void
-    {
-        $this->assertStringContainsString(
-            'AI-1198',
-            $this->blade,
-            'blade must carry the AI-1198 task marker so future audits can locate the fix lineage'
-        );
-
-        $this->assertStringContainsString(
-            'task-2026-05-31-bg811',
-            $this->blade,
-            'blade must carry the task-2026-05-31-bg811 marker for grep-ability'
-        );
-    }
 }

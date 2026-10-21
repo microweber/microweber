@@ -119,15 +119,6 @@ class Blog1b49a3AI911SortBySettingContractTest extends TestCase
         $this->assertStringContainsString('title_desc', $this->settingsSrc, 'BlogSettings order_by must include title_desc.');
     }
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-1b49a3',
-            $this->componentSrc,
-            'BlogComponent.php must carry the AI-911 task marker.'
-        );
-    }
 
     // ─── Tier-2: match-logic unit assertions ─────────────────────────────
     // Directly exercise the same match() logic that was wired into mount().

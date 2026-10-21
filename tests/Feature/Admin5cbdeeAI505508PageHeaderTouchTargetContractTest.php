@@ -131,13 +131,4 @@ class Admin5cbdeeAI505508PageHeaderTouchTargetContractTest extends TestCase
 
     // ─── Task markers ─────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-5cbdee',
-            $this->css,
-            'mobile-touch.css must carry the task-2026-05-22-5cbdee marker.'
-        );
-    }
 }

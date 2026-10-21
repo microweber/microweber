@@ -277,20 +277,6 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
     // Group D — markers + general-styles.css pointer comment preserved
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai780_markers_present(): void
-    {
-        // After the task-2026-06-07-pmprod extraction the AI-780 lineage marker
-        // lives in the service docblock (logic home); the CSS chrome keeps its
-        // own AI-780 markers; the template carries the extraction marker.
-        $service = (string) file_get_contents(base_path(
-            'Modules/Content/Services/ContentModuleEmptyState.php'
-        ));
-        $this->assertStringContainsString('AI-780', $service);
-        $this->assertStringContainsString('task-2026-06-07-pmprod', $this->blade);
-        $this->assertStringContainsString('task-2026-05-17-6d65de', $this->defaultCss);
-        $this->assertStringContainsString('AI-780', $this->defaultCss);
-    }
 
     #[Test]
     public function general_styles_carries_pointer_comment_to_default_css(): void

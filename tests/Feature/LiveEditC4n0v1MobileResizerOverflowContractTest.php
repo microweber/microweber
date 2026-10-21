@@ -115,9 +115,4 @@ class LiveEditC4n0v1MobileResizerOverflowContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_marker_present_for_audit_grep(): void
-    {
-        $this->assertStringContainsString('task-2026-05-27-c4n0v1', $this->scss);
-    }
 }

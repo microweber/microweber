@@ -272,19 +272,7 @@ class LayoutsModal847083AI715DesktopPolishContractTest extends TestCase
     // Group F — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-847083', $this->vue);
-        $this->assertStringContainsString('task-2026-05-16-847083', $this->css);
-    }
 
-    #[Test]
-    public function ai715_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('AI-715', $this->vue);
-        $this->assertStringContainsString('AI-715', $this->css);
-    }
 
     #[Test]
     public function css_tokens_carry_literal_fallbacks(): void

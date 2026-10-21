@@ -318,12 +318,6 @@ class LiveEditcf3fa6AI709LayersPanelLabelsContractTest extends TestCase
     // Group D — Task-id markers + naming-hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-cf3fa6', $this->domTreeJs);
-        $this->assertStringContainsString('task-2026-05-16-cf3fa6', $this->domTreeCss);
-    }
 
     #[Test]
     public function existing_label_helpers_preserved(): void

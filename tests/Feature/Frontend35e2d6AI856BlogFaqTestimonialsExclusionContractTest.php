@@ -117,22 +117,6 @@ class Frontend35e2d6AI856BlogFaqTestimonialsExclusionContractTest extends TestCa
     // Group C — task-id + AI-856 markers (audit grep contract)
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present(): void
-    {
-        $source = $this->read(self::FRONTEND_ROUTES);
-
-        $this->assertStringContainsString(
-            'task-2026-05-17-35e2d6',
-            $source,
-            'AI-856: frontend routes file MUST carry the AI-856 task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-856',
-            $source,
-            'AI-856: frontend routes file MUST cite the AI-856 ticket ID.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group D — silent-stub family lineage citation
@@ -171,15 +155,4 @@ class Frontend35e2d6AI856BlogFaqTestimonialsExclusionContractTest extends TestCa
     // Group E — AI-856b follow-up candidate flagged for future dispatch
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function ai856b_followup_documented(): void
-    {
-        $source = $this->read(self::FRONTEND_ROUTES);
-
-        $this->assertStringContainsString(
-            'AI-856b',
-            $source,
-            'AI-856: comment block MUST flag AI-856b as the follow-up candidate (build actual BlogController / FaqController / TestimonialsController listing pages if standalone listing pages are desired).'
-        );
-    }
 }

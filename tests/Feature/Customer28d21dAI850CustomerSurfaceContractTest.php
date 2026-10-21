@@ -298,33 +298,5 @@ class Customer28d21dAI850CustomerSurfaceContractTest extends TestCase
     // Group E — Task-id markers + AI-850 audit-trail discoverability
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_frontend_routes(): void
-    {
-        $source = $this->read(self::FRONTEND_ROUTES);
-        $this->assertStringContainsString(
-            'task-2026-05-17-28d21d',
-            $source,
-            'AI-850: frontend routes file must carry the task-id marker for cross-surface audit grep (anchored near the customer exclusion-regex addition AND the Route::fallback extension).'
-        );
-        $this->assertStringContainsString(
-            'AI-850',
-            $source,
-            'AI-850: frontend routes file must carry the AI-850 ticket marker.'
-        );
-    }
 
-    #[Test]
-    public function lineage_marker_cites_ai795_in_frontend_routes(): void
-    {
-        $source = $this->read(self::FRONTEND_ROUTES);
-        // The AI-850 fallback extension reuses the AI-795 chrome view —
-        // future audits need the AI-795 cite to find the dependency
-        // chain in one pass.
-        $this->assertStringContainsString(
-            'AI-795',
-            $source,
-            'AI-850: frontend routes docblock must cite AI-795 (the chrome-view dependency this ship reuses) for audit-trail discoverability.'
-        );
-    }
 }

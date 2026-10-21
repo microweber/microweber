@@ -130,15 +130,6 @@ class Content1f0503AI909CoverImageAccordionContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present_in_php_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-1f0503',
-            $this->src,
-            'ContentResource.php must carry the task-2026-05-22-1f0503 marker.'
-        );
-    }
 
     // ─── CSS — template preview iframe cap ────────────────────────────────
 

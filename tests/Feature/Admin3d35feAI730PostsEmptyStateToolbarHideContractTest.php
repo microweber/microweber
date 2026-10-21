@@ -192,16 +192,4 @@ class Admin3d35feAI730PostsEmptyStateToolbarHideContractTest extends TestCase
     // Group D — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai730_markers_pinned(): void
-    {
-        // The AI-730 task-id marker lives in the CSS file (not necessarily
-        // in the blade template, where the blade evolved at later tickets).
-        $this->assertStringContainsString(
-            'task-2026-05-16-3d35fe',
-            $this->css,
-            'AI-730 task-id marker must be in general-styles.css source.'
-        );
-        $this->assertStringContainsString('AI-730', $this->css);
-    }
 }

@@ -206,25 +206,5 @@ class LiveEdit6c4e74AI710DesignRenameContractTest extends TestCase
     // Group C — Markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-16-6c4e74',
-            $this->settingsCustomize,
-            'AI-710 task-id marker must be present in SettingsCustomize.vue.'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-16-6c4e74',
-            $this->styleEditor,
-            'AI-710 task-id marker must be present in StyleEditor.vue.'
-        );
-    }
 
-    #[Test]
-    public function ai_710_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('AI-710', $this->settingsCustomize);
-        $this->assertStringContainsString('AI-710', $this->styleEditor);
-    }
 }

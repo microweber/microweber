@@ -174,14 +174,4 @@ class Admin18be49AI738DashboardCommentsStatContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_and_ai738_markers_pinned(): void
-    {
-        // The widget's /settings/comments code was reverted (404), which removed
-        // the original task-id comment; the AI-738 reference remains in the
-        // revert rationale, and the CSS still carries both markers.
-        $this->assertStringContainsString('AI-738', $this->widgetSrc);
-        $this->assertStringContainsString('task-2026-05-17-18be49', $this->css);
-        $this->assertStringContainsString('AI-738', $this->css);
-    }
 }

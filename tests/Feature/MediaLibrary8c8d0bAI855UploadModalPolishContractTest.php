@@ -226,37 +226,7 @@ class MediaLibrary8c8d0bAI855UploadModalPolishContractTest extends TestCase
     // both surfaces (blade + scss)
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_markers_present_in_blade(): void
-    {
-        $source = $this->read(self::BLADE);
-        $this->assertStringContainsString(
-            'task-2026-05-17-8c8d0b',
-            $source,
-            'AI-855: blade view MUST carry the AI-855 task-id marker.'
-        );
-        $this->assertStringContainsString(
-            'AI-855',
-            $source,
-            'AI-855: blade view MUST cite the AI-855 ticket ID.'
-        );
-    }
 
-    #[Test]
-    public function task_id_markers_present_in_scss(): void
-    {
-        $source = $this->read(self::SCSS);
-        $this->assertStringContainsString(
-            'task-2026-05-17-8c8d0b',
-            $source,
-            'AI-855: SCSS MUST carry the AI-855 task-id marker near the .mw-media-upload-btn rule.'
-        );
-        $this->assertStringContainsString(
-            'AI-855',
-            $source,
-            'AI-855: SCSS MUST cite the AI-855 ticket ID.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group E — sibling-family cross-citations (AI-816 + AI-817 + AI-819
@@ -287,15 +257,4 @@ class MediaLibrary8c8d0bAI855UploadModalPolishContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function defect_3_lineage_cited_in_blade(): void
-    {
-        $source = $this->read(self::BLADE);
-
-        $this->assertStringContainsString(
-            'AI-817',
-            $source,
-            'AI-855 Defect 3 lineage: blade docblock MUST cite AI-817 (hidden-label WCAG 3.3.2 sibling family).'
-        );
-    }
 }

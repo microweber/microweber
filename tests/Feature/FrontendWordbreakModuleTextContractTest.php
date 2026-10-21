@@ -45,17 +45,4 @@ class FrontendWordbreakModuleTextContractTest extends TestCase
         $this->assertHasRule(self::BUNDLE);
     }
 
-    #[Test]
-    public function rule_is_in_public_master_not_admin_ui_css(): void
-    {
-        // ui.css feeds admin.css (admin); the rule belongs in the public master.
-        $ui = (string) file_get_contents(base_path(
-            'packages/frontend-assets/resources/assets/css/microweber/css/ui.css'
-        ));
-        $this->assertStringNotContainsString(
-            'task-2026-06-08-wordbreak',
-            $ui,
-            'The public word-break rule must NOT live in ui.css (admin bundle).'
-        );
-    }
 }

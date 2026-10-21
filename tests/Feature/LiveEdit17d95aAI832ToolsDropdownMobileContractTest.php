@@ -147,11 +147,6 @@ class LiveEdit17d95aAI832ToolsDropdownMobileContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-17d95a', $this->src);
-    }
 
     // ─── Webpack bundle probe ─────────────────────────────────────────────────
 

@@ -120,22 +120,6 @@ class CommonExtendF1e4d9AI854FileWindowVarContractTest extends TestCase
     // Group D — task-id markers (audit grep contract)
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present(): void
-    {
-        $source = $this->read(self::COMMON_EXTEND);
-
-        $this->assertStringContainsString(
-            'task-2026-05-17-f1e4d9',
-            $source,
-            'AI-854: common-extend.js MUST carry the AI-854 task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-854',
-            $source,
-            'AI-854: common-extend.js MUST cite the AI-854 ticket ID.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group E — served-bundle runtime probe (the AI-bc28fd 3-stage chain:

@@ -92,13 +92,6 @@ class LiveEditEaf3a1AI1157MobileFixContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function settings_customize_toggle_carries_task_marker(): void
-    {
-        // Audit-trail marker for the toggle() emit fix.
-        $this->assertStringContainsString('task-2026-05-29-eaf3a1', $this->vue);
-        $this->assertStringContainsString('AI-1157', $this->vue);
-    }
 
     #[Test]
     public function quick_ai_edit_header_pinned_44px_inside_mobile_media(): void
@@ -127,13 +120,6 @@ class LiveEditEaf3a1AI1157MobileFixContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function quick_ai_edit_rules_carry_task_marker(): void
-    {
-        // Audit-trail marker for the CSS fix.
-        $this->assertStringContainsString('task-2026-05-29-eaf3a1', $this->css);
-        $this->assertStringContainsString('AI-1157', $this->css);
-    }
 
     #[Test]
     public function quick_ai_edit_rules_scoped_to_unique_box_id_not_doubled_prefix(): void

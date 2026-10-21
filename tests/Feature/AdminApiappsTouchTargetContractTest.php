@@ -98,11 +98,6 @@ class AdminApiappsTouchTargetContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function apiapps_task_marker_present_in_blade(): void
-    {
-        $this->assertStringContainsString('task-2026-05-30-apiapps', $this->blade);
-    }
 
     #[Test]
     public function no_unstyled_hand_rolled_fi_input_remains(): void

@@ -129,21 +129,6 @@ class EseAI1205BorderRadiusAriaLabelContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-06-01-ai1205',
-            $this->source,
-            'Source MUST carry task-2026-06-01-ai1205 marker for grep-ability across future audits'
-        );
-
-        $this->assertStringContainsString(
-            'AI-1205',
-            $this->source,
-            'Source MUST carry AI-1205 Jira marker so the fix lineage is discoverable'
-        );
-    }
 
     #[Test]
     public function no_empty_aria_label_regression(): void

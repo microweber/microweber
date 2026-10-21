@@ -85,14 +85,6 @@ class FloatingToolbar1150TouchTargetContractTest extends TestCase
         );
     }
 
-    public function test_ai_1150_task_id_marker_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-af5d5b / AI-1150',
-            $this->handlesScss,
-            'AI-1150: task-id marker comment must be present adjacent to the fixed rule'
-        );
-    }
 
     // --- AI-1150 negative regression guard: legacy 32px must be gone ---
 

@@ -58,12 +58,6 @@ class Category56d7dcAI746DarkModeContrastContractTest extends TestCase
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-56d7dc', $this->src,
-            'microweber-theme-v3.scss must carry the AI-746 task marker.');
-    }
 
     // ─── Dark mode color rule ─────────────────────────────────────────────────
 

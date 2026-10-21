@@ -193,12 +193,4 @@ class LiveEdit23e0eeAI771AiTabSingleColumnContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_and_ai771_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-23e0ee', $this->filepicker);
-        $this->assertStringContainsString('AI-771', $this->filepicker);
-        $this->assertStringContainsString('task-2026-05-17-23e0ee', $this->css);
-        $this->assertStringContainsString('AI-771', $this->css);
-    }
 }

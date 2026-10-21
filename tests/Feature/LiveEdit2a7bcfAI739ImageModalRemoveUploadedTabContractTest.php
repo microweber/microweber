@@ -150,15 +150,4 @@ class LiveEdit2a7bcfAI739ImageModalRemoveUploadedTabContractTest extends TestCas
     // Group D — markers + deferred-followup hint
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai739_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-2a7bcf', $this->filepicker);
-        $this->assertStringContainsString('AI-739', $this->filepicker);
-        $this->assertStringContainsString(
-            'AI-739a',
-            $this->filepicker,
-            'Source comment must hint at AI-739a — skeleton loader + "No files yet" empty state follow-up.'
-        );
-    }
 }

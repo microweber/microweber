@@ -112,18 +112,4 @@ class AdminB31e7cAI1062InventoryProductColumnContractTest extends TestCase
     // Group D — Task-id markers present
     // -----------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-b31e7c',
-            $this->source,
-            'AI-1062: source MUST carry the AI-1062 task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-1062',
-            $this->source,
-            'AI-1062: source MUST cite the AI-1062 ticket ID.'
-        );
-    }
 }

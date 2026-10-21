@@ -164,15 +164,6 @@ class Public10ee46AI900ButtonSmSalmonContractTest extends TestCase
 
     // ─── Source + served mirror parity ───────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-10ee46',
-            $this->src,
-            'public-touch.css must carry the task-2026-05-22-10ee46 marker.'
-        );
-    }
 
     #[Test]
     public function source_and_served_mirror_are_byte_identical(): void

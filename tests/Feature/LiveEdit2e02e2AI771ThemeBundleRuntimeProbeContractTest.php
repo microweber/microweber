@@ -182,17 +182,4 @@ class LiveEdit2e02e2AI771ThemeBundleRuntimeProbeContractTest extends TestCase
     // Group D — task-id markers + defect-class lineage
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai771_markers_pinned_in_source(): void
-    {
-        // The AI-771 source-side markers must remain present in
-        // default.css so future cross-surface audits via
-        // `git grep task-2026-05-17-23e0ee` continue to find the
-        // change. Task-2e02e2 only re-shipped the bundle; the
-        // source markers are owned by the original AI-771 commit
-        // 0d047f4801.
-        $source = (string) file_get_contents($this->sourcePath);
-        $this->assertStringContainsString('task-2026-05-17-23e0ee', $source);
-        $this->assertStringContainsString('AI-771', $source);
-    }
 }

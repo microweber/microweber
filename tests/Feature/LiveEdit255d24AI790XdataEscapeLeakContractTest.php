@@ -288,27 +288,5 @@ class LiveEdit255d24AI790XdataEscapeLeakContractTest extends TestCase
     // Group F — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai790_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-255d24', $this->modal);
-        $this->assertStringContainsString('AI-790', $this->modal);
-    }
 
-    #[Test]
-    public function task_76a360_markers_present_in_both_files(): void
-    {
-        // Pin-evolution markers — both files carry the task-76a360 token
-        // so future audits can grep the relocation across surfaces.
-        $this->assertStringContainsString(
-            'task-2026-05-18-76a360',
-            $this->modal,
-            'add-content-modal.blade.php docblock must reference task-76a360 (explains where the factory body moved).'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-18-76a360',
-            $this->liveEditLayout,
-            'live-edit.blade.php @push("scripts") docblock must reference task-76a360 (explains why this is the canonical home for the factory).'
-        );
-    }
 }

@@ -147,10 +147,4 @@ class LiveEditRailfit527MobileRightRailContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_markers_present_for_audit_grep(): void
-    {
-        $this->assertStringContainsString('task-2026-05-27-railfit', $this->mobileCss);
-        $this->assertStringContainsString('task-2026-05-27-d4r1l0', $this->classesCss);
-    }
 }

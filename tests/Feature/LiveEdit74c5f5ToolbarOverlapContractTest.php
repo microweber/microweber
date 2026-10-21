@@ -107,9 +107,4 @@ class LiveEdit74c5f5ToolbarOverlapContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_is_pinned_in_the_source_comment(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-74c5f5', $this->source);
-    }
 }

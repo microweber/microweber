@@ -288,34 +288,7 @@ class FrontendC54f1fAI795NotFoundChromeContractTest extends TestCase
     // Group C — markers + lineage
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai795_markers_present_on_both_surfaces(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-c54f1f', $this->controller);
-        $this->assertStringContainsString('AI-795', $this->controller);
-        $this->assertStringContainsString('task-2026-05-17-c54f1f', $this->view);
-        $this->assertStringContainsString('AI-795', $this->view);
-    }
 
-    #[Test]
-    public function view_docblock_cites_lineage_tickets(): void
-    {
-        $this->assertStringContainsString(
-            'AI-755',
-            $this->view,
-            'View docblock must cite AI-755 (the original placeholder-200 ticket this ship closes).'
-        );
-        $this->assertStringContainsString(
-            'AI-793',
-            $this->view,
-            'View docblock must cite AI-793 (sister admin-404 surface, same shape).'
-        );
-        $this->assertStringContainsString(
-            'AI-794',
-            $this->view,
-            'View docblock must cite AI-794 (auth-flow chrome refresh, same design language).'
-        );
-    }
 
     #[Test]
     public function controller_short_circuit_cites_lineage(): void

@@ -163,15 +163,6 @@ class Public7d4e11D5ee77HamburgerFooterTapTargetContractTest extends TestCase
 
     // ─── Task markers and source-mirror parity ───────────────────────────────
 
-    #[Test]
-    public function task_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-7d4e11',
-            $this->src,
-            'Source public-touch.css must carry the task-2026-05-22-7d4e11 marker.'
-        );
-    }
 
     #[Test]
     public function source_and_served_mirror_are_byte_identical(): void

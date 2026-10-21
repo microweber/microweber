@@ -126,16 +126,4 @@ class AdminA11817AI817AddImageActionSrOnlyLabelContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function admin_live_edit_page_carries_ai817_task_marker(): void
-    {
-        $relativePath = 'packages/microweber-live-edit/src/Filament/Admin/Pages/AdminLiveEditPage.php';
-        $source = $this->fileContents($relativePath);
-
-        $this->assertStringContainsString(
-            'AI-817',
-            $source,
-            'AdminLiveEditPage must carry the AI-817 task marker so future audits can locate the fix lineage'
-        );
-    }
 }

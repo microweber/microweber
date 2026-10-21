@@ -156,22 +156,6 @@ class MenuD00884AI809MenuNameEscapeContractTest extends TestCase
     // Group C  task-id markers (audit grep contract)
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    #[DataProvider('allMenuTemplatesProvider')]
-    public function task_id_marker_present(string $relativePath): void
-    {
-        $src = $this->templateContents($relativePath);
-        $this->assertStringContainsString(
-            'task-2026-05-17-d00884',
-            $src,
-            "AI-809: {$relativePath} MUST carry the task-id marker for audit grep."
-        );
-        $this->assertStringContainsString(
-            'AI-809',
-            $src,
-            "AI-809: {$relativePath} MUST cite the ticket ID for audit grep."
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group D  recon-surface guards -- ensure no NEW menu template can

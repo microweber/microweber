@@ -228,46 +228,10 @@ class LogoE2e29aAI805DeadBranchCleanupContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai805a_task_marker_present(): void
-    {
-        // task-2026-05-17-af2b73 / AI-805a marker present alongside
-        // the AI-805 marker so a future audit can grep both surfaces
-        // (Path A collapse + Path B disabled-navigation) in one pass.
-        $this->assertStringContainsString(
-            'task-2026-05-17-af2b73',
-            $this->template,
-            'AI-805a task-id marker (af2b73) must be embedded in the migration docblock.'
-        );
-        $this->assertStringContainsString(
-            'AI-805a',
-            $this->template,
-            'AI-805a ticket marker must be embedded in the migration docblock.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group D  markers + AI-805a follow-up flag
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai805_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-e2e29a', $this->template);
-        $this->assertStringContainsString('AI-805', $this->template);
-    }
 
-    #[Test]
-    public function ai805a_follow_up_candidate_flagged(): void
-    {
-        // Path B (formalise live-edit-disabled navigation) needs a
-        // product call. Flagged in the template Blade comment so
-        // PM/designer can dispatch as AI-805a when the editor-
-        // disabled-link behaviour is wanted.
-        $this->assertStringContainsString(
-            'AI-805a',
-            $this->template,
-            'Template must flag AI-805a as the Path B follow-up candidate (live-edit-disabled navigation behaviour change).'
-        );
-    }
 }

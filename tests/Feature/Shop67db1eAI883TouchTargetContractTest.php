@@ -103,18 +103,6 @@ class Shop67db1eAI883TouchTargetContractTest extends TestCase
 
     // ─── Investigate result: cart dropdown documented, no fix needed ──────────
 
-    #[Test]
-    public function cart_dropdown_investigation_documented(): void
-    {
-        // The 280x18px cart dropdown is the .mw-big-dropdown-cart empty-state —
-        // not an interactive element. The investigation result is documented in
-        // the CSS comment block. Assert the marker exists as audit evidence.
-        $this->assertStringContainsString(
-            'task-2026-05-22-67db1e',
-            $this->src,
-            'task-2026-05-22-67db1e marker must be present documenting the investigation result.'
-        );
-    }
 
     // ─── Regression guards ────────────────────────────────────────────────────
 

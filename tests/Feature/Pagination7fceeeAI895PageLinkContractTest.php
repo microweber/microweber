@@ -120,15 +120,6 @@ class Pagination7fceeeAI895PageLinkContractTest extends TestCase
 
     // ─── Source + served mirror parity ───────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-7fceee',
-            $this->src,
-            'public-touch.css must carry the task-2026-05-22-7fceee marker.'
-        );
-    }
 
     #[Test]
     public function source_and_served_mirror_are_byte_identical(): void

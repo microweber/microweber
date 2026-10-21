@@ -513,16 +513,6 @@ class PageAeb113AI806ProductChromeLeakContractTest extends TestCase
     // Group E  task-id markers + lineage citations
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ticket_markers_present(): void
-    {
-        // The docblock at top must cite all 3 ticket IDs since this
-        // single rewrite addresses all of them.
-        $this->assertStringContainsString('task-2026-05-17-aeb113', $this->template);
-        $this->assertStringContainsString('AI-806', $this->template);
-        $this->assertStringContainsString('AI-807', $this->template);
-        $this->assertStringContainsString('AI-808', $this->template);
-    }
 
     #[Test]
     public function ai780a_ai801_lineage_cited(): void

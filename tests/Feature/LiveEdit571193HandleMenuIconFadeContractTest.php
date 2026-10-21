@@ -123,13 +123,4 @@ class LiveEdit571193HandleMenuIconFadeContractTest extends TestCase
     // Group D — Task-id markers present
     // -----------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-571193',
-            $this->scssSource,
-            'task-571193: SCSS source MUST carry the task-id marker for cross-surface audit grep.'
-        );
-    }
 }

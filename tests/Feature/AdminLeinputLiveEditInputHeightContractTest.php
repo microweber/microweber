@@ -82,11 +82,6 @@ class AdminLeinputLiveEditInputHeightContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function leinput_block_carries_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-30-leinput', $this->css);
-    }
 
     #[Test]
     public function leinput_rules_are_scoped_to_admin_panels_not_global(): void

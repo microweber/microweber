@@ -140,14 +140,6 @@ class AddContentCdeefdAI691Slice1ContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_marker_pinned_for_audit_grep(): void
-    {
-        // Should appear in both files (PHP + Blade) for cross-surface
-        // audit grep per project convention.
-        $this->assertStringContainsString('task-2026-05-16-cdeefd', $this->page);
-        $this->assertStringContainsString('task-2026-05-16-cdeefd', $this->blade);
-    }
 
     #[Test]
     public function cancel_button_kept_pending_designer_a6_resolution(): void

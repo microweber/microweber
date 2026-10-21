@@ -205,16 +205,4 @@ class LiveEditDf485cAI769DialogDarkSkinContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_and_ai769_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-df485c', $this->css);
-        $this->assertStringContainsString('AI-769', $this->css);
-        // AI-740 reference for audit-chain continuity.
-        $this->assertStringContainsString(
-            'AI-740',
-            $this->css,
-            'Comment must cite AI-740 (the backdrop-only fix this slice completes).'
-        );
-    }
 }

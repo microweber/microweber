@@ -246,12 +246,6 @@ class AdminBcb327AI702BrandMarkContractTest extends TestCase
     // Group C — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-bcb327', $this->panelProvider);
-        $this->assertStringContainsString('task-2026-05-16-bcb327', $this->generalStyles);
-    }
 
     #[Test]
     public function css_tokens_carry_literal_fallbacks(): void

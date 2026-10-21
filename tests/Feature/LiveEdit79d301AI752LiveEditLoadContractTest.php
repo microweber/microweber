@@ -113,15 +113,6 @@ class LiveEdit79d301AI752LiveEditLoadContractTest extends TestCase
 
     // ─── Fix marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-6eb365',
-            $this->raw,
-            'task-2026-05-22-6eb365 marker must remain in live-edit.blade.php.'
-        );
-    }
 
     #[Test]
     public function fix_comment_uses_word_form_not_directive(): void

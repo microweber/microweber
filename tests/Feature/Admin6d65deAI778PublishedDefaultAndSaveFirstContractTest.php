@@ -209,10 +209,4 @@ class Admin6d65deAI778PublishedDefaultAndSaveFirstContractTest extends TestCase
     // Group C — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai778_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-6d65de', $this->contentResource);
-        $this->assertStringContainsString('AI-778', $this->contentResource);
-    }
 }

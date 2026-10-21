@@ -238,27 +238,7 @@ class AdminF9ebf9AI1037to1040BatchContractTest extends TestCase
 
     // ── Group F: task-id markers ──────────────────────────────────────────────
 
-    public function test_ai1037_task_id_in_site_stats_page(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-f9ebf9', $this->siteStatsPageSrc,
-            'SiteStatsPage must carry AI-1037 task-id marker');
-    }
 
-    public function test_ai1040_task_id_in_echarts_widget(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-3906fc', $this->echartsWidgetSrc,
-            'echarts-widget must carry AI-1040 task-id marker');
-    }
 
-    public function test_ai1038_task_id_in_media_library(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-5beaa2', $this->mediaLibrarySrc,
-            'media-library-page.blade.php must carry AI-1038 task-id marker');
-    }
 
-    public function test_ai1039_task_id_in_media_library(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-558c11', $this->mediaLibrarySrc,
-            'media-library-page.blade.php must carry AI-1039 task-id marker');
-    }
 }

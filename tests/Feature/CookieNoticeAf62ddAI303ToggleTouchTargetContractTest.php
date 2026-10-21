@@ -80,11 +80,6 @@ class CookieNoticeAf62ddAI303ToggleTouchTargetContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-af62dd', $this->src);
-    }
 
     #[Test]
     public function defensive_rule_note_present(): void

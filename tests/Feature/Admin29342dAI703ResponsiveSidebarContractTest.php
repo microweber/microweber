@@ -247,30 +247,7 @@ class Admin29342dAI703ResponsiveSidebarContractTest extends TestCase
     // Group D — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-29342d', $this->panelProvider);
-        $this->assertStringContainsString('task-2026-05-16-29342d', $this->generalStyles);
-    }
 
-    #[Test]
-    public function ai703a_followup_documented_in_source_comments(): void
-    {
-        // Slice-2 follow-up (1024px → 1280px breakpoint shift) MUST be
-        // discoverable in the source so future agents pick up the
-        // deferred work cleanly.
-        $this->assertStringContainsString(
-            'AI-703a',
-            $this->panelProvider,
-            'AI-703a follow-up candidate (breakpoint shift to 1280px) must be flagged in panel-provider comments.'
-        );
-        $this->assertStringContainsString(
-            'AI-703a',
-            $this->generalStyles,
-            'AI-703a follow-up candidate must be flagged in general-styles.css comments.'
-        );
-    }
 
     #[Test]
     public function css_tokens_carry_literal_fallbacks(): void

@@ -314,54 +314,7 @@ class Search3e91f4AI837SearchStubElimContractTest extends TestCase
     // Group E — Task-id markers + AI-837 audit-trail discoverability
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_controller(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-17-3e91f4',
-            $this->read(self::CONTROLLER),
-            'AI-837: SearchController must carry the task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-837',
-            $this->read(self::CONTROLLER),
-            'AI-837: SearchController must carry the AI-837 ticket marker.'
-        );
-    }
 
-    #[Test]
-    public function task_id_marker_present_in_view(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-17-3e91f4',
-            $this->read(self::VIEW),
-            'AI-837: results view must carry the task-id marker.'
-        );
-    }
 
-    #[Test]
-    public function task_id_marker_present_in_provider(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-17-3e91f4',
-            $this->read(self::PROVIDER),
-            'AI-837: SearchServiceProvider must carry the task-id marker near the loadRoutesFrom call.'
-        );
-    }
 
-    #[Test]
-    public function ai837b_live_results_referenced_in_view(): void
-    {
-        // Pin-evolved 2026-06-08 / task-srchwire: AI-837b is now IMPLEMENTED
-        // (SearchController@search + $searchResults loop). The view keeps the
-        // AI-837b marker, now describing the wired live results rather than a
-        // pending follow-up — see Searchsrchwire837bSearchResultsContractTest
-        // for the behavioural pins.
-        $source = $this->read(self::VIEW);
-        $this->assertStringContainsString(
-            'AI-837b',
-            $source,
-            'AI-837b: results view must carry the AI-837b marker for the wired live-results follow-up.'
-        );
-    }
 }

@@ -80,11 +80,6 @@ class AdminMediabrowserTouchTargetContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function mediabrowser_task_marker_present_in_blade(): void
-    {
-        $this->assertStringContainsString('task-2026-05-30-mediabrowser', $this->blade);
-    }
 
     #[Test]
     public function no_legacy_unstyled_primary_btn_remains(): void

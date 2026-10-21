@@ -143,20 +143,6 @@ class FrontendA8b4e2AI1087ArchivePrefixesExclusionContractTest extends TestCase
     // Group D -- task-id + AI-1087 markers (audit grep contract)
     // ---------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-a8b4e2',
-            $this->routesSource,
-            'AI-1087: frontend routes file MUST carry the AI-1087 task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-1087',
-            $this->routesSource,
-            'AI-1087: frontend routes file MUST cite the AI-1087 ticket ID.'
-        );
-    }
 
     // ---------------------------------------------------------------------
     // Group E -- silent-stub family lineage citation
@@ -188,13 +174,4 @@ class FrontendA8b4e2AI1087ArchivePrefixesExclusionContractTest extends TestCase
     // Group F -- AI-1087b follow-up candidate flagged for future dispatch
     // ---------------------------------------------------------------------
 
-    #[Test]
-    public function ai1087b_followup_documented(): void
-    {
-        $this->assertStringContainsString(
-            'AI-1087b',
-            $this->routesSource,
-            'AI-1087: comment block MUST flag AI-1087b as the follow-up candidate (build actual TagController / CategoryController taxonomy listing pages if standalone archive surfaces are desired).'
-        );
-    }
 }

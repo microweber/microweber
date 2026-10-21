@@ -203,13 +203,4 @@ class LiveEditF8a3c1AI1225ToolsDropdownTouchTargetIAContractTest extends TestCas
     // Group F — Task-id markers present
     // -----------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-f8a3c1',
-            $this->vueSource,
-            'AI-1225: Vue source MUST carry the task-id marker for cross-surface audit grep.'
-        );
-    }
 }

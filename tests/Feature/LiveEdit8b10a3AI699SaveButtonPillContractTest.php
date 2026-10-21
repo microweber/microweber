@@ -283,18 +283,4 @@ class LiveEdit8b10a3AI699SaveButtonPillContractTest extends TestCase
         }
     }
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-16-8b10a3',
-            $this->saveButton,
-            'SaveButton.vue must carry the AI-699 task-id marker (audit-grep).'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-16-8b10a3',
-            $this->liveEditClasses,
-            'live-edit-classes.css must carry the AI-699 task-id marker (audit-grep).'
-        );
-    }
 }

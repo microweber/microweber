@@ -149,30 +149,6 @@ class AdminPayments1099EmptyStateContractTest extends TestCase
         );
     }
 
-    public function test_ai_1099_task_id_marker_in_list_payments(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1099',
-            $this->listPayments,
-            'AI-1099: task-id marker comment must be present adjacent to the visibility-gate change in ListPayments'
-        );
-    }
 
-    public function test_ai_1099_task_id_marker_in_payment_resource(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1099',
-            $this->paymentResource,
-            'AI-1099: task-id marker comment must be present adjacent to the emptyState wiring in PaymentResource'
-        );
-    }
 
-    public function test_ai_1099_task_id_marker_in_empty_state_blade(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1099',
-            $this->emptyStateBlade,
-            'AI-1099: task-id marker comment must be present adjacent to the Payment branch in empty-state.blade.php'
-        );
-    }
 }

@@ -121,31 +121,5 @@ class Admin256d49AI735AdminRouteFallbackContractTest extends TestCase
     // Group C — markers + follow-up discoverability
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai735_markers_pinned(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-16-256d49',
-            $this->routesSrc,
-            'AI-735 task-id marker must be present in routes/web.php.'
-        );
-        $this->assertStringContainsString('AI-735', $this->routesSrc);
-    }
 
-    #[Test]
-    public function followup_hints_discoverable_in_source(): void
-    {
-        // Source comments must hint at AI-735a (front-end 404) and
-        // AI-735b (search route) so a future audit grep lands here.
-        $this->assertStringContainsString(
-            'AI-735a',
-            $this->routesSrc,
-            'Source comment must hint at AI-735a — front-end 404 follow-up.'
-        );
-        $this->assertStringContainsString(
-            'AI-735b',
-            $this->routesSrc,
-            'Source comment must hint at AI-735b — search route follow-up.'
-        );
-    }
 }

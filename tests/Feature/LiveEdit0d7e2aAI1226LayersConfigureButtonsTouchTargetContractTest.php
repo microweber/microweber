@@ -140,13 +140,4 @@ class LiveEdit0d7e2aAI1226LayersConfigureButtonsTouchTargetContractTest extends 
     // Group D — task-id markers
     // -----------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-0d7e2a',
-            $this->vueSource,
-            'AI-1226: Vue source MUST carry the task-id marker for cross-surface audit grep.'
-        );
-    }
 }

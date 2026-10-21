@@ -296,19 +296,7 @@ class LiveEditB0b48fAI711QuickAiEditLabelsContractTest extends TestCase
     // Group D — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-b0b48f', $this->quickAiEditJs);
-        $this->assertStringContainsString('task-2026-05-16-b0b48f', $this->generalStyles);
-    }
 
-    #[Test]
-    public function ai711_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('AI-711', $this->quickAiEditJs);
-        $this->assertStringContainsString('AI-711', $this->generalStyles);
-    }
 
     #[Test]
     public function legacy_tag_map_kept_as_back_compat_fallback(): void

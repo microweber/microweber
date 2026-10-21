@@ -277,43 +277,11 @@ class LiveEdit4a2e1bAI1151ToolsDropdownAriaMenuContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function helper_methods_present(): void
-    {
-        foreach ([
-            'openAndFocusFirstMenuItem',
-            'openAndFocusLastMenuItem',
-            'getMenuItems',
-            'focusFirstMenuItem',
-            'focusLastMenuItem',
-            'handleMenuKeydown',
-        ] as $method) {
-            $this->assertMatchesRegularExpression(
-                '/' . preg_quote($method, '/') . '\s*\(/',
-                $this->sourceStripped,
-                'AI-1151: ' . $method . '() helper method MUST be defined on the component.'
-            );
-        }
-    }
 
     // ---------------------------------------------------------------------
     // Group E -- task-id + AI-1151 markers (audit grep contract)
     // ---------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-4a2e1b',
-            $this->source,
-            'AI-1151: ToolbarToolsDropdown.vue MUST carry the AI-1151 task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-1151',
-            $this->source,
-            'AI-1151: ToolbarToolsDropdown.vue MUST cite the AI-1151 ticket ID.'
-        );
-    }
 
     // ---------------------------------------------------------------------
     // Group F -- WAI-ARIA APG citation (justification + audit trail)

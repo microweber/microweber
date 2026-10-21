@@ -412,30 +412,7 @@ class LiveEdit66cecaAI701PageChipContractTest extends TestCase
     // Group E — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_all_three_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-66ceca', $this->pageChip);
-        $this->assertStringContainsString('task-2026-05-16-66ceca', $this->toolbar);
-        $this->assertStringContainsString('task-2026-05-16-66ceca', $this->generalStyles);
-    }
 
-    #[Test]
-    public function ai_687_mwfield_followup_documented(): void
-    {
-        // Designer spec asked for MwField reuse; AI-687 isn't shipped
-        // so the spec deferral is documented in source for the next
-        // agent.
-        $this->assertStringContainsString(
-            'AI-687',
-            $this->pageChip,
-            'PageChip.vue must reference AI-687 (MwField) in the docblock so the followup-to-MwField refactor opportunity is discoverable from source.'
-        );
-        $this->assertStringContainsString(
-            'AI-687',
-            $this->generalStyles
-        );
-    }
 
     #[Test]
     public function css_tokens_carry_literal_fallbacks(): void
@@ -555,18 +532,4 @@ class LiveEdit66cecaAI701PageChipContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_fd85d0_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-18-fd85d0',
-            $this->pageChip,
-            'PageChip.vue must carry the task-fd85d0 marker.'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-18-fd85d0',
-            $this->generalStyles,
-            'general-styles.css must carry the task-fd85d0 marker.'
-        );
-    }
 }

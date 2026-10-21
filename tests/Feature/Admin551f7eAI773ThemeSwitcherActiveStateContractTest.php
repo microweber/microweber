@@ -220,14 +220,6 @@ class Admin551f7eAI773ThemeSwitcherActiveStateContractTest extends TestCase
     // Group D — markers + back-compat
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai773_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-551f7e', $this->blade);
-        $this->assertStringContainsString('AI-773', $this->blade);
-        $this->assertStringContainsString('task-2026-05-17-551f7e', $this->css);
-        $this->assertStringContainsString('AI-773', $this->css);
-    }
 
     #[Test]
     public function vendor_template_path_resolved(): void

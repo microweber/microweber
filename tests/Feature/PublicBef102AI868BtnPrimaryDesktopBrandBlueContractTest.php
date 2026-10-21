@@ -191,18 +191,4 @@ class PublicBef102AI868BtnPrimaryDesktopBrandBlueContractTest extends TestCase
     // Group D — task marker
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-21-bef102',
-            $this->source,
-            'public-touch.css must carry the task-bef102 marker.'
-        );
-        $this->assertStringContainsString(
-            'AI-868',
-            $this->source,
-            'public-touch.css must carry the AI-868 ticket reference.'
-        );
-    }
 }

@@ -264,14 +264,4 @@ class Admin551f7eAI774NotificationsDrawerContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_and_ai774_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-551f7e', $this->blade);
-        $this->assertStringContainsString('AI-774', $this->blade);
-        $this->assertStringContainsString('task-2026-05-17-551f7e', $this->lang);
-        $this->assertStringContainsString('AI-774', $this->lang);
-        $this->assertStringContainsString('task-2026-05-17-551f7e', $this->css);
-        $this->assertStringContainsString('AI-774', $this->css);
-    }
 }

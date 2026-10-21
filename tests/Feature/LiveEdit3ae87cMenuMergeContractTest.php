@@ -133,9 +133,4 @@ class LiveEdit3ae87cMenuMergeContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function toolbar_vue_pins_the_task_id_in_the_hidden_wrapper_comment(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-3ae87c', $this->toolbarVue);
-    }
 }

@@ -83,30 +83,7 @@ class Admin5cc439AI706StatHierarchyContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function chart_widget_carries_ai706_marker(): void
-    {
-        $this->assertStringContainsString(
-            'AI-706',
-            $this->chartWidgetClass,
-            'AI-706 marker must be present in TrafficChartWidget.php (audit grep across surfaces).'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-16-5cc439',
-            $this->chartWidgetClass,
-            'task-2026-05-16-5cc439 marker must be present in TrafficChartWidget.php.'
-        );
-    }
 
-    #[Test]
-    public function ai706a_followup_documented_in_chart_widget(): void
-    {
-        $this->assertStringContainsString(
-            'AI-706a',
-            $this->chartWidgetClass,
-            'AI-706a follow-up candidate (KPIs left-rail INSIDE the chart card) must be flagged in TrafficChartWidget docblock.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group B — Secondary strip grid responsiveness
@@ -201,22 +178,7 @@ class Admin5cc439AI706StatHierarchyContractTest extends TestCase
     // Group D — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-5cc439', $this->chartWidgetClass);
-        $this->assertStringContainsString('task-2026-05-16-5cc439', $this->generalStyles);
-    }
 
-    #[Test]
-    public function ai706a_followup_documented_in_css(): void
-    {
-        $this->assertStringContainsString(
-            'AI-706a',
-            $this->generalStyles,
-            'AI-706a follow-up candidate must be flagged in general-styles.css comments.'
-        );
-    }
 
     #[Test]
     public function css_tokens_carry_literal_fallbacks(): void

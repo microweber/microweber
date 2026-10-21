@@ -65,12 +65,4 @@ class AddContentSearch1155DarkTextContractTest extends TestCase
         );
     }
 
-    public function test_ai_1155_task_id_marker_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1155',
-            $this->blade,
-            'AI-1155: task-id marker comment must be present adjacent to the fix'
-        );
-    }
 }

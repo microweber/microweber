@@ -98,14 +98,6 @@ class FloatingToolbar1149TagsA11yContractTest extends TestCase
         );
     }
 
-    public function test_ai_1171_lineage_marker_preserved_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-27-df6d28 / AI-1171',
-            $this->handleMenuJs,
-            'AI-1149: AI-1171 lineage marker comment must be preserved adjacent to the this.button factory'
-        );
-    }
 
     // --- Built bundle: cross-pipeline regression guard ---
 

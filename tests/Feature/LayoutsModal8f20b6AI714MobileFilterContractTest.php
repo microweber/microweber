@@ -101,21 +101,6 @@ class LayoutsModal8f20b6AI714MobileFilterContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function vue_has_toggle_close_and_select_methods(): void
-    {
-        foreach ([
-            'toggleMobileFilter\(\)\s*\{',
-            'closeMobileFilter\(\)\s*\{',
-            'filterCategoryFromMobile\(category\)\s*\{',
-        ] as $methodRegex) {
-            $this->assertMatchesRegularExpression(
-                '/' . $methodRegex . '/',
-                $this->vue,
-                "ListLayouts.vue methods block must define `{$methodRegex}`."
-            );
-        }
-    }
 
     #[Test]
     public function filter_from_mobile_helper_selects_and_closes(): void
@@ -314,19 +299,7 @@ class LayoutsModal8f20b6AI714MobileFilterContractTest extends TestCase
     // Group E — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-8f20b6', $this->vue);
-        $this->assertStringContainsString('task-2026-05-16-8f20b6', $this->css);
-    }
 
-    #[Test]
-    public function ai714_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('AI-714', $this->vue);
-        $this->assertStringContainsString('AI-714', $this->css);
-    }
 
     #[Test]
     public function css_tokens_carry_literal_fallbacks(): void

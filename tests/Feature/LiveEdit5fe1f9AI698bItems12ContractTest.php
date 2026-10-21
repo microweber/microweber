@@ -304,28 +304,6 @@ class LiveEdit5fe1f9AI698bItems12ContractTest extends TestCase
     // Group C — markers + back-compat
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_surfaces(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-16-5fe1f9',
-            $this->resolutionSwitch,
-            'AI-698b task-id marker must be present in ResolutionSwitch.'
-        );
-        $this->assertStringContainsString(
-            'AI-698b',
-            $this->resolutionSwitch
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-16-5fe1f9',
-            $this->toolbarToolsDropdown,
-            'AI-698b task-id marker must be present in ToolbarToolsDropdown.'
-        );
-        $this->assertStringContainsString(
-            'AI-698b',
-            $this->toolbarToolsDropdown
-        );
-    }
 
     #[Test]
     public function setup_wizard_more_settings_and_other_items_remain(): void

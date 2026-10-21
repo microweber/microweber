@@ -136,12 +136,4 @@ class AdminCategories1092EmptyStateContractTest extends TestCase
         );
     }
 
-    public function test_ai_1092_task_id_marker_in_categories_list(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1092',
-            $this->categoriesList,
-            'AI-1092: task-id marker comment must be present adjacent to the count-gate + empty-state chrome in mw-categories-list.blade.php'
-        );
-    }
 }

@@ -64,12 +64,6 @@ class ESE06f3f4AI725PanelContentDarkModeContractTest extends TestCase
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present_in_ese_css(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-06f3f4', $this->ese,
-            'element-style-editor.css must carry the AI-725 task marker.');
-    }
 
     // ─── Fix 9: Typographic preset thumbnails ─────────────────────────────────
 

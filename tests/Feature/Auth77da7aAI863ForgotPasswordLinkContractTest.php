@@ -114,13 +114,6 @@ class Auth77da7aAI863ForgotPasswordLinkContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function source_carries_ai_863_task_marker(): void
-    {
-        $source = $this->authSource();
-        $this->assertStringContainsString('task-2026-05-18-77da7a', $source, 'AI-863 task-id marker required for cross-surface grep.');
-        $this->assertStringContainsString('AI-863', $source);
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group B — JS intercept block removed

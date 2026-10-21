@@ -107,16 +107,6 @@ class Admin008d91AI731PostsNavigationContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function post_resource_source_has_ai731_marker(): void
-    {
-        // Audit-grep landing point.
-        $src = (string) file_get_contents(base_path(
-            'Modules/Post/Filament/Admin/Resources/PostResource.php'
-        ));
-        $this->assertStringContainsString('task-2026-05-16-008d91', $src);
-        $this->assertStringContainsString('AI-731', $src);
-    }
 
     #[Test]
     public function post_resource_navigation_icon_property_typed_for_filament_v5(): void

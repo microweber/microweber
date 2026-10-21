@@ -274,20 +274,6 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai803_v2_cites_ai848_sister_pattern(): void
-    {
-        // The AI-803 v2 Slice B mirrors AI-848 Slice A (auth-header
-        // `.mw-auth-logo` shrink-to-fit cycle). 3rd-instance recurrence
-        // of Stage-2 sub-variant 4 (CSS-rules-mutual-dependency). The
-        // docblock must cite AI-848 so future audits see the family
-        // lineage in one pass.
-        $this->assertStringContainsString(
-            'AI-848',
-            $this->template,
-            'AI-803 CHANGE v2 docblock must cite AI-848 as sister-pattern (same Stage-2 sub-variant 4 — CSS-rules-mutual-dependency shrink-to-fit cycle, just at a different DOM level).'
-        );
-    }
 
     #[Test]
     public function logo_module_default_margin_preserved_cross_viewport(): void
@@ -414,28 +400,5 @@ class LogoFa5dc3AI803LogoVisibilityContractTest extends TestCase
     // Group E  markers + lineage
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai803_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-fa5dc3', $this->template);
-        $this->assertStringContainsString('AI-803', $this->template);
-    }
 
-    #[Test]
-    public function docblock_cites_sibling_tickets_for_audit_trail(): void
-    {
-        // Designer's dispatch flagged AI-804 + AI-805 as same-template
-        // siblings. Cite them in the docblock so future audits find
-        // the full ticket-family via grep.
-        $this->assertStringContainsString(
-            'AI-804',
-            $this->template,
-            'Docblock must cite AI-804 (sibling alt="" WCAG ticket on the same template).'
-        );
-        $this->assertStringContainsString(
-            'AI-805',
-            $this->template,
-            'Docblock must cite AI-805 (sibling dead-blade-branch ticket on the same template).'
-        );
-    }
 }

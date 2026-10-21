@@ -387,34 +387,5 @@ class LiveEdit7a9913AI798MainDrawerHierarchyContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_and_ai798_markers_present_across_three_surfaces(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-7a9913', $this->drawer);
-        $this->assertStringContainsString('AI-798', $this->drawer);
-        $this->assertStringContainsString('task-2026-05-17-7a9913', $this->pageChip);
-        $this->assertStringContainsString('AI-798', $this->pageChip);
-        $this->assertStringContainsString('task-2026-05-17-7a9913', $this->css);
-        $this->assertStringContainsString('AI-798', $this->css);
-    }
 
-    #[Test]
-    public function drawer_docblock_cites_ai700_ai708_ai701_lineage(): void
-    {
-        $this->assertStringContainsString(
-            'AI-700',
-            $this->drawer,
-            'MainDrawer docblock must cite AI-700 (original drawer ship).'
-        );
-        $this->assertStringContainsString(
-            'AI-708',
-            $this->drawer,
-            'MainDrawer docblock must cite AI-708 (sidebar disambiguation lineage).'
-        );
-        $this->assertStringContainsString(
-            'AI-701',
-            $this->drawer,
-            'MainDrawer docblock must cite AI-701 (PageChip — receives mwOpenPageChip CustomEvent).'
-        );
-    }
 }

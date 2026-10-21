@@ -176,10 +176,4 @@ class LiveEdit46d1acAI741ImageModalCopyContractTest extends TestCase
     // Group D — markers + deferred-followup hints
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai741_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-46d1ac', $this->filepicker);
-        $this->assertStringContainsString('AI-741', $this->filepicker);
-    }
 }

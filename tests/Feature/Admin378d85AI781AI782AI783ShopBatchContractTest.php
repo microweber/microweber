@@ -206,17 +206,4 @@ class Admin378d85AI781AI782AI783ShopBatchContractTest extends TestCase
     // Group D — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai_markers_present_across_ships(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-378d85', $this->contentResource);
-        $this->assertStringContainsString('AI-781', $this->contentResource);
-        $this->assertStringContainsString('task-2026-05-17-378d85', $this->listProducts);
-        $this->assertStringContainsString('AI-782', $this->listProducts);
-        $this->assertStringContainsString('task-2026-05-17-378d85', $this->listOrders);
-        $this->assertStringContainsString('AI-783', $this->listOrders);
-        $this->assertStringContainsString('task-2026-05-17-378d85', $this->css);
-        $this->assertStringContainsString('AI-782', $this->css);
-        $this->assertStringContainsString('AI-783', $this->css);
-    }
 }

@@ -149,18 +149,4 @@ class Admin92a3f1AI1061LoginRegisterDescriptionContractTest extends TestCase
     // Group E — Task-id marker present
     // -----------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-92a3f1',
-            $this->source,
-            'AI-1061: source MUST carry the task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-1061',
-            $this->source,
-            'AI-1061: source MUST cite the AI-1061 ticket ID.'
-        );
-    }
 }

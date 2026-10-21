@@ -117,11 +117,6 @@ class Auth093946AI757BackgroundAI735ScopeContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-093946', $this->authSrc);
-    }
 
     // ─── AI-735 scope expansion: /admin/modules + /admin/shop/orders ─────────
 

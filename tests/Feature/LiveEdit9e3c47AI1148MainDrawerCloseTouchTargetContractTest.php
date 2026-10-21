@@ -160,20 +160,6 @@ class LiveEdit9e3c47AI1148MainDrawerCloseTouchTargetContractTest extends TestCas
     // Group E -- task-id + AI-1148 markers (audit grep contract)
     // ---------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-9e3c47',
-            $this->sourceCss,
-            'AI-1148: general-styles.css MUST carry the AI-1148 task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-1148',
-            $this->sourceCss,
-            'AI-1148: general-styles.css MUST cite the AI-1148 ticket ID.'
-        );
-    }
 
     // ---------------------------------------------------------------------
     // Group F -- WCAG citation present (justification + audit trail)

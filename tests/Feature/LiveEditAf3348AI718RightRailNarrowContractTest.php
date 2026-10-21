@@ -211,29 +211,10 @@ class LiveEditAf3348AI718RightRailNarrowContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai718b_followup_documented(): void
-    {
-        $this->assertStringContainsString(
-            'AI-718b',
-            $this->css,
-            'AI-718b follow-up candidate (Option B — collapse rail + bottom-sheet, blocked on AI-685) must be flagged in source comments.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group E — Markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-af3348', $this->css);
-    }
 
-    #[Test]
-    public function ai718_marker_present(): void
-    {
-        $this->assertStringContainsString('AI-718', $this->css);
-    }
 }

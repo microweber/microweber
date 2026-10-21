@@ -234,25 +234,4 @@ class FilamentSectionSec813AI1202CollapseBtnAccessibleNameContractTest extends T
         );
     }
 
-    #[Test]
-    public function task_markers_present_in_blade(): void
-    {
-        $this->assertStringContainsString(
-            'AI-1202',
-            $this->blade,
-            'Override MUST carry the AI-1202 task marker so future audits can locate the fix lineage'
-        );
-
-        $this->assertStringContainsString(
-            'task-2026-05-31-sec813',
-            $this->blade,
-            'Override MUST carry the task-2026-05-31-sec813 marker for grep-ability'
-        );
-
-        $this->assertStringContainsString(
-            'AI-1201',
-            $this->blade,
-            'Override SHOULD cite AI-1201 in the docblock so the sister-fix lineage (Toggle accessible-name + Tabs aria-selected + Toggle aria-checked) is discoverable from this file'
-        );
-    }
 }

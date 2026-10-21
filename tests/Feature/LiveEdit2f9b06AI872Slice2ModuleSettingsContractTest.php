@@ -69,12 +69,6 @@ class LiveEdit2f9b06AI872Slice2ModuleSettingsContractTest extends TestCase
             'VideoModuleSettings must have options.hide_controls Toggle (semantic inverse of "Show controls").');
     }
 
-    #[Test]
-    public function video_task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-slice2-ai872', $this->video,
-            'VideoModuleSettings must carry the AI-872 Slice 2 task-id marker.');
-    }
 
     // ─── Slider: new Playback tab fields ─────────────────────────────────────
 
@@ -131,12 +125,6 @@ class LiveEdit2f9b06AI872Slice2ModuleSettingsContractTest extends TestCase
             'All 4 new Slider Playback fields must call ->live().');
     }
 
-    #[Test]
-    public function slider_task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-slice2-ai872', $this->slider,
-            'SliderModuleSettings must carry the AI-872 Slice 2 task-id marker.');
-    }
 
     // ─── GoogleMaps: zoom Select + map type + marker ─────────────────────────
 
@@ -186,12 +174,6 @@ class LiveEdit2f9b06AI872Slice2ModuleSettingsContractTest extends TestCase
             'GoogleMapsModuleSettings must have options.data-show-marker Toggle.');
     }
 
-    #[Test]
-    public function maps_task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-slice2-ai872', $this->maps,
-            'GoogleMapsModuleSettings must carry the AI-872 Slice 2 task-id marker.');
-    }
 
     // ─── Embed: code type Select + textarea resize ───────────────────────────
 
@@ -230,10 +212,4 @@ class LiveEdit2f9b06AI872Slice2ModuleSettingsContractTest extends TestCase
             'options.code_type Select must appear before options.source_code Textarea.');
     }
 
-    #[Test]
-    public function embed_task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-slice2-ai872', $this->embed,
-            'EmbedModuleSettings must carry the AI-872 Slice 2 task-id marker.');
-    }
 }

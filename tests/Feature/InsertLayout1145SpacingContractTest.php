@@ -137,21 +137,5 @@ class InsertLayout1145SpacingContractTest extends TestCase
         );
     }
 
-    public function test_ai_1145_task_id_marker_in_vue_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1145',
-            $this->vue,
-            'AI-1145: task-id marker comment must be present adjacent to the masonry MasonryWall fix in ListLayouts.vue'
-        );
-    }
 
-    public function test_ai_1145_task_id_marker_in_css_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1145',
-            $this->css,
-            'AI-1145: task-id marker comment must be present adjacent to the .modules-list-block fix in index.css'
-        );
-    }
 }

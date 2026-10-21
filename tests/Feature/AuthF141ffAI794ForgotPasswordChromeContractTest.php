@@ -351,34 +351,5 @@ class AuthF141ffAI794ForgotPasswordChromeContractTest extends TestCase
     // Group D — markers + lineage
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai794_markers_present_across_three_surfaces(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-f141ff', $this->layout);
-        $this->assertStringContainsString('AI-794', $this->layout);
-        $this->assertStringContainsString('task-2026-05-17-f141ff', $this->forgot);
-        $this->assertStringContainsString('AI-794', $this->forgot);
-        $this->assertStringContainsString('task-2026-05-17-f141ff', $this->reset);
-        $this->assertStringContainsString('AI-794', $this->reset);
-    }
 
-    #[Test]
-    public function layout_docblock_cites_lineage_tickets(): void
-    {
-        $this->assertStringContainsString(
-            'AI-757',
-            $this->layout,
-            'Layout docblock should cite AI-757 (login parity) as the sibling auth-surface precedent.'
-        );
-        $this->assertStringContainsString(
-            'AI-789',
-            $this->layout,
-            'Layout docblock should cite AI-789 (reusable empty-state chrome) as the chrome-pattern precedent.'
-        );
-        $this->assertStringContainsString(
-            'AI-793',
-            $this->layout,
-            'Layout docblock should cite AI-793 (admin 404 styled card) as the sister styled-error surface.'
-        );
-    }
 }

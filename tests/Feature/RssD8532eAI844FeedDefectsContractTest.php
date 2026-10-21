@@ -204,12 +204,6 @@ class RssD8532eAI844FeedDefectsContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-d8532e', $this->controller);
-        $this->assertStringContainsString('task-2026-05-22-d8532e', $this->atomTemplate);
-    }
 
     // ─── RSS 2.0 structural guards ────────────────────────────────────────────
 

@@ -270,12 +270,6 @@ class AddContent968a71AI692TwoGroupLayoutContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-968a71', $this->page);
-        $this->assertStringContainsString('task-2026-05-16-968a71', $this->blade);
-    }
 
     #[Test]
     public function ai691_carry_over_titles_still_intact(): void

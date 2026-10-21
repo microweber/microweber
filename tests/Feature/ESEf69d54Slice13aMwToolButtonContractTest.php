@@ -193,10 +193,4 @@ class ESEf69d54Slice13aMwToolButtonContractTest extends TestCase
             'ESE built JS bundle must carry the migrated italic-toggle template.');
     }
 
-    #[Test]
-    public function task_id_marker_present_in_css_and_vue(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-f69d54', $this->src);
-        $this->assertStringContainsString('task-2026-05-16-f69d54', $this->typographyVue);
-    }
 }

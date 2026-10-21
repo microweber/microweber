@@ -306,19 +306,7 @@ class LayoutsModalC4893bAI716CategoryHierarchyContractTest extends TestCase
     // Group F — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-c4893b', $this->vue);
-        $this->assertStringContainsString('task-2026-05-16-c4893b', $this->css);
-    }
 
-    #[Test]
-    public function ai716_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('AI-716', $this->vue);
-        $this->assertStringContainsString('AI-716', $this->css);
-    }
 
     #[Test]
     public function css_tokens_carry_literal_fallbacks(): void

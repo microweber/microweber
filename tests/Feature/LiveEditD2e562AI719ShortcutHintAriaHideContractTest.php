@@ -218,14 +218,4 @@ class LiveEditD2e562AI719ShortcutHintAriaHideContractTest extends TestCase
     // Group D — Markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_undo_redo(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-16-d2e562',
-            $this->undoRedo,
-            'AI-719 task-id marker must be present in UndoRedo.vue source comments (audit grep).'
-        );
-        $this->assertStringContainsString('AI-719', $this->undoRedo);
-    }
 }

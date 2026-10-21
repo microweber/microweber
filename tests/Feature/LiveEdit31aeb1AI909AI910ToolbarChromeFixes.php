@@ -97,15 +97,6 @@ class LiveEdit31aeb1AI909AI910ToolbarChromeFixes extends TestCase
         );
     }
 
-    #[Test]
-    public function ai909_task_marker_in_css(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-31aeb1',
-            $this->css,
-            'live-edit-classes.css must carry the task-2026-05-22-31aeb1 marker.'
-        );
-    }
 
     // ─── AI-910: page chip blur on open ──────────────────────────────────
 
@@ -163,13 +154,4 @@ class LiveEdit31aeb1AI909AI910ToolbarChromeFixes extends TestCase
         );
     }
 
-    #[Test]
-    public function ai910_task_marker_in_vue(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-31aeb1',
-            $this->vue,
-            'PageChip.vue must carry the task-2026-05-22-31aeb1 marker.'
-        );
-    }
 }

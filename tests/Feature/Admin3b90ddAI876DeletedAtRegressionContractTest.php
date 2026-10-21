@@ -108,27 +108,6 @@ class Admin3b90ddAI876DeletedAtRegressionContractTest extends TestCase
 
     // ─── Task marker ─────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_in_list_products(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-3b90dd', $this->listProducts,
-            'ListProducts.php must carry the AI-876 task-id marker.'
-        );
-    }
 
-    #[Test]
-    public function task_marker_in_list_pages(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-3b90dd', $this->listPages,
-            'ListPages.php must carry the AI-876 task-id marker.'
-        );
-    }
 
-    #[Test]
-    public function task_marker_in_content_types_page(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-3b90dd', $this->contentTypesPage,
-            'ContentTypesPage.php must carry the AI-876 task-id marker.'
-        );
-    }
 }

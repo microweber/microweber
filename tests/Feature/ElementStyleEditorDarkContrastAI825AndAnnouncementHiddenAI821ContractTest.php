@@ -50,13 +50,6 @@ class ElementStyleEditorDarkContrastAI825AndAnnouncementHiddenAI821ContractTest 
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-e8b42c', $this->src,
-            'element-style-editor.css must carry the AI-821+AI-825 task marker.'
-        );
-    }
 
     // ─── AI-821: .mw-ese-announce visually hidden ──────────────────────────────
 

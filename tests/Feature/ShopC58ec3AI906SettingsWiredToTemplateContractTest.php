@@ -149,25 +149,7 @@ class ShopC58ec3AI906SettingsWiredToTemplateContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present_in_default_blade(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-c58ec3',
-            $this->defaultRaw,
-            'default.blade.php must carry the AI-906 task marker.'
-        );
-    }
 
-    #[Test]
-    public function task_marker_present_in_product_card(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-c58ec3',
-            $this->cardRaw,
-            'product-card.blade.php must carry the AI-906 task marker.'
-        );
-    }
 
     // ─── Tier-2: DOM structure assertions ────────────────────────────────────
     // Position-based approach: verify that key HTML markers appear AFTER their

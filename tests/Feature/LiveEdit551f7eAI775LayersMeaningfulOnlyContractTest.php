@@ -240,14 +240,6 @@ class LiveEdit551f7eAI775LayersMeaningfulOnlyContractTest extends TestCase
     // Group E — markers + back-compat preservation
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai775_markers_present_in_source(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-551f7e', $this->domtreeSource);
-        $this->assertStringContainsString('AI-775', $this->domtreeSource);
-        $this->assertStringContainsString('task-2026-05-17-551f7e', $this->consumerSource);
-        $this->assertStringContainsString('AI-775', $this->consumerSource);
-    }
 
     #[Test]
     public function legacy_dot_edit_selector_default_preserved(): void

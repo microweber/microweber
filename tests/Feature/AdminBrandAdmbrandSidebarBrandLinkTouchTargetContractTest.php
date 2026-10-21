@@ -84,11 +84,6 @@ class AdminBrandAdmbrandSidebarBrandLinkTouchTargetContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function brand_link_rule_carries_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-30-admbrand', $this->css);
-    }
 
     #[Test]
     public function brand_link_rule_is_scoped_to_admin_panel_not_global(): void

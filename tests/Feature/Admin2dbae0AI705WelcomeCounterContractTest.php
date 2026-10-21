@@ -345,13 +345,6 @@ class Admin2dbae0AI705WelcomeCounterContractTest extends TestCase
     // Group D — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_all_three_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-2dbae0', $this->widgetClass);
-        $this->assertStringContainsString('task-2026-05-16-2dbae0', $this->widgetBlade);
-        $this->assertStringContainsString('task-2026-05-16-2dbae0', $this->generalStyles);
-    }
 
     #[Test]
     public function css_tokens_carry_literal_fallbacks(): void

@@ -133,11 +133,6 @@ class Auth1dcb94AI757AdminLoginBrandLogoContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-1dcb94', $this->src);
-    }
 
     // ─── AI-757 regression: forgot-password link (AI-863) still present ──────
 

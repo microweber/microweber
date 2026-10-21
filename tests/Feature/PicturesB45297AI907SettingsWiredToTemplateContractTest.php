@@ -139,15 +139,6 @@ class PicturesB45297AI907SettingsWiredToTemplateContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-b45297',
-            $this->raw,
-            'default.blade.php must carry the AI-907 task marker.'
-        );
-    }
 
     // ─── Tier-2: DOM structure position assertions ────────────────────────────
 

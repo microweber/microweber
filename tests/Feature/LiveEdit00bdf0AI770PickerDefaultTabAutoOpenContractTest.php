@@ -182,10 +182,4 @@ class LiveEdit00bdf0AI770PickerDefaultTabAutoOpenContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_and_ai770_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-00bdf0', $this->filepicker);
-        $this->assertStringContainsString('AI-770', $this->filepicker);
-    }
 }

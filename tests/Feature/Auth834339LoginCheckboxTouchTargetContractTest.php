@@ -85,15 +85,6 @@ class Auth834339LoginCheckboxTouchTargetContractTest extends TestCase
 
     // ─── Task marker + regression guards ─────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-834339',
-            $this->src,
-            'admin/auth/index.blade.php must carry the task-2026-05-22-834339 marker.'
-        );
-    }
 
     #[Test]
     public function ai863_forgot_password_anchor_still_present(): void

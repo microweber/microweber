@@ -134,11 +134,6 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function spacing_carries_task_id_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-c3d0ed', $this->spacingVue);
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group B — ESE 1.3b Align segmented strip
@@ -178,11 +173,6 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
         }
     }
 
-    #[Test]
-    public function align_carries_task_id_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-c3d0ed', $this->alignVue);
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group C — AI-693 monochrome icon at rest (per-type tinting removed)
@@ -241,11 +231,6 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function modal_blade_carries_task_id_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-c3d0ed', $this->modalBlade);
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group D — AI-693 accent contract CSS in admin-side style block
@@ -330,9 +315,4 @@ class ESEc3d0edSlice13bAI693ContractTest extends TestCase
         }
     }
 
-    #[Test]
-    public function admin_style_blade_carries_task_id_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-c3d0ed', $this->adminStyleBlade);
-    }
 }

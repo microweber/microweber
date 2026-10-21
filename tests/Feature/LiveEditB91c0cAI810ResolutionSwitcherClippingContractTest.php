@@ -221,12 +221,4 @@ class LiveEditB91c0cAI810ResolutionSwitcherClippingContractTest extends TestCase
     // Group D  task-id markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai810_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-b91c0c', $this->toolbarVue);
-        $this->assertStringContainsString('AI-810', $this->toolbarVue);
-        $this->assertStringContainsString('task-2026-05-17-b91c0c', $this->indexCss);
-        $this->assertStringContainsString('AI-810', $this->indexCss);
-    }
 }

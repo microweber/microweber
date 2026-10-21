@@ -391,24 +391,6 @@ class LiveEdit505ed5AI708HeadingDisambiguationContractTest extends TestCase
     // Group E — Markers + naming-hygiene baseline
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function all_modified_files_carry_task_id_marker(): void
-    {
-        $files = [
-            'RightSidebar.vue' => $this->rightSidebar,
-            'bootstrap.js' => $this->bootstrapJs,
-            'live-edit.blade.php' => $this->liveEditBlade,
-            'SettingsCustomize.vue' => $this->settingsCustomize,
-            'LeftSidebar.vue' => $this->leftSidebar,
-        ];
-        foreach ($files as $name => $contents) {
-            $this->assertStringContainsString(
-                'task-2026-05-16-505ed5',
-                $contents,
-                "{$name} must carry the task-2026-05-16-505ed5 marker (single-pass audit grep)."
-            );
-        }
-    }
 
     #[Test]
     public function element_style_editor_naming_kept_separate(): void

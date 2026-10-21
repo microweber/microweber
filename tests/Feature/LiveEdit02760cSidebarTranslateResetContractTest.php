@@ -82,11 +82,6 @@ class LiveEdit02760cSidebarTranslateResetContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_marker_present_for_audit_grep(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-02760c', $this->blade);
-    }
 
     #[Test]
     public function transition_speed_token_unchanged(): void

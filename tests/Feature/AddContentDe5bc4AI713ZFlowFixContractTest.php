@@ -203,16 +203,6 @@ class AddContentDe5bc4AI713ZFlowFixContractTest extends TestCase
     // Group D — Markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-16-de5bc4',
-            $this->css,
-            'AI-713 task-id marker must be present in live-edit-classes.css for audit grep.'
-        );
-        $this->assertStringContainsString('AI-713', $this->css);
-    }
 
     #[Test]
     public function lessons_lineage_cited_in_docblock(): void

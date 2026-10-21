@@ -292,38 +292,6 @@ class Menu4f4f83AI852AI853EmptyStateBundleContractTest extends TestCase
     //           citation for cross-surface audit grep)
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    #[DataProvider('bundleTemplateProvider')]
-    public function task_id_markers_present(string $relativePath): void
-    {
-        $source = $this->read($relativePath);
-
-        $this->assertStringContainsString(
-            'task-2026-05-17-4f4f83',
-            $source,
-            "AI-852: {$relativePath} MUST carry the AI-852 task-id marker for cross-surface audit grep."
-        );
-        $this->assertStringContainsString(
-            'AI-852',
-            $source,
-            "AI-852: {$relativePath} MUST cite the AI-852 ticket ID."
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-17-bdba1a',
-            $source,
-            "AI-853: {$relativePath} MUST carry the AI-853 task-id marker (bundled ship)."
-        );
-        $this->assertStringContainsString(
-            'AI-853',
-            $source,
-            "AI-853: {$relativePath} MUST cite the AI-853 ticket ID."
-        );
-        $this->assertStringContainsString(
-            'AI-809',
-            $source,
-            "AI-852: {$relativePath} MUST cite AI-809 supersession lineage (the bundle removes \$menu_name interpolation entirely -- stronger than the AI-809 e() wrap)."
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group E — sub-family codification: "promise without delivery" UX

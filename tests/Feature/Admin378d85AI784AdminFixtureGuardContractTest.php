@@ -212,13 +212,4 @@ class Admin378d85AI784AdminFixtureGuardContractTest extends TestCase
     // Group F — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai784_markers_present_in_helper(): void
-    {
-        $source = (string) file_get_contents(base_path(
-            'packages/microweber-filament/src/Support/AdminFixtureGuard.php'
-        ));
-        $this->assertStringContainsString('task-2026-05-17-378d85', $source);
-        $this->assertStringContainsString('AI-784', $source);
-    }
 }

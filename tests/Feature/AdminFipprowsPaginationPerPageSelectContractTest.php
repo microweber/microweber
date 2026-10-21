@@ -97,11 +97,6 @@ class AdminFipprowsPaginationPerPageSelectContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function fipprows_block_carries_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-30-fipprows', $this->css);
-    }
 
     #[Test]
     public function fipprows_rules_are_scoped_to_admin_panels_not_global(): void

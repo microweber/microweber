@@ -339,49 +339,7 @@ class FilamentFileUploadFlu814AI1203FileUploadClearBtnAccessibleNameContractTest
         );
     }
 
-    #[Test]
-    public function task_markers_present_in_single_variant(): void
-    {
-        $this->assertStringContainsString(
-            'AI-1203',
-            $this->singleBlade,
-            'Override MUST carry the AI-1203 task marker so future audits can locate the fix lineage'
-        );
 
-        $this->assertStringContainsString(
-            'task-2026-05-31-flu814',
-            $this->singleBlade,
-            'Override MUST carry the task-2026-05-31-flu814 marker for grep-ability'
-        );
-
-        $this->assertStringContainsString(
-            'AI-1202',
-            $this->singleBlade,
-            'Override SHOULD cite AI-1202 in the docblock so the sister-fix lineage (Section collapse-btn accessible-name + Toggle accessible-name + Toggle aria-checked + Tabs aria-selected) is discoverable from this file'
-        );
-    }
-
-    #[Test]
-    public function task_markers_present_in_multi_variant(): void
-    {
-        $this->assertStringContainsString(
-            'AI-1203',
-            $this->multiBlade,
-            'Multi-variant override MUST carry the AI-1203 task marker'
-        );
-
-        $this->assertStringContainsString(
-            'task-2026-05-31-flu814',
-            $this->multiBlade,
-            'Multi-variant override MUST carry the task-2026-05-31-flu814 marker'
-        );
-
-        $this->assertStringContainsString(
-            'AI-1202',
-            $this->multiBlade,
-            'Multi-variant override SHOULD cite AI-1202 in the docblock for sister-fix lineage discoverability'
-        );
-    }
 
     private function extractBetween(string $haystack, string $startMarker, string $endMarker): string
     {

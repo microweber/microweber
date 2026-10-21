@@ -179,17 +179,7 @@ class LiveEditE0d0f1AI717StickySaveContractTest extends TestCase
     // Group D — Markers + scope hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-e0d0f1', $this->css);
-    }
 
-    #[Test]
-    public function ai717_marker_present(): void
-    {
-        $this->assertStringContainsString('AI-717', $this->css);
-    }
 
     #[Test]
     public function selectors_scoped_to_live_edit_page(): void

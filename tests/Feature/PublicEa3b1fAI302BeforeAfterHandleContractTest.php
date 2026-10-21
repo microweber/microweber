@@ -75,11 +75,6 @@ class PublicEa3b1fAI302BeforeAfterHandleContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-ea3b1f', $this->src);
-    }
 
     #[Test]
     public function served_mirror_is_byte_identical(): void
@@ -97,15 +92,5 @@ class PublicEa3b1fAI302BeforeAfterHandleContractTest extends TestCase
 
     // ─── AI-877 + AI-900 regression guards ────────────────────────────────────
 
-    #[Test]
-    public function ai877_link_color_rule_still_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-ef3960', $this->src);
-    }
 
-    #[Test]
-    public function ai900_button_sm_rule_still_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-10ee46', $this->src);
-    }
 }

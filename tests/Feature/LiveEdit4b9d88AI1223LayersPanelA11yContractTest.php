@@ -86,24 +86,6 @@ class LiveEdit4b9d88AI1223LayersPanelA11yContractTest extends TestCase
         return (string) preg_replace('~/\*[\s\S]*?\*/~', '', $source);
     }
 
-    public function test_task_id_marker_present_in_all_three_files(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-4b9d88 / AI-1223',
-            $this->domtreeJs,
-            'AI-1223: task-id marker must be present in domtree.js'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-28-4b9d88 / AI-1223',
-            $this->liveEditDomTreeJs,
-            'AI-1223: task-id marker must be present in live-edit-dom-tree.js'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-28-4b9d88 / AI-1223',
-            $this->domTreeCss,
-            'AI-1223: task-id marker must be present in dom-tree.css'
-        );
-    }
 
     public function test_root_ul_declares_role_tree_and_aria_labelledby(): void
     {

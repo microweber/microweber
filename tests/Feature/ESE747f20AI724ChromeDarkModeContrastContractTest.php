@@ -68,19 +68,7 @@ class ESE747f20AI724ChromeDarkModeContrastContractTest extends TestCase
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present_in_ese_css(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-747f20', $this->ese,
-            'element-style-editor.css must carry the AI-724 task marker.');
-    }
 
-    #[Test]
-    public function task_marker_present_in_live_edit_classes(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-747f20', $this->leCss,
-            'live-edit-classes.css must carry the AI-724 task marker.');
-    }
 
     // ─── Fix 1: Collapsed accordion section labels ────────────────────────────
 

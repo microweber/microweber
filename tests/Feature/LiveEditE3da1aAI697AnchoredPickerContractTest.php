@@ -237,14 +237,6 @@ class LiveEditE3da1aAI697AnchoredPickerContractTest extends TestCase
     // Group E — Markers + token-fallback hygiene
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_admin_style_block(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-16-e3da1a',
-            $this->blade
-        );
-    }
 
     #[Test]
     public function every_token_var_has_literal_fallback(): void

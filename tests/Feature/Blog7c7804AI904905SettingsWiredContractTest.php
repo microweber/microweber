@@ -63,26 +63,8 @@ class Blog7c7804AI904905SettingsWiredContractTest extends TestCase
 
     // ─── Task markers ─────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_in_component(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-7c7804', $this->component,
-            'BlogComponent.php must carry the AI-904/AI-905 task marker.');
-    }
 
-    #[Test]
-    public function task_marker_in_default_blade(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-7c7804', $this->defaultBlade,
-            'default.blade.php must carry the AI-904/AI-905 task marker.');
-    }
 
-    #[Test]
-    public function task_marker_in_post_card_blade(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-7c7804', $this->cardBlade,
-            'post-card.blade.php must carry the AI-904/AI-905 task marker.');
-    }
 
     // ─── AI-904: BlogComponent passes layout to view ──────────────────────────
 

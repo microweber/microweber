@@ -181,16 +181,6 @@ class LiveEdit3b014aAI727EseDuplicateH3ContractTest extends TestCase
     // Group C — Markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-16-3b014a',
-            $this->bootstrap,
-            'AI-727 task-id marker must be present in bootstrap.js source comments.'
-        );
-        $this->assertStringContainsString('AI-727', $this->bootstrap);
-    }
 
     #[Test]
     public function ai708_lineage_cited_in_docblock(): void

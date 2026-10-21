@@ -149,26 +149,4 @@ class AdminA12031AI817CategorySrOnlyLabelContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_markers_present_in_consumer_surfaces(): void
-    {
-        $surfaces = [
-            'Modules/Category/Filament/Admin/Resources/CategoryResource.php',
-            'packages/microweber-filament-theme/resources/assets/css/microweber/general-styles.css',
-        ];
-
-        foreach ($surfaces as $relativePath) {
-            $source = $this->fileContents($relativePath);
-            $this->assertStringContainsString(
-                'AI-817',
-                $source,
-                "{$relativePath} must carry the AI-817 task marker so future audits can locate the fix lineage"
-            );
-            $this->assertStringContainsString(
-                'task-2026-05-31',
-                $source,
-                "{$relativePath} must carry the task-2026-05-31 marker for grep-ability across surfaces"
-            );
-        }
-    }
 }

@@ -96,12 +96,4 @@ class AddContentCard1153ContrastContractTest extends TestCase
         );
     }
 
-    public function test_ai_1153_task_id_marker_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1153',
-            $this->blade,
-            'AI-1153: task-id marker comment must be present adjacent to the fix'
-        );
-    }
 }

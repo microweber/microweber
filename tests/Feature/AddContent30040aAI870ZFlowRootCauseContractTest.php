@@ -230,18 +230,4 @@ class AddContent30040aAI870ZFlowRootCauseContractTest extends TestCase
     // Group D — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_in_both_files(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-21-30040a',
-            $this->css,
-            'live-edit-classes.css must carry task-30040a marker.'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-21-30040a',
-            $this->blade,
-            'add-content-modal.blade.php must carry task-30040a marker.'
-        );
-    }
 }

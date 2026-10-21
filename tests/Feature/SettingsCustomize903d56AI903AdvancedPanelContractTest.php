@@ -63,16 +63,6 @@ class SettingsCustomize903d56AI903AdvancedPanelContractTest extends TestCase
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present_in_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-903d56', $this->settingsVue,
-            'SettingsCustomize.vue must carry the AI-903 task marker.'
-        );
-        $this->assertStringContainsString('task-2026-05-22-903d56', $this->leCss,
-            'live-edit-classes.css must carry the AI-903 task marker.'
-        );
-    }
 
     // ─── Structural: popup removed, Teleport added ────────────────────────────
 

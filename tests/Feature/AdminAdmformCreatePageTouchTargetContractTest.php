@@ -104,11 +104,6 @@ class AdminAdmformCreatePageTouchTargetContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function admform_block_carries_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-30-admform', $this->css);
-    }
 
     #[Test]
     public function admform_rules_are_scoped_to_admin_panel_not_global(): void

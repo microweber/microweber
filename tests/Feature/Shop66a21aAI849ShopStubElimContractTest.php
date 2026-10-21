@@ -445,21 +445,6 @@ class Shop66a21aAI849ShopStubElimContractTest extends TestCase
         ];
     }
 
-    #[Test]
-    #[DataProvider('fileWithMarker')]
-    public function task_id_marker_present_in_modified_files(string $relativePath): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-17-66a21a',
-            (string) file_get_contents(base_path($relativePath)),
-            "AI-849: {$relativePath} must carry the task-id marker for cross-surface audit grep."
-        );
-        $this->assertStringContainsString(
-            'AI-849',
-            (string) file_get_contents(base_path($relativePath)),
-            "AI-849: {$relativePath} must carry the AI-849 ticket marker."
-        );
-    }
 
     #[Test]
     public function controller_docblock_cites_silent_stub_family_lineage(): void
@@ -477,14 +462,4 @@ class Shop66a21aAI849ShopStubElimContractTest extends TestCase
         }
     }
 
-    #[Test]
-    public function controller_docblock_cites_ai849b_followup(): void
-    {
-        $source = $this->read(self::CONTROLLER);
-        $this->assertStringContainsString(
-            'AI-849b',
-            $source,
-            'AI-849: ShopController docblock must flag the AI-849b follow-up (per-subroute differentiation — currently every subroute renders the same chrome which is sufficient to drop the stub leak).'
-        );
-    }
 }

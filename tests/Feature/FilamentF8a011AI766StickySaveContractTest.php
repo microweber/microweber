@@ -61,15 +61,6 @@ class FilamentF8a011AI766StickySaveContractTest extends TestCase
 
     // ─── Task marker ─────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-f8a011',
-            $this->css,
-            'mobile-touch.css must carry the AI-766 task marker.'
-        );
-    }
 
     // ─── AC #3: padding-bottom on form container ──────────────────────────────
 

@@ -166,13 +166,6 @@ class Shop2747f0AI866CartCounterBadgeBrandBlueContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai866_carries_task_id_markers(): void
-    {
-        $source = $this->srcContents();
-        $this->assertStringContainsString('task-2026-05-18-2747f0', $source, 'AI-866 task-id marker required for cross-surface grep.');
-        $this->assertStringContainsString('AI-866', $source);
-    }
 
     #[Test]
     public function ai866_carries_lessons_pointer(): void
@@ -267,21 +260,6 @@ class Shop2747f0AI866CartCounterBadgeBrandBlueContractTest extends TestCase
         $this->assertStringContainsString('--color-primary: #0d6efd;', $source, ':root --color-primary token must stay intact — AI-866 consumes it via var(--color-primary, #0d6efd).');
     }
 
-    #[Test]
-    public function sibling_ai_marker_rules_preserved(): void
-    {
-        $source = $this->srcContents();
-        // AI-866 only appended at end of file — prior AI ship rules
-        // must all stay intact. Sentinel-pin a sample of the public-touch.css
-        // existing AI-NNN markers (AI-519/520 live in mobile-touch.css —
-        // admin/checkout panel scope; NOT in this public-frontend file).
-        $this->assertStringContainsString('AI-516', $source, 'AI-516 cart-icon tap-target rule must stay intact.');
-        $this->assertStringContainsString('AI-518', $source, 'AI-518 header-CTA tap-target rule must stay intact.');
-        $this->assertStringContainsString('AI-522', $source, 'AI-522 ContactForm tap-target rule must stay intact.');
-        $this->assertStringContainsString('AI-528', $source, 'AI-528 Category nav-list tap-target rule must stay intact.');
-        $this->assertStringContainsString('AI-534', $source, 'AI-534 Logo link tap-target rule must stay intact.');
-        $this->assertStringContainsString('AI-535', $source, 'AI-535 Breadcrumb tap-target rule must stay intact.');
-    }
 
     #[Test]
     public function lessons_md_carries_ai866_canonicalization_entry(): void

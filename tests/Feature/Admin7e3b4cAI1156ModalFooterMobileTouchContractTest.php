@@ -163,20 +163,6 @@ class Admin7e3b4cAI1156ModalFooterMobileTouchContractTest extends TestCase
     // Group E -- task-id + AI-1156 markers (audit grep contract)
     // ---------------------------------------------------------------------
 
-    #[Test]
-    public function task_id_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-7e3b4c',
-            $this->sourceCss,
-            'AI-1156: mobile-touch.css MUST carry the AI-1156 task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-1156',
-            $this->sourceCss,
-            'AI-1156: mobile-touch.css MUST cite the AI-1156 ticket ID.'
-        );
-    }
 
     // ---------------------------------------------------------------------
     // Group F -- WCAG citation present (justification + audit trail)

@@ -191,31 +191,7 @@ class AutocompleteAI1206SearchInputAriaLabelContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function consumer_carries_ai1206_marker(): void
-    {
-        $this->assertStringContainsString(
-            'AI-1206',
-            $this->consumerSource,
-            'ContentSearchNav.vue MUST carry the AI-1206 marker so the consumer-wiring decision is discoverable from grep'
-        );
-    }
 
-    #[Test]
-    public function task_marker_present_in_both_sources(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-06-01-ai1206',
-            $this->bundledSource,
-            'Bundled source MUST carry task-2026-06-01-ai1206 marker'
-        );
-
-        $this->assertStringContainsString(
-            'task-2026-06-01-ai1206',
-            $this->legacySource,
-            'Legacy source MUST carry task-2026-06-01-ai1206 marker — confirms dual-source fix was applied intentionally, not accidentally'
-        );
-    }
 
     #[Test]
     public function no_empty_aria_label_regression(): void

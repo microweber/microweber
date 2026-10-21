@@ -270,25 +270,5 @@ class LiveEdit918e58AI799MainDrawerUsersHrefContractTest extends TestCase
     // Group E  markers + lineage
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai799_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-918e58', $this->drawer);
-        $this->assertStringContainsString('AI-799', $this->drawer);
-    }
 
-    #[Test]
-    public function docblock_cites_ai700_ai735_ai798_lineage(): void
-    {
-        $this->assertStringContainsString(
-            'AI-700',
-            $this->drawer,
-            'MainDrawer docblock must cite AI-700 (original drawer ship).'
-        );
-        $this->assertStringContainsString(
-            'AI-735',
-            $this->drawer,
-            'AI-799 docblock should cite AI-735 (admin route propagation lineage).'
-        );
-    }
 }

@@ -248,30 +248,6 @@ class EmbedDc3963AI970CodeMirrorHighlightContractTest extends TestCase
 
     // ── Group F: markers and task-id ─────────────────────────────────────
 
-    public function test_task_id_marker_in_settings(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-dc3963',
-            $this->settingsSrc,
-            'EmbedModuleSettings must carry the AI-970 task-id marker'
-        );
-    }
 
-    public function test_task_id_marker_in_admin_js(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-dc3963',
-            $this->adminJsSrc,
-            'admin-filament.js must carry the AI-970 task-id marker'
-        );
-    }
 
-    public function test_config_common_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'AI-970',
-            $this->configSrc,
-            'config-common.js must carry an AI-970 marker comment near the mode file entries'
-        );
-    }
 }

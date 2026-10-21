@@ -123,17 +123,4 @@ class LiveEdit8d5bafAI740DialogDarkBackdropContractTest extends TestCase
     // Group D — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai740_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-8d5baf', $this->css);
-        $this->assertStringContainsString('AI-740', $this->css);
-        // AI-700 lineage cited so the audit chain (the pattern
-        // mirror) is grep-able.
-        $this->assertStringContainsString(
-            'AI-700',
-            $this->css,
-            'Comment must cite AI-700 as the source of the dark-mode backdrop pattern.'
-        );
-    }
 }

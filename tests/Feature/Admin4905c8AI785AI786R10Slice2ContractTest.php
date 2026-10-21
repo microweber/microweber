@@ -247,15 +247,4 @@ class Admin4905c8AI785AI786R10Slice2ContractTest extends TestCase
     // Group E — markers + helper SoT
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai_markers_present_across_surfaces(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-4905c8', $this->helperSource);
-        $this->assertStringContainsString('AI-785', $this->helperSource);
-        $this->assertStringContainsString('task-2026-05-17-4905c8', $this->marketplaceResource);
-        $this->assertStringContainsString('AI-785', $this->marketplaceResource);
-        $this->assertStringContainsString('AI-786', $this->marketplaceResource);
-        $this->assertStringContainsString('task-2026-05-17-4905c8', $this->css);
-        $this->assertStringContainsString('AI-786', $this->css);
-    }
 }

@@ -47,12 +47,6 @@ class Search4ca677AI297SearchCtaTouchTargetContractTest extends TestCase
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-4ca677', $this->css,
-            'public-touch.css must carry the AI-297 task marker.');
-    }
 
     // ─── CTA class exists in template ────────────────────────────────────────
 

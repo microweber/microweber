@@ -162,12 +162,4 @@ class LiveEdit2c33e0AI768PickerTabMobileContractTest extends TestCase
     // Group D — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai768_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-2c33e0', $this->filepicker);
-        $this->assertStringContainsString('AI-768', $this->filepicker);
-        $this->assertStringContainsString('task-2026-05-17-2c33e0', $this->mobileCss);
-        $this->assertStringContainsString('AI-768', $this->mobileCss);
-    }
 }

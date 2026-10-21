@@ -195,15 +195,6 @@ class Admin77c486DashboardMobileTouchTargetContractTest extends TestCase
 
     // ─── Task marker and media query scope ───────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-77c486',
-            $this->css,
-            'mobile-touch.css must carry the task-2026-05-22-77c486 marker.'
-        );
-    }
 
     #[Test]
     public function rules_are_inside_touch_media_query(): void

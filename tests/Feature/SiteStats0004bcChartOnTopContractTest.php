@@ -51,11 +51,6 @@ class SiteStats0004bcChartOnTopContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_is_pinned_in_the_blade_comment(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-0004bc', $this->blade);
-    }
 
     #[Test]
     public function downstream_widget_order_remains_intact(): void

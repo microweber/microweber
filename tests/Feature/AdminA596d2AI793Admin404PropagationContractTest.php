@@ -256,15 +256,4 @@ class AdminA596d2AI793Admin404PropagationContractTest extends TestCase
     // Group D — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai793_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-a596d2', $this->routesSource);
-        $this->assertStringContainsString('AI-793', $this->routesSource);
-        $this->assertStringContainsString('task-2026-05-17-a596d2', $this->errorView);
-        $this->assertStringContainsString('AI-793', $this->errorView);
-        // AI-735 lineage reference must remain so future audits can
-        // trace the propagation chain.
-        $this->assertStringContainsString('AI-735', $this->routesSource);
-    }
 }

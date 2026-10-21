@@ -208,12 +208,4 @@ class LiveEdit77fedfAI734PageChipAnchorFlipContractTest extends TestCase
     // Group E — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai734_markers_pinned(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-77fedf', $this->vueSrc);
-        $this->assertStringContainsString('AI-734', $this->vueSrc);
-        $this->assertStringContainsString('task-2026-05-16-77fedf', $this->css);
-        $this->assertStringContainsString('AI-734', $this->css);
-    }
 }

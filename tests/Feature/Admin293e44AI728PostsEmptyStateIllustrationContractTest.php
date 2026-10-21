@@ -184,13 +184,4 @@ class Admin293e44AI728PostsEmptyStateIllustrationContractTest extends TestCase
     // Group D — markers + AI-728-followup hint
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai728_markers_pinned(): void
-    {
-        // The post branch carries AI-729 markers (task-2026-05-16-008d91)
-        // as the design evolved. The AI-728 markers may live in the
-        // broader empty-state file or related source comments.
-        $this->assertStringContainsString('AI-729', $this->postBranch);
-        $this->assertStringContainsString('task-2026-05-16-008d91', $this->postBranch);
-    }
 }

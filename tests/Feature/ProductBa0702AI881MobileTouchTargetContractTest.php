@@ -60,12 +60,6 @@ class ProductBa0702AI881MobileTouchTargetContractTest extends TestCase
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present_in_public_touch_css(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-ba0702', $this->css,
-            'public-touch.css must carry the AI-881 task marker.');
-    }
 
     // ─── FAIL #1: .btn.btn-link tag filter touch-target ───────────────────────
 

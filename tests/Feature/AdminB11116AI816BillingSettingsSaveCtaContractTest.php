@@ -63,21 +63,4 @@ class AdminB11116AI816BillingSettingsSaveCtaContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function billing_settings_carries_ai816_task_marker(): void
-    {
-        $relativePath = 'Modules/Billing/Filament/Admin/Pages/Settings.php';
-        $source = $this->fileContents($relativePath);
-
-        $this->assertStringContainsString(
-            'AI-816',
-            $source,
-            'Billing Settings file must carry the AI-816 task marker so future audits can locate the fix lineage'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-31',
-            $source,
-            'Billing Settings file must carry the task-2026-05-31 marker for grep-ability across surfaces'
-        );
-    }
 }

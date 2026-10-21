@@ -127,13 +127,6 @@ class Auth2e95f2AI865FormFooterTapTargetContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function source_carries_ai_865_task_marker(): void
-    {
-        $source = $this->authSource();
-        $this->assertStringContainsString('task-2026-05-18-2e95f2', $source, 'AI-865 task-id marker required for cross-surface grep.');
-        $this->assertStringContainsString('AI-865', $source);
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group B — .form-footer parent margin bump

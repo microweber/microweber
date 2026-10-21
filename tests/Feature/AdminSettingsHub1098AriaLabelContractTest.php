@@ -98,12 +98,4 @@ class AdminSettingsHub1098AriaLabelContractTest extends TestCase
         );
     }
 
-    public function test_ai_1098_task_id_marker_in_settings_hub(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1098',
-            $this->settingsHub,
-            'AI-1098: task-id marker comment must be present adjacent to the aria-label change in settings-main.blade.php'
-        );
-    }
 }

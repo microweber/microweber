@@ -39,11 +39,6 @@ class Admin7d2a91MobileTouchTargetContractTest extends TestCase
         ));
     }
 
-    #[Test]
-    public function task_id_marker_present_for_audit_grep(): void
-    {
-        $this->assertStringContainsString('task-2026-05-29-7d2a91', $this->css);
-    }
 
     #[Test]
     public function fix_lives_inside_mobile_media_query(): void

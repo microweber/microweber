@@ -103,13 +103,4 @@ class SiteStats321ef4UnknownNormalizationContractTest extends TestCase
         $this->assertStringContainsString("'stats_sessions.language', '!=', ''", $this->languages);
     }
 
-    #[Test]
-    public function task_id_is_pinned_in_all_three_widget_files(): void
-    {
-        // Each touched widget carries the task id in a comment so future
-        // grep-based audits can trace the change.
-        $this->assertStringContainsString('task-2026-05-16-321ef4', $this->locations);
-        $this->assertStringContainsString('task-2026-05-16-321ef4', $this->languages);
-        $this->assertStringContainsString('task-2026-05-16-321ef4', $this->recentVisitors);
-    }
 }

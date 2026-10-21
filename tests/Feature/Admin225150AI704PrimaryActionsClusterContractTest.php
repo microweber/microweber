@@ -197,12 +197,4 @@ class Admin225150AI704PrimaryActionsClusterContractTest extends TestCase
 
     // ── Group D — markers ──────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_markers_present_in_all_three_files(): void
-    {
-        foreach ([$this->panelProvider, $this->generalStyles, $this->addButtonBlade] as $src) {
-            $this->assertStringContainsString('task-2026-05-16-225150', $src);
-            $this->assertStringContainsString('task-2026-06-08-addleft', $src);
-        }
-    }
 }

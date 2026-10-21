@@ -128,19 +128,4 @@ class FilamentTabs811AI1199AriaSelectedVendorOverrideContractTest extends TestCa
         );
     }
 
-    #[Test]
-    public function task_markers_present_in_blade(): void
-    {
-        $this->assertStringContainsString(
-            'AI-1199',
-            $this->blade,
-            'Override MUST carry the AI-1199 task marker so future audits can locate the fix lineage'
-        );
-
-        $this->assertStringContainsString(
-            'task-2026-05-31-tabs811',
-            $this->blade,
-            'Override MUST carry the task-2026-05-31-tabs811 marker for grep-ability'
-        );
-    }
 }

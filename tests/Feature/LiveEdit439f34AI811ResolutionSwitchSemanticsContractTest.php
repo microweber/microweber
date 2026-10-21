@@ -333,12 +333,4 @@ class LiveEdit439f34AI811ResolutionSwitchSemanticsContractTest extends TestCase
     // Group E  task-id markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai811_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-439f34', $this->vue);
-        $this->assertStringContainsString('AI-811', $this->vue);
-        $this->assertStringContainsString('task-2026-05-17-439f34', $this->css);
-        $this->assertStringContainsString('AI-811', $this->css);
-    }
 }

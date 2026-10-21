@@ -220,9 +220,4 @@ class ESE1b5604Slice12MwSliderContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_marker_pinned_for_audit_grep(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-1b5604', $this->src);
-    }
 }

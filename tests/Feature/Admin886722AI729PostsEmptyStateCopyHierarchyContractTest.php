@@ -224,22 +224,4 @@ class Admin886722AI729PostsEmptyStateCopyHierarchyContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_and_ai729_markers_pinned(): void
-    {
-        // The post branch carries AI-729 with task ID 008d91
-        $this->assertStringContainsString('AI-729', $this->postBranch);
-        $this->assertStringContainsString('task-2026-05-16-008d91', $this->postBranch);
-        // CSS source comment carries the AI-729 marker with task ID 886722.
-        $this->assertStringContainsString(
-            'task-2026-05-16-886722',
-            $this->css,
-            'CSS slice must carry the AI-729 task-id marker.'
-        );
-        $this->assertStringContainsString(
-            'AI-729',
-            $this->css,
-            'CSS slice must carry the AI-729 marker.'
-        );
-    }
 }

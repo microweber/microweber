@@ -111,12 +111,4 @@ class AdminOrders1090AveragePriceCurrencyContractTest extends TestCase
         );
     }
 
-    public function test_ai_1090_task_id_marker_in_order_stats(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-2f5a6c / AI-1090',
-            $this->orderStats,
-            'AI-1090: task-id marker comment must be present adjacent to the currency-symbol fix in OrderStats.php'
-        );
-    }
 }

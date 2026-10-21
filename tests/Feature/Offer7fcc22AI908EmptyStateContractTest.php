@@ -91,13 +91,4 @@ class Offer7fcc22AI908EmptyStateContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-7fcc22',
-            $this->src,
-            'OfferResource must carry the AI-908 task marker.'
-        );
-    }
 }

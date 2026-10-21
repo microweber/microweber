@@ -89,11 +89,6 @@ class AdminAdmuiButtonTouchTargetContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function admui_block_carries_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-30-admui', $this->css);
-    }
 
     #[Test]
     public function admui_rules_are_scoped_to_admin_panel_not_global(): void

@@ -77,19 +77,6 @@ class LiveEdit1a7899AI1224PageChipTabsA11yContractTest extends TestCase
         return (string) preg_replace('~/\*[\s\S]*?\*/~', '', $source);
     }
 
-    public function test_task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-28-1a7899 / AI-1224',
-            $this->pageChipVue,
-            'AI-1224: task-id marker must be present in PageChip.vue'
-        );
-        $this->assertStringContainsString(
-            'task-2026-05-28-1a7899 / AI-1224',
-            $this->generalStylesCss,
-            'AI-1224: task-id marker must be present in general-styles.css'
-        );
-    }
 
     public function test_tablist_declares_aria_label_page_picker(): void
     {

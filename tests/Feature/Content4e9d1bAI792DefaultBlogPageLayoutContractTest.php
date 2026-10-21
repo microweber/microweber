@@ -194,10 +194,4 @@ class Content4e9d1bAI792DefaultBlogPageLayoutContractTest extends TestCase
     // Group C — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai792_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-4e9d1b', $this->contentModel);
-        $this->assertStringContainsString('AI-792', $this->contentModel);
-    }
 }

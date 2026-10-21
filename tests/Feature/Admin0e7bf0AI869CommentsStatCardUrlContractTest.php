@@ -73,13 +73,4 @@ class Admin0e7bf0AI869CommentsStatCardUrlContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_id_marker_present(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-21-0e7bf0',
-            $this->source,
-            'DashboardQuickStatsWidget must carry task-0e7bf0 marker.'
-        );
-    }
 }

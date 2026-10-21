@@ -213,25 +213,7 @@ class Auth6305c9AI848AuthLogoDimensionContractTest extends TestCase
     // Group D  Markers + LESSONS lineage discoverable from source
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function ai848_task_id_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-17-6305c9',
-            $this->layoutSrc,
-            'AI-848 ship must embed task-id marker in source for grep-discoverability per LESSONS.'
-        );
-    }
 
-    #[Test]
-    public function ai848_ai_ticket_marker_present_in_source(): void
-    {
-        $this->assertStringContainsString(
-            'AI-848',
-            $this->layoutSrc,
-            'AI-848 ship must embed AI-848 ticket marker in source for cross-task audit grep.'
-        );
-    }
 
     #[Test]
     public function ai848_sub_variant_classifier_present(): void
@@ -245,18 +227,6 @@ class Auth6305c9AI848AuthLogoDimensionContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai848_ai803_lineage_cite_present(): void
-    {
-        // Source docblock must cite the AI-803 sister-rule (same Stage-2 family,
-        // distinct sub-variant + distinct class) so the family relationship is
-        // discoverable from the file.
-        $this->assertStringContainsString(
-            'AI-803',
-            $this->layoutSrc,
-            'AI-848 docblock must cite AI-803 sister-rule (parent-flex-context sub-variant) for family-lineage discoverability.'
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Helpers — single source of truth for CSS rule slicing

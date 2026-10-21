@@ -232,38 +232,8 @@ class LiveEdit51c8e8AI712TemplateSettingsUnifyContractTest extends TestCase
     // Group C — Markers + AI-712a follow-up flag
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-16-51c8e8', $this->templateSettings);
-        $this->assertStringContainsString('task-2026-05-16-51c8e8', $this->generalStyles);
-    }
 
-    #[Test]
-    public function ai712_marker_present_in_both_files(): void
-    {
-        $this->assertStringContainsString('AI-712', $this->templateSettings);
-        $this->assertStringContainsString('AI-712', $this->generalStyles);
-    }
 
-    #[Test]
-    public function ai712a_followup_documented_in_both_files(): void
-    {
-        // AI-687 dependency means link rows + AI Assistant collapse
-        // can't ship in slice 1. AI-712a flag MUST be discoverable
-        // from both surfaces so the next agent picks up the
-        // deferred work cleanly.
-        $this->assertStringContainsString(
-            'AI-712a',
-            $this->templateSettings,
-            'AI-712a follow-up candidate (MwField link rows + AI Assistant collapse) must be flagged in TemplateSettings.vue comments.'
-        );
-        $this->assertStringContainsString(
-            'AI-712a',
-            $this->generalStyles,
-            'AI-712a follow-up candidate must be flagged in general-styles.css comments.'
-        );
-    }
 
     #[Test]
     public function css_tokens_carry_literal_fallbacks(): void

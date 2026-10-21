@@ -284,32 +284,5 @@ class Cart0e6cfaAI796EmptyStateContractTest extends TestCase
     // Group E — markers + lineage
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai796_markers_present_on_both_surfaces(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-0e6cfa', $this->page);
-        $this->assertStringContainsString('AI-796', $this->page);
-        $this->assertStringContainsString('task-2026-05-17-0e6cfa', $this->livewire);
-        $this->assertStringContainsString('AI-796', $this->livewire);
-    }
 
-    #[Test]
-    public function page_docblock_cites_lineage_tickets(): void
-    {
-        $this->assertStringContainsString(
-            'AI-759',
-            $this->page,
-            'page.blade.php docblock must cite AI-759 (competing-CTA anti-pattern, 4th cross-surface instance).'
-        );
-        $this->assertStringContainsString(
-            'AI-737',
-            $this->page,
-            'page.blade.php docblock must cite AI-737 (#0d6efd brand-blue standardisation).'
-        );
-        $this->assertStringContainsString(
-            'AI-731',
-            $this->page,
-            'page.blade.php docblock must cite AI-731 (empty-state CTA chrome precedent).'
-        );
-    }
 }

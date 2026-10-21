@@ -94,13 +94,6 @@ class ShopAdaa6aAI867NouislideHandleOverflowContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai867_carries_task_id_markers(): void
-    {
-        $source = $this->srcContents();
-        $this->assertStringContainsString('task-2026-05-18-adaa6a', $source, 'AI-867 task-id marker required for cross-surface grep.');
-        $this->assertStringContainsString('AI-867', $source);
-    }
 
     #[Test]
     public function ai867_docblock_documents_library_agnostic_rationale(): void

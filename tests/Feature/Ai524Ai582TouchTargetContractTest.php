@@ -38,12 +38,6 @@ class Ai524Ai582TouchTargetContractTest extends TestCase
 
     // ---- AI-524: Teamcard website link ----------------------------------------
 
-    #[Test]
-    public function ai524_marker_comment_present(): void
-    {
-        $this->assertStringContainsString('AI-524', $this->src, 'Source CSS must reference AI-524');
-        $this->assertStringContainsString('AI-524', $this->served, 'Served CSS must reference AI-524');
-    }
 
     #[Test]
     public function ai524_teamcard_anchor_floors_44_height_in_source(): void
@@ -82,12 +76,6 @@ class Ai524Ai582TouchTargetContractTest extends TestCase
 
     // ---- AI-582: Newsletter form-control + checkbox ---------------------------
 
-    #[Test]
-    public function ai582_marker_comment_present(): void
-    {
-        $this->assertStringContainsString('AI-582', $this->src, 'Source CSS must reference AI-582');
-        $this->assertStringContainsString('AI-582', $this->served, 'Served CSS must reference AI-582');
-    }
 
     #[Test]
     public function ai582_form_control_floors_44_height_in_source(): void

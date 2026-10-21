@@ -177,13 +177,6 @@ class PostF4a791AI791PostDetailPageContractTest extends TestCase
 
     // ─── Slice D: Header/footer menu deduplification ──────────────────────────
 
-    #[Test]
-    public function navbar_has_menu_dedup_task_marker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-f4a791', $this->navbarTpl,
-            'navbar.blade.php must carry the AI-791 task marker for audit traceability.'
-        );
-    }
 
     #[Test]
     public function navbar_dedup_uses_domdocument(): void
@@ -282,17 +275,4 @@ class PostF4a791AI791PostDetailPageContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function task_marker_present_in_all_files(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-f4a791', $this->postTpl,
-            'post.blade.php must carry the AI-791 task marker.'
-        );
-        $this->assertStringContainsString('task-2026-05-22-f4a791', $this->sharerTpl,
-            'sharer/default.blade.php must carry the AI-791 task marker.'
-        );
-        $this->assertStringContainsString('task-2026-05-22-f4a791', $this->navbarTpl,
-            'navbar.blade.php must carry the AI-791 task marker.'
-        );
-    }
 }

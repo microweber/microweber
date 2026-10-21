@@ -212,20 +212,5 @@ class CanvasE06decAI802SpacerLabelHideContractTest extends TestCase
     // Group D  markers + AI-802a follow-up flag
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai802_markers_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-17-e06dec', $this->scss);
-        $this->assertStringContainsString('AI-802', $this->scss);
-    }
 
-    #[Test]
-    public function scss_docblock_flags_ai802a_follow_up(): void
-    {
-        $this->assertStringContainsString(
-            'AI-802a',
-            $this->scss,
-            'liveedit.scss docblock must flag AI-802a (wire Theme Settings toggle) as the follow-up so PM can dispatch when Theme Settings UI is ready.'
-        );
-    }
 }

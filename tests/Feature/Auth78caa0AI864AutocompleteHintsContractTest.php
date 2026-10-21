@@ -116,13 +116,6 @@ class Auth78caa0AI864AutocompleteHintsContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function source_carries_ai_864_task_marker(): void
-    {
-        $source = $this->authSource();
-        $this->assertStringContainsString('task-2026-05-18-78caa0', $source, 'AI-864 task-id marker required for cross-surface grep.');
-        $this->assertStringContainsString('AI-864', $source);
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group B — adjacent autocomplete audit (Email/Username/Name hints)
@@ -199,13 +192,6 @@ class Auth78caa0AI864AutocompleteHintsContractTest extends TestCase
         );
     }
 
-    #[Test]
-    public function ai863_task_marker_preserved(): void
-    {
-        $source = $this->authSource();
-        $this->assertStringContainsString('task-2026-05-18-77da7a', $source, 'AI-863 task-id marker must stay intact.');
-        $this->assertStringContainsString('AI-863', $source);
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group D — back-compat regression sentinels

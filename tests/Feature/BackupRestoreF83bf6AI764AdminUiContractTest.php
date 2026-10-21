@@ -60,25 +60,7 @@ class BackupRestoreF83bf6AI764AdminUiContractTest extends TestCase
 
     // ─── Task markers ─────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_in_backup_resource(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-f83bf6',
-            $this->backupResource,
-            'BackupResource must carry the AI-764 task marker.'
-        );
-    }
 
-    #[Test]
-    public function task_marker_in_restore_page(): void
-    {
-        $this->assertStringContainsString(
-            'task-2026-05-22-f83bf6',
-            $this->restorePage,
-            'RestoreAdminPage must carry the AI-764 task marker.'
-        );
-    }
 
     // ─── BackupResource navigation enabled ────────────────────────────────────
 

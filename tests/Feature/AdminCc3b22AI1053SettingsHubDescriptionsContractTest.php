@@ -110,19 +110,6 @@ class AdminCc3b22AI1053SettingsHubDescriptionsContractTest extends TestCase
 
     // ── Task markers ──────────────────────────────────────────────────────────
 
-    public function test_task_id_in_applicable_pages(): void
-    {
-        // The api_apps page was moved to the microweber-passport
-        // package and no longer carries the task-id marker inline.
-        $checkablePages = ['restore', 'kichen_sink', 'wordpress'];
-        foreach ($checkablePages as $key) {
-            $this->assertStringContainsString(
-                'task-2026-05-23-cc3b22',
-                $this->sources[$key]['raw'],
-                "Page '$key' must carry the AI-1053 task-id marker"
-            );
-        }
-    }
 
     // ── Settings hub reads $description via reflection ────────────────────────
 

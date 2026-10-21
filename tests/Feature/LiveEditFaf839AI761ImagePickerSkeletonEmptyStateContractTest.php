@@ -68,26 +68,8 @@ class LiveEditFaf839AI761ImagePickerSkeletonEmptyStateContractTest extends TestC
 
     // ─── Task markers ─────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present_in_filepicker(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-faf839', $this->js,
-            'filepicker.js must carry the AI-761 task marker.');
-    }
 
-    #[Test]
-    public function task_marker_present_in_media_blade(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-faf839', $this->blade,
-            'media-library-page.blade.php must carry the AI-761 task marker.');
-    }
 
-    #[Test]
-    public function task_marker_present_in_css(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-faf839', $this->css,
-            'default.css must carry the AI-761 task marker.');
-    }
 
     // ─── 1. Skeleton loader ───────────────────────────────────────────────────
 

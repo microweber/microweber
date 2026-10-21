@@ -322,17 +322,4 @@ class AdminC188deAI788AI789FormWidgetUmbrellaContractTest extends TestCase
     // Group F — markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai_markers_present(): void
-    {
-        $enumSource = (string) file_get_contents(base_path(
-            'Modules/CustomFields/Enums/CustomFieldTypes.php'
-        ));
-        $this->assertStringContainsString('task-2026-05-17-c188de', $enumSource);
-        $this->assertStringContainsString('AI-788', $enumSource);
-        $this->assertStringContainsString('task-2026-05-17-c188de', $this->partial);
-        $this->assertStringContainsString('AI-789', $this->partial);
-        $this->assertStringContainsString('task-2026-05-17-c188de', $this->css);
-        $this->assertStringContainsString('AI-789', $this->css);
-    }
 }

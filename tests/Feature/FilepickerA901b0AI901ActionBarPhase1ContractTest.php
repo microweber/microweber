@@ -49,16 +49,6 @@ class FilepickerA901b0AI901ActionBarPhase1ContractTest extends TestCase
 
     // ─── Task marker ──────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_marker_present(): void
-    {
-        $this->assertStringContainsString('task-2026-05-22-a901b0', $this->src,
-            'filepicker.js must carry the AI-901 Phase 1 task marker.'
-        );
-        $this->assertStringContainsString('task-2026-05-22-a901b0', $this->css,
-            'default.css must carry the AI-901 Phase 1 task marker.'
-        );
-    }
 
     // ─── Scope 1: action-bar nav mode ─────────────────────────────────────────
 

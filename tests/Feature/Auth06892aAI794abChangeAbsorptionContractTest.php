@@ -261,18 +261,6 @@ class Auth06892aAI794abChangeAbsorptionContractTest extends TestCase
     // Group C  task-id markers + AI-794 lineage citation
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_and_ai794ab_markers_present(): void
-    {
-        // AI-794a marker in layout.blade.php
-        $this->assertStringContainsString('task-2026-05-17-06892a', $this->layoutCss);
-        $this->assertStringContainsString('AI-794a', $this->layoutCss);
-        // AI-794b marker in controller + view
-        $this->assertStringContainsString('task-2026-05-17-06892a', $this->controllerSrc);
-        $this->assertStringContainsString('AI-794b', $this->controllerSrc);
-        $this->assertStringContainsString('task-2026-05-17-06892a', $this->expiredView);
-        $this->assertStringContainsString('AI-794b', $this->expiredView);
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group D  back-compat — primary AI-794 chrome wrap preserved

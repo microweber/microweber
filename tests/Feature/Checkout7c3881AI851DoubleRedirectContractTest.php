@@ -320,52 +320,7 @@ class Checkout7c3881AI851DoubleRedirectContractTest extends TestCase
     // Group E — Task-id markers + audit-trail discoverability
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    public function task_id_marker_present_in_middleware(): void
-    {
-        $source = $this->read(self::MIDDLEWARE);
-        $this->assertStringContainsString(
-            'task-2026-05-17-7c3881',
-            $source,
-            'AI-851: middleware must carry the task-id marker for cross-surface audit grep.'
-        );
-        $this->assertStringContainsString(
-            'AI-851',
-            $source,
-            'AI-851: middleware must carry the AI-851 ticket marker.'
-        );
-    }
 
-    #[Test]
-    public function task_id_marker_present_in_panel_provider(): void
-    {
-        $source = $this->read(self::PANEL_PROVIDER);
-        $this->assertStringContainsString(
-            'task-2026-05-17-7c3881',
-            $source,
-            'AI-851: panel provider must carry the task-id marker near the middleware registration.'
-        );
-    }
 
-    #[Test]
-    public function task_id_marker_present_in_checkout_page(): void
-    {
-        $source = $this->read(self::CHECKOUT_PAGE);
-        $this->assertStringContainsString(
-            'task-2026-05-17-7c3881',
-            $source,
-            'AI-851: CheckoutPage::mount() must carry the task-id marker near the destination-URL update.'
-        );
-    }
 
-    #[Test]
-    public function task_id_marker_present_in_cart_items_view(): void
-    {
-        $source = $this->read(self::CART_VIEW);
-        $this->assertStringContainsString(
-            'task-2026-05-17-7c3881',
-            $source,
-            'AI-851: cart-items view must carry the task-id marker near the notice-banner block.'
-        );
-    }
 }

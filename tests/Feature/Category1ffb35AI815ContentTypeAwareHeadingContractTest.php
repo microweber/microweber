@@ -176,22 +176,6 @@ class Category1ffb35AI815ContentTypeAwareHeadingContractTest extends TestCase
     // Group D  task-id markers
     // ─────────────────────────────────────────────────────────────────────
 
-    #[Test]
-    #[DataProvider('allCategoryTemplatesProvider')]
-    public function task_id_marker_present(string $relativePath): void
-    {
-        $raw = $this->rawTemplate($relativePath);
-        $this->assertStringContainsString(
-            'task-2026-05-17-1ffb35',
-            $raw,
-            "AI-815: {$relativePath} MUST carry the task-id marker for audit grep."
-        );
-        $this->assertStringContainsString(
-            'AI-815',
-            $raw,
-            "AI-815: {$relativePath} MUST cite the ticket ID for audit grep."
-        );
-    }
 
     // ─────────────────────────────────────────────────────────────────────
     // Group E  AI-780a lineage citation in source comment
