@@ -17,6 +17,36 @@ namespace MicroweberPackages\Template\ContentJson;
  */
 class CssVarizer
 {
+    /**
+     * Build a :root{…} block from a token=>hex scheme map (the content.json
+     * "colorScheme"), adding the derived semantic vars so one edit cascades.
+     * This is what gets written to the template's live_edit.css (the layer the
+     * Live Edit colour editor manages) — so the scheme is saved + editable rather
+     * than hardcoded into base.css.
+     */
+    public static function schemeToRootCss(array $scheme): string
+    {
+        $lines = [];
+        foreach ($scheme as $var => $hex) {
+            if (is_string($var) && str_starts_with($var, '--') && is_string($hex) && $hex !== '') {
+                $lines[] = "  {$var}: {$hex};";
+            }
+        }
+        if (!$lines) {
+            return '';
+        }
+        if (isset($scheme['--mw-heading-color'])) {
+            $lines[] = '  --mw-body-color: var(--mw-heading-color);';
+            $lines[] = '  --mw-paragraph-color: var(--mw-heading-color);';
+        }
+        if (isset($scheme['--mw-primary-color'])) {
+            $lines[] = '  --mw-link-color: var(--mw-primary-color);';
+        }
+
+        return "/* Colour scheme from content.json — editable via the Live Edit colour editor. */\n"
+            . ":root {\n" . implode("\n", $lines) . "\n}\n";
+    }
+
     /** Semantic MW vars the Live Edit colour editor manipulates (role => var). */
     public const ROLE_VARS = [
         'primary' => '--mw-primary-color',

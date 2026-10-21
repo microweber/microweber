@@ -84,6 +84,24 @@ class ContentJsonTest extends TestCase
     }
 
     #[Test]
+    public function scheme_to_root_css_builds_an_editable_root_block(): void
+    {
+        $root = CssVarizer::schemeToRootCss([
+            '--mw-primary-color' => '#8fce00',
+            '--mw-heading-color' => '#111111',
+            '--mw-tpl-color-1' => '#abcdef',
+        ]);
+
+        // This is what gets written to design-vars.css (separate from base.css).
+        $this->assertStringContainsString(':root {', $root);
+        $this->assertStringContainsString('--mw-primary-color: #8fce00;', $root);
+        // Derived vars cascade from the primaries so one edit recolors the design.
+        $this->assertStringContainsString('--mw-body-color: var(--mw-heading-color);', $root);
+        $this->assertStringContainsString('--mw-link-color: var(--mw-primary-color);', $root);
+        $this->assertSame('', CssVarizer::schemeToRootCss([]), 'empty scheme -> empty css');
+    }
+
+    #[Test]
     public function installer_creates_pages_posts_products_and_menus(): void
     {
         $payload = [

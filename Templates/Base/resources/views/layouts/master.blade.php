@@ -175,7 +175,15 @@
         $mwActiveTplLower = strtolower($mwActiveTpl);
         $mwChildCssRel = 'templates/' . $mwActiveTplLower . '/css/base.css';
         $mwChildCssFile = function_exists('public_path') ? public_path($mwChildCssRel) : '';
+        // Separate colour-scheme file (Big2's design-vars.css pattern): the design's
+        // --mw-* var scheme lives here, not baked into base.css, so it is editable and
+        // overridable (the Live Edit colour editor's live_edit.css loads after it).
+        $mwChildVarsRel = 'templates/' . $mwActiveTplLower . '/css/design-vars.css';
+        $mwChildVarsFile = function_exists('public_path') ? public_path($mwChildVarsRel) : '';
     @endphp
+    @if ($mwActiveTplLower !== '' && $mwActiveTplLower !== 'base' && $mwChildVarsFile && is_file($mwChildVarsFile))
+        <link rel="stylesheet" href="{{ asset($mwChildVarsRel) }}" id="mw-template-design-vars" type="text/css" media="all">
+    @endif
     @if ($mwActiveTplLower !== '' && $mwActiveTplLower !== 'base' && $mwChildCssFile && is_file($mwChildCssFile))
         <link rel="stylesheet" href="{{ asset($mwChildCssRel) }}" id="mw-template-design" type="text/css" media="all">
     @endif

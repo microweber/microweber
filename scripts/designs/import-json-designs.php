@@ -102,11 +102,12 @@ foreach ($slugs as $slug) {
         ]);
         $colorScheme = $var['scheme'];
 
+        // Colours resolve to --mw-* vars (with literal fallbacks); the scheme itself is
+        // NOT baked here — it is saved to the template's live_edit.css below (step 9),
+        // the editable layer the Live Edit colour editor manages.
         $baseCss = $imports
             . "/* Microweber design-token map (headings pick up the design font). */\n"
             . ":root { --mw-body-font-family: {$font}; --mw-heading-font-family: {$font}; }\n"
-            . "/* Colour scheme — editor-overridable --mw-*-color vars (design palette as defaults). */\n"
-            . $var['root'] . "\n"
             . "\n/* ===== Var-ized design CSS (shared kit + per-design style) ===== */\n"
             . $var['css'] . "\n";
 
@@ -174,6 +175,17 @@ foreach ($slugs as $slug) {
             ]],
         ];
         file_put_contents($tplDir . '/content.json', json_encode($contentJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+
+        // 9. Write the colour scheme to a separate design-vars.css (Big2's pattern):
+        //    the --mw-* :root scheme lives here, published to public and linked by Base's
+        //    master, so it is editable + overridable (the Live Edit colour editor's
+        //    live_edit.css loads after it) rather than hardcoded into base.css. base.css
+        //    carries only var() fallbacks, so the design renders even without this file.
+        if (!empty($colorScheme)) {
+            $schemeCss = \MicroweberPackages\Template\ContentJson\CssVarizer::schemeToRootCss($colorScheme);
+            file_put_contents($tplDir . '/resources/assets/css/design-vars.css', $schemeCss);
+            file_put_contents($pubDir . '/css/design-vars.css', $schemeCss);
+        }
 
         $done[] = "{$slug} -> page#{$page->id} ({$name}), css=" . strlen($baseCss) . "B, body=" . strlen($body) . "B, scheme=" . count($colorScheme) . " vars, content.json=" . (count($sections)) . " sections";
     } catch (\Throwable $e) {

@@ -102,6 +102,7 @@ class ContentJsonInstaller
         }
 
         $this->installMenus();
+        $this->applyColorScheme();
 
         if (function_exists('clearcache')) {
             clearcache();
@@ -304,6 +305,36 @@ class ContentJsonInstaller
                 $item->save();
             }
             $this->log[] = "menu '{$title}': " . count($items) . ' item(s)';
+        }
+    }
+
+    /**
+     * Write the content.json "colorScheme" to the template's public design-vars.css
+     * (Big2's pattern): a separate --mw-* :root scheme file, published to public and
+     * linked by Base's master before base.css — so applying a template also applies
+     * its default colour scheme, and the colours stay editable (base.css only carries
+     * var() fallbacks; the Live Edit colour editor's live_edit.css loads after it).
+     */
+    protected function applyColorScheme(): void
+    {
+        $scheme = $this->data['colorScheme'] ?? [];
+        if (!is_array($scheme) || empty($scheme)) {
+            return;
+        }
+        $css = CssVarizer::schemeToRootCss($scheme);
+        if ($css === '') {
+            return;
+        }
+        $lname = strtolower((string) ($this->template ?? template_name()));
+        $dir = function_exists('public_path')
+            ? public_path('templates/' . $lname . '/css')
+            : base_path('public/templates/' . $lname . '/css');
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+        if (is_dir($dir)) {
+            file_put_contents($dir . '/design-vars.css', $css);
+            $this->log[] = "color scheme -> templates/{$lname}/css/design-vars.css (" . count($scheme) . ' vars)';
         }
     }
 
