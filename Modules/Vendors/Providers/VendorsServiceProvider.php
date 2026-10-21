@@ -5,9 +5,7 @@ namespace Modules\Vendors\Providers;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Vendors\Filament\Admin\Resources\VendorResource;
-use Modules\Vendors\Filament\Pages\MyVendorOrders;
-use Modules\Vendors\Filament\Pages\MyVendorProducts;
-use Modules\Vendors\Filament\Pages\MyVendorProfile;
+use Modules\Vendors\Providers\FilamentVendorPanelProvider;
 use Modules\Vendors\Services\VendorManager;
 use Modules\Vendors\Services\VendorOrderNotifier;
 
@@ -33,14 +31,13 @@ class VendorsServiceProvider extends BaseModuleServiceProvider
         // each vendor's channel opt-in).
         $this->app->register(VendorsEventServiceProvider::class);
 
+        // The dedicated Vendor panel (/vendor-panel) — all vendor-facing
+        // functionality lives here: dashboard + stats, storefront, products,
+        // orders. Gated to the vendor role via User::canAccessPanel('vendor').
+        $this->app->register(FilamentVendorPanelProvider::class);
+
         // Admin: approve + manage vendor storefronts.
         FilamentRegistry::registerResource(VendorResource::class);
-
-        // Profile panel: vendor self-service (only visible to vendors —
-        // the pages gate their own navigation on the vendor role).
-        FilamentRegistry::registerPage(MyVendorProfile::class, 'profile', 'profile');
-        FilamentRegistry::registerPage(MyVendorProducts::class, 'profile', 'profile');
-        FilamentRegistry::registerPage(MyVendorOrders::class, 'profile', 'profile');
 
         FilamentRegistry::registerGlobalSearchEntry(
             'Vendors', '/admin/vendors',

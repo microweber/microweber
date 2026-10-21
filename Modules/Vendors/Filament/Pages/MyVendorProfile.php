@@ -155,7 +155,7 @@ class MyVendorProfile extends Page
 
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->check() && app(VendorManager::class)->isVendor();
+        return auth()->check();
     }
 
     public function getSubheading(): ?string

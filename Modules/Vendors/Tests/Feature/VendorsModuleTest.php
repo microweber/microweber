@@ -17,6 +17,7 @@ use Modules\Vendors\Models\VendorOrderNotificationLog;
 use Modules\Vendors\Notifications\VendorOrderNotification;
 use Modules\Vendors\Services\VendorOrderNotifier;
 use Modules\Vendors\Services\VendorManager;
+use Modules\Vendors\Services\VendorStats;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -358,6 +359,47 @@ class VendorsModuleTest extends TestCase
         $html = trim(Blade::render('<x-vendor-badge :content-id="' . $product->id . '" />'));
 
         $this->assertStringNotContainsString('Sold by', $html);
+    }
+
+    #[Test]
+    public function vendor_stats_count_only_paid_orders_for_the_vendor(): void
+    {
+        $vendorUser = $this->makeVendorUser();
+        $vendor = app(VendorManager::class)->profileFor($vendorUser);
+        $this->vendorIds[] = $vendor->id;
+        $product = $this->makeProductFor($vendorUser->id, 'Stats Widget');
+
+        // Two paid orders for this vendor (makeOrderWith sets is_paid=1).
+        $this->makeOrderWith($product->id, 20.00);
+        $this->makeOrderWith($product->id, 20.00);
+
+        // Another vendor's paid order must not leak into these stats.
+        $otherUser = $this->makeVendorUser();
+        $otherProduct = $this->makeProductFor($otherUser->id, 'Other Stats Widget');
+        $this->makeOrderWith($otherProduct->id, 99.00);
+
+        $stats = VendorStats::for($vendorUser->id);
+
+        $this->assertSame(1, $stats->productCount());
+        $this->assertSame(2, $stats->paidOrderCount());
+        $this->assertSame(2, $stats->unitsSold());
+        $this->assertEqualsWithDelta(40.00, $stats->revenue(), 0.001);
+    }
+
+    #[Test]
+    public function vendor_panel_access_is_restricted_to_vendors_and_admins(): void
+    {
+        $panel = \Filament\Facades\Filament::getPanel('vendor');
+
+        $vendorUser = $this->makeVendorUser();
+        $plain = User::factory()->create();
+        $this->userIds[] = $plain->id;
+        $admin = User::factory()->create(['is_admin' => 1]);
+        $this->userIds[] = $admin->id;
+
+        $this->assertTrue($vendorUser->canAccessPanel($panel), 'vendors may access the vendor panel');
+        $this->assertTrue($admin->canAccessPanel($panel), 'admins may access the vendor panel');
+        $this->assertFalse($plain->canAccessPanel($panel), 'plain users may not access the vendor panel');
     }
 
     private function makeOrderWith(int $productId, float $price): Order

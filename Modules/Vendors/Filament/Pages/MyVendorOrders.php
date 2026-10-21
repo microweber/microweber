@@ -143,6 +143,6 @@ class MyVendorOrders extends Page implements HasTable
 
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->check() && app(VendorManager::class)->isVendor();
+        return auth()->check();
     }
 }

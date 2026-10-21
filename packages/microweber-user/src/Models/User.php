@@ -430,6 +430,22 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
             return (bool) $this->id;
         }
 
+        // The Vendors module's dedicated panel: admins always, plus any user
+        // holding the `vendor` role. Checked by role name so this stays
+        // decoupled from the Vendors module.
+        if ($panelId === 'vendor') {
+            if ($this->is_admin) {
+                return true;
+            }
+            try {
+                return (bool) $this->id
+                    && method_exists($this, 'roles')
+                    && $this->roles()->where('name', 'vendor')->exists();
+            } catch (\Throwable $e) {
+                return false;
+            }
+        }
+
         return false;
     }
 
