@@ -20,9 +20,13 @@ class EditProfile extends Page
     public ?array $data = [];
     public ?array $passwordData = [];
 
+    /** The email the page loaded with — used to detect an actual change. */
+    public ?string $originalEmail = null;
+
     public function mount(): void
     {
         $user = Auth::user();
+        $this->originalEmail = $user->email;
         $this->form->fill([
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
@@ -32,6 +36,12 @@ class EditProfile extends Page
         ]);
 
         $this->passwordForm->fill();
+    }
+
+    /** True when the email field currently differs from the loaded value. */
+    protected function emailIsChanging($get): bool
+    {
+        return trim((string) $get('email')) !== trim((string) $this->originalEmail);
     }
 
     /**
@@ -57,6 +67,7 @@ class EditProfile extends Page
                 $this->getFirstNameFormComponent(),
                 $this->getLastNameFormComponent(),
                 $this->getEmailFormComponent(),
+                $this->getCurrentPasswordForEmailComponent(),
                 $this->getPhoneFormComponent(),
             ])
             ->statePath('data');
@@ -158,7 +169,25 @@ class EditProfile extends Page
             ->email()
             ->required()
             ->maxLength(255)
+            ->live(onBlur: true)
+            ->helperText(fn ($get): ?string => $this->emailIsChanging($get)
+                ? __('Changing your email needs your current password, and a confirmation link will be sent to the new address before it takes effect.')
+                : null)
             ->unique('users', 'email', ignorable: Auth::user());
+    }
+
+    /**
+     * Confirm the current password — only shown/required while the email is
+     * actually being changed (a sensitive action). Not persisted to the user.
+     */
+    protected function getCurrentPasswordForEmailComponent(): Component
+    {
+        return TextInput::make('current_password_for_email')
+            ->label(__('Current Password'))
+            ->password()
+            ->visible(fn ($get): bool => $this->emailIsChanging($get))
+            ->required(fn ($get): bool => $this->emailIsChanging($get))
+            ->dehydrated(true);
     }
 
     protected function getPhoneFormComponent(): Component
@@ -175,12 +204,51 @@ class EditProfile extends Page
             $data = $this->form->getState();
             $user = Auth::user();
 
-
             if (isset($data['is_admin']) && !is_admin()) {
                 unset($data['is_admin']);
             }
 
+            $currentPasswordForEmail = $data['current_password_for_email'] ?? null;
+            unset($data['current_password_for_email']);
+
+            // Email is handled separately (verified change); never let the direct
+            // update touch it.
+            $newEmail = isset($data['email']) ? trim((string) $data['email']) : null;
+            unset($data['email']);
+            $emailChanged = $newEmail !== null && $newEmail !== '' && $newEmail !== trim((string) $user->email);
+
+            if ($emailChanged) {
+                // Sensitive action: require the current password.
+                if (empty($currentPasswordForEmail) || !Hash::check($currentPasswordForEmail, $user->password)) {
+                    throw ValidationException::withMessages([
+                        'data.current_password_for_email' => __('The current password is incorrect.'),
+                    ]);
+                }
+            }
+
+            // Save every other profile field immediately.
             $user->update($data);
+
+            if ($emailChanged) {
+                if (app()->user_manager->emailChangeVerificationEnabled()) {
+                    // Park the change and email a confirmation link to the new
+                    // address (old address keeps working + is notified).
+                    app()->user_manager->requestEmailChange($user, $newEmail);
+                    $this->originalEmail = $user->email; // unchanged until confirmed
+
+                    Notification::make()
+                        ->title(lang('Confirm your new email'))
+                        ->body(lang('A confirmation link was sent to your new address. Your email changes once you confirm it.'))
+                        ->success()
+                        ->send();
+
+                    return;
+                }
+
+                // Verification disabled: apply immediately (still password-gated).
+                $user->update(['email' => $newEmail]);
+                $this->originalEmail = $newEmail;
+            }
 
             Notification::make()
                 ->title(lang('Success'))

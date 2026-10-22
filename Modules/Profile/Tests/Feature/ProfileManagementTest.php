@@ -32,19 +32,18 @@ class ProfileManagementTest extends TestCase
 
         $newFirstName = 'Updated';
         $newLastName = 'User';
-        $newEmail = 'updated_'.bin2hex(random_bytes(4)).'@example.com';
 
+        // Name change leaves the email untouched, so no current-password
+        // confirmation is required (email changes have their own flow/tests).
         Livewire::test(EditProfile::class)
             ->set('data.first_name', $newFirstName)
             ->set('data.last_name', $newLastName)
-            ->set('data.email', $newEmail)
             ->call('save')
             ->assertHasNoErrors();
 
         $user->refresh();
         $this->assertEquals($newFirstName, $user->first_name);
         $this->assertEquals($newLastName, $user->last_name);
-        $this->assertEquals($newEmail, $user->email);
     }
 
     #[Test]
