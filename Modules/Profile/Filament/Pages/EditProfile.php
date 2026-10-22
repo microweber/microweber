@@ -44,6 +44,30 @@ class EditProfile extends Page
         return trim((string) $get('email')) !== trim((string) $this->originalEmail);
     }
 
+    /** May the current user change their own email? Admins always can. */
+    protected function emailChangeAllowed(): bool
+    {
+        if (is_admin()) {
+            return true;
+        }
+
+        return app()->user_manager->userMayChangeOwnEmail(Auth::user());
+    }
+
+    /** Why the email field is locked (null when it is editable). */
+    protected function emailDisabledReason(): ?string
+    {
+        if ($this->emailChangeAllowed()) {
+            return null;
+        }
+
+        if (app()->user_manager->isSocialLoginUser(Auth::user())) {
+            return __('Your email is managed by your social login and cannot be changed here.');
+        }
+
+        return __('Changing your email address is disabled. Please contact an administrator.');
+    }
+
     /**
      * This page hosts two independent forms: the profile details form and an
      * embedded "Change Password" form (moved here from the standalone
@@ -170,23 +194,31 @@ class EditProfile extends Page
             ->required()
             ->maxLength(255)
             ->live(onBlur: true)
-            ->helperText(fn ($get): ?string => $this->emailIsChanging($get)
-                ? __('Changing your email needs your current password, and a confirmation link will be sent to the new address before it takes effect.')
-                : null)
+            ->disabled(fn (): bool => ! $this->emailChangeAllowed())
+            ->helperText(function ($get): ?string {
+                if (! $this->emailChangeAllowed()) {
+                    return $this->emailDisabledReason();
+                }
+
+                return $this->emailIsChanging($get)
+                    ? __('Changing your email needs your current password, and a confirmation link will be sent to the new address before it takes effect.')
+                    : null;
+            })
             ->unique('users', 'email', ignorable: Auth::user());
     }
 
     /**
      * Confirm the current password — only shown/required while the email is
-     * actually being changed (a sensitive action). Not persisted to the user.
+     * actually being changed (a sensitive action) and that is permitted. Not
+     * persisted to the user.
      */
     protected function getCurrentPasswordForEmailComponent(): Component
     {
         return TextInput::make('current_password_for_email')
             ->label(__('Current Password'))
             ->password()
-            ->visible(fn ($get): bool => $this->emailIsChanging($get))
-            ->required(fn ($get): bool => $this->emailIsChanging($get))
+            ->visible(fn ($get): bool => $this->emailChangeAllowed() && $this->emailIsChanging($get))
+            ->required(fn ($get): bool => $this->emailChangeAllowed() && $this->emailIsChanging($get))
             ->dehydrated(true);
     }
 
@@ -216,6 +248,13 @@ class EditProfile extends Page
             $newEmail = isset($data['email']) ? trim((string) $data['email']) : null;
             unset($data['email']);
             $emailChanged = $newEmail !== null && $newEmail !== '' && $newEmail !== trim((string) $user->email);
+
+            // Policy may forbid the change (social login / flag off, non-admin);
+            // the field is also disabled in that case, this is defence in depth.
+            if ($emailChanged && ! $this->emailChangeAllowed()) {
+                $emailChanged = false;
+                $newEmail = null;
+            }
 
             if ($emailChanged) {
                 // Sensitive action: require the current password.

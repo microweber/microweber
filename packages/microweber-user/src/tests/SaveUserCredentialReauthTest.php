@@ -31,6 +31,14 @@ class SaveUserCredentialReauthTest extends TestCase
             'option_group' => 'users',
             'option_value' => 'n',
         ]);
+
+        // Allow self-service email change (off by default) so these tests can
+        // exercise the credential-reauth path; the policy has its own test.
+        save_option([
+            'option_key' => 'allow_user_email_change',
+            'option_group' => 'users',
+            'option_value' => 'y',
+        ]);
     }
 
     private function loginFreshUser(): User

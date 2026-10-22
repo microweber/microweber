@@ -28,6 +28,13 @@ class EmailChangeVerificationTest extends TestCase
             'option_group' => 'users',
             'option_value' => 'y',
         ]);
+
+        // Self-service email change is off by default; enable it for this flow.
+        save_option([
+            'option_key' => 'allow_user_email_change',
+            'option_group' => 'users',
+            'option_value' => 'y',
+        ]);
     }
 
     private function loginFreshUser(): User

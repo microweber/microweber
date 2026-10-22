@@ -34,6 +34,8 @@ class ProfileEmailChangeTest extends TestCase
     private function enableVerification(string $value = 'y'): void
     {
         save_option(['option_key' => 'email_change_verify', 'option_group' => 'users', 'option_value' => $value]);
+        // Self-service email change is off by default; allow it for these tests.
+        save_option(['option_key' => 'allow_user_email_change', 'option_group' => 'users', 'option_value' => 'y']);
     }
 
     #[Test]
@@ -105,6 +107,27 @@ class ProfileEmailChangeTest extends TestCase
             ->assertHasNoErrors();
 
         $this->assertSame('NoPasswordNeeded', User::find($user->id)->first_name);
+    }
+
+    #[Test]
+    public function email_change_is_ignored_when_not_allowed(): void
+    {
+        // Flag OFF (do not call enableVerification which turns it on).
+        save_option(['option_key' => 'allow_user_email_change', 'option_group' => 'users', 'option_value' => 'n']);
+        $user = $this->makeUser();
+        $this->actingAs($user);
+        $old = $user->email;
+
+        // Even a forced email value must be ignored; other fields still save.
+        Livewire::test(EditProfile::class)
+            ->set('data.email', 'forced_' . uniqid() . '@example.test')
+            ->set('data.first_name', 'StillSaves')
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $fresh = User::find($user->id);
+        $this->assertSame($old, $fresh->email, 'Email must not change when not allowed');
+        $this->assertSame('StillSaves', $fresh->first_name);
     }
 
     #[Test]

@@ -857,6 +857,118 @@ class UserManager
     }
 
     /**
+     * Reject a self-service email change that policy does not allow. Returns an
+     * error array to abort, or null to proceed. Admins and non-self edits pass
+     * through; social-login accounts are always blocked; everyone else is gated
+     * by the allow-user-email-change flag (off by default).
+     *
+     * @param array $params
+     * @return array|null
+     */
+    protected function enforceEmailChangePolicy($params)
+    {
+        if (! isset($params['id']) || intval($params['id']) === 0) {
+            return null;
+        }
+
+        $target_id = intval($params['id']);
+        if (intval(user_id()) !== $target_id) {
+            return null; // admin editing another user (auth already checked)
+        }
+
+        if ($this->is_admin()) {
+            return null; // admins can always change their own email
+        }
+
+        if (! isset($params['email'])) {
+            return null;
+        }
+
+        $new_email = trim((string) $params['email']);
+        if ($new_email === '') {
+            return null;
+        }
+
+        $user = User::find($target_id);
+        if (! $user || $new_email === trim((string) $user->email)) {
+            return null; // no actual change
+        }
+
+        if ($this->userMayChangeOwnEmail($user)) {
+            return null;
+        }
+
+        if ($this->isSocialLoginUser($user)) {
+            return array('error' => _e('Your email is managed by your social login and cannot be changed here.', true));
+        }
+
+        return array('error' => _e('Changing your email address is disabled. Please contact an administrator.', true));
+    }
+
+    /**
+     * May this user change their OWN email? Social-login accounts never can (the
+     * email is the provider's identity and their login matches on it); everyone
+     * else only when the allow-user-email-change flag is on.
+     */
+    public function userMayChangeOwnEmail($user): bool
+    {
+        if ($this->isSocialLoginUser($user)) {
+            return false;
+        }
+
+        return $this->allowUserEmailChangeEnabled();
+    }
+
+    /**
+     * Is self-service email change allowed? Reads env ALLOW_USER_EMAIL_CHANGE
+     * first, then option allow_user_email_change ('users'); OFF by default.
+     */
+    public function allowUserEmailChangeEnabled(): bool
+    {
+        $env = env('ALLOW_USER_EMAIL_CHANGE');
+        if ($env !== null && $env !== '') {
+            return filter_var($env, FILTER_VALIDATE_BOOLEAN);
+        }
+
+        $option = get_option('allow_user_email_change', 'users');
+        if ($option === false || $option === null) {
+            return false;
+        }
+
+        return in_array(strtolower(trim((string) $option)), ['1', 'y', 'yes', 'true', 'on'], true);
+    }
+
+    /**
+     * Is the account managed by a social/OAuth login? Checks the legacy
+     * oauth_provider column, the users_oauth records and the socialite_users
+     * links (Filament). Such accounts must not change their email (it breaks the
+     * provider's email-based login matching).
+     */
+    public function isSocialLoginUser($user): bool
+    {
+        if (! $user) {
+            return false;
+        }
+
+        if (! empty($user->oauth_provider)) {
+            return true;
+        }
+
+        foreach (['users_oauth', 'socialite_users'] as $table) {
+            try {
+                if (\Illuminate\Support\Facades\Schema::hasTable($table)
+                    && DB::table($table)->where('user_id', $user->id)->exists()) {
+                    return true;
+                }
+            } catch (\Throwable $e) {
+                // ignore a missing table / column
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Allows you to save users in the database.
      *
      * By default it have security rules.
@@ -943,6 +1055,15 @@ class UserManager
                         }
                     }
                 }
+            }
+
+            // Email-change policy: a non-admin may change their OWN email only
+            // when it is permitted (allow-user-email-change flag, OFF by default)
+            // and the account is not social-login managed (social email is the
+            // provider's identity). Admins can always change any email.
+            $email_policy = $this->enforceEmailChangePolicy($params);
+            if (is_array($email_policy)) {
+                return $email_policy;
             }
 
             // Sensitive-action re-authentication: changing your OWN email or
