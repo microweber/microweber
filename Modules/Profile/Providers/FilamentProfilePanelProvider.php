@@ -47,6 +47,17 @@ class FilamentProfilePanelProvider extends PanelProvider
                 EditProfile::class,
                 TwoFactorAuth::class,
             ], \MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry::getPages('profile', 'profile')))
+            // Plain strings — NOT __(): navigationGroups is evaluated while the
+            // panel is registered during boot, before the DB-backed translation
+            // loader is ready, so __() here triggers "connection() on null".
+            // The pages' getNavigationGroup() __() calls resolve to these same
+            // identity strings at render time, so ordering still matches.
+            ->navigationGroups([
+                'Profile',
+                'Orders & Billing',
+                'Security',
+                'Vendor',
+            ])
             ->discoverWidgets(in: __DIR__ . '/../Filament/Widgets',
                 for: 'Modules\\Profile\\Filament\\Widgets')
             ->widgets([

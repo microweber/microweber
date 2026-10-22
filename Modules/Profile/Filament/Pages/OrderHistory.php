@@ -19,7 +19,7 @@ class OrderHistory extends Page implements HasTable
 
     protected string $view = 'modules.profile::pages.order-history';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-shopping-bag';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
 
     public function getTitle(): string
     {
@@ -33,7 +33,7 @@ class OrderHistory extends Page implements HasTable
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Profile');
+        return __('Orders & Billing');
     }
 
     public function table(Table $table): Table

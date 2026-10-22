@@ -14,6 +14,7 @@ use Illuminate\Validation\ValidationException;
 class ChangePassword extends Page
 {
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-key';
+    protected static ?int $navigationSort = 2;
     protected string $view = 'modules.profile::pages.change-password';
     public ?array $data = [];
 

@@ -373,6 +373,9 @@ class TwoFactorAuth extends Page
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Auth::check();
+        // Hidden from the sidebar: the canonical 2FA screen is Fortify's
+        // TwoFactorSettingsPage (under "Security"). This legacy page stays
+        // routable for back-compat but must not duplicate it in the nav.
+        return false;
     }
 }

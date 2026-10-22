@@ -24,7 +24,7 @@ class TwoFactorSettingsPage extends Page
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-shield-check';
     protected static ?string $navigationLabel = 'Two-Factor Auth';
     protected static ?string $title = 'Two-Factor Authentication';
-    protected static string|\UnitEnum|null $navigationGroup = 'User Settings';
+    protected static string|\UnitEnum|null $navigationGroup = 'Security';
     protected static ?int $navigationSort = 999;
     protected static bool $shouldRegisterNavigation = true;
     protected static string $description = 'Configure your 2FA settings, including enabling/disabling 2FA, viewing recovery codes, and regenerating recovery codes.';

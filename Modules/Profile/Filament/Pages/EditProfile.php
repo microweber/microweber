@@ -14,6 +14,7 @@ use Illuminate\Validation\ValidationException;
 class EditProfile extends Page
 {
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user';
+    protected static ?int $navigationSort = 1;
     protected string $view = 'modules.profile::pages.edit-profile';
     public ?array $data = [];
 
