@@ -323,16 +323,20 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
   min-width: 120px !important;
 }
 
-/* ── Structural dividers: colorize Filament's width-only table borders ─────── */
-/* Filament sets a border-WIDTH on the header toolbar, the column-header row
-   (divide-y) and the pagination rail, but leaves the border COLOR unset. Under
-   Tailwind v4 the default border color is currentColor, so these render in the
-   ink text color (#182433) — heavy near-black horizontal lines across tables.
-   Recolor them to the theme's subtle border token (auto-switches in dark). */
-.fi-ta thead,
+/* ── Border color fix for Filament's table dividers ───────────────────────── */
+/* ROOT CAUSE: Filament v5's dist compiles these to `border-color: var(--gray-200)`
+   (see vendor/filament/tables/resources/css/container.css:64 — `border-gray-200`).
+   But this theme defines color tokens the Tailwind-v3 way — `--gray-200: 229,229,229`
+   (a raw RGB triplet meant for `rgba(var(--gray-200), <alpha>)`). So Filament's
+   bare `var(--gray-200)` evaluates to the invalid `border-color: 229,229,229`,
+   which the browser drops → the border falls back to currentColor (ink #182433).
+   Fix per-element: give the specific Filament surfaces a valid border color from
+   our --mw-border-color token (auto-switches in dark). Loaded after Filament's
+   dist + equal/higher specificity, so no !important needed. */
 .fi-ta-ctn .fi-ta-header-toolbar,
 .fi-ta-ctn .fi-pagination,
+.fi-ta thead,
 .fi-input-wrp-prefix,
 .fi-input-wrp-suffix {
-  border-color: var(--mw-border-color) !important;
+  border-color: var(--mw-border-color);
 }
