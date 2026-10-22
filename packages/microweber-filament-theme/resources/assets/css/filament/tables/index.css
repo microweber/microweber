@@ -2,7 +2,6 @@
 @import './cell';
 @import './columns';
 @import './container';
-@import './header';
 @import './header-cell';
 @import './reorder';
 @import './row';
