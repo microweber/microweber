@@ -107,6 +107,7 @@
             <file>./tests/Browser/AdminPaymentWorkflowTest.php</file>
             <file>./tests/Browser/AdminProductWorkflowTest.php</file>
             <file>./tests/Browser/AdminProfileWorkflowTest.php</file>
+            <file>./tests/Browser/ProfileEditSecurityWorkflowTest.php</file>
             <file>./tests/Browser/AdminSettingsTest.php</file>
         </testsuite>
         <testsuite name="Browser-05">
