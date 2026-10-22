@@ -1,0 +1,1299 @@
+/* ======================================================================
+   task-2026-05-16-bcb327 / AI-702 — Microweber brand mark in the admin
+   top bar. Per designer spec (admin-shell-improvements-2026-05-16.md
+   §2 AD1): inserted via TOPBAR_START render hook in
+   FilamentAdminPanelProvider; CSS sizes the logo to 24px desktop /
+   16px mobile and gates the wordmark label via the existing .sr-only
+   utility so AT users still hear the brand name on screen-reader
+   focus.
+
+   Click routes to /admin per the render hook's :href. Hover/focus
+   apply a subtle --ese-surface-hover background pill for affordance.
+
+   Token-scoping note (per SOUL #108 spec-doc-nit): tokens consumed
+   carry literal fallbacks. The brand mark renders inside the
+   Filament admin panel (.fi-panel-admin or .fi-panel-* depending on
+   the panel scope), so :root ESE tokens resolve naturally.
+   ====================================================================== */
+.fi-topbar a.mw-admin-brand-mark,
+a.mw-admin-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    margin-inline-end: var(--space-md, 13px);
+    padding: var(--space-xs, 6px) var(--space-sm, 8px);
+    border-radius: var(--radius-sm, 6px);
+    text-decoration: none;
+    color: inherit;
+    flex-shrink: 0;
+    transition: background-color var(--t-fast, 120ms) var(--ease, ease-out);
+}
+
+.mw-admin-brand-mark:hover,
+.mw-admin-brand-mark:focus-visible {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+}
+
+.mw-admin-brand-mark:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: -2px;
+}
+
+.mw-admin-brand-mark__image {
+    /* MW v2 demo / designer spec = 147×36px (see mobile-touch.css note); was capped at
+       24px which reads too small vs the demo. Raise the width cap so 36px isn't width-
+       constrained (natural ratio ~147/36 → ~190px at 36px tall). */
+    height: 36px;
+    width: auto;
+    max-width: 200px;
+    display: block;
+    object-fit: contain;
+}
+
+/* Desktop: give the brand a fixed column width so the toolbar items after it (the
+   "+ Add" button, search, …) line up with the main content column's left edge, as in
+   the v2 demo — the logo left-aligns inside it. Mobile keeps its collapsed layout. */
+@media (min-width: 1024px) {
+    a.mw-admin-brand-mark {
+        min-width: 230px;
+    }
+}
+
+/* Mobile (≤768px) — the logo asset is the WORDMARK (~147×36). Forcing it into
+   a 16×16 box with object-fit:contain scaled it to a ~16×4px illegible sliver
+   (read as a broken image). Keep the wordmark legible at a reduced height with
+   a width cap so it doesn't crowd the +Add / search / Live-Edit controls. */
+@media (max-width: 768px) {
+    .mw-admin-brand-mark__image {
+        height: 24px;
+        width: auto;
+        max-width: 130px;
+        object-fit: contain;
+    }
+    /* Drop the desktop logo gutter so the wordmark sits snug on the left. */
+    .fi-topbar a.mw-admin-brand-mark,
+    a.mw-admin-brand-mark {
+        margin-inline-end: var(--space-xs, 6px);
+        padding-inline: var(--space-xs, 6px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mw-admin-brand-mark {
+        transition: none;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-703 — Microweber admin responsive sidebar polish
+ * task-2026-05-16-29342d / designer spec admin-shell-improvements §2 AD2
+ *
+ * Filament's ->sidebarCollapsibleOnDesktop() enables the pinned-rail
+ * pattern at the framework's lg breakpoint (≥1024px). The designer
+ * spec calls for a 1280px breakpoint with a clean 240px sidebar width.
+ *
+ * This block ships:
+ *  - the 240px width pin (defence-in-depth — the panel provider sets the
+ *    same value via ->sidebarWidth('240px'); duplicating here protects
+ *    against future overrides that compete on specificity);
+ *  - a subtle right-edge divider between the pinned sidebar and main
+ *    content, visible only at lg+ when the sidebar is pinned-open.
+ *
+ * The exact 1280px breakpoint shift (1024px → 1280px) is the AI-703a
+ * follow-up candidate; landing it requires undoing several `lg:` utility
+ * classes that Filament bakes into the rendered HTML and is a larger
+ * slice than this dispatch budgets for.
+ * ─────────────────────────────────────────────────────────────── */
+
+body.fi-panel-admin .fi-sidebar {
+    --sidebar-width: 240px;
+}
+
+@media (min-width: 1024px) {
+    body.fi-panel-admin.fi-sidebar-open .fi-sidebar {
+        border-inline-end: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+    }
+    .dark body.fi-panel-admin.fi-sidebar-open .fi-sidebar {
+        border-inline-end-color: var(--ese-border, rgba(255, 255, 255, 0.12));
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-704 — Re-cluster +Add with Live Edit on the right side of
+ * the admin top bar
+ * task-2026-05-16-225150 / designer spec admin-shell-improvements §2 AD3
+ *
+ * Layout: PHP-side moves both buttons into GLOBAL_SEARCH_AFTER wrapped
+ * in `.mw-admin-primary-actions`. This block ships:
+ *
+ *  - `.mw-admin-primary-actions` — inline-flex wrapper with
+ *    `gap: var(--space-sm)` per spec, so +Add and Live Edit sit
+ *    tight together as a single visual cluster.
+ *
+ *  - `.admin-toolbar-add` (Filament `.fi-btn`) — compact
+ *    MwToolButton-default geometry: icon-only 32×32 hit area,
+ *    16 px Plus icon, transparent ghost background that fills on
+ *    hover with `--ese-surface-hover`. Overrides the legacy
+ *    `the split theme CSS` MW-v2 light-blue pill with
+ *    `!important` (the legacy SCSS uses `!important` itself, so we
+ *    have to match-or-beat its specificity).
+ *
+ *  - `.admin-toolbar-live-edit` (Filament `.fi-btn`) — v2-inspired
+ *    primary pill matching the AI-699 SAVE pill contract:
+ *    `--ese-text` bg, `--ese-surface` text, `--radius-pill` rounding,
+ *    `var(--space-sm) var(--space-md)` padding. Same `!important`
+ *    rationale.
+ *
+ *  - Mobile (≤768px): `.admin-toolbar-add` stays VISIBLE (it is the
+ *    primary v2 left action) and is lifted to the 44px WCAG touch-target
+ *    floor — see the task-2026-06-08-addmobile @media block below. (The
+ *    old AI-704/AI-1254 mobile-hide was superseded.)
+ *
+ * Token-scoping note (SOUL #108 spec-doc-nit): all consumed tokens
+ * are :root-scoped at the ESE token layer; literal fallbacks on every
+ * var() so the rules resolve even in surfaces where the ESE stylesheet
+ * hasn't loaded.
+ * ─────────────────────────────────────────────────────────────── */
+
+/* task-2026-06-08-addleft / AI-704 CHANGE — the +Add button was moved
+ * back to the LEFT of the topbar (TOPBAR_START, after the brand mark)
+ * with a VISIBLE "+ Add" label, restoring the Microweber v2 layout
+ * (PM: "want it on left as before, say + Add — see v2 demo"). The
+ * .mw-admin-primary-actions--left modifier gives it breathing room from
+ * the brand mark; the .admin-toolbar-add pill geometry below is reused
+ * as-is (it already lays out icon + label in a row). Live Edit keeps the
+ * plain .mw-admin-primary-actions wrapper in the right cluster. */
+body.fi-panel-admin .mw-admin-primary-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm, 8px);
+}
+
+body.fi-panel-admin .mw-admin-primary-actions--left {
+    margin-inline-start: var(--space-sm, 8px);
+}
+
+/* The visible "+ Add" label sits next to the plus icon (was .sr-only). */
+body.fi-panel-admin .admin-toolbar-add .fi-btn .admin-toolbar-add__label {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    color: #182433;
+}
+
+body.fi-panel-admin .admin-toolbar-add .fi-btn,
+body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
+    background-color: #e1edf8 !important;
+    color: #182433 !important;
+    border: none !important;
+    box-shadow: none !important;
+    /* task-2026-06-13-letoolbarstyle — match released v2.0.20 admin: 4px
+       rectangle, not the 999px pill (user: "old design is better, match it"). */
+    border-radius: 4px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    height: auto !important;
+    min-height: 32px !important;
+    padding: 0 var(--space-md, 16px) !important;
+    line-height: 1 !important;
+    gap: 6px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
+}
+body.fi-panel-admin .admin-toolbar-add .fi-btn:hover,
+body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary:hover {
+    background-color: #c8dff5 !important;
+    opacity: 1 !important;
+}
+body.fi-panel-admin .admin-toolbar-add .fi-btn:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd) !important;
+    outline-offset: 2px !important;
+}
+body.fi-panel-admin .admin-toolbar-add .fi-btn svg {
+    width: 16px !important;
+    height: 16px !important;
+    color: #182433 !important;
+}
+
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary {
+    background-color: #e2f9e6 !important;
+    color: #182433 !important;
+    border: none !important;
+    box-shadow: none !important;
+    /* task-2026-06-13-letoolbarstyle — match released v2.0.20 admin: 4px
+       rectangle, not the 999px pill. */
+    border-radius: 4px !important;
+    height: auto !important;
+    min-height: 32px !important;
+    padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
+    line-height: 1 !important;
+    transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
+}
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn:hover,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary:hover {
+    background-color: #c8f4ce !important;
+    opacity: 1 !important;
+}
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd) !important;
+    outline-offset: 2px !important;
+}
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn span,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn .fi-btn-label,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn svg {
+    color: #182433 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.fi-panel-admin .admin-toolbar-add .fi-btn,
+    body.fi-panel-admin .admin-toolbar-live-edit .fi-btn {
+        transition: none !important;
+    }
+}
+
+/* task-2026-06-08-addmobile / AI-1254 CHANGE — +Add is now the primary v2
+ * LEFT action, so it stays VISIBLE on mobile (was hidden because it rendered
+ * a 32px sub-floor pill next to the 44px Live Edit pill). Instead of hiding
+ * it, lift it to the WCAG 2.5.5 44px touch-target floor and keep the "+ Add"
+ * label. The `.fi-color-primary` compound is mirrored so this rule matches
+ * the always-on display:flex rule above at equal (0,4,1) specificity and
+ * wins on later source order. (Supersedes the AI-704/AI-1254 mobile-hide.) */
+@media (max-width: 768px) {
+    body.fi-panel-admin .admin-toolbar-add .fi-btn,
+    body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
+        display: inline-flex !important;
+        min-height: 44px !important;
+        padding: 0 14px !important;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-705 — Welcome widget actionable counter sub-line
+ * task-2026-05-16-2dbae0 / designer spec admin-shell-improvements §2 AD4
+ *
+ * Replaces the static "Here's what's happening" filler with a
+ * counter strip — `3 new comments · 1 new order · 0 new messages` —
+ * each segment is a real `<a href>` routing to the relevant list.
+ * Counters come from WelcomeWidget::getCounters(), which queries
+ * the SAME columns as the matching Filament navigation badge
+ * (single source of truth — never disagrees with the bell).
+ *
+ *  - `.mw-welcome-widget-counters`: inline-flex strip, font-control
+ *    size, muted colour so it reads as metadata under the headline.
+ *  - `.mw-welcome-widget-counter`: each segment uses --ese-text by
+ *    default and shifts to --ese-accent + underline on :hover, with
+ *    a 2px --ese-accent focus-visible outline (a11y).
+ *  - `.mw-welcome-widget-counter-sep` (`·`): wraps in var(--space-xs)
+ *    on both sides per spec.
+ *  - `.mw-welcome-widget-empty` (rendered when isAllCaughtUp()):
+ *    slightly heavier than --font-control (15px / weight 500) per
+ *    spec — short, satisfying, distinct from metadata.
+ *
+ * Token-scoping note (SOUL #108 spec-doc-nit): the widget renders
+ * inside body.fi-panel-admin; :root ESE tokens resolve naturally.
+ * Every var() carries a literal fallback for defence-in-depth.
+ * ─────────────────────────────────────────────────────────────── */
+
+body.fi-panel-admin .mw-welcome-widget-counters {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0;
+    margin: 0;
+    font-size: var(--font-control, 13px);
+    line-height: 1.5;
+    color: var(--ese-text-muted, #6b7280);
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter {
+    color: var(--ese-text, #111827);
+    text-decoration: none;
+    transition: color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter:hover {
+    color: var(--ese-accent, #0d6efd);
+    text-decoration: underline;
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm, 6px);
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter-count {
+    font-weight: 600;
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter-label {
+    margin-inline-start: 4px;
+}
+
+body.fi-panel-admin .mw-welcome-widget-counter-sep {
+    display: inline-block;
+    margin-inline: var(--space-xs, 6px);
+    color: var(--ese-text-muted, #6b7280);
+    user-select: none;
+}
+
+body.fi-panel-admin .mw-welcome-widget-empty {
+    margin: 0;
+    font-size: var(--font-section, 15px);
+    font-weight: 500;
+    color: var(--ese-text-muted, #6b7280);
+    line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.fi-panel-admin .mw-welcome-widget-counter {
+        transition: none;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-706 — Stat-card hierarchy: hero chart 2× + 4-col secondary strip
+ * task-2026-05-16-5cc439 / designer spec admin-shell-improvements §2 AD5
+ *
+ * Pre-AI-706 the dashboard weighted the Statistics chart and the
+ * 4 secondary cards (Emails / Comments / Sales / Orders) equally —
+ * chart sparse, secondary cards over-claiming attention. This block
+ * re-establishes the hierarchy "one hero + a strip":
+ *
+ *  - Hero chart: 2× height via Filament's `$maxHeight = '480px'` on
+ *    TrafficChartWidget (PHP-side; no CSS needed for the height itself).
+ *  - Secondary strip `.mw-quick-stats-grid`: switches from 2×2 to a
+ *    single 4-col row at desktop (≥1024 px), 2×2 at tablet
+ *    (480-1023.98 px), 1-col at mobile (≤480 px). Higher specificity
+ *    than the legacy `the split theme CSS` rules so this wins
+ *    the cascade. Note legacy SCSS uses `grid-template-columns:
+ *    repeat(2, 1fr);` (no !important); we beat it with the
+ *    `body.fi-panel-admin` scope prefix.
+ *  - Card body padding compacted from `--space-lg` × 2 to
+ *    `--space-sm` × `--space-md` per spec "half current height" so
+ *    the strip reads as a slim row.
+ *  - Vertical breathing room between hero and strip: `margin-block-start:
+ *    var(--space-lg)` applied to the .fi-wi wrapping the secondary
+ *    cards when it follows another .fi-wi (general sibling combinator
+ *    keeps the gap proportional even when other widgets sit between).
+ *
+ * The "KPIs left-rail INSIDE the chart card" piece of §2 AD5 is the
+ * AI-706a follow-up candidate (requires a custom widget view +
+ * Online / Visitors % / Conversion computation).
+ *
+ * Token-scoping note (SOUL #108): every var() carries a literal
+ * fallback because dashboard widgets render inside body.fi-panel-admin
+ * where :root ESE tokens resolve, but the literal fallbacks protect
+ * against any future stylesheet-load order regression.
+ * ─────────────────────────────────────────────────────────────── */
+
+body.fi-panel-admin .mw-hero-stat-card {
+    /* Unified card language: 4px (was an off-grid 7px), borderless (was a
+       mismatched #e5e7eb vs the #dadfe5 used elsewhere), floating on the shared
+       soft shadow — matches .mw-stats-card / .mw-quick-stat-card exactly. */
+    border: none;
+    border-radius: var(--mw-radius-lg, 4px);
+    box-shadow: var(--mw-card-shadow, 0 1px 3px rgba(24, 36, 51, 0.08), 0 1px 2px rgba(24, 36, 51, 0.04));
+    padding: var(--space-md, 13px) var(--space-lg, 21px);
+    margin-block-end: var(--space-md, 13px);
+}
+.dark body.fi-panel-admin .mw-hero-stat-card {
+    background-color: #1a1f2b;
+    border: none;
+}
+body.fi-panel-admin .mw-hero-stat-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 8px);
+    margin-block-end: var(--space-sm, 8px);
+}
+body.fi-panel-admin .mw-hero-stat-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+body.fi-panel-admin .mw-hero-stat-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mw-text-primary);
+}
+.dark body.fi-panel-admin .mw-hero-stat-label {
+    color: #f3f4f6;
+}
+body.fi-panel-admin .mw-hero-stat-link {
+    margin-inline-start: auto;
+    font-size: 13px;
+    color: #0d6efd;
+    text-decoration: none;
+}
+body.fi-panel-admin .mw-hero-stat-link:hover {
+    text-decoration: underline;
+}
+body.fi-panel-admin .mw-hero-stat-tabs {
+    display: flex;
+    gap: 2px;
+    margin-block-end: var(--space-md, 13px);
+    background: #f3f4f6;
+    border-radius: 6px;
+    padding: 2px;
+    width: fit-content;
+}
+.dark body.fi-panel-admin .mw-hero-stat-tabs {
+    background: rgba(255, 255, 255, 0.07);
+}
+body.fi-panel-admin .mw-hero-stat-tab {
+    padding: 4px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #6b7280;
+    font-weight: 500;
+    transition: background-color 120ms, color 120ms;
+}
+body.fi-panel-admin .mw-hero-stat-tab:hover {
+    color: var(--mw-text-primary);
+}
+.dark body.fi-panel-admin .mw-hero-stat-tab:hover {
+    color: #f3f4f6;
+}
+body.fi-panel-admin .mw-hero-stat-tab--active {
+    background: #fff;
+    color: var(--mw-text-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.dark body.fi-panel-admin .mw-hero-stat-tab--active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #f3f4f6;
+}
+body.fi-panel-admin .mw-hero-stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--mw-text-primary);
+    line-height: 1.2;
+    margin: 0;
+}
+.dark body.fi-panel-admin .mw-hero-stat-value {
+    color: #f3f4f6;
+}
+body.fi-panel-admin .mw-hero-stat-orders {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 4px 0 0;
+}
+
+/* task-2026-05-27-h3r0a8 — Dashboard hero-stats widget mobile touch-target
+   floor. Pre-fix at <=768px the four .mw-hero-stat-tab buttons (Daily / Weekly
+   / Monthly / Yearly) rendered at roughly 53-70 wide by 29 tall and the
+   "View all" link at 61 by 21 — all below the WCAG 2.5.5 / iOS HIG 44 by 44
+   floor. Tabs gain min-height: 44px with inline-flex centering plus 16px
+   horizontal padding; link gains min-height: 44px with inline-flex centering.
+   Desktop layout untouched (>768px keeps the dense 29px tab rail). */
+@media (max-width: 768px) {
+    body.fi-panel-admin .mw-hero-stat-tab {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 16px;
+    }
+    body.fi-panel-admin .mw-hero-stat-link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+    }
+}
+
+body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md, 13px);
+    margin-block-start: 0;
+}
+body.fi-panel-admin .mw-quick-stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md, 13px);
+    margin-block-start: var(--space-lg, 21px);
+}
+
+@media (max-width: 1023.98px) {
+    body.fi-panel-admin .mw-quick-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    body.fi-panel-admin .mw-quick-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    body.fi-panel-admin .mw-quick-stats-grid.mw-quick-stats-secondary {
+        grid-template-columns: 1fr;
+    }
+}
+
+body.fi-panel-admin .mw-quick-stat-card-body {
+    padding: var(--space-sm, 8px) var(--space-md, 13px);
+    gap: var(--space-sm, 8px);
+}
+
+body.fi-panel-admin .mw-quick-stat-card-icon {
+    width: var(--space-lg, 21px);
+    height: var(--space-lg, 21px);
+    min-width: var(--space-lg, 21px);
+}
+
+body.fi-panel-admin .mw-quick-stat-card-label {
+    font-size: var(--font-label, 11px);
+    line-height: 1.2;
+}
+
+body.fi-panel-admin .mw-quick-stat-card-value {
+    font-size: var(--font-section, 15px);
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+/* task-2026-05-17-18be49 / AI-738: hover affordance on the
+   dashboard quick-stat cards. Pre-fix the cards rendered as
+   <a> wrappers (clickable) but had no visual hover signal — the
+   audit reported them as "non-clickable" because there was no
+   feedback when the mouse entered the card. This rule lifts the
+   card 1 px + adds a subtle box-shadow on hover/focus-visible so
+   the click affordance reads clearly. :focus-visible mirror
+   keeps keyboard users on parity. prefers-reduced-motion
+   collapses the transition to 0. */
+body.fi-panel-admin .mw-quick-stat-card {
+    /* Pin 4px here too — a 7px (Filament default, delivered via an adopted
+       stylesheet) leaks past the theme-scss rule and even this body-scoped one
+       per-corner, so !important is required to keep all cards unified at 4px. */
+    border-radius: 4px !important;
+    transition: transform var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)),
+                box-shadow var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+}
+body.fi-panel-admin .mw-quick-stat-card:hover,
+body.fi-panel-admin .mw-quick-stat-card:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    text-decoration: none;
+}
+body.fi-panel-admin .mw-quick-stat-card:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: 2px;
+}
+.dark body.fi-panel-admin .mw-quick-stat-card:hover,
+.dark body.fi-panel-admin .mw-quick-stat-card:focus-visible {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+@media (prefers-reduced-motion: reduce) {
+    body.fi-panel-admin .mw-quick-stat-card {
+        transition: none;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-711 — Quick AI Edit row labels (H1 / P1 / LINK 1 / IMAGE ALT 1)
+ * task-2026-05-16-b0b48f / designer spec DESIGN_AUDIT.md L2.4
+ *
+ * The Quick AI Edit panel labels each editable element row with a
+ * per-section identifier (H1 / P1 / P2 / LINK 1 / BUTTON 1 / IMAGE
+ * ALT 1) — the labels are metadata identifiers, NOT body text, so
+ * they belong to the same metadata typography family as ESE section
+ * labels: --font-label / --weight-label / --letter-label.
+ *
+ * Pre-AI-711 styling came from `@apply text-sm font-medium
+ * text-gray-700` (lines ~1186) — replaced here with ESE-token-driven
+ * typography so the panel reads consistently with the rest of the
+ * design-token-aware admin surfaces. The `--ese-text-muted` colour
+ * confirms the labels read as metadata rather than primary text.
+ *
+ * Scoped via `.quick-ai-card .form-control-live-edit-label-wrapper`
+ * so the existing `.mw-dialog-skin-default` and form-wrapper labels
+ * elsewhere keep their legacy typography. Card class
+ * `.quick-ai-card` is the unique wrapper the panel emits — see
+ * `editor()` method in `quick-ai-edit.js`.
+ *
+ * Token-scoping note (SOUL #108): tokens consumed are :root-scoped
+ * via the ESE token layer; every var() carries a literal fallback
+ * for defence-in-depth.
+ * ─────────────────────────────────────────────────────────────── */
+
+.quick-ai-card .form-control-live-edit-label-wrapper .live-edit-label {
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    color: var(--ese-text-muted, #6b7280);
+    text-transform: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-712 — Template Settings panel section-header unification
+ * task-2026-05-16-51c8e8 / designer spec DESIGN_AUDIT.md L2.5
+ *
+ * The Template Settings panel mixes three internal content-block
+ * patterns (segmented selector / link rows / AI Assistant). Slice 1
+ * unifies the three section-header labels under one metadata
+ * typography contract — same shape as the AI-711 Quick AI Edit
+ * row labels, same ESE tokens.
+ *
+ * Surfaces wearing `.mw-template-settings-section-header`:
+ *   1. "Choose where to edit" — label above the
+ *      `.edit-mode-toggle-container` (now also wearing `.mw-segmented`
+ *      primitive from AI-684 — applied in slice 1).
+ *   2. "Website design settings" — span above the link-row list.
+ *
+ * The third section header (AI Assistant ::before pseudo-element
+ * on `.mw-ai-chat-box`) is the AI-712a follow-up candidate —
+ * requires restructuring the FieldAiChangeDesign component to
+ * use MwField (AI-687) with an inline send icon. Flagged in
+ * source comments + this CSS docblock + contract test.
+ *
+ * Token-scoping note (SOUL #108): every var() carries a literal
+ * fallback. The panel renders inside `.mw-template-settings-panel`
+ * which lives below `body.fi-panel-admin`, so :root ESE tokens
+ * resolve. Scoped to `.mw-template-settings-panel` so legacy
+ * `.live-edit-label` rules elsewhere keep their typography.
+ * ─────────────────────────────────────────────────────────────── */
+
+.mw-template-settings-panel .mw-template-settings-section-header {
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    color: var(--ese-text-muted, #6b7280);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: var(--space-sm, 8px);
+}
+
+/* ── AI-773 (task-2026-05-17-551f7e) — admin topbar user-menu theme switcher
+ * Designer's Round-9 audit: Filament stock `.fi-active` indicator on the 3
+ * theme buttons resolves to `oklch(0.985 ...)` — effectively white-on-white
+ * on the light topbar; user cannot tell which theme is currently active.
+ * Companion Blade override (resources/views/vendor/filament-panels/components/
+ * theme-switcher/button.blade.php) adds `aria-pressed` for AT users; this CSS
+ * rule is the sighted-user half — accent-soft background + accent ring +
+ * accent foreground so the active button reads instantly in both themes.
+ *
+ * Scoped via `body.fi-panel-admin` so the override never leaks into checkout
+ * or profile panels (they have their own scope handles). Token-scoping:
+ * `--ese-accent*` are :root-scoped per ESE slice 1.1 so they resolve here
+ * (this CSS runs at the Filament topbar root, outside .mw-live-edit-page).
+ * Literal fallbacks belt-and-braces. */
+body.fi-panel-admin .fi-theme-switcher-btn.fi-active {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
+    color: var(--ese-accent, #0d6efd);
+    box-shadow: inset 0 0 0 1px var(--ese-accent, #0d6efd);
+    border-radius: var(--radius-sm, 6px);
+}
+
+body.fi-panel-admin .fi-theme-switcher-btn.fi-active svg,
+body.fi-panel-admin .fi-theme-switcher-btn.fi-active .fi-icon {
+    color: var(--ese-accent, #0d6efd);
+}
+
+.dark body.fi-panel-admin .fi-theme-switcher-btn.fi-active {
+    background-color: var(--ese-accent-soft, rgba(96, 165, 250, 0.20));
+    color: var(--ese-accent, #182433);
+    box-shadow: inset 0 0 0 1px var(--ese-accent, #182433);
+}
+
+/* ── AI-774 (task-2026-05-17-551f7e) — admin notifications drawer empty state.
+ * Companion CSS for the Blade override at
+ * resources/views/vendor/filament-notifications/database-notifications.blade.php
+ * Empty state now renders inside the same slide-over chrome as the filled
+ * state (no width swap, no alignment swap). This rule styles the centred
+ * icon+heading+description body so it reads as a polished empty state
+ * rather than a default-stack of unstyled elements.
+ *
+ * Token-scoping per SOUL #108 — every var() carries a literal fallback
+ * because this CSS runs at the Filament slide-over root (outside
+ * .mw-live-edit-page). */
+.mw-no-database-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--mw-space-2xl, 32px) var(--mw-space-md, 16px);
+    gap: var(--space-sm, 8px);
+    min-height: 320px;
+}
+
+.mw-no-database-empty__icon {
+    width: 48px;
+    height: 48px;
+    color: var(--ese-text-muted, #9ca3af);
+    margin-bottom: var(--space-sm, 8px);
+}
+
+.mw-no-database-empty__heading {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0;
+}
+
+.mw-no-database-empty__description {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    max-width: 28ch;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.dark .mw-no-database-empty__heading {
+    color: var(--ese-text, #f3f4f6);
+}
+
+.dark .mw-no-database-empty__description {
+    color: var(--ese-text-muted, #9ca3af);
+}
+
+/* AI-780 (task-2026-05-17-6d65de) — `.mw-canvas-empty-state` rules live
+ * in `packages/frontend-assets/resources/assets/css/microweber/css/default.css`
+ * because the canvas content-module empty state renders inside the Live Edit
+ * iframe (front-end template stack), not admin chrome. Per AI-771
+ * cross-package @import architecture, default.css is consumed by BOTH the
+ * Vite bundle AND the Webpack theme bundle — one source, both pipelines
+ * fed. See default.css for the full rule body. */
+
+/* ── AI-782 (task-2026-05-17-378d85) — Filament table badges no-wrap.
+ * Designer's Round-10 audit caught "Out of Stock" wrapping to 2 lines
+ * inside the Stock badge column on /admin/products. The Filament stock
+ * .fi-badge default lets multi-word labels wrap on narrow columns —
+ * "Out of Stock", "Low Stock", any 2-3 word badge label hits the same
+ * issue everywhere. Scoping to admin panel so checkout/profile badges
+ * keep Filament defaults. Single white-space rule is the smallest fix;
+ * single-word badges unaffected. */
+body.fi-panel-admin .fi-badge {
+    white-space: nowrap;
+}
+
+/* ── AI-783 (task-2026-05-17-378d85) — stat-card label accidental underline.
+ * Designer's Round-10 audit caught the "Orders" label on the OrderStats
+ * widget rendering with `text-decoration: underline` — inherits from a
+ * parent rule (probably the page-section heading style cascade). Filament
+ * stat labels are NOT links and should never carry an underline. Scoped
+ * to the stat-overview widget class so other stats elsewhere keep their
+ * intended styling. Applies to the label only (not the value). */
+body.fi-panel-admin .fi-wi-stats-overview-stat-label,
+body.fi-panel-admin .fi-wi-stats-overview-stat-description {
+    text-decoration: none;
+}
+
+/* ── AI-786 (task-2026-05-17-4905c8) — marketplace card description sizing.
+ * Companion CSS for the new description column added to MarketplaceResource
+ * card layout. Constrains the description line-height + max-height so long
+ * descriptions don't blow the card vertical rhythm; the column already
+ * truncates at 120 chars at the PHP level. Mutes the colour to ese-text-muted
+ * so the body text doesn't compete with the bold title.
+ *
+ * task-2026-05-17-bed599 / AI-786 CHANGE absorption — Stage-2 cascade-loss
+ * dark-mode fix. Designer's dark-mode probe caught Filament's compiled
+ * `dark:fi-text-color-400` losing to a higher-specificity Filament default
+ * (`body.fi-panel-admin.dark .fi-ta-text { color: white }`-style rule); our
+ * single-class .mw-marketplace-card-description (specificity 0,0,2,1) won
+ * in light but was dominated in dark — title + description both rendered
+ * white, hierarchy collapsed. Same Stage-2 family as AI-697 v3 (cascade
+ * loss to a higher-specificity Filament default). Fix per designer's
+ * Option A: compound `.fi-ta-text-item.mw-marketplace-card-description`
+ * selector + `!important` closes the cascade gap with a single-line edit;
+ * no new token, no dark-only branch, no inline-style override.
+ *
+ * Sizing rule (line-height / clamp / max-height) below remains single-
+ * class — only the COLOUR needs the cascade defence. */
+body.fi-panel-admin .mw-marketplace-card-description {
+    line-height: 1.4;
+    max-height: 4.2em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-top: var(--space-xs, 6px);
+}
+
+body.fi-panel-admin .fi-ta-text-item.mw-marketplace-card-description {
+    color: var(--ese-text-muted, #6b7280) !important;
+}
+
+/* ── AI-789 (task-2026-05-17-c188de) — systemic admin empty-state chrome.
+ * Companion CSS for the new `mw-filament::partials.admin-empty-state` Blade
+ * partial. Centered flex-column with vertical rhythm matching the existing
+ * AI-728/729/730 admin empty-state pattern. Heading + body + CTA all
+ * consume ESE tokens (literal fallbacks per SOUL #108 — partial renders
+ * inside Filament chrome, may also render in iframe canvas in future).
+ *
+ * The CTA itself uses the existing .mw-table-empty-cta class (44px floor,
+ * primary blue, full hover/focus states) from
+ * Modules/Content/resources/views/filament/admin/empty-state.blade.php's
+ * companion styling. This rule adds chrome around it (heading typography,
+ * body muted, icon spacing). */
+body.fi-panel-admin .mw-admin-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--mw-space-2xl, 32px) var(--mw-space-md, 16px);
+    gap: var(--space-sm, 8px);
+    min-height: 280px;
+}
+
+body.fi-panel-admin .mw-admin-empty-state__icon {
+    color: var(--ese-text-muted, #9ca3af);
+    margin-bottom: var(--space-xs, 6px);
+}
+
+body.fi-panel-admin .mw-admin-empty-state__heading {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0;
+}
+
+body.fi-panel-admin .mw-admin-empty-state__body {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    max-width: 36ch;
+    line-height: 1.5;
+    margin: 0;
+}
+
+body.fi-panel-admin .mw-admin-empty-state__cta-wrap {
+    margin-top: var(--space-sm, 8px);
+}
+
+.dark body.fi-panel-admin .mw-admin-empty-state__heading {
+    color: var(--ese-text, #f3f4f6);
+}
+
+.dark body.fi-panel-admin .mw-admin-empty-state__body {
+    color: var(--ese-text-muted, #9ca3af);
+}
+
+/* task-2026-05-22-902abc / AI-902 — Quick AI Edit type groups + empty state */
+.quick-ai-type-group {
+    border-top: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+}
+.quick-ai-type-group:first-child {
+    border-top: none;
+}
+.quick-ai-type-group-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--space-xs, 6px) var(--space-sm, 8px);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    text-transform: uppercase;
+    color: var(--ese-text-muted, #6b7280);
+    text-align: left;
+    gap: var(--space-xs, 6px);
+}
+.quick-ai-type-group-header:hover {
+    background: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    border-radius: var(--radius-sm, 4px);
+}
+.quick-ai-type-group-body {
+    padding: 0 var(--space-xs, 6px) var(--space-xs, 6px);
+}
+.quick-ai-type-group[data-open="false"] .quick-ai-type-group-body {
+    display: none;
+}
+/* Empty state when no canvas section is selected */
+.mw-quick-ai-edit-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl, 42px) var(--space-md, 13px);
+    text-align: center;
+    gap: var(--space-sm, 8px);
+}
+.mw-quick-ai-edit-empty-state__icon {
+    color: var(--ese-text-muted, #9ca3af);
+    opacity: 0.6;
+}
+.mw-quick-ai-edit-empty-state__text {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    margin: 0;
+    max-width: 220px;
+    line-height: 1.4;
+}
+/* Dark mode */
+.dark .quick-ai-type-group {
+    border-top-color: var(--ese-border, rgba(255, 255, 255, 0.08));
+}
+.dark .quick-ai-type-group-header {
+    color: var(--ese-text-muted, #9ca3af);
+}
+.dark .quick-ai-type-group-header:hover {
+    background: var(--ese-surface-hover, rgba(255, 255, 255, 0.04));
+}
+
+/* AI-956 / task-2026-05-22 — Admin dark mode: Flatpickr date-picker calendar renders
+ * with white background in dark mode. Add dark theme overrides. */
+.dark .flatpickr-calendar {
+    background: #1f2937 !important;
+    color: #f9fafb !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+.dark .flatpickr-calendar .flatpickr-day {
+    color: #f9fafb !important;
+}
+.dark .flatpickr-calendar .flatpickr-day:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: transparent !important;
+}
+.dark .flatpickr-calendar .flatpickr-day.selected,
+.dark .flatpickr-calendar .flatpickr-day.today {
+    background: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+}
+.dark .flatpickr-calendar .flatpickr-day.disabled {
+    color: rgba(255, 255, 255, 0.3) !important;
+}
+.dark .flatpickr-calendar .flatpickr-months,
+.dark .flatpickr-calendar .flatpickr-month,
+.dark .flatpickr-calendar .flatpickr-current-month,
+.dark .flatpickr-calendar .flatpickr-prev-month,
+.dark .flatpickr-calendar .flatpickr-next-month {
+    background: #1f2937 !important;
+    color: #f9fafb !important;
+    fill: #f9fafb !important;
+}
+.dark .flatpickr-calendar .flatpickr-weekday {
+    color: #9ca3af !important;
+    background: #1f2937 !important;
+}
+.dark .flatpickr-calendar .flatpickr-time input,
+.dark .flatpickr-calendar .flatpickr-time .flatpickr-am-pm {
+    background: #1f2937 !important;
+    color: #f9fafb !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* AI-957 / task-2026-05-22 — Admin dark mode: multi-select tags dropdown renders
+ * with white popup in dark mode. Add dark theme overrides for Filament select popups. */
+.dark .choices__list--dropdown,
+.dark .choices__list[aria-expanded] {
+    background: #1f2937 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+.dark .choices__item--selectable,
+.dark .choices__item--choice {
+    color: #f9fafb !important;
+}
+.dark .choices__item--selectable:hover,
+.dark .choices__item--selectable.is-highlighted {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+/* Filament v5 native custom select dropdown */
+.dark [data-headlessui-state] [role="listbox"],
+.dark .fi-fo-field [role="listbox"],
+.dark .fi-select-option-list,
+.dark [x-floated][role="listbox"] {
+    background-color: #1f2937 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #f9fafb !important;
+}
+.dark [data-headlessui-state] [role="option"],
+.dark .fi-fo-field [role="option"] {
+    color: #f9fafb !important;
+}
+.dark [data-headlessui-state] [role="option"]:hover,
+.dark [data-headlessui-state] [role="option"][data-active="true"],
+.dark [data-headlessui-state] [role="option"][aria-selected="true"] {
+    background-color: rgba(13, 110, 253, 0.2) !important;
+}
+
+/* AI-950 / task-2026-05-22 — Admin dark mode: form input borders invisible in Settings pages.
+ * Filament dark mode uses very subtle borders that blend into the dark background.
+ * WCAG 1.4.11 (Non-text Contrast) requires 3:1 ratio for UI components.
+ * Bumping to rgba(255,255,255,0.25) provides ~4:1 on typical Filament dark bg (#1f2937). */
+.dark body.fi-panel-admin .fi-input,
+.dark body.fi-panel-admin .fi-input-wrp,
+.dark body.fi-panel-admin .fi-fo-select,
+.dark body.fi-panel-admin .fi-fo-select-wrp,
+.dark body.fi-panel-admin .fi-fo-textarea,
+.dark body.fi-panel-admin .fi-fo-textarea-wrp {
+    border-color: rgba(255, 255, 255, 0.25) !important;
+}
+.dark body.fi-panel-admin .fi-input:focus,
+.dark body.fi-panel-admin .fi-input-wrp:focus-within,
+.dark body.fi-panel-admin .fi-fo-select:focus,
+.dark body.fi-panel-admin .fi-fo-textarea:focus {
+    border-color: rgba(13, 110, 253, 0.8) !important;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25) !important;
+}
+
+/* AI-951 / task-2026-05-22 — Admin dark mode: table alternating row stripes disappear.
+ * In dark mode, even/odd row backgrounds have near-zero lightness delta.
+ * Adding a subtle but perceptible stripe keeps rows distinguishable. */
+.dark body.fi-panel-admin .fi-ta-row:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+.dark body.fi-panel-admin .fi-ta-row:nth-child(odd) {
+    background-color: transparent !important;
+}
+.dark body.fi-panel-admin .fi-ta-row:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* AI-958 / task-2026-05-22 — Repeater 'Add item' button lacks visual hierarchy.
+ * The default Filament repeater add-button blends into the item list.
+ * Add a dashed border + muted bg to visually distinguish it as an insertion CTA. */
+body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn,
+body.fi-panel-admin button[wire\:click*="addRepeaterItem"],
+body.fi-panel-admin .fi-fo-repeater > .fi-fo-repeater-create-item-btn-ctn {
+    border: 1.5px dashed rgba(13, 110, 253, 0.4) !important;
+    border-radius: 0.5rem !important;
+    background: rgba(13, 110, 253, 0.04) !important;
+    transition: background 120ms ease, border-color 120ms ease;
+    width: 100%;
+}
+body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn:hover,
+body.fi-panel-admin button[wire\:click*="addRepeaterItem"]:hover {
+    background: rgba(13, 110, 253, 0.08) !important;
+    border-color: rgba(13, 110, 253, 0.6) !important;
+}
+.dark body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn {
+    border-color: rgba(13, 110, 253, 0.35) !important;
+    background: rgba(13, 110, 253, 0.08) !important;
+}
+
+/* AI-960 / task-2026-05-22 — Error state uses only red text with no border change.
+ * Adds a red border to .fi-input wrappers when Filament marks them with the error state.
+ * WCAG 1.4.1: don't rely solely on colour — the border change provides shape cue. */
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input-wrp {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+}
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input {
+    border-color: #ef4444 !important;
+}
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-select-wrp,
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-textarea-wrp {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+}
+.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input-wrp,
+.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-select-wrp,
+.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-textarea-wrp {
+    border-color: #f87171 !important;
+    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2) !important;
+}
+
+/* ==========================================================================
+   AI-959 / task-2026-05-22 — Required field asterisk: standardise position AFTER
+   label text. Filament v5 renders <sup class="fi-fo-field-label-required-mark">*</sup>
+   inline after the label — add red colour + consistent margin.
+   ========================================================================== */
+body.fi-panel-admin .fi-fo-field-label-required-mark,
+body.fi-panel-admin .fi-fieldset-label-required-mark,
+body.fi-panel-admin .fi-fo-table-repeater-header-required-mark {
+    color: #ef4444 !important;
+    margin-left: 2px !important;
+    font-size: 0.8em !important;
+    vertical-align: super !important;
+}
+
+/* ==========================================================================
+   AI-975 / task-2026-05-22 — Bulk-delete confirm: danger-zone styling.
+   Filament bulk-action modals add a count to the heading. We target the
+   modal description paragraph that contains the bulk count via a broader
+   .fi-modal-window rule so the danger colour + bolder weight stand out.
+   ========================================================================== */
+body.fi-panel-admin .fi-ac-action[id*="bulk"] .fi-modal-header-heading,
+body.fi-panel-admin .fi-bulk-action-modal .fi-modal-header-heading {
+    color: #dc2626 !important;
+}
+body.fi-panel-admin .fi-bulk-action-modal .fi-modal-description {
+    font-weight: 500 !important;
+    color: #dc2626 !important;
+}
+
+/* ==========================================================================
+   AI-996 / task-2026-05-22 — Dashboard stat cards: ensure cursor:pointer and
+   a clear link affordance even when the browser doesn't inherit from <a>.
+   ========================================================================== */
+body.fi-panel-admin a.mw-quick-stat-card {
+    cursor: pointer !important;
+    text-decoration: none !important;
+    display: block !important;
+}
+
+/* ==========================================================================
+   AI-993 / task-2026-05-22 — User role badge a11y: WCAG 1.4.1 colour-alone
+   rule requires a text label alongside colour coding. Filament already renders
+   the role name as text inside the badge — this rule ensures the text is
+   always legible (min contrast 4.5:1) in both themes. No structural change needed.
+   ========================================================================== */
+body.fi-panel-admin .fi-badge[class*="role"],
+body.fi-panel-admin .fi-badge[class*="admin"],
+body.fi-panel-admin .fi-badge[class*="superadmin"] {
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+}
+.dark body.fi-panel-admin .fi-badge {
+    /* Ensure readable text inside badges in dark mode */
+    text-shadow: none !important;
+}
+
+/* ==========================================================================
+   AI-1030 / task-2026-05-22 — Products empty state: desaturate bright SVG
+   illustration in dark mode. The shopping illustration uses pink/teal/yellow
+   fills that clash with the dark admin background.
+   ========================================================================== */
+.dark body.fi-panel-admin .mw-admin-empty-state-posts svg,
+.dark body.fi-panel-admin .fi-ta-empty-state svg,
+.dark body.fi-panel-admin [class*="empty-state"] svg {
+    filter: saturate(0.3) opacity(0.6) !important;
+}
+
+/* ==========================================================================
+   AI-1025 / task-2026-05-22 — Filter badge: visually hide when count is 0.
+   Filament renders a small badge on the Filters button showing how many filters
+   are active. "0" should not display when no filters are applied. The badge
+   element shows the number as text — we can't directly match text content in CSS
+   but we can hide the badge when the Filters popover is closed (no active filters).
+   JS-enhanced: admin-filament.js also hides zero badges on Livewire updates.
+   ========================================================================== */
+body.fi-panel-admin .fi-btn-badge[data-count="0"],
+body.fi-panel-admin .fi-ta-filters-btn .fi-badge:empty {
+    display: none !important;
+}
+
+/* ==========================================================================
+   AI-963 / task-2026-05-22 — Admin typography scale: standardise heading
+   weights and sizes across resource list pages and detail panels.
+   Before: h2/h3/h4 used arbitrary font-weight values from different
+   Filament page types. After: consistent scale derived from the
+   existing $mw-space-* GR ladder (matching the admin heading convention).
+   ========================================================================== */
+body.fi-panel-admin h1 {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    line-height: 1.3 !important;
+}
+body.fi-panel-admin h2, body.fi-panel-admin .fi-page-heading-title {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+}
+body.fi-panel-admin h3 {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+}
+body.fi-panel-admin h4, body.fi-panel-admin .fi-fo-section-header-label {
+    font-size: 0.9375rem !important;
+    font-weight: 500 !important;
+}
+
+/* ==========================================================================
+   AI-965 / task-2026-05-22 — Admin + live-edit: standardise animation
+   speeds. Filament uses mixed 150ms / 200ms / 300ms / 400ms transition
+   times. Define canonical tokens and enforce them on the most common
+   interactive surfaces (modals, dropdowns, sidebar, toasts).
+   ========================================================================== */
+/* ==========================================================================
+   AI-955 / task-2026-05-22 — Standardise sort indicators across all admin
+   list pages. Filament renders sort direction icons inline with column heading
+   text. Enforce consistent alignment (inline-flex, right of label) across all
+   resource table headings.
+   ========================================================================== */
+body.fi-panel-admin .fi-ta-header-cell-action-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-size: inherit !important;
+}
+body.fi-panel-admin .fi-ta-header-cell-action-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+    opacity: 0.6 !important;
+    flex-shrink: 0 !important;
+}
+body.fi-panel-admin .fi-ta-header-cell-action-btn[data-sort-direction="asc"] svg,
+body.fi-panel-admin .fi-ta-header-cell-action-btn[data-sort-direction="desc"] svg {
+    opacity: 1 !important;
+}
+
+:root {
+    --mw-transition-fast: 150ms;
+    --mw-transition-base: 200ms;
+    --mw-transition-slow: 300ms;
+}
+body.fi-panel-admin .fi-modal-window,
+body.fi-panel-admin .fi-dropdown-list,
+body.fi-panel-admin .fi-sidebar {
+    transition-duration: var(--mw-transition-base, 200ms) !important;
+}
+body.fi-panel-admin .fi-notification {
+    transition-duration: var(--mw-transition-slow, 300ms) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+    body.fi-panel-admin .fi-modal-window,
+    body.fi-panel-admin .fi-dropdown-list,
+    body.fi-panel-admin .fi-sidebar,
+    body.fi-panel-admin .fi-notification {
+        transition-duration: 0ms !important;
+    }
+}
+
+/* task-2026-05-27-241d90 / AI-1159: modal footer <a> tags invisible in dark mode.
+   Filament dark cascade targets <button> but misses <a> with fi-btn class. */
+.dark .fi-modal-footer a.fi-btn,
+.theme-dark .fi-modal-footer a.fi-btn {
+    color: rgb(226, 232, 240) !important;
+}
+
+/* task-2026-05-31 / AI-817 follow-up: sr-only label-restoration rule mirror for
+   admin-panel form surfaces outside Live Edit canvas.
+
+   Canonical rule lives in src/MicroweberPackages/Filament/resources/views/filament/
+   components/layout/live-edit-module-settings.blade.php (Live Edit only) and
+   src/MicroweberPackages/LiveEdit/resources/views/iframe-page.blade.php
+   (canvas iframe). Mirror here so admin panel resource forms tagging fields
+   with .mw-fb-title-wrap resolve the rule without depending on Live Edit
+   asset chain.
+
+   Visually hides the label while keeping it in the accessibility tree
+   (NOT display:none). Filament's ->hiddenLabel() shortcut removes the
+   label from the AT entirely — WCAG 3.3.2 Level A failure. */
+.mw-fb-title-wrap .fi-fo-field-label,
+.mw-fb-title-wrap .fi-fo-field-label-ctn,
+.mw-fb-title-wrap .fi-fo-field-label-col,
+.mw-fb-title-wrap > .fi-fo-field-label,
+.mw-fb-title-wrap > .fi-fo-field-label-ctn,
+.mw-fb-title-wrap label.fi-fo-field-label,
+.mw-fb-title-wrap label.fi-fo-field-label,
+.mw-fb-title-wrap > label {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+

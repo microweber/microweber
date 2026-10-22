@@ -1,0 +1,214 @@
+/* ======================================================================
+   task-2026-05-16-7326d6 / AI-700 — Main drawer (left slide-in,
+   consolidates Template & Layout + Layers + Theme Settings + admin
+   nav into one surface). Triggered by the `☰` hamburger added to
+   Toolbar.vue's right cluster (mutually-unblocks AI-698b item 3).
+
+   Layout per designer spec:
+     - Width 280px desktop / 100vw mobile (≤768px).
+     - Slide-in from left over var(--t-slow).
+     - Backdrop dim 40%.
+     - Close via × / backdrop tap / ESC.
+     - ESE stays as its own right-side panel — NOT in this drawer.
+
+   Token-scoping note (per SOUL #108 spec-doc-nit): every var()
+   consumed carries a literal fallback. The drawer DOM lives at
+   document.body root (outside .mw-live-edit-page) so :root-scoped
+   ESE tokens resolve fine, but the fallbacks protect environments
+   where the ESE stylesheet hasn't loaded yet.
+   ====================================================================== */
+.mw-main-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1199;
+}
+
+/* task-2026-05-27 — Drawer enters from the inline-start edge (left in
+ * LTR, right in RTL) via logical inset. No transform — transform on this
+ * ancestor breaks position:fixed live-edit modals. */
+.mw-main-drawer {
+    position: fixed;
+    top: 0;
+    inset-inline-start: -100%;
+    bottom: 0;
+    width: 280px;
+    max-width: 100vw;
+    background-color: var(--ese-surface, #ffffff);
+    color: var(--ese-text, #111827);
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    transition: inset-inline-start var(--t-slow, 320ms) var(--ease, ease-out);
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.18);
+    visibility: hidden;
+}
+
+.mw-main-drawer--open {
+    inset-inline-start: 0;
+    visibility: visible;
+}
+
+/* task-2026-05-27 — Contract test (LiveEdit7326d6AI700MainDrawerContractTest)
+ * requires width: 100vw at the max-width: 768px breakpoint per the AI-700
+ * spec (280px desktop, 100vw mobile). Previous code had 280px unchanged
+ * at both breakpoints and an extra max-width: 480px block shrinking
+ * to 200px, both of which violated the spec. The max-width: 100vw on the
+ * base rule (above) already prevents overflow on very small viewports. */
+@media (max-width: 768px) {
+    .mw-main-drawer {
+        width: 100vw;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mw-main-drawer {
+        transition: none;
+    }
+}
+
+.mw-main-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md, 13px) var(--space-md, 13px);
+    border-bottom: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+}
+
+.mw-main-drawer__title {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+}
+
+/* task-2026-05-28-9e3c47 / AI-1148 — MainDrawer close button widened from
+ * 32x32px to 44x44px to meet the WCAG 2.5.5 Target Size (Enhanced) 44x44
+ * CSS-pixel floor. The SVG glyph stays 20x20px so the inner stroke geometry
+ * is unchanged; only the click/tap target grows. min-width + min-height
+ * enforced as belt-and-braces against future descendant rules that might
+ * shrink the button via width/height alone. */
+.mw-main-drawer__close {
+    background: transparent;
+    border: 0;
+    color: var(--ese-text-muted, #6b7280);
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm, 6px);
+}
+
+.mw-main-drawer__close:hover {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    color: var(--ese-text, #111827);
+}
+
+.mw-main-drawer__nav {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: var(--space-sm, 8px) 0;
+}
+
+.mw-main-drawer__footer {
+    padding: 0;
+}
+/* AI-933 — explicit divider above logout to prevent accidental click.
+ * Uses a more visible border than the previous subtle border-top on the footer wrapper. */
+.mw-main-drawer__footer-divider {
+    border: none;
+    border-top: 1px solid var(--ese-border, rgba(0, 0, 0, 0.12));
+    margin: 0 var(--space-md, 13px);
+}
+
+/* task-2026-05-27 — Drawer navigation items measured at 40 px tall
+ * across all viewports, failing WCAG 2.5.5 Target Size (Enhanced) 44x44
+ * minimum. The padding-top + font-size + padding-bottom only totals
+ * ~36-40 px. Added min-height: 44px to guarantee the floor on every item
+ * without changing the item's visual appearance for taller items. */
+.mw-main-drawer__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 8px);
+    width: 100%;
+    min-height: 44px;
+    padding: var(--space-sm, 8px) var(--space-md, 13px);
+    background: transparent;
+    border: 0;
+    color: var(--ese-text, #111827);
+    font-size: var(--font-control, 13px);
+    text-decoration: none;
+    cursor: pointer;
+    text-align: start;
+}
+
+.mw-main-drawer__item:hover {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    color: var(--ese-accent, #0d6efd);
+}
+
+.mw-main-drawer__item:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: -2px;
+}
+
+.mw-main-drawer__item svg {
+    flex-shrink: 0;
+    color: var(--ese-text-muted, #6b7280);
+}
+
+.mw-main-drawer__item:hover svg {
+    color: var(--ese-accent, #0d6efd);
+}
+
+/* Dark theme — drawer surfaces flip to dark; tokens carry dark
+   variants from ESE slice 1.1 :root override on .dark. */
+.dark .mw-main-drawer-backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.dark .mw-main-drawer {
+    background-color: var(--ese-surface, #1f2937);
+    color: var(--ese-text, #f3f4f6);
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.6);
+}
+.dark .mw-main-drawer__header {
+    border-bottom-color: var(--ese-border, rgba(255, 255, 255, 0.12));
+}
+.dark .mw-main-drawer__close {
+    color: var(--ese-text-muted, #94a3b8);
+}
+.dark .mw-main-drawer__close:hover {
+    background-color: var(--ese-surface-hover, rgba(255, 255, 255, 0.06));
+    color: var(--ese-text, #f1f5f9);
+}
+.dark .mw-main-drawer__item {
+    color: var(--ese-text, #f1f5f9);
+}
+.dark .mw-main-drawer__item:hover {
+    background-color: var(--ese-surface-hover, rgba(255, 255, 255, 0.06));
+}
+.dark .mw-main-drawer__item svg,
+.dark .mw-main-drawer__item-icon {
+    color: var(--ese-text-muted, #94a3b8);
+}
+.dark .mw-main-drawer__item-affordance {
+    color: var(--ese-text-muted, #94a3b8);
+}
+.dark .mw-main-drawer__footer-divider {
+    border-top-color: var(--ese-border, rgba(255, 255, 255, 0.12));
+}
+.dark .mw-main-drawer__item--logout {
+    color: var(--ese-text, #f1f5f9);
+}
+
+/* Hamburger trigger — matches the live-edit-toolbar-buttons base. */
+#mw-live-edit-main-drawer-button.mw-main-drawer-trigger {
+    color: var(--ese-text-muted, #6b7280);
+}
+#mw-live-edit-main-drawer-button.mw-main-drawer-trigger:hover {
+    color: var(--ese-accent, #0d6efd);
+}
+

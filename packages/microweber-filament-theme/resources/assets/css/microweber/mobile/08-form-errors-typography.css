@@ -1,0 +1,224 @@
+/* ============================================================
+ * AI-512 — Consistent error styling across admin + checkout forms.
+ *
+ * Audit task 1.3.2 ("Implement Inline Validation with Specific
+ * Messages and Auto-Scroll") asked for four changes. The auto-
+ * scroll-on-submit JS sister-slice lives in microweber-filament-
+ * theme.js. This CSS sister-slice unifies the visual presentation
+ * of validation errors so every Filament form across both admin
+ * and checkout panels emits the same red border + alert-icon +
+ * specific-message pattern.
+ *
+ * Filament v5 emits validation errors via:
+ *   - `[data-validation-error]` attribute on every error element
+ *     (canonical hook used by the auto-scroll JS too).
+ *   - `.fi-fo-field-error-message` class on the error text.
+ *   - `.fi-fo-field-error-list` class on the multi-error <ul>.
+ * Filament's own theme already renders these in a danger colour,
+ * but the rendered shade depends on which `MwColors::Danger` weight
+ * the panel imported. AI-512 anchors a single explicit red
+ * (#dc2626, Tailwind red-600) for visual consistency between admin
+ * and checkout. Dark-mode variant uses Tailwind red-400 (#f87171).
+ *
+ * The alert icon (`!` inside a red disc) renders via `::before` so
+ * no DOM change is needed — every error message picks up the icon
+ * automatically. Inputs in fields containing validation errors get
+ * a stronger red border + soft red glow via `:has()` (modern
+ * browsers; older browsers fall back to Filament's default).
+ *
+ * Out of scope (deferred to AI-512a/b/c):
+ *   - Per-resource `->live(onBlur: true)` opt-in for true inline
+ *     blur-validation (each Filament resource's schema needs the
+ *     toggle — Content/Product/User/etc., that's a sweep dispatch).
+ *   - Per-field validation message refactor (specific messages per
+ *     rule, e.g. "Email must include @" instead of "The email
+ *     field must be a valid email address" — requires per-resource
+ *     `->validationMessages([...])` blocks).
+ *   - Field-level helper text (`->helperText('...')` on every
+ *     field) — a sweep, not a CSS slice.
+ * ============================================================ */
+
+/* Error message text + inline alert icon */
+body.fi-panel-admin [data-validation-error],
+body.fi-panel-checkout [data-validation-error] {
+    color: #dc2626;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin-top: 0.375rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.375rem;
+}
+
+body.fi-panel-admin [data-validation-error]::before,
+body.fi-panel-checkout [data-validation-error]::before {
+    content: '!';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+    background-color: #dc2626;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Stronger red border on inputs inside a field that has a validation
+   error. Uses :has() — supported in all modern browsers (Chrome 105+,
+   Firefox 121+, Safari 15.4+). Older browsers fall back gracefully
+   to Filament's default error border, which is still visible. */
+body.fi-panel-admin .fi-fo-field:has([data-validation-error]) input:not([type="hidden"]),
+body.fi-panel-admin .fi-fo-field:has([data-validation-error]) select,
+body.fi-panel-admin .fi-fo-field:has([data-validation-error]) textarea,
+body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) input:not([type="hidden"]),
+body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) select,
+body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) textarea {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.15);
+}
+
+/* Dark-mode variants — lighter red for sufficient contrast on the
+   admin dark panel background (Tailwind red-400). */
+.dark body.fi-panel-admin [data-validation-error],
+.dark body.fi-panel-checkout [data-validation-error] {
+    color: #f87171;
+}
+
+.dark body.fi-panel-admin [data-validation-error]::before,
+.dark body.fi-panel-checkout [data-validation-error]::before {
+    background-color: #f87171;
+    color: #1f2937;
+}
+
+.dark body.fi-panel-admin .fi-fo-field:has([data-validation-error]) input:not([type="hidden"]),
+.dark body.fi-panel-admin .fi-fo-field:has([data-validation-error]) select,
+.dark body.fi-panel-admin .fi-fo-field:has([data-validation-error]) textarea,
+.dark body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) input:not([type="hidden"]),
+.dark body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) select,
+.dark body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) textarea {
+    border-color: #f87171 !important;
+    box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.25);
+}
+
+/* ============================================================
+ * AI-514 — Consistent typography scale across admin + checkout panels.
+ *
+ * Audit task 1.4.x ("Establish Clear Type Scale, Improve Readability,
+ * Darken Secondary Text") asked for four changes:
+ *
+ *   1. Clear type scale — H1: 32px, H2: 24px, H3: 20px, Body: 16px.
+ *   2. Body line-height 1.6 for readability.
+ *   3. Darken secondary text from #9CA3AF (Tailwind gray-400) to
+ *      #6B7280 (Tailwind gray-500) so it meets WCAG AA contrast
+ *      (4.5:1 against white).
+ *   4. Add font-weight: 500 (medium) as an emphasis option between
+ *      the default 400 and the existing 600.
+ *
+ * All four ship in this single CSS block. Scoped to body.fi-panel-admin
+ * + body.fi-panel-checkout so public storefront templates keep their
+ * own typography (those have their own per-template scale).
+ *
+ * Type scale uses rem units (anchored to the page's base 16px) so the
+ * scale stays consistent if a user has bumped browser default font-size
+ * for accessibility:
+ *   - 2rem = 32px
+ *   - 1.5rem = 24px
+ *   - 1.25rem = 20px
+ *   - 1rem = 16px (body)
+ *
+ * The "emphasis" weight is exposed three ways:
+ *   - `.fi-emphasis` utility class for explicit opt-in
+ *   - `<strong>` and `<b>` defaulting to 500 inside Filament panels
+ *     (matches the audit's intent — emphasis should be visual but
+ *     not over-bold; 600 is reserved for table sort headers + form
+ *     section titles, where AI-510 and Filament's defaults already
+ *     anchor it)
+ *
+ * Dark-mode secondary text: shifts from #6B7280 to #9CA3AF — the
+ * inverse of light mode. Lighter shade on dark background preserves
+ * the 4.5:1 contrast ratio.
+ *
+ * Out of scope (deferred to AI-514a):
+ *   - Per-component type-scale tokens (--mw-type-h1, --mw-type-body,
+ *     etc.) as CSS custom properties so per-resource overrides become
+ *     trivial. The bounded slice ships fixed values; tokenisation is a
+ *     follow-up refactor once usage patterns settle.
+ * ============================================================ */
+
+/* Type scale */
+body.fi-panel-admin h1,
+body.fi-panel-checkout h1 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+}
+
+body.fi-panel-admin h2,
+body.fi-panel-checkout h2 {
+    font-size: 1.25rem;
+    line-height: 1.3;
+}
+
+body.fi-panel-admin h3,
+body.fi-panel-checkout h3 {
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+body.fi-panel-admin h4,
+body.fi-panel-checkout h4 {
+    font-size: 0.9375rem;
+    line-height: 1.45;
+}
+
+/* Body text size + line-height. Scoped to .fi-page descendants so
+   it doesn't override the topbar/sidebar text (which has its own
+   sizing from Filament's CSS). */
+body.fi-panel-admin .fi-page,
+body.fi-panel-checkout .fi-page,
+body.fi-panel-admin .fi-page-content,
+body.fi-panel-checkout .fi-page-content {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Secondary-text color override. `.fi-section-header-description` is
+   Filament v5's canonical "subtitle under a section header" class.
+   Darken from gray-400 to gray-500 for WCAG AA contrast. */
+body.fi-panel-admin .fi-section-header-description,
+body.fi-panel-checkout .fi-section-header-description {
+    color: #6B7280;
+}
+
+/* Dark-mode inverse — lighter shade on dark background. */
+.dark body.fi-panel-admin .fi-section-header-description,
+.dark body.fi-panel-checkout .fi-section-header-description {
+    color: #9CA3AF;
+}
+
+/* Emphasis weight 500 — opt-in via utility class. */
+body.fi-panel-admin .fi-emphasis,
+body.fi-panel-checkout .fi-emphasis {
+    font-weight: 500;
+}
+
+/* Default <strong> and <b> in form body text to 500 (medium) rather
+   than the browser default 700 (bold). Matches the audit's intent
+   that emphasis be visual but not over-bold. Limit to .fi-page
+   descendants so topbar/sidebar bold elements (which Filament tunes
+   separately) stay at their original weight. */
+body.fi-panel-admin .fi-page strong,
+body.fi-panel-admin .fi-page b,
+body.fi-panel-checkout .fi-page strong,
+body.fi-panel-checkout .fi-page b,
+body.fi-panel-admin .fi-page-content strong,
+body.fi-panel-admin .fi-page-content b,
+body.fi-panel-checkout .fi-page-content strong,
+body.fi-panel-checkout .fi-page-content b {
+    font-weight: 500;
+}
+

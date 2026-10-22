@@ -1,0 +1,196 @@
+/* ================================================================
+ * task-2026-05-22-5cbdee (AI-505/508 admin mobile audit) —
+ * Filament page-header action buttons 42px → 44px
+ *
+ * Agent-test measured ".fi-color-primary (+ Add page)" at 151×42px and
+ * ".fi-color-warning (Setup Homepage)" at 187×42px on /admin/pages.
+ * Both are 2px short of the WCAG 2.5.5 44px minimum.
+ *
+ * Root cause: Filament renders these with `h-9` (36px from Tailwind's
+ * 9 × 4px = 36px) + 3px top/bottom padding = 42px rendered height.
+ * The existing mobile-touch.css rule covers `.fi-topbar .fi-btn` but
+ * NOT the page-header action bar.
+ *
+ * Fix: apply min-height:44px to all color-variant Filament buttons in
+ * the admin panel. Color variants (.fi-color-primary, .fi-color-warning,
+ * etc.) identify interactive action buttons — not form inputs or
+ * structural elements — making this scope safe for a broad touch-target
+ * floor. The topbar-specific rules (admin-toolbar-add display:none at
+ * ≤768px; admin-toolbar-live-edit min-height; brand mark) remain as
+ * more-specific overrides that continue to win.
+ *
+ * Scope: body.fi-panel-admin — admin panel only.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .fi-btn.fi-color-primary,
+    body.fi-panel-admin .fi-btn.fi-color-warning,
+    body.fi-panel-admin .fi-btn.fi-color-success,
+    body.fi-panel-admin .fi-btn.fi-color-danger,
+    body.fi-panel-admin .fi-btn.fi-color-info,
+    body.fi-panel-admin .fi-btn.fi-color-gray {
+        min-height: 44px !important;
+    }
+}
+
+/* ================================================================
+ * AI-508 — Filament table drag/reorder handles
+ *
+ * ContentResource uses `->reorderable('position')` which renders a
+ * drag handle column. Filament v5 generates the handle as:
+ *
+ *   <button class="fi-ta-reorder-handle fi-icon-btn">
+ *
+ * The base Filament `.fi-icon-btn` has a 36px rendered height in
+ * Tailwind's `size-9` class. The existing mobile-touch.css rules for
+ * `.fi-icon-btn` are scoped to `.fi-ta-header-toolbar` or the
+ * reorder-*mode* icon button (`wire:click*="reorder"`), but the actual
+ * drag handle in each row cell is a separate element that the existing
+ * rules don't reach. Floor it to 44×44 so it passes the WCAG 2.5.5
+ * tap-target requirement on touch devices.
+ *
+ * Scope: `body.fi-panel-admin` — only admin tables are reorderable.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .fi-ta-reorder-handle,
+    body.fi-panel-admin .fi-ta-reorder-handle.fi-icon-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+}
+
+/* ================================================================
+ * task-2026-05-22-3e1637 / AI-747 — /admin/posts/create mobile
+ * overflow + editor toolbar wrap fix.
+ *
+ * Problem 1 — Horizontal overflow:
+ *   The RichEditor container (.fi-fo-rich-editor) has no max-width
+ *   cap; when the toolbar buttons overflow the viewport, the entire
+ *   editor scrolls horizontally. Fix: cap the editor + its toolbar
+ *   wrapper to 100% and hide outer overflow.
+ *
+ * Problem 2 — Toolbar wraps to 5 rows:
+ *   Filament's toolbar uses display:flex; flex-wrap:wrap; each
+ *   button is ≥44px (our touch-target floor), so at 390px up to 8
+ *   buttons fit per row. With ~30+ toolbar icons the toolbar balloons
+ *   to 5 rows. Fix: override to flex-wrap:nowrap + overflow-x:auto
+ *   on the toolbar itself so it scrolls horizontally in a single row
+ *   — the canonical mobile horizontal-scroll toolbar pattern.
+ *
+ * Problem 3 — Multi-column form sections do not stack at narrow
+ *   viewport. Filament renders grid layout via .fi-fo-component-ctn;
+ *   force single-column at mobile for form field stacking.
+ *
+ * AC 3 (touch targets ≥44px) preserved: the existing touch-target
+ * rule at lines 544-558 remains active; the nowrap change only
+ * converts row-wrap to horizontal scroll.
+ *
+ * Scope: body.fi-panel-admin so checkout/profile panels are
+ * unaffected. Desktop (>1023.98px) completely unchanged.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+
+    /* 1. Prevent the editor container from causing horizontal overflow */
+    body.fi-panel-admin .fi-fo-rich-editor {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    /* 2. Make the toolbar a single scrollable row instead of
+     *    wrapping to 5 rows. flex-wrap:nowrap overrides Filament's
+     *    default flex-wrap:wrap; overflow-x:auto adds touch-scroll. */
+    body.fi-panel-admin .fi-fo-rich-editor-toolbar {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        /* hide the scrollbar track — still scrollable via touch */
+        scrollbar-width: none;
+    }
+    body.fi-panel-admin .fi-fo-rich-editor-toolbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Toolbar buttons must not shrink below their min-width when the
+     * toolbar is nowrap — the 44px touch-target floor is already set
+     * at lines 544-550; add flex-shrink:0 to honour it. */
+    body.fi-panel-admin .fi-fo-rich-editor-tool,
+    body.fi-panel-admin .fi-fo-rich-editor-toolbar button {
+        flex-shrink: 0 !important;
+    }
+
+    /* 3. Force form multi-column grids to single column so fields
+     *    stack vertically on narrow viewports (AC 4). */
+    body.fi-panel-admin .fi-fo-component-ctn {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    /* AI-952 / task-2026-05-22 — Posts list status badges at 390px.
+     * Badges in card-layout rows must not overflow their cell — add
+     * max-width + overflow ellipsis so chip text truncates gracefully
+     * rather than pushing the cell wider or overflowing the card. */
+    body.fi-panel-admin .fi-ta-row .fi-badge {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* AI-953 / task-2026-05-22 — Orders list email column at 390px.
+     * Plain text cells in card-layout rows may overflow without truncation.
+     * Apply ellipsis to prevent mid-character cut at narrow viewport. */
+    body.fi-panel-admin .fi-ta-cell .fi-ta-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+    }
+
+    /* AI-945 / task-2026-05-22 — "Live Edit" topbar button collides with other
+     * Filament topbar icons (search, notifications, user avatar) at 390px.
+     * At narrow viewports the button text ("Live Edit") takes ~112px; hiding it
+     * reduces the chip to icon-only (~44px) and prevents collision.
+     * The icon (heroicon-m-eye) preserves the affordance without the text. */
+    body.fi-panel-admin .fi-topbar .admin-toolbar-live-edit .fi-btn-label,
+    body.fi-panel-admin .fi-topbar .fi-btn.admin-toolbar-live-edit span:not(.fi-btn-icon) {
+        display: none !important;
+    }
+    body.fi-panel-admin .fi-topbar .fi-btn.admin-toolbar-live-edit {
+        min-width: 44px !important;
+        padding-inline: 8px !important;
+        font-size: 0 !important;
+        gap: 0 !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    body.fi-panel-admin .fi-topbar .fi-btn.admin-toolbar-live-edit svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+
+/* ================================================================
+ * task-2026-05-28-7e3b4c (AI-1156) — Filament modal footer secondary
+ * buttons 42px → 44px at mobile.
+ *
+ * Filament v5 renders modal footer action buttons (Cancel, secondary
+ * actions, link-style fi-btn anchors) at h-9 (36px) + 3px vertical
+ * padding = 42px on touch viewports — 2px short of the WCAG 2.5.5
+ * Target Size 44 CSS-pixel floor that this codebase enforces across
+ * admin + checkout + Live Edit (lineage: AI-517 / AI-518 / AI-519 /
+ * AI-1148 close button / AI-1192 + AI-1218 Add Content Cancel).
+ *
+ * Earlier scoped fixes (AI-1192 in general-styles.css, AI-1218 in
+ * live-edit-classes.css) only widened the Add Content picker modal.
+ * AI-1156 generalises the floor across EVERY .fi-modal-footer button
+ * on touch viewports — anchor button + link-style anchor variants.
+ * `!important` defeats Filament's h-9 utility class.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .fi-modal-footer .fi-btn,
+    body.fi-panel-admin .fi-modal-footer-actions .fi-btn,
+    body.fi-panel-checkout .fi-modal-footer .fi-btn,
+    body.fi-panel-checkout .fi-modal-footer-actions .fi-btn {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+}
+

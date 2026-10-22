@@ -1,0 +1,264 @@
+/* ============================================================
+ * AI-246 (task-2026-05-13-27a617) — admin table card-view at <1024px.
+ *
+ * Filament v5 renders tables as <table class="fi-ta-table"> with
+ * <tr class="fi-ta-row"> rows + <td class="fi-ta-cell"> cells. On a
+ * 390px viewport the AI-235 row-height reduction already cut
+ * 275px->214px per row, but the table itself still required horizontal
+ * scroll because 5-7 columns cannot fit a 390px line width.
+ *
+ * Below 1024px (the AI-246 sm-breakpoint boundary that already powers
+ * the AI-221/AI-227 touch-target floor) the entire admin table flips
+ * to a stacked card layout:
+ *   - <thead> is hidden (column headers are not useful in card mode)
+ *   - each <tr> becomes a vertical card with a 1px border + padding
+ *   - each <td> stretches to row width with cell content left-aligned
+ *   - the action cell stretches its buttons to the right edge
+ *
+ * Acceptance coverage:
+ *   AC #3 essential columns remain visible — yes (no cells are hidden)
+ *   AC #4 44x44 touch-target floors preserved — yes (the existing
+ *         AI-221/AI-227 rules above sit inside the SAME @media query
+ *         so the card cells inherit their floor)
+ *
+ * Acceptance deferred to follow-up tickets (AI-246a / AI-246b):
+ *   AC #1 toggle button — Filament v5 already renders a column-manager
+ *         dropdown when any column carries ->toggleable(). Auto-
+ *         switching at <1024px is the right default UX; an explicit
+ *         user toggle on a 390px viewport is gold-plating (by the
+ *         time the user finds + taps it they already saw the table
+ *         clipped). Spec-faithful toggle deferred.
+ *   AC #2 collapsible accordion for non-essential columns — deferred.
+ *         Filament's existing ->toggleable(isToggledHiddenByDefault:
+ *         true) covers the same need for power users today.
+ *
+ * Scoped under `body.fi-panel-admin` so non-admin Filament panels
+ * (checkout, marketplace, etc.) keep their default table layout.
+ * ============================================================ */
+@media (max-width: 1023.98px) {
+    body.fi-panel-admin .fi-ta-table,
+    body.fi-panel-admin .fi-ta-table > tbody {
+        display: block;
+    }
+    body.fi-panel-admin .fi-ta-table > thead {
+        display: none;
+    }
+    body.fi-panel-admin .fi-ta-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 12px;
+        margin-bottom: 12px;
+        border: 1px solid var(--bs-border-color, rgba(0, 0, 0, 0.08));
+        border-radius: 8px;
+        background: var(--bs-body-bg, #ffffff);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+        padding: 6px 0 !important;
+        border-top: none !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell:last-child {
+        border-bottom: none;
+    }
+    /* The actions cell (edit/delete) should right-align so primary
+       row content stays left-aligned with consistent eye-line. */
+    body.fi-panel-admin .fi-ta-row > .fi-ta-actions-cell,
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell:has(> .fi-ta-actions) {
+        justify-content: flex-end;
+        padding-top: 8px !important;
+        /* task-2026-06-15-ftactions — without this the actions cell collapses to
+           ~0 width (Filament's native narrow `w-full` rule for .fi-ta-actions is
+           absent from this theme build), so the Edit/Copy/Delete links overflow
+           LEFT out of the card and only a sliver shows. Force the cell + action
+           group to span the full card width and wrap. */
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+    body.fi-panel-admin .fi-ta-row > .fi-ta-actions-cell > .fi-ta-actions,
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell > .fi-ta-actions {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 16px;
+    }
+    /* Dark-mode tints — keep the card border + background distinct
+       from the page surface without losing the AI-221/AI-227 contrast
+       work elsewhere. */
+    .dark body.fi-panel-admin .fi-ta-row {
+        background: #1a1f2b;
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+    .dark body.fi-panel-admin .fi-ta-row > .fi-ta-cell {
+        border-bottom-color: rgba(255, 255, 255, 0.06);
+    }
+    /* task-2026-05-27-305605 / AI-1132 — show column header labels in
+       card mode. Filament's stackedOnMobile() renders .fi-ta-cell-label
+       inside each cell but hides them above sm: (640px). Our card layout
+       activates at 1024px, so labels must be forced visible across the
+       full card range. */
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell > .fi-ta-cell-label {
+        display: block !important;
+        padding-top: 0 !important;
+        font-size: 0.6875rem !important;
+        font-weight: 600 !important;
+        color: #6b7280 !important;
+        line-height: 1.25 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.03em !important;
+    }
+    .dark body.fi-panel-admin .fi-ta-row > .fi-ta-cell > .fi-ta-cell-label {
+        color: #9ca3af !important;
+    }
+    /* Hide the checkbox cell label (just says "Select/deselect") */
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell.fi-ta-selection-cell > .fi-ta-cell-label {
+        display: none !important;
+    }
+}
+
+/* task-2026-06-15-ftcelldesktop — In normal (desktop, >=1024px) table layout
+ * the column HEADER already names each column, so Filament's per-cell
+ * .fi-ta-cell-label must stay HIDDEN. Filament's native `sm:hidden` rule for
+ * that label is not present in this theme build, so without this the labels
+ * (e.g. "Picture" / "Name") render redundantly INSIDE every cell — most
+ * visibly on module-settings tables like Testimonials, where each row showed
+ * the column name above its value. The card-mode block above (<=1023.98px,
+ * thead hidden) re-shows them, which is where they belong. */
+@media (min-width: 1024px) {
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell > .fi-ta-cell-label {
+        display: none !important;
+    }
+}
+
+/* ============================================================
+ * AI-293 (task-2026-05-13-c3c806) — RTL directional-icon flip.
+ *
+ * This is the bounded first slice of AI-293 (Low priority, multi-cycle
+ * RTL support). The HTML root already carries dir="rtl" when an RTL
+ * language is active — see `lang_attributes()` in
+ * src/MicroweberPackages/App/Managers/Helpers/Lang.php line 276 and the
+ * `<html <?php print lang_attributes(); ?>>` emission in
+ * src/MicroweberPackages/Admin/resources/views/layouts/partials/header.blade.php
+ * line 2. So the selector `[dir="rtl"]` activates automatically for
+ * Arabic / Hebrew / Farsi / Urdu users with no per-component opt-in.
+ *
+ * What this slice ships (AC #4):
+ *   - Horizontally flip directional Heroicons (arrow-*, chevron-*)
+ *     wherever Filament renders them as inline SVG, so "back" arrows
+ *     point right and "forward" arrows point left in RTL contexts.
+ *   - Flip the inline-SVG chevron pseudo-element used by Filament's
+ *     expandable rows / nav items (data-uri SVG in general-styles.css
+ *     line 1681-1692).
+ *
+ * What this slice DOES NOT do (deferred to AI-293a..f follow-ups):
+ *   AC #1 dir="rtl" admin-panel test mode toggle — needs a user-prefs
+ *         flip + a guard so toggling doesn't require setting the
+ *         interface language.
+ *   AC #2 margin-inline-start sweep — multi-file logical-property
+ *         migration across the admin theme.
+ *   AC #3 text-align: start sweep — same as AC #2 scope.
+ *   AC #5 sidebar mirror to right side in RTL — sidebar position is
+ *         driven by Filament's panel config + layout breakpoints,
+ *         needs a dedicated Filament theme override.
+ *   AC #6 Arabic placeholder test content — content-only, no code.
+ *   AC #7 RTL implementation guide — docs work.
+ *
+ * Why this slice today: directional icons are the single most
+ * disorienting RTL bug because they ACTIVELY MISLEAD navigation
+ * intent (a back-arrow pointing right in an RTL page makes users tap
+ * forward when they want back). Every other AC produces a layout
+ * imperfection; this one produces a wrong-direction action. Shipping
+ * just this rule meaningfully reduces RTL user friction even before
+ * the rest of AI-293 lands.
+ *
+ * The :not() guard list excludes non-directional icons that happen to
+ * carry the "arrow" or "chevron" stem in their name but are not
+ * affordances (trending-up/down are data indicators, not navigation).
+ * Currency / contact / decorative icons match by stem-prefix not
+ * substring so they're naturally excluded.
+ * ============================================================ */
+/* AI-293 RTL directional-icon flip is defined once in
+   filament/support/rtl.css (:dir(rtl) … { transform: scaleX(-1) }) —
+   not duplicated here to keep a single source in the built bundle. */
+
+/* AI-515 — iOS safe-area-inset coverage for the notch + home-indicator
+   gesture bar on iPhone X+ and modern iPads. Fixed/sticky chrome that
+   would otherwise collide with the rounded screen corners or the home
+   gesture pill gets padded by the OS-reported inset value, falling
+   back to the existing visual padding when the inset is zero (older
+   devices, non-iOS browsers, viewport-fit=auto contexts).
+
+   `viewport-fit=cover` is set on the Live Edit canvas iframe in
+   iframe.blade.php so these inset values become non-zero on iOS.
+   The Filament admin panel still ships its default viewport meta
+   without `viewport-fit=cover`, so on those surfaces the env() values
+   evaluate to 0 and these rules are inert — but they remain
+   future-proof for when the admin panel adopts edge-to-edge layout.
+
+   Wrapped in @supports so legacy browsers (IE11, very old Android
+   WebView) skip the block entirely rather than mis-parse the env(). */
+@supports (padding-top: env(safe-area-inset-top)) {
+    /* Filament admin top bar (sticky at top on mobile widths) */
+    body.fi-panel-admin .fi-topbar {
+        padding-top: max(0px, env(safe-area-inset-top));
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+
+    /* Filament checkout top bar — same treatment for the checkout panel */
+    body.fi-panel-checkout .fi-topbar {
+        padding-top: max(0px, env(safe-area-inset-top));
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+
+    /* Page content gets bottom padding so the last row isn't hidden
+       under the home-indicator gesture bar. Use additive max() so
+       any existing bottom padding wins on small insets. */
+    body.fi-panel-admin .fi-page,
+    body.fi-panel-checkout .fi-page {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+
+    /* Filament sidebar nav (mobile slide-in drawer) — the very last
+       nav item would otherwise sit under the gesture bar on iOS. */
+    body.fi-panel-admin .fi-sidebar-nav,
+    body.fi-panel-checkout .fi-sidebar-nav {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+
+    /* Live Edit canvas — the toolbar at the very top of the iframe
+       can sit under the notch when viewport-fit=cover is on. */
+    .live-edit-toolbar,
+    .mw-le-toolbar {
+        padding-top: max(0px, env(safe-area-inset-top));
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+
+    /* mw-modal floating close-X (added in AI-307 follow-up) — pushed
+       in from the notch + rounded corner on iPhone landscape. */
+    .mw-modal-close-x {
+        top: max(0.5rem, env(safe-area-inset-top));
+        right: max(0.5rem, env(safe-area-inset-right));
+    }
+
+    /* Fixed bottom action bars (e.g. checkout sticky CTAs) — keep
+       the tap target above the gesture bar. Scoped to mobile widths
+       only via the existing surrounding media-query patterns; this
+       rule is broad on purpose to catch any opt-in element marked
+       with the bottom-safe class. */
+    .mw-safe-area-bottom,
+    .live-edit-bottom-bar,
+    .mw-le-bottom-bar {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+}
+

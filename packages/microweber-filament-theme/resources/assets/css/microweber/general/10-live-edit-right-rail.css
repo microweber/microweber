@@ -1,0 +1,261 @@
+/* ======================================================================
+   task-2026-05-21-a4832f / AI-871 — Live-edit sidebar design pass.
+
+   1. Right-rail mini-labels — 2-3 char label rendered via ::after
+      from data-mw-label attribute on each button.
+   2. Active panel indicator — accent highlight on active-state button.
+   3. ESE empty-state — centered icon + guidance text.
+   4. MainDrawer active page highlight + depth indicators.
+   ====================================================================== */
+
+/* ── AI-871 §1: Right-rail mini-labels ─────────────────────────────── */
+/* task-2026-05-26-8ca979: sidebar buttons need flex-direction:column so
+   the ::after label stacks below the icon instead of being crushed to
+   2px wide in the default row layout. Sidebar widens from 50px to 60px
+   to give labels breathing room. */
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar {
+    width: 60px !important;
+}
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .mw-toolbar-icon-btn[data-mw-label],
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons {
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 44px !important;
+    max-height: none !important;
+    width: 52px !important;
+    padding: 6px 2px 3px !important;
+    gap: 1px;
+}
+/* task-2026-05-27-7f8c02 — normalize SVG icon sizes in right sidebar.
+   Inline SVG width/height attributes vary (19px, 22, 24px); this rule
+   forces a uniform 20×20 rendered size and prevents flex-shrink. */
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons svg,
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .mw-toolbar-icon-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    flex-shrink: 0;
+}
+/* task-2026-05-27-c72805 — remove max-width + overflow:hidden that
+   clipped labels like "Template" and "AI Edit". The block-level
+   ::after is already constrained by the button's content-area width. */
+.mw-live-edit-page .mw-toolbar-icon-btn[data-mw-label]::after {
+    content: attr(data-mw-label);
+    display: block;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--ese-text-muted, #6b7280);
+    margin-top: 2px;
+    text-align: center;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.dark .mw-live-edit-page .mw-toolbar-icon-btn[data-mw-label]::after {
+    color: #9ca3af;
+}
+
+/* ── AI-871 §2: Active panel indicator ─────────────────────────────── */
+.mw-live-edit-page .mw-toolbar-icon-btn.live-edit-right-sidebar-active {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.10)) !important;
+    border-right: 2px solid var(--ese-accent, #0d6efd);
+    border-radius: 0;
+}
+
+.mw-live-edit-page .mw-toolbar-icon-btn.live-edit-right-sidebar-active::after {
+    color: var(--ese-accent, #0d6efd) !important;
+}
+
+/* task-2026-09-06-woww — right-rail active icon white-on-white fix.
+   AI-871 §2 (above) paints the active button with a LIGHT accent-soft
+   background (specificity 0,3,0 !important), which outranks the dark
+   #182433 active pill in live-edit-classes.css
+   (`.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active`,
+   specificity 0,2,0). But that same file still forces the icon WHITE via
+   `.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active svg`
+   (0,2,1 !important) — leaving a white glyph stranded on the light fill
+   (invisible in the normal admin theme). Recolour the active icon to the
+   SAME accent as the border-right + ::after label so it reads as the
+   intended accent highlight. Specificity here is 0,3,1, so it wins over the
+   0,2,1 white rule in both light and dark modes without touching the
+   (correct) dark-pill active state used by the non-.mw-toolbar-icon-btn
+   right-rail buttons. */
+.mw-live-edit-page .mw-toolbar-icon-btn.live-edit-right-sidebar-active svg,
+.mw-live-edit-page .mw-toolbar-icon-btn.live-edit-right-sidebar-active svg * {
+    fill: var(--ese-accent, #0d6efd) !important;
+    color: var(--ese-accent, #0d6efd) !important;
+    stroke: var(--ese-accent, #0d6efd) !important;
+}
+
+/* task-2026-09-26 — right-rail active LABEL white-on-white fix.
+   Companion to the woww icon fix above: the ::after mini-label
+   (data-mw-label, e.g. "Style") was still forced WHITE by
+   live-edit-classes.css
+   `.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons::after`
+   (specificity 0,4,1 !important), which outranks the accent label rule in
+   AI-871 §2 above (0,3,1). That white rule assumes a dark ink pill, but the
+   active .mw-toolbar-icon-btn actually gets the LIGHT --ese-accent-soft pill
+   (see §2), so the white label vanishes. Recolour the active label to the
+   SAME accent as the icon + border-right. Selector specificity is 0,6,1 so
+   it beats the 0,4,1 white rule; still scoped to .mw-toolbar-icon-btn so the
+   (correct) dark-pill / white-label active state on the non-.mw-toolbar-icon-btn
+   right-rail buttons is untouched. */
+.mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons.mw-toolbar-icon-btn::after {
+    color: var(--ese-accent, #0d6efd) !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .mw-live-edit-page .mw-toolbar-icon-btn.live-edit-right-sidebar-active {
+        transition: background-color 0.1s ease, border-color 0.1s ease;
+    }
+}
+
+/* ── AI-871 §3: ESE empty-state ────────────────────────────────────── */
+.mw-ese-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2xl, 48px) var(--space-md, 13px);
+    gap: var(--space-sm, 8px);
+    text-align: center;
+}
+
+.mw-ese-empty-state__icon {
+    color: var(--ese-text-muted, #6b7280);
+    opacity: 0.5;
+    flex-shrink: 0;
+}
+
+.mw-ese-empty-state__title {
+    font-size: var(--font-section, 15px);
+    font-weight: 500;
+    color: var(--ese-text, #111827);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.mw-ese-empty-state__hint {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.dark .mw-ese-empty-state__title {
+    color: var(--ese-text, #f3f4f6);
+}
+
+.dark .mw-ese-empty-state__hint {
+    color: #9ca3af;
+}
+
+/* ── AI-871 §4: MainDrawer active page highlight ────────────────────── */
+.mw-main-drawer__item.mw-main-drawer__item--active-page,
+.mw-main-drawer__item[data-mw-active-page="true"] {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.10));
+    border-left: 2px solid var(--ese-accent, #0d6efd);
+    padding-left: calc(var(--space-sm, 8px) - 2px); /* compensate for border */
+    border-radius: 0 var(--radius-sm, 6px) var(--radius-sm, 6px) 0;
+    font-weight: 500;
+}
+
+/* ── AI-871 §4b: MainDrawer depth indicators ────────────────────────── */
+.mw-main-drawer__item--depth-1 {
+    padding-left: var(--space-lg, 24px);
+    position: relative;
+}
+
+.mw-main-drawer__item--depth-1::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--space-sm, 8px) + 1px);
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--ese-border, rgba(0, 0, 0, 0.12));
+}
+
+.dark .mw-main-drawer__item--depth-1::before {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ── AI-1197: Right-rail panel button 44px touch targets ───────────── */
+/* task-2026-05-27-9e89ba / AI-1197: action buttons in right-rail panels
+   (back button, search toggle/clear, close X) measured 24-32px; enforce
+   WCAG 2.5.5 minimum 44x44px on all interactive elements. */
+.mw-live-edit-page .btn.btn-link,
+.mw-live-edit-page .live-edit-settings-back-button-wrapper .btn {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mw-live-edit-page .x-close-modal-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mw-live-edit-page .style-pack-search-toggle,
+.mw-live-edit-page .style-pack-search-clear {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* ── AI-1200: Right-rail progressive disclosure ────────────────────── */
+/* task-2026-05-27-9e89ba / AI-1200: default show 3 primary sidebar
+   icons (Template, Style, More); secondary icons (Layout, AI Edit)
+   appear on hover or focus-within. Mobile always shows all. */
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+    [data-mw-sidebar-priority="secondary"] {
+    display: none;
+}
+
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar:hover
+    [data-mw-sidebar-priority="secondary"],
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar:focus-within
+    [data-mw-sidebar-priority="secondary"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+        [data-mw-sidebar-priority="secondary"] {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+        [data-mw-sidebar-priority="secondary"] {
+        transition: opacity 0.2s ease;
+    }
+}
+
+/* ── AI-1192: Add Content modal Cancel button 44px touch target ────── */
+/* task-2026-05-27-fb049a / AI-1192: Filament Cancel button in the
+   Add Content modal measures 42px; enforce WCAG 2.5.5 44px minimum. */
+.mw-content-picker-modal .fi-modal-footer-actions .fi-btn {
+    min-height: 44px;
+}
+
+/* ── AI-1194: Quick AI Edit toggle buttons 44px touch target ───────── */
+/* task-2026-05-27-fb049a / AI-1194: "Active layout" / "Whole page"
+   toggle buttons in Quick AI Edit panel measure 38px; enforce 44px. */
+#mw-live-edit-quickEditComponent-box .btn {
+    min-height: 44px;
+}
+

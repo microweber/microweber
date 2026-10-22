@@ -1,0 +1,205 @@
+/*
+ * task-2026-05-30-admrows — Filament admin table row touch-target floors
+ * on mobile (content-prefix layout used by every resource list page).
+ *
+ * Probed at 390x844 on /admin/pages. Three sub-44 hit areas surface on
+ * every record row regardless of resource:
+ *
+ *   1. Title link `<a class="block truncate">` — 293x20.
+ *      Width fine, height fails. Anchor wraps the record title and is
+ *      the primary navigation target for the row. Lift to 44px via
+ *      min-height + inline-flex + align-items: center on the anchor
+ *      itself — keeps the line-box centered without shifting layout.
+ *
+ *   2. Status badge dropdown trigger `.fi-ta-dropdown button` — 146x28.
+ *      Width fine, height fails. The badge opens a status-change
+ *      dropdown so it IS interactive. Lift via min-height on the
+ *      dropdown trigger button.
+ *
+ *   3. Table checkboxes `.fi-ta-record-checkbox` + `.fi-ta-page-checkbox`
+ *      — 18x18 (both dims fail). Filament renders these as bare <input>
+ *      with no `<label>` wrapper — the AI-517 / AI-518 form-checkbox
+ *      pattern (`label:has(.fi-checkbox-input)`) doesn't catch them.
+ *      Lift the input itself to 44x44 and reset appearance so the
+ *      checkmark stays visually centered inside the larger hit area.
+ *
+ * Scope via `body.fi-panel-admin` for specificity bump over Filament's
+ * later-cascade table styles. Mobile media block matches the canonical
+ * (max-width: 768px), (pointer: coarse) breakpoint already used by the
+ * brand-link rule.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body.fi-panel-admin .fi-ta-content a.block.truncate {
+        display: flex !important;
+        align-items: center !important;
+        min-height: 44px !important;
+    }
+    /*
+     * Badge dropdown trigger fights two existing source rules that pin
+     * BOTH min-height AND height to 28px (`.fi-ta-content .fi-btn.fi-color-success`
+     * + `.fi-ta-record .fi-btn.fi-size-sm.fi-color-success`). Override
+     * both properties — `height` wins over `min-height` when both are
+     * set on the same element.
+     */
+    body.fi-panel-admin .fi-ta-content .fi-btn.fi-color-success,
+    body.fi-panel-admin .fi-ta-record .fi-btn.fi-size-sm.fi-color-success,
+    body.fi-panel-admin .fi-ta-dropdown .fi-dropdown-trigger > button {
+        min-height: 44px !important;
+        height: auto !important;
+    }
+    body.fi-panel-admin .fi-ta-record-checkbox,
+    body.fi-panel-admin .fi-ta-page-checkbox {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: 44px !important;
+        height: 44px !important;
+    }
+}
+
+/*
+ * task-2026-05-30-admui — Filament admin "medium" size primitives.
+ *
+ * DEFECTS (probed at 390x844 across /admin/pages, /admin/posts,
+ * /admin/products, /admin/users, /admin/marketplace)
+ *
+ *   1. `.fi-btn.fi-size-md` ships at 42px height (2px short of WCAG
+ *      2.5.5 / iOS HIG 44x44 floor). Recurring sites:
+ *        - pagination "Next" `.fi-pagination-next-btn` 81x42
+ *        - filter toggle "Categories" `.fi-color-mw-secondary` 148x42
+ *        - record action group `.fi-ac-btn-group` button 72x42
+ *      Width fine; height fails. Override min-height + height (same
+ *      trick as the AI-1135 badge fix — `height` wins over min-height
+ *      when Filament pins both as !important).
+ *
+ *   2. `.fi-link.fi-size-md.fi-ac-link-action` (page-header link
+ *      actions, eg "Reload Packages" / "Licenses" on /admin/marketplace)
+ *      ships at 20px height — link-styled actions carry no padding.
+ *      Lift to a 44px hit area via inline-flex + min-height +
+ *      align-items: center on the link itself.
+ *
+ * FIX
+ *   Two rules inside the canonical @media (max-width: 768px),
+ *   (pointer: coarse) block. Each scoped via `body.fi-panel-admin`.
+ *
+ * TIER-3 POST-FIX (forced-reload probe at 390x844)
+ *   - pagination Next: 81x44
+ *   - filter toggle: 148x44
+ *   - record action group button: 72x44
+ *   - page-header link action: 136x44 / 81x44
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body.fi-panel-admin .fi-btn.fi-size-md {
+        min-height: 44px !important;
+        height: auto !important;
+    }
+    body.fi-panel-admin .fi-link.fi-ac-link-action,
+    body.fi-panel-admin .fi-link.fi-size-md.fi-ac-link-action {
+        display: inline-flex !important;
+        align-items: center !important;
+        min-height: 44px !important;
+    }
+}
+
+/*
+ * task-2026-05-30-admform — Filament admin create/edit form primitives.
+ *
+ * DEFECTS (probed at 390x844 on /admin/pages/create — recurs on every
+ * Filament create/edit form: posts, products, categories, users…)
+ *
+ *   1. `.fi-btn.fi-size-xl` ships at 42px height. The page-header
+ *      "Save & Live Edit" + "Save" header actions render at the XL
+ *      primitive (181x42 / 81x42). Same shape as the admui fi-size-md
+ *      fix — Filament pins both min-height and height as !important so
+ *      the override must reset both.
+ *
+ *   2. `.mw-media-browser-secondary-btn` (the "Upload from your device"
+ *      link inside the project-bespoke media browser dropzone) ships at
+ *      152x20 — styled as an inline-flex link with no padding. Lift to
+ *      44px via inline-flex + align-items + min-height.
+ *
+ *   3. `label.fi-fo-checkbox-list-option` wraps the checkbox-list
+ *      option labels in `Where to put it / Tags / Menus` form sections.
+ *      The AI-517 / AI-518 generic `label:has(.fi-checkbox-input)`
+ *      pattern does NOT match Filament's specific checkbox-list-option
+ *      class — option labels render at 24px. Lift to 44px hit area via
+ *      min-height + display: inline-flex + align-items: center.
+ *
+ * FIX
+ *   Three rules inside the canonical @media (max-width: 768px),
+ *   (pointer: coarse) block. Each scoped via `body.fi-panel-admin`
+ *   for specificity bump over Filament's primitive defaults.
+ *
+ * TIER-3 POST-FIX (forced-reload probe at 390x844)
+ *   - Save & Live Edit header action: 181x44
+ *   - Save header action: 81x44
+ *   - Upload from your device link: 152x44
+ *   - checkbox-list option label: ≥44px
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body.fi-panel-admin .fi-btn.fi-size-xl {
+        min-height: 44px !important;
+        height: auto !important;
+    }
+    body.fi-panel-admin .mw-media-browser-secondary-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        min-height: 44px !important;
+    }
+    body.fi-panel-admin label.fi-fo-checkbox-list-option {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+}
+
+/*
+ * task-2026-05-30-fitasort — Filament table column-sort button + numeric
+ * body-cell button touch-target floors on mobile.
+ *
+ * DEFECTS (probed at 390x844 across Newsletter resource list pages, then
+ * scope-confirmed against /admin/users + /admin/posts to bound the family
+ * to tables whose columns opt-in via ->sortable())
+ *
+ *   1. `.fi-ta-header-cell-sort-btn` ships at 20px height — the
+ *      clickable text/icon control inside each sortable `<th>`. Sites
+ *      observed at 390x844:
+ *        - /admin/newsletter/subscribers — Subscriber 292x20, Status 99x20
+ *        - /admin/newsletter/lists       — 2x sort-btn at 20px
+ *        - /admin/newsletter/templates   — Title 81x20, Used in 102x20,
+ *          Last Modified 163x20
+ *        - /admin/newsletter/sender-accounts — Type 83x20
+ *        - /admin/newsletter/workflows   — Name 61x20, Executions 106x20
+ *      Surfaces lacking sortable() columns (/admin/users, /admin/posts)
+ *      are unaffected — the fix can ship at the primitive level safely.
+ *
+ *   2. `button.fi-ta-col` — body-row cells rendered as buttons (e.g.
+ *      numeric subscriber-count column on /admin/newsletter/lists) ship
+ *      at 32x56 — narrower than the 44px floor on the inline-axis.
+ *      Filament pins width via inline style on the wrapper, so the
+ *      override floors min-width on the button itself.
+ *
+ * SCOPE NOTE
+ *   Newsletter ships a sibling Filament panel with id `admin-newsletter`,
+ *   so its body class is `fi-panel-admin-newsletter` — `body.fi-panel-admin`
+ *   does NOT match it (CSS class selectors do not substring-match). The
+ *   attribute-substring scope `body[class*="fi-panel-admin"]` captures
+ *   both the core admin panel AND any sibling admin sub-panel (current
+ *   or future) without leaking to fi-panel-checkout / fi-panel-profile.
+ *
+ * FIX
+ *   Two rules inside the canonical @media (max-width: 768px),
+ *   (pointer: coarse) block. Both scoped via `body[class*="fi-panel-admin"]`
+ *   for specificity bump over Filament's primitive defaults.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body[class*="fi-panel-admin"] .fi-ta-header-cell-sort-btn {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+    body[class*="fi-panel-admin"] button.fi-ta-col {
+        min-width: 44px !important;
+        min-height: 44px !important;
+    }
+}
+

@@ -1,0 +1,405 @@
+/*
+ * task-2026-05-05-5da2e8: ux-engineer pass on Element Style Editor
+ * right-rail. Was a flat list with mb-4 (24px) between rows, no
+ * hover, weak 2px-border active state, no chevron — felt
+ * "unfinished" per user screenshot. New treatment: each row is now
+ * a proper button-shaped click target with hover bg, bolder active
+ * state (bg + left bar + bold label), chevron-right that rotates
+ * down when expanded, normalized 20×20 icon box. mb-4 → mb-1 so
+ * the list scans in ~250-300px instead of ~550px.
+ */
+/* task-2026-06-08-eseliteral — ESE section (accordion) styling rewritten
+ * from Tailwind @apply to LITERAL CSS. The @apply form only renders when the
+ * Webpack/Tailwind build expands it; a stale/differently-built bundle left
+ * every ESE section completely UNSTYLED (bare text, no icons/spacing/borders/
+ * chevrons — PM report). Literal CSS + theme-aware --ese-* tokens (with SOUL
+ * #108 literal fallbacks) always apply, independent of the @apply build step. */
+.element-style-editor-toggle-wrapper {
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 6px 8px 6px 12px;
+    transition: color 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+}
+.element-style-editor-toggle-wrapper .d-flex:has(> svg) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    min-height: 36px;
+}
+.element-style-editor-toggle-wrapper .d-flex:has(> svg) > svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+.element-style-editor-toggle-wrapper .d-flex:has(> svg)::after {
+    content: '';
+    margin-inline-start: auto;
+    width: 16px;
+    height: 16px;
+    opacity: 0.4;
+    transition: transform 0.12s ease;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' d='m8.25 4.5 7.5 7.5-7.5 7.5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.element-style-editor-toggle-wrapper .d-flex:has(> svg) > .mw-admin-action-links {
+    margin-inline-start: 0;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+}
+.element-style-editor-toggle-wrapper:hover {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+}
+.element-style-editor-toggle-wrapper:hover > .d-flex:first-child::after {
+    opacity: 0.7;
+}
+.element-style-editor-toggle-wrapper.active {
+    border-left: 3px solid var(--ese-accent, #0d6efd);
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    border-radius: 10px;
+    padding-bottom: 8px;
+}
+.element-style-editor-toggle-wrapper.active > .d-flex:has(> svg) > .mw-admin-action-links,
+.element-style-editor-toggle-wrapper.active .d-flex:has(> svg):first-of-type > .mw-admin-action-links {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ese-accent, #0d6efd);
+}
+.element-style-editor-toggle-wrapper.active > .d-flex:has(> svg) > svg,
+.element-style-editor-toggle-wrapper.active .d-flex:has(> svg):first-of-type > svg {
+    opacity: 1;
+    color: var(--ese-accent, #0d6efd);
+}
+.element-style-editor-toggle-wrapper.active > .d-flex:has(> svg)::after,
+.element-style-editor-toggle-wrapper.active .d-flex:has(> svg):first-of-type::after {
+    transform: rotate(90deg);
+    opacity: 0.8;
+}
+.element-style-editor-toggle-wrapper:empty {
+    display: none;
+}
+
+/* Expanded panel content sits below the header row with a small top gap;
+ * flush left so the sub-labels (FONT, ALIGN, COLOR, …) align with the header. */
+.element-style-editor-toggle-wrapper.active > div:nth-child(2) {
+    margin-top: 8px;
+    padding-inline-start: 4px;
+    padding-inline-end: 4px;
+}
+
+/*
+ * Sub-section labels inside an expanded category panel: the
+ * pre-existing rule made them 14px UPPERCASE — too shouty for a
+ * dense control panel and inconsistent with the design-tool
+ * convention (~11px uppercase letterspaced). Tighten down so the
+ * labels read as section headers, not paragraph text.
+ */
+.element-style-editor-toggle-wrapper.active .live-edit-label,
+.element-style-editor-toggle-wrapper.active .form-control-live-edit-label-wrapper > label {
+    font-size: 10.5px !important;
+    letter-spacing: 0.04em !important;
+    font-weight: 600 !important;
+    opacity: 0.75;
+}
+
+/*
+ * Each form-control-live-edit-label-wrapper is a "row" inside the
+ * expanded panel. The default 45px min-height + 12px margin-bottom
+ * + 22px line-height accumulates a lot of empty space when stacked
+ * 8 deep (Font/Align/Color/Font size/Weight/Transform/Style/...).
+ * Tighten to 32px min-height with 8px gap so the panel reads as
+ * one cohesive control surface.
+ */
+.element-style-editor-toggle-wrapper.active .form-control-live-edit-label-wrapper {
+    min-height: 32px !important;
+    margin-bottom: 8px !important;
+    line-height: 1.3 !important;
+}
+
+.create-campaign-button {
+    svg {
+        @apply fill-white dark:fill-black;
+    }
+    &:hover {
+        svg {
+            @apply dark:fill-white;
+        }
+    }
+}
+
+.mw-tags--container {
+    @apply mb-3;
+}
+
+.mw-filepicker-root .fi-simple-main {
+    @apply !min-w-full;
+}
+
+select#activeLocale:not(:has(option:nth-of-type(2))) {
+    display: none !important;
+}
+
+.modules-list-search-block svg.icon {
+    @apply stroke-black dark:stroke-white;
+}
+
+.live-edit-settings-back-button-wrapper {
+    @apply sticky top-[-20px] z-10 bg-white dark:bg-gray-800 dark:text-white text-gray-900 py-4 px-0;
+}
+
+.predefined-styles-names {
+    position: absolute;
+    bottom: -11px;
+    background: white;
+    padding: 0px 8px;
+    border: 1px solid var(--mw-border-color);
+    border-radius: 11px;
+}
+
+.mw-predefined-styles-main-btn,
+.mw-customize-styles-main-btn {
+    display: inline-block;
+    position: relative;
+    padding: 20px 24px;
+    background: white;
+    @apply dark:bg-gray-800 dark:text-white;
+    border: 1px solid var(--mw-border-color);
+    border-radius: 12px;
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 11px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        background-color: currentColor;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        transition: all 0.3s ease;
+        z-index: 1;
+    }
+
+    &::after {
+        content: '→';
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 16px;
+        font-weight: bold;
+        color: #666;
+        @apply dark:!text-white;
+        background: rgba(0, 0, 0, 0.08);
+        @apply dark:bg-gray-700 dark:text-white;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        background: white;
+        @apply dark:bg-gray-700;
+
+        &::after {
+            background: rgba(0, 0, 0, 0.15);
+            @apply dark:bg-gray-600;
+            color: #333;
+        }
+    }
+
+    &:active {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.mw-predefined-styles-main-btn {
+    &::before {
+        -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="24px"><path d="M186-80q-54 0-80-22t-26-66q0-58 49-74t116-16h21v-56q0-34-1-55.5t-6-35.5q-5-14-11.5-19.5T230-430q-9 0-16.5 3t-12.5 8q-4 5-5 10.5t1 11.5q6 11 14 21.5t8 24.5q0 25-17.5 42.5T159-291q-25 0-42.5-17.5T99-351q0-27 12-44t32.5-27q20.5-10 47.5-14t58-4q85 0 118 30.5T400-302v147q0 19 4.5 28t15.5 9q12 0 19.5-18t9.5-56h11q-3 62-23.5 87T368-80q-43 0-67.5-13.5T269-134q-10 29-29.5 41.5T186-80Zm373 0q-20 0-32.5-16.5T522-132l102-269q7-17 22-28t34-11q19 0 34 11t22 28l102 269q8 19-4.5 35.5T801-80q-12 0-22-7t-15-19l-20-58H616l-20 58q-4 11-14 18.5T559-80Zm-324-29q13 0 22-20.5t9-49.5v-67q-26 0-38 15.5T216-180v11q0 36 4 48t15 12Zm407-125h77l-39-114-38 114Zm-37-285q-48 0-76.5-33.5T500-643q0-104 66-170.5T735-880q42 0 68 9.5t26 24.5q0 6-2 12t-7 11q-5 7-12.5 10t-15.5 1q-14-4-32-7t-33-3q-71 0-114 48t-43 127q0 22 8 46t36 24q11 0 21.5-5t18.5-14q17-18 31.5-60T712-758q2-13 10.5-18.5T746-782q18 0 27.5 9.5T779-749q-12 43-17.5 75t-5.5 58q0 20 5.5 29t16.5 9q11 0 21.5-8t29.5-30q2-3 15-7 8 0 12 6t4 17q0 28-32 54t-67 26q-26 0-44.5-14T691-574q-15 26-37 40.5T605-519Zm-485-1v-220q0-58 41-99t99-41q58 0 99 41t41 99v220h-80v-80H200v80h-80Zm80-160h120v-60q0-25-17.5-42.5T260-800q-25 0-42.5 17.5T200-740v60Z"/></svg>');
+        mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="24px"><path d="M186-80q-54 0-80-22t-26-66q0-58 49-74t116-16h21v-56q0-34-1-55.5t-6-35.5q-5-14-11.5-19.5T230-430q-9 0-16.5 3t-12.5 8q-4 5-5 10.5t1 11.5q6 11 14 21.5t8 24.5q0 25-17.5 42.5T159-291q-25 0-42.5-17.5T99-351q0-27 12-44t32.5-27q20.5-10 47.5-14t58-4q85 0 118 30.5T400-302v147q0 19 4.5 28t15.5 9q12 0 19.5-18t9.5-56h11q-3 62-23.5 87T368-80q-43 0-67.5-13.5T269-134q-10 29-29.5 41.5T186-80Zm373 0q-20 0-32.5-16.5T522-132l102-269q7-17 22-28t34-11q19 0 34 11t22 28l102 269q8 19-4.5 35.5T801-80q-12 0-22-7t-15-19l-20-58H616l-20 58q-4 11-14 18.5T559-80Zm-324-29q13 0 22-20.5t9-49.5v-67q-26 0-38 15.5T216-180v11q0 36 4 48t15 12Zm407-125h77l-39-114-38 114Zm-37-285q-48 0-76.5-33.5T500-643q0-104 66-170.5T735-880q42 0 68 9.5t26 24.5q0 6-2 12t-7 11q-5 7-12.5 10t-15.5 1q-14-4-32-7t-33-3q-71 0-114 48t-43 127q0 22 8 46t36 24q11 0 21.5-5t18.5-14q17-18 31.5-60T712-758q2-13 10.5-18.5T746-782q18 0 27.5 9.5T779-749q-12 43-17.5 75t-5.5 58q0 20 5.5 29t16.5 9q11 0 21.5-8t29.5-30q2-3 15-7 8 0 12 6t4 17q0 28-32 54t-67 26q-26 0-44.5-14T691-574q-15 26-37 40.5T605-519Zm-485-1v-220q0-58 41-99t99-41q58 0 99 41t41 99v220h-80v-80H200v80h-80Zm80-160h120v-60q0-25-17.5-42.5T260-800q-25 0-42.5 17.5T200-740v60Z"/></svg>');
+    }
+}
+
+.mw-customize-styles-main-btn {
+    &::before {
+        -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="24px"><path d="M440-80v-240h80v80h320v80H520v80h-80Zm-320-80v-80h240v80H120Zm137-240h83l44-123h193l43 123h83L523-880h-86L257-400Zm151-192 70-199h4l70 199H408Z"/></svg>');
+        mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="24px"><path d="M440-80v-240h80v80h320v80H520v80h-80Zm-320-80v-80h240v80H120Zm137-240h83l44-123h193l43 123h83L523-880h-86L257-400Zm151-192 70-199h4l70 199H408Z"/></svg>');
+    }
+}
+
+.edit-mode-toggle-container {
+    @apply flex gap-3;
+
+    @media (max-width: 768px) {
+        @apply flex-col;
+    }
+}
+
+.edit-mode-option {
+    @apply p-3 border text-center border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 cursor-pointer transition-all duration-300 ease-in-out shadow-sm hover:shadow-lg items-center gap-3;
+
+    svg {
+        margin: 0 auto;
+    }
+
+    &:hover {
+        @apply border-blue-500 dark:border-blue-400 shadow-blue-500/20 -translate-y-0.5;
+    }
+
+    &.active {
+        @apply border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-gray-700 shadow-blue-500/30;
+
+        .edit-mode-title {
+            @apply text-blue-500 dark:text-blue-400;
+        }
+    }
+
+    @media (max-width: 768px) {
+        @apply min-w-0;
+    }
+}
+
+.edit-mode-subtitle {
+    @apply text-xs text-gray-500 dark:text-gray-400 leading-relaxed;
+}
+
+.mw-le-dialog-block.mw-le-modules-dialog {
+    @apply rounded-xl;
+    background-color: #fff !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    max-height: 500px !important;
+    height: auto !important;
+
+    .modules-list.modules-list-defaultModules {
+        @apply mt-0 pt-0;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        max-height: 100%;
+
+        .close-modal-button {
+            top: 4px !important;
+            right: 4px !important;
+            @apply z-10;
+            @apply w-8 h-8 flex items-center justify-center rounded-lg;
+            @apply hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors;
+
+            svg {
+                @apply w-5 h-5 text-gray-500;
+            }
+        }
+    }
+
+    .modules-list-block {
+        max-height: 400px !important;
+        overflow-y: auto !important;
+    }
+}
+
+.dark .mw-le-dialog-block.mw-le-modules-dialog {
+    background-color: oklch(0.269 0 0) !important; /* gray-800 */
+}
+
+.module-settings-button img,
+.module-settings-button svg {
+    width: 24px;
+}
+.module-settings-button {
+    text-transform: capitalize;
+    img {
+        @apply dark:invert;
+    }
+}
+
+.modules-list-categories {
+    li {
+        @apply dark:text-white;
+    }
+}
+
+.module-icon img{
+    @apply dark:invert;
+}
+
+.mw-live-edit-slider-small {
+    @apply dark:!bg-gray-800 dark:text-white;
+}
+
+.mw-le-handle-menu-button-icon * {
+    @apply dark:fill-white dark:invert;
+}
+
+/*
+ * Dark mode overrides — direct CSS to fix oklch incompatibility with rgba()
+ * in @apply dark:bg-gray-* compiled output (Tailwind v4).
+ */
+
+/* task-2026-05-27-e8af06 / AI-1162: defensive hardening with !important */
+.dark #toolbar {
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
+}
+
+.dark #general-theme-settings,
+.dark #mw-element-style-editor-app,
+.dark .v3ti .v3ti-content,
+.dark .fi-body {
+    background-color: rgb(31 41 55) !important;
+    color: white;
+}
+
+.dark .mw-control-box-default {
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
+}
+
+.dark .mw-control-box-bottom.mw-control-box-default {
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
+    border-color: rgb(55 65 81) !important;
+}
+
+.dark #save-toolbar {
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
+}
+
+.dark .mw-domtree li.selected > span {
+    background-color: rgb(17 24 39);
+}
+
+.dark .mw-live-edit-slider-small {
+    background-color: rgb(31 41 55) !important;
+    color: white;
+}
+

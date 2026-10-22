@@ -1,0 +1,73 @@
+/*
+ * Checkout panel alignment with the public design system on mobile.
+ * The `body.fi-panel-checkout` surface otherwise inherits Filament's
+ * full admin chrome (dark surface tokens, 7px input radius, gray-900
+ * text) which clashes with the public-facing checkout flow.
+ *
+ * Scoped to `body.fi-panel-checkout` only (admin panel
+ * `body.fi-panel-admin` is unaffected):
+ *   1. Force light-surface tokens. Filament's `.fi.dark` cascade
+ *      still applies for the explicit dark-mode toggle.
+ *   2. Bump input border-radius from Filament's default 7px to 4px
+ *      (`var(--radius-sm)`) so checkout inputs match the Bootstrap
+ *      public-site `.form-control` 4px radius.
+ *   3. Override `.fi-input` height to `var(--touch-target-min)` so
+ *      checkout inputs hit WCAG 2.5.5 even when Filament base sets
+ *      them shorter.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* Surface alignment — force light tokens unless dark mode
+       is explicitly toggled. */
+    body.fi-panel-checkout {
+        background-color: var(--color-surface) !important;
+        color: var(--color-text-primary) !important;
+    }
+    body.fi-panel-checkout .fi-main,
+    body.fi-panel-checkout .fi-section,
+    body.fi-panel-checkout .fi-section-content,
+    body.fi-panel-checkout .checkout-wizard-container {
+        background-color: var(--color-surface) !important;
+        color: var(--color-text-primary) !important;
+    }
+
+    /* Input border-radius alignment — Filament default ~7px,
+       public Bootstrap 4px. Use design-system var(--radius-sm). */
+    body.fi-panel-checkout .fi-input,
+    body.fi-panel-checkout .fi-input-wrp,
+    body.fi-panel-checkout .fi-select-input,
+    body.fi-panel-checkout .fi-fo-textarea-input,
+    body.fi-panel-checkout input.fi-input,
+    body.fi-panel-checkout textarea.fi-fo-textarea-input,
+    body.fi-panel-checkout select.fi-select-input {
+        border-radius: var(--radius-sm) !important;
+        border-color: var(--color-border) !important;
+        min-height: var(--touch-target-min);
+    }
+    body.fi-panel-checkout .fi-input:focus,
+    body.fi-panel-checkout .fi-input-wrp:focus-within,
+    body.fi-panel-checkout .fi-select-input:focus,
+    body.fi-panel-checkout .fi-fo-textarea-input:focus,
+    body.fi-panel-checkout input.fi-input:focus,
+    body.fi-panel-checkout textarea.fi-fo-textarea-input:focus,
+    body.fi-panel-checkout select.fi-select-input:focus {
+        border-color: var(--color-border-focus) !important;
+        /* AI-253 / task-2026-06-04-ckfocus: these checkout inputs render
+           with 0 border-width (filled style), so the border-color change
+           alone is an INVISIBLE focus indicator (WCAG 2.4.7 failure on the
+           P1 conversion form). Add a 2px box-shadow ring (non-layout-
+           shifting) for a visible focus state, plus a transparent outline
+           so Windows High-Contrast / forced-colors still shows focus
+           (box-shadow is dropped in forced-colors mode). */
+        box-shadow: 0 0 0 2px var(--color-border-focus, #0d6efd) !important;
+        outline: 2px solid transparent !important;
+        outline-offset: 2px;
+    }
+
+    /* Label alignment — checkout form labels should be the same
+       gray-500 secondary-text as public form labels. */
+    body.fi-panel-checkout label,
+    body.fi-panel-checkout .fi-fo-field-label {
+        color: var(--color-text-secondary);
+    }
+}
+

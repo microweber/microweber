@@ -1,0 +1,223 @@
+/* ================================================================
+ * task-2026-05-27-aa1144 (AI-1144) — Newsletter panel mobile
+ * touch-target audit (Batch 2).
+ *
+ * Tier-3 Playwright probe at 390x844 across 5 Newsletter admin
+ * pages (campaigns / subscribers / lists / sender-accounts /
+ * campaigns/create) found 3 consistent sub-44 violation families,
+ * all standard Filament chrome rendered inside the Newsletter
+ * panel scope (body.fi-panel-admin-newsletter from
+ * Modules/Newsletter/Providers/NewsletterFilamentAdminPanelProvider.php
+ * panel id "admin-newsletter"):
+ *
+ *   1. .fi-btn.fi-size-md action buttons (Export Campaigns,
+ *      Import Subscribers, New Sender, Create, Cancel, ...):
+ *      rendered 42px tall (Filament default min-height: 36px +
+ *      vertical padding) — 2px short of the WCAG 2.5.5 floor.
+ *   2. .fi-user-menu-trigger topbar avatar: 32x32 — 12px short
+ *      on both axes.
+ *   3. .fi-ta-record-checkbox / .fi-ta-page-checkbox table
+ *      checkboxes: 18x18 native input — 26px short. Fix via the
+ *      :has() label-wrapper pattern established by AI-517 /
+ *      AI-518 / AI-519 so the HIT AREA reaches 44x44 while the
+ *      visible checkbox stays its native size.
+ *
+ * Scoped to body.fi-panel-admin-newsletter only — CLAUDE.md
+ * explicitly cautions against broad body.fi-panel-admin touch
+ * sweeps without tester audit + explicit dispatch. Cross-admin
+ * generalisation deferred as AI-1145 follow-up candidate.
+ *
+ * Family: WCAG 2.5.5 mobile touch-target floor — same lineage as
+ * AI-517 / AI-518 / AI-519 checkbox :has() wrapper, AI-1156 modal
+ * footer 42->44, AI-1135 dashboard hero-stats, AI-1143 ESE.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin-newsletter .fi-btn.fi-size-md {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    body.fi-panel-admin-newsletter .fi-user-menu-trigger {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    body.fi-panel-admin-newsletter .fi-ta-cell:has(> .fi-checkbox-input),
+    body.fi-panel-admin-newsletter label:has(> .fi-checkbox-input),
+    body.fi-panel-admin-newsletter label:has(.fi-checkbox-input) {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* ================================================================
+ * task-2026-05-29-c8b5a1 — Customer Profile panel mobile
+ * touch-target sweep (Batch 3). Tier-3 Playwright probe at
+ * 390x844 across 5 Profile subpages (dashboard, edit-profile,
+ * change-password, order-history, two-factor-auth, saved-addresses)
+ * surfaced 4 sub-44 violation families inside
+ * body.fi-panel-profile:
+ *
+ *   1. .fi-btn.fi-size-md primary action buttons at 42px tall
+ *      (Save Changes, Add New Address, Enable, Add Your First
+ *      Address) — 2px short of the WCAG 2.5.5 floor.
+ *   2. .fi-user-menu-trigger topbar avatar at 32x32 (12px short),
+ *      present on every Profile page.
+ *   3. .fi-ta-page-checkbox table-cell native checkbox at 18x18
+ *      (26px short on hit area) on Saved Addresses list.
+ *   4. Jetstream .btn.btn-outline-primary (Two Factor Authentication
+ *      and Browser Sessions buttons on Edit Profile) at 38px tall
+ *      (6px short, Bootstrap btn-default sizing).
+ *
+ * Fix: scoped mobile media-query block pinning each rule family
+ * inside body.fi-panel-profile. Extends the AI-518 Profile coverage
+ * which pinned only the login-form remember-me checkbox wrapper.
+ * Checkbox hit-area uses the :has() wrapper pattern lineage AI-517
+ * / AI-518 / AI-519 / AI-1144 so the visible input keeps its native
+ * size while the wrapper carries the 44x44 target.
+ *
+ * Family: WCAG 2.5.5 mobile touch-target floor — lineage with
+ * AI-517 / AI-518 / AI-519 / AI-1135 / AI-1143 / AI-1144 / AI-1156.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-profile .fi-btn.fi-size-md {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    body.fi-panel-profile .fi-user-menu-trigger {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+    body.fi-panel-profile .fi-ta-cell:has(> .fi-checkbox-input),
+    body.fi-panel-profile .fi-ta-cell:has(.fi-checkbox-input) {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+    body.fi-panel-profile .btn.btn-outline-primary,
+    body.fi-panel-profile .btn.btn-primary,
+    body.fi-panel-profile .btn.btn-outline-danger,
+    body.fi-panel-profile .btn.btn-danger {
+        min-height: 44px;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+}
+
+/*
+ * task-2026-05-29-7d2a91 — Admin panel mobile touch-target sweep
+ * (Batch 3). Tier-3 Playwright probe at 390x844 across 5 admin
+ * surfaces (customers, users, posts, products, categories)
+ * surfaced 2 sub-44 violation families remaining inside
+ * body.fi-panel-admin AFTER the prior Batch 1 / 2 sweeps:
+ *
+ *   1. body.fi-panel-admin .fi-ta-cell.fi-ta-selection-cell
+ *      bare-checkbox layout on Customers / Users list tables
+ *      rendered the row selection input at 18x22 inside a 60x35
+ *      cell. Distinct markup from Profile / Newsletter (no label
+ *      wrapper) so the AI-517 / AI-518 / AI-519 / AI-1144 :has()
+ *      label-wrapper pattern does NOT match — the input lives
+ *      directly inside the TD.
+ *
+ *   2. body.fi-panel-admin .fi-ac-icon-btn-group page-header
+ *      Actions dropdown trigger (Posts, Products with bulk
+ *      actions) rendered the kebab/Actions button at 36x36
+ *      — 8px short of the WCAG 2.5.5 floor. Sits inside
+ *      .fi-dropdown-trigger with aria-label="Actions".
+ *
+ * Fix: scoped @media block pinning the selection-cell hit-area
+ * to 44x44 (cell-level, leaving the native input visually small)
+ * and the .fi-ac-icon-btn-group action button to 44x44 with
+ * !important so Filament's fi-size-md base does not win the
+ * cascade tie. Scoped to body.fi-panel-admin (NOT cross-panel)
+ * per the project standard "no broad fi-panel-admin sweeps
+ * without measurements + explicit dispatch" — the /workflow
+ * long run dispatch + the Tier-3 measurement floor satisfy
+ * both conditions for this narrow two-selector slice.
+ *
+ * Family: WCAG 2.5.5 mobile touch-target floor — same lineage as
+ * AI-517 / AI-518 / AI-519 / AI-1135 / AI-1143 / AI-1144 /
+ * AI-1156 and Batch 3 sibling slice c8b5a1 (Profile panel).
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .fi-ta-cell.fi-ta-selection-cell {
+        min-height: 44px;
+        height: 44px;
+    }
+    body.fi-panel-admin .fi-ta-cell.fi-ta-selection-cell .fi-checkbox-input {
+        min-width: 22px;
+        min-height: 22px;
+    }
+    body.fi-panel-admin .fi-ac-icon-btn-group {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+}
+
+/*
+ * task-2026-05-30-AI1157-ese-mobile-touch-floor / AI-1157 — Element Style Editor
+ * (ESE) mobile touch-target floor for expanded sections.
+ *
+ * Audit at 390x844 with Typography expanded surfaced 3 real defects whose
+ * interactive surface sits BELOW the WCAG 2.5.5 / iOS HIG 44x44 floor and
+ * is NOT parent-mitigated (no row-level click delegation):
+ *
+ *   1. .form-control-live-edit-input.form-select — native SELECT 182x26.
+ *      Parent .form-control-live-edit-label-wrapper is a DIV (not a real
+ *      <label>), so tapping the wrapper does NOT open the select. Native
+ *      SELECT itself is the only interactive trigger.
+ *
+ *   2. .picker-button — color picker 44x28. Grandparent row is 36px, so
+ *      no useful row-level hit area either.
+ *
+ *   3. .reset-field-btn — icon-only "Restore default value" 14x14. Parent
+ *      .slider-small-controls row is 84x44 BUT has no click delegation;
+ *      the icon is the only interactive target.
+ *
+ * Parent-mitigated (NOT fixed because the parent provides 44px hit area):
+ *   - .v-slider-thumb__surface — 16x16 visual, but .v-input parent is
+ *     304x44 and slider drag operates on the full track.
+ *
+ * Vuetify a11y internals (NOT fixed — visually hidden, not user-facing):
+ *   - Hidden 2x2 <input> elements for screen reader value announcement.
+ *
+ * Scope: #mw-element-style-editor-app keeps these rules from leaking to
+ * other Live Edit surfaces that reuse the same primitive classes (module
+ * settings forms, link picker, file picker).
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin #mw-element-style-editor-app .form-control-live-edit-input.form-select {
+        min-height: 44px !important;
+    }
+    body.fi-panel-admin #mw-element-style-editor-app .picker-button {
+        min-height: 44px !important;
+    }
+    body.fi-panel-admin #mw-element-style-editor-app .reset-field-btn {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
+/*
+ * task-2026-05-30-admbrand AI-1234 — Filament admin sidebar brand-link
+ * touch-target floor on mobile.
+ *
+ * Stock Filament v5 sidebar header emits `<a><div class="fi-logo">Brand</div></a>`
+ * with no padding on the anchor — at 390x844 the anchor renders as a
+ * 106x20 click target, failing WCAG 2.5.5 / iOS HIG 44x44.
+ *
+ * Scope via `body.fi-panel-admin` to beat Filament's same-specificity
+ * defaults that ship LATER in the cascade. Apply min-height + inline-flex
+ * + align-items: center so the click target grows vertically without
+ * shifting the brand mark off-center.
+ */
+@media (max-width: 768px), (pointer: coarse) {
+    body.fi-panel-admin .fi-sidebar-header-logo-ctn a {
+        display: inline-flex !important;
+        align-items: center !important;
+        min-height: 44px !important;
+    }
+}
+

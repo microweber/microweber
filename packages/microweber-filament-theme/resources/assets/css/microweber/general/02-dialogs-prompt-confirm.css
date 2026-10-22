@@ -1,0 +1,300 @@
+/* ===== Prompt / Confirm Dialog Styling ===== */
+.mw-dialog-skin-default:not(.mw_modal_live_edit_link_editor_settings) .mw-dialog-holder {
+    @apply !rounded-xl overflow-hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    max-width: 1024px !important;
+}
+
+.mw-dialog-skin-default .mw-dialog-header .modal-title {
+    @apply text-base font-semibold text-gray-900 dark:text-white;
+}
+
+.mw-dialog-skin-default .mw-dialog-header .mw-dialog-close {
+    @apply w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer;
+    @apply text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:text-gray-200 dark:hover:bg-gray-700 transition-colors;
+}
+
+.mw-dialog-skin-default .mw-dialog-container {
+    @apply !px-6 !py-4;
+}
+
+.mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-label-wrapper {
+    @apply mb-0 relative;
+}
+
+.mw-dialog-skin-default .mw-dialog-container .live-edit-label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5;
+}
+
+.mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input {
+    @apply w-full !rounded-lg !border !border-gray-300 !bg-white;
+    @apply text-sm text-gray-900 dark:text-white;
+    @apply transition-colors duration-150;
+    padding: 8px 12px !important;
+    height: 36px !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-bottom-style: solid !important;
+    border-bottom-width: 1px !important;
+}
+.dark .mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input {
+    background-color: oklch(0.269 0 0) !important; /* gray-800 */
+    border-color: oklch(0.371 0 0) !important; /* gray-600 ~approx */
+}
+
+.mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input:focus {
+    @apply !border-[#182433] dark:!border-[#e5e7eb];
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
+}
+.dark .mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-input:focus {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15) !important;
+}
+
+.mw-dialog-skin-default .mw-dialog-container .form-control-live-edit-bottom-effect {
+    @apply !hidden;
+}
+
+.mw-dialog-skin-default .mw-dialog-footer {
+    @apply !px-6 !py-4 !border-0;
+}
+
+.mw-dialog-skin-default .mw-dialog-footer .btn {
+    @apply !rounded-lg !px-4 !py-2 !text-sm !font-medium !cursor-pointer transition-colors duration-150;
+    @apply !border-0;
+    @apply !text-gray-700 dark:!text-gray-300;
+    background-color: oklch(0.967 0 0) !important; /* gray-100 */
+}
+.dark .mw-dialog-skin-default .mw-dialog-footer .btn {
+    background-color: oklch(0.269 0 0) !important; /* gray-800 */
+}
+.dark .mw-dialog-skin-default .mw-dialog-footer .btn:hover {
+    background-color: oklch(0.371 0 0) !important; /* gray-700 */
+}
+
+.mw-dialog-skin-default .mw-dialog-footer .btn-primary,
+.mw-dialog-skin-default .mw-dialog-footer .btn:last-child {
+    @apply !bg-[#0d6efd] !border-0 !text-white;
+    @apply hover:!bg-[#0b5ed7];
+}
+
+.mw-dialog-skin-default .mw-dialog-footer .btn-primary:disabled,
+.mw-dialog-skin-default .mw-dialog-footer .btn:last-child:disabled {
+    @apply !opacity-50 !cursor-not-allowed;
+}
+
+.mw-dialog-skin-default .mw-dialog-overlay {
+    @apply !bg-black/40;
+}
+
+/* task-2026-05-17-8d5baf / AI-740: dark-mode backdrop dim bump.
+   Pre-fix the dark-mode image upload modal inherited the same
+   rgba(0,0,0,0.4) backdrop the light mode used — but with the
+   dark canvas background bleeding through, the modal became
+   visually indistinguishable from the page behind it. Mirror
+   AI-700 MainDrawer's `rgba(0,0,0,0.4) light → rgba(0,0,0,0.6)
+   dark` pattern. The 60 % alpha gives enough separation on the
+   dark hero canvas without going opaque.
+
+   Scope: any dialog using the default skin (filepicker, prompts,
+   confirms) benefits — positive side-effect of the AI-740 fix
+   since they share the same backdrop problem in dark mode. */
+.dark .mw-dialog-skin-default .mw-dialog-overlay,
+.dark .mw-dialog-skin-default .mw-dialog-overlay {
+    @apply !bg-black/60;
+}
+
+/* task-2026-05-17-df485c / AI-769: dark-mode SKIN for the dialog
+   surface itself. AI-740 only fixed the backdrop alpha — the modal
+   body, title bar, tab nav, inputs, footer buttons, and thumbnail
+   grid all stayed light-theme, producing a 600×~200 px white flash
+   on dark admin. Pre-fix:
+     getComputedStyle('.mw-dialog-skin-default .mw-dialog-holder')
+       .backgroundColor === 'rgb(255,255,255)' on .dark
+   This block paints the full dialog chrome dark to match the rest
+   of the admin in dark mode.
+
+   Scope: `.mw-dialog-skin-default` is shared by filepicker,
+   prompts, confirms — all benefit. Light mode unchanged (no
+   overrides without the .dark / .dark prefix). */
+.dark .mw-dialog-skin-default .mw-dialog-holder,
+.dark .mw-dialog-skin-default .mw-dialog-holder {
+    background-color: #1f2937 !important;     /* gray-800 — matches Filament dark surface */
+    color: #f3f4f6 !important;                /* gray-100 — body text */
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55) !important;
+}
+
+.dark .mw-dialog-skin-default .mw-modal-title-holder,
+.dark .mw-dialog-skin-default .mw-modal-title-holder,
+.dark .mw-dialog-skin-default .mw-dialog-header,
+.dark .mw-dialog-skin-default .mw-dialog-header {
+    background-color: #1f2937 !important;
+    color: #f3f4f6 !important;
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.dark .mw-dialog-skin-default .mw-modal-title-holder *,
+.dark .mw-dialog-skin-default .mw-modal-title-holder *,
+.dark .mw-dialog-skin-default .mw-dialog-header .modal-title,
+.dark .mw-dialog-skin-default .mw-dialog-header .modal-title {
+    color: #f3f4f6 !important;
+}
+
+/* Picker tab nav anchors — light surface in dark mode would read
+   as washed-out blue links on white. Force gray-200 default,
+   white on hover, accent blue on active. */
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a,
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a {
+    color: #e5e7eb !important;
+    background-color: transparent !important;
+}
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a:hover,
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a:hover {
+    color: #ffffff !important;
+}
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a.active,
+.dark .mw-dialog-skin-default .mw-filepicker-component-navigation-header a.active {
+    color: var(--ese-accent, #0d6efd) !important;
+}
+
+/* Form inputs inside the dialog — text fields, search box,
+   textareas. */
+.dark .mw-dialog-skin-default input.form-control,
+.dark .mw-dialog-skin-default input.form-control,
+.dark .mw-dialog-skin-default .form-control,
+.dark .mw-dialog-skin-default .form-control,
+.dark .mw-dialog-skin-default textarea,
+.dark .mw-dialog-skin-default textarea {
+    background-color: #111827 !important;     /* gray-900 — input field bg */
+    color: #f3f4f6 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+.dark .mw-dialog-skin-default input.form-control::placeholder,
+.dark .mw-dialog-skin-default input.form-control::placeholder,
+.dark .mw-dialog-skin-default .form-control::placeholder,
+.dark .mw-dialog-skin-default .form-control::placeholder {
+    color: #9ca3af !important;                /* gray-400 — placeholder */
+}
+
+/* Footer buttons — Cancel (secondary) + Insert image (primary).
+   The Insert image button keeps the primary blue from its own
+   `.btn-primary` rules; the Cancel button needs an explicit dark
+   border + text so it doesn't read as a light pill on dark. */
+.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons,
+.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons,
+.dark .mw-dialog-skin-default .mw-dialog-footer,
+.dark .mw-dialog-skin-default .mw-dialog-footer {
+    background-color: #111827 !important;     /* slightly darker than body for visual depth */
+    border-top-color: rgba(255, 255, 255, 0.06) !important;
+}
+.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
+.dark .mw-dialog-skin-default .mw-dialog-bottom-buttons .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
+.dark .mw-dialog-skin-default .mw-dialog-footer .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning),
+.dark .mw-dialog-skin-default .mw-dialog-footer .btn:not(.btn-primary):not(.btn-danger):not(.btn-success):not(.btn-warning) {
+    background-color: transparent !important;
+    color: #e5e7eb !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Thumbnail grid cells in the picker's library / uploaded tabs —
+   default light-gray bg looks like a white blob on dark. */
+.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails,
+.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails,
+.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails > *,
+.dark .mw-dialog-skin-default .mw-filepicker-component-thumbnails > * {
+    background-color: #111827 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Prompt/Confirm dialog mobile */
+@media (max-width: 768px) {
+    .mw-dialog-skin-default:not(.mw_modal_live_edit_link_editor_settings) .mw-dialog-holder {
+        max-width: calc(100vw - 32px) !important;
+        margin: 16px !important;
+    }
+
+    .mw-dialog-skin-default:not(.mw_modal_live_edit_link_editor_settings) .mw-dialog-container {
+        @apply !px-4 !py-3;
+    }
+
+    .mw-dialog-skin-default:not(.mw_modal_live_edit_link_editor_settings) .mw-dialog-footer {
+        @apply !px-4 !py-3;
+    }
+}
+
+.admin-toolbar-buttons {
+    transition: 0.25s ease;
+}
+
+.admin-toolbar-buttons:hover {
+    transform: scale(1.1);
+}
+
+.mw-icon-selector-form-control-range {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    z-index: 7;
+    background: #d3d3d3;
+    --thumb-size: 12px;
+    accent-color: var(--mw-accent);
+    outline: none;
+}
+
+.mw-icon-selector-form-control-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    background: var(--mw-accent);
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.mw-icon-selector-form-control-range::-moz-range-thumb {
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    background: var(--mw-accent);
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.mw-icon-selector-form-control-range:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(24, 36, 51, 0.35);
+}
+.mw-icon-selector-form-control-range:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 3px rgba(24, 36, 51, 0.35);
+}
+.dark .mw-icon-selector-form-control-range:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55);
+}
+.dark .mw-icon-selector-form-control-range:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.55);
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+}
+
+.mwiconlist-settings-section-block-item {
+    display: flex;
+}
+.mwiconlist-settings-section-block-item .form-control {
+    @apply border-0;
+}
+.mwiconlist-settings-section-block-item.input-group.input-group-flat {
+    @apply shadow;
+}
+
+.fi-sidebar-group-items {
+    @apply gap-y-4;
+}
+

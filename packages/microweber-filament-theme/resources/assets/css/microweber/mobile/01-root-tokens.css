@@ -1,0 +1,57 @@
+/*
+ * Design-system token block — inline mirror of
+ *   packages/frontend-assets/resources/assets/css/microweber/css/design-system.css
+ * so the var()s referenced below resolve regardless of
+ * design-system.css load order.
+ */
+:root {
+    --color-primary: #0d6efd;
+    --color-primary-hover: #0b5ed7;
+    --color-success: #22c55e;
+    --color-error: #ef4444;
+    --color-warning: #f59e0b;
+
+    --color-surface: #ffffff;
+    --color-surface-raised: #f8f9fa;
+
+    --color-text-primary: #111827;
+    --color-text-secondary: #6b7280;
+    --color-text-muted: #9ca3af;
+
+    --color-border: #d1d5db;
+    --color-border-focus: #0d6efd;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+
+    --touch-target-min: 44px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+
+    --duration-fast: 150ms;
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* AI-283 typography scale — mirror of design-system.css. */
+    --font-size-h1: 32px;
+    --font-size-h2: 28px;
+    --font-size-h3: 24px;
+    --font-size-h4: 20px;
+    --font-size-h5: 18px;
+    --font-size-h6: 16px;
+    --font-size-body: 16px;
+    --font-size-small: 14px;
+    --line-height-heading: 1.25;
+    --line-height-body: 1.5;
+}
+
+.fi.dark {
+    --color-surface: #111827;
+    --color-surface-raised: #1f2937;
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #9ca3af;
+    --color-text-muted: #6b7280;
+    --color-border: #374151;
+    --color-border-focus: #0d6efd;
+}
+

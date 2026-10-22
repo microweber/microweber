@@ -1,0 +1,199 @@
+/*
+ * Touch-target sweep across admin chrome (topbar) + list-page row
+ * controls + Orders status tabs. Targeted selector list scoped to
+ * the touch-viewport media block so desktop power-user density on
+ * >=1024px is preserved.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* Admin topbar controls — sidebar toggle, user-profile button,
+       quick-nav search input. */
+    .fi-topbar-nav-button,
+    .fi-topbar-item-btn,
+    .fi-global-search-field input {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    /* "Live Edit" link is rendered inline in the topbar; bump the
+       wrapper anchor without touching the visible chip styling. */
+    .fi-topbar a.mw-go-live-edit,
+    .fi-topbar .mw-go-live-edit {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* Admin list-page row controls.
+       Row checkboxes are wrapped in <label> by Filament; bumping the
+       label gets the whole hit-area without breaking native click
+       semantics on the input. Row action icon buttons / status badges
+       / category-tag badges / pagination select all use stable Filament
+       v5 selectors so no Blade-level changes needed. */
+    .fi-ta-row .fi-checkbox-input + label,
+    .fi-ta-row label:has(> input[type="checkbox"]),
+    .fi-ta-header-cell label:has(> input[type="checkbox"]) {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .fi-ta-row .fi-ta-actions .fi-icon-btn,
+    .fi-ta-row .fi-ta-actions a,
+    .fi-ta-row .fi-ta-actions button {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    .fi-ta-row .fi-badge,
+    .fi-ta-row .fi-badge button {
+        min-height: 44px;
+    }
+    .fi-ta-row .fi-ta-text a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    .fi-pagination select,
+    .fi-ta .fi-pagination select {
+        min-height: 44px;
+    }
+
+    /* Orders status tabs (All/New/Processing/Shipped/...) render at
+       31px height by default. Scoped to list pages so other Filament
+       tab usages are unaffected. */
+    .fi-resource-list-records-page .fi-tabs-item {
+        min-height: 44px;
+        padding-block: 8px;
+    }
+}
+
+/*
+ * Live-edit toolbar `.btn-icon.live-edit-toolbar-buttons` controls.
+ * The wrapper rule at `live-edit-classes.css` forces `!max-h-[35px]`
+ * which would clamp these buttons to 35px tall and bust the 44x44
+ * floor. `mw-toolbar-icon-btn` is a marker class — the sizing override
+ * is scoped to it so we don't inflate the wrapper itself (which needs
+ * to stay 35px in desktop-density mode).
+ *
+ * Applies at all viewports because keyboard + AT users on desktop
+ * benefit from the larger hit-area too — icon-only controls with no
+ * text label, so the visual change at desktop is negligible.
+ */
+.live-edit-toolbar-buttons.mw-toolbar-icon-btn,
+button.btn-icon.live-edit-toolbar-buttons,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.mw-toolbar-icon-btn,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.mw-toolbar-icon-btn {
+    min-width: 44px;
+    min-height: 44px;
+    max-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*
+ * Theme-switcher buttons render at 36x36px from Filament base —
+ * below WCAG 2.5.5 / iOS HIG 44x44. Bump to 44x44 on mobile only so
+ * desktop density is preserved. Applies to all theme-switcher
+ * buttons (light / dark / system) regardless of where they render.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    .fi-theme-switcher-btn {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/*
+ * Hover affordances for clickable cards across the admin shell so
+ * users can tell cards are interactive. Opt-in via a marker
+ * (Filament's recordUrl-bound `.fi-ta-record` + project-blessed
+ * `.mw-clickable-card` / `.mw-tile` / `.mw-card-link`). Generic
+ * `<a class="card">` tags are NOT touched — other CSS already styles
+ * them and a global hover would clash.
+ */
+
+/*
+ * Filament resource-table rows with a recordUrl() bound become an
+ * <a> link wrapping the row content. The `.fi-ta-record` class is
+ * stable so we hook on that.
+ */
+.fi-ta-record:has(a[href]),
+.fi-ta-record[data-rowurl] {
+    cursor: pointer;
+    transition: background-color 0.12s ease-out;
+}
+.fi-ta-record:has(a[href]):hover,
+.fi-ta-record[data-rowurl]:hover {
+    background-color: rgba(15, 23, 42, 0.04);
+}
+.dark .fi-ta-record:has(a[href]):hover,
+.dark .fi-ta-record[data-rowurl]:hover {
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+/*
+ * Microweber-blessed clickable card markers:
+ *   - .mw-clickable-card  — generic Microweber card with a click handler
+ *   - .mw-tile            — settings/dashboard tile
+ *   - .mw-card-link       — card wrapped in an <a> link
+ *   - .mw-grid-item       — grid-layout item (template/layout/skin pickers)
+ *
+ * 44x44 floor + cursor-pointer + subtle bg + transform on hover so
+ * users get clear visual + tactile feedback. Touch devices skip the
+ * transform (pointer:fine media query) since hover doesn't apply.
+ */
+.mw-clickable-card,
+.mw-tile,
+.mw-card-link,
+.mw-grid-item.mw-grid-item-clickable {
+    cursor: pointer;
+    min-height: 44px;
+    transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out, transform 0.15s ease-out;
+}
+@media (hover: hover) and (pointer: fine) {
+    .mw-clickable-card:hover,
+    .mw-tile:hover,
+    .mw-card-link:hover,
+    .mw-grid-item.mw-grid-item-clickable:hover {
+        background-color: rgba(15, 23, 42, 0.03);
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        transform: translateY(-1px);
+    }
+    .dark .mw-clickable-card:hover,
+    .dark .mw-tile:hover,
+    .dark .mw-card-link:hover,
+    .dark .mw-grid-item.mw-grid-item-clickable:hover {
+        background-color: rgba(255, 255, 255, 0.04);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+}
+/* Keyboard focus-visible parity — every hover state must also fire on
+   focus-visible so keyboard + AT users get the same cue. */
+.mw-clickable-card:focus-visible,
+.mw-tile:focus-visible,
+.mw-card-link:focus-visible,
+.mw-grid-item.mw-grid-item-clickable:focus-visible,
+.fi-ta-record:has(a[href]):focus-within,
+.fi-ta-record[data-rowurl]:focus-within {
+    outline: 2px solid var(--bs-primary, #0d6efd);
+    outline-offset: 2px;
+}
+
+/*
+ * Filament empty-state action buttons (the "Create your first X"
+ * call-to-action that Filament renders inside an empty table).
+ * Guarantee the action button below the illustration is the
+ * standard 44x44 size + clearly hoverable.
+ */
+.fi-ta-empty-state .fi-btn,
+.fi-ta-empty-state a.fi-btn,
+.fi-ta-empty-state button.fi-btn,
+.you-dont-have-any .fi-btn,
+.you-dont-have-any a {
+    min-height: 44px;
+    cursor: pointer;
+}
+
