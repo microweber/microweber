@@ -1,6 +1,6 @@
 <div class="mt-2 mb-2">
 
-    <button type="button" class="btn btn-outline-primary " wire:click="showForm()">
+    <button type="button" class="btn btn-outline-primary " wire:click="toggleForm()">
         Two Factor Authentication
     </button>
 

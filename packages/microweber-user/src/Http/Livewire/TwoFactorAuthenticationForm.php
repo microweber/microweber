@@ -10,8 +10,11 @@ class TwoFactorAuthenticationForm extends \MicroweberPackages\Fortify\Http\Livew
 {
     public $showForm = false;
 
-    public function showForm()
+    public function toggleForm()
     {
+        // Method name must differ from the public $showForm property, or
+        // Livewire resolves `$wire.showForm` to the boolean and the button
+        // throws "$wire.showForm is not a function".
         $this->showForm = !$this->showForm;
     }
 

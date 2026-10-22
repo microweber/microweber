@@ -46,8 +46,11 @@ class LogoutOtherBrowserSessionsForm extends Component
         $this->confirmingLogout = true;
     }
 
-    public function showForm()
+    public function toggleForm()
     {
+        // Method name must differ from the public $showForm property, or
+        // Livewire resolves `$wire.showForm` to the boolean and the button
+        // throws "$wire.showForm is not a function".
         $this->showForm = !$this->showForm;
     }
 
