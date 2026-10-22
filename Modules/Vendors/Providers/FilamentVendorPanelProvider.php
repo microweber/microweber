@@ -53,10 +53,6 @@ class FilamentVendorPanelProvider extends PanelProvider
                 VendorSalesChart::class,
             ])
             ->renderHook(
-                PanelsRenderHook::STYLES_AFTER,
-                fn (): string => view('modules.vendors::filament.panel-styles')->render()
-            )
-            ->renderHook(
                 PanelsRenderHook::TOPBAR_START,
                 fn (): string => '<nav aria-label="Breadcrumb" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:14px;font-weight:500;min-height:44px;">'
                     . '<a href="' . e(url('/')) . '" style="color:#6b7280;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;min-width:44px;padding:0 8px;" title="' . e(__('Back to site')) . '">← ' . e(__('Back to site')) . '</a>'

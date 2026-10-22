@@ -322,3 +322,17 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 .fi-ta-cell .fi-ta-select {
   min-width: 120px !important;
 }
+
+/* ── Structural dividers: colorize Filament's width-only table borders ─────── */
+/* Filament sets a border-WIDTH on the header toolbar, the column-header row
+   (divide-y) and the pagination rail, but leaves the border COLOR unset. Under
+   Tailwind v4 the default border color is currentColor, so these render in the
+   ink text color (#182433) — heavy near-black horizontal lines across tables.
+   Recolor them to the theme's subtle border token (auto-switches in dark). */
+.fi-ta thead,
+.fi-ta-ctn .fi-ta-header-toolbar,
+.fi-ta-ctn .fi-pagination,
+.fi-input-wrp-prefix,
+.fi-input-wrp-suffix {
+  border-color: var(--mw-border-color) !important;
+}

@@ -32,12 +32,6 @@ class FilamentProfilePanelProvider extends PanelProvider
             ->registration(Register::class)
             ->passwordReset(ForgotPassword::class)
             ->colors(\MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme::getColors())
-            // Soften the ink-colored table dividers the theme leaks onto Filament
-            // tables (unlayered, so it beats Filament's @layer rules).
-            ->renderHook(
-                \Filament\View\PanelsRenderHook::STYLES_AFTER,
-                fn () => view('modules.profile::filament.panel-styles'),
-            )
 //            ->renderHook(
 //                'panels::auth.login.form.after',
 //                fn() => view('modules.profile::auth.social-login')
