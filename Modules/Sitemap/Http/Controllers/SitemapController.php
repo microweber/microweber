@@ -15,6 +15,20 @@ class SitemapController extends Controller
         return response()->view('modules.sitemap::index')->header('Content-Type', 'text/xml');
     }
 
+    /**
+     * Serve the XSLT stylesheet that renders the sitemaps as a styled HTML
+     * table in the browser. Referenced from each sitemap via the
+     * <?xml-stylesheet?> processing instruction. Must be same-origin (browsers
+     * refuse a cross-origin XSL) and carry an XSL mime type.
+     */
+    public function stylesheet()
+    {
+        $path = module_path('Sitemap', 'resources/assets/sitemap.xsl');
+
+        return response(file_get_contents($path), 200)
+            ->header('Content-Type', 'text/xsl; charset=utf-8');
+    }
+
     public function categories()
     {
         $generatedSiteMapFile = mw_cache_path() . UrlManager::hostname() . '_categories_sitemap.xml';

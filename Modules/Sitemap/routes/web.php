@@ -16,6 +16,7 @@ use Modules\Sitemap\Http\Controllers\SitemapController;
 
 
 Route::get('sitemap.xml', SitemapController::class . '@index')->name('sitemap.index');
+Route::get('sitemap.xsl', SitemapController::class . '@stylesheet')->name('sitemap.stylesheet');
 Route::get('sitemap.xml/categories', SitemapController::class . '@categories')->name('sitemap.categories');
 Route::get('sitemap.xml/tags', SitemapController::class . '@tags')->name('sitemap.tags');
 Route::get('sitemap.xml/products', SitemapController::class . '@products')->name('sitemap.products');
