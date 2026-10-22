@@ -63,7 +63,9 @@
 
                         <li><a role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#loginModal">Profile</a></li>
                         <li><a role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#ordersModal">My Orders</a></li>
-                        <li><a href="{{ admin_url() }}">Admin panel</a></li>
+                        @if(is_admin())
+                            <li><a href="{{ admin_url() }}">Admin panel</a></li>
+                        @endif
                         <li><a href="{{ url('logout') }}">Logout</a></li>
                     @else
                         <li><a role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
