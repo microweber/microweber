@@ -217,6 +217,11 @@ class TwoFactorSettingsPage extends Page
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Auth::check();
+        // Hidden from the sidebar: 2FA is configured from the user's profile/edit
+        // page, which embeds this same Fortify TwoFactorSetupComponent (profile
+        // panel: user::profile.two-factor-authentication-form on Edit Profile;
+        // admin: admin::edit-user.two-factor-authentication-form). The page route
+        // stays reachable by URL; it just no longer duplicates as a nav item.
+        return false;
     }
 }
