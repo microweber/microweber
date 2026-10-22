@@ -20,6 +20,28 @@
   padding: 0 !important;  /* MW v2: 0 padding on page-header */
 }
 
+/* Sticky page-header band on the profile + vendor panels.
+   The admin panel gives its RESOURCE pages a sticky #f6f8fb header band (see
+   general-styles.css `.fi-resource-*-page .fi-header`), but the profile and
+   vendor panels are built entirely from custom Pages (edit-profile, my-shop,
+   order history…) that never carry a `fi-resource-*-page` class — so their
+   headers fell back to the transparent default above and looked unlike the
+   admin header. Scope the same band to those two panels by body class so every
+   page in them matches the admin header. Higher specificity than the bare
+   `.fi-header` rule above, so it wins the transparent default. */
+body.fi-panel-profile .fi-header,
+body.fi-panel-vendor .fi-header {
+  position: sticky !important;
+  top: 60px !important;  /* sticks just under the topbar, matching admin */
+  z-index: 19 !important;
+  background-color: #f6f8fb !important;
+}
+
+body.fi-panel-profile.dark .fi-header,
+body.fi-panel-vendor.dark .fi-header {
+  background-color: #0d0f14 !important;
+}
+
 .fi-header-heading {
   color: var(--mw-text-primary) !important;
   font-weight: 700 !important;
