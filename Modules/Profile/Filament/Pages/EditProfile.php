@@ -50,19 +50,21 @@ class EditProfile extends Page
 
     protected function getAvatarFormComponent(): Component
     {
+        // Compact circular avatar uploader. The previous panelAspectRatio('2:1')
+        // + integrated layout blew the drop zone into a huge full-width row that
+        // pushed the rest of the form far down the page.
         return FileUpload::make('thumbnail')
             ->label(__('Profile Photo'))
-            ->image()
+            ->avatar()
             ->disk('public')
             ->directory('profile-photos')
             ->visibility('public')
-            ->imagePreviewHeight('150')
+            ->imageEditor()
+            ->circleCropper()
             ->loadingIndicatorPosition('left')
-            ->panelAspectRatio('2:1')
-            ->panelLayout('integrated')
             ->removeUploadedFileButtonPosition('right')
-            ->uploadButtonPosition('left')
-            ->uploadProgressIndicatorPosition('left');
+            ->uploadProgressIndicatorPosition('left')
+            ->columnSpanFull();
     }
 
     protected function getFirstNameFormComponent(): Component
