@@ -3,7 +3,8 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-    xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    xmlns:mw="http://microweber.com/schemas/sitemap-ext/1.0">
     <!--
       Styled XML sitemap stylesheet for the Microweber Sitemap module.
       Rendered by the browser only (via the <?xml-stylesheet?> processing
@@ -48,6 +49,15 @@
                     td a:hover { text-decoration: underline; }
                     .num { color: var(--mw-muted); text-align: right; white-space: nowrap; }
                     .date { color: var(--mw-muted); white-space: nowrap; }
+                    .urlcell { display: flex; gap: 12px; align-items: flex-start; }
+                    .thumb { width: 44px; height: 44px; flex: 0 0 44px; border-radius: 6px;
+                        object-fit: cover; border: 1px solid var(--mw-line); background: #fff; }
+                    .meta { margin-top: 5px; display: flex; flex-wrap: wrap; gap: 6px 10px;
+                        align-items: center; font-size: 12px; }
+                    .price { font-weight: 600; color: #0a7d33; }
+                    .pills { color: var(--mw-muted); }
+                    .pill { display: inline-block; background: #eef3fb; color: #35486a;
+                        border-radius: 999px; padding: 1px 8px; margin-right: 4px; font-size: 11px; }
                     @media (max-width: 600px) {
                         .hide-sm { display: none; }
                         .wrap { padding: 20px 12px 48px; }
@@ -118,7 +128,36 @@
                                     <xsl:for-each select="sitemap:urlset/sitemap:url">
                                         <tr>
                                             <td>
-                                                <a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc"/></a>
+                                                <div class="urlcell">
+                                                    <xsl:if test="image:image/image:loc">
+                                                        <img class="thumb" alt="" loading="lazy"
+                                                            src="{image:image[1]/image:loc}"/>
+                                                    </xsl:if>
+                                                    <div>
+                                                        <a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc"/></a>
+                                                        <xsl:if test="mw:price or mw:category or mw:tag">
+                                                            <div class="meta">
+                                                                <xsl:if test="mw:price">
+                                                                    <span class="price"><xsl:value-of select="mw:price"/></span>
+                                                                </xsl:if>
+                                                                <xsl:if test="mw:category">
+                                                                    <span class="pills">
+                                                                        <xsl:for-each select="mw:category">
+                                                                            <span class="pill"><xsl:value-of select="."/></span>
+                                                                        </xsl:for-each>
+                                                                    </span>
+                                                                </xsl:if>
+                                                                <xsl:if test="mw:tag">
+                                                                    <span class="pills">
+                                                                        <xsl:for-each select="mw:tag">
+                                                                            <span class="pill">#<xsl:value-of select="."/></span>
+                                                                        </xsl:for-each>
+                                                                    </span>
+                                                                </xsl:if>
+                                                            </div>
+                                                        </xsl:if>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td class="num hide-sm">
                                                 <xsl:value-of select="count(image:image)"/>

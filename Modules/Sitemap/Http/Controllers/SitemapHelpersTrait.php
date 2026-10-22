@@ -151,10 +151,102 @@ trait SitemapHelpersTrait
                 'updated_at' => $prod->updated_at->format('Y-m-d H:i:s'),
             ];
 
+            // Enrich with product detail: the main image as an OFFICIAL
+            // <image:image> entry (crawler-indexed), plus price / categories /
+            // tags under a custom namespace that crawlers ignore but our styled
+            // XSLT view renders for humans. Everything is optional + guarded so a
+            // single product's missing data never breaks the sitemap.
+            $tmp = array_merge($tmp, $this->fetchProductSitemapExtras($prod->id));
+
             $productsLinksData[] = $tmp;
         }
 
         return $productsLinksData;
+    }
+
+    /**
+     * Gather the optional product detail (price, categories, tags, image) used
+     * to enrich the products sitemap. Keys are only present when data exists.
+     *
+     * @return array{price?:string, categories?:array<int,string>, tags?:array<int,string>, images?:array<int,string>}
+     */
+    protected function fetchProductSitemapExtras($contentId): array
+    {
+        $extra = [];
+
+        try {
+            // Price, formatted with the store currency symbol.
+            if (function_exists('get_product_price')) {
+                $price = get_product_price($contentId);
+                if ($price !== false && $price !== null && $price !== '') {
+                    $symbol = function_exists('currency_symbol') ? (currency_symbol() ?: '') : '';
+                    // "$100.00" for a glyph symbol, "USD 100.00" for a currency code.
+                    $sep = ($symbol !== '' && ctype_alpha(substr($symbol, -1))) ? ' ' : '';
+                    $extra['price'] = trim($symbol . $sep . number_format((float) $price, 2));
+                }
+            }
+
+            // Category titles.
+            if (function_exists('get_categories_for_content')) {
+                $cats = get_categories_for_content($contentId);
+                if (is_array($cats) && !empty($cats)) {
+                    $titles = [];
+                    foreach ($cats as $cat) {
+                        $title = is_array($cat) ? ($cat['title'] ?? null)
+                            : (is_object($cat) ? ($cat->title ?? null) : null);
+                        if (!empty($title)) {
+                            $titles[] = $title;
+                        }
+                    }
+                    if (!empty($titles)) {
+                        $extra['categories'] = array_values(array_unique($titles));
+                    }
+                }
+            }
+
+            // Tag names.
+            if (function_exists('content_tags')) {
+                $tags = content_tags($contentId, true);
+                if (is_array($tags) && !empty($tags)) {
+                    $names = [];
+                    foreach ($tags as $tag) {
+                        $name = is_array($tag) ? ($tag['tag'] ?? $tag['tag_slug'] ?? null) : null;
+                        if (!empty($name)) {
+                            $names[] = $name;
+                        }
+                    }
+                    if (!empty($names)) {
+                        $extra['tags'] = array_values(array_unique($names));
+                    }
+                }
+            }
+
+            // Main product image as an absolute URL.
+            if (function_exists('get_picture')) {
+                $picture = get_picture($contentId);
+                if (is_string($picture) && $picture !== '') {
+                    $extra['images'] = [$this->absolutiseMediaUrl($picture)];
+                }
+            }
+        } catch (\Throwable $e) {
+            // Never let an enrichment lookup break sitemap generation.
+        }
+
+        return $extra;
+    }
+
+    /**
+     * Make a (possibly relative or {SITE_URL}-prefixed) media path an absolute URL.
+     */
+    protected function absolutiseMediaUrl(string $url): string
+    {
+        $url = str_replace('{SITE_URL}', site_url(), $url);
+
+        if (preg_match('#^https?://#i', $url)) {
+            return $url;
+        }
+
+        return rtrim(site_url(), '/') . '/' . ltrim($url, '/');
     }
 
     public function fetchMultilangContentByType($type)

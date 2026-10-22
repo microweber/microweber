@@ -99,4 +99,16 @@ class SitemapControllerTest extends TestCase
 
         $this->assertStringContainsString('<?xml-stylesheet', $body);
     }
+
+    #[Test]
+    public function it_products_declares_image_and_extension_namespaces(): void {
+        // The products sitemap is enriched with the OFFICIAL image extension and
+        // a custom mw: namespace (price/categories/tags) — both must be declared
+        // on <urlset> so the XML stays well-formed and the styled view can read
+        // them. Declared unconditionally by the shared items view.
+        $body = $this->sitemapController->products()->getContent();
+
+        $this->assertStringContainsString('schemas/sitemap-image', $body);
+        $this->assertStringContainsString('microweber.com/schemas/sitemap-ext', $body);
+    }
 }
