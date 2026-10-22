@@ -48,6 +48,39 @@ class ProfileManagementTest extends TestCase
     }
 
     #[Test]
+    public function it_user_can_change_password_from_edit_profile(): void {
+        // Password change was moved INTO the Edit Profile page (second form);
+        // the standalone ChangePassword page is hidden from the sidebar.
+        $user = $this->createUser();
+        $this->actingAs($user);
+
+        $newPassword = 'editProfilePass123!';
+
+        Livewire::test(EditProfile::class)
+            ->set('passwordData.current_password', 'password')
+            ->set('passwordData.password', $newPassword)
+            ->set('passwordData.password_confirmation', $newPassword)
+            ->call('changePassword')
+            ->assertHasNoErrors();
+
+        $this->assertTrue(
+            auth()->validate([
+                'email' => $user->email,
+                'password' => $newPassword,
+            ]),
+            'Password should be updated from the Edit Profile page'
+        );
+    }
+
+    #[Test]
+    public function it_change_password_is_hidden_from_the_sidebar(): void {
+        $this->assertFalse(
+            ChangePassword::shouldRegisterNavigation(),
+            'ChangePassword must not appear in the profile sidebar (it lives in Edit Profile).'
+        );
+    }
+
+    #[Test]
     public function it_user_can_change_password(): void {
         $user = $this->createUser();
         $this->actingAs($user);

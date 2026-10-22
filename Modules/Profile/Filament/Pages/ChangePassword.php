@@ -93,7 +93,10 @@ class ChangePassword extends Page
 
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->check();
+        // Hidden from the sidebar: password change now lives inside the Edit
+        // Profile page (user::edit-profile "Change Password" section). The page
+        // + route stay so deep links and the ProfileManagementTest keep working.
+        return false;
     }
 
     public static function getNavigationGroup(): ?string

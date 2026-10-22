@@ -9,6 +9,7 @@ use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class EditProfile extends Page
@@ -17,6 +18,7 @@ class EditProfile extends Page
     protected static ?int $navigationSort = 1;
     protected string $view = 'modules.profile::pages.edit-profile';
     public ?array $data = [];
+    public ?array $passwordData = [];
 
     public function mount(): void
     {
@@ -28,6 +30,23 @@ class EditProfile extends Page
             'phone' => $user->phone,
             'thumbnail' => $user->thumbnail,
         ]);
+
+        $this->passwordForm->fill();
+    }
+
+    /**
+     * This page hosts two independent forms: the profile details form and an
+     * embedded "Change Password" form (moved here from the standalone
+     * ChangePassword page, which is now hidden from the sidebar).
+     *
+     * @return array<int, string>
+     */
+    protected function getForms(): array
+    {
+        return [
+            'form',
+            'passwordForm',
+        ];
     }
 
     public function form(Schema $schema): Schema
@@ -41,6 +60,55 @@ class EditProfile extends Page
                 $this->getPhoneFormComponent(),
             ])
             ->statePath('data');
+    }
+
+    public function passwordForm(Schema $schema): Schema
+    {
+        return $schema
+            ->schema([
+                TextInput::make('current_password')
+                    ->label(__('Current Password'))
+                    ->password()
+                    ->required()
+                    ->minLength(1),
+                TextInput::make('password')
+                    ->label(__('New Password'))
+                    ->password()
+                    ->required()
+                    ->minLength(1)
+                    ->same('password_confirmation'),
+                TextInput::make('password_confirmation')
+                    ->label(__('Confirm New Password'))
+                    ->password()
+                    ->required()
+                    ->minLength(1)
+                    ->dehydrated(false),
+            ])
+            ->statePath('passwordData');
+    }
+
+    public function changePassword(): void
+    {
+        $data = $this->passwordForm->getState();
+        $user = Auth::user();
+
+        if (! Hash::check($data['current_password'], $user->password)) {
+            Notification::make()
+                ->title(lang('Error'))
+                ->body(lang('The current password is incorrect.'))
+                ->danger()
+                ->send();
+            return;
+        }
+
+        $user->update(['password' => bcrypt($data['password'])]);
+        $this->passwordForm->fill();
+
+        Notification::make()
+            ->title(lang('Success'))
+            ->body(lang('Password changed successfully.'))
+            ->success()
+            ->send();
     }
 
     public static function getNavigationGroup(): ?string
