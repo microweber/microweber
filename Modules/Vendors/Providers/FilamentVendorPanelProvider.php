@@ -5,10 +5,10 @@ namespace Modules\Vendors\Providers;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\View\PanelsRenderHook;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use MicroweberPackages\Admin\Filament\MwColors;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
@@ -52,12 +52,17 @@ class FilamentVendorPanelProvider extends PanelProvider
                 VendorStatsOverview::class,
                 VendorSalesChart::class,
             ])
-            ->renderHook(
-                PanelsRenderHook::TOPBAR_START,
-                fn (): string => '<nav aria-label="Breadcrumb" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:14px;font-weight:500;min-height:44px;">'
-                    . '<a href="' . e(url('/')) . '" style="color:#6b7280;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;min-width:44px;padding:0 8px;" title="' . e(__('Back to site')) . '">← ' . e(__('Back to site')) . '</a>'
-                    . '</nav>'
-            )
+            // "Back to site" as the last sidebar nav item (sorted to the bottom).
+            // Label is a CLOSURE — __() eagerly in make() crashes at boot (the
+            // translation loader isn't ready during panel registration).
+            ->navigationItems([
+                NavigationItem::make('back-to-site')
+                    ->label(fn (): string => __('Back to site'))
+                    ->url(fn (): string => url('/'))
+                    ->icon('heroicon-o-arrow-left')
+                    ->group('Vendor')
+                    ->sort(99),
+            ])
             ->middleware([
                 'web',
                 SubstituteBindings::class,
