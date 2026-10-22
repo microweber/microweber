@@ -24,7 +24,7 @@ class MyPayments extends Page implements HasTable
 
     protected string $view = 'modules.profile::pages.my-payments';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-credit-card';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     public function getTitle(): string
     {

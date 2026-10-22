@@ -23,21 +23,21 @@ class SavedAddresses extends Page implements HasTable
 
     protected string $view = 'modules.profile::pages.saved-addresses';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-map-pin';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 6;
 
     public function getTitle(): string
     {
-        return __('Saved Addresses');
+        return __('Addresses');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('Saved Addresses');
+        return __('Addresses');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Profile');
+        return __('Orders & Billing');
     }
 
     public function table(Table $table): Table

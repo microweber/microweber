@@ -7,6 +7,7 @@ use Modules\Customer\Models\Customer;
 use Modules\Invoice\Models\Invoice;
 use Modules\Order\Models\Order;
 use Modules\Payment\Models\Payment;
+use Modules\Profile\Filament\Pages\MyCompany;
 use Modules\Profile\Filament\Pages\MyInvoices;
 use Modules\Profile\Filament\Pages\MyPayments;
 use Modules\Profile\Filament\Pages\TwoFactorAuth;
@@ -91,6 +92,59 @@ class BuyerBillingPagesTest extends TestCase
 
         $this->assertTrue(MyPayments::shouldRegisterNavigation(), 'Payments visible when the user has payments');
         $this->assertTrue(MyInvoices::shouldRegisterNavigation(), 'Invoices visible when the user has invoices');
+    }
+
+    #[Test]
+    public function company_page_shows_only_for_users_with_a_billing_identity(): void
+    {
+        $plain = User::factory()->create();
+        $this->userIds[] = $plain->id;
+        $this->actingAs($plain);
+        $this->assertFalse(MyCompany::shouldRegisterNavigation(), 'hidden without a customer record');
+
+        $buyer = User::factory()->create();
+        $this->userIds[] = $buyer->id;
+        $customer = Customer::factory()->create(['user_id' => $buyer->id, 'email' => $buyer->email]);
+        $this->customerIds[] = $customer->id;
+        $this->actingAs($buyer);
+        $this->assertTrue(MyCompany::shouldRegisterNavigation(), 'shown once the user has a customer record');
+    }
+
+    #[Test]
+    public function a_user_cannot_download_another_users_invoice(): void
+    {
+        // Owner + their invoice.
+        $owner = User::factory()->create();
+        $this->userIds[] = $owner->id;
+        $ownerCustomer = Customer::factory()->create(['user_id' => $owner->id, 'email' => $owner->email]);
+        $this->customerIds[] = $ownerCustomer->id;
+
+        $invoice = new Invoice();
+        $invoice->customer_id = $ownerCustomer->id;
+        $invoice->invoice_number = 'INV-' . uniqid();
+        $invoice->invoice_date = now()->toDateString();
+        $invoice->total = 10;
+        $invoice->due_amount = 0;
+        $invoice->unique_hash = substr(md5(uniqid()), 0, 20);
+        $invoice->save();
+        $this->invoiceIds[] = $invoice->id;
+
+        // A different user must not be able to download it.
+        $intruder = User::factory()->create();
+        $this->userIds[] = $intruder->id;
+        $intruderCustomer = Customer::factory()->create(['user_id' => $intruder->id, 'email' => $intruder->email]);
+        $this->customerIds[] = $intruderCustomer->id;
+
+        $this->actingAs($intruder);
+        $page = new MyInvoices();
+
+        $status = null;
+        try {
+            $page->downloadInvoice($invoice);
+        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+            $status = $e->getStatusCode();
+        }
+        $this->assertSame(403, $status, 'downloading another user\'s invoice must be forbidden');
     }
 
     #[Test]

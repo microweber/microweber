@@ -21,7 +21,7 @@ class MyDownloads extends Page implements HasTable
 
     protected string $view = 'modules.digitalproduct::filament.pages.my-downloads';
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-arrow-down-tray';
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 5;
 
     public function getTitle(): string
     {

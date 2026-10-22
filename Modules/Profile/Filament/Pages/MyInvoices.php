@@ -2,6 +2,8 @@
 
 namespace Modules\Profile\Filament\Pages;
 
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -9,6 +11,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Modules\Customer\Models\Customer;
 use Modules\Invoice\Models\Invoice;
+use Modules\Invoice\Services\InvoiceService;
 use Modules\Profile\Filament\Concerns\InteractsWithCurrentCustomer;
 
 /**
@@ -64,9 +67,38 @@ class MyInvoices extends Page implements HasTable
                     ->label(__('Status'))
                     ->badge(),
             ])
+            ->recordActions([
+                Action::make('download')
+                    ->label(__('Download PDF'))
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(fn (Invoice $record) => $this->downloadInvoice($record)),
+            ])
             ->defaultSort('invoice_date', 'desc')
             ->emptyStateHeading(__('No invoices yet'))
             ->emptyStateIcon('heroicon-o-document-text');
+    }
+
+    /**
+     * Stream the invoice PDF — but only if it belongs to the signed-in user.
+     * Reuses the Invoice module's PDF generator so the layout matches admin.
+     */
+    public function downloadInvoice(Invoice $record)
+    {
+        if ((int) $record->customer_id !== (int) $this->currentCustomerId()) {
+            abort(403);
+        }
+
+        $response = app(InvoiceService::class)->downloadPdf($record->id);
+
+        if ($response === false) {
+            Notification::make()
+                ->title(__('Could not generate the PDF'))
+                ->danger()
+                ->send();
+            return;
+        }
+
+        return $response;
     }
 
     public static function shouldRegisterNavigation(): bool
