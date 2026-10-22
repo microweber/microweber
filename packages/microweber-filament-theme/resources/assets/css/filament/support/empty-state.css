@@ -75,8 +75,12 @@
   margin: 0 auto !important;
 }
 
-/* Give standalone tables (not wrapped in fi-section) a white card background */
-.fi-resource-list-records-page .fi-ta {
+/* Give standalone tables (not wrapped in fi-section) a white card background.
+   .mw-records-page is the opt-in marker on custom HasTable pages (vendor /
+   profile "My Orders", "Order History", invoices, …) so they match the
+   resource-list page table chrome. */
+.fi-resource-list-records-page .fi-ta,
+.mw-records-page .fi-ta {
   background-color: var(--mw-bg-surface) !important;
   border-radius: var(--mw-radius-lg) !important;
   box-shadow: var(--mw-shadow-sm) !important;

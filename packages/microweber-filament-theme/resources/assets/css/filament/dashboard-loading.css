@@ -171,6 +171,7 @@ body.mw-livewire-loading .mw-dashboard-loading-overlay {
 
 /* Data-heavy page loading states */
 .fi-resource-list-records-page .fi-ta-content,
+.mw-records-page .fi-ta-content,
 .fi-resource-create-record-page .fi-form,
 .fi-resource-edit-record-page .fi-form {
     position: relative;

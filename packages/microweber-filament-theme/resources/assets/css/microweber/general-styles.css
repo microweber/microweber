@@ -2236,14 +2236,16 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
 
 .fi-resource-list-records-page .fi-header,
 .fi-resource-create-record-page .fi-header,
-.fi-resource-edit-record-page .fi-header {
+.fi-resource-edit-record-page .fi-header,
+.mw-records-page .fi-header {
     @apply sticky top-[60px]  py-[6px] z-[19];
     background-color: #f6f8fb !important;
 }
 
 .dark .fi-resource-list-records-page .fi-header,
 .dark .fi-resource-create-record-page .fi-header,
-.dark .fi-resource-edit-record-page .fi-header {
+.dark .fi-resource-edit-record-page .fi-header,
+.dark .mw-records-page .fi-header {
     background-color: #0d0f14 !important;
 }
 

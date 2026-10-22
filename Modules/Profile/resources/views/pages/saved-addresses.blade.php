@@ -1,4 +1,4 @@
-<x-filament-panels::page>
+<x-filament-panels::page class="mw-records-page">
     <div class="max-w-5xl mx-auto">
         {{-- Page Description --}}
         <div class="mb-6">

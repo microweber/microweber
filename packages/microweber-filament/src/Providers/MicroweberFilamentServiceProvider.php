@@ -73,7 +73,12 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
                 '<style id="mw-roomier-table-rows">'
                 . 'body.fi-panel-admin .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn,'
                 . 'body.fi-panel-checkout .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn,'
-                . 'body.fi-panel-profile .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn{'
+                . 'body.fi-panel-profile .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn,'
+                . 'body.fi-panel-vendor .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn,'
+                // Custom HasTable pages (vendor/profile "My Orders", "Order
+                // History", invoices, …) carry .mw-records-page so their rows
+                // are as roomy as the resource-list tables, on any panel.
+                . '.mw-records-page .fi-ta-content .fi-ta-record > .fi-ta-record-content-ctn{'
                 . 'padding-top:16px !important;padding-bottom:16px !important;}'
                 // Tablet/mobile row clipping: the record content container is a
                 // nowrap flexbox whose first child (columns wrapper) and the
