@@ -3,6 +3,7 @@
  * - Webpack bundles the JS files
  * - sass compiles SCSS imports to CSS
  * - @tailwindcss/postcss processes the final CSS
+ * - broadenPanelScope() shares the admin panel's styling with profile + vendor
  */
 
 const path = require('path');
@@ -12,6 +13,79 @@ const sass = require('sass');
 const { execSync } = require('child_process');
 const os = require('os');
 const crypto = require('crypto');
+
+/**
+ * Split a CSS selector list on TOP-LEVEL commas only (commas inside (), [] —
+ * e.g. :is(), :not([a="x"]) — are left alone).
+ */
+function splitSelectorList(sel) {
+    const out = [];
+    let depthParen = 0, depthBracket = 0, buf = '';
+    for (let i = 0; i < sel.length; i++) {
+        const c = sel[i];
+        if (c === '(') depthParen++;
+        else if (c === ')') depthParen = Math.max(0, depthParen - 1);
+        else if (c === '[') depthBracket++;
+        else if (c === ']') depthBracket = Math.max(0, depthBracket - 1);
+        if (c === ',' && depthParen === 0 && depthBracket === 0) { out.push(buf); buf = ''; continue; }
+        buf += c;
+    }
+    out.push(buf);
+    return out;
+}
+
+// Rewrite the admin-panel token in ONE selector member to another panel.
+// Boundary guards keep `body` a standalone element (never the tail of a class
+// such as `.fi-body`) and stop `fi-panel-admin` matching a longer token.
+function rewritePanelToken(member, panelClass) {
+    return member
+        .replace(/\.fi-body\.fi-panel-admin(?![-\w])/g, '.fi-body.' + panelClass)
+        .replace(/(?<![-\w.#])body\[class\*="fi-panel-admin"\]/g, 'body[class*="' + panelClass + '"]')
+        .replace(/(?<![-\w.#])body\.fi-panel-admin(?![-\w])/g, 'body.' + panelClass);
+}
+
+/**
+ * Share the admin panel's component styling with the profile and vendor panels.
+ *
+ * Runs on the FINAL flattened CSS (every @import already inlined by Tailwind),
+ * so it catches every `body.fi-panel-admin …` / `body[class*="fi-panel-admin"] …`
+ * / `.fi-body.fi-panel-admin …` rule in one place. For each such rule it appends
+ * a CLONE whose selector is the admin members rewritten to fi-panel-profile and
+ * fi-panel-vendor — the admin rule itself is left byte-for-byte untouched (the
+ * theme's contract tests read the SOURCE, which this never edits), and the clone
+ * is inserted as the next sibling so it stays inside the same @media/@supports
+ * block (no viewport-scope leak) at identical specificity.
+ */
+function broadenPanelScope(cssText) {
+    const root = postcss.parse(cssText);
+    const PANELS = ['fi-panel-profile', 'fi-panel-vendor'];
+    let cloned = 0;
+
+    root.walkRules((rule) => {
+        // Skip @keyframes steps (their "selectors" are 0%/100%, never panels).
+        if (rule.parent && rule.parent.type === 'atrule' && /keyframes/i.test(rule.parent.name)) return;
+        if (!rule.selector || !rule.selector.includes('fi-panel-admin')) return;
+
+        const members = splitSelectorList(rule.selector);
+        const adminMembers = members.filter((m) => m.includes('fi-panel-admin'));
+        if (!adminMembers.length) return;
+
+        for (const panel of PANELS) {
+            const rewritten = adminMembers
+                .map((m) => rewritePanelToken(m.trim(), panel))
+                // Drop any member we could not fully rewrite — never emit a bare
+                // admin selector under a different panel's banner.
+                .filter((m) => m && !m.includes('fi-panel-admin'));
+            if (!rewritten.length) continue;
+            const clone = rule.clone({ selector: rewritten.join(',\n') });
+            rule.after(clone);
+            cloned++;
+        }
+    });
+
+    console.log('broadenPanelScope: shared', cloned, 'admin rule-clones with profile + vendor.');
+    return root.toString();
+}
 
 const outputPath = path.resolve(__dirname, 'resources/dist/build');
 const publicPath = path.resolve(__dirname, '../../public/vendor/microweber-packages/microweber-filament-theme/build');
@@ -239,7 +313,10 @@ async function processCss() {
         });
 
         fs.ensureDirSync(outputPath);
-        fs.writeFileSync(cssOutputPath, result.css);
+        // Share the admin panel's styling with the profile + vendor panels
+        // (built-output only; source files are never touched).
+        const finalCss = broadenPanelScope(result.css);
+        fs.writeFileSync(cssOutputPath, finalCss);
         if (result.map) fs.writeFileSync(cssOutputPath + '.map', result.map.toString());
 
         console.log('CSS processed successfully:', cssOutputPath);
