@@ -323,20 +323,8 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
   min-width: 120px !important;
 }
 
-/* ── Border color fix for Filament's table dividers ───────────────────────── */
-/* ROOT CAUSE: Filament v5's dist compiles these to `border-color: var(--gray-200)`
-   (see vendor/filament/tables/resources/css/container.css:64 — `border-gray-200`).
-   But this theme defines color tokens the Tailwind-v3 way — `--gray-200: 229,229,229`
-   (a raw RGB triplet meant for `rgba(var(--gray-200), <alpha>)`). So Filament's
-   bare `var(--gray-200)` evaluates to the invalid `border-color: 229,229,229`,
-   which the browser drops → the border falls back to currentColor (ink #182433).
-   Fix per-element: give the specific Filament surfaces a valid border color from
-   our --mw-border-color token (auto-switches in dark). Loaded after Filament's
-   dist + equal/higher specificity, so no !important needed. */
-.fi-ta-ctn .fi-ta-header-toolbar,
-.fi-ta-ctn .fi-pagination,
-.fi-ta thead,
-.fi-input-wrp-prefix,
-.fi-input-wrp-suffix {
-  border-color: var(--mw-border-color);
-}
+/* NOTE: Filament's table divider borders (and 62+ other `border-color:
+   var(--gray-200)` rules across Filament) are now fixed at the TOKEN level —
+   tokens/colors.css makes `--gray-N` a whole color (`rgb(var(--gray-N-rgb))`)
+   so Filament's bare `var(--gray-N)` is valid, instead of the invalid RGB
+   triplet that fell back to currentColor (ink). No per-element patch needed. */

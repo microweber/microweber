@@ -30,17 +30,28 @@
 
     /* Gray — Tailwind Neutral (Color::Neutral) as RGB triplets.
      * task-2026-05-29 / AI-819b */
-    --gray-50: 250, 250, 250 !important;
-    --gray-100: 245, 245, 245 !important;
-    --gray-200: 229, 229, 229 !important;
-    --gray-300: 212, 212, 212 !important;
-    --gray-400: 163, 163, 163 !important;
-    --gray-500: 115, 115, 115 !important;
-    --gray-600: 82, 82, 82 !important;
-    --gray-700: 64, 64, 64 !important;
-    --gray-800: 38, 38, 38 !important;
-    --gray-900: 23, 23, 23 !important;
-    --gray-950: 10, 10, 10 !important;
+    --gray-50-rgb: 250, 250, 250 !important;
+    --gray-50: rgb(var(--gray-50-rgb)) !important;
+    --gray-100-rgb: 245, 245, 245 !important;
+    --gray-100: rgb(var(--gray-100-rgb)) !important;
+    --gray-200-rgb: 229, 229, 229 !important;
+    --gray-200: rgb(var(--gray-200-rgb)) !important;
+    --gray-300-rgb: 212, 212, 212 !important;
+    --gray-300: rgb(var(--gray-300-rgb)) !important;
+    --gray-400-rgb: 163, 163, 163 !important;
+    --gray-400: rgb(var(--gray-400-rgb)) !important;
+    --gray-500-rgb: 115, 115, 115 !important;
+    --gray-500: rgb(var(--gray-500-rgb)) !important;
+    --gray-600-rgb: 82, 82, 82 !important;
+    --gray-600: rgb(var(--gray-600-rgb)) !important;
+    --gray-700-rgb: 64, 64, 64 !important;
+    --gray-700: rgb(var(--gray-700-rgb)) !important;
+    --gray-800-rgb: 38, 38, 38 !important;
+    --gray-800: rgb(var(--gray-800-rgb)) !important;
+    --gray-900-rgb: 23, 23, 23 !important;
+    --gray-900: rgb(var(--gray-900-rgb)) !important;
+    --gray-950-rgb: 10, 10, 10 !important;
+    --gray-950: rgb(var(--gray-950-rgb)) !important;
 
     /* Microweber surface / text / border (MW v2 exact, dusk-pinned) */
     --mw-bg-page: #f6f8fb;
