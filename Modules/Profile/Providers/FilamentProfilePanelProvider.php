@@ -61,7 +61,7 @@ class FilamentProfilePanelProvider extends PanelProvider
             ->discoverWidgets(in: __DIR__ . '/../Filament/Widgets',
                 for: 'Modules\\Profile\\Filament\\Widgets')
             ->widgets([
-                //     Widgets\AccountWidget::class,
+                \Modules\Profile\Filament\Widgets\ProfileLinksWidget::class,
             ])
             ->middleware([
 
