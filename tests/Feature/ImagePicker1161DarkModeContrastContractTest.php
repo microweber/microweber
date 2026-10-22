@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  *   - !important required to defeat filepond's library defaults which
  *     win source-order against unscoped overrides.
  *
- * This contract pins both the source rule (microweber-theme-v3.scss tail)
+ * This contract pins both the source rule (the split theme CSS (tokens/ + filament/) tail)
  * and the built bundle (Webpack microweber-filament-theme.css).
  */
 class ImagePicker1161DarkModeContrastContractTest extends TestCase

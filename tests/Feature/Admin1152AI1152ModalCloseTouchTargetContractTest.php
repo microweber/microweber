@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * Status: fully covered by AI-1165 / task-2026-05-27-db429e (commit eca6660ebd)
  * which added min-width: 44px + min-height: 44px to .fi-modal-close-btn in
- * microweber-theme-v3.scss. This contract test pins the existing rule so
+ * the split theme CSS (tokens/ + filament/). This contract test pins the existing rule so
  * AI-1152 cannot regress.
  */
 class Admin1152AI1152ModalCloseTouchTargetContractTest extends TestCase

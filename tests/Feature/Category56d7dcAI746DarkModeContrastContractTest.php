@@ -23,7 +23,7 @@ use Tests\TestCase;
  *
  * Fix: added `.dark .mw-tree-nav-skin-category-manager
  * .mw-tree-context-menu-item { color: #e2e8f0 !important; }` in
- * `microweber-theme-v3.scss`. #e2e8f0 on #0d0f14 achieves approximately
+ * `the split theme CSS (tokens/ + filament/)`. #e2e8f0 on #0d0f14 achieves approximately
  * 15:1 contrast (WCAG AAA). Hover intensifies to #ffffff (approximately
  * 19:1) with a subtle background.
  *
@@ -66,13 +66,13 @@ class Category56d7dcAI746DarkModeContrastContractTest extends TestCase
     {
         // Verify the rule uses #e2e8f0 — approximately 15:1 on #0d0f14 (WCAG AAA).
         $pos = strrpos($this->srcStripped, '.dark');
-        $this->assertNotFalse($pos, '.dark block must exist in microweber-theme-v3.scss');
+        $this->assertNotFalse($pos, '.dark block must exist in the split theme CSS (tokens/ + filament/)');
 
         // Find the dark mode context-menu-item rule — use strrpos for the
         // LAST occurrence since the task marker also mentions the class.
         $rulePos = strrpos($this->srcStripped, '.mw-tree-context-menu-item');
         $this->assertNotFalse($rulePos,
-            '.mw-tree-context-menu-item rule must be present in microweber-theme-v3.scss');
+            '.mw-tree-context-menu-item rule must be present in the split theme CSS (tokens/ + filament/)');
 
         $slice = substr($this->srcStripped, (int) $rulePos, 400);
         $this->assertMatchesRegularExpression(

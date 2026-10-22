@@ -30,7 +30,7 @@ use Tests\TestCase;
  *     consume rgba(var(--primary-500), 1) so the AI-819 :root override
  *     flows through to brand-blue #0d6efd at runtime. !important
  *     defeats Filament's default .fi-btn cascade per the AI-819 CHANGE
- *     pattern at microweber-theme-v3.scss:2914.
+ *     pattern at the split theme CSS (tokens/ + filament/).
  *
  *   Defect 3 (search a11y, sibling of AI-817): search input had
  *     placeholder="Search media..." but no aria-label, no <label for>.
@@ -128,7 +128,7 @@ class MediaLibrary8c8d0bAI855UploadModalPolishContractTest extends TestCase
         }
         $this->assertNotFalse(
             $anchorPos,
-            'AI-855: .mw-media-upload-btn rule must exist in microweber-theme-v3.scss.'
+            'AI-855: .mw-media-upload-btn rule must exist in the split theme CSS (tokens/ + filament/).'
         );
 
         $slice = substr($source, $anchorPos, 800);

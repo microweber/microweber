@@ -71,7 +71,7 @@ class EmptyStatefd0d1dCtaContractTest extends TestCase
     public function cta_uses_mw_table_empty_cta_class_not_the_dashboard_widget_class(): void
     {
         // Name-collision guard — the dashboard's empty-state widget has its
-        // own `.mw-empty-state-cta` rule in microweber-theme-v3.scss. Ours
+        // own `.mw-empty-state-cta` rule in the split theme CSS (tokens/ + filament/). Ours
         // is `.mw-table-empty-cta` and they must stay distinct.
         $this->assertStringContainsString('mw-table-empty-cta', $this->blade);
         $this->assertDoesNotMatchRegularExpression(

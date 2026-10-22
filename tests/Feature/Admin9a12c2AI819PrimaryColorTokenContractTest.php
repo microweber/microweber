@@ -21,7 +21,7 @@ use Tests\TestCase;
  *   is invalid CSS and falls back to the bundled Tailwind blue.
  *
  * Fix:
- *   Add a `:root` block to `microweber-theme-v3.scss` that emits the
+ *   Add a `:root` block to `the split theme CSS (tokens/ + filament/)` that emits the
  *   brand-anchored `--primary-XX` variables in the R,G,B triplet
  *   format the project's tailwind config expects. Values mirror
  *   `MwColors::Blue` verbatim (#e7f1ff → #010a19, anchored at
@@ -32,7 +32,7 @@ use Tests\TestCase;
  * Save CTAs from `->color('success')` to `->color('primary')`. Without
  * AI-819 also shipping, those CTAs would render at the wrong blue.
  *
- * AI-819a follow-up (documented inline in microweber-theme-v3.scss):
+ * AI-819a follow-up (documented inline in the split theme CSS (tokens/ + filament/)):
  *   the `$mw-accent: #4299e1` SCSS literal (line ~37) propagates the
  *   Tailwind-blue divergence to ~25 link / focus / checkbox surfaces.
  *   Re-anchoring it to #0d6efd should be a separate slice because
@@ -152,7 +152,7 @@ class Admin9a12c2AI819PrimaryColorTokenContractTest extends TestCase
         $this->assertStringContainsString(
             '--primary-500: 13, 110, 253',
             $bundle,
-            'AI-819 runtime probe: built bundle must ship the brand-blue --primary-500 override. Re-run the Webpack build after editing microweber-theme-v3.scss.'
+            'AI-819 runtime probe: built bundle must ship the brand-blue --primary-500 override. Re-run the Webpack build after editing the split theme CSS (tokens/ + filament/).'
         );
         $this->assertStringContainsString(
             '--primary-50: 231, 241, 255',

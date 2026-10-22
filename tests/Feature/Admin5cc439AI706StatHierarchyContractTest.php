@@ -28,7 +28,7 @@ use Tests\TestCase;
  *
  *   2. general-styles.css
  *      - `.mw-quick-stats-grid` switches from 2×2 grid (legacy
- *        `microweber-theme-v3.scss` shape) to 4 cols at desktop,
+ *        `the split theme CSS (tokens/ + filament/)` shape) to 4 cols at desktop,
  *        2 cols at tablet (≤1023.98 px), 1 col at mobile (≤480 px).
  *      - Card body padding compacts from `--space-lg × 2` to
  *        `--space-sm × --space-md` per spec "half current height".

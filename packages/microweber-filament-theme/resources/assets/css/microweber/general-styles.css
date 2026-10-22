@@ -4034,7 +4034,7 @@ body.fi-panel-admin .fi-sidebar {
  *    MwToolButton-default geometry: icon-only 32×32 hit area,
  *    16 px Plus icon, transparent ghost background that fills on
  *    hover with `--ese-surface-hover`. Overrides the legacy
- *    `microweber-theme-v3.scss` MW-v2 light-blue pill with
+ *    `the split theme CSS` MW-v2 light-blue pill with
  *    `!important` (the legacy SCSS uses `!important` itself, so we
  *    have to match-or-beat its specificity).
  *
@@ -4268,7 +4268,7 @@ body.fi-panel-admin .mw-welcome-widget-empty {
  *  - Secondary strip `.mw-quick-stats-grid`: switches from 2×2 to a
  *    single 4-col row at desktop (≥1024 px), 2×2 at tablet
  *    (480-1023.98 px), 1-col at mobile (≤480 px). Higher specificity
- *    than the legacy `microweber-theme-v3.scss` rules so this wins
+ *    than the legacy `the split theme CSS` rules so this wins
  *    the cascade. Note legacy SCSS uses `grid-template-columns:
  *    repeat(2, 1fr);` (no !important); we beat it with the
  *    `body.fi-panel-admin` scope prefix.
