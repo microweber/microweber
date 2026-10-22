@@ -43,6 +43,8 @@ class OrderHistory extends Page implements HasTable
             ->columns([
                 Tables\Columns\TextColumn::make('order_reference_id')
                     ->label(__('Order #'))
+                    ->state(fn(Order $record) => '#' . ($record->order_reference_id ?: $record->id))
+                    ->weight(\Filament\Support\Enums\FontWeight::SemiBold)
                     ->searchable()
                     ->sortable(),
 
