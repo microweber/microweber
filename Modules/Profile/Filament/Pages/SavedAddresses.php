@@ -7,14 +7,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Modules\Address\Models\Address;
 use Modules\Customer\Models\Customer;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 
 class SavedAddresses extends Page implements HasTable
@@ -104,145 +102,16 @@ class SavedAddresses extends Page implements HasTable
                     ]),
             ])
             ->headerActions([
-                \Filament\Actions\CreateAction::make()
+                Action::make('create')
                     ->label(__('Add New Address'))
-                    ->modalHeading(__('Add New Address'))
-                    ->modalWidth('2xl')
-                    ->form([
-                        TextInput::make('name')
-                            ->label(__('Address Label (e.g., Home, Office)'))
-                            ->required()
-                            ->maxLength(255)
-                            ->placeholder(__('e.g., Home, Office, Parents House')),
-
-                        Select::make('type')
-                            ->label(__('Address Type'))
-                            ->required()
-                            ->options([
-                                Address::SHIPPING_TYPE => __('Shipping'),
-                                Address::BILLING_TYPE => __('Billing'),
-                                Address::OTHER_TYPE => __('Other'),
-                            ])
-                            ->default(Address::SHIPPING_TYPE),
-
-                        TextInput::make('address_street_1')
-                            ->label(__('Street Address'))
-                            ->required()
-                            ->maxLength(255)
-                            ->placeholder(__('123 Main Street')),
-
-                        TextInput::make('address_street_2')
-                            ->label(__('Apartment, Suite, etc. (Optional)'))
-                            ->maxLength(255)
-                            ->placeholder(__('Apt 4B, Suite 100')),
-
-                        TextInput::make('city')
-                            ->label(__('City'))
-                            ->required()
-                            ->maxLength(255),
-
-                        TextInput::make('state')
-                            ->label(__('State / Province'))
-                            ->maxLength(255),
-
-                        TextInput::make('zip')
-                            ->label(__('Postal Code / ZIP'))
-                            ->required()
-                            ->maxLength(20),
-
-                        Select::make('country_id')
-                            ->label(__('Country'))
-                            ->required()
-                            ->searchable()
-                            ->preload()
-                            ->relationship('country', 'name')
-                            ->default(function () {
-                                return \Modules\Country\Models\Country::where('name', 'United States')->value('id');
-                            }),
-
-                        TextInput::make('phone')
-                            ->label(__('Phone Number (Optional)'))
-                            ->tel()
-                            ->maxLength(50),
-                    ])
-                    ->mutateFormDataUsing(function (array $data): array {
-                        $customer = $this->getCustomer();
-                        if ($customer) {
-                            $data['rel_type'] = 'customer';
-                            $data['rel_id'] = $customer->id;
-                        }
-                        return $data;
-                    })
-                    ->after(function () {
-                        Notification::make()
-                            ->title(__('Address Added'))
-                            ->body(__('Your address has been saved successfully.'))
-                            ->success()
-                            ->send();
-                    }),
+                    ->icon('heroicon-o-plus')
+                    ->url(CreateAddress::getUrl()),
             ])
             ->actions([
-                EditAction::make()
+                Action::make('edit')
                     ->label(__('Edit'))
-                    ->modalHeading(__('Edit Address'))
-                    ->modalWidth('2xl')
-                    ->form([
-                        TextInput::make('name')
-                            ->label(__('Address Label'))
-                            ->required()
-                            ->maxLength(255),
-
-                        Select::make('type')
-                            ->label(__('Address Type'))
-                            ->required()
-                            ->options([
-                                Address::SHIPPING_TYPE => __('Shipping'),
-                                Address::BILLING_TYPE => __('Billing'),
-                                Address::OTHER_TYPE => __('Other'),
-                            ]),
-
-                        TextInput::make('address_street_1')
-                            ->label(__('Street Address'))
-                            ->required()
-                            ->maxLength(255),
-
-                        TextInput::make('address_street_2')
-                            ->label(__('Apartment, Suite, etc. (Optional)'))
-                            ->maxLength(255),
-
-                        TextInput::make('city')
-                            ->label(__('City'))
-                            ->required()
-                            ->maxLength(255),
-
-                        TextInput::make('state')
-                            ->label(__('State / Province'))
-                            ->maxLength(255),
-
-                        TextInput::make('zip')
-                            ->label(__('Postal Code / ZIP'))
-                            ->required()
-                            ->maxLength(20),
-
-                        Select::make('country_id')
-                            ->label(__('Country'))
-                            ->required()
-                            ->searchable()
-                            ->preload()
-                            ->relationship('country', 'name'),
-
-                        TextInput::make('phone')
-                            ->label(__('Phone Number (Optional)'))
-                            ->tel()
-                            ->maxLength(50),
-                    ])
-                    ->after(function () {
-                        Notification::make()
-                            ->title(__('Address Updated'))
-                            ->body(__('Your address has been updated successfully.'))
-                            ->success()
-                            ->send();
-                    }),
+                    ->icon('heroicon-o-pencil-square')
+                    ->url(fn (Address $record): string => EditAddress::getUrl() . '?address=' . $record->id),
 
                 DeleteAction::make()
                     ->label(__('Delete'))
@@ -272,75 +141,10 @@ class SavedAddresses extends Page implements HasTable
             ->emptyStateDescription(__('You have not saved any addresses yet. Add your first address to speed up checkout.'))
             ->emptyStateIcon('heroicon-o-map-pin')
             ->emptyStateActions([
-                \Filament\Actions\CreateAction::make()
+                Action::make('create')
                     ->label(__('Add Your First Address'))
-                    ->modalHeading(__('Add New Address'))
-                    ->modalWidth('2xl')
-                    ->form([
-                        TextInput::make('name')
-                            ->label(__('Address Label (e.g., Home, Office)'))
-                            ->required()
-                            ->maxLength(255)
-                            ->placeholder(__('e.g., Home, Office, Parents House')),
-
-                        Select::make('type')
-                            ->label(__('Address Type'))
-                            ->required()
-                            ->options([
-                                Address::SHIPPING_TYPE => __('Shipping'),
-                                Address::BILLING_TYPE => __('Billing'),
-                                Address::OTHER_TYPE => __('Other'),
-                            ])
-                            ->default(Address::SHIPPING_TYPE),
-
-                        TextInput::make('address_street_1')
-                            ->label(__('Street Address'))
-                            ->required()
-                            ->maxLength(255)
-                            ->placeholder(__('123 Main Street')),
-
-                        TextInput::make('address_street_2')
-                            ->label(__('Apartment, Suite, etc. (Optional)'))
-                            ->maxLength(255)
-                            ->placeholder(__('Apt 4B, Suite 100')),
-
-                        TextInput::make('city')
-                            ->label(__('City'))
-                            ->required()
-                            ->maxLength(255),
-
-                        TextInput::make('state')
-                            ->label(__('State / Province'))
-                            ->maxLength(255),
-
-                        TextInput::make('zip')
-                            ->label(__('Postal Code / ZIP'))
-                            ->required()
-                            ->maxLength(20),
-
-                        Select::make('country_id')
-                            ->label(__('Country'))
-                            ->required()
-                            ->searchable()
-                            ->preload()
-                            ->relationship('country', 'name')
-                            ->default(function () {
-                                return \Modules\Country\Models\Country::where('name', 'United States')->value('id');
-                            }),
-
-                        TextInput::make('phone')
-                            ->label(__('Phone Number (Optional)'))
-                            ->tel()
-                            ->maxLength(50),
-                    ])
-                    ->mutateFormDataUsing(function (array $data): array {
-                        $customer = $this->getCustomer();
-                        if ($customer) {
-                            $data['rel_type'] = 'customer';
-                            $data['rel_id'] = $customer->id;
-                        }
-                        return $data;
-                    }),
+                    ->icon('heroicon-o-plus')
+                    ->url(CreateAddress::getUrl()),
             ]);
     }
 
