@@ -10,6 +10,15 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class ContentDataVariant extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\ContentDataVariant\Events\ContentDataVariantWasCreated::class,
+        'updated' => \Modules\ContentDataVariant\Events\ContentDataVariantWasUpdated::class,
+        'deleted' => \Modules\ContentDataVariant\Events\ContentDataVariantWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use CacheableQueryBuilderTrait;

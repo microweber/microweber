@@ -13,6 +13,15 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Testimonial extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Testimonials\Events\TestimonialWasCreated::class,
+        'updated' => \Modules\Testimonials\Events\TestimonialWasUpdated::class,
+        'deleted' => \Modules\Testimonials\Events\TestimonialWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
 

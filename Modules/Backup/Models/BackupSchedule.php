@@ -17,6 +17,15 @@ use Carbon\Carbon;
  */
 class BackupSchedule extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Backup\Events\BackupScheduleWasCreated::class,
+        'updated' => \Modules\Backup\Events\BackupScheduleWasUpdated::class,
+        'deleted' => \Modules\Backup\Events\BackupScheduleWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

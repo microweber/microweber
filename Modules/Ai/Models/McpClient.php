@@ -16,6 +16,15 @@ use Modules\Ai\Database\Factories\McpClientFactory;
 
 class McpClient extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Ai\Events\McpClientWasCreated::class,
+        'updated' => \Modules\Ai\Events\McpClientWasUpdated::class,
+        'deleted' => \Modules\Ai\Events\McpClientWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

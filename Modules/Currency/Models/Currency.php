@@ -16,6 +16,15 @@ use Modules\Currency\Database\Factories\CurrencyFactory;
  */
 class Currency extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Currency\Events\CurrencyWasCreated::class,
+        'updated' => \Modules\Currency\Events\CurrencyWasUpdated::class,
+        'deleted' => \Modules\Currency\Events\CurrencyWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

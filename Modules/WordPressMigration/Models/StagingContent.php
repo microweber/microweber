@@ -37,6 +37,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class StagingContent extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\WordPressMigration\Events\StagingContentWasCreated::class,
+        'updated' => \Modules\WordPressMigration\Events\StagingContentWasUpdated::class,
+        'deleted' => \Modules\WordPressMigration\Events\StagingContentWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     protected $table = 'wp_migration_staging_content';

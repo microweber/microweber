@@ -13,6 +13,15 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Slider extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Slider\Events\SliderWasCreated::class,
+        'updated' => \Modules\Slider\Events\SliderWasUpdated::class,
+        'deleted' => \Modules\Slider\Events\SliderWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasMultilanguageTrait;

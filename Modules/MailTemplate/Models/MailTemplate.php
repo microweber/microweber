@@ -11,6 +11,15 @@ use Modules\MailTemplate\Services\MailTemplateService;
 
 class MailTemplate extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\MailTemplate\Events\MailTemplateWasCreated::class,
+        'updated' => \Modules\MailTemplate\Events\MailTemplateWasUpdated::class,
+        'deleted' => \Modules\MailTemplate\Events\MailTemplateWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

@@ -10,6 +10,15 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class TaxType extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Tax\Events\TaxTypeWasCreated::class,
+        'updated' => \Modules\Tax\Events\TaxTypeWasUpdated::class,
+        'deleted' => \Modules\Tax\Events\TaxTypeWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use CacheableQueryBuilderTrait;

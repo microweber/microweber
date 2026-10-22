@@ -10,6 +10,15 @@ use Modules\ContactForm\Database\Factories\FormFactory;
 
 class Form extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\ContactForm\Events\FormWasCreated::class,
+        'updated' => \Modules\ContactForm\Events\FormWasUpdated::class,
+        'deleted' => \Modules\ContactForm\Events\FormWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

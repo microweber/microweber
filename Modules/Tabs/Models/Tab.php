@@ -13,6 +13,15 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Tab extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Tabs\Events\TabWasCreated::class,
+        'updated' => \Modules\Tabs\Events\TabWasUpdated::class,
+        'deleted' => \Modules\Tabs\Events\TabWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasMultilanguageTrait;

@@ -12,6 +12,15 @@ use MicroweberPackages\Database\Traits\MaxPositionTrait;
 
 class ContentRelated extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Content\Events\ContentRelatedWasCreated::class,
+        'updated' => \Modules\Content\Events\ContentRelatedWasUpdated::class,
+        'deleted' => \Modules\Content\Events\ContentRelatedWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use MaxPositionTrait;

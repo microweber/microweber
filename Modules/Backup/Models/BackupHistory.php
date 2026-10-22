@@ -17,6 +17,15 @@ use Carbon\Carbon;
  */
 class BackupHistory extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Backup\Events\BackupHistoryWasCreated::class,
+        'updated' => \Modules\Backup\Events\BackupHistoryWasUpdated::class,
+        'deleted' => \Modules\Backup\Events\BackupHistoryWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

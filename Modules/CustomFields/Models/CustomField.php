@@ -14,6 +14,15 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class CustomField extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\CustomFields\Events\CustomFieldWasCreated::class,
+        'updated' => \Modules\CustomFields\Events\CustomFieldWasUpdated::class,
+        'deleted' => \Modules\CustomFields\Events\CustomFieldWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use MaxPositionTrait;

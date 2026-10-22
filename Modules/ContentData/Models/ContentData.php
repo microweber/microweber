@@ -12,6 +12,15 @@ use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 
 class ContentData extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\ContentData\Events\ContentDataWasCreated::class,
+        'updated' => \Modules\ContentData\Events\ContentDataWasUpdated::class,
+        'deleted' => \Modules\ContentData\Events\ContentDataWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use CacheableQueryBuilderTrait;

@@ -13,6 +13,15 @@ use Modules\Ai\Database\Factories\AgentChatFactory;
 
 class AgentChat extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Ai\Events\AgentChatWasCreated::class,
+        'updated' => \Modules\Ai\Events\AgentChatWasUpdated::class,
+        'deleted' => \Modules\Ai\Events\AgentChatWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

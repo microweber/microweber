@@ -10,6 +10,15 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class MediaFolder extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Media\Events\MediaFolderWasCreated::class,
+        'updated' => \Modules\Media\Events\MediaFolderWasUpdated::class,
+        'deleted' => \Modules\Media\Events\MediaFolderWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use CacheableQueryBuilderTrait;

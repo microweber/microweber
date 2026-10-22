@@ -8,6 +8,15 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class CustomFieldValue extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\CustomFields\Events\CustomFieldValueWasCreated::class,
+        'updated' => \Modules\CustomFields\Events\CustomFieldValueWasUpdated::class,
+        'deleted' => \Modules\CustomFields\Events\CustomFieldValueWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use CacheableQueryBuilderTrait;

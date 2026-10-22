@@ -10,6 +10,15 @@ use Illuminate\Support\Str;
 
 class ApiKey extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\HostingApi\Events\ApiKeyWasCreated::class,
+        'updated' => \Modules\HostingApi\Events\ApiKeyWasUpdated::class,
+        'deleted' => \Modules\HostingApi\Events\ApiKeyWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

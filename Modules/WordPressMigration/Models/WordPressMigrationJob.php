@@ -37,6 +37,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class WordPressMigrationJob extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\WordPressMigration\Events\WordPressMigrationJobWasCreated::class,
+        'updated' => \Modules\WordPressMigration\Events\WordPressMigrationJobWasUpdated::class,
+        'deleted' => \Modules\WordPressMigration\Events\WordPressMigrationJobWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     public const STATUS_PROBING = 'probing';

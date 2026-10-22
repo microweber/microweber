@@ -10,6 +10,15 @@ use Modules\Company\Database\Factories\CompanyFactory;
 
 class Company extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Company\Events\CompanyWasCreated::class,
+        'updated' => \Modules\Company\Events\CompanyWasUpdated::class,
+        'deleted' => \Modules\Company\Events\CompanyWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

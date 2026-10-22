@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class FormDataValue extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Form\Events\FormDataValueWasCreated::class,
+        'updated' => \Modules\Form\Events\FormDataValueWasUpdated::class,
+        'deleted' => \Modules\Form\Events\FormDataValueWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     public $timestamps = false;

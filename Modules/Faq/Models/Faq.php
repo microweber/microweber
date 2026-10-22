@@ -14,6 +14,15 @@ use Modules\Faq\Database\Factories\FaqFactory;
 
 class Faq extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Faq\Events\FaqWasCreated::class,
+        'updated' => \Modules\Faq\Events\FaqWasUpdated::class,
+        'deleted' => \Modules\Faq\Events\FaqWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

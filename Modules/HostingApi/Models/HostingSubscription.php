@@ -10,6 +10,15 @@ use Modules\Customer\Models\Customer;
 
 class HostingSubscription extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\HostingApi\Events\HostingSubscriptionWasCreated::class,
+        'updated' => \Modules\HostingApi\Events\HostingSubscriptionWasUpdated::class,
+        'deleted' => \Modules\HostingApi\Events\HostingSubscriptionWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

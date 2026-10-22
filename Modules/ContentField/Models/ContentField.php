@@ -10,6 +10,15 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class ContentField extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\ContentField\Events\ContentFieldWasCreated::class,
+        'updated' => \Modules\ContentField\Events\ContentFieldWasUpdated::class,
+        'deleted' => \Modules\ContentField\Events\ContentFieldWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasCreatedByFieldsTrait;

@@ -9,6 +9,15 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Country extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Country\Events\CountryWasCreated::class,
+        'updated' => \Modules\Country\Events\CountryWasUpdated::class,
+        'deleted' => \Modules\Country\Events\CountryWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use CacheableQueryBuilderTrait;

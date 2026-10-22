@@ -9,6 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AgentChatSearch extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Ai\Events\AgentChatSearchWasCreated::class,
+        'updated' => \Modules\Ai\Events\AgentChatSearchWasUpdated::class,
+        'deleted' => \Modules\Ai\Events\AgentChatSearchWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     protected $fillable = [

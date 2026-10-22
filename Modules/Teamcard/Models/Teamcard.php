@@ -13,6 +13,15 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Teamcard extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Teamcard\Events\TeamcardWasCreated::class,
+        'updated' => \Modules\Teamcard\Events\TeamcardWasUpdated::class,
+        'deleted' => \Modules\Teamcard\Events\TeamcardWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

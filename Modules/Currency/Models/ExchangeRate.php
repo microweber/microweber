@@ -15,6 +15,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ExchangeRate extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Currency\Events\ExchangeRateWasCreated::class,
+        'updated' => \Modules\Currency\Events\ExchangeRateWasUpdated::class,
+        'deleted' => \Modules\Currency\Events\ExchangeRateWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

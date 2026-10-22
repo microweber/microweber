@@ -9,6 +9,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Domain extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\HostingApi\Events\DomainWasCreated::class,
+        'updated' => \Modules\HostingApi\Events\DomainWasUpdated::class,
+        'deleted' => \Modules\HostingApi\Events\DomainWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

@@ -25,6 +25,15 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
  */
 class Accordion extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Accordion\Events\AccordionWasCreated::class,
+        'updated' => \Modules\Accordion\Events\AccordionWasUpdated::class,
+        'deleted' => \Modules\Accordion\Events\AccordionWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasMultilanguageTrait;

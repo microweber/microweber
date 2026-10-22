@@ -22,6 +22,15 @@ use Modules\Tag\Models\Tag;
  */
 class CustomerTag extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Customer\Events\CustomerTagWasCreated::class,
+        'updated' => \Modules\Customer\Events\CustomerTagWasUpdated::class,
+        'deleted' => \Modules\Customer\Events\CustomerTagWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;
