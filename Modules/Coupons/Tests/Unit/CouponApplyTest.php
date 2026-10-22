@@ -28,6 +28,11 @@ class CouponApplyTest extends TestCase
         save_option('enable_coupons', 1, 'shop');
         save_option('enable_taxes', 0, 'shop');
 
+        // Don't require terms acceptance at checkout — this option leaks in from
+        // other checkout tests (the suite doesn't reset options) and would make
+        // checkout() bail with a terms error before it reads the applied coupon.
+        save_option(['option_key' => 'shop_require_terms', 'option_value' => '0', 'option_group' => 'website']);
+
         DB::table('cart_coupon_logs')->delete();
     }
 
