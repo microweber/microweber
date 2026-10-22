@@ -17,6 +17,15 @@ use Modules\Product\Models\Product;
  */
 class Vendor extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Vendors\Events\VendorWasCreated::class,
+        'updated' => \Modules\Vendors\Events\VendorWasUpdated::class,
+        'deleted' => \Modules\Vendors\Events\VendorWasDeleted::class,
+    ];
     protected $table = 'vendors';
 
     /** Channels a vendor can receive order notifications on. */

@@ -47,6 +47,49 @@ class ModelLifecycleEventsTest extends TestCase
             'Rating'           => [\Modules\Rating\Models\Rating::class,             'Modules\\Rating\\Events\\RatingWas'],
             'Address'          => [\Modules\Address\Models\Address::class,           'Modules\\Address\\Events\\AddressWas'],
             'Attribute'        => [\Modules\Attributes\Models\Attribute::class,      'Modules\\Attributes\\Events\\AttributeWas'],
+
+            // Newsletter
+            'NewsletterCampaign'        => [\Modules\Newsletter\Models\NewsletterCampaign::class,        'Modules\\Newsletter\\Events\\NewsletterCampaignWas'],
+            'NewsletterList'            => [\Modules\Newsletter\Models\NewsletterList::class,            'Modules\\Newsletter\\Events\\NewsletterListWas'],
+            'NewsletterSenderAccount'   => [\Modules\Newsletter\Models\NewsletterSenderAccount::class,   'Modules\\Newsletter\\Events\\NewsletterSenderAccountWas'],
+            'NewsletterSubscriberList'  => [\Modules\Newsletter\Models\NewsletterSubscriberList::class,  'Modules\\Newsletter\\Events\\NewsletterSubscriberListWas'],
+            'NewsletterSubscriber'      => [\Modules\Newsletter\Models\NewsletterSubscriber::class,      'Modules\\Newsletter\\Events\\NewsletterSubscriberWas'],
+            'NewsletterTemplate'        => [\Modules\Newsletter\Models\NewsletterTemplate::class,        'Modules\\Newsletter\\Events\\NewsletterTemplateWas'],
+            'Workflow'                  => [\Modules\Newsletter\Models\Workflow::class,                  'Modules\\Newsletter\\Events\\WorkflowWas'],
+            'WorkflowNode'              => [\Modules\Newsletter\Models\WorkflowNode::class,              'Modules\\Newsletter\\Events\\WorkflowNodeWas'],
+
+            // Billing
+            'SubscriptionCancelReason'      => [\Modules\Billing\Models\SubscriptionCancelReason::class,      'Modules\\Billing\\Events\\SubscriptionCancelReasonWas'],
+            'SubscriptionManual'            => [\Modules\Billing\Models\SubscriptionManual::class,            'Modules\\Billing\\Events\\SubscriptionManualWas'],
+            'SubscriptionPlanFeature'       => [\Modules\Billing\Models\SubscriptionPlanFeature::class,       'Modules\\Billing\\Events\\SubscriptionPlanFeatureWas'],
+            'SubscriptionPlanGroupFeature'  => [\Modules\Billing\Models\SubscriptionPlanGroupFeature::class,  'Modules\\Billing\\Events\\SubscriptionPlanGroupFeatureWas'],
+            'SubscriptionPlanGroup'         => [\Modules\Billing\Models\SubscriptionPlanGroup::class,         'Modules\\Billing\\Events\\SubscriptionPlanGroupWas'],
+            'SubscriptionPlan'              => [\Modules\Billing\Models\SubscriptionPlan::class,              'Modules\\Billing\\Events\\SubscriptionPlanWas'],
+
+            // Order (Order itself keeps its richer inline events)
+            'OrderAnonymousClient' => [\Modules\Order\Models\OrderAnonymousClient::class, 'Modules\\Order\\Events\\OrderAnonymousClientWas'],
+            'OrderCancelReason'    => [\Modules\Order\Models\OrderCancelReason::class,    'Modules\\Order\\Events\\OrderCancelReasonWas'],
+            'OrderRefund'          => [\Modules\Order\Models\OrderRefund::class,          'Modules\\Order\\Events\\OrderRefundWas'],
+            'OrderStatusHistory'   => [\Modules\Order\Models\OrderStatusHistory::class,   'Modules\\Order\\Events\\OrderStatusHistoryWas'],
+
+            // Product (variant/meta/pricing; ProductVariant inherits Product's events)
+            'ProductCustomerPricing'       => [\Modules\Product\Models\ProductCustomerPricing::class,       'Modules\\Product\\Events\\ProductCustomerPricingWas'],
+            'ProductMetaData'              => [\Modules\Product\Models\ProductMetaData::class,              'Modules\\Product\\Events\\ProductMetaDataWas'],
+            'ProductPricingRule'           => [\Modules\Product\Models\ProductPricingRule::class,           'Modules\\Product\\Events\\ProductPricingRuleWas'],
+            'ProductVariantAttribute'      => [\Modules\Product\Models\ProductVariantAttribute::class,      'Modules\\Product\\Events\\ProductVariantAttributeWas'],
+            'ProductVariantAttributeValue' => [\Modules\Product\Models\ProductVariantAttributeValue::class, 'Modules\\Product\\Events\\ProductVariantAttributeValueWas'],
+
+            // Form
+            'FormData'      => [\Modules\Form\Models\FormData::class,      'Modules\\Form\\Events\\FormDataWas'],
+            'FormList'      => [\Modules\Form\Models\FormList::class,      'Modules\\Form\\Events\\FormListWas'],
+            'FormRecipient' => [\Modules\Form\Models\FormRecipient::class, 'Modules\\Form\\Events\\FormRecipientWas'],
+
+            // Booking / Coupons / Vendors / DigitalProduct
+            'Booking'                => [\Modules\Booking\Models\Booking::class,                       'Modules\\Booking\\Events\\BookingWas'],
+            'CartCoupon'             => [\Modules\Coupons\Models\CartCoupon::class,                    'Modules\\Coupons\\Events\\CartCouponWas'],
+            'Vendor'                 => [\Modules\Vendors\Models\Vendor::class,                        'Modules\\Vendors\\Events\\VendorWas'],
+            'DigitalProductDownload' => [\Modules\DigitalProduct\Models\DigitalProductDownload::class, 'Modules\\DigitalProduct\\Events\\DigitalProductDownloadWas'],
+            'ProductDownloadableFile'=> [\Modules\DigitalProduct\Models\ProductDownloadableFile::class, 'Modules\\DigitalProduct\\Events\\ProductDownloadableFileWas'],
         ];
     }
 

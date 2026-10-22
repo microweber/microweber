@@ -13,6 +13,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Booking extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Booking\Events\BookingWasCreated::class,
+        'updated' => \Modules\Booking\Events\BookingWasUpdated::class,
+        'deleted' => \Modules\Booking\Events\BookingWasDeleted::class,
+    ];
     protected $table = 'bookings';
 
     public const STATUS_PENDING = 'pending';

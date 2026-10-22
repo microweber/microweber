@@ -18,6 +18,15 @@ use Illuminate\Notifications\Notifiable;
 
 class FormRecipient extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Form\Events\FormRecipientWasCreated::class,
+        'updated' => \Modules\Form\Events\FormRecipientWasUpdated::class,
+        'deleted' => \Modules\Form\Events\FormRecipientWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use Notifiable;

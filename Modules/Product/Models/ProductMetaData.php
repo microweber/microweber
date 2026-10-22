@@ -9,6 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductMetaData extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Product\Events\ProductMetaDataWasCreated::class,
+        'updated' => \Modules\Product\Events\ProductMetaDataWasUpdated::class,
+        'deleted' => \Modules\Product\Events\ProductMetaDataWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
 

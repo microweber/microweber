@@ -10,6 +10,15 @@ use Modules\Payment\Models\Payment;
 
 class OrderRefund extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Order\Events\OrderRefundWasCreated::class,
+        'updated' => \Modules\Order\Events\OrderRefundWasUpdated::class,
+        'deleted' => \Modules\Order\Events\OrderRefundWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     protected $table = 'order_refunds';

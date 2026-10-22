@@ -30,6 +30,15 @@ use MicroweberPackages\User\Models\User;
  */
 class ProductCustomerPricing extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Product\Events\ProductCustomerPricingWasCreated::class,
+        'updated' => \Modules\Product\Events\ProductCustomerPricingWasUpdated::class,
+        'deleted' => \Modules\Product\Events\ProductCustomerPricingWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

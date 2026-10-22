@@ -11,6 +11,15 @@ use MicroweberPackages\User\Models\User;
 
 class OrderStatusHistory extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Order\Events\OrderStatusHistoryWasCreated::class,
+        'updated' => \Modules\Order\Events\OrderStatusHistoryWasUpdated::class,
+        'deleted' => \Modules\Order\Events\OrderStatusHistoryWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

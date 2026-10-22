@@ -18,6 +18,15 @@ use Illuminate\Notifications\Notifiable;
 
 class OrderAnonymousClient extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Order\Events\OrderAnonymousClientWasCreated::class,
+        'updated' => \Modules\Order\Events\OrderAnonymousClientWasUpdated::class,
+        'deleted' => \Modules\Order\Events\OrderAnonymousClientWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
 

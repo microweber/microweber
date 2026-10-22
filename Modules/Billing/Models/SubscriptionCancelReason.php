@@ -9,6 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubscriptionCancelReason extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Billing\Events\SubscriptionCancelReasonWasCreated::class,
+        'updated' => \Modules\Billing\Events\SubscriptionCancelReasonWasUpdated::class,
+        'deleted' => \Modules\Billing\Events\SubscriptionCancelReasonWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

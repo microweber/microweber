@@ -9,6 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderCancelReason extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Order\Events\OrderCancelReasonWasCreated::class,
+        'updated' => \Modules\Order\Events\OrderCancelReasonWasUpdated::class,
+        'deleted' => \Modules\Order\Events\OrderCancelReasonWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

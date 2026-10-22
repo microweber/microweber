@@ -10,6 +10,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WorkflowNode extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Newsletter\Events\WorkflowNodeWasCreated::class,
+        'updated' => \Modules\Newsletter\Events\WorkflowNodeWasUpdated::class,
+        'deleted' => \Modules\Newsletter\Events\WorkflowNodeWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubscriptionPlanFeature extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Billing\Events\SubscriptionPlanFeatureWasCreated::class,
+        'updated' => \Modules\Billing\Events\SubscriptionPlanFeatureWasUpdated::class,
+        'deleted' => \Modules\Billing\Events\SubscriptionPlanFeatureWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     public $timestamps = false;

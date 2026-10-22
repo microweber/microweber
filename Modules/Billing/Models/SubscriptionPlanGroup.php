@@ -11,6 +11,15 @@ use Modules\Billing\Database\Factories\SubscriptionPlanGroupFactory;
 
 class SubscriptionPlanGroup extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Billing\Events\SubscriptionPlanGroupWasCreated::class,
+        'updated' => \Modules\Billing\Events\SubscriptionPlanGroupWasUpdated::class,
+        'deleted' => \Modules\Billing\Events\SubscriptionPlanGroupWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class FormData extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Form\Events\FormDataWasCreated::class,
+        'updated' => \Modules\Form\Events\FormDataWasUpdated::class,
+        'deleted' => \Modules\Form\Events\FormDataWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     protected $table = 'forms_data';

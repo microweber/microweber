@@ -14,6 +14,15 @@ use Modules\DigitalProduct\Services\DigitalProductService;
  */
 class ProductDownloadableFile extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\DigitalProduct\Events\ProductDownloadableFileWasCreated::class,
+        'updated' => \Modules\DigitalProduct\Events\ProductDownloadableFileWasUpdated::class,
+        'deleted' => \Modules\DigitalProduct\Events\ProductDownloadableFileWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     protected $table = 'product_downloadable_files';

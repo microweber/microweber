@@ -32,6 +32,15 @@ use MicroweberPackages\Database\Traits\MaxPositionTrait;
  */
 class ProductVariantAttributeValue extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Product\Events\ProductVariantAttributeValueWasCreated::class,
+        'updated' => \Modules\Product\Events\ProductVariantAttributeValueWasUpdated::class,
+        'deleted' => \Modules\Product\Events\ProductVariantAttributeValueWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

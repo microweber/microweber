@@ -14,6 +14,15 @@ use Illuminate\Support\Str;
  */
 class DigitalProductDownload extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\DigitalProduct\Events\DigitalProductDownloadWasCreated::class,
+        'updated' => \Modules\DigitalProduct\Events\DigitalProductDownloadWasUpdated::class,
+        'deleted' => \Modules\DigitalProduct\Events\DigitalProductDownloadWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     protected $table = 'digital_product_downloads';

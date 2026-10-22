@@ -29,6 +29,15 @@ use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
  */
 class ProductVariantAttribute extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Product\Events\ProductVariantAttributeWasCreated::class,
+        'updated' => \Modules\Product\Events\ProductVariantAttributeWasUpdated::class,
+        'deleted' => \Modules\Product\Events\ProductVariantAttributeWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

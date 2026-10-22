@@ -10,6 +10,15 @@ use Modules\Newsletter\Database\Factories\NewsletterSubscriberListFactory;
 
 class NewsletterSubscriberList extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Newsletter\Events\NewsletterSubscriberListWasCreated::class,
+        'updated' => \Modules\Newsletter\Events\NewsletterSubscriberListWasUpdated::class,
+        'deleted' => \Modules\Newsletter\Events\NewsletterSubscriberListWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

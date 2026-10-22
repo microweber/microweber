@@ -11,6 +11,15 @@ use Modules\Newsletter\Database\Factories\WorkflowFactory;
 
 class Workflow extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Newsletter\Events\WorkflowWasCreated::class,
+        'updated' => \Modules\Newsletter\Events\WorkflowWasUpdated::class,
+        'deleted' => \Modules\Newsletter\Events\WorkflowWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;

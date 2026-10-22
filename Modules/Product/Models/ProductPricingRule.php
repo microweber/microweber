@@ -44,6 +44,15 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
  */
 class ProductPricingRule extends Model
 {
+
+    /**
+     * Fire lifecycle events so other modules can hook this model's changes.
+     */
+    protected $dispatchesEvents = [
+        'created' => \Modules\Product\Events\ProductPricingRuleWasCreated::class,
+        'updated' => \Modules\Product\Events\ProductPricingRuleWasUpdated::class,
+        'deleted' => \Modules\Product\Events\ProductPricingRuleWasDeleted::class,
+    ];
     use FiresModelLifecycleEvents;
 
     use HasFactory;
