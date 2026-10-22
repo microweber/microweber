@@ -107,13 +107,7 @@ class OrderHistory extends Page implements HasTable
                 Action::make('view')
                     ->label(__('View Details'))
                     ->icon('heroicon-o-eye')
-                    ->modalHeading(function (Order $record) {
-                        return __('Order #:reference', ['reference' => $record->order_reference_id]);
-                    })
-                    ->modalContent(function (Order $record) {
-                        return view('modules.profile::pages.order-details', ['order' => $record]);
-                    })
-                    ->modalWidth('3xl'),
+                    ->url(fn (Order $record) => OrderDetail::getUrl() . '?order=' . $record->id),
             ])
             ->defaultSort('created_at', 'desc')
             ->emptyStateHeading(__('No Orders'))

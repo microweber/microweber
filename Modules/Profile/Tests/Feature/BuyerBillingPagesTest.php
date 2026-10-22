@@ -148,6 +148,27 @@ class BuyerBillingPagesTest extends TestCase
     }
 
     #[Test]
+    public function order_detail_page_is_scoped_to_the_owner(): void
+    {
+        $owner = User::factory()->create();
+        $this->userIds[] = $owner->id;
+        $customer = Customer::factory()->create(['user_id' => $owner->id, 'email' => $owner->email]);
+        $this->customerIds[] = $customer->id;
+
+        $order = Order::factory()->create(['email' => $owner->email]);
+        \Illuminate\Support\Facades\DB::table('cart_orders')->where('id', $order->id)->update(['customer_id' => $customer->id]);
+        $this->orderIds[] = $order->id;
+
+        // Owner can open it.
+        $this->actingAs($owner)->get('/profile/order?order=' . $order->id)->assertOk();
+
+        // A different user cannot.
+        $intruder = User::factory()->create();
+        $this->userIds[] = $intruder->id;
+        $this->actingAs($intruder)->get('/profile/order?order=' . $order->id)->assertNotFound();
+    }
+
+    #[Test]
     public function legacy_two_factor_page_is_hidden_from_navigation(): void
     {
         // Deduped: the Fortify TwoFactorSettingsPage is the canonical 2FA screen,
