@@ -79,6 +79,24 @@ class ShopMorePage extends Page
             ];
         }
 
+        if (class_exists(\Modules\Vendors\Filament\Admin\Resources\VendorResource::class)) {
+            $cards[] = [
+                'title' => 'Vendors',
+                'description' => 'Review, approve and manage multi-vendor storefronts.',
+                'icon' => 'heroicon-o-building-storefront',
+                'url' => \Modules\Vendors\Filament\Admin\Resources\VendorResource::getUrl('index'),
+            ];
+        }
+
+        if (class_exists(\Modules\DigitalProduct\Filament\Resources\ProductDownloadableFileResource::class)) {
+            $cards[] = [
+                'title' => 'Downloadable content',
+                'description' => 'Manage the downloadable files attached to digital products.',
+                'icon' => 'heroicon-o-arrow-down-tray',
+                'url' => \Modules\DigitalProduct\Filament\Resources\ProductDownloadableFileResource::getUrl('index'),
+            ];
+        }
+
         $groups = [
             ['title' => 'Shop', 'items' => $cards],
         ];

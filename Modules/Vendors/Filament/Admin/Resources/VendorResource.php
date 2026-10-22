@@ -29,6 +29,8 @@ class VendorResource extends Resource
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-building-storefront';
     protected static string | \UnitEnum | null $navigationGroup = 'Shop';
+    // Reachable from the Shop → "More" hub, not the main sidebar (keeps Shop short).
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?int $navigationSort = 8;
     protected static ?string $navigationLabel = 'Vendors';
     protected static ?string $modelLabel = 'vendor';
