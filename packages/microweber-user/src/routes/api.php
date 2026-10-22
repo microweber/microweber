@@ -182,6 +182,11 @@ Route::prefix(mw_admin_prefix_url_legacy())->middleware(['admin'])->group(functi
     Route::get('login', \MicroweberPackages\User\Http\Controllers\UserLoginController::class . '@index')->name('admin.login')->middleware(['allowed_ips']);
 });
 
+// Email-change confirmation link (token-authorised; works logged out).
+Route::get('api/user/confirm-email-change', [
+    \MicroweberPackages\User\Http\Controllers\UserEmailChangeController::class, 'confirm',
+])->middleware(['web'])->name('api.user.confirm_email_change');
+
 // OLD API SAVE USER
 Route::post('api/save_user', function (\Illuminate\Http\Request $request) {
     if (!defined('MW_API_CALL')) {

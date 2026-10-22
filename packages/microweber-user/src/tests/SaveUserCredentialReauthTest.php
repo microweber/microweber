@@ -19,6 +19,20 @@ class SaveUserCredentialReauthTest extends TestCase
 {
     private string $knownPassword = 'KnownPass123!';
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Isolate the current-password guard: disable the email-change
+        // verification/defer flow so a confirmed email change applies
+        // immediately here (the defer flow is covered by its own test).
+        save_option([
+            'option_key' => 'email_change_verify',
+            'option_group' => 'users',
+            'option_value' => 'n',
+        ]);
+    }
+
     private function loginFreshUser(): User
     {
         $user = User::create([

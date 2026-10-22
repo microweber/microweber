@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use MicroweberPackages\User\Notifications\EmailChangeRequestedNotification;
+use MicroweberPackages\User\Notifications\VerifyEmailChangeNotification;
 use MicroweberPackages\App\LoginAttempt;
 use MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract;
 use MicroweberPackages\User\Http\Controllers\UserForgotPasswordController;
@@ -694,6 +698,165 @@ class UserManager
     }
 
     /**
+     * Is the verified email-change flow enabled? Default ON; an explicit disable
+     * value in get_option('email_change_verify', 'users') turns it off (useful on
+     * installs without working mail — the current_password guard still protects
+     * the change either way).
+     */
+    public function emailChangeVerificationEnabled(): bool
+    {
+        $value = get_option('email_change_verify', 'users');
+
+        if ($value === false || $value === null) {
+            return true;
+        }
+
+        return ! in_array(strtolower(trim((string) $value)), ['n', 'no', '0', 'false', ''], true);
+    }
+
+    /**
+     * When a logged-in user changes their OWN email and verification is enabled,
+     * park the new address (pending_email) instead of applying it, and drop
+     * `email` from the save so the current address stays active. Admins editing
+     * another user, same-value re-posts, and taken addresses fall through to the
+     * normal (immediate) path.
+     *
+     * @param array $params
+     * @return array
+     */
+    protected function maybeDeferSelfEmailChange($params)
+    {
+        if (! $this->emailChangeVerificationEnabled()) {
+            return $params;
+        }
+
+        if (! isset($params['id']) || intval($params['id']) === 0) {
+            return $params;
+        }
+
+        $target_id = intval($params['id']);
+        if (intval(user_id()) !== $target_id) {
+            return $params; // admin editing another user -> immediate
+        }
+
+        if (! isset($params['email'])) {
+            return $params;
+        }
+
+        $new_email = trim((string) $params['email']);
+        if ($new_email === '' || ! filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
+            return $params;
+        }
+
+        $user = User::find($target_id);
+        if (! $user || $new_email === trim((string) $user->email)) {
+            return $params; // no actual change
+        }
+
+        // If the address is already taken, let the normal uniqueness error fire.
+        $taken = User::where('email', $new_email)->where('id', '!=', $user->id)->first();
+        if ($taken) {
+            return $params;
+        }
+
+        $this->requestEmailChange($user, $new_email);
+        unset($params['email']);
+
+        return $params;
+    }
+
+    /**
+     * Park a pending email change and send: a confirmation link to the NEW
+     * address, and a security notice to the current (old) address.
+     */
+    public function requestEmailChange(User $user, string $newEmail): void
+    {
+        $token = Str::random(64);
+
+        $user->pending_email = $newEmail;
+        $user->pending_email_hash = hash('sha256', $token);
+        $user->pending_email_created_at = date('Y-m-d H:i:s');
+        $user->save();
+
+        try {
+            Notification::route('mail', $newEmail)
+                ->notify(new VerifyEmailChangeNotification((int) $user->id, $token, $newEmail));
+
+            $user->notify(new EmailChangeRequestedNotification($newEmail));
+        } catch (\Throwable $e) {
+            // A notification failure must not undo the parked request.
+        }
+    }
+
+    /**
+     * Apply a pending email change from the verification link's token. Returns
+     * ['success' => ...] or ['error' => ...].
+     *
+     * @param int|string $userId
+     * @param string $token
+     * @return array
+     */
+    public function confirmEmailChange($userId, $token)
+    {
+        $userId = intval($userId);
+        $token = (string) $token;
+
+        if ($userId === 0 || $token === '') {
+            return array('error' => 'Invalid confirmation link.');
+        }
+
+        $user = User::find($userId);
+        if (! $user || ! $user->pending_email || ! $user->pending_email_hash) {
+            return array('error' => 'This email change request is no longer valid.');
+        }
+
+        if (! hash_equals((string) $user->pending_email_hash, hash('sha256', $token))) {
+            return array('error' => 'Invalid confirmation link.');
+        }
+
+        // 60-minute expiry.
+        $requested_at = $user->pending_email_created_at ? strtotime((string) $user->pending_email_created_at) : 0;
+        if ($requested_at === 0 || (time() - $requested_at) > 3600) {
+            $this->clearPendingEmail($user);
+
+            return array('error' => 'This confirmation link has expired. Please request the change again.');
+        }
+
+        $new_email = $user->pending_email;
+
+        $taken = User::where('email', $new_email)->where('id', '!=', $user->id)->first();
+        if ($taken) {
+            $this->clearPendingEmail($user);
+
+            return array('error' => 'That email address is already in use.');
+        }
+
+        $user->email = $new_email;
+        $this->clearPendingEmail($user, false);
+
+        try {
+            $user->save();
+        } catch (\Throwable $e) {
+            return array('error' => 'That email address could not be saved.');
+        }
+
+        EventManager::trigger('mw.user.change_email', array('id' => $user->id, 'email' => $new_email));
+
+        return array('success' => 'Your email address has been updated.');
+    }
+
+    protected function clearPendingEmail(User $user, bool $persist = true): void
+    {
+        $user->pending_email = null;
+        $user->pending_email_hash = null;
+        $user->pending_email_created_at = null;
+
+        if ($persist) {
+            $user->save();
+        }
+    }
+
+    /**
      * Allows you to save users in the database.
      *
      * By default it have security rules.
@@ -792,6 +955,10 @@ class UserManager
                 return $credential_guard;
             }
             unset($params['current_password']);
+
+            // A self-service email change is parked until the NEW address is
+            // confirmed (keeps the old address active); other fields still save.
+            $params = $this->maybeDeferSelfEmailChange($params);
         }
 
         $data_to_save = $params;
