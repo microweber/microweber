@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use MicroweberPackages\App\LoginAttempt;
 use MicroweberPackages\SocialLogin\Contracts\SocialLoginServiceContract;
@@ -609,6 +610,90 @@ class UserManager
     }
 
     /**
+     * Sensitive-action re-authentication guard for self-service credential
+     * changes. When a logged-in user changes their OWN email or password through
+     * save(), require either a recent password confirmation (within
+     * auth.password_timeout) or a valid current_password in the request.
+     *
+     * Returns an error array to abort the save, or null to proceed. Only reached
+     * for non-force saves (registration / password-reset / OAuth set force_save
+     * and skip this); admins editing ANOTHER user are exempt.
+     *
+     * @param array $params
+     * @return array|null
+     */
+    protected function guardSelfCredentialChange($params)
+    {
+        if (!isset($params['id']) || intval($params['id']) === 0) {
+            return null;
+        }
+
+        $target_id = intval($params['id']);
+        $current_user_id = intval(user_id());
+
+        // Only self-edits are guarded; an admin editing someone else is user
+        // management (they are not expected to know the target's password).
+        if ($current_user_id === 0 || $current_user_id !== $target_id) {
+            return null;
+        }
+
+        $user = User::find($target_id);
+        if (!$user) {
+            return null;
+        }
+
+        $changing_password = isset($params['password']) && trim((string) $params['password']) !== '';
+
+        $changing_email = isset($params['email'])
+            && trim((string) $params['email']) !== ''
+            && trim((string) $params['email']) !== trim((string) $user->email);
+
+        if (!$changing_password && !$changing_email) {
+            return null;
+        }
+
+        // A recent explicit password confirmation in this session is enough.
+        if ($this->hasRecentPasswordConfirmation()) {
+            return null;
+        }
+
+        // Otherwise the request must carry a matching current_password.
+        $current_password = isset($params['current_password']) ? (string) $params['current_password'] : '';
+        if ($current_password !== '' && $user->password && Hash::check($current_password, $user->password)) {
+            $this->markPasswordConfirmed();
+
+            return null;
+        }
+
+        return array(
+            'error' => _e('Please confirm your current password to change your email or password.', true),
+            'form_data_required' => 'current_password',
+            'form_data_module' => 'users/profile/confirm_password',
+        );
+    }
+
+    /**
+     * Was the user's password confirmed recently (same window Laravel's
+     * password.confirm middleware uses)?
+     */
+    protected function hasRecentPasswordConfirmation()
+    {
+        $confirmed_at = (int) Session::get('auth.password_confirmed_at', 0);
+        if ($confirmed_at === 0) {
+            return false;
+        }
+
+        $window = (int) Config::get('auth.password_timeout', 900);
+
+        return (time() - $confirmed_at) < $window;
+    }
+
+    protected function markPasswordConfirmed()
+    {
+        Session::put('auth.password_confirmed_at', time());
+    }
+
+    /**
      * Allows you to save users in the database.
      *
      * By default it have security rules.
@@ -696,6 +781,17 @@ class UserManager
                     }
                 }
             }
+
+            // Sensitive-action re-authentication: changing your OWN email or
+            // password requires either a recent password confirmation or a valid
+            // current_password in the request. Force-saved paths (registration,
+            // password reset, OAuth) never reach here, and admins editing ANOTHER
+            // user are exempt (that is user management, not self-service).
+            $credential_guard = $this->guardSelfCredentialChange($params);
+            if (is_array($credential_guard)) {
+                return $credential_guard;
+            }
+            unset($params['current_password']);
         }
 
         $data_to_save = $params;
