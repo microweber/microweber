@@ -1,9 +1,15 @@
 
 /* === extracted from microweber-theme-v3 === */
 /* 1873-1986 */
-/* ============================================================================ */
+/* =============================================================================
+   Notifications / toasts (.fi-no / fi-notification / fi-no-notification-*) — navigation map.
+   Core styling: HERE + ./notification.css (body), ./icon.css (status icon). Rules
+   also live (legitimately) in:
+     - Dark mode: filament/dark.css.
+     - Context: database-notifications panel in the topbar (microweber/general/11-topbar-and-dashboard.css),
+       media-manager toasts (general/03-media-manager.css).
+   ============================================================================= */
 /* Notifications / Toasts — MW v2 style */
-/* ============================================================================ */
 .fi-no {
   z-index: 120 !important;
 }

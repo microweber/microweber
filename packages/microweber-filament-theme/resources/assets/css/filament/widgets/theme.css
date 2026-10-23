@@ -1,9 +1,20 @@
 
 /* === extracted from microweber-theme-v3 === */
 /* 617-631 */
-/* ============================================================================ */
+/* =============================================================================
+   Widgets (.fi-wi / -stats-overview-stat) — navigation map.
+   Core styling: HERE + ./stats-overview-widget/ (stat cards). Widget rules also
+   live (legitimately) in:
+     - Stat card surface SHARED with sections (one paired rule): microweber/general/12-v2-admin-reskin.css
+       and compact body padding: general/04-compact-forms-misc.css (both pair .fi-wi-stats-overview-stat
+       with .fi-section — keep them together).
+     - Dashboard chrome / loading overlay: microweber/general/11-topbar-and-dashboard.css,
+       filament/dashboard-loading.css.
+     - Dark mode: filament/dark.css; last-wins: global.css.
+     - Responsive / mobile: filament/responsive.css.
+     - Section card styling it shares: filament/support/section/index.css.
+   ============================================================================= */
 /* Widgets — dashboard widget containers */
-/* ============================================================================ */
 .fi-wi {
   border-radius: var(--mw-radius-lg) !important;
   box-shadow: none !important;

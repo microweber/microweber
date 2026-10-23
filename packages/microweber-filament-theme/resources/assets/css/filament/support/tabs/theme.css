@@ -1,9 +1,21 @@
 
 /* === extracted from microweber-theme-v3 === */
 /* 1572-1627 */
-/* ============================================================================ */
+/* =============================================================================
+   Tabs (.fi-tabs / -item) — navigation map.
+   Core styling: HERE + ./item.css (item states), ./index.css (structure). Tab
+   rules also live (legitimately) in:
+     - Dark mode: filament/dark.css.
+     - v2 reskin (active ink #182433, not blue — see the memory note): microweber/general/12-v2-admin-reskin.css,
+       general/01-primitives-overrides.css.
+     - Admin-page contexts (content-edit, dashboard, settings): microweber/admin/content-edit.css,
+       admin/dashboard.css, admin/settings.css; content form tabs: filament/forms/content-form.css.
+     - Responsive / mobile (scroll, touch floors, media pagination): microweber/mobile/03-touch-sweep-cards.css,
+       mobile/04-admin-form-floors.css, mobile/14-media-pagination-selects.css.
+     - Live-Edit action links: microweber/live-edit-action-links.css.
+   NB: the authoring active-tab is ink #182433 (NOT brand blue) — several dup rules exist, verify vs the demo.
+   ============================================================================= */
 /* Tabs — MW v2: underline style, 14px text */
-/* ============================================================================ */
 .fi-tabs,
 .fi-tabs.fi-contained {
   border-bottom: none !important;  /* MW v2: no container border, tabs float above card */

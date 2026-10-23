@@ -1,9 +1,20 @@
 
 /* === extracted from microweber-theme-v3 === */
 /* 1323-1419 */
-/* ============================================================================ */
+/* =============================================================================
+   Modals (.fi-modal / -content / -window / -footer) — navigation map.
+   Core styling: HERE + ./index.css (structure, slide-over). Modal rules also
+   live (legitimately) in:
+     - Dark mode: filament/dark.css, global.css (.dark last-wins).
+     - Responsive / mobile (full-height sheets, footer stacking): filament/responsive.css,
+       microweber/mobile/07-desktop-tables-forms.css, mobile/11-buttons-editor-modal.css.
+     - Radius/compact body + primitives: microweber/general/04-compact-forms-misc.css,
+       general/01-primitives-overrides.css.
+     - Context modals: media manager (general/03-media-manager.css), topbar/search
+       (general/11-topbar-and-dashboard.css), Live-Edit right rail (general/10-live-edit-right-rail.css).
+     - Live-Edit canvas modals: microweber/live-edit-classes.css, live-edit-input.css, live-edit-mobile.css.
+   ============================================================================= */
 /* Modals — MW v2: 4px radius cards, but modals slightly larger */
-/* ============================================================================ */
 .fi-modal-content {
   border-radius: var(--mw-radius-xl) !important;
   box-shadow: var(--mw-shadow-elevated) !important;

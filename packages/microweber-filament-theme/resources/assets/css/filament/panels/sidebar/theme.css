@@ -1,9 +1,20 @@
 
 /* === extracted from microweber-theme-v3 === */
 /* 352-538 */
-/* ============================================================================ */
+/* =============================================================================
+   Sidebar (.fi-sidebar / -item / -item-label / -item-icon / -header / -nav-groups)
+   — navigation map. Core styling: HERE + ./item.css (item states), ./index.css
+   (structure), ./group.css (nav groups). Sidebar rules also live (legitimately) in:
+     - v2 reskin (active item, collapse handle, header): microweber/general/12-v2-admin-reskin.css,
+       general/11-topbar-and-dashboard.css, general/01-primitives-overrides.css,
+       general/04-compact-forms-misc.css.
+     - Dark mode: filament/dark.css; last-wins: global.css; RTL: filament/support/rtl.css.
+     - Admin contexts (settings nav): microweber/admin/settings.css; dialogs: general/02-, general/03-.
+     - Responsive / mobile (off-canvas, safe-area, floors): microweber/mobile/06-table-cardview-safearea.css,
+       mobile/10-media-dashboard-floors.css, mobile/12-newsletter-profile-ese.css,
+       mobile/14-media-pagination-selects.css; Live-Edit: microweber/live-edit-mobile.css.
+   ============================================================================= */
 /* Sidebar — MW v2 pixel-perfect match */
-/* ============================================================================ */
 .fi-sidebar {
   background-color: var(--mw-bg-sidebar) !important;
   border-right: none !important;
