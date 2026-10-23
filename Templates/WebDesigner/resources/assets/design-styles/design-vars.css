@@ -1,0 +1,24 @@
+/* =============================================================================
+   WebDesigner template — design tokens (design-vars layer).
+   Extracted from resources/assets/css/base.css to match the Big/Base
+   design-styles/design-vars.css pattern. Contains ONLY :root custom properties.
+
+   Loaded by Base's master.blade.php as <link id="mw-template-design-vars-child">:
+   AFTER Base's default design-vars.css (so this template's identity wins) and
+   BEFORE the saved colour scheme + live_edit.css (so user/Live-Edit edits override).
+   ============================================================================= */
+:root {
+    --mw-header-background-color: #000000;
+    --mw-header-padding-block: 30px;
+    --mw-header-link-color: #ffffff;
+    --mw-header-link-hover-color: #3e98d4;
+    --mw-primary-color: #5100ff;
+    --mw-link-color: #5100ff;
+    --mw-font-family-sans-serif: Jost, sans-serif;
+    --mw-footer-background-color: #000000;
+    --mw-footer-text-color: #ffffff;
+    --mw-footer-primary-color: #3b9cdc;
+    --mw-footer-link-color: #5100ff;
+    --mw-footer-button-background-color: #5100ff;
+    --mw-footer-button-background-hover-color: #000000;
+}

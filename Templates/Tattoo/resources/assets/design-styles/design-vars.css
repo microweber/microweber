@@ -1,0 +1,28 @@
+/* =============================================================================
+   Tattoo template — design tokens (design-vars layer).
+   Extracted from resources/assets/css/base.css to match the Big/Base
+   design-styles/design-vars.css pattern. Contains ONLY :root custom properties.
+
+   Loaded by Base's master.blade.php as <link id="mw-template-design-vars-child">:
+   AFTER Base's default design-vars.css (so this template's identity wins) and
+   BEFORE the saved colour scheme + live_edit.css (so user/Live-Edit edits override).
+   ============================================================================= */
+:root {
+    --mw-background-color: #ffffff;
+    --mw-header-background-color: #000000;
+    --mw-header-link-color: #ffffff;
+    --mw-header-link-hover-color: #ffffff;
+    --mw-header-padding-block: 1px;
+    --mw-heading-two: 50px;
+    --mw-paragraph-size: 24px;
+    --mw-font-weight: 200;
+    --mw-primary-color: #ff0000;
+    --mw-link-color: #ff0000;
+    --mw-link-hover-color: #e61a1a;
+    --mw-footer-background-color: #000000;
+    --mw-footer-text-color: #ffffff;
+    --mw-footer-primary-color: #ffffff;
+    --mw-footer-link-color: #ffffff;
+    --mw-footer-link-hover-color: #ffffff;
+    --mw-font-family-sans-serif: Jost,sans-serif;
+}

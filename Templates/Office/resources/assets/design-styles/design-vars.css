@@ -1,0 +1,24 @@
+/* =============================================================================
+   Office template — design tokens (design-vars layer).
+   Extracted from resources/assets/css/base.css to match the Big/Base
+   design-styles/design-vars.css pattern. Contains ONLY :root custom properties.
+
+   Loaded by Base's master.blade.php as <link id="mw-template-design-vars-child">:
+   AFTER Base's default design-vars.css (so this template's identity wins) and
+   BEFORE the saved colour scheme + live_edit.css (so user/Live-Edit edits override).
+   ============================================================================= */
+:root {
+    --mw-font-family-sans-serif: Jost, sans-serif;
+    --mw-primary-color: #007bff;
+    --mw-link-color: #007bff;
+    --mw-header-link-color: #000000;
+    --mw-header-link-hover-color: #000000;
+    --mw-background-color: #f9f9f9;
+    --mw-section-background-color: #f9f9f9;
+    --mw-footer-background-color: #303668;
+    --mw-footer-text-color: #ffffff;
+    --mw-footer-primary-color: #29a744;
+    --mw-footer-link-color: #29a744;
+    --mw-footer-button-background-color: #29a744;
+    --mw-footer-button-background-hover-color: #29a744;
+}

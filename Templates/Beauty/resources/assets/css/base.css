@@ -1,13 +1,4 @@
 @media screen, print {
-	:root {
-		--mw-font-family-sans-serif: Jost, sans-serif;
-		--mw-primary-color: #fc768e;
-		--mw-link-color: #fc768e;
-		--mw-link-hover-color: #f45673;
-		--mw-footer-background-color: #ffffff;
-		--mw-header-background-color: #f3f3f3;
-		--mw-header-link-color: #000000;
-	}
 	#mw-element-1704455314955 {
 		padding-bottom: 0px;
 		margin-bottom: 0px;

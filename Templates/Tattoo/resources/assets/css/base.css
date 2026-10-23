@@ -1,23 +1,4 @@
 @media screen, print {
-	:root {
-		--mw-background-color: #ffffff;
-		--mw-header-background-color: #000000;
-		--mw-header-link-color: #ffffff;
-		--mw-header-link-hover-color: #ffffff;
-		--mw-header-padding-block: 1px;
-		--mw-heading-two: 50px;
-		--mw-paragraph-size: 24px;
-		--mw-font-weight: 200;
-		--mw-primary-color: #ff0000;
-		--mw-link-color: #ff0000;
-		--mw-link-hover-color: #e61a1a;
-		--mw-footer-background-color: #000000;
-		--mw-footer-text-color: #ffffff;
-		--mw-footer-primary-color: #ffffff;
-		--mw-footer-link-color: #ffffff;
-		--mw-footer-link-hover-color: #ffffff;
-		--mw-font-family-sans-serif: Jost,sans-serif;
-	}
 	.btn {
 		--mw-btn-border-size: 2px;
 		--mw-btn-background-color: #ff0000;

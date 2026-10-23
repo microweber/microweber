@@ -1,16 +1,4 @@
 @media screen, print {
-	:root {
-		--mw-font-family-sans-serif: Jost,sans-serif;
-		--mw-paragraph-size: 20px;
-		--mw-primary-color: #ff5e78;
-		--mw-link-color: #ff6767;
-		--mw-header-link-color: #000000;
-		--mw-header-link-hover-color: #ff6767;
-		--mw-footer-primary-color: #ff006e;
-		--mw-footer-link-color: #000000;
-		--mw-footer-link-hover-color: #ff006e;
-		--mw-header-font-size: 18px;
-	}
 	#mw-element-1743679550678 {
 		font-size: 32px;
 	}

@@ -1,17 +1,4 @@
 @media screen, print {
-	:root {
-		--mw-font-family-sans-serif: Jost,sans-serif;
-		--mw-header-background-color: #9569fb;
-		--mw-header-link-color: #ffffff;
-		--mw-footer-background-color: #2b2b2b;
-		--mw-footer-text-color: #ffffff;
-		--mw-footer-primary-color: #7301fb;
-		--mw-footer-link-color: #7301fb;
-		--mw-footer-button-background-color: #7301fb;
-		--mw-footer-button-background-hover-color: #7301fb;
-		--mw-header-link-hover-color: #ffffff;
-		--mw-primary-color: #7300ff;
-	}
 	.btn {
 		--mw-btn-border-radius: 1px;
 		--mw-btn-padding-block: 10px;

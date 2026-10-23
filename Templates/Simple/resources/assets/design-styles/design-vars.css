@@ -1,0 +1,21 @@
+/* =============================================================================
+   Simple template — design tokens (design-vars layer).
+   Extracted from resources/assets/css/base.css to match the Big/Base
+   design-styles/design-vars.css pattern. Contains ONLY :root custom properties.
+
+   Loaded by Base's master.blade.php as <link id="mw-template-design-vars-child">:
+   AFTER Base's default design-vars.css (so this template's identity wins) and
+   BEFORE the saved colour scheme + live_edit.css (so user/Live-Edit edits override).
+   ============================================================================= */
+:root {
+    --mw-font-family-sans-serif: Jost,sans-serif;
+    --mw-paragraph-size: 20px;
+    --mw-primary-color: #ff5e78;
+    --mw-link-color: #ff6767;
+    --mw-header-link-color: #000000;
+    --mw-header-link-hover-color: #ff6767;
+    --mw-footer-primary-color: #ff006e;
+    --mw-footer-link-color: #000000;
+    --mw-footer-link-hover-color: #ff006e;
+    --mw-header-font-size: 18px;
+}

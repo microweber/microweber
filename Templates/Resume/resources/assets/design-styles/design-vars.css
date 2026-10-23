@@ -1,0 +1,21 @@
+/* =============================================================================
+   Resume template — design tokens (design-vars layer).
+   Extracted from resources/assets/css/base.css to match the Big/Base
+   design-styles/design-vars.css pattern. Contains ONLY :root custom properties.
+
+   Loaded by Base's master.blade.php as <link id="mw-template-design-vars-child">:
+   AFTER Base's default design-vars.css (so this template's identity wins) and
+   BEFORE the saved colour scheme + live_edit.css (so user/Live-Edit edits override).
+   ============================================================================= */
+:root {
+    --mw-font-family-sans-serif: Jost,sans-serif;
+    --mw-primary-color: #0563bb;
+    --mw-link-color: #0563bb;
+    --mw-header-link-color: #0563bb;
+    --mw-header-link-hover-color: #ffffff;
+    --mw-header-link-background-hover-color: #0563bb;
+    --mw-footer-primary-color: #0563bb;
+    --mw-footer-link-color: #0563bb;
+    --mw-footer-button-background-color: #0563bb;
+    --mw-footer-button-background-hover-color: #0563bb;
+}

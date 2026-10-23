@@ -1,0 +1,22 @@
+/* =============================================================================
+   MobileApp template — design tokens (design-vars layer).
+   Extracted from resources/assets/css/base.css to match the Big/Base
+   design-styles/design-vars.css pattern. Contains ONLY :root custom properties.
+
+   Loaded by Base's master.blade.php as <link id="mw-template-design-vars-child">:
+   AFTER Base's default design-vars.css (so this template's identity wins) and
+   BEFORE the saved colour scheme + live_edit.css (so user/Live-Edit edits override).
+   ============================================================================= */
+:root {
+    --mw-font-family-sans-serif: Jost,sans-serif;
+    --mw-header-background-color: #9569fb;
+    --mw-header-link-color: #ffffff;
+    --mw-footer-background-color: #2b2b2b;
+    --mw-footer-text-color: #ffffff;
+    --mw-footer-primary-color: #7301fb;
+    --mw-footer-link-color: #7301fb;
+    --mw-footer-button-background-color: #7301fb;
+    --mw-footer-button-background-hover-color: #7301fb;
+    --mw-header-link-hover-color: #ffffff;
+    --mw-primary-color: #7300ff;
+}

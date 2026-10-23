@@ -94,6 +94,11 @@
         $mwActiveTplLower = strtolower($mwActiveTpl);
         $mwChildCssRel = 'templates/' . $mwActiveTplLower . '/css/base.css';
         $mwChildCssFile = function_exists('public_path') ? public_path($mwChildCssRel) : '';
+        // Child (extra) template design tokens: its own design-styles/design-vars.css
+        // (the Big pattern, ported to Base children). Loaded as a LAYER after Base's
+        // default design-vars.css and before the saved scheme + child base.css + live_edit.css.
+        $mwChildVarsRel = 'templates/' . $mwActiveTplLower . '/design-styles/design-vars.css';
+        $mwChildVarsFile = function_exists('public_path') ? public_path($mwChildVarsRel) : '';
         // Colour scheme: read from the per-template `template_css` option — the same
         // store the Live Edit colour editor writes via
         // TemplateCustomCss::liveEdit()->saveContent(). DB-backed, so it needs no
@@ -104,6 +109,12 @@
             $mwSchemeCss = (string) get_option('template_css', 'template_' . $mwActiveTpl);
         }
     @endphp
+    @if ($mwActiveTplLower !== '' && $mwActiveTplLower !== 'base' && $mwChildVarsFile && is_file($mwChildVarsFile))
+        {{-- 4. Child (extra) template design tokens — its identity design-vars.css.
+             Loaded after Base's default tokens (so the child's --mw-* win) and before
+             the saved colour scheme + child base.css + live_edit.css (so those override). --}}
+        <link rel="stylesheet" href="{{ asset($mwChildVarsRel) }}" id="mw-template-design-vars-child" type="text/css" media="all">
+    @endif
     @if (trim($mwSchemeCss) !== '')
         {{-- Loaded after Base's default :root so the design scheme wins; carries the
              editor's live edits since it is the same option the editor saves to. --}}

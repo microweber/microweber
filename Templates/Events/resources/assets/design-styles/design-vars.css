@@ -1,0 +1,32 @@
+/* =============================================================================
+   Events template — design tokens (design-vars layer).
+   Extracted from resources/assets/css/base.css to match the Big/Base
+   design-styles/design-vars.css pattern. Contains ONLY :root custom properties.
+
+   Loaded by Base's master.blade.php as <link id="mw-template-design-vars-child">:
+   AFTER Base's default design-vars.css (so this template's identity wins) and
+   BEFORE the saved colour scheme + live_edit.css (so user/Live-Edit edits override).
+   ============================================================================= */
+:root {
+    --mw-font-family-sans-serif: Jost,sans-serif;
+    --mw-primary-color: #0dcaf0;
+    --mw-link-color: #0dcaf0;
+    --mw-header-background-color: #0e152e;
+    --mw-header-link-color: #ffffff;
+    --mw-header-link-hover-color: #0d6efd;
+    --mw-footer-primary-color: #000000;
+    --mw-footer-link-color: #000000;
+    --mw-footer-button-background-color: #0d6efd;
+    --mw-footer-button-background-hover-color: #0d6efd;
+    --mw-btn-padding-block: 9px;
+    --mw-btn-padding-inline: 29px;
+    --mw-btn-background-color: #0d6efd;
+    --mw-btn-background-hover-color: #0d6efd;
+    --mw-btn-border-color: #0d6efd;
+    --mw-btn-secondary-background-color: #273053;
+    --mw-btn-secondary-background-hover-color: #0dcaf0;
+    --mw-btn-secondary-border-color: #273053;
+    --mw-btn-outline-background-hover-color: #0dcaf0;
+    --mw-btn-outline-text-color: #0dcaf0;
+    --mw-btn-outline-border-color: #0dcaf0;
+}

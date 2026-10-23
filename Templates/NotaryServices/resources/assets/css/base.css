@@ -1,17 +1,4 @@
 @media screen, print {
-	:root {
-		--mw-font-family-sans-serif: Jost,sans-serif;
-		--mw-primary-color: #bd9700;
-		--mw-link-color: #bd9700;
-		--mw-header-link-color: #ffffff;
-		--mw-header-link-hover-color: #ffe1c9;
-		--mw-footer-background-color: #333333;
-		--mw-footer-text-color: #ffffff;
-		--mw-footer-primary-color: #bd9700;
-		--mw-footer-link-color: #bd9700;
-		--mw-footer-button-background-color: #bd9700;
-		--mw-footer-button-background-hover-color: #bd9700;
-	}
 	.btn {
 		--mw-btn-background-color: #bd9700;
 		--mw-btn-background-hover-color: #bd9700;

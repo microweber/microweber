@@ -1,0 +1,22 @@
+/* =============================================================================
+   Coffeeshop template — design tokens (design-vars layer).
+   Extracted from resources/assets/css/base.css to match the Big/Base
+   design-styles/design-vars.css pattern. Contains ONLY :root custom properties.
+
+   Loaded by Base's master.blade.php as <link id="mw-template-design-vars-child">:
+   AFTER Base's default design-vars.css (so this template's identity wins) and
+   BEFORE the saved colour scheme + live_edit.css (so user/Live-Edit edits override).
+   ============================================================================= */
+:root {
+    --mw-font-family-sans-serif: Jost,sans-serif;
+    --mw-primary-color: #986b46;
+    --mw-link-color: #986b46;
+    --mw-header-link-color: #986b46;
+    --mw-header-link-hover-color: #986b46;
+    --mw-footer-background-color: #333333;
+    --mw-footer-text-color: #ffffff;
+    --mw-footer-primary-color: #805e00;
+    --mw-footer-link-color: #805e00;
+    --mw-footer-button-background-color: #805e00;
+    --mw-footer-button-background-hover-color: #805e00;
+}

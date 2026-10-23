@@ -1,31 +1,4 @@
 @media screen, print {
-	:root {
-		--mw-font-family-sans-serif: Jost,sans-serif;
-		--mw-primary-color: #640a7b;
-		--mw-link-color: #640a7b;
-		--mw-header-background-color: #640a7b;
-		--mw-header-link-color: #ffffff;
-		--mw-header-link-hover-color: #ffffff;
-		--mw-footer-background-color: #000000;
-		--mw-footer-text-color: #ffffff;
-		--mw-footer-primary-color: #640a7b;
-		--mw-footer-link-color: #640a7b;
-		--mw-footer-button-background-color: #640a7b;
-		--mw-footer-button-background-hover-color: #4c0a5d;
-		--mw-paragraph-size: 20px;
-		--mw-font-weight: 300;
-		--mw-btn-border-radius: 1px;
-		--mw-btn-padding-block: 23px;
-		--mw-btn-padding-inline: 43px;
-		--mw-btn-background-color: #640a7b;
-		--mw-btn-background-hover-color: #4a0a5a;
-		--mw-btn-border-color: #640a7b;
-		--mw-btn-outline-background-hover-color: #640a7b;
-		--mw-btn-outline-text-color: #640a7b;
-		--mw-btn-outline-border-color: #640a7b;
-		--mw-btn-outline-text-hover-color: #ffffff;
-	}
-
 	#mw-element-1743085644418 {
 		text-align: center;
 	}
