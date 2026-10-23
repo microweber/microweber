@@ -1,9 +1,9 @@
 /* =============================================================================
    Sections (.fi-section / -header / -content*) — navigation map for the next dev.
 
-   Core component styling: HERE + ./theme.css (padding, header radius) + ../card.css
-   (card surface). Section rules that legitimately live in a concern file — look
-   here first, then:
+   Core component styling: HERE (structure + the MW v2 card surface, merged from
+   the former ../card.css) + ./theme.css (padding, header radius). Section rules
+   that legitimately live in a concern file — look here first, then:
      - Card surface bg/border/shadow/radius, SHARED with the dashboard stat widgets
        (one paired rule): microweber/general/12-v2-admin-reskin.css
        (`body.fi-panel-admin .fi-wi-stats-overview-stat, …fi-section`).
@@ -51,4 +51,44 @@
 
 .fi-section-footer {
     @apply  px-0 pb-0;
+}
+
+/* ============================================================================ */
+/* MW v2 card surface — merged from the former support/card.css (single owner).  */
+/* The section radius/shadow/bg are further unified by the general/12 reskin rule */
+/* (shared with the stat widgets); these stay as the base the reskin builds on.   */
+/* ============================================================================ */
+.fi-section:not(.fi-aside) {
+  border-radius: var(--mw-radius-lg) !important;
+  /* Was var(--mw-shadow-sm) (~0.04 alpha → near-invisible), so white cards on the #f6f8fb */
+  /* page read flat/connected despite the 24px gaps. Demo cards float with a clearer */
+  /* soft shadow — strengthen it so each section reads as a distinct surface. */
+  box-shadow: 0 1px 4px rgba(24, 36, 51, 0.12) !important;
+  background-color: var(--mw-bg-surface) !important;
+}
+
+.fi-section-content-ctn {
+  background-color: var(--mw-bg-surface) !important;
+  border: none !important;
+  border-radius: 0 0 var(--mw-radius-lg) var(--mw-radius-lg) !important;
+  box-shadow: none !important;  /* removed — was rendering as a thin line below the section header */
+}
+
+/* Remove dark separator lines above/below section headers */
+/* MW v2 cards have no header separator — heading is inline in card body */
+.fi-section-header {
+  border: none !important;  /* MW v2: no borders at all (no top, bottom, or left accent line) */
+  padding: var(--mw-space-lg) var(--mw-space-lg) 0 !important;  /* GR: lg(26) */
+  border-radius: var(--mw-radius-lg) var(--mw-radius-lg) 0 0 !important;  /* MW v2: top corners match card */
+}
+
+/* Ensure no dark borders leak through in sections */
+.fi-section .border-t,
+.fi-section [class*="divide-"] > * + * {
+  border-color: var(--mw-border-subtle) !important;
+}
+
+/* Remove the thick border-bottom from Tailwind's divide utility in sections */
+.fi-section-content-ctn > [class*="divide-"] > * + * {
+  border-color: var(--mw-border-subtle) !important;
 }
