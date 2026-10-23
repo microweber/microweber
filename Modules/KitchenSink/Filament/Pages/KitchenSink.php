@@ -360,7 +360,13 @@ class KitchenSink extends Page
                             ->schema([
                                 TextInput::make('name')->label('Name')->required(),
                                 TextInput::make('email')->label('Email')->email()->required(),
-                                TextInput::make('password')->label('Password')->password(),
+                                // autocomplete="new-password" categorises this as a NON-login password
+                                // field, so Chrome offers password generation instead of autofilling the
+                                // saved login into the global search (this page would otherwise read as a
+                                // login form: a loose password + email input pair). Not disabling
+                                // autocomplete — labelling it correctly.
+                                TextInput::make('password')->label('Password')->password()
+                                    ->autocomplete('new-password'),
                                 Textarea::make('bio')->label('Bio'),
                                 RichEditor::make('rich_bio')->label('Rich Bio'),
                                 MarkdownEditor::make('markdown_bio')->label('Markdown Bio'),
