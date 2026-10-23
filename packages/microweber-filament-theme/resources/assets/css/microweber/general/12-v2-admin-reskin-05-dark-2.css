@@ -1,0 +1,165 @@
+/* v2 admin reskin — part 05: DARK MODE (round 2) — table/form/section + header-action buttons + tabs. */
+/* ── Dark mode — Round 2 ─────────────────────────────────────────── */
+.dark body.fi-panel-admin .fi-breadcrumbs-item-label {
+    color: #e5e7eb !important;
+}
+.dark body.fi-panel-admin .fi-header-heading,
+.dark body.fi-panel-admin .fi-page-header-main-ctn .fi-header-heading {
+    color: #f9fafb !important;
+}
+.dark body.fi-panel-admin .fi-header {
+    border-bottom-color: #374151 !important;
+    /* Dark header must inherit the dark page canvas. The broadened light header
+       rule (background #f6f8fb) otherwise leaks into dark mode on the profile +
+       vendor panels — a white heading bar on a dark page (the sibling dark rule
+       used `body.….dark` = .dark on the BODY, but Filament puts .dark on <html>,
+       so it never fired). This `.dark` ancestor matches html.dark correctly, and
+       being body.fi-panel-admin-scoped it is shared to profile/vendor by
+       broadenPanelScope() at (0,3,1) — above the light rule's (0,2,1). */
+    background-color: transparent !important;
+}
+.dark body.fi-panel-admin .fi-ta-ctn {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+}
+.dark body.fi-panel-admin .fi-ta-header {
+    background-color: #111827 !important;
+    border-bottom-color: #374151 !important;
+}
+.dark body.fi-panel-admin .fi-ta-row td,
+.dark body.fi-panel-admin .fi-ta-row .fi-ta-cell {
+    border-bottom-color: #374151 !important;
+}
+.dark body.fi-panel-admin .fi-ta-row:hover td,
+.dark body.fi-panel-admin .fi-ta-row:hover .fi-ta-cell {
+    background-color: rgba(255, 255, 255, 0.06) !important; /* matches existing row-level dark hover */
+}
+.dark body.fi-panel-admin .fi-input {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+    color: #f9fafb !important;
+}
+.dark body.fi-panel-admin .fi-input:focus {
+    border-color: rgb(var(--primary-400)) !important;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25) !important;
+}
+.dark body.fi-panel-admin .fi-tabs {
+    background-color: #1f2937 !important;
+    border-bottom-color: #374151 !important;
+}
+.dark body.fi-panel-admin .fi-tabs-item {
+    color: #9ca3af !important;
+}
+.dark body.fi-panel-admin .fi-tabs-item:hover {
+    color: #e5e7eb !important;
+}
+.dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"],
+.dark body.fi-panel-admin .fi-tabs-item.fi-active {
+    color: #f9fafb !important;
+    border-bottom-color: #f9fafb !important;
+}
+.dark body.fi-panel-admin .fi-global-search-field input {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+    color: #f9fafb !important;
+}
+
+/* ── Dark mode — additional table/form/section overrides ─────────── */
+/* Main table wrapper */
+.dark body.fi-panel-admin .fi-ta {
+    background-color: #1f2937 !important;
+}
+/* Table toolbar (search bar + filter row) */
+.dark body.fi-panel-admin .fi-ta-header-toolbar {
+    background-color: #1f2937 !important;
+    border-bottom-color: #374151 !important;
+}
+/* Column header cells */
+.dark body.fi-panel-admin .fi-ta-header-cell {
+    background-color: #111827 !important;
+    color: #9ca3af !important;
+}
+/* Section card in dark */
+.dark body.fi-panel-admin .fi-section {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+}
+.dark body.fi-panel-admin .fi-section-header {
+    border-bottom-color: #374151 !important;
+}
+.dark body.fi-panel-admin .fi-section-header-heading {
+    color: #f9fafb !important;
+}
+.dark body.fi-panel-admin .fi-section-content {
+    background-color: #1f2937 !important;
+}
+/* Form labels */
+.dark body.fi-panel-admin .fi-fo-field-label label,
+.dark body.fi-panel-admin .fi-fo-field > label {
+    color: #d1d5db !important;
+}
+/* Pagination */
+.dark body.fi-panel-admin .fi-pagination {
+    background-color: #1f2937 !important;
+    border-top-color: #374151 !important;
+}
+/* Table filter form row */
+.dark body.fi-panel-admin .fi-ta-filters-form {
+    background-color: #1f2937 !important;
+    border-bottom-color: #374151 !important;
+}
+/* Row action icon buttons */
+.dark body.fi-panel-admin .fi-ta-row .fi-icon-btn {
+    color: #9ca3af !important;
+}
+.dark body.fi-panel-admin .fi-ta-row .fi-icon-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
+}
+/* Dark status-badge colours moved to the single badge source:
+   filament/support/badge.css. */
+
+/* ══════════════════════════════════════════════════════════════════════
+   v2-PARITY ROUND 3 — "New X" create buttons, tabs, table polish
+   ══════════════════════════════════════════════════════════════════════
+
+   Key v2 design tokens:
+   - #182433  — dark navy (create buttons, headings, icon text)
+   - #e1edf8  — light blue (ADD topbar button bg)
+   - #e2f9e6  — light green (EDIT/Live Edit topbar button bg)
+   - #f6f8fb  — page background
+   - #e8eef4  — border / separator color
+   - #0d6efd  — brand blue (primary actions)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── "New X" header action buttons: dark navy matching v2 ──────────────
+   Targets:
+     • Page-level header buttons e.g. "+ Add page" (.fi-header-actions-ctn)
+     • Table-level header buttons e.g. "New product" (.fi-ta-actions)
+     • Menu editor "Add menu item" (.mw-menu-editor) — a +Add CTA that lives
+       inside a Livewire toolbar, outside the two containers above, so it fell
+       through to the blue primary rule (4812). Navy matches the +Add decision.
+   Excludes toolbar ADD + Live Edit (already styled separately). */
+body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    background-color: #182433 !important;
+    color: #ffffff !important;
+    border-color: #182433 !important;
+    box-shadow: none !important;
+}
+body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover,
+body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover,
+body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover {
+    background-color: #243347 !important;
+    color: #ffffff !important;
+    border-color: #243347 !important;
+}
+/* Dark mode — keep visible but slightly lighter */
+.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+.dark body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    background-color: #2d4a6e !important;
+    color: #e5e7eb !important;
+    border-color: #2d4a6e !important;
+}

@@ -1,0 +1,49 @@
+/* v2 admin reskin — part 03: DARK MODE (round 1) — bg/surface token inversions. */
+/* ── Dark mode: invert bg tokens for dark theme ─────────────────── */
+.dark body.fi-panel-admin,
+.dark body.fi-panel-admin .fi-main,
+.dark body.fi-panel-admin .fi-page {
+    background-color: #111827 !important;
+}
+.dark body.fi-panel-admin .fi-sidebar-wrap,
+.dark body.fi-panel-admin .fi-sidebar {
+    background-color: #1f2937 !important;
+    border-right-color: #374151 !important;
+}
+.dark body.fi-panel-admin .fi-sidebar-item-btn {
+    color: #e5e7eb !important;
+}
+.dark body.fi-panel-admin .fi-sidebar-item-btn:hover {
+    background-color: #374151 !important;
+    color: #e5e7eb !important;
+}
+.dark body.fi-panel-admin .fi-sidebar-item-btn.fi-active {
+    background-color: #1e3a5f !important;
+    color: #e5e7eb !important;
+}
+.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn,
+.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary {
+    background-color: #1a3d2b !important;
+    color: #6ee7a0 !important;
+}
+.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn span,
+.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn .fi-btn-label,
+.dark body.fi-panel-admin .admin-toolbar-live-edit .fi-btn svg {
+    color: #6ee7a0 !important;
+}
+.dark body.fi-panel-admin .admin-toolbar-add .fi-btn,
+.dark body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
+    background-color: #1a2e45 !important;
+    color: #93c5fd !important;
+}
+.dark body.fi-panel-admin .admin-toolbar-add .fi-btn .sr-only {
+    color: #93c5fd !important;
+}
+.dark body.fi-panel-admin .admin-toolbar-add .fi-btn svg {
+    color: #93c5fd !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+ * MW v2 admin design polish — Round 2 — task-2026-06-03
+ * Breadcrumbs, page headings, table containers, pagination, forms
+ * ═══════════════════════════════════════════════════════════════════ */

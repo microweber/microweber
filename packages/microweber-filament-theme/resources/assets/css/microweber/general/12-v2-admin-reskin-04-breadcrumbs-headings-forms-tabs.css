@@ -1,0 +1,238 @@
+/* v2 admin reskin — part 04: breadcrumbs, page headings, table detail, forms, inputs, tabs. */
+/* ── Breadcrumb links: brand blue instead of Filament default ────── */
+body.fi-panel-admin .fi-breadcrumbs-item-label {
+    color: #0d6efd !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+}
+body.fi-panel-admin .fi-breadcrumbs-item-label:hover {
+    color: #0a58ca !important;
+    text-decoration: underline !important;
+}
+body.fi-panel-admin .fi-breadcrumbs-item-separator {
+    font-size: 12px !important;
+}
+
+/* ── Page heading (h1): match v2 28px bold dark heading ─────────── */
+body.fi-panel-admin .fi-header-heading {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #182433 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
+}
+
+/* ── Page header area: correct spacing and bottom border ─────────── */
+body.fi-panel-admin .fi-header {
+    padding-bottom: 6px !important;
+    border-bottom: 1px solid #e8eef4 !important;
+    margin-bottom: 8px !important;
+}
+
+/* ── Form action row (Create / Save / Cancel …) ──────────────────────
+   task-2026-10-02-formrhythm — the submit-button row (.fi-sc-actions > .fi-ac)
+   inherited Filament's 12px gap, slightly looser than the rest of the admin's
+   6px rhythm and wider than it needs to be next to the 18px button padding.
+   Pin it to the sm token (10px) so every resource form's buttons sit at the
+   same proportional spacing. Scoped to .fi-sc-actions so the generic .fi-ac
+   used by table-row / header actions is untouched. */
+body.fi-panel-admin .fi-sc-actions > .fi-ac {
+    gap: var(--mw-space-sm) !important; /* 10px */
+}
+
+/* ── Opt-in: hide a field's own label (sr-only, not display:none) ─────
+   task-2026-10-04 — the content Media section's MwMediaBrowser carries an
+   "Add images" label that duplicates the "Media" section heading. Fields that
+   add .mw-mb-field-hide-label get their label visually removed while staying in
+   the accessibility tree (WCAG-safe, unlike ->hiddenLabel()/display:none). */
+body.fi-panel-admin .mw-mb-field-hide-label > .fi-fo-field-label-col {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ── Table container: white card with border and subtle shadow ───── */
+body.fi-panel-admin .fi-ta-ctn {
+    background-color: #ffffff !important;
+    border: 1px solid #e8eef4 !important;
+    border-radius: var(--mw-radius-lg, 4px) !important;  /* was 12px — align with tables/theme.css pinned 4px */
+    box-shadow: 0 1px 3px rgba(24, 36, 51, 0.04) !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
+
+/* ── Table header row ───────────────────────────────────────────── */
+body.fi-panel-admin .fi-ta-header {
+    background-color: #f8fafc !important;
+    border-bottom: 1px solid #e8eef4 !important;
+}
+
+/* ── Table rows: padding and hover ─────────────────────────────── */
+body.fi-panel-admin .fi-ta-row td,
+body.fi-panel-admin .fi-ta-row .fi-ta-cell {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    transition: background-color 100ms ease !important;
+}
+body.fi-panel-admin .fi-ta-row:last-child td,
+body.fi-panel-admin .fi-ta-row:last-child .fi-ta-cell {
+    border-bottom: none !important;
+}
+
+/* ── Icon action buttons in table rows: subtle hover ────────────── */
+body.fi-panel-admin .fi-ta-row .fi-icon-btn {
+    color: #6b7280 !important;
+    border-radius: 6px !important;
+    transition: background-color 100ms, color 100ms !important;
+}
+body.fi-panel-admin .fi-ta-row .fi-icon-btn:hover {
+    background-color: #f0f4fa !important;
+    color: #182433 !important;
+}
+
+/* ── Table toolbar (search + filters bar) ───────────────────────── */
+body.fi-panel-admin .fi-ta-header-toolbar {
+    padding: 8px 12px !important;
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+/* ── Pagination: match v2 clean style ───────────────────────────── */
+body.fi-panel-admin .fi-pagination {
+    padding: 12px 16px !important;
+    background-color: #ffffff !important;
+    border-top: 1px solid #f1f5f9 !important;
+}
+body.fi-panel-admin .fi-pagination-item-btn {
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    color: #182433 !important;
+    transition: background-color 100ms !important;
+}
+body.fi-panel-admin .fi-pagination-item-btn:hover {
+    background-color: #f0f4fa !important;
+    color: #182433 !important;
+}
+.dark body.fi-panel-admin .fi-pagination-item-btn:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    color: #e5e7eb !important;
+}
+/* task-2026-09-06-darkaudit — the BASE page-number color stayed navy #182433
+   on the dark pagination bar (only :hover had a dark rule), so page numbers
+   were invisible on every paginated list. */
+.dark body.fi-panel-admin .fi-pagination-item-btn {
+    color: #e5e7eb !important;
+}
+body.fi-panel-admin .fi-pagination-item-btn[aria-current="page"],
+body.fi-panel-admin .fi-pagination-item-btn.fi-active {
+    background-color: #182433 !important;
+    color: #ffffff !important;
+}
+
+/* ── Sidebar header (logo area) ─────────────────────────────────── */
+body.fi-panel-admin .fi-sidebar-header {
+    padding: 16px 12px 12px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+/* ── Topbar: ensure brand-blue ADD button matches v2 exactly ─────── */
+body.fi-panel-admin .fi-topbar {
+    border-bottom: 1px solid #e8eef4 !important;
+}
+
+/* ── Form inputs: clean v2-style inputs ─────────────────────────── */
+body.fi-panel-admin .fi-input {
+    border-color: #d1d9e6 !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    background-color: #ffffff !important;
+    color: #182433 !important;
+    transition: border-color 150ms ease, box-shadow 150ms ease !important;
+}
+body.fi-panel-admin .fi-input:focus {
+    border-color: rgb(var(--primary-600)) !important;
+    /* ring is owned by .fi-input-wrp:focus-within (forms/theme.css) — no box-shadow here to avoid a doubled ring */
+}
+body.fi-panel-admin .fi-input:disabled,
+body.fi-panel-admin .fi-input[readonly],
+body.fi-panel-admin .fi-input-wrp:has(:disabled),
+body.fi-panel-admin .fi-input-wrp:has([readonly]),
+body.fi-panel-admin .fi-fo-select-wrp:has(:disabled),
+body.fi-panel-admin .fi-select-input:disabled,
+body.fi-panel-admin .fi-select-input-btn:disabled,
+body.fi-panel-admin .fi-fo-textarea textarea:disabled,
+body.fi-panel-admin .fi-fo-textarea textarea[readonly] {
+    background-color: var(--mw-bg-muted) !important;
+    color: var(--mw-text-muted) !important;
+    cursor: not-allowed !important;
+    opacity: 0.7 !important;
+}
+body.fi-panel-admin .fi-input:read-only:not([type=hidden]),
+body.fi-panel-admin .fi-fo-textarea textarea:read-only {
+    background-color: var(--mw-bg-muted) !important;
+    cursor: default !important;
+}
+body.fi-panel-admin .fi-input:read-only:not([type=hidden]):focus,
+body.fi-panel-admin .fi-fo-textarea textarea:read-only:focus {
+    border-color: #d1d9e6 !important;
+    box-shadow: none !important;
+}
+body.fi-panel-admin .fi-input-wrp {
+    /* task-2026-06-13-letoolbarstyle — 4px to match released v2.0.20 form
+       controls (demo select = 4px). Was 8px; overrode the theme's
+       $mw-radius-sm (4px) intent via higher body.fi-panel-admin specificity. */
+    border-radius: 4px !important;
+}
+
+/* ── Form labels ─────────────────────────────────────────────────── */
+body.fi-panel-admin .fi-fo-field-label label,
+body.fi-panel-admin .fi-fo-field > label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #374151 !important;
+    margin-bottom: 4px !important;
+}
+
+/* ── Section headings inside forms ──────────────────────────────── */
+body.fi-panel-admin .fi-section-header {
+    padding: 10px 16px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+body.fi-panel-admin .fi-section-header-heading {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #182433 !important;
+}
+
+/* ── Tabs in list pages (All/New/Processing/etc.) ───────────────── */
+body.fi-panel-admin .fi-tabs {
+    border-bottom: 1px solid #e8eef4 !important;
+    background-color: #ffffff !important;
+}
+
+/* Status-badge colours (light + dark variants) moved to the single badge source:
+   filament/support/badge.css. */
+
+/* ── Topbar search bar: match v2 subtle style ───────────────────── */
+body.fi-panel-admin .fi-global-search-field input {
+    border-radius: 20px !important;
+    border-color: #e8eef4 !important;
+    background-color: #f6f8fb !important;
+    font-size: 13px !important;
+    color: #182433 !important;
+}
+body.fi-panel-admin .fi-global-search-field input:focus {
+    border-color: #0d6efd !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.10) !important;
+}

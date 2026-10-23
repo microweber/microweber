@@ -1,0 +1,93 @@
+/* v2 admin reskin — part 01: topbar, page background, sidebar nav. */
+/* ═══════════════════════════════════════════════════════════════════
+ * MW v2 admin design polish — task-2026-06-03
+ * Brings the Filament admin visually in line with the old v2 design.
+ * ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Topbar: hide the redundant ".fi-logo" name text in topbar-start ──
+   The brand mark (logo icon) already shows; "Microweber" text alongside
+   the collapse-sidebar button duplicates it and wasn't in old v2. */
+body.fi-panel-admin .fi-topbar-start .fi-logo {
+    display: none !important;
+}
+
+/* ── Topbar: ADD button — show label text to match old v2 "+ ADD" ────
+   Old v2 showed a full text button. Filament renders an icon-only button
+   with an sr-only label. Unclip the span so text is visible. */
+body.fi-panel-admin .admin-toolbar-add .fi-btn .sr-only {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    margin: 0 !important;
+    border: 0 !important;
+    color: #182433 !important;
+}
+/* ── Topbar collapse-sidebar button — subtle styling ─────────────────
+   Reduce visual weight of the collapse button so topbar stays clean. */
+body.fi-panel-admin .fi-topbar-collapse-sidebar-btn-ctn .fi-icon-btn {
+    color: #6b7280 !important;
+    opacity: 0.7;
+}
+body.fi-panel-admin .fi-topbar-collapse-sidebar-btn-ctn .fi-icon-btn:hover {
+    opacity: 1;
+}
+
+/* ── Page background: match v2 light blue-gray ────────────────────── */
+body.fi-panel-admin {
+    background-color: #f6f8fb !important;
+}
+body.fi-panel-admin .fi-main {
+    background-color: #f6f8fb !important;
+}
+
+/* ── Sidebar: match v2 white sidebar with clean item styling ──────── */
+body.fi-panel-admin .fi-sidebar-wrap,
+body.fi-panel-admin .fi-sidebar {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e8eef4 !important;
+}
+
+/* ── Sidebar nav items: roomier spacing + larger type to match the
+ *    Microweber v2.0.20 admin (v2 items are ~54px tall with 16px labels
+ *    and 24px icons; Filament's default is much tighter). ───────────── */
+body.fi-panel-admin .fi-sidebar-item-btn {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #182433 !important;
+    padding: 6px 10px !important;
+    border-radius: 8px !important;
+    min-height: 34px !important;
+    gap: 10px !important;
+}
+body.fi-panel-admin .fi-sidebar-item-label {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+body.fi-panel-admin .fi-sidebar-item-btn:hover {
+    background-color: #f0f4fa !important;
+    color: #182433 !important;
+}
+body.fi-panel-admin .fi-sidebar-item-btn.fi-active {
+    background-color: #e9f2ff !important;
+    color: #182433 !important;
+    font-weight: 600 !important;
+}
+body.fi-panel-admin .fi-sidebar-item-btn .fi-sidebar-item-icon,
+body.fi-panel-admin .fi-sidebar-item-icon {
+    color: inherit !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+}
+
+/* ── Sidebar group headers: match v2 muted uppercase labels ────────  */
+body.fi-panel-admin .fi-sidebar-group-label {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    color: #9ca3af !important;
+    padding: 12px 12px 4px !important;
+}

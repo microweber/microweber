@@ -1,0 +1,172 @@
+/* v2 admin reskin — part 06: tabs, table header action bar, content-area header. */
+/* ── Tabs: fix .fi-tabs-item (Filament v5 uses this, not .fi-tabs-item) ─
+   Mirror the existing .fi-tabs-item rules onto .fi-tabs-item so tabs
+   that exist in real pages (Marketplace, settings sections) apply. */
+body.fi-panel-admin .fi-tabs-item {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #6b7280 !important;
+    padding: 8px 16px !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    transition: color 100ms, border-color 100ms !important;
+    cursor: pointer !important;
+}
+body.fi-panel-admin .fi-tabs-item:hover {
+    color: #182433 !important;
+}
+body.fi-panel-admin .fi-tabs-item.fi-active,
+body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
+    color: #182433 !important;
+    border-bottom-color: #182433 !important;
+    font-weight: 600 !important;
+}
+/* Tab container line */
+body.fi-panel-admin .fi-tabs {
+    border-bottom: 1px solid #e8eef4 !important;
+    gap: 0 !important;
+}
+
+/* Dark mode tabs */
+.dark body.fi-panel-admin .fi-tabs {
+    border-bottom-color: #374151 !important;
+}
+.dark body.fi-panel-admin .fi-tabs-item {
+    color: #9ca3af !important;
+}
+.dark body.fi-panel-admin .fi-tabs-item:hover {
+    color: #e5e7eb !important;
+}
+.dark body.fi-panel-admin .fi-tabs-item.fi-active,
+.dark body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
+    color: #f9fafb !important;
+    border-bottom-color: #f9fafb !important;
+}
+
+/* ── Table header action bar: align with v2 ───────────────────────────
+   The .fi-ta-header-ctn wraps the sorting + search + filter toolbar.
+   Make it consistent with the v2 look. */
+body.fi-panel-admin .fi-ta-header-ctn {
+    padding: 10px 16px !important;
+}
+
+/* ── Content-area header: tighten breadcrumb + title spacing ──────────
+   v2 does not show breadcrumbs — keep them but make them very subtle */
+body.fi-panel-admin .fi-breadcrumbs {
+    font-size: 12px !important;
+    color: #9ca3af !important;
+    /* task-2026-10-02-formrhythm — was 2px, which crammed the breadcrumb
+       against the page heading while ~6px sat below it (asymmetric, read as
+       inconsistent). Use the xs token so the gap above the heading matches the
+       header's bottom padding — a balanced, consistent rhythm on every page. */
+    margin-bottom: var(--mw-space-xs) !important; /* 6px */
+}
+body.fi-panel-admin .fi-breadcrumbs-item {
+    color: #9ca3af !important;
+}
+body.fi-panel-admin .fi-breadcrumbs-item-separator {
+    color: #c9d3df !important;
+}
+body.fi-panel-admin .fi-breadcrumbs-item.fi-active {
+    color: #6b7280 !important;
+}
+
+/* ── Settings page icon: make icon container match v2 light-blue swatch */
+body.fi-panel-admin .mw-admin-settings-icon-wrap,
+body.fi-panel-admin .fi-wi-stats-overview-icon-ctn {
+    background-color: #e1edf8 !important;
+    border-radius: 8px !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* ── Product/page list rows: ensure thumbnail column is proportional ──
+   v2 product rows show a 64×64 thumbnail in the first column. */
+body.fi-panel-admin .fi-ta-cell .fi-ta-image {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 6px !important;
+    object-fit: cover !important;
+}
+
+/* ── Status badge: "PUBLISHED" v2 style — uppercase + tight ──────────
+   v2 Published badge: #e2f9e6 bg, #1a6b35 text, border none, 12px.
+   (existing CSS may cover this — add as fallback with higher specificity) */
+/* The v2 "Published" success badge moved to the single badge source:
+   filament/support/badge.css. */
+
+/* ── Marketplace grid: ensure card border-radius matches v2 ───────────
+   v2 template cards have slightly rounded corners + visible border on hover */
+body.fi-panel-admin .mw-marketplace-card {
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    transition: box-shadow 150ms ease, transform 100ms ease !important;
+}
+body.fi-panel-admin .mw-marketplace-card:hover {
+    box-shadow: 0 4px 16px rgba(24, 36, 51, 0.12) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* ── Page-header title: ensure consistent with v2 bold heading ────────
+   fi-page-header styling */
+body.fi-panel-admin .fi-page-header-main-ctn .fi-header-heading {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #182433 !important;
+    letter-spacing: -0.01em !important;
+}
+
+/* ── Table empty state: match v2's centered empty-state style ─────────
+   When a table has 0 rows, show centered message */
+body.fi-panel-admin .fi-ta-empty-state-icon,
+body.fi-panel-admin [class*="empty"] svg {
+    color: #cbd5e1 !important;
+}
+body.fi-panel-admin .fi-ta-empty-state-heading {
+    color: #182433 !important;
+    font-weight: 600 !important;
+}
+.dark body.fi-panel-admin .fi-ta-empty-state-heading {
+    color: #f9fafb !important;
+}
+body.fi-panel-admin .fi-ta-empty-state-description {
+    color: #6b7280 !important;
+}
+.dark body.fi-panel-admin .fi-ta-empty-state-description {
+    color: #9ca3af !important;
+}
+
+/* ── Dark mode: "New X" button dark navy becomes visible navy ─────────
+   Already handled above, but also ensure the label/icon colors follow */
+.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary .fi-btn-label,
+.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary .fi-btn-label {
+    color: #e5e7eb !important;
+}
+
+/* ================================================================
+ * AI-293 / task-2026-06-04-rtlicon — RTL directional-icon flip (admin
+ * + Live Edit surfaces). Filament v5 already mirrors its own layout
+ * and heroicon chevrons under [dir="rtl"]; this covers Microweber's
+ * Material Design Icon glyphs and the opt-in `.mw-rtl-flip` utility on
+ * bespoke directional icons in the admin shell / Live Edit toolbar.
+ * Vertical glyphs are intentionally excluded. Mirror of the public
+ * rule in frontend-assets ui.css per the both-pipelines convention. */
+:dir(rtl) .mdi-arrow-left,
+:dir(rtl) .mdi-arrow-right,
+:dir(rtl) .mdi-arrow-left-thin,
+:dir(rtl) .mdi-arrow-right-thin,
+:dir(rtl) .mdi-arrow-back,
+:dir(rtl) .mdi-arrow-forward,
+:dir(rtl) .mdi-chevron-left,
+:dir(rtl) .mdi-chevron-right,
+:dir(rtl) .mdi-chevron-double-left,
+:dir(rtl) .mdi-chevron-double-right,
+:dir(rtl) .mdi-menu-left,
+:dir(rtl) .mdi-menu-right,
+:dir(rtl) .mw-rtl-flip {
+    transform: scaleX(-1);
+}

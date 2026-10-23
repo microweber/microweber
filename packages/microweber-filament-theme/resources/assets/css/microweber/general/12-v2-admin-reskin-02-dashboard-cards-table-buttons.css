@@ -1,0 +1,73 @@
+/* v2 admin reskin — part 02: dashboard, cards/widgets, base table + primary buttons. */
+/* ── Dashboard page background: match overall v2 feel ───────────── */
+body.fi-panel-admin .fi-page {
+    background-color: #f6f8fb !important;
+}
+
+/* ── Dashboard welcome heading sizing ────────────────────────────── */
+body.fi-panel-admin .mw-welcome-widget-heading {
+    /* Was 28px — every other admin page heading (Pages/Products/Categories/Users/Create)
+       is 24px/700. Match them so the page-title typography is consistent across all pages. */
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: #182433 !important;
+    letter-spacing: -0.02em !important;
+}
+/* task-2026-09-06-darkaudit — the welcome heading kept navy #182433 with no
+   dark counterpart, so it was invisible on the dark dashboard. */
+.dark body.fi-panel-admin .mw-welcome-widget-heading {
+    color: #f9fafb !important;
+}
+
+/* task-2026-09-06-darkaudit — GoogleMaps module-settings map preview. The
+   inline Filament --gray-* tokens are a fixed palette that does NOT flip in
+   dark mode, so the empty-state helper text (#6b7280) failed AA on the dark
+   modal and the light borders read as light lines. Color/border moved off the
+   inline style onto these classes with a dark override. */
+.mw-map-preview-empty {
+    color: #6b7280;
+    border: 1px dashed #d1d5db;
+}
+.dark .mw-map-preview-empty {
+    color: #9aa4b2;
+    border-color: rgba(255, 255, 255, 0.18);
+}
+.mw-map-preview-iframe {
+    border: 1px solid #e5e7eb;
+}
+.dark .mw-map-preview-iframe {
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* ── Cards/widgets: clean white bg with subtle shadow ────────────── */
+body.fi-panel-admin .fi-wi-stats-overview-stat,
+body.fi-panel-admin .fi-section {
+    background-color: #ffffff !important;
+    /* Was a bluish #e8eef4 border + a near-invisible 0.04 shadow → cards read flat and
+       cool-tinted. Neutral hairline border + a proper soft shadow so each section floats
+       as a clean white surface (matches the demo). */
+    border: 1px solid var(--mw-border-subtle) !important;
+    box-shadow: 0 1px 4px rgba(24, 36, 51, 0.10) !important;
+    border-radius: var(--mw-radius-md) !important;  /* 4px — match the content-list cards + table cards (was 12px, read inconsistent) */
+}
+
+/* ── Table: clean header and row styles ─────────────────────────── */
+body.fi-panel-admin .fi-ta-header-cell {
+    background-color: #f8fafc !important;
+    color: #6b7280 !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    border-bottom: 1px solid #e8eef4 !important;
+}
+body.fi-panel-admin .fi-ta-row:hover td,
+body.fi-panel-admin .fi-ta-row:hover .fi-ta-cell {
+    background-color: rgba(24, 36, 51, 0.03) !important; /* ink #182433 @ 3%, no blue wash */
+}
+
+/* ── Primary action buttons: consistent with v2 blue ────────────── */
+body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    background-color: rgba(var(--primary-500), 1) !important;
+    color: #fff !important;
+}
