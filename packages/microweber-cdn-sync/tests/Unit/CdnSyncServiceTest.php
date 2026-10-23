@@ -28,6 +28,28 @@ class CdnSyncServiceTest extends TestCase
         $this->assertFalse($service->isConfigured());
     }
 
+    public function test_cors_rules_allow_any_origin_for_read_only_methods(): void
+    {
+        $rules = (new CdnSyncService())->corsRules();
+
+        $this->assertCount(1, $rules);
+        $rule = $rules[0];
+
+        // Multi-domain contract: userfiles are public read-only assets, so one
+        // wildcard-origin rule covers every site domain (and dev/staging) with no
+        // per-domain upkeep.
+        $this->assertSame(['*'], $rule['AllowedOrigins']);
+        $this->assertSame(['GET', 'HEAD'], $rule['AllowedMethods']);
+
+        // CORS must never expose mutating methods on the public bucket.
+        $this->assertNotContains('PUT', $rule['AllowedMethods']);
+        $this->assertNotContains('POST', $rule['AllowedMethods']);
+        $this->assertNotContains('DELETE', $rule['AllowedMethods']);
+
+        // Range headers exposed so media seeking works cross-origin.
+        $this->assertContains('Accept-Ranges', $rule['ExposeHeaders']);
+    }
+
     public function test_is_configured_when_credentials_set(): void
     {
         config([

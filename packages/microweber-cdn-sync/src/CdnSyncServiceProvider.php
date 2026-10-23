@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\CdnSync;
 
+use MicroweberPackages\CdnSync\Console\Commands\CdnSyncCorsCommand;
 use MicroweberPackages\CdnSync\Services\CdnSyncService;
 use MicroweberPackages\Package\MicroweberPackageServiceProvider;
 use Spatie\LaravelPackageTools\Package;
@@ -10,7 +11,8 @@ class CdnSyncServiceProvider extends MicroweberPackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('microweber-packages/cdn-sync');
+        $package->name('microweber-packages/cdn-sync')
+            ->hasCommand(CdnSyncCorsCommand::class);
     }
 
     public function packageRegistered(): void

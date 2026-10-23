@@ -356,6 +356,73 @@ class CdnSyncService
     }
 
     /**
+     * The raw AWS S3 client behind the CDN disk (for bucket-level operations
+     * Flysystem doesn't expose, such as CORS).
+     */
+    public function getS3Client(): \Aws\S3\S3Client
+    {
+        $disk = $this->getDisk();
+
+        if (!method_exists($disk, 'getClient')) {
+            throw new \RuntimeException('The CDN disk is not an S3 disk — cannot manage bucket CORS.');
+        }
+
+        return $disk->getClient();
+    }
+
+    /**
+     * The CORS policy for the public userfiles bucket.
+     *
+     * Userfiles (template CSS, fonts, media) are PUBLIC, read-only assets served
+     * to every visitor of every site. In a multi-domain / multisite setup all
+     * domains share this one bucket and new domains are added over time, so the
+     * policy allows GET/HEAD from ANY origin — one bucket-level rule covers every
+     * domain (plus dev/staging) with no per-domain upkeep. No credentials/cookies
+     * are involved, so a wildcard origin on read-only methods is safe (this is how
+     * a CDN behaves). Range headers are exposed so media seeking works.
+     */
+    public function corsRules(): array
+    {
+        return [[
+            'AllowedOrigins' => ['*'],
+            'AllowedMethods' => ['GET', 'HEAD'],
+            'AllowedHeaders' => ['*'],
+            'ExposeHeaders'  => ['ETag', 'Content-Length', 'Content-Type', 'Content-Range', 'Accept-Ranges'],
+            'MaxAgeSeconds'  => 3600,
+        ]];
+    }
+
+    /**
+     * Apply the CORS policy to the bucket (idempotent — replaces any existing one).
+     */
+    public function applyCors(): void
+    {
+        $this->getS3Client()->putBucketCors([
+            'Bucket' => $this->getConfigValue('bucket'),
+            'CORSConfiguration' => ['CORSRules' => $this->corsRules()],
+        ]);
+    }
+
+    /**
+     * The bucket's current CORS rules (empty array if none set).
+     */
+    public function getCurrentCors(): array
+    {
+        try {
+            $result = $this->getS3Client()->getBucketCors([
+                'Bucket' => $this->getConfigValue('bucket'),
+            ]);
+
+            return $result['CORSRules'] ?? [];
+        } catch (\Aws\Exception\AwsException $e) {
+            if ($e->getAwsErrorCode() === 'NoSuchCORSConfiguration') {
+                return [];
+            }
+            throw $e;
+        }
+    }
+
+    /**
      * Resolve a potentially relative local path to absolute.
      */
     protected function resolveLocalPath(string $path): string
