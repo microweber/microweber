@@ -1,0 +1,173 @@
+/* compact forms & misc — part 1: tag/chip overflow containment in fields. */
+/* task-2026-10-04 — keep a selected tag/chip from overflowing its field. The
+   tree's selected "parent" chip (Where to put it / Parent page pickers) showed
+   the full internal name (e.g. testCategoryJsonTreeAdminPageStatic0_6ab3ac…)
+   which spilled out of the panel. Let the chip shrink to the container and
+   ellipsis-truncate the title; the × stays visible. */
+.mw-tags--container { min-width: 0; }
+.mw-tags--container .mw-tag-wrapper {
+    max-width: 100%;
+    min-width: 0;
+}
+.mw-tags--container .mw-tag-single {
+    max-width: 100%;
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+}
+.mw-tags--container .mw-tag-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.mw-le-modules-dialog .modules-list-defaultModules {
+    @apply bg-white dark:bg-gray-800 rounded-xl overflow-hidden;
+
+    input.form-control.mw-modules-list-search-block {
+        margin: 0 auto;
+        height: 36px !important;
+        border-radius: 8px !important;
+        border: 1px solid var(--mw-border-color) !important;
+        box-shadow: none !important;
+        outline: none !important;
+        padding-left: 40px !important;
+        padding-right: 36px !important;
+        font-size: 14px !important;
+        @apply dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+
+        &:focus {
+            border-color: #0d6efd !important;
+            box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.22) !important;
+        }
+    }
+}
+
+.mw-le-modules-dialog .modules-list-block {
+    @apply !w-full;
+}
+
+.mw-tree-context-menu-item svg {
+    @apply fill-current;
+}
+
+.fi-dropdown-list {
+    @apply !p-3;
+    svg {
+        @apply text-black dark:text-white;
+    }
+}
+
+.mw-control-box-default {
+    @apply px-0 dark:bg-gray-800;
+}
+
+.mw-control-box-title {
+    @apply text-base font-semibold;
+    padding: 16px 20px !important;
+    border-bottom: 1px solid var(--mw-border-color);
+}
+
+.dark .mw-control-box-title {
+    border-bottom-color: #374151;
+}
+
+.mw-control-box-content {
+    padding: 12px 14px !important;
+}
+
+.mw-control-box-content > div > div {
+    margin-bottom: 10px;
+}
+
+.form-control-live-edit-label-wrapper {
+    margin-bottom: 8px;
+}
+
+.form-control-live-edit-label-wrapper .live-edit-label {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.edit-mode-toggle-container {
+    @apply flex gap-2 mb-4;
+}
+
+.edit-mode-option {
+    @apply flex-1 rounded-lg border border-gray-200 dark:border-gray-600 p-3 cursor-pointer transition;
+}
+
+.edit-mode-option:hover {
+    @apply border-[#182433]/40 bg-[#182433]/5 dark:border-[#e5e7eb]/40 dark:bg-white/5;
+}
+
+.edit-mode-option.active {
+    @apply border-[#182433] bg-[#182433]/5 dark:border-[#e5e7eb] dark:bg-white/5;
+}
+
+.bg-custom-600:not(.fi-fo-toggle) {
+    svg {
+        @apply dark:text-blue-400;
+    }
+    @apply dark:bg-slate-50 dark:text-black;
+
+    &:hover {
+        @apply dark:text-white dark:bg-gray-700;
+
+        svg {
+            @apply dark:text-white;
+        }
+    }
+}
+
+.fi-modal-header svg {
+    @apply dark:text-white;
+}
+
+.mw-control-boxclose {
+    @apply fill-current;
+}
+
+#mw-image-dropzone {
+    @apply dark:bg-transparent dark:text-white dark:border-slate-700;
+}
+
+.mw-file-manager-paging-bottom,
+.mw-file-manager-bar {
+    @apply dark:bg-gray-900 dark:text-white;
+}
+
+.fi-fo-placeholder .bg-gray-100 {
+    @apply dark:bg-gray-800;
+}
+
+#toolbar {
+    @apply dark:bg-gray-800 dark:text-white;
+}
+
+#general-theme-settings,
+select option,
+.v3ti .v3ti-new-tagp,
+#mw-element-style-editor-app,
+.v3ti .v3ti-content,
+.fi-body {
+    @apply dark:!bg-gray-800 dark:text-white;
+}
+
+#general-theme-settings {
+    @apply !overflow-x-hidden !px-3 !py-5;
+}
+
+.mw-ese-holder,
+.mw-element-spacing-editor .input input,
+.mw-field.mw-field-flat input,
+.box-shadow-options .card {
+    @apply dark:!bg-gray-900 dark:text-white;
+}
+
+.fi-section-content,
+.fi-section-content-ctn,
+.fi-section-header,
+.fi-wi-stats-overview-stat {
+    @apply dark:!bg-gray-900 dark:!border-gray-700 rounded-none;
+}

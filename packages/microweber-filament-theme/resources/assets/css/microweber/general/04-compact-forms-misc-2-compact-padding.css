@@ -1,0 +1,194 @@
+/* compact forms & misc — part 2: compact admin form/section body padding. */
+/* Compact admin form/section body padding (Filament default is a roomy 24px). Scoped to
+   the admin panel; the Live Edit settings panel overrides this to 12px with higher
+   specificity (body.fi-panel-admin .mw-live-edit-page-wrapper …). */
+body.fi-panel-admin .fi-section-content {
+    padding: 12px var(--mw-space-md) !important;
+}
+
+.fi-section-header {
+    @apply dark:!bg-gray-800;
+}
+
+.rounded-corners .angle {
+    @apply dark:!border-white;
+}
+
+.fi-section-header-heading {
+    @apply pl-5;
+}
+
+.mw-le-modules-dialog {
+    @apply bg-white dark:bg-gray-800 dark:text-white rounded-xl overflow-hidden;
+    padding: 20px !important;
+}
+
+.mw-le-modules-dialog .modules-list-search-block {
+    padding: 0 48px 0 0 !important;
+    margin: 0 0 12px 0 !important;
+
+    .input-icon-addon {
+        left: 12px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        margin-right: 0 !important;
+        z-index: 10;
+
+        svg {
+            width: 18px !important;
+            height: 18px !important;
+        }
+    }
+
+    /* Clear X button inside search */
+    > span[style*="cursor: pointer"] {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        right: 48px !important;
+        padding: 2px !important;
+    }
+}
+
+.mw-le-modules-dialog .modules-list-block {
+    @apply p-0 m-0;
+
+    .row {
+        @apply gap-y-1;
+    }
+}
+
+.mw-le-modules-dialog .mw-modules-list-block-item {
+    @apply rounded-lg px-3 py-2.5 cursor-pointer transition-colors duration-150;
+    @apply hover:bg-blue-50 dark:hover:bg-gray-700;
+    height: auto !important;
+    width: auto !important;
+    background-color: transparent;
+}
+
+.mw-le-modules-dialog .modules-list-block-item-picture {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    @apply mr-2.5 flex-shrink-0;
+    background-size: contain !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    @apply dark:invert;
+}
+
+.mw-le-modules-dialog .modules-list-block-item-title {
+    @apply text-sm font-medium text-gray-800 dark:text-gray-200;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mw-le-modules-dialog .modules-list-block-item-description {
+    @apply hidden;
+}
+
+.mw-modules-list-block-item:hover {
+    @apply dark:bg-gray-700 dark:text-white;
+}
+
+.fi-sidebar-group-label {
+    text-transform: none !important;
+    font-size: 1rem !important;
+    line-height: 1.25rem !important;
+    font-weight: 400 !important;
+}
+
+.mw-admin-empty-state-heading {
+    @apply !text-3xl !font-bold !text-gray-900 dark:!text-white;
+    /*
+     * Empty-state headings ("You do not have any pages yet", "No
+     * content found", etc.) are placed inside a wrapper sized for
+     * the desktop SVG illustration (500px wide). On <500px viewports
+     * the heading inherited that fixed wrapper width and overflowed
+     * the page, clipping the text. Force the heading to wrap and
+     * stay inside the parent — and ramp the font-size down on small
+     * screens so the message stays readable.
+     */
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/*
+ * Empty-state wrapper used by Modules/Content/resources/views/filament/
+ * admin/empty-state.blade.php. The wrapper holds a 500px-wide SVG
+ * illustration plus the heading + description; on <500px viewports
+ * the SVG forces horizontal overflow, pushing the heading off-screen.
+ * Constrain to 100% width and let the SVG scale down with the
+ * viewport (the SVG has `width="500"` but no explicit height-binding,
+ * so width:100% scales it proportionally without distortion).
+ */
+.you-dont-have-any {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.you-dont-have-any svg {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 500px) {
+    .mw-admin-empty-state-heading {
+        font-size: 1.25rem !important;
+        line-height: 1.4 !important;
+    }
+}
+
+/*
+ * task-2026-05-16-fd0d1d: empty-state CTA button.
+ * The Filament-rendered empty state on admin → Pages / Posts /
+ * Products / Orders / Customers / Invoices / Categories / Payment
+ * Providers / Shipping Providers / Taxes used to show only a heading
+ * + illustration with no action. Users had no obvious "add the first
+ * one" path. We render a primary CTA between the heading and the
+ * illustration. Style this button as a Bootstrap-style primary CTA
+ * (matches admin's existing #0d6efd accent — see MwColors::Blue), so
+ * the button reads as the obvious next action regardless of which
+ * Filament version is installed.
+ */
+.mw-table-empty-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.625rem 1.25rem;
+    background-color: #0d6efd;
+    color: #fff !important;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    line-height: 1.25;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color 120ms ease, transform 120ms ease;
+    border: 1px solid transparent;
+}
+.mw-table-empty-cta:hover,
+.mw-table-empty-cta:focus-visible {
+    background-color: #0b5ed7;
+    color: #fff !important;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+.mw-table-empty-cta:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+.mw-table-empty-cta:active {
+    transform: translateY(0);
+    background-color: #0a58ca;
+}
+.mw-table-empty-cta-wrap {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
