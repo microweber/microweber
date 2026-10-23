@@ -111,7 +111,7 @@ if ($mt && is_string($mt)) {
         });
     </script>
 @else
-    @if(is_admin())
+    @if(is_live_edit())
         <div class="mw-canvas-empty-state" data-mw-content-type="menu">
             <h3 class="mw-canvas-empty-state__title">{{ _e('This menu is empty', true) }}</h3>
             <p class="mw-canvas-empty-state__body">{{ _e('Add menu items via menu settings to fill this navigation.', true) }}</p>

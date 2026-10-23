@@ -22,7 +22,7 @@ description: Images Menu skin
         <?php
         print($mt);
     } else {
-        if (is_admin()) {
+        if (is_live_edit()) {
             ?>
             <div class="mw-canvas-empty-state" data-mw-content-type="menu">
                 <h3 class="mw-canvas-empty-state__title"><?php _e('This menu is empty'); ?></h3>

@@ -53,8 +53,8 @@ use Tests\TestCase;
  *     native <a href> that browser-navigates to the menu admin.
  *     mw-open-module-settings broken JS hook deleted entirely (AI-853
  *     closed)
- *   - is_admin() gate wraps the empty-state so anonymous frontend
- *     visitors never see editor copy
+ *   - is_live_edit() gate wraps the empty-state so it shows ONLY in Live Edit
+ *     mode — not for admins browsing the published frontend, nor anonymous visitors
  *
  * Supersedes task-2026-05-17-d00884 / AI-809 in the 6 templates
  * (AI-852 removes $menu_name interpolation entirely -- strictly
@@ -162,17 +162,18 @@ class Menu4f4f83AI852AI853EmptyStateBundleContractTest extends TestCase
 
     #[Test]
     #[DataProvider('bundleTemplateProvider')]
-    public function empty_state_gated_by_is_admin(string $relativePath): void
+    public function empty_state_gated_by_is_live_edit(string $relativePath): void
     {
         $source = $this->read($relativePath);
 
-        // is_admin() gate keeps the empty-state admin-only so
-        // anonymous frontend visitors never see editor copy.
-        // Match either Blade @if(is_admin()) or PHP if (is_admin()).
+        // is_live_edit() gate keeps the empty-state (incl. the "+ Add menu item"
+        // CTA) visible ONLY in Live Edit mode — not for logged-in admins browsing
+        // the published frontend, and never for anonymous visitors.
+        // Match either Blade @if(is_live_edit()) or PHP if (is_live_edit()).
         $this->assertMatchesRegularExpression(
-            '/(?:@if\s*\(\s*is_admin\(\)\s*\)|if\s*\(\s*is_admin\(\)\s*\))/',
+            '/(?:@if\s*\(\s*is_live_edit\(\)\s*\)|if\s*\(\s*is_live_edit\(\)\s*\))/',
             $source,
-            "AI-852: {$relativePath} MUST gate the empty-state inside is_admin() so anonymous visitors don't see editor copy."
+            "{$relativePath} MUST gate the empty-state inside is_live_edit() so it shows only in Live Edit, not on the published frontend."
         );
     }
 

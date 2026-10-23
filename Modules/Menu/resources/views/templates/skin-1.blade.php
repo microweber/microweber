@@ -31,7 +31,7 @@ $mt = menu_tree($menu_filter);
 // renders ship zero descendant CSS/JS bytes (textContent-leak family,
 // ~600 wasted bytes per empty-menu render). Empty-state migrates to
 // canonical .mw-canvas-empty-state with CTA replacing the broken
-// mw-open-module-settings JS hook. is_admin() gate keeps empty-state
+// mw-open-module-settings JS hook. is_live_edit() gate keeps empty-state
 // e($menu_name) shape by removing the $menu_name interpolation entirely.
 if ($mt != false) {
     print ($mt);
@@ -67,7 +67,7 @@ if ($mt != false) {
     </style>
     <?php
 } else {
-    if (is_admin()) {
+    if (is_live_edit()) {
         ?>
         <div class="mw-canvas-empty-state" data-mw-content-type="menu">
             <h3 class="mw-canvas-empty-state__title"><?php _e('This menu is empty'); ?></h3>
