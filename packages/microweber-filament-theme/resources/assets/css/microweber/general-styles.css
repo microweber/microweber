@@ -3725,6 +3725,39 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     color: #9ca3af;
 }
 
+/* task-2026-10-23 — label ALL right-rail buttons, including the DYNAMIC
+   module/context buttons (module-settings-button per module, add-module-button,
+   text/module-edit). They are .btn-icon.live-edit-toolbar-buttons (role=button
+   divs), NOT .mw-toolbar-icon-btn, so the rule above never reached them and they
+   rendered icon-only. They carry data-mw-label now → same ::after mini-label as
+   the Layout/Template/Style/AI Edit tabs. Separate rule (not merged into the tab
+   rule above) so the tabs' overflow:visible/no-clamp stays exactly as AI-871
+   tuned it. Scoped to the template-sidebar so only rail buttons get the label. */
+.mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar
+    .btn-icon.live-edit-toolbar-buttons[data-mw-label]::after {
+    content: attr(data-mw-label);
+    display: block;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    color: var(--ese-text-muted, #6b7280);
+    margin-top: 2px;
+    text-align: center;
+    /* Dynamic module names can be long ("Testimonials"); clamp to the rail width
+       with an ellipsis so the label never widens the 52px button. */
+    max-width: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.dark .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar
+    .btn-icon.live-edit-toolbar-buttons[data-mw-label]::after {
+    color: #9ca3af;
+}
+
 /* ── AI-871 §2: Active panel indicator ─────────────────────────────── */
 .mw-live-edit-page .mw-toolbar-icon-btn.live-edit-right-sidebar-active {
     background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.10)) !important;

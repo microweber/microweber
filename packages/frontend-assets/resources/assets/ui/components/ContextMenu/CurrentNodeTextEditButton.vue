@@ -5,6 +5,7 @@
                 :class="{ 'active': isEditing }"
                 class="btn-icon live-edit-toolbar-buttons text-edit-button"
                 title="Edit Text"
+                data-mw-label="Text"
                 @click="editCurrentNode"
                 @mouseenter="onNodeHover"
             >
