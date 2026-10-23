@@ -1,0 +1,158 @@
+/* topbar & dashboard — part 3: admin chrome (AI-edit labels, template settings, user menu, notifications). */
+/* ─────────────────────────────────────────────────────────────────
+ * AI-711 — Quick AI Edit row labels (H1 / P1 / LINK 1 / IMAGE ALT 1)
+ * task-2026-05-16-b0b48f / designer spec DESIGN_AUDIT.md L2.4
+ *
+ * The Quick AI Edit panel labels each editable element row with a
+ * per-section identifier (H1 / P1 / P2 / LINK 1 / BUTTON 1 / IMAGE
+ * ALT 1) — the labels are metadata identifiers, NOT body text, so
+ * they belong to the same metadata typography family as ESE section
+ * labels: --font-label / --weight-label / --letter-label.
+ *
+ * Pre-AI-711 styling came from `@apply text-sm font-medium
+ * text-gray-700` (lines ~1186) — replaced here with ESE-token-driven
+ * typography so the panel reads consistently with the rest of the
+ * design-token-aware admin surfaces. The `--ese-text-muted` colour
+ * confirms the labels read as metadata rather than primary text.
+ *
+ * Scoped via `.quick-ai-card .form-control-live-edit-label-wrapper`
+ * so the existing `.mw-dialog-skin-default` and form-wrapper labels
+ * elsewhere keep their legacy typography. Card class
+ * `.quick-ai-card` is the unique wrapper the panel emits — see
+ * `editor()` method in `quick-ai-edit.js`.
+ *
+ * Token-scoping note (SOUL #108): tokens consumed are :root-scoped
+ * via the ESE token layer; every var() carries a literal fallback
+ * for defence-in-depth.
+ * ─────────────────────────────────────────────────────────────── */
+
+.quick-ai-card .form-control-live-edit-label-wrapper .live-edit-label {
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    color: var(--ese-text-muted, #6b7280);
+    text-transform: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-712 — Template Settings panel section-header unification
+ * task-2026-05-16-51c8e8 / designer spec DESIGN_AUDIT.md L2.5
+ *
+ * The Template Settings panel mixes three internal content-block
+ * patterns (segmented selector / link rows / AI Assistant). Slice 1
+ * unifies the three section-header labels under one metadata
+ * typography contract — same shape as the AI-711 Quick AI Edit
+ * row labels, same ESE tokens.
+ *
+ * Surfaces wearing `.mw-template-settings-section-header`:
+ *   1. "Choose where to edit" — label above the
+ *      `.edit-mode-toggle-container` (now also wearing `.mw-segmented`
+ *      primitive from AI-684 — applied in slice 1).
+ *   2. "Website design settings" — span above the link-row list.
+ *
+ * The third section header (AI Assistant ::before pseudo-element
+ * on `.mw-ai-chat-box`) is the AI-712a follow-up candidate —
+ * requires restructuring the FieldAiChangeDesign component to
+ * use MwField (AI-687) with an inline send icon. Flagged in
+ * source comments + this CSS docblock + contract test.
+ *
+ * Token-scoping note (SOUL #108): every var() carries a literal
+ * fallback. The panel renders inside `.mw-template-settings-panel`
+ * which lives below `body.fi-panel-admin`, so :root ESE tokens
+ * resolve. Scoped to `.mw-template-settings-panel` so legacy
+ * `.live-edit-label` rules elsewhere keep their typography.
+ * ─────────────────────────────────────────────────────────────── */
+
+.mw-template-settings-panel .mw-template-settings-section-header {
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    color: var(--ese-text-muted, #6b7280);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: var(--space-sm, 8px);
+}
+
+/* ── AI-773 (task-2026-05-17-551f7e) — admin topbar user-menu theme switcher
+ * Designer's Round-9 audit: Filament stock `.fi-active` indicator on the 3
+ * theme buttons resolves to `oklch(0.985 ...)` — effectively white-on-white
+ * on the light topbar; user cannot tell which theme is currently active.
+ * Companion Blade override (resources/views/vendor/filament-panels/components/
+ * theme-switcher/button.blade.php) adds `aria-pressed` for AT users; this CSS
+ * rule is the sighted-user half — accent-soft background + accent ring +
+ * accent foreground so the active button reads instantly in both themes.
+ *
+ * Scoped via `body.fi-panel-admin` so the override never leaks into checkout
+ * or profile panels (they have their own scope handles). Token-scoping:
+ * `--ese-accent*` are :root-scoped per ESE slice 1.1 so they resolve here
+ * (this CSS runs at the Filament topbar root, outside .mw-live-edit-page).
+ * Literal fallbacks belt-and-braces. */
+body.fi-panel-admin .fi-theme-switcher-btn.fi-active {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
+    color: var(--ese-accent, #0d6efd);
+    box-shadow: inset 0 0 0 1px var(--ese-accent, #0d6efd);
+    border-radius: var(--radius-sm, 6px);
+}
+
+body.fi-panel-admin .fi-theme-switcher-btn.fi-active svg,
+body.fi-panel-admin .fi-theme-switcher-btn.fi-active .fi-icon {
+    color: var(--ese-accent, #0d6efd);
+}
+
+.dark body.fi-panel-admin .fi-theme-switcher-btn.fi-active {
+    background-color: var(--ese-accent-soft, rgba(96, 165, 250, 0.20));
+    color: var(--ese-accent, #182433);
+    box-shadow: inset 0 0 0 1px var(--ese-accent, #182433);
+}
+
+/* ── AI-774 (task-2026-05-17-551f7e) — admin notifications drawer empty state.
+ * Companion CSS for the Blade override at
+ * resources/views/vendor/filament-notifications/database-notifications.blade.php
+ * Empty state now renders inside the same slide-over chrome as the filled
+ * state (no width swap, no alignment swap). This rule styles the centred
+ * icon+heading+description body so it reads as a polished empty state
+ * rather than a default-stack of unstyled elements.
+ *
+ * Token-scoping per SOUL #108 — every var() carries a literal fallback
+ * because this CSS runs at the Filament slide-over root (outside
+ * .mw-live-edit-page). */
+.mw-no-database-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--mw-space-2xl, 32px) var(--mw-space-md, 16px);
+    gap: var(--space-sm, 8px);
+    min-height: 320px;
+}
+
+.mw-no-database-empty__icon {
+    width: 48px;
+    height: 48px;
+    color: var(--ese-text-muted, #9ca3af);
+    margin-bottom: var(--space-sm, 8px);
+}
+
+.mw-no-database-empty__heading {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0;
+}
+
+.mw-no-database-empty__description {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    max-width: 28ch;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.dark .mw-no-database-empty__heading {
+    color: var(--ese-text, #f3f4f6);
+}
+
+.dark .mw-no-database-empty__description {
+    color: var(--ese-text-muted, #9ca3af);
+}

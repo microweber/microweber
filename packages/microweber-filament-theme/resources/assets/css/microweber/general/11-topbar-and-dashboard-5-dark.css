@@ -1,0 +1,155 @@
+/* topbar & dashboard — part 5: DARK MODE (flatpickr, tags, select, input borders, table stripes, repeater, errors). */
+/* AI-956 / task-2026-05-22 — Admin dark mode: Flatpickr date-picker calendar renders
+ * with white background in dark mode. Add dark theme overrides. */
+.dark .flatpickr-calendar {
+    background: #1f2937 !important;
+    color: #f9fafb !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+.dark .flatpickr-calendar .flatpickr-day {
+    color: #f9fafb !important;
+}
+.dark .flatpickr-calendar .flatpickr-day:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: transparent !important;
+}
+.dark .flatpickr-calendar .flatpickr-day.selected,
+.dark .flatpickr-calendar .flatpickr-day.today {
+    background: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+}
+.dark .flatpickr-calendar .flatpickr-day.disabled {
+    color: rgba(255, 255, 255, 0.3) !important;
+}
+.dark .flatpickr-calendar .flatpickr-months,
+.dark .flatpickr-calendar .flatpickr-month,
+.dark .flatpickr-calendar .flatpickr-current-month,
+.dark .flatpickr-calendar .flatpickr-prev-month,
+.dark .flatpickr-calendar .flatpickr-next-month {
+    background: #1f2937 !important;
+    color: #f9fafb !important;
+    fill: #f9fafb !important;
+}
+.dark .flatpickr-calendar .flatpickr-weekday {
+    color: #9ca3af !important;
+    background: #1f2937 !important;
+}
+.dark .flatpickr-calendar .flatpickr-time input,
+.dark .flatpickr-calendar .flatpickr-time .flatpickr-am-pm {
+    background: #1f2937 !important;
+    color: #f9fafb !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* AI-957 / task-2026-05-22 — Admin dark mode: multi-select tags dropdown renders
+ * with white popup in dark mode. Add dark theme overrides for Filament select popups. */
+.dark .choices__list--dropdown,
+.dark .choices__list[aria-expanded] {
+    background: #1f2937 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+.dark .choices__item--selectable,
+.dark .choices__item--choice {
+    color: #f9fafb !important;
+}
+.dark .choices__item--selectable:hover,
+.dark .choices__item--selectable.is-highlighted {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+/* Filament v5 native custom select dropdown */
+.dark [data-headlessui-state] [role="listbox"],
+.dark .fi-fo-field [role="listbox"],
+.dark .fi-select-option-list,
+.dark [x-floated][role="listbox"] {
+    background-color: #1f2937 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #f9fafb !important;
+}
+.dark [data-headlessui-state] [role="option"],
+.dark .fi-fo-field [role="option"] {
+    color: #f9fafb !important;
+}
+.dark [data-headlessui-state] [role="option"]:hover,
+.dark [data-headlessui-state] [role="option"][data-active="true"],
+.dark [data-headlessui-state] [role="option"][aria-selected="true"] {
+    background-color: rgba(13, 110, 253, 0.2) !important;
+}
+
+/* AI-950 / task-2026-05-22 — Admin dark mode: form input borders invisible in Settings pages.
+ * Filament dark mode uses very subtle borders that blend into the dark background.
+ * WCAG 1.4.11 (Non-text Contrast) requires 3:1 ratio for UI components.
+ * Bumping to rgba(255,255,255,0.25) provides ~4:1 on typical Filament dark bg (#1f2937). */
+.dark body.fi-panel-admin .fi-input,
+.dark body.fi-panel-admin .fi-input-wrp,
+.dark body.fi-panel-admin .fi-fo-select,
+.dark body.fi-panel-admin .fi-fo-select-wrp,
+.dark body.fi-panel-admin .fi-fo-textarea,
+.dark body.fi-panel-admin .fi-fo-textarea-wrp {
+    border-color: rgba(255, 255, 255, 0.25) !important;
+}
+.dark body.fi-panel-admin .fi-input:focus,
+.dark body.fi-panel-admin .fi-input-wrp:focus-within,
+.dark body.fi-panel-admin .fi-fo-select:focus,
+.dark body.fi-panel-admin .fi-fo-textarea:focus {
+    border-color: rgba(13, 110, 253, 0.8) !important;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25) !important;
+}
+
+/* AI-951 / task-2026-05-22 — Admin dark mode: table alternating row stripes disappear.
+ * In dark mode, even/odd row backgrounds have near-zero lightness delta.
+ * Adding a subtle but perceptible stripe keeps rows distinguishable. */
+.dark body.fi-panel-admin .fi-ta-row:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+.dark body.fi-panel-admin .fi-ta-row:nth-child(odd) {
+    background-color: transparent !important;
+}
+.dark body.fi-panel-admin .fi-ta-row:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* AI-958 / task-2026-05-22 — Repeater 'Add item' button lacks visual hierarchy.
+ * The default Filament repeater add-button blends into the item list.
+ * Add a dashed border + muted bg to visually distinguish it as an insertion CTA. */
+body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn,
+body.fi-panel-admin button[wire\:click*="addRepeaterItem"],
+body.fi-panel-admin .fi-fo-repeater > .fi-fo-repeater-create-item-btn-ctn {
+    border: 1.5px dashed rgba(13, 110, 253, 0.4) !important;
+    border-radius: 0.5rem !important;
+    background: rgba(13, 110, 253, 0.04) !important;
+    transition: background 120ms ease, border-color 120ms ease;
+    width: 100%;
+}
+body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn:hover,
+body.fi-panel-admin button[wire\:click*="addRepeaterItem"]:hover {
+    background: rgba(13, 110, 253, 0.08) !important;
+    border-color: rgba(13, 110, 253, 0.6) !important;
+}
+.dark body.fi-panel-admin .fi-fo-repeater-create-item-btn-ctn {
+    border-color: rgba(13, 110, 253, 0.35) !important;
+    background: rgba(13, 110, 253, 0.08) !important;
+}
+
+/* AI-960 / task-2026-05-22 — Error state uses only red text with no border change.
+ * Adds a red border to .fi-input wrappers when Filament marks them with the error state.
+ * WCAG 1.4.1: don't rely solely on colour — the border change provides shape cue. */
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input-wrp {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+}
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input {
+    border-color: #ef4444 !important;
+}
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-select-wrp,
+body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-textarea-wrp {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15) !important;
+}
+.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-input-wrp,
+.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-select-wrp,
+.dark body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-textarea-wrp {
+    border-color: #f87171 !important;
+    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2) !important;
+}

@@ -1,0 +1,186 @@
+/* topbar & dashboard — part 4: empty-state chrome, table badges, stat cards, marketplace cards. */
+/* AI-780 (task-2026-05-17-6d65de) — `.mw-canvas-empty-state` rules live
+ * in `packages/frontend-assets/resources/assets/css/microweber/css/default.css`
+ * because the canvas content-module empty state renders inside the Live Edit
+ * iframe (front-end template stack), not admin chrome. Per AI-771
+ * cross-package @import architecture, default.css is consumed by BOTH the
+ * Vite bundle AND the Webpack theme bundle — one source, both pipelines
+ * fed. See default.css for the full rule body. */
+
+/* ── AI-782 (task-2026-05-17-378d85) — Filament table badges no-wrap.
+ * Designer's Round-10 audit caught "Out of Stock" wrapping to 2 lines
+ * inside the Stock badge column on /admin/products. The Filament stock
+ * .fi-badge default lets multi-word labels wrap on narrow columns —
+ * "Out of Stock", "Low Stock", any 2-3 word badge label hits the same
+ * issue everywhere. Scoping to admin panel so checkout/profile badges
+ * keep Filament defaults. Single white-space rule is the smallest fix;
+ * single-word badges unaffected. */
+/* `body.fi-panel-admin .fi-badge { white-space: nowrap }` moved to the single
+   badge source: filament/support/badge.css. */
+
+/* ── AI-783 (task-2026-05-17-378d85) — stat-card label accidental underline.
+ * Designer's Round-10 audit caught the "Orders" label on the OrderStats
+ * widget rendering with `text-decoration: underline` — inherits from a
+ * parent rule (probably the page-section heading style cascade). Filament
+ * stat labels are NOT links and should never carry an underline. Scoped
+ * to the stat-overview widget class so other stats elsewhere keep their
+ * intended styling. Applies to the label only (not the value). */
+body.fi-panel-admin .fi-wi-stats-overview-stat-label,
+body.fi-panel-admin .fi-wi-stats-overview-stat-description {
+    text-decoration: none;
+}
+
+/* ── AI-786 (task-2026-05-17-4905c8) — marketplace card description sizing.
+ * Companion CSS for the new description column added to MarketplaceResource
+ * card layout. Constrains the description line-height + max-height so long
+ * descriptions don't blow the card vertical rhythm; the column already
+ * truncates at 120 chars at the PHP level. Mutes the colour to ese-text-muted
+ * so the body text doesn't compete with the bold title.
+ *
+ * task-2026-05-17-bed599 / AI-786 CHANGE absorption — Stage-2 cascade-loss
+ * dark-mode fix. Designer's dark-mode probe caught Filament's compiled
+ * `dark:fi-text-color-400` losing to a higher-specificity Filament default
+ * (`body.fi-panel-admin.dark .fi-ta-text { color: white }`-style rule); our
+ * single-class .mw-marketplace-card-description (specificity 0,0,2,1) won
+ * in light but was dominated in dark — title + description both rendered
+ * white, hierarchy collapsed. Same Stage-2 family as AI-697 v3 (cascade
+ * loss to a higher-specificity Filament default). Fix per designer's
+ * Option A: compound `.fi-ta-text-item.mw-marketplace-card-description`
+ * selector + `!important` closes the cascade gap with a single-line edit;
+ * no new token, no dark-only branch, no inline-style override.
+ *
+ * Sizing rule (line-height / clamp / max-height) below remains single-
+ * class — only the COLOUR needs the cascade defence. */
+body.fi-panel-admin .mw-marketplace-card-description {
+    line-height: 1.4;
+    max-height: 4.2em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-top: var(--space-xs, 6px);
+}
+
+body.fi-panel-admin .fi-ta-text-item.mw-marketplace-card-description {
+    color: var(--ese-text-muted, #6b7280) !important;
+}
+
+/* ── AI-789 (task-2026-05-17-c188de) — systemic admin empty-state chrome.
+ * Companion CSS for the new `mw-filament::partials.admin-empty-state` Blade
+ * partial. Centered flex-column with vertical rhythm matching the existing
+ * AI-728/729/730 admin empty-state pattern. Heading + body + CTA all
+ * consume ESE tokens (literal fallbacks per SOUL #108 — partial renders
+ * inside Filament chrome, may also render in iframe canvas in future).
+ *
+ * The CTA itself uses the existing .mw-table-empty-cta class (44px floor,
+ * primary blue, full hover/focus states) from
+ * Modules/Content/resources/views/filament/admin/empty-state.blade.php's
+ * companion styling. This rule adds chrome around it (heading typography,
+ * body muted, icon spacing). */
+body.fi-panel-admin .mw-admin-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--mw-space-2xl, 32px) var(--mw-space-md, 16px);
+    gap: var(--space-sm, 8px);
+    min-height: 280px;
+}
+
+body.fi-panel-admin .mw-admin-empty-state__icon {
+    color: var(--ese-text-muted, #9ca3af);
+    margin-bottom: var(--space-xs, 6px);
+}
+
+body.fi-panel-admin .mw-admin-empty-state__heading {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0;
+}
+
+body.fi-panel-admin .mw-admin-empty-state__body {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    max-width: 36ch;
+    line-height: 1.5;
+    margin: 0;
+}
+
+body.fi-panel-admin .mw-admin-empty-state__cta-wrap {
+    margin-top: var(--space-sm, 8px);
+}
+
+.dark body.fi-panel-admin .mw-admin-empty-state__heading {
+    color: var(--ese-text, #f3f4f6);
+}
+
+.dark body.fi-panel-admin .mw-admin-empty-state__body {
+    color: var(--ese-text-muted, #9ca3af);
+}
+
+/* task-2026-05-22-902abc / AI-902 — Quick AI Edit type groups + empty state */
+.quick-ai-type-group {
+    border-top: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+}
+.quick-ai-type-group:first-child {
+    border-top: none;
+}
+.quick-ai-type-group-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--space-xs, 6px) var(--space-sm, 8px);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    text-transform: uppercase;
+    color: var(--ese-text-muted, #6b7280);
+    text-align: left;
+    gap: var(--space-xs, 6px);
+}
+.quick-ai-type-group-header:hover {
+    background: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+    border-radius: var(--radius-sm, 4px);
+}
+.quick-ai-type-group-body {
+    padding: 0 var(--space-xs, 6px) var(--space-xs, 6px);
+}
+.quick-ai-type-group[data-open="false"] .quick-ai-type-group-body {
+    display: none;
+}
+/* Empty state when no canvas section is selected */
+.mw-quick-ai-edit-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl, 42px) var(--space-md, 13px);
+    text-align: center;
+    gap: var(--space-sm, 8px);
+}
+.mw-quick-ai-edit-empty-state__icon {
+    color: var(--ese-text-muted, #9ca3af);
+    opacity: 0.6;
+}
+.mw-quick-ai-edit-empty-state__text {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    margin: 0;
+    max-width: 220px;
+    line-height: 1.4;
+}
+/* Dark mode */
+.dark .quick-ai-type-group {
+    border-top-color: var(--ese-border, rgba(255, 255, 255, 0.08));
+}
+.dark .quick-ai-type-group-header {
+    color: var(--ese-text-muted, #9ca3af);
+}
+.dark .quick-ai-type-group-header:hover {
+    background: var(--ese-surface-hover, rgba(255, 255, 255, 0.04));
+}

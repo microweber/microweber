@@ -1,0 +1,272 @@
+/* topbar & dashboard — part 1: topbar brand/logo + the +Add / Live-Edit cluster. */
+/* ======================================================================
+   task-2026-05-16-bcb327 / AI-702 — Microweber brand mark in the admin
+   top bar. Per designer spec (admin-shell-improvements-2026-05-16.md
+   §2 AD1): inserted via TOPBAR_START render hook in
+   FilamentAdminPanelProvider; CSS sizes the logo to 24px desktop /
+   16px mobile and gates the wordmark label via the existing .sr-only
+   utility so AT users still hear the brand name on screen-reader
+   focus.
+
+   Click routes to /admin per the render hook's :href. Hover/focus
+   apply a subtle --ese-surface-hover background pill for affordance.
+
+   Token-scoping note (per SOUL #108 spec-doc-nit): tokens consumed
+   carry literal fallbacks. The brand mark renders inside the
+   Filament admin panel (.fi-panel-admin or .fi-panel-* depending on
+   the panel scope), so :root ESE tokens resolve naturally.
+   ====================================================================== */
+.fi-topbar a.mw-admin-brand-mark,
+a.mw-admin-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    margin-inline-end: var(--space-md, 13px);
+    padding: var(--space-xs, 6px) var(--space-sm, 8px);
+    border-radius: var(--radius-sm, 6px);
+    text-decoration: none;
+    color: inherit;
+    flex-shrink: 0;
+    transition: background-color var(--t-fast, 120ms) var(--ease, ease-out);
+}
+
+.mw-admin-brand-mark:hover,
+.mw-admin-brand-mark:focus-visible {
+    background-color: var(--ese-surface-hover, rgba(0, 0, 0, 0.04));
+}
+
+.mw-admin-brand-mark:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: -2px;
+}
+
+.mw-admin-brand-mark__image {
+    /* MW v2 demo / designer spec = 147×36px (see mobile-touch.css note); was capped at
+       24px which reads too small vs the demo. Raise the width cap so 36px isn't width-
+       constrained (natural ratio ~147/36 → ~190px at 36px tall). */
+    height: 36px;
+    width: auto;
+    max-width: 200px;
+    display: block;
+    object-fit: contain;
+}
+
+/* Desktop: give the brand a fixed column width so the toolbar items after it (the
+   "+ Add" button, search, …) line up with the main content column's left edge, as in
+   the v2 demo — the logo left-aligns inside it. Mobile keeps its collapsed layout. */
+@media (min-width: 1024px) {
+    a.mw-admin-brand-mark {
+        min-width: 230px;
+    }
+}
+
+/* Mobile (≤768px) — the logo asset is the WORDMARK (~147×36). Forcing it into
+   a 16×16 box with object-fit:contain scaled it to a ~16×4px illegible sliver
+   (read as a broken image). Keep the wordmark legible at a reduced height with
+   a width cap so it doesn't crowd the +Add / search / Live-Edit controls. */
+@media (max-width: 768px) {
+    .mw-admin-brand-mark__image {
+        height: 24px;
+        width: auto;
+        max-width: 130px;
+        object-fit: contain;
+    }
+    /* Drop the desktop logo gutter so the wordmark sits snug on the left. */
+    .fi-topbar a.mw-admin-brand-mark,
+    a.mw-admin-brand-mark {
+        margin-inline-end: var(--space-xs, 6px);
+        padding-inline: var(--space-xs, 6px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mw-admin-brand-mark {
+        transition: none;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-703 — Microweber admin responsive sidebar polish
+ * task-2026-05-16-29342d / designer spec admin-shell-improvements §2 AD2
+ *
+ * Filament's ->sidebarCollapsibleOnDesktop() enables the pinned-rail
+ * pattern at the framework's lg breakpoint (≥1024px). The designer
+ * spec calls for a 1280px breakpoint with a clean 240px sidebar width.
+ *
+ * This block ships:
+ *  - the 240px width pin (defence-in-depth — the panel provider sets the
+ *    same value via ->sidebarWidth('240px'); duplicating here protects
+ *    against future overrides that compete on specificity);
+ *  - a subtle right-edge divider between the pinned sidebar and main
+ *    content, visible only at lg+ when the sidebar is pinned-open.
+ *
+ * The exact 1280px breakpoint shift (1024px → 1280px) is the AI-703a
+ * follow-up candidate; landing it requires undoing several `lg:` utility
+ * classes that Filament bakes into the rendered HTML and is a larger
+ * slice than this dispatch budgets for.
+ * ─────────────────────────────────────────────────────────────── */
+
+body.fi-panel-admin .fi-sidebar {
+    --sidebar-width: 240px;
+}
+
+@media (min-width: 1024px) {
+    body.fi-panel-admin.fi-sidebar-open .fi-sidebar {
+        border-inline-end: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+    }
+    .dark body.fi-panel-admin.fi-sidebar-open .fi-sidebar {
+        border-inline-end-color: var(--ese-border, rgba(255, 255, 255, 0.12));
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-704 — Re-cluster +Add with Live Edit on the right side of
+ * the admin top bar
+ * task-2026-05-16-225150 / designer spec admin-shell-improvements §2 AD3
+ *
+ * Layout: PHP-side moves both buttons into GLOBAL_SEARCH_AFTER wrapped
+ * in `.mw-admin-primary-actions`. This block ships:
+ *
+ *  - `.mw-admin-primary-actions` — inline-flex wrapper with
+ *    `gap: var(--space-sm)` per spec, so +Add and Live Edit sit
+ *    tight together as a single visual cluster.
+ *
+ *  - `.admin-toolbar-add` (Filament `.fi-btn`) — compact
+ *    MwToolButton-default geometry: icon-only 32×32 hit area,
+ *    16 px Plus icon, transparent ghost background that fills on
+ *    hover with `--ese-surface-hover`. Overrides the legacy
+ *    `the split theme CSS` MW-v2 light-blue pill with
+ *    `!important` (the legacy SCSS uses `!important` itself, so we
+ *    have to match-or-beat its specificity).
+ *
+ *  - `.admin-toolbar-live-edit` (Filament `.fi-btn`) — v2-inspired
+ *    primary pill matching the AI-699 SAVE pill contract:
+ *    `--ese-text` bg, `--ese-surface` text, `--radius-pill` rounding,
+ *    `var(--space-sm) var(--space-md)` padding. Same `!important`
+ *    rationale.
+ *
+ *  - Mobile (≤768px): `.admin-toolbar-add` stays VISIBLE (it is the
+ *    primary v2 left action) and is lifted to the 44px WCAG touch-target
+ *    floor — see the task-2026-06-08-addmobile @media block below. (The
+ *    old AI-704/AI-1254 mobile-hide was superseded.)
+ *
+ * Token-scoping note (SOUL #108 spec-doc-nit): all consumed tokens
+ * are :root-scoped at the ESE token layer; literal fallbacks on every
+ * var() so the rules resolve even in surfaces where the ESE stylesheet
+ * hasn't loaded.
+ * ─────────────────────────────────────────────────────────────── */
+
+/* task-2026-06-08-addleft / AI-704 CHANGE — the +Add button was moved
+ * back to the LEFT of the topbar (TOPBAR_START, after the brand mark)
+ * with a VISIBLE "+ Add" label, restoring the Microweber v2 layout
+ * (PM: "want it on left as before, say + Add — see v2 demo"). The
+ * .mw-admin-primary-actions--left modifier gives it breathing room from
+ * the brand mark; the .admin-toolbar-add pill geometry below is reused
+ * as-is (it already lays out icon + label in a row). Live Edit keeps the
+ * plain .mw-admin-primary-actions wrapper in the right cluster. */
+body.fi-panel-admin .mw-admin-primary-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm, 8px);
+}
+
+body.fi-panel-admin .mw-admin-primary-actions--left {
+    margin-inline-start: var(--space-sm, 8px);
+}
+
+/* The visible "+ Add" label sits next to the plus icon (was .sr-only). */
+body.fi-panel-admin .admin-toolbar-add .fi-btn .admin-toolbar-add__label {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    color: #182433;
+}
+
+body.fi-panel-admin .admin-toolbar-add .fi-btn,
+body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
+    background-color: #e1edf8 !important;
+    color: #182433 !important;
+    border: none !important;
+    box-shadow: none !important;
+    /* task-2026-06-13-letoolbarstyle — match released v2.0.20 admin: 4px
+       rectangle, not the 999px pill (user: "old design is better, match it"). */
+    border-radius: 4px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    height: auto !important;
+    min-height: 32px !important;
+    padding: 0 var(--space-md, 16px) !important;
+    line-height: 1 !important;
+    gap: 6px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
+}
+body.fi-panel-admin .admin-toolbar-add .fi-btn:hover,
+body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary:hover {
+    background-color: #c8dff5 !important;
+    opacity: 1 !important;
+}
+body.fi-panel-admin .admin-toolbar-add .fi-btn:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd) !important;
+    outline-offset: 2px !important;
+}
+body.fi-panel-admin .admin-toolbar-add .fi-btn svg {
+    width: 16px !important;
+    height: 16px !important;
+    color: #182433 !important;
+}
+
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary {
+    background-color: #e2f9e6 !important;
+    color: #182433 !important;
+    border: none !important;
+    box-shadow: none !important;
+    /* task-2026-06-13-letoolbarstyle — match released v2.0.20 admin: 4px
+       rectangle, not the 999px pill. */
+    border-radius: 4px !important;
+    height: auto !important;
+    min-height: 32px !important;
+    padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
+    line-height: 1 !important;
+    transition: background-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)) !important;
+}
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn:hover,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn.fi-color-primary:hover {
+    background-color: #c8f4ce !important;
+    opacity: 1 !important;
+}
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd) !important;
+    outline-offset: 2px !important;
+}
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn span,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn .fi-btn-label,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn svg {
+    color: #182433 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.fi-panel-admin .admin-toolbar-add .fi-btn,
+    body.fi-panel-admin .admin-toolbar-live-edit .fi-btn {
+        transition: none !important;
+    }
+}
+
+/* task-2026-06-08-addmobile / AI-1254 CHANGE — +Add is now the primary v2
+ * LEFT action, so it stays VISIBLE on mobile (was hidden because it rendered
+ * a 32px sub-floor pill next to the 44px Live Edit pill). Instead of hiding
+ * it, lift it to the WCAG 2.5.5 44px touch-target floor and keep the "+ Add"
+ * label. The `.fi-color-primary` compound is mirrored so this rule matches
+ * the always-on display:flex rule above at equal (0,4,1) specificity and
+ * wins on later source order. (Supersedes the AI-704/AI-1254 mobile-hide.) */
+@media (max-width: 768px) {
+    body.fi-panel-admin .admin-toolbar-add .fi-btn,
+    body.fi-panel-admin .admin-toolbar-add .fi-btn.fi-color-primary {
+        display: inline-flex !important;
+        min-height: 44px !important;
+        padding: 0 14px !important;
+    }
+}
