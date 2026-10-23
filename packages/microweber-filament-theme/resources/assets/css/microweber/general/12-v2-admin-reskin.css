@@ -140,7 +140,7 @@ body.fi-panel-admin .fi-section {
        as a clean white surface (matches the demo). */
     border: 1px solid var(--mw-border-subtle) !important;
     box-shadow: 0 1px 4px rgba(24, 36, 51, 0.10) !important;
-    border-radius: 12px !important;
+    border-radius: var(--mw-radius-md) !important;  /* 4px — match the content-list cards + table cards (was 12px, read inconsistent) */
 }
 
 /* ── Table: clean header and row styles ─────────────────────────── */

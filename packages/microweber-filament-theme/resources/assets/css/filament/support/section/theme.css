@@ -8,3 +8,13 @@
   padding: var(--mw-space-md) var(--mw-space-md) !important;  /* compact: md(16) */
   gap: 12px !important;  /* compact field gap */
 }
+
+/* Corner radius — the outer .fi-section radius (4px) is set in
+   general/12-v2-admin-reskin.css (the `body.fi-panel-admin .fi-section` reskin rule,
+   higher specificity). Here we only round the header's TOP corners to match so the
+   header doesn't poke past the 4px card corner. */
+.fi-section > .fi-section-header,
+.fi-section > .fi-section-header-ctn {
+  border-top-left-radius: var(--mw-radius-md) !important;
+  border-top-right-radius: var(--mw-radius-md) !important;
+}
