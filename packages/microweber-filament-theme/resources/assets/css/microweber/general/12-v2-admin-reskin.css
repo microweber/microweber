@@ -434,25 +434,8 @@ body.fi-panel-admin .fi-tabs {
     background-color: #ffffff !important;
 }
 
-/* ── Status badges: keep v2-style colors ────────────────────────── */
-body.fi-panel-admin .fi-badge.fi-color-warning {
-    /* MW v2 demo: orange "Premium" tint — was Tailwind yellow #fef9c3/#ca8a04. */
-    background-color: #fef0e6 !important;
-    color: #f76707 !important;
-    border-color: transparent !important;
-}
-body.fi-panel-admin .fi-badge.fi-color-danger {
-    /* MW v2 demo danger tint — was Tailwind #fee2e2/#dc2626. */
-    background-color: #fdecec !important;
-    color: #d63939 !important;
-    border-color: transparent !important;
-}
-body.fi-panel-admin .fi-badge.fi-color-info,
-body.fi-panel-admin .fi-badge.fi-color-primary {
-    background-color: #e1edf8 !important;
-    color: #0d6efd !important;
-    border-color: transparent !important;
-}
+/* Status-badge colours (light + dark variants) moved to the single badge source:
+   filament/support/badge.css. */
 
 /* ── Topbar search bar: match v2 subtle style ───────────────────── */
 body.fi-panel-admin .fi-global-search-field input {
@@ -577,28 +560,8 @@ body.fi-panel-admin .fi-global-search-field input:focus {
     background-color: rgba(255, 255, 255, 0.08) !important;
     color: #e5e7eb !important;
 }
-/* Badges — softer alpha tones for dark bg */
-.dark body.fi-panel-admin .fi-badge.fi-color-success {
-    background-color: rgba(22, 163, 74, 0.2) !important;
-    color: #4ade80 !important;
-    border-color: rgba(22, 163, 74, 0.3) !important;
-}
-.dark body.fi-panel-admin .fi-badge.fi-color-warning {
-    background-color: rgba(202, 138, 4, 0.2) !important;
-    color: #facc15 !important;
-    border-color: rgba(202, 138, 4, 0.3) !important;
-}
-.dark body.fi-panel-admin .fi-badge.fi-color-danger {
-    background-color: rgba(220, 38, 38, 0.2) !important;
-    color: #f87171 !important;
-    border-color: rgba(220, 38, 38, 0.3) !important;
-}
-.dark body.fi-panel-admin .fi-badge.fi-color-info,
-.dark body.fi-panel-admin .fi-badge.fi-color-primary {
-    background-color: rgba(29, 78, 216, 0.2) !important;
-    color: #cbd5e1 !important;
-    border-color: rgba(29, 78, 216, 0.3) !important;
-}
+/* Dark status-badge colours moved to the single badge source:
+   filament/support/badge.css. */
 
 /* ══════════════════════════════════════════════════════════════════════
    v2-PARITY ROUND 3 — "New X" create buttons, tabs, table polish
@@ -742,16 +705,8 @@ body.fi-panel-admin .fi-ta-cell .fi-ta-image {
 /* ── Status badge: "PUBLISHED" v2 style — uppercase + tight ──────────
    v2 Published badge: #e2f9e6 bg, #1a6b35 text, border none, 12px.
    (existing CSS may cover this — add as fallback with higher specificity) */
-body.fi-panel-admin .fi-badge.fi-color-success {
-    background-color: #e2f9e6 !important;
-    color: #156b32 !important;
-    border-color: #b3e8c3 !important;
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.02em !important;
-    padding: 3px 8px !important;
-    border-radius: 6px !important;
-}
+/* The v2 "Published" success badge moved to the single badge source:
+   filament/support/badge.css. */
 
 /* ── Marketplace grid: ensure card border-radius matches v2 ───────────
    v2 template cards have slightly rounded corners + visible border on hover */

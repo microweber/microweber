@@ -139,10 +139,8 @@
     @apply text-gray-300;
 }
 
-/* Badge dark mode */
-.dark .fi-badge {
-    @apply text-gray-100;
-}
+/* Badge styling (incl. dark text) is consolidated in
+   filament/support/badge.css — the single source of truth for .fi-badge. */
 
 /* Empty state dark mode */
 .dark .fi-empty-state-title {

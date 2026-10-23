@@ -775,9 +775,8 @@ body.fi-panel-admin .fi-theme-switcher-btn.fi-active .fi-icon {
  * issue everywhere. Scoping to admin panel so checkout/profile badges
  * keep Filament defaults. Single white-space rule is the smallest fix;
  * single-word badges unaffected. */
-body.fi-panel-admin .fi-badge {
-    white-space: nowrap;
-}
+/* `body.fi-panel-admin .fi-badge { white-space: nowrap }` moved to the single
+   badge source: filament/support/badge.css. */
 
 /* ── AI-783 (task-2026-05-17-378d85) — stat-card label accidental underline.
  * Designer's Round-10 audit caught the "Orders" label on the OrderStats
@@ -1146,16 +1145,8 @@ body.fi-panel-admin a.mw-quick-stat-card {
    the role name as text inside the badge — this rule ensures the text is
    always legible (min contrast 4.5:1) in both themes. No structural change needed.
    ========================================================================== */
-body.fi-panel-admin .fi-badge[class*="role"],
-body.fi-panel-admin .fi-badge[class*="admin"],
-body.fi-panel-admin .fi-badge[class*="superadmin"] {
-    font-weight: 600 !important;
-    letter-spacing: 0.01em !important;
-}
-.dark body.fi-panel-admin .fi-badge {
-    /* Ensure readable text inside badges in dark mode */
-    text-shadow: none !important;
-}
+/* Role-badge legibility + dark-mode text-shadow rules moved to the single badge
+   source: filament/support/badge.css. */
 
 /* ==========================================================================
    AI-1030 / task-2026-05-22 — Products empty state: desaturate bright SVG

@@ -141,11 +141,16 @@ class Admin378d85AI781AI782AI783ShopBatchContractTest extends TestCase
     #[Test]
     public function ai782_badge_no_wrap_rule_present_in_css_and_bundle(): void
     {
-        // Source rule
+        // Source rule — badge styling is consolidated in filament/support/badge.css
+        // (the single source of truth for .fi-badge; moved out of general-styles.css
+        // 2026-10-23).
+        $badgeCss = (string) file_get_contents(base_path(
+            'packages/microweber-filament-theme/resources/assets/css/filament/support/badge.css'
+        ));
         $this->assertMatchesRegularExpression(
-            '/body\.fi-panel-admin\s+\.fi-badge\s*\{\s*white-space:\s*nowrap\s*[;}]/',
-            $this->css,
-            'general-styles.css must declare body.fi-panel-admin .fi-badge { white-space: nowrap } for AI-782.'
+            '/body\.fi-panel-admin\s+\.fi-badge\s*\{\s*white-space:\s*nowrap\s*(!important)?\s*[;}]/',
+            $badgeCss,
+            'badge.css must declare body.fi-panel-admin .fi-badge { white-space: nowrap } for AI-782.'
         );
         // Served bundle (minification-tolerant)
         if ($this->bundle === '') {

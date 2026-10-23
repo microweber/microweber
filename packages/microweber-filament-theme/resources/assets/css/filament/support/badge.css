@@ -1,3 +1,18 @@
+/* =============================================================================
+   Badges — the single source of truth for `.fi-badge`.
+
+   Consolidated here (2026-10-23) from badge.css + general/11-topbar-and-dashboard
+   + general/12-v2-admin-reskin + global.css + tables/theme.css, so the next dev
+   finds every badge rule in one place. Two badge-adjacent rules deliberately stay
+   with their own concern:
+     - tags-input pill chips → filament/forms/content-form.css (.fi-fo-tags-input .fi-badge)
+     - the "0" filter-count badge hide → general/11 (.fi-ta-filters-btn .fi-badge:empty)
+   The old nested dark-badge colours in filament/dark.css are superseded by the
+   `.dark body.fi-panel-admin .fi-badge.fi-color-*` rules below (higher specificity)
+   and are dead — left in place pending the dark.css cleanup pass.
+   ============================================================================= */
+
+/* ── Base: size, radius, custom/gray variants ───────────────────────────── */
 .fi-badge {
     @apply rounded-sm ring-0 !px-1 !py-[0.1rem];
 
@@ -19,14 +34,88 @@
         @apply text-gray-400 dark:text-gray-400;
     }
 }
-/* === extracted from microweber-theme-v3 === */
-/* 1437-1446 */
-/* ============================================================================ */
-/* Badges — MW v2 style: small rounded, not pill */
-/* ============================================================================ */
+
+/* MW v2 exact sizing (overrides the @apply padding/radius above by source order). */
 .fi-badge {
-  border-radius: 4px !important;  /* MW v2 exact */
-  font-weight: 600 !important;
-  font-size: 10px !important;  /* MW v2 exact */
-  padding: var(--mw-space-hair) var(--mw-space-xs) !important;  /* GR: hair(4) xs(6) */
+    border-radius: 4px !important;  /* MW v2 exact */
+    font-weight: 600 !important;
+    font-size: 10px !important;  /* MW v2 exact */
+    padding: var(--mw-space-hair) var(--mw-space-xs) !important;  /* GR: hair(4) xs(6) */
+}
+
+/* ── Labels never wrap (table status badges, multi-word labels) ──────────── */
+.fi-ta-cell .fi-badge {
+    white-space: nowrap !important;
+}
+body.fi-panel-admin .fi-badge {
+    white-space: nowrap !important;
+}
+
+/* ── Role badges — keep the text legible (min contrast) ──────────────────── */
+body.fi-panel-admin .fi-badge[class*="role"],
+body.fi-panel-admin .fi-badge[class*="admin"],
+body.fi-panel-admin .fi-badge[class*="superadmin"] {
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+}
+
+/* ── Status colours — light (MW v2 demo tints) ──────────────────────────── */
+body.fi-panel-admin .fi-badge.fi-color-warning {
+    /* MW v2 demo: orange "Premium" tint — was Tailwind yellow #fef9c3/#ca8a04. */
+    background-color: #fef0e6 !important;
+    color: #f76707 !important;
+    border-color: transparent !important;
+}
+body.fi-panel-admin .fi-badge.fi-color-danger {
+    /* MW v2 demo danger tint — was Tailwind #fee2e2/#dc2626. */
+    background-color: #fdecec !important;
+    color: #d63939 !important;
+    border-color: transparent !important;
+}
+body.fi-panel-admin .fi-badge.fi-color-info,
+body.fi-panel-admin .fi-badge.fi-color-primary {
+    background-color: #e1edf8 !important;
+    color: #0d6efd !important;
+    border-color: transparent !important;
+}
+/* v2 "Published" success badge: #e2f9e6 bg, #156b32 text, 11px. */
+body.fi-panel-admin .fi-badge.fi-color-success {
+    background-color: #e2f9e6 !important;
+    color: #156b32 !important;
+    border-color: #b3e8c3 !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+}
+
+/* ── Status colours — dark (softer alpha tints, readable text) ───────────── */
+.dark .fi-badge {
+    @apply text-gray-100;
+}
+.dark body.fi-panel-admin .fi-badge {
+    /* Readable text inside badges in dark mode. */
+    text-shadow: none !important;
+}
+.dark body.fi-panel-admin .fi-badge.fi-color-success {
+    background-color: rgba(22, 163, 74, 0.2) !important;
+    color: #4ade80 !important;
+    border-color: rgba(22, 163, 74, 0.3) !important;
+}
+.dark body.fi-panel-admin .fi-badge.fi-color-warning {
+    background-color: rgba(202, 138, 4, 0.2) !important;
+    color: #facc15 !important;
+    border-color: rgba(202, 138, 4, 0.3) !important;
+}
+.dark body.fi-panel-admin .fi-badge.fi-color-danger {
+    background-color: rgba(220, 38, 38, 0.2) !important;
+    color: #f87171 !important;
+    border-color: rgba(220, 38, 38, 0.3) !important;
+}
+.dark body.fi-panel-admin .fi-badge.fi-color-info,
+.dark body.fi-panel-admin .fi-badge.fi-color-primary {
+    background-color: rgba(29, 78, 216, 0.2) !important;
+    color: #cbd5e1 !important;
+    border-color: rgba(29, 78, 216, 0.3) !important;
 }

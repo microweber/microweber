@@ -196,10 +196,8 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
   min-width: 60px;
 }
 
-/* Status badge columns — ensure enough room for badge + icon */
-.fi-ta-cell .fi-badge {
-  white-space: nowrap !important;
-}
+/* Badge styling (incl. the .fi-ta-cell nowrap rule) is consolidated in
+   filament/support/badge.css — the single source of truth for .fi-badge. */
 
 /* ============================================================================ */
 /* Content list grid cards — Pages/Posts/Products (MW v2 style) */
