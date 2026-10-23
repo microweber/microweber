@@ -20,7 +20,7 @@ class LegacyMediaTest extends TestCase
             'rel_id' => 3,
             'title' => 'My new pic',
             'media_type' => 'picture',
-            'filename' => 'http://lorempixel.com/400/200/',
+            'filename' => 'http://picsum.photos/400/200/',
         );
         $saved_pic_id = save_media($picture);
 
@@ -32,7 +32,7 @@ class LegacyMediaTest extends TestCase
         $this->assertEquals(intval($saved_pic_id) > 0, true);
         $this->assertEquals(is_array($picture_data), true);
         $this->assertEquals($title, 'My new pic');
-        $this->assertEquals($src, 'http://lorempixel.com/400/200/');
+        $this->assertEquals($src, 'http://picsum.photos/400/200/');
     }
 
     #[Test]
@@ -44,7 +44,7 @@ class LegacyMediaTest extends TestCase
             'rel_id' => 3,
             'title' => 'My new pic to del',
             'media_type' => 'picture',
-            'filename' => 'http://lorempixel.com/400/200/',
+            'filename' => 'http://picsum.photos/400/200/',
         );
         $saved_pic_id = save_media($picture);
         $picture_data = get_media_by_id($saved_pic_id);
@@ -68,7 +68,7 @@ class LegacyMediaTest extends TestCase
             'rel_id' => 3,
             'title' => 'My new pic',
             'media_type' => 'picture',
-            'filename' => ['http://lorempixel.com/400/200/', 'http://lorempixel.com/400/200/'],
+            'filename' => ['http://picsum.photos/400/200/', 'http://picsum.photos/400/200/'],
         );
         $saved_pic_id = save_media($picture);
 
@@ -87,7 +87,7 @@ class LegacyMediaTest extends TestCase
             'title' => 'My new pic to xss' . $xss,
             'description' => 'My new pic description xss' . $xss,
             'media_type' => 'picture',
-            'filename' => 'http://lorempixel.com/400/200/' . $xss,
+            'filename' => 'http://picsum.photos/400/200/' . $xss,
         );
         $saved_pic_id = save_media($picture);
         $picture_data = get_media_by_id($saved_pic_id);

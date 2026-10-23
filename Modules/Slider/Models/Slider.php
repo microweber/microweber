@@ -43,7 +43,7 @@ class Slider extends Model
     public $translatable = ['name', 'description', 'button_text'];
 
     protected $casts = [
-        'media' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
+        'media' => ReplaceSiteUrlCast::class, //Casts like that: http://picsum.photos/400/200/ =>  {SITE_URL}400/200/
         'settings' => 'array',
         'position' => 'integer'
     ];

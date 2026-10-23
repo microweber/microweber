@@ -64,7 +64,7 @@ class Media extends Model implements CdnSyncable
         'image_options' => 'json',
         'metadata' => 'json',
         'cdn_metadata' => 'json',
-        'filename' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ => {SITE_URL}400/200/
+        'filename' => ReplaceSiteUrlCast::class, //Casts like that: http://picsum.photos/400/200/ => {SITE_URL}400/200/
         'is_synced_to_cdn' => 'boolean',
         'file_size' => 'integer',
     ];

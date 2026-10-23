@@ -16,17 +16,17 @@ class MediaTest extends TestCase
         $newPage->title = 'Pictures from Sofia';
 
         $newPage->addMedia([
-            'filename' => 'http://DESKTOP-COEV57U/./lorempixel.com/400/200/',
+            'filename' => 'http://DESKTOP-COEV57U/./picsum.photos/400/200/',
             'title' => 'View from Vitosha'
         ]);
 
 //        $newPage->addMedia([
-//            'filename' => 'http://lorempixel.com/400/200/',
+//            'filename' => 'http://picsum.photos/400/200/',
 //            'title' => 'View from Vitosha 2'
 //        ]);
 //
 //        $newPage->addMedia([
-//            'filename' => 'http://lorempixel.com/400/200/',
+//            'filename' => 'http://picsum.photos/400/200/',
 //            'title' => 'View from Vitosha 3'
 //        ]);
 
@@ -50,17 +50,17 @@ class MediaTest extends TestCase
 
         $newPage->title = 'Pictures from Sofia';
         $newPage->addMedia([
-            'filename' => 'http://DESKTOP-COEV57U/./lorempixel.com/400/200/',
+            'filename' => 'http://DESKTOP-COEV57U/./picsum.photos/400/200/',
             'title' => 'View from Vitosha MUST DELETE!'
         ]);
 
         $newPage->addMedia([
-            'filename' => 'http://DESKTOP-COEV57U/./lorempixel.com/400/200/',
+            'filename' => 'http://DESKTOP-COEV57U/./picsum.photos/400/200/',
             'title' => 'View from Vitosha 3'
         ]);
 
         $newPage->addMedia([
-            'filename' => 'http://DESKTOP-COEV57U/./lorempixel.com/400/200/',
+            'filename' => 'http://DESKTOP-COEV57U/./picsum.photos/400/200/',
             'title' => 'View from Vitosha 4'
         ]);
 

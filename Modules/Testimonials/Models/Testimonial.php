@@ -48,7 +48,7 @@ class Testimonial extends Model
 
 
     protected $casts = [
-        'client_image' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
+        'client_image' => ReplaceSiteUrlCast::class, //Casts like that: http://picsum.photos/400/200/ =>  {SITE_URL}400/200/
     ];
 
 }

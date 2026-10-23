@@ -54,11 +54,11 @@ class TeamcardModelTest extends TestCase
     {
         $teamcard = Teamcard::create([
             'name' => 'Test Member',
-            'file' => 'http://lorempixel.com/400/200/'
+            'file' => 'http://picsum.photos/400/200/'
         ]);
 
         // Currently the cast doesn't transform the URL
-        $this->assertEquals('http://lorempixel.com/400/200/', $teamcard->file);
+        $this->assertEquals('http://picsum.photos/400/200/', $teamcard->file);
 
 
         $teamcard->delete();

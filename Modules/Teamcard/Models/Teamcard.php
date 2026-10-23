@@ -48,6 +48,6 @@ class Teamcard extends Model
 
     protected $casts = [
         'settings' => 'array',
-        'file' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
+        'file' => ReplaceSiteUrlCast::class, //Casts like that: http://picsum.photos/400/200/ =>  {SITE_URL}400/200/
     ];
 }

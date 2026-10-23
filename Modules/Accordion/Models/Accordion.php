@@ -61,6 +61,6 @@ class Accordion extends Model
 
     protected $casts = [
         'settings' => 'array',
-        'content' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
+        'content' => ReplaceSiteUrlCast::class, //Casts like that: http://picsum.photos/400/200/ =>  {SITE_URL}400/200/
     ];
 }
