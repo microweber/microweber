@@ -1,0 +1,283 @@
+/* ESE — 04 panels: per-panel layout/structure. */
+/* ============================================================
+ * task-2026-05-16-0e7dfc: ESE sidebar design-consistency sweep
+ *
+ * The ESE accordion bodies each render with their own per-component
+ * markup conventions (form-control-live-edit-label-wrapper /
+ * s-field / form-label / d-flex / bespoke wrappers). This block
+ * brings the visible field-row rhythm in line across all tabs so
+ * the sidebar reads as ONE control surface instead of N component
+ * rooms.
+ *
+ * Touches: Typography, Background, Spacing, Container, Grid,
+ * Border, RoundedCorners, Animations, Shadow, Class Applier,
+ * List Style Editor, Predefined Styles, AI Chat. Scoped to
+ * `.element-style-editor-toggle-wrapper.active` so it only fires
+ * inside the open accordion, never leaking to other Filament UI.
+ * ============================================================ */
+
+/* 1. Spacing tab — S/M/L/XL preset buttons. Used `.btn.btn-icon`
+ *    but no CSS defines `.btn-icon` anywhere in the project, so the
+ *    buttons rendered with bare Bootstrap `.btn` blue-bordered
+ *    defaults — visibly inconsistent with every other ESE control
+ *    (ColorPicker pill, Italic toggle, alignment row).
+ *    Make them compact 28×28 currentColor squares with a subtle
+ *    border + active state matching `.text-align .active`.
+ */
+.element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper {
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper .btn.btn-icon {
+    width: 32px;
+    height: 28px;
+    min-width: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: 1px solid rgba(127, 127, 127, 0.25);
+    background: transparent;
+    color: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease,
+                color 0.15s ease;
+}
+.element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper .btn.btn-icon:hover {
+    border-color: rgba(127, 127, 127, 0.5);
+    background: rgba(127, 127, 127, 0.08);
+}
+.element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper .btn.btn-icon.active {
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+    border-color: var(--ese-accent, #182433);
+    color: var(--ese-accent, #182433);
+}
+.element-style-editor-toggle-wrapper.active .mw-live-edit-spacing-wrapper .btn.btn-icon svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+/* 2. Grid tab — `<label class="live-edit-label px-0 col-4">` forced
+ *    a 33% width on Grid labels (col-4 = 33% of a 12-col row),
+ *    making them narrower than every other ESE label and pushing
+ *    the breakpoint controls into a cramped 67% slot. Normalize.
+ */
+.element-style-editor-toggle-wrapper.active .live-edit-label.col-4 {
+    width: auto;
+    flex: 0 0 auto;
+    min-width: 80px;
+    padding-inline: 0 !important;
+}
+
+/* 3. UlOl list-style + PredefinedStyles tabs — `.live-edit-label.w-100`
+ *    + `.live-edit-label.cursor-pointer` rendered the label
+ *    full-width on its own line which broke the otherwise consistent
+ *    label-left/control-right rhythm. Force consistent inline layout.
+ */
+.element-style-editor-toggle-wrapper.active .live-edit-label.w-100 {
+    width: auto !important;
+}
+
+/* 4. Spacing tab — `.form-label.live-edit-label` (with the extra
+ *    Bootstrap `.form-label`) inherits `.form-label`'s
+ *    `margin-bottom: 0.5rem` which makes its labels sit 8px LOWER
+ *    than other ESE labels. Cancel the extra margin so they align
+ *    with sibling rows.
+ */
+.element-style-editor-toggle-wrapper.active .form-label.live-edit-label {
+    margin-bottom: 4px;
+}
+
+/* 5. All accordion-body containers — `.mb-3` (Spacing) / `.mb-4`
+ *    (RoundedCorners) / inherent margin from `.my-4` on individual
+ *    field wrappers diverge. Normalize the row gap between
+ *    field-row groups to a consistent 12px while inside the active
+ *    accordion. (The earlier general-styles rule sets
+ *    `.form-control-live-edit-label-wrapper { margin-bottom: 8px }`
+ *    inside the active wrapper — this rule extends to the other
+ *    margin-utility variants.)
+ */
+.element-style-editor-toggle-wrapper.active .mb-3,
+.element-style-editor-toggle-wrapper.active .mb-4,
+.element-style-editor-toggle-wrapper.active .my-4 {
+    margin-top: 4px !important;
+    margin-bottom: 12px !important;
+}
+
+/* 6. List-style + Predefined-styles accordion buttons that use
+ *    `<a>` with `cursor-pointer` need a hover affordance + active
+ *    state so they read as buttons not paragraphs.
+ */
+.element-style-editor-toggle-wrapper.active .live-edit-label.cursor-pointer {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+}
+.element-style-editor-toggle-wrapper.active .live-edit-label.cursor-pointer:hover {
+    background: rgba(127, 127, 127, 0.08);
+}
+
+/* 7. Background tab — ImagePicker label "Image" inherited
+ *    `.background-image-nav > * { text-align: center }` (declared
+ *    earlier in this file as a 3-column thumbnail-strip layout)
+ *    and rendered visibly centered while siblings (Color, Size,
+ *    Repeat, Position) were left-aligned. Force the label inside
+ *    background-image-nav back to start-alignment so it matches.
+ */
+.element-style-editor-toggle-wrapper.active .background-image-nav > .live-edit-label {
+    text-align: start;
+}
+
+/* 8. Promoted compact-select sizing to global scope so EVERY field
+ *    that opts in via `.dropdown-small-select` (DropdownSmall,
+ *    FontPicker — likely more later) gets the same row geometry.
+ *    Previously this rule lived inside DropdownSmall.vue's scoped
+ *    <style>, so other components could not benefit. The rule is
+ *    intentionally not !important so a component can still override
+ *    when it has a real reason.
+ */
+.element-style-editor-toggle-wrapper.active .dropdown-small-select,
+.element-style-editor-toggle-wrapper.active select.dropdown-small-select {
+    width: auto;
+    min-width: 120px;
+    max-width: 60%;
+    font-size: 13px;
+    padding: 4px 28px 4px 8px;
+    height: auto;
+}
+:root.dark .element-style-editor-toggle-wrapper.active .dropdown-small-select,
+.dark .element-style-editor-toggle-wrapper.active .dropdown-small-select {
+    color-scheme: dark;
+}
+
+/* 9. FontPicker "Add more fonts" link previously had `pt-3 pb-1`
+ *    (12px / 4px) which pushed it well below the select row,
+ *    creating a visible vertical gap. Tighten the top padding so
+ *    it sits closer to the field it belongs to. Color is muted
+ *    so it reads as a secondary action.
+ */
+.element-style-editor-toggle-wrapper.active .font-picker-add-more {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 4px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: opacity 0.15s ease;
+}
+.element-style-editor-toggle-wrapper.active .font-picker-add-more:hover {
+    opacity: 1;
+}
+
+/* ============================================================
+ * task-2026-05-22-e8b42c / AI-821 — aria-live announcement region
+ * visually-hidden with !important.
+ *
+ * Root cause: the ESE Vue app loads its own CSS bundle in the live-edit
+ * iframe; Bootstrap's .visually-hidden class is not present there, so
+ * the class="visually-hidden mw-ese-announce" region renders visible text
+ * (e.g. "Typography panel opened") above every section header.
+ *
+ * Fix: explicit sr-only properties with !important directly on
+ * .mw-ese-announce so the hiding works regardless of Bootstrap availability.
+ * The aria-live / aria-atomic / role="status" attrs on the DOM node still
+ * fire announcements to AT — only the visual rendering is suppressed.
+ * ============================================================ */
+.mw-ese-announce {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ============================================================
+ * task-2026-05-22-e8b42c / AI-825 — ESE dark mode contrast sweep.
+ *
+ * Problem: 5 contrast failures in dark mode across all ESE sections:
+ *   1. Field labels:  Tailwind @apply text-gray-500/600 hardcodes light
+ *      colours → not swapped in dark; can fall below 4.5:1.
+ *   2. Input borders: --ese-border at rgba(255,255,255,0.12) on #1a1f2b ≈
+ *      1.5:1 — fails WCAG 3:1 non-text minimum.
+ *   3. Dropdown chrome: native <select> bg stays gray-100 (Tailwind @apply)
+ *      → near-white on dark panel; hard to read.
+ *   4. Dark colour swatches: --ese-border-strong at rgba(255,255,255,0.20)
+ *      on #1a1f2b ≈ 2.0:1 — swatch outline invisible.
+ *   5. "More options:" divider: same rgba(255,255,255,0.12) → invisible.
+ *
+ * Fix strategy: Stage-2 cascade-loss compound selector + !important pattern:
+ *   (a) Token override block bumps --ese-border and --ese-border-strong
+ *       in dark; later css block wins via source-order cascade.
+ *   (b) Compound selectors override Tailwind @apply hardcoded colours on
+ *       inputs, selects, labels; !important beats Tailwind utility output.
+ *
+ * Light mode is regression-guarded: all rules are scoped to .dark /
+ * .theme-dark / [data-theme="dark"] so no light mode property is touched.
+ * ============================================================ */
+
+/* (a) Token bump — later in file = source-order wins over the existing
+ * .dark block at line 363. Both have the same specificity; this wins
+ * because it appears last. */
+.dark,
+.theme-dark,
+[data-theme="dark"] {
+    /* Bumped from 0.12 → 0.35; achieves ≈3.54:1 on #1a1f2b (≥3:1 non-text) */
+    --ese-border:        rgba(255, 255, 255, 0.35);
+    /* Bumped from 0.20 → 0.50; achieves ≈5.5:1 on #1a1f2b (colour swatches) */
+    --ese-border-strong: rgba(255, 255, 255, 0.50);
+}
+
+/* (b) Compound selector overrides for Tailwind-hardcoded light values */
+
+/* 1. Field labels */
+.dark #mw-element-style-editor-app .live-edit-label,
+.theme-dark #mw-element-style-editor-app .live-edit-label,
+[data-theme="dark"] #mw-element-style-editor-app .live-edit-label {
+    color: var(--ese-label, #cbd5e1) !important;
+}
+
+/* 2. All text inputs, number inputs, selects, textareas inside ESE */
+.dark #mw-element-style-editor-app input:not([type="color"]):not([type="range"]),
+.dark #mw-element-style-editor-app select,
+.dark #mw-element-style-editor-app textarea,
+.theme-dark #mw-element-style-editor-app input:not([type="color"]):not([type="range"]),
+.theme-dark #mw-element-style-editor-app select,
+.theme-dark #mw-element-style-editor-app textarea {
+    background-color: var(--ese-surface-muted, #232938) !important;
+    color: var(--ese-text, #f1f5f9) !important;
+    border-color: var(--ese-border-strong, rgba(255, 255, 255, 0.50)) !important;
+}
+
+/* 3. Dropdown Chrome: .mw-esc select uses @apply bg-gray-100 text-gray-800 */
+.dark #mw-element-style-editor-app .mw-esc .mw-multiple-fields .mw-field:last-child select,
+.theme-dark #mw-element-style-editor-app .mw-esc .mw-multiple-fields .mw-field:last-child select {
+    background-color: var(--ese-surface-muted, #232938) !important;
+    color: var(--ese-text, #f1f5f9) !important;
+    border-color: var(--ese-border-strong, rgba(255, 255, 255, 0.50)) !important;
+}
+
+/* 4. Color swatch outline — .picker-button border uses --ese-border-strong
+ * which is bumped by token override (a) above; no extra rule needed there.
+ * Ensure the inset delineation ring is still visible: */
+.dark .form-control-live-edit-label-wrapper .picker-button,
+.dark #mw-element-style-editor-app .picker-button,
+.theme-dark .form-control-live-edit-label-wrapper .picker-button,
+.theme-dark #mw-element-style-editor-app .picker-button {
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* 5. "More options:" summary text (Typography section <details>) */
+.dark #mw-element-style-editor-app .mw-typography-advanced > summary,
+.theme-dark #mw-element-style-editor-app .mw-typography-advanced > summary,
+[data-theme="dark"] #mw-element-style-editor-app .mw-typography-advanced > summary {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}

@@ -1,0 +1,177 @@
+/* ESE — 06 LE redesign: visibility per-device rows, Size S/M/L/XL segmented (frame 1c). */
+/* ============================================================
+ * LE redesign (frame 1c) — Inspector footer: Duplicate / Delete.
+ * Two buttons at the bottom of the ESE panel: Duplicate is neutral,
+ * Delete is danger-tinted. Uses the --ese-* token set so it inherits
+ * light/dark automatically. task-2026-09-11-le-redesign-ese.
+ * ============================================================ */
+.mw-live-edit-page .mw-ese-footer,
+#mw-element-style-editor-app .mw-ese-footer {
+    display: flex;
+    gap: 8px;
+    padding: 12px 2px 4px;
+    margin-top: 10px;
+    border-top: 1px solid var(--ese-border, #e6e6e2);
+}
+.mw-live-edit-page .mw-ese-footer__btn,
+#mw-element-style-editor-app .mw-ese-footer__btn {
+    flex: 1 1 0;
+    min-height: 40px;
+    border-radius: var(--ese-radius-sm, 8px);
+    border: 1px solid var(--ese-border-strong, #d9d9d4);
+    background: var(--ese-surface, #fff);
+    color: var(--ese-text, #1c1c1a);
+    font-size: var(--font-label, 13px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .12s ease, border-color .12s ease, color .12s ease;
+}
+.mw-live-edit-page .mw-ese-footer__btn--duplicate:hover,
+#mw-element-style-editor-app .mw-ese-footer__btn--duplicate:hover {
+    background: var(--ese-surface-hover, #f3f3f1);
+}
+.mw-live-edit-page .mw-ese-footer__btn--delete,
+#mw-element-style-editor-app .mw-ese-footer__btn--delete {
+    color: #dc2626;
+    border-color: rgba(220, 38, 38, 0.28);
+}
+.mw-live-edit-page .mw-ese-footer__btn--delete:hover,
+#mw-element-style-editor-app .mw-ese-footer__btn--delete:hover {
+    background: rgba(220, 38, 38, 0.08);
+    border-color: rgba(220, 38, 38, 0.5);
+}
+
+/* ============================================================
+ * LE redesign (frame 1c) — Inspector header: block icon + name +
+ * parent-module breadcrumb. task-2026-09-11-le-redesign-ese.
+ * ============================================================ */
+.mw-live-edit-page .mw-ese-header,
+#mw-element-style-editor-app .mw-ese-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Reserve room on the right for the panel's absolutely-positioned close
+       (.mw-control-boxclose, ~44px from the panel edge) so the margin-left:auto
+       breadcrumb never renders underneath the ✕. */
+    padding: 2px 46px 12px 2px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--ese-border, #e6e6e2);
+}
+.mw-live-edit-page .mw-ese-header__icon,
+#mw-element-style-editor-app .mw-ese-header__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+    color: var(--ese-accent, #182433);
+    flex: 0 0 auto;
+}
+.mw-live-edit-page .mw-ese-header__name,
+#mw-element-style-editor-app .mw-ese-header__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ese-text, #1c1c1a);
+}
+.mw-live-edit-page .mw-ese-header__crumb,
+#mw-element-style-editor-app .mw-ese-header__crumb {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--ese-text-muted, #77776f);
+}
+
+/* ============================================================
+ * LE redesign (frame 1c) — "Advanced" collapsible group header.
+ * task-2026-09-11-le-redesign-ese.
+ * ============================================================ */
+.mw-live-edit-page .mw-ese-advanced-header,
+#mw-element-style-editor-app .mw-ese-advanced-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 8px;
+    margin: 4px 0;
+    border-radius: var(--ese-radius-sm, 8px);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ese-text, #1c1c1a);
+    transition: background .12s ease;
+}
+.mw-live-edit-page .mw-ese-advanced-header:hover,
+#mw-element-style-editor-app .mw-ese-advanced-header:hover {
+    background: var(--ese-surface-hover, #f3f3f1);
+}
+.mw-live-edit-page .mw-ese-advanced-header__chevron,
+#mw-element-style-editor-app .mw-ese-advanced-header__chevron {
+    color: var(--ese-text-muted, #77776f);
+    transition: transform .18s ease;
+    flex: 0 0 auto;
+}
+.mw-live-edit-page .mw-ese-advanced-header.is-open .mw-ese-advanced-header__chevron,
+#mw-element-style-editor-app .mw-ese-advanced-header.is-open .mw-ese-advanced-header__chevron {
+    transform: rotate(90deg);
+}
+.mw-live-edit-page .mw-ese-advanced-body,
+#mw-element-style-editor-app .mw-ese-advanced-body {
+    padding-left: 2px;
+}
+
+/* LE redesign — Visibility per-device rows: label left, eye toggle right. */
+.mw-live-edit-page .mw-ese-visibility__row,
+#mw-element-style-editor-app .mw-ese-visibility__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 2px;
+}
+.mw-live-edit-page .mw-ese-visibility__row .live-edit-label,
+#mw-element-style-editor-app .mw-ese-visibility__row .live-edit-label {
+    margin: 0;
+}
+.mw-live-edit-page .mw-ese-visibility__toggle.is-active,
+#mw-element-style-editor-app .mw-ese-visibility__toggle.is-active {
+    color: var(--ese-accent, #182433);
+}
+
+/* LE redesign (frame 1c) — Size S/M/L/XL segmented (explicit, so it doesn't
+   depend on the generic .mw-segmented cascade reaching the ESE). */
+.mw-live-edit-page .mw-ese-size__seg,
+#mw-element-style-editor-app .mw-ese-size__seg {
+    display: inline-flex;
+    width: 100%;
+    border: 1px solid var(--ese-border-strong, #d9d9d4);
+    border-radius: var(--ese-radius-sm, 8px);
+    overflow: hidden;
+    margin-top: 6px;
+}
+.mw-live-edit-page .mw-ese-size__cell,
+#mw-element-style-editor-app .mw-ese-size__cell {
+    flex: 1 1 0;
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: var(--font-label, 13px);
+    font-weight: 500;
+    color: var(--ese-text, #1c1c1a);
+    border-inline-start: 1px solid var(--ese-border, #e6e6e2);
+    transition: background .12s ease, color .12s ease;
+}
+.mw-live-edit-page .mw-ese-size__cell:first-child,
+#mw-element-style-editor-app .mw-ese-size__cell:first-child {
+    border-inline-start: 0;
+}
+.mw-live-edit-page .mw-ese-size__cell:hover,
+#mw-element-style-editor-app .mw-ese-size__cell:hover {
+    background: var(--ese-surface-hover, #f3f3f1);
+}
+.mw-live-edit-page .mw-ese-size__cell.is-active,
+#mw-element-style-editor-app .mw-ese-size__cell.is-active {
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+    color: var(--ese-accent, #182433);
+    box-shadow: inset 0 0 0 1px var(--ese-accent, #182433);
+}

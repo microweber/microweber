@@ -1,0 +1,310 @@
+/* ESE — 05 accordion & empty states: accordion headers/chevrons, per-panel empty states, dark fixes. */
+/* ──────────────────────────────────────────────────────────────────────────
+ * task-2026-05-22-747f20 / AI-724 — ESE chrome dark mode contrast sweep.
+ *
+ * Four surfaces identified by tester at dark mode on-device probe:
+ *  1. Collapsed accordion section labels — inherited dark text on dark panel.
+ *  2. Section dividers — hardcoded #000 corner-marks (Border section) +
+ *     any Tailwind-hardcoded light hairlines invisible on dark surface.
+ *  3. Right-edge icon strip SVGs — dark glyphs on dark sidebar background.
+ *     (Handled in live-edit-classes.css alongside existing sidebar rules.)
+ *  4. Reset icon (↺) — dark stroke on dark ESE surface.
+ *
+ * All rules .dark / .theme-dark / [data-theme="dark"] scoped.
+ * Light mode completely unchanged.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* 6. Collapsed accordion section labels (Typography, Background, …).
+ *    The parent container gets `color: white` via general-styles.css
+ *    `.dark #mw-element-style-editor-app`, but Tailwind-generated link
+ *    styles on `.mw-admin-action-links` can win with higher specificity in
+ *    some builds — anchor here with an explicit token-driven override. */
+.dark .element-style-editor-toggle-wrapper .mw-admin-action-links,
+.theme-dark .element-style-editor-toggle-wrapper .mw-admin-action-links,
+[data-theme="dark"] .element-style-editor-toggle-wrapper .mw-admin-action-links {
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
+/* Accordion header SVG icons — ensure they use the muted text colour so
+ * they're readable but don't compete with the active-state blue accent. */
+.dark .element-style-editor-toggle-wrapper svg,
+.theme-dark .element-style-editor-toggle-wrapper svg,
+[data-theme="dark"] .element-style-editor-toggle-wrapper svg {
+    color: var(--ese-text-muted, #94a3b8) !important;
+    fill: currentColor;
+}
+
+/* Chevron ::after data-uri SVG uses stroke='currentColor'; making the
+ * parent colour light (above) propagates automatically. */
+
+/* 7. Section dividers — Border section corner-angle marks use hardcoded
+ *    `border: 1px solid #000` which vanishes on a dark surface. These are
+ *    scoped Vue styles; `!important` is required to override them.
+ *    Uses var(--ese-border,...) with literal fallback per SOUL #108. */
+.dark .angle-top-left,
+.dark .angle-top-right,
+.dark .angle-bottom-left,
+.dark .angle-bottom-right,
+.theme-dark .angle-top-left,
+.theme-dark .angle-top-right,
+.theme-dark .angle-bottom-left,
+.theme-dark .angle-bottom-right {
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
+}
+
+/* 8. Reset (↺) icon — `.reset-field` uses `color: inherit`; `.mw-tool-field__reset`
+ *    has `color: var(--ese-text-muted)` which maps to #94a3b8 in dark mode
+ *    — correct. Anchor `.reset-field` explicitly so it doesn't regress. */
+.dark #mw-element-style-editor-app .reset-field,
+.dark #mw-element-style-editor-app .reset-field a,
+.dark #mw-element-style-editor-app .reset-field button,
+.theme-dark #mw-element-style-editor-app .reset-field,
+.theme-dark #mw-element-style-editor-app .reset-field a,
+.theme-dark #mw-element-style-editor-app .reset-field button {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+.dark #mw-element-style-editor-app .reset-field svg,
+.theme-dark #mw-element-style-editor-app .reset-field svg {
+    fill: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * task-2026-05-22-06f3f4 / AI-725 — ESE panel content dark mode mapping.
+ *
+ * Six surfaces INSIDE accordion panel content (AI-724 fixed the chrome —
+ * accordion labels, dividers, icon-strip SVGs, reset icon; this ticket
+ * fixes what's visible inside each open panel):
+ *
+ * 9.  Typographic preset thumbnails (.mw-live-edit-predefines-styles-box)
+ * 10. Selected predefined-style preview heading (.predefined-styles-rended)
+ * 11. Spacing diagram holder (.mw-ese-holder, .mw-ese-holder.active)
+ * 12. Spacing diagram position labels (.mw-ese-label: TOP/RIGHT/BOTTOM/LEFT)
+ * 13. Preset quick-action buttons (.mw-tool-btn.mw-tool-btn--preset)
+ * 14. Unit toggle button (px/rem/% switcher in .mw-field.unit .mw-ui-btn)
+ * 15. Segmented-control buttons (.mw-segmented-control button + active state)
+ *
+ * All rules .dark / .theme-dark / [data-theme="dark"] scoped.
+ * Light mode completely unchanged. !important where Vue SFC scoped styles
+ * or Bootstrap .btn class raise specificity beyond (0,1,0).
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* 9. Typographic preset thumbnail — keep a white backplate so the predefined
+ *    text style is visible regardless of whether the class sets dark text.
+ *    This is intentionally a light island inside the dark panel: the preview
+ *    shows how the text looks in its natural context. */
+.dark .mw-live-edit-predefines-styles-box,
+.theme-dark .mw-live-edit-predefines-styles-box,
+[data-theme="dark"] .mw-live-edit-predefines-styles-box {
+    background-color: #ffffff;
+    border: 1px solid var(--ese-border, rgba(255, 255, 255, 0.35));
+    border-radius: var(--radius-sm, 6px);
+    padding: 4px 8px;
+}
+
+/* 10. Selected predefined-style preview (h3.predefined-styles-rended shown
+ *     when a class is already applied) — same white-island treatment. */
+.dark .predefined-styles-rended,
+.theme-dark .predefined-styles-rended,
+[data-theme="dark"] .predefined-styles-rended {
+    background-color: #ffffff;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm, 6px);
+}
+
+/* 11. Spacing diagram holder — @apply bg-gray-100 border-gray-300 compiles
+ *     to hardcoded light colors; override with dark panel surface. */
+.dark .mw-ese-holder,
+.theme-dark .mw-ese-holder,
+[data-theme="dark"] .mw-ese-holder {
+    background-color: var(--ese-surface-muted, #232938) !important;
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
+}
+
+.dark .mw-ese-holder.active,
+.theme-dark .mw-ese-holder.active,
+[data-theme="dark"] .mw-ese-holder.active {
+    background-color: var(--ese-surface, #1a1f2b) !important;
+    border-color: var(--ese-accent, #0d6efd) !important;
+}
+
+/* 11b. Spacing-editor value inputs — @apply border-gray-300 is a hardcoded
+ *      light border with no dark counterpart, so in dark mode the four
+ *      margin/padding inputs kept a pale ring on the dark panel. Retint to the
+ *      ESE border token (mirrors the 5b source change in ElementStyleEditorSpacing.vue,
+ *      whose scoped <style> is not emitted into any Vite bundle). */
+.dark .mw-element-spacing-editor .input input,
+.theme-dark .mw-element-spacing-editor .input input,
+[data-theme="dark"] .mw-element-spacing-editor .input input {
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
+    background-color: var(--ese-surface, #1a1f2b) !important;
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
+/* 12. Spacing diagram position labels (TOP, RIGHT, BOTTOM, LEFT) */
+.dark .mw-ese-label,
+.theme-dark .mw-ese-label,
+[data-theme="dark"] .mw-ese-label {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* 13. Preset quick-action buttons (S / M / L / XL / trash) — Bootstrap .btn
+ *     class can force dark text via its own specificity; re-anchor in dark. */
+.dark #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset,
+.theme-dark #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset,
+[data-theme="dark"] #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset {
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
+/* 14. Unit toggle button (px/rem/% switcher inside .mw-field.unit) */
+.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn,
+.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn i,
+.theme-dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn,
+.theme-dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn i {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* 15. Segmented-control buttons (older align/justify/position icon strip that
+ *     uses .mw-segmented-control, distinct from the ESE-primitive .mw-segmented)
+ *     Bootstrap styles override ESE token defaults for this component. */
+.dark #mw-element-style-editor-app .mw-segmented-control button,
+.theme-dark #mw-element-style-editor-app .mw-segmented-control button,
+[data-theme="dark"] #mw-element-style-editor-app .mw-segmented-control button {
+    color: var(--ese-text, #f1f5f9) !important;
+    background-color: var(--ese-surface-muted, #232938) !important;
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
+}
+
+.dark #mw-element-style-editor-app .mw-segmented-control button.active,
+.dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed="true"],
+.theme-dark #mw-element-style-editor-app .mw-segmented-control button.active,
+.theme-dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed="true"] {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.15)) !important;
+    border-color: var(--ese-accent, #0d6efd) !important;
+    color: var(--ese-accent, #0d6efd) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * task-2026-05-22-48070d / AI-720 — ESE per-panel empty state styles.
+ *
+ * Three panels (Animations, Section Settings, AI Style Editor) now render
+ * an empty state when the selected element doesn't support their controls.
+ * These rules handle both light and dark surface presentation:
+ *
+ *   .mw-ese-panel-empty-state    — wrapper (padding + layout)
+ *   .mw-admin-empty-state__heading  — h3 heading text
+ *   .mw-admin-empty-state__body     — p body text
+ *   .mw-ese-link-disabled           — non-interactive link visual
+ *
+ * Scoped to #mw-element-style-editor-app where possible.
+ * Dark overrides follow the .dark / .theme-dark pattern.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* Base empty-state styles (light mode) */
+#mw-element-style-editor-app .mw-ese-panel-empty-state {
+    padding: var(--space-sm, 8px) var(--space-xs, 6px);
+    text-align: left;
+}
+
+#mw-element-style-editor-app .mw-admin-empty-state__heading {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0 0 var(--space-xs, 6px) 0;
+    line-height: 1.3;
+}
+
+#mw-element-style-editor-app .mw-admin-empty-state__body {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    margin: 0;
+    line-height: 1.45;
+}
+
+/* Disabled-link style for Section Settings header when no layout node */
+#mw-element-style-editor-app .mw-ese-link-disabled {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Dark mode overrides */
+.dark #mw-element-style-editor-app .mw-admin-empty-state__heading,
+.theme-dark #mw-element-style-editor-app .mw-admin-empty-state__heading,
+[data-theme="dark"] #mw-element-style-editor-app .mw-admin-empty-state__heading {
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
+.dark #mw-element-style-editor-app .mw-admin-empty-state__body,
+.theme-dark #mw-element-style-editor-app .mw-admin-empty-state__body,
+[data-theme="dark"] #mw-element-style-editor-app .mw-admin-empty-state__body {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* Light mode regression-guard anchor (no-op selector, proves no changes to light) */
+/* task-2026-05-22-e8b42c AI-825: all rules above are .dark scoped */
+/* task-2026-05-22-747f20 AI-724: same scope discipline */
+/* task-2026-05-22-06f3f4 AI-725: same scope discipline */
+/* task-2026-05-22-48070d AI-720: per-panel empty state light styles above + dark overrides scoped */
+
+/* task-2026-09-06-darkaudit — two keyboard focus rings used the ink color
+   (#182433 / rgba(24,36,51,.4)) which is invisible on the dark ESE panel.
+   These live in Vue <style scoped> which Vite drops for .dark rules, so the
+   dark override must live here in the webpack theme. Light mode keeps its ink
+   ring (these rules are .dark-scoped). */
+.dark #mw-element-style-editor-app .picker-button:focus-visible,
+.theme-dark #mw-element-style-editor-app .picker-button:focus-visible,
+:root[data-theme="dark"] #mw-element-style-editor-app .picker-button:focus-visible {
+    outline-color: var(--ese-accent, #e5e7eb) !important;
+}
+.dark #mw-element-style-editor-app .reset-field-btn:focus-visible,
+.theme-dark #mw-element-style-editor-app .reset-field-btn:focus-visible,
+:root[data-theme="dark"] #mw-element-style-editor-app .reset-field-btn:focus-visible {
+    outline: 2px solid var(--ese-accent, #e5e7eb) !important;
+}
+
+/* task-2026-09-06-darkalign (FIX 1) — Typography ALIGN active cell rendered
+   as a near-black box (#171717) in dark mode. The active pill background/color
+   for the .mw-segmented__cell.active state came from Align.vue's own scoped
+   <style> (an ink pill sized for light mode); Vite drops the scoped `.dark`
+   variant, so no dark override shipped. The correct look already exists for
+   the `.is-active` twin at the `.mw-segmented__cell.is-active` rule above
+   (accent-soft tint + accent text + inset accent ring). Re-assert that look
+   for the `.active` class in dark ONLY, scoped to the ESE app so the
+   TemplateSettings `.mw-segmented__cell.active` (outside #mw-element-style-editor-app)
+   and ResolutionSwitch (aria-checked / .is-active, not .active) are untouched.
+   In dark, --ese-accent = #e5e7eb and --ese-accent-soft = rgba(229,231,235,.14),
+   so the active cell becomes a light tint with a light icon — clearly "active".
+   LIGHT MODE is deliberately not touched (its ink pill stays). */
+.dark #mw-element-style-editor-app .mw-segmented__cell.active,
+.theme-dark #mw-element-style-editor-app .mw-segmented__cell.active,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-segmented__cell.active {
+    background: var(--ese-accent-soft) !important;
+    color: var(--ese-accent) !important;
+    box-shadow: inset 0 0 0 1px var(--ese-accent) !important;
+}
+/* The generic `.dark .element-style-editor-toggle-wrapper svg` rule forces every
+   ESE svg to --ese-text-muted; re-anchor the ACTIVE align cell's icon to the
+   accent so the glyph reads as selected (higher specificity + !important wins). */
+.dark #mw-element-style-editor-app .mw-segmented__cell.active svg,
+.theme-dark #mw-element-style-editor-app .mw-segmented__cell.active svg,
+:root[data-theme="dark"] #mw-element-style-editor-app .mw-segmented__cell.active svg {
+    color: var(--ese-accent) !important;
+    fill: currentColor !important;
+}
+
+/* task-2026-09-06-darksep (FIX 2) — ESE accordion section separators invisible
+   in dark mode. The visible section list (Typography / Background / Spacing / …)
+   is built from `.element-style-editor-toggle-wrapper` items (NOT `.mw-accordion`,
+   which is unused inside the ESE Vue app) separated only by a 4px `mb-1` gap — no
+   divider line, so on the dark panel the sections blur together. Add a subtle
+   hairline between consecutive section items in dark only. Every item except the
+   first DOM sibling gets a top divider (the adjacent-sibling combinator ignores
+   the v-show `display:none` state of a preceding hidden section, so the first
+   visible section still reads with a clean top edge). Light mode reads fine
+   already, so this stays dark-scoped to avoid any regression. */
+.dark #mw-element-style-editor-app .element-style-editor-toggle-wrapper + .element-style-editor-toggle-wrapper,
+.theme-dark #mw-element-style-editor-app .element-style-editor-toggle-wrapper + .element-style-editor-toggle-wrapper,
+:root[data-theme="dark"] #mw-element-style-editor-app .element-style-editor-toggle-wrapper + .element-style-editor-toggle-wrapper {
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
+    padding-top: 10px;
+}

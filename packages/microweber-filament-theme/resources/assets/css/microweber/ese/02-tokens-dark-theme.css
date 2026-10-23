@@ -1,0 +1,540 @@
+/* ESE — 02 tokens & dark theme: --ese-* design tokens, dark surfaces, accent, section-header icons. */
+/* ============================================================
+ * Element Style Editor (ESE) design tokens — slice 1.1
+ * AI-684 / AI-685 prerequisite. Spec: designer-agent/output/
+ * ese-design-spec-2026-05-16.md §2 (drop-in :root block).
+ *
+ * task-2026-05-16-11812b — purely additive in slice 1.1. Token
+ * defs cascade inert until consumed by MwToolButton (AI-684),
+ * mobile bottom-sheet (AI-685), MwField, MwSlider, MwSegmented,
+ * MwAccordion, semantic-colour migration, etc.
+ *
+ * φ scale (golden ratio = 1.618). Snap rule per the
+ * golden-ratio-spacing skill: every ESE spacing/border value
+ * must reference one of these tokens or sit within ±2% of a
+ * step. Adjacent token ratios must be φ ±5%.
+ * ============================================================ */
+:root {
+    /* ── Spacing — φ scale, base 1rem ───────────────────────── */
+    --space-hair: 0.236rem;   /*  3.8px */
+    --space-xs:   0.382rem;   /*  6.1px */
+    --space-sm:   0.618rem;   /*  9.9px */
+    --space-md:   1.000rem;   /* 16.0px */
+    --space-lg:   1.618rem;   /* 25.9px */
+    --space-xl:   2.618rem;   /* 41.9px */
+    --space-2xl:  4.236rem;   /* 67.8px */
+
+    /* ── Borders ───────────────────────────────────────────── */
+    --border-hair: 1px;
+    --border-xs:   1.9px;
+    --border-sm:   3.1px;
+
+    /* ── Radii ─────────────────────────────────────────────── */
+    --radius-xs:   4px;       /* dense controls (slider thumb, chips) */
+    --ese-radius-sm:   6px;   /* inputs, dropdowns, buttons (default) — namespaced to avoid global :root collision with mobile-touch.css */
+    --radius-pill: 999px;     /* colour swatch, status chips */
+
+    /* ── Typography ───────────────────────────────────────── */
+    --font-label: 11px;       /* sentence-case; PM-sanctioned 11px floor */
+    --font-control: 13px;     /* dropdowns, inputs */
+    --font-section: 15px;     /* accordion headers */
+    --font-title:   17px;     /* panel title */
+    --weight-label: 500;
+    --weight-control: 400;
+    --weight-section: 600;
+    --line-tight: 1.2;
+    --line-base:  1.45;
+    --letter-label: 0.01em;
+
+    /* ── Semantic colour aliases (light) ──────────────────── */
+    --ese-surface:        #ffffff;
+    --ese-surface-muted:  #f7f8fa;
+    --ese-surface-hover:  rgba(24, 36, 51, 0.05);  /* ink tint (was blue) — matches --ese-accent */
+    --ese-border:         rgba(15, 23, 42, 0.12);
+    --ese-border-strong:  rgba(15, 23, 42, 0.20);
+    --ese-text:           #0f172a;
+    --ese-text-muted:     #64748b;
+    --ese-label:          #475569;
+    --ese-accent:         #182433;            /* MW ink — active states use ink, not blue,
+                                                 to match the admin (tabs/design system). */
+    --ese-accent-soft:    rgba(24, 36, 51, 0.10);
+    --ese-danger:         #dc2626;
+    --ese-track:          rgba(15, 23, 42, 0.18);
+    --ese-track-fill:     var(--ese-accent);
+
+    /* ── Motion ───────────────────────────────────────────── */
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --t-fast: 120ms;
+    --t-base: 200ms;
+    --t-slow: 320ms;
+}
+
+/* Dark theme: swap surfaces + adjust alphas. Filament toggles
+   `dark` on <html>; we also accept `.theme-dark` / [data-theme]
+   for non-Filament contexts. */
+.dark,
+.theme-dark,
+[data-theme="dark"] {
+    --ese-surface:        #1a1f2b;
+    --ese-surface-muted:  #232938;
+    --ese-surface-hover:  rgba(255, 255, 255, 0.06);
+    --ese-border:         rgba(255, 255, 255, 0.12);
+    --ese-border-strong:  rgba(255, 255, 255, 0.20);
+    --ese-text:           #f1f5f9;
+    --ese-text-muted:     #94a3b8;
+    --ese-label:          #cbd5e1;
+    --ese-track:          rgba(255, 255, 255, 0.22);
+    --ese-accent:         #e5e7eb;
+    --ese-accent-soft:    rgba(229, 231, 235, 0.14);
+    --ese-track-fill:     #e5e7eb;
+}
+
+/* var(--ese-accent) is used as a SOLID background fill with white text
+   on the tag chip; in dark mode the accent flips to light, so keep the
+   chip on a dark surface to preserve readable text. */
+.dark #mw-element-style-editor-app .v3ti-tag,
+.theme-dark #mw-element-style-editor-app .v3ti-tag,
+[data-theme="dark"] #mw-element-style-editor-app .v3ti-tag {
+    background-color: var(--ese-surface-muted) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root { --t-fast: 0ms; --t-base: 0ms; --t-slow: 0ms; }
+}
+
+.mw-multiple-fields {
+    @apply relative;
+}
+
+.mw-field {
+    @apply w-full;
+}
+
+.mw-field.unit input + input {
+    @apply w-10 px-0 text-center;
+}
+
+.mw-field.unit .mw-field .mw-ui-btn i {
+    @apply text-[14px];
+}
+
+.mw-field.unit + .mw-field .mw-ui-btn {
+    @apply p-0 w-6;
+}
+
+.mw-ese-holder {
+    @apply bg-gray-100 border border-gray-300 transition duration-200;
+}
+
+.mw-ese-holder.active {
+    @apply bg-white;
+    border-color: var(--ese-accent, #182433);
+    box-shadow: 0 0 3px rgba(24, 36, 51, 0.4);
+}
+
+.mw-ese-margin {
+    @apply p-[35px_50px] relative inline-block;
+}
+
+.mw-ese-padding {
+    @apply w-[100px] h-[65px] p-[50px_35px] relative;
+}
+
+.mw-element-spacing-editor {
+    @apply p-[10px_20px];
+}
+
+.mw-element-spacing-editor .input input {
+    @apply w-10 h-[22px] rounded-sm leading-[20px] border border-gray-300 p-[0_3px] text-center text-[12px];
+}
+
+.mw-element-spacing-editor .input {
+    @apply absolute z-[1];
+}
+
+.mw-ese-top {
+    @apply top-[-10px] left-1/2 translate-x-[-50%];
+}
+
+.mw-ese-right {
+    @apply top-1/2 right-[-20px] translate-y-[-50%];
+}
+
+.mw-ese-bottom {
+    @apply bottom-[-10px] left-1/2 translate-x-[-50%];
+}
+
+.mw-ese-left {
+    @apply top-1/2 left-[-20px] translate-y-[-50%];
+}
+
+.mw-ese-label {
+    display: block;
+    font-size: var(--font-label,11px);
+    text-transform: none;
+    font-weight: var(--weight-label,500);
+    letter-spacing: var(--letter-label,0.01em);
+    color: var(--ese-label);
+}
+
+.mw-ese-padding .mw-ese-label {
+    @apply text-center absolute top-1/2 left-0 w-full translate-y-[-50%];
+}
+
+.mw-esr {
+    @apply flex justify-between;
+}
+
+.mw-esr + .mw-esr {
+    @apply pt-[12px];
+}
+
+.mw-esr-col {
+    @apply pb-[12px];
+}
+
+.mw-esr > div {
+    @apply w-[48%];
+}
+
+.mw-esc .mw-multiple-fields .mw-field select {
+    @apply bg-no-repeat bg-right bg-[length:8px_auto];
+}
+
+.mw-esc .mw-multiple-fields .mw-field:last-child select {
+    @apply bg-gray-100 text-[12px] text-gray-800;
+}
+
+.mw-esc label {
+    display: block;
+    padding-bottom: 2px;
+    font-size: var(--font-label,11px);
+    text-transform: none;
+    font-weight: var(--weight-label,500);
+    letter-spacing: var(--letter-label,0.01em);
+    color: var(--ese-label);
+}
+
+.mw-esc .mw-multiple-fields .mw-field:first-child {
+    @apply w-full;
+}
+
+.mw-accordion + .mw-accordion {
+    @apply mt-2.5;
+}
+
+.mw-ui-box-header.mw-accordion-title:after {
+    @apply !hidden;
+}
+
+#classtags {
+    @apply h-auto;
+}
+
+#classtags .disabled {
+    @apply pointer-events-none;
+}
+
+#classtags .mw-ui-btn {
+    @apply m-[3px_6px_3px_0];
+}
+
+.s-field {
+    @apply flex;
+}
+
+.s-field label {
+    width: 100px;
+    align-self: center;
+    font-size: var(--font-label,11px);
+    text-transform: none;
+    font-weight: var(--weight-label,500);
+    letter-spacing: var(--letter-label,0.01em);
+    color: var(--ese-label);
+}
+
+.s-field-content {
+    @apply flex-1;
+}
+
+.s-field + .s-field {
+    @apply mt-2.5;
+}
+
+.text-align {
+    /* task-2026-05-05-d2ce0f: was h-[30px] block — combined with
+       inline-block children with `text-[0px]` parent (whitespace
+       collapse trick), the icons rendered ~50% width and floated
+       next to the next field's button (Color picker pill bled into
+       the empty right side). Switching to flex w-full distributes
+       the 4 buttons across the full row, and `dark:border-gray-700`
+       picks up the dark theme so the bordered group is visible. */
+    @apply flex w-full border border-gray-300 dark:border-gray-700 h-[30px] mb-2 rounded-sm overflow-hidden;
+}
+
+.text-align .active {
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+    color: var(--ese-accent, #182433);
+}
+
+.text-align > .active:before {
+    @apply hidden;
+}
+
+
+
+.text-align > * {
+    @apply flex-1 flex items-center justify-center cursor-pointer text-center;
+}
+
+#shadow > .mw-ui-field-holder.prop-ui-field-holder {
+    @apply float-none clear-both w-full pt-[5px];
+}
+
+#shadow .mw-ui-field-holder.prop-ui-field-holder .mw-ui-field-holder.prop-ui-field-holder {
+    @apply float-left w-[32%] clear-none;
+}
+
+#shadow .mw-ui-field-holder.prop-ui-field-holder .mw-ui-field-holder.prop-ui-field-holder + .mw-ui-field-holder.prop-ui-field-holder {
+    @apply ml-[2%];
+}
+
+.mw-multiple-fields .mw-field-prepend + input {
+    @apply border-l-0 ml-[-2px];
+}
+
+.mw-multiple-fields .mw-field-prepend {
+    @apply bg-white relative z-[2];
+}
+
+.rouded-corners {
+    @apply pb-5;
+}
+
+.rouded-corners .mw-field .mw-field {
+    @apply w-[70px] m-[10px_0_5px];
+}
+
+.rouded-corners .mw-field .mw-field + .mw-field {
+    @apply ml-[10px];
+}
+
+.background-preview {
+    @apply inline-block h-[2.308rem] w-[2.308rem] rounded-sm bg-center bg-cover bg-no-repeat align-top;
+}
+
+#css-editor-root:after {
+    @apply hidden opacity-60 bg-gray-100 absolute top-0 left-0 w-full h-full content-none z-[10];
+}
+
+#css-editor-root.disabled:after {
+    @apply block;
+}
+
+#css-editor-root.disabled {
+    @apply pointer-events-none;
+}
+
+.mw-field.unit [type='text'] {
+    @apply w-full text-left ml-0;
+}
+
+.mw-range, .mw-range.ui-widget {
+    @apply h-[1px];
+}
+
+.mw-field.unit .mw-range .ui-slider-handle {
+    @apply top-[-7px];
+}
+
+.mw-field.unit .mw-range {
+    @apply absolute top-full w-full mt-[-1px];
+}
+
+.mw-field.unit + .mw-field {
+    @apply absolute right-[25px] w-auto z-[2];
+}
+
+.mw-field.unit .mw-range + input {
+    @apply text-center ml-[10px];
+}
+
+.angle {
+    @apply inline-block w-[15px] h-[15px] border border-dotted border-gray-300 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%];
+}
+
+.angle-top-left {
+    @apply rounded-tl-[7px] border-l-black border-t-black;
+}
+
+.angle-top-right {
+    @apply rounded-tr-[7px] border-r-black border-t-black;
+}
+
+.angle-bottom-left {
+    @apply rounded-bl-[7px] border-l-black border-b-black;
+}
+
+.angle-bottom-right {
+    @apply rounded-br-[7px] border-r-black border-b-black;
+}
+
+#size-box .mw-field.unit .mw-range {
+    @apply w-[100px];
+}
+
+.reset-field {
+    @apply top-[5px] right-0 w-auto block absolute z-[1];
+}
+
+:dir(rtl) .reset-field {
+    @apply left-0 right-auto;
+}
+
+.background-image-nav {
+    @apply w-full;
+}
+
+.background-image-nav > * {
+    @apply w-1/3 text-center;
+}
+
+.background-preview {
+    @apply absolute top-0 left-0 w-full h-full;
+}
+
+.background-remove {
+    @apply cursor-pointer inline-block;
+}
+
+.style-editor-disabled {
+    @apply pointer-events-none opacity-50;
+}
+
+/*
+ * task-2026-05-05-854d66 (QW3) — Italic toggle button. Replaces
+ * the old 2-option Normal/Italic dropdown with a single tappable
+ * I-glyph that visibly turns blue + italic-rendered when active.
+ */
+#mw-element-style-editor-app .mw-italic-toggle {
+    /* task-2026-05-16-b30fd9 AI-690: rgba literals → --ese-* aliases.
+       Dark `rgba(255,255,255,0.18)` and light `rgba(0,0,0,0.18)` both
+       collapse to `--ese-border-strong` (alpha 0.20 per theme — visual
+       Δ ≤ 0.02 imperceptible). Removes the `:not(.dark)` override
+       below. */
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--ese-border-strong);
+    background: transparent;
+    color: inherit;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: serif;
+    font-size: 16px;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+#mw-element-style-editor-app .mw-italic-toggle:hover {
+    border-color: rgba(24, 36, 51, 0.3);
+}
+#mw-element-style-editor-app .mw-italic-toggle.active {
+    background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
+    border-color: var(--ese-accent, #182433);
+    color: var(--ese-accent, #182433);
+}
+#mw-element-style-editor-app .mw-italic-toggle em {
+    font-style: italic;
+    font-weight: 600;
+}
+
+/*
+ * task-2026-05-05-098f1e: novice-customer pass.
+ * Hide the obscure Writing direction / Text orientation controls
+ * behind a `<details><summary>More options</summary>` disclosure
+ * so the primary Typography surface only shows controls a typical
+ * site owner understands. Style the disclosure summary so it reads
+ * as a quiet "v More options" link.
+ */
+#mw-element-style-editor-app .mw-typography-advanced {
+    /* task-2026-05-16-b30fd9 AI-690: divider literal → --ese-border.
+       Original dark `rgba(255,255,255,0.05)` was below the WCAG
+       non-text-contrast floor for UI dividers — the spec §F2.5 calls
+       this out explicitly. Token bumps to 0.12 alpha both themes,
+       passing the 3:1 contrast floor while keeping the divider quiet. */
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--ese-border);
+    padding-top: 0.5rem;
+}
+#mw-element-style-editor-app .mw-typography-advanced > summary {
+    list-style: none;
+    user-select: none;
+}
+#mw-element-style-editor-app .mw-typography-advanced > summary::-webkit-details-marker {
+    display: none;
+}
+#mw-element-style-editor-app .mw-typography-advanced > summary::before {
+    content: '⌄';
+    display: inline-block;
+    margin-inline-end: 0.4rem;
+    transition: transform 0.15s;
+    transform: rotate(0deg);
+}
+#mw-element-style-editor-app .mw-typography-advanced[open] > summary::before {
+    transform: rotate(180deg);
+}
+
+/*
+ * task-2026-05-05-e62d5b drunk-designer findings:
+ *
+ * - "Add more fonts" was a tiny 11px right-aligned link that drunk
+ *   eyes would never spot. Bump it to a quiet button-shaped link.
+ * - The ALIGN row's 4 icons clumped at the start; make them
+ *   distribute evenly with thin separators.
+ * - COLOR row had wasted space between label and swatch — pull the
+ *   label tighter and let the wrapper own the layout.
+ * - The active row's bg tint extended below the heading making it
+ *   hard to tell where "expanded panel content" begins; add a 1px
+ *   top divider on the expanded panel.
+ */
+#mw-element-style-editor-app .font-picker-wrapper small,
+#mw-element-style-editor-app .font-picker-wrapper [class*="cursor-pointer"][class*="d-flex"][class*="ms-auto"] {
+    font-size: 11px !important;
+    color: var(--ese-text-muted, #64748b) !important;
+    padding-top: 6px !important;
+    padding-bottom: 4px !important;
+}
+#mw-element-style-editor-app .font-picker-wrapper small::before {
+    content: '+ ';
+    font-weight: 700;
+}
+
+#mw-element-style-editor-app .text-align > * + * {
+    /* task-2026-05-16-b30fd9 AI-690: divider → --ese-border. */
+    border-inline-start: 1px solid var(--ese-border);
+}
+
+#mw-element-style-editor-app .form-control-live-edit-label-wrapper:has(.picker-button) > .d-flex {
+    align-items: center;
+    gap: 12px;
+    padding: 4px 0;
+}
+
+.element-style-editor-toggle-wrapper.active > div:nth-child(2) {
+    /* task-2026-05-16-b30fd9 AI-690: divider → --ese-border. Collapses
+       the dark base + `:not(.dark)` light override into one rule via
+       the theme-auto-switching alias. */
+    border-top: 1px solid var(--ese-border);
+    padding-top: 8px !important;
+    margin-top: 8px !important;
+}
+
+/* Section-header icon consistency — the leading icons had mixed stroke weights
+   (most 1px, Background/Shadow 1.5) and the Section-settings gear was a filled
+   Material Symbols icon (now swapped to a heroicon outline). Normalize every
+   section-header icon (the <svg> directly in the header .d-flex) to a uniform
+   1.5 outline weight so they read as one consistent set. */
+.element-style-editor-toggle-wrapper .d-flex > svg {
+    stroke-width: 1.5px;
+}
