@@ -1,3 +1,4 @@
+/* primitives overrides — part 1: base element overrides (buttons/links/inputs/radii primitives). */
 .x-close-modal-link {
     @apply absolute top-3 right-3 text-black dark:text-white cursor-pointer text-2xl;
 }
@@ -173,7 +174,7 @@ body.fi-panel-checkout .fi-btn {
     background-color: rgb(55 65 81) !important;
     color: #fff;
 }
-
+/* primitives overrides — part 2: image-picker tabs → admin underline tabs. */
 /* ── Image-picker tabs → admin underline tabs ──────────────────────────────────
    The "Select image" picker (Media library / My computer / Enter prompt / URL) reuses the
    legacy device-switcher chip-strip (.mw-live-edit-resolutions-wrapper) and rendered as a
@@ -494,7 +495,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     text-align: center;
     letter-spacing: 1px;
 }
-
+/* primitives overrides — part 3: progressbar + file-manager (search, sort select, toolbar alignment). */
 /* Small progressbar */
 .mw-ui-progress-small,
 .mw-ui-progress-small .mw-ui-progress-bar {
@@ -1725,6 +1726,7 @@ html.dark .fa.fa-trash {
     @apply py-3;
 }
 
+/* compact forms & misc — part 1: tag/chip overflow containment in fields. */
 /* task-2026-10-04 — keep a selected tag/chip from overflowing its field. The
    tree's selected "parent" chip (Where to put it / Parent page pickers) showed
    the full internal name (e.g. testCategoryJsonTreeAdminPageStatic0_6ab3ac…)
@@ -1897,7 +1899,7 @@ select option,
 .fi-wi-stats-overview-stat {
     @apply dark:!bg-gray-900 dark:!border-gray-700 rounded-none;
 }
-
+/* compact forms & misc — part 2: compact admin form/section body padding. */
 /* Compact admin form/section body padding (Filament default is a roomy 24px). Scoped to
    the admin panel; the Live Edit settings panel overrides this to 12px with higher
    specificity (body.fi-panel-admin .mw-live-edit-page-wrapper …). */
@@ -2091,7 +2093,7 @@ body.fi-panel-admin .fi-section-content {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
-
+/* compact forms & misc — part 3: misc (explainer paragraphs, posts-list chrome, pagination/select, section header). */
 /* task-2026-05-16-886722 / AI-729: explainer paragraph that sits
    between the empty-state heading and the primary CTA. Muted
    colour so the CTA stays the largest visual weight on the
@@ -3926,6 +3928,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     min-height: 44px;
 }
 
+/* topbar & dashboard — part 1: topbar brand/logo + the +Add / Live-Edit cluster. */
 /* ======================================================================
    task-2026-05-16-bcb327 / AI-702 — Microweber brand mark in the admin
    top bar. Per designer spec (admin-shell-improvements-2026-05-16.md
@@ -4197,7 +4200,7 @@ body.fi-panel-admin .admin-toolbar-live-edit .fi-btn svg {
         padding: 0 14px !important;
     }
 }
-
+/* topbar & dashboard — part 2: dashboard widgets (welcome counter, stat-card hierarchy). */
 /* ─────────────────────────────────────────────────────────────────
  * AI-705 — Welcome widget actionable counter sub-line
  * task-2026-05-16-2dbae0 / designer spec admin-shell-improvements §2 AD4
@@ -4528,7 +4531,7 @@ body.fi-panel-admin .mw-quick-stat-card:focus-visible {
         transition: none;
     }
 }
-
+/* topbar & dashboard — part 3: admin chrome (AI-edit labels, template settings, user menu, notifications). */
 /* ─────────────────────────────────────────────────────────────────
  * AI-711 — Quick AI Edit row labels (H1 / P1 / LINK 1 / IMAGE ALT 1)
  * task-2026-05-16-b0b48f / designer spec DESIGN_AUDIT.md L2.4
@@ -4686,7 +4689,7 @@ body.fi-panel-admin .fi-theme-switcher-btn.fi-active .fi-icon {
 .dark .mw-no-database-empty__description {
     color: var(--ese-text-muted, #9ca3af);
 }
-
+/* topbar & dashboard — part 4: empty-state chrome, table badges, stat cards, marketplace cards. */
 /* AI-780 (task-2026-05-17-6d65de) — `.mw-canvas-empty-state` rules live
  * in `packages/frontend-assets/resources/assets/css/microweber/css/default.css`
  * because the canvas content-module empty state renders inside the Live Edit
@@ -4872,7 +4875,7 @@ body.fi-panel-admin .mw-admin-empty-state__cta-wrap {
 .dark .quick-ai-type-group-header:hover {
     background: var(--ese-surface-hover, rgba(255, 255, 255, 0.04));
 }
-
+/* topbar & dashboard — part 5: DARK MODE (flatpickr, tags, select, input borders, table stripes, repeater, errors). */
 /* AI-956 / task-2026-05-22 — Admin dark mode: Flatpickr date-picker calendar renders
  * with white background in dark mode. Add dark theme overrides. */
 .dark .flatpickr-calendar {
@@ -5027,7 +5030,7 @@ body.fi-panel-admin .fi-fo-field.fi-fo-field-has-error .fi-fo-textarea-wrp {
     border-color: #f87171 !important;
     box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.2) !important;
 }
-
+/* topbar & dashboard — part 6: misc late fixes (required asterisk, bulk-delete confirm, stat-card cursor, role-badge a11y). */
 /* ==========================================================================
    AI-959 / task-2026-05-22 — Required field asterisk: standardise position AFTER
    label text. Filament v5 renders <sup class="fi-fo-field-label-required-mark">*</sup>
@@ -5216,6 +5219,7 @@ body.fi-panel-admin .fi-notification {
     border: 0 !important;
 }
 
+/* v2 admin reskin — part 01: topbar, page background, sidebar nav. */
 /* ═══════════════════════════════════════════════════════════════════
  * MW v2 admin design polish — task-2026-06-03
  * Brings the Filament admin visually in line with the old v2 design.
@@ -5308,7 +5312,7 @@ body.fi-panel-admin .fi-sidebar-group-label {
     color: #9ca3af !important;
     padding: 12px 12px 4px !important;
 }
-
+/* v2 admin reskin — part 02: dashboard, cards/widgets, base table + primary buttons. */
 /* ── Dashboard page background: match overall v2 feel ───────────── */
 body.fi-panel-admin .fi-page {
     background-color: #f6f8fb !important;
@@ -5381,7 +5385,7 @@ body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-
     background-color: rgba(var(--primary-500), 1) !important;
     color: #fff !important;
 }
-
+/* v2 admin reskin — part 03: DARK MODE (round 1) — bg/surface token inversions. */
 /* ── Dark mode: invert bg tokens for dark theme ─────────────────── */
 .dark body.fi-panel-admin,
 .dark body.fi-panel-admin .fi-main,
@@ -5430,7 +5434,7 @@ body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-
  * MW v2 admin design polish — Round 2 — task-2026-06-03
  * Breadcrumbs, page headings, table containers, pagination, forms
  * ═══════════════════════════════════════════════════════════════════ */
-
+/* v2 admin reskin — part 04: breadcrumbs, page headings, table detail, forms, inputs, tabs. */
 /* ── Breadcrumb links: brand blue instead of Filament default ────── */
 body.fi-panel-admin .fi-breadcrumbs-item-label {
     color: #0d6efd !important;
@@ -5668,7 +5672,7 @@ body.fi-panel-admin .fi-global-search-field input:focus {
     background-color: #ffffff !important;
     box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.10) !important;
 }
-
+/* v2 admin reskin — part 05: DARK MODE (round 2) — table/form/section + header-action buttons + tabs. */
 /* ── Dark mode — Round 2 ─────────────────────────────────────────── */
 .dark body.fi-panel-admin .fi-breadcrumbs-item-label {
     color: #e5e7eb !important;
@@ -5833,7 +5837,7 @@ body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-
     color: #e5e7eb !important;
     border-color: #2d4a6e !important;
 }
-
+/* v2 admin reskin — part 06: tabs, table header action bar, content-area header. */
 /* ── Tabs: fix .fi-tabs-item (Filament v5 uses this, not .fi-tabs-item) ─
    Mirror the existing .fi-tabs-item rules onto .fi-tabs-item so tabs
    that exist in real pages (Marketplace, settings sections) apply. */
