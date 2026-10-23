@@ -75,14 +75,6 @@
     @apply !bg-[#ffffff30];
 }
 
-.mw-live-edit-tools-dropdown-menu {
-    @apply !min-w-[175px] !bg-white dark:!bg-gray-800;
-}
-
-.mw-live-edit-tools-dropdown-menu ul li a {
-    @apply flex items-center;
-}
-
 /* After JS teleport: fi-modal is moved to .fi-layout (> .mw-live-edit-page)
    as a direct child — outside .mw-admin-live-edit-page — so target via
    the layout class. Filament action modals must appear above the sidebar. */

@@ -135,19 +135,9 @@
     @apply hidden;
 }
 
-/* Element spacing editor input background */
-.mw-element-spacing-editor-input {
-    @apply bg-white dark:bg-gray-800;
-}
-
 /* Holder background color */
 .mw-ese-holder {
     @apply bg-white dark:bg-gray-800;
-}
-
-/* Padding label color */
-.mw-ese-padding-label {
-    @apply text-black dark:text-white;
 }
 
 /* v3ti component styles */

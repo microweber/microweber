@@ -159,16 +159,8 @@
     background-color: rgb(31 41 55);
 }
 
-.dark .mw-element-spacing-editor-input {
-    background-color: rgb(31 41 55);
-}
-
 .dark .mw-ese-holder {
     background-color: rgb(31 41 55);
-}
-
-.dark .mw-ese-padding-label {
-    color: white;
 }
 
 .dark .v3ti {
@@ -235,48 +227,13 @@
     border-color: rgb(55 65 81) !important;
 }
 
-.dark .mw-live-edit-search-dropdown-wrapper input,
-.dark .mw-live-edit-search-dropdown-wrapper input::placeholder {
-    color: white;
-}
-
 .dark .mw-live-edit-toolbar-link,
 .dark .mw-live-edit-toolbar-link span {
     color: white;
 }
 
-.dark .mw-live-edit-toolbar-link-menu {
-    background-color: rgb(31 41 55) !important;
-}
-
-.dark .mw-live-edit-toolbar-link-menu-content {
-    background-color: rgb(31 41 55) !important;
-}
-
-.dark .mw-liveedit-button-action-redo,
-.dark .mw-liveedit-button-action-undo {
-    background-color: rgb(55 65 81) !important;
-}
-
-.dark .mw-live-edit-save-btn-green {
-    background-color: rgb(22 101 52) !important;
-    color: rgb(187 247 208) !important;
-}
-
-.dark .mw-live-edit-save-btn-green:hover {
-    background-color: rgb(21 128 61) !important;
-}
-
 .dark .mw-live-edit-right-sidebar-wrapper svg {
     fill: white !important;
-}
-
-.dark .live-edit-module-settings-container {
-    background-color: rgb(31 41 55);
-}
-
-.dark .mw-module-quick-settings-sidebar .module-quick-settings-sidebar {
-    background-color: rgb(31 41 55) !important;
 }
 
 /*
@@ -288,7 +245,6 @@
  * into the dark pill background. Force a light fill on every SVG
  * descendant of these widget containers.
  */
-.dark .mw-module-quick-settings-sidebar svg,
 .dark .module-quick-settings-sidebar svg,
 .dark .module-edit-button svg,
 .dark .module-settings-button svg,
@@ -298,7 +254,6 @@
     fill: #e2e8f0 !important;
     color: #e2e8f0 !important;
 }
-.dark .mw-module-quick-settings-sidebar svg path:not([fill="none"]),
 .dark .module-quick-settings-sidebar svg path:not([fill="none"]),
 .dark .module-edit-button svg path:not([fill="none"]),
 .dark .module-settings-button svg path:not([fill="none"]),
@@ -308,7 +263,6 @@
     fill: #e2e8f0 !important;
 }
 
-.dark .mw-element-spacing-editor-input,
 .dark .mw-live-edit-border-radius input {
     background-color: rgb(55 65 81);
     color: white;
@@ -339,11 +293,6 @@
     background-color: rgb(55 65 81) !important;
     border-color: #4b5563 !important;
     color: white !important;
-}
-
-.dark .live-edit-toolbar-buttons-add {
-    background-color: rgb(55 65 81) !important;
-    border-color: rgb(55 65 81) !important;
 }
 
 /* Add content modal cards — dark mode

@@ -585,14 +585,6 @@ body {
 #mw-dialog-holder-mw-add-content-editor-front {
     @apply !w-[800px];
 }
-
-.mw-btn-icon-delete {
-    @apply text-danger-100 relative;
-}
-.mw-btn-icon-delete::after {
-    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>');
-    @apply absolute right-0 top-0 z-10;
-}
 /* live-edit — 03 navigation & modals: dropdown nav items, teleported fi-modal placement + z-index. */
 /* Base styling for links and items in navigation */
 .mw-ui-navigation a,
@@ -668,14 +660,6 @@ body {
 
 .active>.mw-le-hamburger>span:nth-child(2) {
     @apply !bg-[#ffffff30];
-}
-
-.mw-live-edit-tools-dropdown-menu {
-    @apply !min-w-[175px] !bg-white dark:!bg-gray-800;
-}
-
-.mw-live-edit-tools-dropdown-menu ul li a {
-    @apply flex items-center;
 }
 
 /* After JS teleport: fi-modal is moved to .fi-layout (> .mw-live-edit-page)
@@ -889,19 +873,9 @@ h1,h2,h3,h4,h5,h6 {
     @apply hidden;
 }
 
-/* Element spacing editor input background */
-.mw-element-spacing-editor-input {
-    @apply bg-white dark:bg-gray-800;
-}
-
 /* Holder background color */
 .mw-ese-holder {
     @apply bg-white dark:bg-gray-800;
-}
-
-/* Padding label color */
-.mw-ese-padding-label {
-    @apply text-black dark:text-white;
 }
 
 /* v3ti component styles */
@@ -1543,16 +1517,8 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     background-color: rgb(31 41 55);
 }
 
-.dark .mw-element-spacing-editor-input {
-    background-color: rgb(31 41 55);
-}
-
 .dark .mw-ese-holder {
     background-color: rgb(31 41 55);
-}
-
-.dark .mw-ese-padding-label {
-    color: white;
 }
 
 .dark .v3ti {
@@ -1619,48 +1585,13 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     border-color: rgb(55 65 81) !important;
 }
 
-.dark .mw-live-edit-search-dropdown-wrapper input,
-.dark .mw-live-edit-search-dropdown-wrapper input::placeholder {
-    color: white;
-}
-
 .dark .mw-live-edit-toolbar-link,
 .dark .mw-live-edit-toolbar-link span {
     color: white;
 }
 
-.dark .mw-live-edit-toolbar-link-menu {
-    background-color: rgb(31 41 55) !important;
-}
-
-.dark .mw-live-edit-toolbar-link-menu-content {
-    background-color: rgb(31 41 55) !important;
-}
-
-.dark .mw-liveedit-button-action-redo,
-.dark .mw-liveedit-button-action-undo {
-    background-color: rgb(55 65 81) !important;
-}
-
-.dark .mw-live-edit-save-btn-green {
-    background-color: rgb(22 101 52) !important;
-    color: rgb(187 247 208) !important;
-}
-
-.dark .mw-live-edit-save-btn-green:hover {
-    background-color: rgb(21 128 61) !important;
-}
-
 .dark .mw-live-edit-right-sidebar-wrapper svg {
     fill: white !important;
-}
-
-.dark .live-edit-module-settings-container {
-    background-color: rgb(31 41 55);
-}
-
-.dark .mw-module-quick-settings-sidebar .module-quick-settings-sidebar {
-    background-color: rgb(31 41 55) !important;
 }
 
 /*
@@ -1672,7 +1603,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
  * into the dark pill background. Force a light fill on every SVG
  * descendant of these widget containers.
  */
-.dark .mw-module-quick-settings-sidebar svg,
 .dark .module-quick-settings-sidebar svg,
 .dark .module-edit-button svg,
 .dark .module-settings-button svg,
@@ -1682,7 +1612,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     fill: #e2e8f0 !important;
     color: #e2e8f0 !important;
 }
-.dark .mw-module-quick-settings-sidebar svg path:not([fill="none"]),
 .dark .module-quick-settings-sidebar svg path:not([fill="none"]),
 .dark .module-edit-button svg path:not([fill="none"]),
 .dark .module-settings-button svg path:not([fill="none"]),
@@ -1692,7 +1621,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     fill: #e2e8f0 !important;
 }
 
-.dark .mw-element-spacing-editor-input,
 .dark .mw-live-edit-border-radius input {
     background-color: rgb(55 65 81);
     color: white;
@@ -1723,11 +1651,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     background-color: rgb(55 65 81) !important;
     border-color: #4b5563 !important;
     color: white !important;
-}
-
-.dark .live-edit-toolbar-buttons-add {
-    background-color: rgb(55 65 81) !important;
-    border-color: rgb(55 65 81) !important;
 }
 
 /* Add content modal cards — dark mode
