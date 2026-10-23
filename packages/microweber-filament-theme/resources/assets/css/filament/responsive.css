@@ -142,27 +142,52 @@
 
 /* Topbar fit — only where it actually overflows (~560px and narrower). The full
    topbar (logo + Add + hamburger + search + Live-Edit + notifications + user) is
-   ~560px wide, so at 601px+ it fits untouched; below that the two least-essential
-   items are dropped so the user menu + notifications never fall off the edge. */
+   ~560px wide, so at 601px+ it fits untouched; below that the global search and
+   Live-Edit button collapse to ICON-ONLY (not hidden) so everything stays reachable
+   without pushing the user menu + notifications off the edge. */
 @media (max-width: 600px) {
-  /* Global search hidden. The .fi-global-search WRAPPER stays in the DOM (the
-     Microweber quick-nav widget anchors to it — see mobile/02-core-floors-chrome.css)
-     collapsed to zero width; only the search FIELD is display:none'd. */
-  .fi-topbar .fi-global-search {
-    max-width: 0 !important;
+  /* Global search → icon only: keep the magnifier prefix icon, collapse the input
+     so just the icon shows; it still focuses/expands on tap. The 44px touch-target
+     min-width from mobile/03-touch-sweep-cards is overridden here (higher
+     specificity) so the collapse actually takes. */
+  .fi-topbar .fi-global-search,
+  .fi-topbar .fi-global-search-field {
+    max-width: 46px !important;
     min-width: 0 !important;
     overflow: hidden !important;
   }
-  .fi-topbar .fi-global-search-field {
-    display: none !important;
+  .fi-topbar .fi-global-search-field .fi-input-wrp {
+    padding-right: 0 !important;
+  }
+  .fi-topbar .fi-global-search-field input {
+    width: 0 !important;
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    color: transparent !important;
+  }
+  .fi-topbar .fi-global-search-field input::placeholder {
+    color: transparent !important;
   }
 
-  /* Hide the Live Edit button — live editing isn't practical on a narrow screen,
-     and it frees room for the right-side cluster. (The old mobile rule targeted
-     `.fi-topbar-end a[href*=editmode]`, a selector the current MW markup no longer
-     produces, so it was dead.) */
+  /* Live Edit → icon only: hide the "Live Edit" label, keep the eye icon. (The old
+     mobile rule targeted `.fi-topbar-end a[href*=editmode]`, a selector the current
+     MW markup no longer produces, so it was dead.) */
   .fi-topbar a[href*="editmode"] {
-    display: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0 !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+  .fi-topbar a[href*="editmode"] svg,
+  .fi-topbar a[href*="editmode"] img {
+    font-size: initial;
+    width: 18px !important;
+    height: 18px !important;
   }
 }
 
@@ -184,12 +209,34 @@
     padding-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
   }
 
-  /* Narrowest phones: even with search + Live-Edit gone, the full 200px wordmark
-     pushes notifications + the user menu off the edge, so compact it. (Tablets at
-     481px+ keep the full logo.) */
+  /* Narrowest phones: with 7 items in the bar (search + Live-Edit are now icons,
+     not hidden), compact the wordmark and the "+ Add" button to icon-only so the
+     notifications + user menu stay on-screen. (Tablets at 481px+ keep the full
+     logo and the "+ Add" label.) */
   .fi-topbar .mw-admin-brand-mark__image {
     max-width: 84px !important;
     height: auto !important;
+  }
+
+  /* "+ Add" → icon only. Clip to a 44px square (the "+" icon is first, the "Add"
+     text overflows out) rather than font-size:0 — the button's font-size is set
+     !important elsewhere, so clipping by width is the robust way to collapse it. */
+  .fi-topbar .mw-admin-primary-actions .fi-btn {
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    overflow: hidden !important;
+    justify-content: center !important;
+  }
+
+  /* Tighten the topbar gap so 7 items (logo + Add + hamburger + search + Live-Edit
+     + notifications + user) clear a phone width. */
+  .fi-topbar,
+  .fi-topbar > nav,
+  .fi-topbar .fi-topbar-end {
+    gap: 3px !important;
   }
 
   /* Hide "Add" label, show icon only */
