@@ -31,7 +31,7 @@ description: Skin 14
                     @php $count = -1; @endphp
                     @if(empty($data))
 
-                        @if (is_admin())
+                        @if (is_live_edit())
                             <div class="mw-canvas-empty-state" data-mw-content-type="picture">
                                 <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>
                                 <p class="mw-canvas-empty-state__body">{{ __('Add your first picture to fill this gallery.') }}</p>

@@ -104,21 +104,21 @@ class Canvas4c289eAI780aCompanionTemplatesContractTest extends TestCase
     }
 
     // ─────────────────────────────────────────────────────────────────────
-    // Group D — the AI-104 is_admin gate is preserved (now in the partial)
+    // Group D — the AI-104 is_live_edit gate is preserved (now in the partial)
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
-    public function shared_partial_preserves_ai104_is_admin_gate(): void
+    public function shared_partial_preserves_ai104_is_live_edit_gate(): void
     {
-        // The is_admin() gate that kept the editor hint off public pages now
+        // The is_live_edit() gate that kept the editor hint off public pages now
         // lives once in the shared partial, covering all companions at once.
         $partial = (string) file_get_contents(base_path(
             'Modules/Content/resources/views/partials/module-empty-state.blade.php'
         ));
         $this->assertMatchesRegularExpression(
-            '/@if\s*\(\s*is_admin\s*\(\s*\)\s*\)[\s\S]*?mw-canvas-empty-state/s',
+            '/@if\s*\(\s*is_live_edit\s*\(\s*\)\s*\)[\s\S]*?mw-canvas-empty-state/s',
             $partial,
-            'The shared partial must keep the AI-104 `@if(is_admin())` gate (no public-facing leak).'
+            'The shared partial must keep the AI-104 `@if(is_live_edit())` gate (no public-facing leak).'
         );
     }
 }

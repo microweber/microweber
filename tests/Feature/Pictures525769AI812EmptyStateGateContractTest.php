@@ -17,10 +17,10 @@ use Tests\TestCase;
  *
  * Pre-fix: `<p class="mw-pictures-clean">No pictures added. Please
  * add pictures to the module.</p>` was rendered WITHOUT an
- * is_admin() gate. Anonymous visitors saw the admin-targeted copy
+ * is_live_edit() gate. Anonymous visitors saw the admin-targeted copy
  * on any page with an empty Pictures module. Convention violation
  * — AI-104 + AI-780/780a/801/808 pattern gates editor placeholders
- * with is_admin().
+ * with is_live_edit().
  *
  * Recon delta: designer named default.blade.php; recon found the
  * same defect across 34 Pictures templates (project-wide leak).
@@ -29,7 +29,7 @@ use Tests\TestCase;
  *
  * Post-fix per template:
  *   @if (empty($data))
- *       @if (is_admin())
+ *       @if (is_live_edit())
  *           <div class="mw-canvas-empty-state" data-mw-content-type="picture">
  *               <h3 class="mw-canvas-empty-state__title">{{ __('No pictures yet') }}</h3>
  *               <p class="mw-canvas-empty-state__body">{{ __('Add your first picture to fill this gallery.') }}</p>
@@ -141,18 +141,18 @@ class Pictures525769AI812EmptyStateGateContractTest extends TestCase
     }
 
     // ─────────────────────────────────────────────────────────────────────
-    // Group B  is_admin() gate + AI-780a typed empty-state present
+    // Group B  is_live_edit() gate + AI-780a typed empty-state present
     // ─────────────────────────────────────────────────────────────────────
 
     #[Test]
     #[DataProvider('allPicturesTemplatesProvider')]
-    public function is_admin_gate_wraps_empty_state(string $relativePath): void
+    public function is_live_edit_gate_wraps_empty_state(string $relativePath): void
     {
         $exec = $this->executableTemplate($relativePath);
         $this->assertStringContainsString(
-            '@if (is_admin())',
+            '@if (is_live_edit())',
             $exec,
-            "AI-812: {$relativePath} MUST gate the empty-state in `@if (is_admin())` so anonymous visitors don't see admin-targeted copy."
+            "{$relativePath} MUST gate the empty-state in `@if (is_live_edit())` so it shows only in Live Edit, not on the published frontend."
         );
     }
 
@@ -235,7 +235,7 @@ class Pictures525769AI812EmptyStateGateContractTest extends TestCase
             if (preg_match('~<p class="mw-pictures-clean">No pictures added~', $exec)) {
                 $this->fail(sprintf(
                     'AI-812: uncovered Pictures template %s carries the legacy unconditional `<p class="mw-pictures-clean">No pictures added...` line. ' .
-                    'Add it to Pictures525769AI812EmptyStateGateContractTest::allPicturesTemplatesProvider() AND apply the is_admin() gate.',
+                    'Add it to Pictures525769AI812EmptyStateGateContractTest::allPicturesTemplatesProvider() AND apply the is_live_edit() gate.',
                     basename($file)
                 ));
             }

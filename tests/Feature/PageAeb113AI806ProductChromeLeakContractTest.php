@@ -270,9 +270,9 @@ class PageAeb113AI806ProductChromeLeakContractTest extends TestCase
             'AI-808: Page template MUST gate empty state on empty($data).'
         );
         $this->assertStringContainsString(
-            '@if (is_admin())',
+            '@if (is_live_edit())',
             $this->executable,
-            'AI-808: Page template empty-state MUST be wrapped in is_admin() so it only surfaces to editors (AI-104 lineage).'
+            'AI-808: Page template empty-state MUST be wrapped in is_live_edit() so it only surfaces to editors (AI-104 lineage).'
         );
         $this->assertStringContainsString(
             'mw-canvas-empty-state',

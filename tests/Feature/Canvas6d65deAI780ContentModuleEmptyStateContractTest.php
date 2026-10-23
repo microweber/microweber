@@ -35,7 +35,7 @@ use Tests\TestCase;
  *       'page' → "No pages yet" / "+ Add page"
  *       default → "No content yet" / "+ Add content"
  *   - CTA links to /admin/content/create?content_type=<type>
- *   - is_admin() gate preserved per AI-104 (cycle-101) — public users
+ *   - is_live_edit() gate preserved per AI-104 (cycle-101) — public users
  *     never see the placeholder
  *
  * Companion CSS lives in
@@ -140,16 +140,16 @@ class Canvas6d65deAI780ContentModuleEmptyStateContractTest extends TestCase
     }
 
     #[Test]
-    public function partial_preserves_is_admin_gate_from_ai104(): void
+    public function partial_preserves_is_live_edit_gate_from_ai104(): void
     {
         // AI-104 (cycle-101 2026-05-09) wrapped the empty-state placeholder in
-        // is_admin() so anonymous public visitors don't see the editor hint.
+        // is_live_edit() so anonymous public visitors don't see the editor hint.
         // After the extraction the gate lives in the shared partial; the
         // template still guards on empty($data) before including it.
         $this->assertMatchesRegularExpression(
-            '/@if\s*\(\s*is_admin\s*\(\s*\)\s*\)[\s\S]*?mw-canvas-empty-state/s',
+            '/@if\s*\(\s*is_live_edit\s*\(\s*\)\s*\)[\s\S]*?mw-canvas-empty-state/s',
             $this->partial,
-            'The shared partial must keep its `@if(is_admin())` gate around the empty-state markup.'
+            'The shared partial must keep its `@if(is_live_edit())` gate around the empty-state markup.'
         );
         $this->assertMatchesRegularExpression(
             '/@if\s*\(\s*empty\s*\(\s*\$data\s*\)\s*\)[\s\S]*?@include\([\'"]modules\.content::partials\.module-empty-state/s',

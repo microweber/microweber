@@ -69,7 +69,7 @@ description: Default - 3 Columns
         <div class="row">
             @if (empty($data))
 
-                @if (is_admin())
+                @if (is_live_edit())
                     <div class="mw-canvas-empty-state" data-mw-content-type="page">
                         <h3 class="mw-canvas-empty-state__title">{{ __('No pages yet') }}</h3>
                         <p class="mw-canvas-empty-state__body">{{ __('Add your first page to fill this module.') }}</p>

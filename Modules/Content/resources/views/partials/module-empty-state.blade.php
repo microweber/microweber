@@ -1,5 +1,5 @@
 
-@if(is_admin())
+@if(is_live_edit())
     @php
         $mwEmpty = \Modules\Content\Services\ContentModuleEmptyState::resolve($params ?? []);
     @endphp
