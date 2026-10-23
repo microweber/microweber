@@ -1,0 +1,157 @@
+/* primitives overrides — part 3: progressbar + file-manager (search, sort select, toolbar alignment). */
+/* Small progressbar */
+.mw-ui-progress-small,
+.mw-ui-progress-small .mw-ui-progress-bar {
+    height: 8px;
+    overflow: hidden;
+    position: relative;
+    max-width: 100%;
+}
+
+.mw-ui-progress-small .mw-ui-progress-bar {
+    height: 100%;
+}
+
+.mw-ui-progress-small {
+    background-color: #e9ecef;
+    border: 1px solid #919191;
+    border-radius: 10px;
+}
+
+.mw-ui-progress-small .mw-ui-progress-bar {
+    background-color: #0d6efd;
+}
+
+.mw-ui-progress-small .mw-ui-progress-info,
+.mw-ui-progress-small .mw-ui-progress-percent {
+    @apply hidden;
+}
+
+.mw-file-drop-zone .mw-file-drop-zone-holder p {
+    @apply text-gray-600 dark:text-white mb-0;
+}
+
+.form-control {
+    @apply py-1 px-2 min-h-10;
+}
+
+.dropdown-item {
+    @apply py-1 px-3 mb-3;
+}
+
+.mw-file-manager-search-button {
+    @apply flex items-center justify-center h-[34px] w-[34px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-r-lg text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors;
+    margin-left: -1px;
+}
+
+/* File Manager search input - Filament admin styling */
+.mw-file-manager-search .form-control-live-edit-input {
+    @apply !rounded-l-lg !rounded-r-none !border !border-gray-300 dark:!border-gray-600 !bg-white dark:!bg-gray-800 text-sm text-gray-900 dark:text-white;
+    padding: 6px 12px !important;
+    height: 34px !important;
+    width: 190px;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.mw-file-manager-search .form-control-live-edit-input:focus {
+    @apply !border-primary-500;
+    box-shadow: 0 0 0 1px rgba(var(--primary-500), 0.3) !important;
+}
+.mw-file-manager-search .form-control-live-edit-input::placeholder {
+    @apply text-gray-400 dark:text-gray-500;
+}
+
+/* File Manager sort select - Filament admin styling */
+.mw-file-manager--sort-select {
+    @apply !rounded-lg !border !border-gray-300 dark:!border-gray-600 !bg-white dark:!bg-gray-800 text-sm text-gray-700 dark:text-gray-300;
+    height: 34px !important;
+    padding: 4px 28px 4px 10px !important;
+    min-width: 120px;
+    font-size: 13px !important;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+    background-position: right 6px center !important;
+    background-repeat: no-repeat !important;
+    background-size: 16px !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+}
+.mw-file-manager--sort-select:focus {
+    @apply !border-primary-500 !outline-none;
+}
+.mw-file-manager--sort-select option {
+    @apply dark:bg-gray-800 dark:text-white;
+}
+
+/* File-manager top toolbar — align the + button, search and sort select on one
+   34px row. The search sits in a `.form-control-live-edit-label-wrapper` whose
+   floating-label top padding inflated it to 45px, and the + dropdown button
+   rendered at 28px, so the three controls read misaligned. Pin them all to 34px
+   and centre their contents. */
+.mw-file-manager-top-bar-actions {
+    align-items: center !important;
+}
+.mw-file-manager-search {
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    align-items: center !important;
+}
+.mw-file-manager-create-methods-dropdown {
+    display: inline-flex !important;
+    align-items: center !important;
+}
+.mw-file-manager-create-methods-dropdown > .btn {
+    height: 34px !important;
+    min-height: 34px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.settings-title-inside {
+    @apply text-xl font-bold text-gray-900 dark:text-white dark:text-white leading-5;
+}
+
+.mw-dialog-skin-default .mw-dialog-header {
+    @apply !p-5;
+}
+
+.fi-fo-tabs.fi-contained {
+    @apply !p-[20px];
+}
+
+.mw-font-picker-modal-wrapper {
+    @apply !m-[10px];
+}
+
+.mw-dialog-container {
+    @apply bg-white dark:text-white;
+}
+.dark .mw-dialog-container {
+    background-color: oklch(0.205 0 0); /* gray-900 */
+}
+
+.mw-dialog-header {
+    @apply bg-white dark:text-white;
+}
+.dark .mw-dialog-header {
+    background-color: oklch(0.205 0 0) !important; /* gray-900 */
+}
+
+.mw-dialog-skin-default .mw-dialog-close:after {
+    @apply dark:invert;
+}
+
+.mw-dialog-footer {
+    @apply bg-white dark:text-white !p-6 !border-0 flex items-center justify-end gap-3 !m-0;
+}
+.dark .mw-dialog-footer {
+    background-color: oklch(0.205 0 0); /* gray-900 */
+}
+
+.mw-dialog-footer .btn {
+    @apply mb-0;
+}
+
