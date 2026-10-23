@@ -27,7 +27,7 @@ class AdminCc3b22AI1053SettingsHubDescriptionsContractTest extends TestCase
 
         $files = [
             'restore'    => base_path('Modules/Backup/Filament/Pages/RestoreAdminPage.php'),
-            'kichen_sink' => base_path('app/Filament/Admin/Pages/KitchenSink.php'),
+            'kichen_sink' => base_path('Modules/KitchenSink/Filament/Pages/KitchenSink.php'),
             'wordpress'  => base_path('Modules/WordPressMigration/Filament/Pages/WordPressMigrationImportPage.php'),
             'api_apps'   => base_path('packages/microweber-passport/src/Filament/Pages/ApiApplicationsPage.php'),
         ];
