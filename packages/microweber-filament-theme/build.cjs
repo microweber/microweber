@@ -368,6 +368,7 @@ function regenerateSplitMonoliths() {
         { dir: path.join(cssDir, 'ese'),     out: path.join(cssDir, 'element-style-editor.css') },
         { dir: path.join(cssDir, 'live-edit'), out: path.join(cssDir, 'live-edit-classes.css') },
         { dir: path.join(cssDir, 'admin', 'media-library'), out: path.join(cssDir, 'admin', 'media-library.css') },
+        { dir: path.join(cssDir, 'live-edit-mobile'), out: path.join(cssDir, 'live-edit-mobile.css') },
     ];
     for (const { dir, out } of pairs) {
         if (!fs.existsSync(dir)) continue;

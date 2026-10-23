@@ -1,0 +1,161 @@
+/* ------------------------------------------------------------------
+ * Sidebar drawer width clamp on mobile.
+ * When `.active` (drawer open), clamp width to
+ *   `min(280px, calc(100vw - 60px))`
+ * so the user can still see + tap the close-overlay to the right of
+ * the drawer. Also force the live-edit-toolbar back-to-admin link to
+ * be visible on mobile so users have a tappable hamburger affordance.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .mw-live-edit-page .fi-sidebar.active {
+        /* Drawer width clamp — never wider than 280px or the
+           viewport minus 60px (whichever is smaller) on mobile. */
+        width: min(280px, calc(100vw - 60px)) !important;
+        max-width: min(280px, calc(100vw - 60px)) !important;
+    }
+
+    /* Make the live-edit toolbar's back-to-admin link visible on
+       mobile so users can tap to open the drawer. !important is
+       needed because the visibility + 44x44 rule otherwise loses
+       the cascade fight against an external 32x32 rule on the
+       same anchor. Hide the misleading "ADMIN" text + arrow icon
+       on mobile so the affordance reads as a dedicated
+       sidebar-toggle hamburger; the JS toggle handler is preserved
+       — only the visual presentation changes. */
+    .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 6px !important;
+        position: relative;
+    }
+    /* Hide the existing arrow-circle SVG on mobile so the hamburger
+       glyph becomes the dominant affordance. */
+    .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link .mw-live-edit-toolbar-arrow-icon {
+        display: none !important;
+    }
+    /* Hide the "ADMIN" text label on mobile — it was misleading
+       (the link doesn't navigate to admin, it toggles the sidebar
+       drawer). */
+    .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link > span {
+        display: none !important;
+    }
+    /* Inject a hamburger glyph as the visible icon on mobile. Three
+       horizontal bars rendered via box-shadow on a single ::before
+       pseudo-element. */
+    .mw-live-edit-page #mw-live-edit-toolbar-back-to-admin-link::before {
+        content: '';
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: currentColor;
+        box-shadow: 0 -7px 0 currentColor, 0 7px 0 currentColor;
+        border-radius: 1px;
+    }
+}
+
+/* ------------------------------------------------------------------
+ * Live-edit modal mobile overflow fix.
+ * AI-143 — menu-editing modal collapse to viewport width on mobile.
+ * AI-144 — content-adding modal collapse to viewport width on mobile.
+ * The menu-editing and content-adding modals use explicit
+ * `Width::Medium` / `MaxWidth::FiveExtraLarge` which resolve LARGER
+ * than a 390px viewport, causing horizontal overflow + clipped
+ * Cancel/Save buttons. Below 768px collapse every live-edit Filament
+ * modal to `100vw - 16px` with sticky-footer actions inside a flex-
+ * column body so Save/Cancel are always reachable.
+ *
+ * Scoped under `.mw-live-edit-page` so the regular admin panel's
+ * CRUD modals (which have their own mobile styles) are not disturbed.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .mw-live-edit-page .fi-modal-window,
+    .mw-live-edit-page .fi-modal-content {
+        max-width: calc(100vw - 16px) !important;
+        width: calc(100vw - 16px) !important;
+        margin: 8px !important;
+    }
+
+    /* Sticky footer so Cancel/Save are always reachable, even when
+       the modal body is taller than the viewport. */
+    .mw-live-edit-page .fi-modal-footer-actions,
+    .mw-live-edit-page .fi-modal-footer {
+        position: sticky;
+        bottom: 0;
+        background: var(--bs-body-bg, #fff);
+        border-top: 1px solid var(--bs-border-color, rgba(0,0,0,0.1));
+        padding: 0.75rem 1rem;
+        z-index: 5;
+    }
+
+    /* Body scrolls; footer stays. */
+    .mw-live-edit-page .fi-modal-content {
+        display: flex;
+        flex-direction: column;
+        max-height: calc(100vh - 32px);
+    }
+    .mw-live-edit-page .fi-modal-content > .fi-modal-content-ctn {
+        flex: 1 1 auto;
+        overflow-y: auto;
+    }
+
+    /* Tighten internal padding so labels + inputs fit without
+       horizontal scroll. */
+    .mw-live-edit-page .fi-modal-content .fi-fo-field-wrp {
+        padding-inline: 0.5rem;
+    }
+}
+
+/* ------------------------------------------------------------------
+ * AI-310 (task-2026-05-13-5f1937) — sub-575.98px modal overflow fix.
+ * tester-agent measured the live-edit picker modal at width=374px with
+ * left=20px on a 390×844 viewport (iPhone 14 Pro): 374 + 20 = 394px,
+ * a 4px overflow past the right edge. The `100vw - 16px` window width
+ * from the @media (max-width:768px) block above is correct, but
+ * Filament's parent `.fi-modal` backdrop adds its own `p-4` (16px)
+ * padding-inline, so the window's *content edge* sits at
+ * parent-padding + window-margin = 16 + 8 = 24px from the viewport
+ * left — not the 8px our window-margin rule intended.
+ *
+ * Below the sm-breakpoint (575.98px, the AI-286 mobile boundary)
+ * suppress the backdrop's padding-inline and tighten the window to
+ * `100vw - 24px` with 12px margins so the window + centring fit on
+ * a 390px viewport with no horizontal overflow at all.
+ * ------------------------------------------------------------------ */
+@media (max-width: 575.98px) {
+    .mw-live-edit-page .fi-modal {
+        padding-inline: 0 !important;
+    }
+    .mw-live-edit-page .fi-modal-window,
+    .mw-live-edit-page .fi-modal-content {
+        max-width: calc(100vw - 24px) !important;
+        width: calc(100vw - 24px) !important;
+        margin: 12px !important;
+    }
+
+    /* AI-307 post-fix polish (task-2026-05-13-5d3a06) — picker search-
+       input width. tester-agent measured the search input at 286px on
+       a 390×844 viewport and suggested ~340px for comfort. The input
+       uses Tailwind `w-full` inside `.mw-add-content-modal-root` which
+       wraps Filament's `.fi-modal-content`. Filament's default `px-6`
+       (24px each side, 48px total) plus the root's `p-2` (8px each
+       side, 16px total) ate 64px of the 366px window's content area,
+       leaving only ~302px for the input. On the sub-575.98px viewport
+       we trim Filament's content-padding to 12px each side and drop
+       the root wrapper padding to 4px each side: 366 - 24 - 8 = 334px
+       available width — comfortably above the 340px target without
+       letting the picker cards touch the modal edges.
+
+       Scoped to `.mw-content-picker-modal` so non-picker modals (form
+       Cancel/Save, module settings, etc.) keep their default Filament
+       content padding. */
+    .mw-live-edit-page .mw-content-picker-modal .fi-modal-content {
+        padding-inline: 0.75rem !important;
+    }
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-root {
+        padding: 0.25rem !important;
+    }
+}
+

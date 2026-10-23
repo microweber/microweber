@@ -1,0 +1,129 @@
+/* ------------------------------------------------------------------
+ * Add-content picker row density on mobile.
+ * The +ADD picker shows 6 rows, each with Tailwind `flex gap-6 p-5`
+ * + an 80x80 icon container holding a 40x40 SVG. On a 390px viewport
+ * description text wraps to 3-4 lines and each row stands ~140px
+ * tall, so the 6 rows stack taller than the viewport.
+ *
+ *   1. Shrink the icon container 80->56 and its inner padding so the
+ *      SVG doesn't break out.
+ *   2. Shrink the SVG 40->28 to fit the smaller container.
+ *   3. Drop the row gap 24->12 and outer padding 20->12 to free width
+ *      for the title + description column.
+ *   4. Tighten the title/description vertical gap and clamp the
+ *      description to 3 lines so each row stays a predictable height.
+ *
+ * Scoped under `.mw-live-edit-page` so the desktop layout, the 2x2
+ * grid at >=640px, and non-live-edit panels stay untouched.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper {
+        gap: 0.75rem !important;
+        padding: 0.75rem !important;
+        align-items: center;
+    }
+    /* Icon container — first direct child div of the row. The Tailwind
+       w-20 h-20 (80px) is too large for a 374px modal. */
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper > div:first-child {
+        width: 56px !important;
+        height: 56px !important;
+        min-width: 56px;
+        padding: 0.5rem !important;
+        flex-shrink: 0;
+    }
+    /* SVG inside the icon container — Tailwind h-10 w-10 (40px) is
+       sized for the 80px container; shrink to fit the 56px container. */
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper > div:first-child > svg {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    /* Text column — tighten the inter-line gap and clamp the
+       description so rows have a predictable height. */
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper > div:nth-child(2) {
+        gap: 0.25rem !important;
+        min-width: 0;
+    }
+    .mw-live-edit-page .mw-content-picker-modal .mw-add-content-modal-action-wrapper > div:nth-child(2) > div:last-child {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.3;
+    }
+}
+
+/* ------------------------------------------------------------------
+ * Live-edit toolbar leaks through Filament modals on mobile.
+ * The live-edit `#toolbar` (z-index: 999) and its inner
+ * `.mw-live-edit-search-dropdown` (z-index: 1000) win the stacking
+ * fight against `.fi-modal-window-ctn` (z-index: 200), so toolbar
+ * buttons visually leak through Filament modals on mobile and the
+ * dark close-overlay backdrop cannot be tapped to dismiss.
+ *
+ * Below 768px hoist `.fi-modal-window-ctn` and `.fi-modal-close-
+ * overlay` above the toolbar's 1000 ceiling. Desktop is untouched:
+ * at >=769px the slide-over is a right-side strip and the toolbar
+ * should remain visible + tappable to the LEFT of the panel.
+ *
+ * Scoped under `.mw-live-edit-page` / `.mw-admin-live-edit-page`
+ * so non-live-edit Filament admin pages keep their normal z-index
+ * stack.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    /*
+     * Match the (0,3,0) specificity of the existing
+     * `.mw-admin-live-edit-page .fi-modal > .fi-modal-window-ctn`
+     * rule in live-edit-classes.css (z-index:200 !important) so we
+     * win the cascade on tie via source order — live-edit-mobile.css
+     * is @import'd AFTER live-edit-classes.css. Both
+     * `.mw-live-edit-page` and `.mw-admin-live-edit-page` are
+     * present on the live-edit ancestry; cover both.
+     */
+    .mw-admin-live-edit-page .fi-modal > .fi-modal-window-ctn,
+    .mw-live-edit-page .fi-modal > .fi-modal-window-ctn {
+        z-index: 1100 !important;
+    }
+    .mw-admin-live-edit-page .fi-modal > .fi-modal-close-overlay,
+    .mw-live-edit-page .fi-modal > .fi-modal-close-overlay {
+        z-index: 1100 !important;
+    }
+}
+
+/* ------------------------------------------------------------------
+ * Hide the Live Edit toolbar "Search content" input on mobile.
+ * On a 390px viewport, between the surrounding toolbar buttons only
+ * ~48px of horizontal space is left for the search slot — and after
+ * the autoComplete dropdown's `ps-4` prefix padding the actual input
+ * collapses to ~2px wide (measurable but unusable). Content-search
+ * is a power-user affordance; mobile users typically edit one page
+ * at a time and can navigate via the sidebar hamburger. Hiding the
+ * slot also frees ~48px for the remaining toolbar buttons.
+ *
+ * Scoped to the live-edit toolbar via `#mw-live-edit-search-content`
+ * + `.mw-live-edit-search-dropdown` — does NOT affect non-live-edit
+ * Filament admin search inputs.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .mw-admin-live-edit-page #mw-live-edit-search-content,
+    .mw-live-edit-page #mw-live-edit-search-content,
+    /* The autoComplete generates a wrapper `.mw-live-edit-search-dropdown`
+       that may sit on the SLOT div OR be the closest ancestor — hide
+       it too so the dropdown doesn't render an empty 48×35 box if the
+       autoComplete strips the inner #mw-live-edit-search-content node
+       on a future refactor. */
+    .mw-admin-live-edit-page .mw-live-edit-search-dropdown,
+    .mw-live-edit-page .mw-live-edit-search-dropdown {
+        display: none !important;
+    }
+    /* The Bootstrap `.col.toolbar-col-container` parent of the search
+       slot would still occupy 48px width via flex even with its child
+       hidden — collapse it too so the freed space goes to the rest of
+       the toolbar. */
+    .mw-admin-live-edit-page .toolbar-col-container:has(> #mw-live-edit-search-content),
+    .mw-admin-live-edit-page .toolbar-col-container:has(> .mw-live-edit-search-dropdown),
+    .mw-live-edit-page .toolbar-col-container:has(> #mw-live-edit-search-content),
+    .mw-live-edit-page .toolbar-col-container:has(> .mw-live-edit-search-dropdown) {
+        display: none !important;
+    }
+}
+

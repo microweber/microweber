@@ -1,0 +1,384 @@
+/* ------------------------------------------------------------------
+ * Live-edit toolbar buttons below the WCAG 2.5.5 / iOS HIG 44x44
+ * touch-target floor.
+ *
+ *   - VIEW button (`#mw-page-set-preview-mode` /
+ *     `.live-edit-toolbar-buttons-view`) renders ~34x38 from Bootstrap
+ *     `.btn` defaults.
+ *   - Toolbar user-menu hamburger (`#toolbar-user-menu-button` /
+ *     `.mw-le-hamburger`) renders ~24x17 because `gui.css` pins the
+ *     visual bar size. The three inner `<span>` bars are absolute-
+ *     positioned, so the parent's box can grow without disturbing
+ *     the bar layout.
+ *
+ * Bump both buttons to 44x44 on `(max-width: 768px), (pointer: coarse)`.
+ * Use inline-flex + center alignment so the visual bars stay centered
+ * inside the larger hit area. Scoped under live-edit so non-live-edit
+ * Filament admin chrome is untouched.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px), (pointer: coarse) {
+    /* VIEW button. Cover both the id and the class so the fix
+       binds whichever selector future refactors keep. */
+    .mw-admin-live-edit-page #mw-page-set-preview-mode,
+    .mw-admin-live-edit-page .live-edit-toolbar-buttons-view,
+    .mw-live-edit-page #mw-page-set-preview-mode,
+    .mw-live-edit-page .live-edit-toolbar-buttons-view {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 6px 12px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* User-menu hamburger. The gui.css rule pins 24x17 on the visual
+       bar — bump the parent box to 44x44 while keeping the inner
+       spans (`position: absolute`) where they are. */
+    .mw-admin-live-edit-page #toolbar-user-menu-button,
+    .mw-admin-live-edit-page .mw-le-hamburger,
+    .mw-live-edit-page #toolbar-user-menu-button,
+    .mw-live-edit-page .mw-le-hamburger {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 13px 10px !important;
+        box-sizing: content-box !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    /*
+     * Live Edit SAVE button. Bootstrap `.btn` defaults to ~36px tall,
+     * 8px below the WCAG 2.5.5 / iOS HIG 44 floor. Pin 44x44 +
+     * inline-flex centering, same pattern as the VIEW button above.
+     */
+    .mw-admin-live-edit-page #save-button,
+    .mw-live-edit-page #save-button {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        padding: 6px 12px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /*
+     * Live Edit sidebar / panel touch-target floors. Five sub-44
+     * controls in the live-edit chrome:
+     *   1. `.mw-control-boxclose` panel close icon (25x25) — the
+     *      existing rule hard-sets `width/height: 20px` so we must
+     *      override `width/height !important` (NOT `min-width`).
+     *   2. `.reset-template-settings-and-stylesheet-button` (20x20)
+     *      — dangerously small for a reset action on mobile.
+     *   3. `.mw-ai-chat-box-action-voice` (30x30).
+     *   4. `.mw-ai-chat-box-action-send` (width OK, height 4px short).
+     *   5. Tools-menu dropdown trigger (height 9px short).
+     *
+     * Scoping: control-boxes + AI chat are portaled to body root,
+     * NOT inside `.mw-live-edit-page`. The `.mw-*` class names are
+     * live-edit-specific so direct-class selectors are safe.
+     */
+    .mw-control-box .mw-control-boxclose,
+    .mw-control-box-default .mw-control-boxclose,
+    .mw-control-box-right .mw-control-boxclose {
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        box-sizing: content-box;
+    }
+    button.reset-template-settings-and-stylesheet-button,
+    .reset-template-settings-and-stylesheet-button {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: auto;
+        height: auto;
+        padding: 12px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    button.mw-ai-chat-box-action-voice,
+    .mw-ai-chat-box-action-voice {
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: 44px;
+        height: 44px;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    button.mw-ai-chat-box-action-send,
+    .mw-ai-chat-box-action-send {
+        min-height: 44px !important;
+        height: auto;
+        padding: 10px 14px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    a.dropdown-trigger[aria-label="Tools menu"],
+    .live-edit-toolbar a.dropdown-trigger,
+    #toolbar a.dropdown-trigger[aria-label="Tools menu"] {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    /* task-2026-05-27-e5e443 / AI-1143 — Element Style Editor mobile
+       touch-target floors. Two sub-44 control families surfaced via
+       Tier-3 Playwright probe at 390x844:
+         1. `.mw-segmented__cell` (4x text-align toggles ta-left /
+            ta-center / ta-right / ta-justify) render 75-76 x 28 —
+            16px short on vertical hit area.
+         2. `.v-input--horizontal` (4x Vuetify slider wrappers for
+            font-size / line-height / letter-spacing etc.) render
+            304 x 26 — the `.v-slider-track` itself is 3px tall so
+            tap-to-set vertical hit area is only 26px (18px short).
+       Both pinned to min-height: 44px inside the live-edit mobile
+       block. Vuetify writes inline styles on slider drag so
+       !important is mandatory to defeat the inline override (per
+       the existing surviving-!important pattern documented in
+       element-style-editor.css). Desktop layout unaffected. */
+    .mw-admin-live-edit-page .mw-segmented__cell,
+    .mw-live-edit-page .mw-segmented__cell,
+    #mw-element-style-editor-app .mw-segmented__cell {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    .mw-admin-live-edit-page #mw-element-style-editor-app .v-input--horizontal,
+    .mw-live-edit-page #mw-element-style-editor-app .v-input--horizontal,
+    #mw-element-style-editor-app .v-input--horizontal {
+        min-height: 44px !important;
+        display: flex !important;
+        align-items: center;
+    }
+
+    /*
+     * Live Edit toolbar overflow at narrow viewports.
+     *
+     * task-2026-05-16-74c5f5 — the previous approach combined
+     * `flex-wrap: wrap` (let children fall to a second row) with
+     * the toolbar's fixed `height: var(--toolbar-height)` (60px).
+     * Wrapped children rendered visually BELOW the toolbar's 60px
+     * box (at y=60..116), which is exactly where the right
+     * `.mw-live-edit-right-sidebar-wrapper` starts (top:60, z:2).
+     * Result: the Menu button + Save & Publish button got covered
+     * by the right-side icon strip (and its tooltip labels at the
+     * narrower breakpoint). The user reported it as "menus is
+     * still overlaping".
+     *
+     * Switch to nowrap + horizontal scroll. The toolbar now keeps
+     * ONE row at every viewport width and scrolls horizontally if
+     * the children don't all fit. No element ever escapes the
+     * toolbar's vertical box, so the right sidebar (which sits
+     * just below at y=60) is no longer collided with. The
+     * scroll-snap rules below still snap to each toolbar column
+     * for one-finger discoverability on touch.
+     */
+    .mw-admin-live-edit-page #toolbar,
+    .mw-live-edit-page #toolbar {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+    .mw-admin-live-edit-page #toolbar > *,
+    .mw-live-edit-page #toolbar > * {
+        scroll-snap-align: start;
+        flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+     * AI-717 v2 — pin PREVIEW + SAVE absolute to the toolbar's
+     * RIGHT EDGE on mobile (task-2026-05-17-946668 supersedes
+     * task-2026-05-16-e0d0f1 sticky approach).
+     *
+     * Designer DOM-probe found AI-717 v1's `position: sticky` did
+     * NOT pull SAVE into view at mobile 390:
+     *   Before scroll: SAVE rect left=426 right=488  (off-screen)
+     *   After scroll : SAVE rect left=237 right=299  (at middle, NOT right edge)
+     * User had to horizontal-scroll 319px to reach SAVE — spec
+     * acceptance #3 ("visible at right edge by default, no
+     * scrolling required") not met.
+     *
+     * Root cause: `position: sticky; right: 0` inside an
+     * `overflow-x: auto` parent pins to the right of the
+     * scroll-container CONTENT area (at content-end x=709),
+     * NOT to the right of the VIEWPORT. Sticky doesn't pull
+     * off-screen elements onto screen — it only pins elements
+     * that would otherwise scroll out.
+     *
+     * Fix per designer's Option C: use `position: absolute`
+     * relative to `#toolbar` (which becomes `position: relative`).
+     * The scrollable middle region gets `padding-right: 152px`
+     * (80 SAVE + 64 PREVIEW + 8 gap) so the scrolling content
+     * doesn't underlap the absolutely-positioned right cluster.
+     *
+     * SAVE pinned at `right: 0`; PREVIEW pinned at
+     * `right: calc(80px + var(--space-sm))` so it sits just
+     * inside SAVE with the gap. Both `top: 50%; translateY(-50%)`
+     * for vertical centering inside the 48px toolbar (AI-698a).
+     *
+     * `box-shadow` left-fade hides scrolling content as it
+     * passes under the right cluster.
+     * ───────────────────────────────────────────────────── */
+    /* task-2026-05-27-ed8090 / AI-1142 — mobile toolbar regression fix.
+       Hide non-essential toolbar items on mobile so the MainDrawer
+       hamburger stays in-viewport at 390px. Hidden items are accessible
+       via MainDrawer (Pages, Tools) or keyboard shortcuts (Ctrl+Z). */
+    .mw-admin-live-edit-page .live-edit-undo-redo-buttons-wrapper,
+    .mw-live-edit-page .live-edit-undo-redo-buttons-wrapper {
+        display: none !important;
+    }
+    .mw-admin-live-edit-page .toolbar-col-container:has(.mw-page-chip-wrapper),
+    .mw-live-edit-page .toolbar-col-container:has(.mw-page-chip-wrapper) {
+        display: none !important;
+    }
+    .mw-admin-live-edit-page .toolbar-col .toolbar-col-container .mx-2,
+    .mw-live-edit-page .toolbar-col .toolbar-col-container .mx-2 {
+        display: none !important;
+    }
+
+    .mw-admin-live-edit-page #toolbar,
+    .mw-live-edit-page #toolbar {
+        position: relative !important;
+        /* Reserve the right zone for the absolutely-positioned #save-button
+           (right:4px, ~64px wide) so the last in-flow toolbar button — the
+           MainDrawer hamburger (#mw-live-edit-main-drawer-button) — does not
+           slide under SAVE and its left fade-shadow. #toolbar is
+           display:flex/justify-content:space-between, so this padding is what
+           bounds the right edge of the in-flow button group. 64px only cleared
+           the button box (4+64=68 minus the 8px shadow bleed → ~4px overlap);
+           92px = 4(right) + 64(save) + 8(shadow) + ~16(gap) for a clean gap. */
+        padding-right: 92px !important;
+    }
+    /* task-2026-05-27-mobile-overflow / AI-1163: bumped from 35px → 44px
+       to meet WCAG 2.5.5 44×44 touch target. `top:50%;
+       transform:translateY(-50%)` already centres the element regardless
+       of height, so no top adjustment is needed. */
+    .mw-admin-live-edit-page #toolbar #save-button,
+    .mw-live-edit-page #toolbar #save-button {
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 3;
+        background-color: var(--ese-text, #111827) !important;
+        color: var(--ese-surface, #ffffff) !important;
+        box-shadow: -8px 0 8px -4px var(--ese-surface, #ffffff);
+        flex-shrink: 0;
+        right: 4px !important;
+        height: 44px !important;
+        min-height: 44px !important;
+    }
+    .mw-admin-live-edit-page #toolbar #mw-page-set-preview-mode,
+    .mw-live-edit-page #toolbar #mw-page-set-preview-mode {
+        height: 44px !important;
+        min-height: 44px !important;
+        flex-shrink: 0;
+    }
+
+    /* task-2026-05-22-17d95a / AI-832 — Tools dropdown mobile viewport safety.
+     *
+     * ROOT CAUSE: .dropdown-content is position:absolute (scoped Vue CSS)
+     * relative to .custom-dropdown. Inside the horizontally-scrollable
+     * #toolbar (overflow-x:auto, AI-74c5f5), position:absolute is relative
+     * to the SCROLLED container — not the visible viewport. When the toolbar
+     * is scrolled right the popup renders off-screen to the right (invisible).
+     *
+     * FIX: switch to position:fixed on mobile so the popup is always
+     * viewport-relative, anchored just below the toolbar height token.
+     * right:4px keeps it away from the screen edge; left:auto lets the
+     * popup take its natural width (min-width:200px from the Vue scoped CSS).
+     * max-height:80vh + overflow-y:auto makes all items reachable by scroll.
+     * z-index:100000 ensures it paints above the toolbar and iframe canvas.
+     *
+     * Dark mode parity: no extra rule needed — the scoped Vue dark-mode
+     * selectors (.dark .dropdown-content) remain in force.
+     *
+     * The trigger button itself stays at flex-shrink:0 so it is never
+     * crushed off the visible edge of the toolbar. */
+    .mw-admin-live-edit-page #toolbar .custom-dropdown .dropdown-content.show,
+    .mw-live-edit-page #toolbar .custom-dropdown .dropdown-content.show {
+        position: fixed !important;
+        top: calc(var(--toolbar-height, 48px) + 4px) !important;
+        right: 4px !important;
+        left: auto !important;
+        max-height: 80vh !important;
+        overflow-y: auto !important;
+        z-index: 100000 !important;
+        /* Keep min-width from Vue scoped CSS; cap at viewport width minus 8px */
+        max-width: calc(100vw - 8px) !important;
+    }
+
+    /* Prevent the trigger button from being crushed by toolbar flex */
+    .mw-admin-live-edit-page #toolbar .custom-dropdown,
+    .mw-live-edit-page #toolbar .custom-dropdown {
+        flex-shrink: 0 !important;
+    }
+
+    /*
+     * task-2026-05-29-eaf3a1 / AI-1157 — Quick AI Edit panel
+     * (#mw-live-edit-quickEditComponent-box) carries 24 sub-44 interactive
+     * elements at 390x844: 12 .quick-ai-type-group-header buttons rendered
+     * at 32px tall (12px short of WCAG 2.5.5) and 12 .form-control-live-edit-input
+     * text inputs rendered at 38px tall (6px short). Pin both rule families
+     * to the 44px floor inside the canonical mobile/touch media block.
+     *
+     * Scope note: the controlBox teleports directly under body.fi-panel-admin
+     * (no .mw-admin-live-edit-page / .mw-live-edit-page ancestor), so the
+     * doubled-prefix pattern used elsewhere in this file does NOT match here.
+     * Scope via the unique box ID so other Live Edit surfaces that reuse
+     * .form-control-live-edit-input (filepicker / module settings) keep their
+     * desktop sizing.
+     *
+     * Specificity note: microweber-filament-theme.css:100 ships a same-
+     * specificity desktop rule pinning min-height:36px on the same selector
+     * with !important. That file concatenates AFTER live-edit-mobile.css in
+     * the bundle, so source-order would otherwise win against this mobile
+     * override (Stage-2 sub-variant !important-cascade-loss). Prefix with
+     * body.fi-panel-admin to bump specificity (+0/1/1/0) above the bare
+     * #id .class rule.
+     */
+    body.fi-panel-admin #mw-live-edit-quickEditComponent-box .quick-ai-type-group-header {
+        min-height: 44px !important;
+    }
+
+    body.fi-panel-admin #mw-live-edit-quickEditComponent-box .form-control-live-edit-input {
+        min-height: 44px !important;
+    }
+
+    /* task-2026-05-30-pchip01 — PageChip mobile-overlay override.
+     * The toolbar-col-container hosting .mw-page-chip-wrapper is
+     * display:none at <=768px (line 777 above) for room budget. On
+     * mobile, PageChip.vue teleports the popover to <body> via
+     * <Teleport :disabled="!isMobile">; the teleported node carries
+     * the .mw-page-chip-popover--mobile class and renders as a
+     * full-viewport overlay below the toolbar. Position:fixed escapes
+     * the hidden ancestor's display:none even if Teleport's
+     * :disabled toggle is delayed by one tick. Top offset 56px
+     * matches the toolbar height (--toolbar-height: 48px + 8px margin).
+     */
+    .mw-page-chip-popover.mw-page-chip-popover--mobile {
+        position: fixed !important;
+        top: 56px !important;
+        left: 8px !important;
+        right: 8px !important;
+        bottom: 8px !important;
+        width: auto !important;
+        max-width: none !important;
+        transform: none !important;
+        z-index: 100000 !important;
+        max-height: calc(100vh - 64px) !important;
+    }
+}
+

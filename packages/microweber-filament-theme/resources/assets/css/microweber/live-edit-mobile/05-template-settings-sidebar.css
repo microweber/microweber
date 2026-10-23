@@ -1,0 +1,109 @@
+/* ------------------------------------------------------------------
+ * task-2026-06-02-mobile02 — Template Settings panel mobile touch targets.
+ *
+ * The TemplateSettings panel (.mw-template-settings-panel) surfaces three
+ * interactive element classes that fall below WCAG 2.5.5 (44px) on mobile:
+ *
+ * 1. Bootstrap .form-check.form-switch toggle switches render at ~16px.
+ *    Expand to 44px by setting min-height on the label wrapper and enlarging
+ *    the track for thumb-reach.
+ * 2. .form-control text inputs and .form-select dropdowns render at ~32px.
+ *    Bump to min-height: 44px; font-size: 16px prevents iOS Safari auto-zoom
+ *    on focus (any font-size below 16px triggers viewport zoom).
+ * 3. Accordion header links (.mw-admin-action-links.mw-adm-liveedit-tabs)
+ *    render at line-height only (~24px). Expand to 44px via min-height + flex.
+ * ------------------------------------------------------------------ */
+@media (max-width: 768px), (pointer: coarse) {
+    .mw-template-settings-panel .form-check.form-switch {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .mw-template-settings-panel .form-check.form-switch .form-check-input {
+        width: 3em;
+        height: 1.5em;
+        flex-shrink: 0;
+    }
+
+    .mw-template-settings-panel input.form-control,
+    .mw-template-settings-panel select.form-select {
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    /* Accordion section + sub-section headings */
+    .mw-template-settings-panel .mw-admin-action-links.mw-adm-liveedit-tabs {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+/* ==========================================================================
+   Live-Edit admin sidebar — show labels + left-align icons.
+
+   openAdminSidebar() (live-edit-widgets-service.js) reveals the Filament admin
+   sidebar by adding `.active` to aside.fi-sidebar and `.mw-live-edit-sidebar-
+   start` to <html>, but it never flips Filament's Alpine sidebar store. On the
+   narrow live-edit viewport Filament therefore treats the sidebar as collapsed:
+   every item label is x-show-hidden (inline display:none) and the item buttons
+   centre their icons (justify-content:center) — so the panel rendered as a
+   280px-wide column of centred icons with NO text (reported bug).
+
+   Scope to the `html.mw-live-edit-sidebar-start` hook (present only while the
+   live-edit sidebar is open) so normal admin pages are untouched: force the
+   labels visible and left-align the item + group-trigger buttons, giving a
+   proper labelled, aligned navigation. (Grouped items still collapse to
+   Filament icon-dropdown triggers whose labels live in a fly-out — those stay
+   icon-only but are now left-aligned and consistent with the rest.)
+   ========================================================================== */
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item-label,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-group-label {
+    display: block !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    clip: auto !important;
+    margin: 0 !important;
+}
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item-btn,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-group-dropdown-trigger-btn {
+    justify-content: flex-start !important;
+}
+
+/* task: "make the live-edit sidebar look the same as admin". The only remaining
+   difference is the nav inset — Filament core gives .fi-sidebar-nav 24px side
+   padding (admin: icon at x=40), but in the live-edit context it computes to 0
+   (icon at x=16), so the icons sit ~24px further left than in the admin panel.
+   Restore the 24px inset so the two sidebars align identically. */
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-nav {
+    padding-inline-start: 24px !important;
+    padding-inline-end: 24px !important;
+}
+
+/* Reported: at <768px, hovering a sidebar row makes the WHOLE ROW jump up →
+   the cursor loses it → flicker loop → the item is unclickable. No intentional
+   MW rule moves the row, so the culprit is a hover lift from Filament core /
+   a (hover:hover) rule (which our --no-sandbox headless Chrome doesn't apply,
+   so it can't be reproduced here). Defensively pin the row geometry: hover must
+   never translate the row or re-position its label/icon, so the layout is
+   identical hovered vs. not and there is nothing to flicker against. */
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item:hover,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item:focus-within,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item-btn:hover,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-group-dropdown-trigger-btn:hover {
+    transform: none !important;
+    margin-top: 0 !important;
+    top: auto !important;
+}
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item:hover .fi-sidebar-item-label,
+html.mw-live-edit-sidebar-start aside.fi-sidebar .fi-sidebar-item:focus-within .fi-sidebar-item-label {
+    position: static !important;
+    transform: none !important;
+    top: auto !important;
+    left: auto !important;
+}
+
