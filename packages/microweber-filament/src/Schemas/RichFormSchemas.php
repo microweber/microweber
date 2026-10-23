@@ -8,10 +8,21 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 
 /**
- * Reusable rich-form building blocks shared by real admin pages (the content
- * editor, settings pages, …) AND the KitchenSink component showcase, so both
- * render the SAME Filament components off ONE source — styling verified in the
- * kitchen sink holds for the real pages (DRY).
+ * Reusable rich-form building blocks: the canonical "rich page" content + SEO
+ * sections, rendered in the KitchenSink showcase so the theme's styling of the
+ * core Filament components (Section / TextInput / RichEditor / Textarea) is
+ * verified against a live gate.
+ *
+ * Scope — read before wiring this into an existing resource. These are the SHARED
+ * BASE for the kitchen sink and for any NEW rich page that wants exactly these
+ * fields. Do NOT retrofit them onto the feature-rich existing forms: the real
+ * content forms (e.g. Modules\Content ContentResource) deliberately add things
+ * this generic base omits — TranslateFieldAction (multilanguage), resource-specific
+ * maxLengths, and a chosen editor type (Content's body is a Textarea per
+ * task-2026-05-22-AI-936, not a RichEditor). Swapping in these parts would STRIP
+ * that functionality — a regression, not a DRY win. Those forms already render
+ * consistently because they use the same component TYPES + the same theme CSS;
+ * reuse is for new pages that match these fields, not a retrofit.
  *
  * Each method returns a self-contained Section that renders standalone (no record
  * or domain coupling); the calling page/resource just supplies matching form
