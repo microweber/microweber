@@ -17,96 +17,15 @@
     {{-- 2. Small Base-specific CSS (template font + touch-target safety). --}}
     <link rel="stylesheet" href="{{ asset('templates/base/css/base.css') }}">
 
-    {{-- 3. Base template default design tokens. Loaded after the framework so the
-         template's brand wins over the framework defaults. The saved colour scheme
-         (block 4) overrides these in turn. --}}
-    <style>
-        :root {
-            --mw-primary-color: #f4a261;
-            --mw-secondary-color: #6c757d;
-            --mw-background-color: #ffffff;
-            --mw-section-background-color: #ffffff;
-            --mw-body-color: #000000;
-            --mw-text-dark: #212529;
-            --mw-text-light: #f8f9fa;
-            --mw-body-font-family: 'Jost', sans-serif;
-            --mw-heading-font-family: 'Jost', sans-serif;
-            --mw-body-font-size: 16px;
-            --mw-paragraph-size: 16px;
-            --mw-paragraph-color: #000000;
-            --mw-heading-color: #000000;
-            --mw-line-height: 1.5;
-            --mw-letter-spacing: 0;
-            --mw-font-weight: 400;
-            --mw-text-transform: none;
-            --mw-link-color: #f4a261;
-            --mw-link-hover-color: #e76f51;
-            --mw-btn-background-color: #f4a261;
-            --mw-btn-background-hover-color: #e76f51;
-            --mw-btn-text-color: #ffffff;
-            --mw-btn-text-hover-color: #ffffff;
-            --mw-btn-border-color: #f4a261;
-            --mw-btn-border-radius: 33px;
-            --mw-btn-border-size: 2px;
-            --mw-btn-border-style: solid;
-            --mw-btn-padding-block: 15px;
-            --mw-btn-padding-inline: 24px;
-            --mw-btn-font-size: 16px;
-            --mw-btn-secondary-background-color: #FF5E00;
-            --mw-btn-secondary-background-hover-color: #f4a261;
-            --mw-btn-secondary-text-color: #ffffff;
-            --mw-btn-secondary-text-hover-color: #ffffff;
-            --mw-btn-secondary-border-color: #f4a261;
-            --mw-btn-outline-background-color: transparent;
-            --mw-btn-outline-background-hover-color: #f4a261;
-            --mw-btn-outline-text-color: #f4a261;
-            --mw-btn-outline-text-hover-color: #ffffff;
-            --mw-btn-outline-border-color: #f4a261;
-            --mw-header-background-color: #ffffff;
-            --mw-header-link-color: #f4a261;
-            --mw-header-link-hover-color: #f4a261;
-            --mw-header-link-background-hover-color: transparent;
-            --mw-header-padding-block: 10px;
-            --mw-header-font-size: 16px;
-            --mw-top-header-background-color: #000000;
-            --mw-top-header-primary-color: #f4a261;
-            --mw-top-header-link-color: #f4a261;
-            --mw-top-header-link-hover-color: #f4a261;
-            --mw-top-header-button-background-color: #f4a261;
-            --mw-top-header-button-background-hover-color: #f4a261;
-            --mw-top-header-button-text-color: #ffffff;
-            --mw-top-header-button-text-hover-color: #ffffff;
-            --mw-footer-background-color: #ffffff;
-            --mw-footer-link-color: #f4a261;
-            --mw-footer-hover-link-color: #f4a261;
-            --mw-footer-text-color: #000000;
-            --mw-footer-primary-color: #f4a261;
-            --mw-footer-font-size: 16px;
-            --mw-footer-button-background-color: #f4a261;
-            --mw-footer-button-background-hover-color: #f4a261;
-            --mw-footer-button-text-color: #ffffff;
-            --mw-footer-button-text-hover-color: #ffffff;
-            --mw-form-control-border-radius: 0px;
-            --mw-form-control-border-size: 1px;
-            --mw-form-control-border-style: solid;
-            --mw-form-control-border-color: #ced4da;
-            --mw-form-control-padding-block: 15px;
-            --mw-form-control-padding-inline: 15px;
-            --mw-form-control-placeholder-color: #6c757d;
-            --mw-form-control-background: #ffffff;
-            --mw-form-control-text-color: #000000;
-            --mw-form-control-text-hover-color: #000000;
-            --mw-form-label-color: #000000;
-            --mw-form-label-font-size: 16px;
-            --mw-text-on-dark-background-color: #ffffff;
-            --mw-heading-one: 64px;
-            --mw-heading-two: 52px;
-            --mw-heading-three: 44px;
-            --mw-heading-four: 32px;
-            --mw-heading-five: 24px;
-            --mw-heading-six: 20px;
-        }
-    </style>
+    {{-- 3. Base template default design tokens (design-vars LAYER).
+         Externalised from the old inline <style> block into a real file —
+         templates/base/design-styles/design-vars.css — matching the Big template's
+         design-styles/design-vars.css pattern. Same cascade position as before:
+         after the framework + base.css (so brand tokens win over framework defaults)
+         and before the saved colour scheme + child design + live_edit.css (so those
+         override it). Child ("extra") templates ship their own design-vars.css with
+         the same var names to override these defaults. --}}
+    <link rel="stylesheet" href="{{ asset('templates/base/design-styles/design-vars.css') }}" id="mw-template-design-vars-defaults" type="text/css" media="all">
 
     {{-- 5. Saved colour scheme / "Customize styles" for the active template.
          The design-system picker persists the chosen --mw-* values to the
