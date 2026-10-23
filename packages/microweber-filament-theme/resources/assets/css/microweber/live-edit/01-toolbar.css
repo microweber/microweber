@@ -1,0 +1,427 @@
+/* live-edit — 01 toolbar: back-link, calm-toolbar colour pass, device-preview segment, tools (⋮) dropdown, active rail. */
+.modules-list-block-style-list {
+    @apply h-[160px] w-full;
+}
+
+@media screen and (min-width: 890px) {
+    .modules-list-block-style-list {
+        @apply !h-[240px];
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .modules-list-block-style-list {
+        @apply !w-[45%];
+    }
+}
+
+@media screen and (min-width: 1366px) {
+    .modules-list-block-style-list {
+        @apply !w-[30%];
+    }
+}
+
+.modules-list-block-style-full {
+    @apply w-full h-[500px];
+}
+
+.layout-list-buttons {
+    @apply mr-[40px] mt-[7px];
+
+}
+
+.mw-le-layouts-dialog-col:first-child, .modules-list-search-field {
+    @apply bg-white z-[120];
+}
+
+
+.mw-le-layouts-dialog .modules-list-search-block {
+    @apply relative;
+}
+
+.mw-le-layouts-dialog {
+    background-color: #ececec;
+}
+
+.dark .mw-le-layouts-dialog {
+    background-color: rgb(31 41 55);
+}
+
+.input-icon-addon {
+    @apply absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none min-w-[2.5rem] justify-center text-[1.2em];
+}
+
+.list-layouts-search-bar-icon.input-icon-addon {
+    @apply left-0;
+    right: unset;
+}
+
+.dark .list-layouts-search-bar-icon.input-icon-addon {
+    color: #d1d5db; /* gray-300 — visible on dark backgrounds */
+}
+
+.dark .mw-le-dialog-close-btn {
+    color: #d1d5db;
+}
+
+.mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
+    @apply bg-white !rounded-none border-white w-full border-b-gray-100;
+}
+
+.dark .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
+    background-color: rgb(55 65 81);
+    border-color: rgb(55 65 81);
+    color: #e5e7eb;
+}
+
+.dark .mw-le-layouts-dialog .modules-list-block-item-title,
+.dark .modules-list-block-item-masonry-title {
+    background-color: rgb(31 41 55);
+    color: #e5e7eb;
+}
+
+@media screen and (max-width: 1200px) {
+    .mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed span {
+        display: none;
+    }
+}
+
+/* task-2026-05-27 — ADMIN back-link rendered at 32 px (Tailwind h-8) at
+ * desktop, failing WCAG 2.5.5 Target Size 44x44 minimum. Replaced with
+ * inline-flex + min-height: 44px so the clickable area meets the floor
+ * on all viewports. The h-8 / leading-8 Tailwind classes are removed
+ * because the flex alignment makes line-height-based vertical centering
+ * redundant. */
+.mw-live-edit-toolbar-link--arrowed {
+    @apply inline-flex items-center;
+    min-height: 44px;
+}
+
+.mw-live-edit-toolbar-link--arrowed .mw-live-edit-toolbar-arrow-icon {
+    @apply relative align-middle; /* Vertical align and position */
+    top: -1px;
+    @apply transition-transform ease-out duration-300; /* Transitions */
+    transform: rotate(180deg); /* Rotate */
+    @apply dark:text-white; /* Dark mode text color */
+}
+
+.mw-live-edit-toolbar-link--arrowed g {
+    @apply stroke-black dark:stroke-white;
+}
+
+.mw-live-edit-toolbar-link--arrowed .arrow-icon--circle {
+    transition: stroke-dashoffset 0.3s ease;
+    stroke-dasharray: 95;
+    stroke-dashoffset: 95;
+    stroke: currentColor; /* No direct Tailwind equivalent for stroke color */
+    stroke-width: 2.2px; /* No direct Tailwind equivalent for stroke width */
+}
+
+.mw-live-edit-toolbar-link--arrowed .arrow-icon--arrow {
+    stroke: currentColor; /* No direct Tailwind equivalent for stroke color */
+    stroke-width: 2.2px; /* No direct Tailwind equivalent for stroke width */
+}
+
+.mw-live-edit-toolbar-link--arrowed:hover .arrow-icon {
+    transform: translate3d(5px, 0, 0); /* Custom transform */
+}
+
+.mw-live-edit-toolbar-link--arrowed:hover .arrow-icon--circle {
+    stroke-dashoffset: 0; /* Custom stroke offset */
+}
+
+
+.mw-live-edit-toolbar-link {
+    @apply text-black dark:text-white cursor-pointer font-normal no-underline flex items-center justify-center;
+}
+
+.mw-live-edit-toolbar-link:hover {
+    @apply text-black dark:text-white;
+}
+
+.live-edit-undo-redo-buttons-wrapper {
+    @apply flex items-center;
+}
+
+#toolbar {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+#user-menu-wrapper {
+    @apply ml-2;
+}
+
+.mw-le-hamburger span {
+    @apply !bg-black dark:!bg-white;
+}
+
+body {
+    scrollbar-gutter: auto !important;
+}
+
+/* task-2026-05-27-db429e / AI-1163: 35px → 44px for WCAG 2.5.5 touch target */
+/* task-2026-06-04-letone — v2 calm-toolbar colour pass. The v2 demo
+   (demo.microweber.org / live-edit-inspiration-from-v2-2026-05-16.md §1)
+   renders every top-bar control as a soft light-gray *filled* pill with
+   NO hard outline — calm + grouped. filament-5 had shipped them as white
+   boxes with a 1px #e0e0e0 border (boxy/outlined). Match v2: soft
+   #f1f3f5 fill, transparent border, 8px radius. Hover darkens to #e9ecef.
+   Covers undo/redo, + ADD, and PREVIEW (all share these two classes). */
+.live-edit-toolbar-buttons-undo-redo,
+.live-edit-toolbar-buttons-view {
+    background-color: #f1f3f5 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    border: 1px solid transparent !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 0 11px !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    color: #1f2937 !important;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.live-edit-toolbar-buttons-undo-redo:not(:disabled):hover,
+.live-edit-toolbar-buttons-view:not(:disabled):hover,
+.live-edit-toolbar-buttons-undo-redo:not(:disabled):focus-visible,
+.live-edit-toolbar-buttons-view:not(:disabled):focus-visible {
+    background-color: #e9ecef !important;
+    border-color: transparent !important;
+    color: #111827 !important;
+}
+.live-edit-toolbar-buttons-undo-redo:disabled,
+.live-edit-toolbar-buttons-view:disabled {
+    opacity: .45 !important;
+    cursor: not-allowed !important;
+}
+
+.dark .live-edit-toolbar-buttons-undo-redo,
+.dark .live-edit-toolbar-buttons-view {
+    background-color: rgb(31 41 55) !important;
+    border-color: #374151 !important;
+    color: #e5e7eb !important;
+}
+
+.mw-live-edit-resolutions-wrapper,
+.mw-live-edit-right-sidebar-wrapper {
+    background-color: transparent !important;
+    border-radius: 7px !important;
+    padding: 0 !important;
+    max-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    border: none !important;
+}
+
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
+    background-color: #ffffff !important;
+    border-radius: 7px !important;
+    box-shadow: none !important;
+    border: 1px solid #e0e0e0 !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    padding: 3px 11px !important;
+    line-height: 20px !important;
+    font-size: 14px !important;
+}
+
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.live-edit-resolution-active,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.live-edit-right-sidebar-active,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:active,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.live-edit-resolution-active,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.live-edit-right-sidebar-active,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
+    background-color: #f3f4f6 !important;
+    color: #000000 !important;
+    border-color: #c0c0c0 !important;
+}
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover,
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.live-edit-resolution-active,
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
+    background-color: rgb(55 65 81) !important;
+    color: white !important;
+    border-color: #4b5563 !important;
+}
+
+/* task-2026-06-04-letone — device-preview segment (v2 segmented control).
+   Scoped to `.mw-live-edit-resolutions-wrapper` ONLY (the top-bar device
+   switcher) so the right vertical sidebar strip is untouched. v2 renders
+   the 3 device cells as soft-gray chips with the *selected* one raised in
+   white — calmer than filament-5's white-box-with-#c0c0c0-border cells.
+   Source-order overrides the shared white-box rules above (equal
+   specificity, later wins). */
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons {
+    background-color: #f1f3f5 !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+}
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus-visible {
+    background-color: #e9ecef !important;
+    border-color: transparent !important;
+    color: #111827 !important;
+}
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.live-edit-resolution-active,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active {
+    background-color: #ffffff !important;
+    border-color: transparent !important;
+    color: #111827 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* task-2026-05-27-8c3caf — dark mode for 3-dots tools dropdown + language selector.
+ * Vue scoped :global(.dark) rules are dropped by the Vite build pipeline,
+ * so dark mode for .dropdown-trigger lives here in the Webpack theme bundle. */
+.dark .custom-dropdown .dropdown-trigger {
+    background-color: rgb(31 41 55) !important;
+    border-color: #374151 !important;
+    color: #e5e7eb !important;
+}
+.dark .custom-dropdown .dropdown-trigger:hover,
+.dark .custom-dropdown .dropdown-trigger:focus {
+    background-color: rgb(55 65 81) !important;
+    border-color: #4b5563 !important;
+}
+.dark .custom-dropdown .dropdown-content {
+    background-color: rgb(24 36 51) !important;
+    border-color: #374151 !important;
+}
+.dark .custom-dropdown .dropdown-content li a {
+    color: #e5e7eb !important;
+}
+.dark .custom-dropdown .dropdown-content li a:hover,
+.dark .custom-dropdown .dropdown-content li a:focus {
+    background-color: rgb(31 41 55) !important;
+    color: #ffffff !important;
+}
+.dark .custom-dropdown .dropdown-content li a.active {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
+}
+
+/* task-2026-06-04-letone — tools (⋮) trigger: match the v2 calm-toolbar
+   chrome (soft-gray fill, borderless) so it sits in the same visual family
+   as the undo/redo, ADD, PREVIEW and device-segment controls instead of
+   reading as a separate white outlined box. Light mode only; the dark
+   rule above already styles the trigger for dark theme. */
+.custom-dropdown .dropdown-trigger {
+    background-color: #f1f3f5 !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    transition: background-color 0.15s ease;
+}
+.custom-dropdown .dropdown-trigger:hover,
+.custom-dropdown .dropdown-trigger:focus-visible {
+    background-color: #e9ecef !important;
+    border-color: transparent !important;
+}
+
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
+    background-color: #182433 !important;
+    border: none !important;
+}
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active svg,
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active svg * {
+    fill: #fff !important;
+    color: #fff !important;
+    stroke: #fff !important;
+}
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active {
+    color: #fff !important;
+}
+/* task-2026-09-07-activerail — the active rail icon was rgb(31 41 55), DARKER
+   than the inactive #475569 slate pills, so in dark mode the open panel's icon
+   receded instead of standing out — you couldn't tell which was active. Make it
+   a clearly LIGHTER filled pill with a dark glyph, plus an accent bar. */
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons{
+    background-color: #e8eaed !important;
+    border-color: #e8eaed !important;
+    color: #182433 !important;
+}
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons svg,
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons svg *{
+    fill: #182433 !important;
+    color: #182433 !important;
+    stroke: #182433 !important;
+}
+/* The label is an ::after pseudo-element with its own colour (#e5e7eb light),
+   which is invisible on the light active pill — recolour it to contrast the
+   pill: dark on the light dark-mode pill, white on the ink light-mode pill. */
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons::after{
+    color: #ffffff !important;
+}
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons::after{
+    color: #182433 !important;
+}
+/* An accent ring reinforces the open panel (kept inside the pill so it never
+   clips against the adjacent panel). */
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
+    box-shadow: 0 0 0 2px #0d6efd !important;
+}
+
+.mw-live-edit-right-sidebar-template-sidebar {
+    background-color: #fff !important;
+    border-inline-start: 1px solid #e5e7eb;
+    /* task-2026-09-07-railfit — lift the bottom (settings) icon off the viewport
+       edge so it isn't clipped on shorter screens; scroll only if truly needed. */
+    padding-bottom: 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.dark .mw-live-edit-right-sidebar-template-sidebar {
+    background-color: rgb(31 41 55) !important;
+    border-inline-start-color: #374151;
+}
+
+.dark .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons {
+    background-color: rgb(71 85 105) !important;
+    border: 1px solid rgb(100 116 139) !important;
+    border-radius: 8px !important;
+}
+
+.dark .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons:hover {
+    background-color: rgb(100 116 139) !important;
+    border-color: rgb(148 163 184) !important;
+}
+
+
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons svg,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
+    @apply !fill-black dark:!fill-white;
+}
+
+/* task-2026-05-22-747f20 / AI-724 Fix 3 — Right-edge icon strip SVG contrast.
+ * The @apply dark:!fill-white above targets Tailwind's .dark parent. Add an
+ * explicit .dark rule as belt-and-suspenders so the SVGs are always
+ * light-coloured against the dark sidebar background regardless of which
+ * dark-mode mechanism the canvas iframe uses. */
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.live-edit-toolbar-buttons svg,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
+    fill: #f1f5f9 !important;
+    color: #f1f5f9 !important;
+}
+
+#save-button {
+    @apply !bg-green-100 !text-green-800 dark:!bg-green-900 dark:!text-green-200 !border-none font-semibold rounded;
+}
+
+#save-button:hover {
+    @apply !bg-green-200 dark:!bg-green-800;
+}

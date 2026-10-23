@@ -1,0 +1,159 @@
+/* live-edit — 03 navigation & modals: dropdown nav items, teleported fi-modal placement + z-index. */
+/* Base styling for links and items in navigation */
+.mw-ui-navigation a,
+.mw-ui-navigation-item {
+    @apply block relative py-2.5 px-3 h-[36px] border border-transparent whitespace-nowrap;
+}
+
+
+/* Specific margin for dropdown icon */
+.mw-ui-navigation a > .mw-icon-dropdown:last-child {
+    @apply my-[3px] mr-1 ml-2;
+}
+
+/* Icon styling for dropdown */
+.mw-ui-navigation .mw-icon-dropdown {
+    @apply text-[12px] leading-[12px];
+}
+
+/* Hover and focus states */
+.mw-ui-navigation a:hover,
+.mw-ui-navigation a:focus,
+.mw-ui-navigation li:hover > a {
+    @apply border-black bg-gray-100;
+}
+
+/* Active and selected states */
+.mw-ui-navigation a:active,
+.mw-ui-navigation a.active,
+.mw-ui-navigation li.active > a {
+    @apply shadow-inner border-black bg-gray-100;
+}
+
+#user-menu-wrapper.active #user-menu {
+    background-color: #fff !important;
+    /*
+     * task-2026-05-16-5c6a1e: when the ESE sidebar is open (right:0,
+     * z-index:100, starts ~2px below the toolbar) and the user
+     * clicks the toolbar's "Menu" button, the dropdown drops down
+     * from a position at the top-right corner — directly into the
+     * area now covered by the ESE sidebar. The dropdown was
+     * disappearing behind the sidebar.
+     *
+     * The toolbar itself has z-index: 999 (packages/frontend-assets/
+     * resources/assets/ui/css/index.css line 76), but #user-menu sits
+     * inside #user-menu-wrapper which is `position: relative` (no
+     * explicit z-index above #toolbar's). Without explicit lift the
+     * absolutely-positioned dropdown panel inherits the toolbar's
+     * stacking context but its visual extent can still be clipped
+     * by ESE which has its own z-index: 100 in a separate stacking
+     * context (because it uses `position: fixed` with explicit
+     * z-index).
+     *
+     * Lift the active user-menu dropdown to z-index 1100 — above the
+     * ESE's 100 — so the dropdown always overlays the sidebar.
+     */
+    position: relative;
+    z-index: 1100;
+}
+
+.dark #user-menu-wrapper.active #user-menu {
+    background-color: #1f2937 !important;
+}
+
+/*
+ * task-2026-05-16-5c6a1e: also lift the wrapper itself so the entire
+ * Menu button + active dropdown read as one stacking unit that's
+ * always above the ESE sidebar's right-edge.
+ */
+#user-menu-wrapper.active {
+    position: relative;
+    z-index: 1100;
+}
+
+.active>.mw-le-hamburger>span:nth-child(2) {
+    @apply !bg-[#ffffff30];
+}
+
+.mw-live-edit-tools-dropdown-menu {
+    @apply !min-w-[175px] !bg-white dark:!bg-gray-800;
+}
+
+.mw-live-edit-tools-dropdown-menu ul li a {
+    @apply flex items-center;
+}
+
+/* After JS teleport: fi-modal is moved to .fi-layout (> .mw-live-edit-page)
+   as a direct child — outside .mw-admin-live-edit-page — so target via
+   the layout class. Filament action modals must appear above the sidebar. */
+.mw-live-edit-page > .fi-modal > .fi-modal-close-overlay {
+    z-index: 200 !important;
+}
+
+/* Modals that stay within the admin live-edit panel wrapper. */
+.mw-admin-live-edit-page .fi-modal > .fi-modal-close-overlay {
+    z-index: 200 !important;
+}
+
+.mw-admin-live-edit-page .fi-modal > .fi-modal-window-ctn {
+    z-index: 200 !important;
+    top: var(--toolbar-height, 48px) !important;
+    height: calc(100vh - var(--toolbar-height, 48px)) !important;
+}
+
+.mw-live-edit-page > .fi-modal > .fi-modal-window-ctn {
+    z-index: 200 !important;
+    /* Toolbar is 48px tall at z:999 — offset the slide-over container so
+       the close button (sitting at ~y:24 inside the ctn) is reachable. */
+    top: var(--toolbar-height, 48px) !important;
+    height: calc(100vh - var(--toolbar-height, 48px)) !important;
+}
+
+/* Filament action modals must appear above the live edit sidebar and panels */
+.mw-live-edit-page > .fi-modal {
+    z-index: 200 !important;
+}
+
+.mw-admin-live-edit-page .fi-ac {
+    z-index: 200 !important;
+    position: relative;
+}
+
+/* AI-116 / TICKET-CI (cycle-107 2026-05-09): scoped under
+   `.mw-live-edit-page` so the live-edit-specific transparent-bg
+   override doesn't leak to other Filament panels (Posts list,
+   Settings, etc.) where the default opaque bg is intentional. */
+.mw-live-edit-page.fi-layout .fi-main-ctn {
+    @apply !bg-transparent dark:!bg-transparent;
+}
+
+.border-white {
+    @apply dark:!border-gray-100;
+}
+
+.mw_modal_live_edit_settings .modal-title {
+    @apply absolute top-[-22px] left-0 z-10 text-xs px-1.5 py-0.5 h-5 select-none cursor-grab bg-[#182433] text-white;
+}
+
+.mw-dialog-skin-mw_modal_simple.mw_modal_live_edit_settings .mw-dialog-close {
+    @apply absolute top-[-22px] right-0 w-[26px] z-10 h-5 cursor-pointer bg-[#182433] text-white bg-no-repeat bg-center;
+    margin-inline-start: auto;
+    background-image: url("data:image/svg+xml,%3Csvg fill='%23fff' xmlns='http://www.w3.org/2000/svg' height='16' viewBox='0 -960 960 960' width='16'%3E%3Cpath d='m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z'/%3E%3C/svg%3E");
+}
+
+.position-relative {
+    @apply relative;
+
+}
+
+.settings-main-group {
+    @apply font-bold;
+}
+
+.mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed {
+    @apply !px-0 text-[0.8rem];
+}
+
+h1,h2,h3,h4,h5,h6 {
+    @apply !font-bold mb-[1rem];
+}

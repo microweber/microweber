@@ -1,0 +1,168 @@
+/* live-edit — 02 save button: SAVE pill states (idle solid, has-changes pulse, reduced-motion). */
+/* ======================================================================
+   task-2026-05-16-8b10a3 / AI-699 — v2-style solid black pill SAVE button.
+
+   Designer spec (live-edit-inspiration-from-v2-2026-05-16.md §2 P3 + P8):
+   the current green button reads as "neutral status badge"; v2's solid
+   black pill reads as "moment-of-truth action". Two render states:
+
+     idle (no unsaved changes, `_dirty === false`):
+       opacity 0.4; cursor: default; button still clickable (the user
+       can force a save explicitly) but visually muted.
+
+     has-changes (unsaved changes, `_dirty === true`):
+       full saturation; once-per-minute accent-ring pulse.
+
+   The CSS overrides the existing #save-button green-bg rule above
+   ONLY when the new `.mw-save-button` class is present (always
+   emitted by SaveButton.vue's :class binding). That keeps a
+   theoretical back-compat path open for environments that strip the
+   class — they'd still get the green fallback.
+
+   Token sources (all :root-scoped per ESE slice 1.1; literal
+   fallbacks on every var() since this rule may render in contexts
+   where the ESE stylesheet hasn't loaded):
+     --ese-text       (button background — "solid black")
+     --ese-surface    (button text — "white")
+     --radius-pill    (pill shape)
+     --space-sm / --space-md  (φ-scale padding)
+     --ese-accent     (pulse ring colour)
+     --t-slow         (pulse duration)
+   ====================================================================== */
+#save-button.mw-save-button {
+    background-color: var(--ese-text, #111827) !important;
+    color: var(--ese-surface, #ffffff) !important;
+    border: none !important;
+    border-radius: var(--radius-pill, 999px) !important;
+    padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    transition: opacity var(--t-fast, 120ms) var(--ease, ease-out),
+                box-shadow var(--t-slow, 320ms) var(--ease, ease-out);
+}
+#save-button.mw-save-button:hover {
+    background-color: var(--ese-text, #111827) !important;
+    opacity: 1;
+}
+#save-button.mw-save-button:focus-visible {
+    outline: 2px solid var(--ese-accent, #182433);
+    outline-offset: 2px;
+}
+
+/* Idle: still a SOLID dark pill (v2 SAVE is always solid black, never a
+   washed-out gray). task-2026-06-04-letone raised idle opacity 0.4 → 0.85
+   so the button reads as a confident primary action — the earlier 0.4
+   made it look disabled on the white toolbar, the opposite of v2's
+   moment-of-truth SAVE. The has-changes pulse (below) still differentiates
+   "unsaved" without dimming the resting button. */
+#save-button.mw-save-button.mw-save-button--idle {
+    opacity: 0.85;
+    cursor: default;
+}
+#save-button.mw-save-button.mw-save-button--idle:hover {
+    opacity: 1; /* full saturation on hover so user knows it's reachable */
+}
+
+/* Has-changes: full opacity + pulse the accent ring once per minute.
+   Animation duration is one full cycle: pulse over --t-slow, then
+   wait the remainder of 60s with no ring. Keyframes go
+   transparent→accent-soft→transparent across the first --t-slow ms
+   then stay transparent for the rest of the minute. */
+#save-button.mw-save-button.mw-save-button--has-changes {
+    opacity: 1;
+    cursor: pointer;
+    animation: mw-save-button-pulse 60s linear infinite;
+}
+
+@keyframes mw-save-button-pulse {
+    0%  { box-shadow: 0 0 0 0 transparent; }
+    0.5% { box-shadow: 0 0 0 4px var(--ese-accent, #182433); }
+    2%  { box-shadow: 0 0 0 4px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* prefers-reduced-motion: no pulse. Per SOUL #108 designer note. */
+@media (prefers-reduced-motion: reduce) {
+    #save-button.mw-save-button.mw-save-button--has-changes {
+        animation: none;
+    }
+}
+
+.mw-live-edit-search-dropdown {
+    @apply !bg-gray-100 dark:!bg-gray-800 !border-gray-100 rounded !max-h-[35px] !flex !items-center !relative w-full !overflow-visible;
+    background-position: calc(100% - 8px) center !important;
+    background-size: 16px 16px !important;
+    padding-right: 32px !important;
+}
+
+.mw-live-edit-search-dropdown input {
+    @apply !overflow-hidden !text-ellipsis;
+    width: calc(100% - 28px) !important;
+    max-height: 35px !important;
+    box-sizing: border-box !important;
+}
+
+
+.mw-ui-invisible-field  {
+    @apply bg-transparent border border-solid border-transparent box-border py-2 relative !outline-none;
+}
+
+.mw-ui-invisible-field:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+
+.mw-autocomplete .mw-autocomplete-list {
+    @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto bg-white dark:bg-gray-800 m-0 rounded-b-lg p-0 shadow-lg border border-gray-200 dark:border-gray-700;
+    z-index: 1000;
+    margin-top: 2px;
+}
+
+.mw-autocomplete .mw-autocomplete-list a {
+    @apply whitespace-nowrap overflow-hidden text-ellipsis w-full dark:text-white hover:dark:bg-gray-700 !px-4 !py-2.5 border-none flex items-center hover:bg-gray-100 text-sm;
+}
+
+#mw-live-edit-search-content {
+    @apply max-w-[400px] relative;
+    z-index: 1000;
+
+    .form-select {
+        @apply dark:text-white;
+    }
+
+    .mw-autocomplete {
+        z-index: 1000;
+    }
+
+    .mw-select {
+        z-index: 1000;
+
+        &.active {
+            z-index: 1001;
+        }
+
+        .mw-select-value:after {
+            right: 8px;
+            pointer-events: none;
+        }
+    }
+}
+
+#mw-dialog-holder-mw-add-content-editor-front {
+    @apply !w-[800px];
+}
+
+.mw-btn-icon-delete {
+    @apply text-danger-100 relative;
+}
+.mw-btn-icon-delete::after {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>');
+    @apply absolute right-0 top-0 z-10;
+}

@@ -1,0 +1,494 @@
+/* live-edit — 06 page-scoped + dark: .mw-live-edit-page dark grays, toolbar-button overrides, add-content dark. */
+/* AI-116 / TICKET-CI (cycle-107): scoped under `.mw-live-edit-page`.
+   Without scope this `!px-0` was leaking to the Posts/Products
+   admin list pages where padding is needed. */
+.mw-live-edit-page .fi-section-header {
+    @apply !px-0;
+}
+
+.form-selectgroup-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+}
+
+.mw_modal_live_edit_settings .mw-dialog-holder {
+    @apply bg-white dark:bg-gray-800;
+
+    box-shadow: rgba(0, 0, 0, .24) 0 3px 8px;
+}
+
+.mw-dialog-holder {
+    @apply p-4;
+}
+
+
+.form-control-live-edit-label-wrapper {
+    position: relative !important;
+}
+
+.noUi-target {
+    @apply !border-0 !bg-transparent !shadow-none;
+}
+.card, .noUi-target {
+    @apply !bg-transparent dark:!bg-transparent !text-black dark:!text-white;
+}
+
+.mw-liveedit-button-actions-component {
+    @apply bg-transparent;
+}
+
+.dark .mw-liveedit-button-actions-component {
+    color: #d1d5db;
+}
+
+.dark .mw-liveedit-button-actions-component svg:not([fill="red"]) {
+    fill: #d1d5db;
+}
+
+#select_edit_field{
+    @apply p-[20px];
+}
+
+.mw-ui-box, .mw-ui-box-header{
+   @apply bg-white dark:bg-gray-800;
+}
+
+#select_edit_field > li {
+    @apply text-sm;
+}
+
+#select_edit_field > li li:hover, #select_edit_field  > li li.selected {
+    @apply !border-none text-[#182433] dark:text-white;
+}
+
+.mw-color-important {
+    @apply text-red-500;
+}
+
+.mw-ui-box-header {
+    @apply p-4 bg-white dark:bg-gray-800 overflow-hidden border-b border-gray-300 dark:border-gray-700 rounded-t-lg relative;
+}
+
+.mw-ui-box {
+    @apply border border-transparent rounded-lg clear-both bg-white dark:bg-gray-800 shadow-lg m-2 p-4;
+}
+
+.admin-thumb-item .form-check {
+    @apply top-[5px] left-[5px];
+}
+
+.image-settings {
+    @apply flex items-center;
+}
+
+
+
+.mw-live-edit-border-radius {
+    input {
+        @apply bg-[#f0f0f0] dark:bg-gray-700;
+    }
+}
+
+.v-input__details {
+    display: none !important;
+}
+
+.reset-field {
+    top: 0 !important;
+}
+
+.js-modules-list-search-input {
+    &:focus{
+
+        @apply !bg-[#f5f5f5] dark:!bg-gray-700;
+    }
+
+    @apply pl-[40px];
+}
+
+#user-menu nav {
+    @apply shadow-lg;
+}
+
+[type='text'] {
+    @apply dark:bg-gray-800;
+}
+
+
+.form-select-item-icon{
+    --size: 20px;
+    width: var(--size);
+    height: var(--size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin-inline-end: 5px;
+
+
+}
+
+
+.form-select-item-icon svg{
+    max-width: var(--size);
+    max-height: var(--size);
+}
+
+.admin-toolbar-live-edit {
+    @media screen and (max-width: 600px) {
+        .fi-btn-label{
+            @apply hidden;
+        }
+    }
+}
+
+/*
+ * Dark mode overrides using direct CSS values.
+ * @apply dark:bg-gray-* compiles to rgba(var(--gray-*), 1) which is invalid
+ * when Tailwind v4 uses oklch color values for --gray-* variables.
+ * These rules use hardcoded RGB equivalents to ensure dark mode works.
+ */
+
+/* gray-800 = rgb(31 41 55), gray-700 = rgb(55 65 81), gray-900 = rgb(17 24 39) */
+
+.dark .mw-le-layouts-dialog-col:first-child,
+.dark .modules-list-search-field {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-element-spacing-editor-input {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-ese-holder {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-ese-padding-label {
+    color: white;
+}
+
+.dark .v3ti {
+    border-color: rgb(55 65 81);
+}
+
+.dark .v3ti-tag-content {
+    color: white;
+}
+
+.dark .v3ti-content {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw_modal_live_edit_settings .mw-dialog-holder {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-ui-box,
+.dark .mw-ui-box-header {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-ui-box-header {
+    border-bottom-color: rgb(55 65 81);
+}
+
+.dark .mw-autocomplete .mw-autocomplete-list {
+    background-color: rgb(31 41 55);
+    border-color: rgb(55 65 81);
+}
+
+.dark .mw-autocomplete .mw-autocomplete-list a {
+    color: white;
+}
+
+.dark .mw-autocomplete .mw-autocomplete-list a:hover {
+    background-color: rgb(55 65 81);
+}
+
+.dark .mw-live-edit-border-radius input {
+    background-color: rgb(55 65 81);
+}
+
+.dark .js-modules-list-search-input:focus {
+    background-color: rgb(55 65 81) !important;
+}
+
+.dark [type='text'] {
+    background-color: rgb(31 41 55);
+}
+
+.dark .card,
+.dark .noUi-target {
+    color: white !important;
+}
+
+.dark .mw-live-edit-toolbar-link--arrowed g {
+    stroke: white;
+}
+
+.dark .mw-live-edit-search-dropdown {
+    background-color: rgb(55 65 81) !important;
+    border-color: rgb(55 65 81) !important;
+}
+
+.dark .mw-live-edit-search-dropdown-wrapper input,
+.dark .mw-live-edit-search-dropdown-wrapper input::placeholder {
+    color: white;
+}
+
+.dark .mw-live-edit-toolbar-link,
+.dark .mw-live-edit-toolbar-link span {
+    color: white;
+}
+
+.dark .mw-live-edit-toolbar-link-menu {
+    background-color: rgb(31 41 55) !important;
+}
+
+.dark .mw-live-edit-toolbar-link-menu-content {
+    background-color: rgb(31 41 55) !important;
+}
+
+.dark .mw-liveedit-button-action-redo,
+.dark .mw-liveedit-button-action-undo {
+    background-color: rgb(55 65 81) !important;
+}
+
+.dark .mw-live-edit-save-btn-green {
+    background-color: rgb(22 101 52) !important;
+    color: rgb(187 247 208) !important;
+}
+
+.dark .mw-live-edit-save-btn-green:hover {
+    background-color: rgb(21 128 61) !important;
+}
+
+.dark .mw-live-edit-right-sidebar-wrapper svg {
+    fill: white !important;
+}
+
+.dark .live-edit-module-settings-container {
+    background-color: rgb(31 41 55);
+}
+
+.dark .mw-module-quick-settings-sidebar .module-quick-settings-sidebar {
+    background-color: rgb(31 41 55) !important;
+}
+
+/*
+ * Module quick-settings + live-edit floating "Edit X" pill icons —
+ * task-2026-04-29-991dbb. The icons (e.g. the menu module's gear-cog
+ * SVG from `Modules/Menu/resources/assets/js/menu-quick-settings.js`)
+ * are rendered with `fill="currentColor"`. In dark mode the pill's
+ * inherited color was a near-black `currentColor`, so the icons faded
+ * into the dark pill background. Force a light fill on every SVG
+ * descendant of these widget containers.
+ */
+.dark .mw-module-quick-settings-sidebar svg,
+.dark .module-quick-settings-sidebar svg,
+.dark .module-edit-button svg,
+.dark .module-settings-button svg,
+.dark .add-module-button svg,
+.dark .current-node-module-edit svg,
+.dark .current-layout-modules svg {
+    fill: #e2e8f0 !important;
+    color: #e2e8f0 !important;
+}
+.dark .mw-module-quick-settings-sidebar svg path:not([fill="none"]),
+.dark .module-quick-settings-sidebar svg path:not([fill="none"]),
+.dark .module-edit-button svg path:not([fill="none"]),
+.dark .module-settings-button svg path:not([fill="none"]),
+.dark .add-module-button svg path:not([fill="none"]),
+.dark .current-node-module-edit svg path:not([fill="none"]),
+.dark .current-layout-modules svg path:not([fill="none"]) {
+    fill: #e2e8f0 !important;
+}
+
+.dark .mw-element-spacing-editor-input,
+.dark .mw-live-edit-border-radius input {
+    background-color: rgb(55 65 81);
+    color: white;
+}
+
+.dark #mw-live-edit-gui-editor-box {
+    color: white;
+}
+
+/* Toolbar buttons — override !important @apply rules */
+.dark .live-edit-toolbar-buttons-undo-redo,
+.dark .live-edit-toolbar-buttons-view {
+    background-color: rgb(31 41 55) !important;
+    border-color: rgb(55 65 81) !important;
+}
+
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
+    background-color: rgb(31 41 55) !important;
+    border-color: #374151 !important;
+}
+
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover,
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.live-edit-resolution-active,
+.dark .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.live-edit-right-sidebar-active,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover,
+.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.live-edit-right-sidebar-active {
+    background-color: rgb(55 65 81) !important;
+    border-color: #4b5563 !important;
+    color: white !important;
+}
+
+.dark .live-edit-toolbar-buttons-add {
+    background-color: rgb(55 65 81) !important;
+    border-color: rgb(55 65 81) !important;
+}
+
+/* Add content modal cards — dark mode
+   Note: dark:border-white/10 and dark:hover:border-white/20 Tailwind
+   utilities handle border in dark mode — no override needed here. */
+.dark .mw-add-content-modal-action-wrapper svg {
+    color: #d1d5db !important;
+}
+
+.dark .mw-add-content-modal-action-wrapper .w-20 {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* task-2026-05-28-d8b915 / AI-1217 — dark-mode text contrast fix */
+.dark .mw-add-content-modal-search-input {
+    color: #e5e7eb !important;
+}
+.dark .mw-add-content-modal-root p {
+    color: #d1d5db !important;
+}
+
+/* task-2026-05-28-102772 / AI-1218 — Cancel button 44px touch target */
+.mw-content-picker-modal .fi-modal-footer-actions .fi-btn {
+    min-height: 44px !important;
+}
+
+/*
+ * AI-73 / TICKET-I (cycle-86 2026-05-09): live-edit mobile one-row
+ * toolbar + canvas iframe padding-top fix at < 768px viewports.
+ *
+ * Pre-86 the live-edit toolbar wrapped onto 2-3 rows on phone-sized
+ * viewports because col-xxl-3, col-auto, col, col-xl-auto layouts
+ * collapse to full-width at xs/sm. Two consequences:
+ *   1. The toolbar took 80-120 vertical pixels — three times its
+ *      desktop height — eating canvas real estate on a viewport
+ *      that already has 0 to spare.
+ *   2. The fi-main-ctn (canvas iframe wrapper) sits directly under
+ *      the toolbar with NO padding-top, so when the toolbar wraps,
+ *      the bottom row of toolbar buttons OVERLAPS the canvas top —
+ *      clicks land on canvas content instead of the toolbar button.
+ *
+ * Fix: at < 768px collapse the toolbar to a single horizontally-
+ * scrolling row AND give the canvas iframe a matching padding-top.
+ */
+@media (max-width: 767.98px) {
+    /* AI-73 / TICKET-I (cycle-86): one-row toolbar.
+       flex-nowrap + overflow-x-auto means the toolbar stays on a
+       single row even when its children do not fit, scrolling
+       horizontally. -webkit-overflow-scrolling smooths iOS Safari
+       inertial scroll. The pre-86 multi-row wrap broke click
+       hit-areas (last-row buttons overlapped the canvas top by
+       ~33px). */
+    #toolbar {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none !important;
+        min-height: 56px;
+        max-height: 56px;
+    }
+    /* Suppress webkit scrollbar on the toolbar row — flex items should
+       now fit without overflow once hamburger + preview are 44px each,
+       but keep auto as safety net and hide the scrollbar track. */
+    #toolbar::-webkit-scrollbar {
+        display: none !important;
+    }
+    #toolbar > * {
+        flex-shrink: 0 !important;
+    }
+
+    /*
+     * task-mobile-frame-fixes: update --toolbar-height to 56px so all
+     * token consumers auto-adjust — frame holder top+height, modal
+     * window-ctn top+height, toolbar-col min/max-height.
+     * !important beats the unconditional 48px declaration in the
+     * frontend-assets bundle (source-order variable).
+     */
+    :root { --toolbar-height: 56px !important; }
+
+    /*
+     * task-mobile-frame-fixes: pull the frame holder's right edge in
+     * so the canvas doesn't extend under the right sidebar rail (AI-718).
+     * task-2026-05-27-d4r1l0: bumped 40px -> 48px to match the widened
+     * rail in live-edit-mobile.css (Defect 1 fix raised the rail to 48px
+     * so 44x44 touch-target buttons fit per WCAG 2.5.5). Without this
+     * bump, the canvas's rightmost 8px ghosts under the rail because
+     * frame-holder.right(40) < sidebar.width(48).
+     */
+    #live-edit-frame-holder {
+        right: 48px !important;
+    }
+
+    /* AI-73 / TICKET-I (cycle-86): VIEW button collapses to icon-only
+       at mobile width to save horizontal real estate. The aria-label
+       on #mw-page-set-preview-mode still announces "Toggle preview
+       mode" for SR users.
+       task-2026-05-27-mobile-overflow: add !important to font-size:0
+       so it beats the base .live-edit-toolbar-buttons-view rule which
+       declares font-size: 14px !important. Without !important here
+       the text "PREVIEW" remained visible at mobile despite the eye
+       icon being injected via ::before. Also collapse to 44px fixed
+       width (icon-only) to free ~63px of toolbar real estate. */
+    #toolbar #mw-page-set-preview-mode {
+        font-size: 0 !important;
+        padding-inline: 0.5rem;
+        padding: 0 !important;
+        width: 44px !important;
+        min-width: 44px !important;
+        max-width: 44px !important;
+    }
+    #toolbar #mw-page-set-preview-mode::before {
+        content: "\1F441";  /* eye glyph U+1F441 */
+        font-size: 1rem;
+        line-height: 1;
+    }
+
+    /* AI-73 / TICKET-I (cycle-86): back-to-admin drops its text
+       label at < 768px so the toolbar fits the single row. The
+       arrow SVG + aria-label="Back to admin" still convey the
+       affordance. */
+    #toolbar #mw-live-edit-toolbar-back-to-admin-link span {
+        display: none !important;
+    }
+
+
+    /*
+     * AI-73 / TICKET-I (cycle-86): canvas iframe padding-top fix.
+     * fi-main-ctn (the iframe wrapper inside the Filament admin
+     * layout) sits directly under #toolbar — no separator. Add
+     * padding-top equal to the new fixed toolbar height (56px) so
+     * the canvas always starts BELOW the toolbar regardless of
+     * scroll-row width. Without this, the toolbar overlaps the
+     * canvas iframe by ~33px (measured by audit-test 2026-05-08).
+     */
+    /* AI-116 / TICKET-CI (cycle-107): scoped to `.mw-live-edit-page`
+       so the 56px toolbar offset only applies inside live-edit.
+       task-2026-05-14-0ff040: removed — this created 56px dead space
+       at the top of the viewport AND a 52px toolbar/canvas overlap on
+       mobile. The single-row toolbar (max-height: 56px, #toolbar rule
+       above) combined with `#live-edit-frame-holder { top: var(--toolbar-height) }`
+       already positions the canvas correctly below the toolbar. */
+    /* .mw-live-edit-page.fi-layout .fi-main-ctn,
+    .mw-live-edit-page #iframe-holder,
+    .mw-live-edit-page .live-edit-canvas-wrapper {
+        padding-top: 56px !important;
+    } */
+}

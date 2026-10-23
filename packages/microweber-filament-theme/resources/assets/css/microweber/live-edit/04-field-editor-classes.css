@@ -1,0 +1,517 @@
+/* live-edit — 04 field editor classes: @apply custom classes (mdi, mw-field, rounded, angle, s-field, sliders, spacing, v3ti). */
+/* Custom classes for Tailwind using @apply */
+
+/* mdi and mdi-set styles */
+.mdi:before,
+.mdi-set {
+    @apply inline-block text-[24px] font-normal text-[inherit] leading-[inherit];
+    content: '';
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* mw-field styles */
+.mw-field {
+    @apply inline-flex relative align-top;
+}
+
+.mw-field.unit input + input {
+    @apply w-[40px] px-0 text-center;
+}
+
+/* rouded-corners styles */
+.rouded-corners {
+    @apply pb-5;
+}
+
+.rouded-corners .mw-field {
+    @apply w-[70px] my-[10px] mb-[5px];
+}
+
+.rouded-corners .mw-field + .mw-field {
+    @apply ml-[10px];
+}
+
+/* angle styles */
+.angle {
+    @apply inline-block w-[15px] h-[15px] border-dotted border-[1px] border-gray-300 absolute top-1/2 left-1/2;
+    transform: translate(-50%, -50%);
+}
+
+.angle-top-left {
+    @apply rounded-tl-[7px] border-l-[1px] border-t-[1px] border-black;
+}
+
+.angle-top-right {
+    @apply rounded-tr-[7px] border-r-[1px] border-t-[1px] border-black;
+}
+
+.angle-bottom-left {
+    @apply rounded-bl-[7px] border-l-[1px] border-b-[1px] border-black;
+}
+
+.angle-bottom-right {
+    @apply rounded-br-[7px] border-r-[1px] border-b-[1px] border-black;
+}
+
+.rounded-corners .angle {
+    @apply w-[24px] h-[24px] border-2 border-black;
+}
+
+/* s-field-content styles */
+.s-field-content {
+    @apply flex flex-col;
+
+    .active {
+        @apply dark:!bg-gray-900;
+    }
+
+    svg {
+        @apply fill-current dark:!fill-white;
+    }
+}
+
+/* mw-multiple-fields styles */
+.mw-multiple-fields {
+    @apply flex;
+}
+
+.mw-multiple-fields > .mw-field select,
+.mw-multiple-fields > .mw-field input {
+    @apply rounded-none;
+}
+
+.mw-multiple-fields > .mw-field:first-child select,
+.mw-multiple-fields > .mw-field:first-child input {
+    @apply rounded-l-[2px];
+}
+
+.mw-multiple-fields > .mw-field:last-child select,
+.mw-multiple-fields > .mw-field:last-child input {
+    @apply rounded-r-[2px];
+}
+
+.mw-multiple-fields > .mw-field + .mw-field {
+    @apply -ml-[1px];
+}
+
+/* mw-field-flat styles */
+.mw-field.mw-field-flat input,
+.mw-field.mw-field-flat select,
+.mw-field.mw-field-flat textarea {
+    @apply !rounded-none !border-t-0 !border-l-0 !border-r-0 !shadow-none;
+}
+
+/* mw-field input, select, textarea */
+.mw-field input,
+.mw-field select,
+.mw-field textarea {
+    @apply border border-gray-400 p-2 w-full max-w-full rounded-[5px] bg-white dark:!bg-gray-900 outline-none cursor-text box-border shadow-inner transition duration-300 order-2;
+}
+
+.mw-field .mw-field-append,
+.mw-field .mw-field-prepend,
+.mw-field[data-after]:after,
+.mw-field[data-before]:before {
+    @apply h-[40px] leading-[40px];
+}
+
+
+
+/* Custom classes for Tailwind using @apply */
+
+/* Slider track background and fill */
+.v-slider-track {
+    @apply h-[2px];
+}
+
+.v-slider-track-fill {
+    @apply h-[3px];
+}
+
+/* Hide input details */
+.v-input-details {
+    @apply hidden;
+}
+
+/* Element spacing editor input background */
+.mw-element-spacing-editor-input {
+    @apply bg-white dark:bg-gray-800;
+}
+
+/* Holder background color */
+.mw-ese-holder {
+    @apply bg-white dark:bg-gray-800;
+}
+
+/* Padding label color */
+.mw-ese-padding-label {
+    @apply text-black dark:text-white;
+}
+
+/* v3ti component styles */
+.v3ti {
+    @apply mt-4 ml-1 mr-1 border-white dark:border-gray-700 overflow-hidden rounded-[7px];
+
+    &:focus, &:focus-visible {
+        @apply !outline-none;
+    }
+
+    input:focus {
+        @apply !outline-none !shadow-none;
+        box-shadow: none !important;
+    }
+
+}
+
+.v3ti-tag {
+    @apply bg-black text-white;
+}
+
+.v3ti-tag-content {
+    @apply text-black dark:text-white;
+}
+
+.v3ti-content {
+    @apply bg-white dark:bg-gray-800 border-none;
+
+    &:focus, &:focus-visible {
+        @apply !outline-none;
+    }
+}
+
+/* Rounded corners */
+.rounded-corners-angle {
+    @apply border-2 border-black w-6 h-6;
+}
+
+.angle-top-right, .angle-top-left, .angle-bottom-right, .angle-bottom-left {
+    @apply border-black;
+}
+
+.noUi-target,
+.noUi-target * {
+    @apply box-border;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-user-select: none; /* No direct Tailwind utility */
+    -ms-user-select: none; /* No direct Tailwind utility */
+    -moz-user-select: none; /* No direct Tailwind utility */
+    touch-action: none; /* No direct Tailwind utility */
+    -webkit-touch-callout: none;
+}
+
+.noUi-target {
+    @apply relative px-1;
+}
+
+.noUi-base,
+.noUi-connects {
+    @apply w-full h-[2px] relative z-10;
+}
+
+.noUi-connects {
+    @apply overflow-hidden z-0;
+}
+
+.noUi-connect,
+.noUi-origin {
+    @apply will-change-transform absolute z-10 top-0 right-0 h-full w-full transform-none;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -webkit-transform-style: preserve-3d;
+    transform-origin: 0 0;
+}
+
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-origin {
+    @apply left-0 right-auto;
+}
+
+.noUi-vertical .noUi-origin {
+    @apply top-[-100%] w-0;
+}
+
+.noUi-horizontal .noUi-origin {
+    @apply h-0;
+}
+
+.noUi-handle {
+    @apply absolute;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.noUi-touch-area {
+    @apply h-full w-full;
+}
+
+.noUi-state-tap .noUi-connect,
+.noUi-state-tap .noUi-origin {
+    @apply transition-transform duration-300;
+}
+
+.noUi-state-drag * {
+    cursor: inherit !important; /* No direct Tailwind utility */
+}
+
+.noUi-horizontal {
+    @apply h-[18px];
+}
+
+.noUi-horizontal .noUi-handle {
+    @apply w-[34px] h-[28px] right-[-17px] top-[-6px];
+}
+
+.noUi-vertical {
+    @apply w-[18px];
+}
+
+.noUi-vertical .noUi-handle {
+    @apply w-[28px] h-[34px] right-[-6px] bottom-[-17px];
+}
+
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-handle {
+    @apply left-[-17px] right-auto;
+}
+
+.noUi-target {
+    @apply bg-[#FAFAFA] rounded-[4px] border border-solid border-[#D3D3D3] shadow-[inset_0_1px_1px_#F0F0F0,_0_3px_6px_-5px_#BBB];
+}
+
+.noUi-connects {
+    @apply rounded-[3px];
+}
+
+.noUi-draggable {
+    @apply cursor-ew-resize;
+}
+
+.noUi-vertical .noUi-draggable {
+    @apply cursor-ns-resize;
+}
+
+.noUi-handle {
+    @apply border border-solid border-[#D9D9D9] rounded-[3px] bg-white cursor-default shadow-[inset_0_0_1px_#FFF,_inset_0_1px_7px_#EBEBEB,_0_3px_6px_-3px_#BBB];
+}
+
+.noUi-active {
+    @apply shadow-[inset_0_0_1px_#FFF,_inset_0_1px_7px_#DDD,_0_3px_6px_-3px_#BBB];
+}
+
+[disabled] .noUi-connect {
+    @apply bg-[#B8B8B8];
+}
+
+[disabled].noUi-target,
+[disabled].noUi-handle,
+[disabled] .noUi-handle {
+    @apply cursor-not-allowed;
+}
+
+.noUi-pips,
+.noUi-pips * {
+    @apply box-border;
+}
+
+.noUi-pips {
+    @apply absolute text-[#999];
+}
+
+.noUi-value {
+    @apply absolute whitespace-nowrap text-center;
+}
+
+.noUi-value-sub {
+    @apply text-[#ccc] text-[10px];
+}
+
+.noUi-marker {
+    @apply absolute bg-[#CCC];
+}
+
+.noUi-marker-sub {
+    @apply bg-[#AAA];
+}
+
+.noUi-marker-large {
+    @apply bg-[#AAA];
+}
+
+.noUi-pips-horizontal {
+    @apply py-[10px] h-[80px] top-full left-0 w-full;
+}
+
+.noUi-value-horizontal {
+    transform: translate(-50%, 50%);
+}
+
+.noUi-rtl .noUi-value-horizontal {
+    transform: translate(50%, 50%);
+}
+
+.noUi-marker-horizontal.noUi-marker {
+    @apply ml-[-1px] w-[2px] h-[5px];
+}
+
+.noUi-marker-horizontal.noUi-marker-sub {
+    @apply h-[10px];
+}
+
+.noUi-marker-horizontal.noUi-marker-large {
+    @apply h-[15px];
+}
+
+.noUi-pips-vertical {
+    @apply px-[10px] h-full top-0 left-full;
+}
+
+.noUi-value-vertical {
+    transform: translate(0, -50%);
+    padding-left: 25px;
+}
+
+.noUi-rtl .noUi-value-vertical {
+    transform: translate(0, 50%);
+}
+
+.noUi-marker-vertical.noUi-marker {
+    @apply w-[5px] h-[2px] mt-[-1px];
+}
+
+.noUi-marker-vertical.noUi-marker-sub {
+    @apply w-[10px];
+}
+
+.noUi-marker-vertical.noUi-marker-large {
+    @apply w-[15px];
+}
+
+
+
+.noUi-tooltip {
+    @apply block absolute border border-solid border-[#D9D9D9] rounded-[3px] bg-white text-black p-[5px] text-center whitespace-nowrap;
+}
+
+/*Only showing tooltips when sliding handles*/
+.noUi-tooltip {
+    display: none;
+}
+.noUi-active .noUi-tooltip {
+    display: block;
+}
+/*end Only showing tooltips when sliding handles*/
+
+
+
+.noUi-horizontal .noUi-tooltip {
+    transform: translate(-50%, 0);
+    left: 50%;
+    bottom: 120%;
+}
+
+.noUi-vertical .noUi-tooltip {
+    transform: translate(0, -50%);
+    top: 50%;
+    right: 120%;
+}
+
+.noUi-horizontal .noUi-origin > .noUi-tooltip {
+    transform: translate(50%, 0);
+    left: auto;
+    bottom: 10px;
+}
+
+.noUi-vertical .noUi-origin > .noUi-tooltip {
+    transform: translate(0, -18px);
+    top: auto;
+    right: 28px;
+}
+
+.noUi-target {
+    @apply border-none shadow-none bg-none rounded-none text-black;
+}
+
+.noUi-horizontal {
+    @apply h-[1.25rem] py-[0.5rem];
+}
+
+.noUi-base {
+    @apply bg-[#a2a2a2] rounded-[1rem];
+}
+
+.noUi-handle {
+    @apply w-[1rem] h-[1rem] border-[2px] border-solid border-white shadow-[0_0.1rem_0.25rem_rgba(0,_0,_0,_0.1)] rounded-full bg-current outline-none;
+}
+
+.noUi-handle:before,
+.noUi-handle:after {
+    content: none;
+}
+
+.noUi-horizontal .noUi-handle {
+    @apply w-[1rem] h-[1rem] top-[-0.5rem] right-[-0.5rem] m-[1px];
+}
+
+.noUi-connect {
+    background-color: #182433;
+}
+
+
+.noUi-touch-area {
+    @apply bg-black rounded-full;
+}
+
+.noUi-handle.noUi-active,
+.noUi-handle:focus {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(24, 36, 51, 0.25); /* ink focus ring (was pure black) */
+}
+
+.noUi-horizontal {
+    @apply w-full ml-auto;
+}
+
+.mw-live-edit-pagination-tabler li {
+    @apply hidden;
+}
+
+.mw-live-edit-pagination-tabler li.mw-paging-visible-range {
+    @apply block;
+}
+
+.mw-live-edit-pagination-tabler .page-item:not(.active) .page-link:hover {
+    @apply bg-black border-black text-white;
+}
+
+
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+    @apply !p-0;
+}
+
+.mw-live-edit-page-wrapper {
+    @apply !min-h-full !pt-0;
+    background-color: #fff !important;
+}
+
+.mw-live-edit-module-settings-iframe.mw-live-edit-page-wrapper {
+    @apply !p-2 !pt-0;
+}
+
+.dark .mw-live-edit-page-wrapper {
+    background-color: rgb(17 24 39) !important;
+}
+
+.mw-live-edit-module-settings-iframe {
+    background-color: #fff !important;
+}
+
+.dark .mw-live-edit-module-settings-iframe {
+    background-color: rgb(17 24 39) !important;
+}
+
+body.fi-body:has(.mw-live-edit-module-settings-iframe) {
+    background-color: #fff !important;
+}
+
+.dark body.fi-body:has(.mw-live-edit-module-settings-iframe) {
+    background-color: rgb(17 24 39) !important;
+}

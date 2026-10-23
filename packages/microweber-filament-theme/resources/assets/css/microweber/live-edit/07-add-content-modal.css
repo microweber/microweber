@@ -1,0 +1,612 @@
+/* live-edit — 07 add-content modal: block grid, add-block card, per-type circles, mobile sheet, layout-module icons. */
+/* ─────────────────────────────────────────────────────────────────
+ * AI-691a + AI-697 — Add-Content picker modal styling
+ * task-2026-05-16-bc28fd (CHANGE re-ship of task-860f75 + task-e3da1a)
+ *
+ * Designer dispatched a `[CHANGE]` per the SOUL #108 verify-before-
+ * accept contract: the original AI-691a + AI-697 rules in
+ * `src/MicroweberPackages/Filament/resources/views/filament/
+ * components/layout/live-edit-module-settings.blade.php` were NOT
+ * firing on the live build. Root cause: that Blade is the
+ * LiveEditModuleSettings sub-form layout — only loaded when editing
+ * a module's settings, NOT when the +ADD picker modal opens on the
+ * live-edit canvas at `/admin/live-edit`.
+ *
+ * Moved here (live-edit-classes.css, microweber-filament-theme.css
+ * Webpack bundle) which is loaded on the live-edit page. Selectors
+ * are unchanged from the originals — only the host file changed.
+ *
+ * AI-691a (task-2026-05-16-860f75) — §A6 Path B (designer-resolved):
+ *   On desktop ≥769px, hide the picker modal Cancel button. The
+ *   top-right X is reachable with a mouse pointer, so the redundant
+ *   Cancel chrome can come off. On mobile ≤768px Cancel STAYS to
+ *   preserve NOVICE #3 thumb-reach affordance (task-2026-05-13-899d57:
+ *   users reported the picker "stuck open" when only the tiny X was
+ *   available). When AI-695 (mobile bottom-sheet) ships, the whole
+ *   Cancel DOM is deleted (PHP `->modalCancelActionLabel` removed)
+ *   and this rule is removed too.
+ *
+ * AI-697 (task-2026-05-16-e3da1a):
+ *   Anchor the Add-Content picker modal to the +ADD button on
+ *   desktop (NOT a centered modal). v2's Add-Content menu is a
+ *   dropdown anchored below the +ADD button — centered-modal+
+ *   backdrop-dim blocks the canvas and breaks flow for what should
+ *   be a quick add. Desktop ≥769px: position fixed, top-left of
+ *   viewport (`calc(var(--toolbar-height) + var(--space-xs))` ×
+ *   `inset-inline-start: 64px`), no backdrop dim — canvas stays
+ *   alive. Mobile ≤768px keeps centered modal until AI-695 ships.
+ *
+ * Token sources (all :root-scoped, resolve outside .mw-live-edit-
+ * page since the modal is Filament-portaled to body):
+ *   --toolbar-height (48px since AI-698a, frontend-assets/ui/css/
+ *                     index.css)
+ *   --space-xs       (φ scale, ESE slice 1.1)
+ *   --t-fast         (motion, ESE slice 1.1)
+ *   --ease           (motion, ESE slice 1.1)
+ * Each var() carries a literal fallback for environments where
+ * those stylesheets haven't loaded yet.
+ * ─────────────────────────────────────────────────────────────── */
+
+@media (min-width: 769px) {
+    /* AI-691a (task-2026-05-16-860f75) — hide the redundant Cancel
+       footer on desktop. Scoped to .mw-content-picker-modal so the
+       global .fi-modal-footer-actions on other Filament modals is
+       untouched. */
+    .mw-content-picker-modal .fi-modal-footer-actions {
+        display: none;
+    }
+
+    /* AI-697 (task-2026-05-16-e3da1a) — anchor the modal window to
+       top-left, sized to its natural width (max-w-2xl from
+       extraModalWindowAttributes). `margin: 0` cancels the body-
+       centering margin Filament applies on .fi-modal-window.
+
+       task-2026-05-17-d994e7 / AI-697 v3 CHANGE — designer runtime
+       probe found the rule reached the loaded sheet but the
+       modal still rendered off-screen left because the parent
+       `.mw-content-form-modal` class applies `transform:
+       translateX(-50%)`. The two stacked: left=64 + transform=-336
+       = visual=-272 (off-screen). Fix: explicit `transform: none`
+       to neutralise the inherited translateX. The animation
+       keyframe still works — keyframes override `transform: none`
+       during animation, then settle to it post-animation.
+
+       task-2026-05-22-6eb365 / AI-751 CHANGE — Filament v5 emits a
+       centering `transform: translateX(-50%)` with higher specificity
+       in some panel configurations. Unimportant `transform: none`
+       lost the cascade race, causing the modal to render half
+       off-screen at 1280px. Fix: promote to `!important`.
+       Also add `max-width: min(var(--size, 42rem), calc(100vw - 80px))`
+       as a viewport-overflow safety net — the inner `--size` token
+       (set by `modalWidth(MaxWidth::TwoExtraLarge)` = 42rem = 672px)
+       is respected when it fits; when it doesn't, the clamp prevents
+       the modal from extending beyond the right viewport edge. */
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-window.mw-content-picker-modal {
+        position: fixed;
+        top: calc(var(--toolbar-height, 60px) + var(--space-xs, 6px));
+        inset-inline-start: 64px;
+        margin: 0;
+        transform: none !important;
+        transform-origin: top left;
+        max-width: min(var(--size, 42rem), calc(100vw - 80px));
+        animation: mw-add-content-picker-open var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+    }
+
+    /* AI-697 (task-2026-05-16-e3da1a) — no backdrop dim at desktop;
+       canvas stays alive behind the modal. Scoped via :has() so
+       other Filament modals opened on the same panel keep their
+       dim.
+
+       task-2026-05-17-d994e7 / AI-697 v3 CHANGE — designer runtime
+       probe found Filament's `.fi-modal-close-overlay` background-
+       color rule beat ours via selector specificity. Bumped to
+       !important to win the cascade. Belt-and-braces: also added a
+       descendant variant (.fi-modal-close-overlay without `>`
+       combinator) for builds where Filament nests the overlay
+       deeper. */
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) > .fi-modal-close-overlay,
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-close-overlay {
+        background-color: transparent !important;
+    }
+}
+
+@keyframes mw-add-content-picker-open {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* AI-697 — respect prefers-reduced-motion (SOUL #108 motion pattern). */
+@media (prefers-reduced-motion: reduce) {
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) .fi-modal-window.mw-content-picker-modal {
+        animation: none;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-713 (task-2026-05-16-de5bc4) — Z-flow regression fix in the
+ * Add-Content picker modal at desktop.
+ *
+ * Designer drunk-designer audit caught a layout regression on the
+ * AI-692 two-group rework: Filament's default `.fi-grid` form
+ * wrapper inside the picker modal was forcing the picker view
+ * into a 2-column grid at 1440px. Result was a Z-flow reading
+ * path:
+ *   col1: Search input
+ *   col2: "On this page" header + primary "Add a block" card
+ *   col1: "New content" header + 5-card 2-col grid (with
+ *         "Category" orphaning in the last row)
+ * Mobile was unaffected because the 1-col stack hides the conflict.
+ *
+ * Fix: scope a `grid-template-columns: minmax(0, 1fr)` reset to
+ * `.mw-content-picker-modal` so Filament's outer form grid
+ * collapses to a single column. With the outer grid out of the
+ * way, the inner blade rhythm reads correctly:
+ *   1. Full-width search row
+ *   2. "On this page" header + full-width primary card
+ *      (--ese-accent-soft bg, ≥ 1.5× height of secondary)
+ *   3. "New content" header + secondary 3-col grid (the
+ *      blade's `grid grid-cols-2 sm:grid-cols-3` now resolves
+ *      to 3 cols at sm+ because there's only ONE outer column
+ *      to fill, not 1/2 of two).
+ *
+ * Primary-card visual hierarchy: `--ese-accent-soft` bg + accent
+ * border + ≥ 1.5× height than secondary cards so users register
+ * it as the primary action, not a peer of the 5 secondary cards.
+ *
+ * Companion lesson (task-bc28fd, just shipped): the equivalent
+ * rule for this had existed in
+ * `live-edit-module-settings.blade.php` but never fired on the
+ * live build because that Blade is the LiveEditModuleSettings
+ * sub-form layout, not the live-edit canvas layout. Same root
+ * cause as AI-691a / AI-697 — moving here to live-edit-classes.css
+ * (Webpack-bundled, loaded on /admin/live-edit) closes the gap
+ * for this surface too.
+ *
+ * Token-scoping note (SOUL #108): every var() carries a literal
+ * fallback. The picker modal is Filament-portaled to body so
+ * `:root`-scoped tokens resolve; literals protect against
+ * stylesheet-load-order edge cases.
+ * ─────────────────────────────────────────────────────────────── */
+
+/* AI-713 — collapse Filament's outer form grid to a single column
+   inside the picker modal so the inner two-section blade rhythm
+   isn't fractured into a Z-flow. Scoped to .mw-content-picker-modal
+   so other content-form modals (which legitimately want multi-
+   column form layouts) are untouched. */
+.mw-content-picker-modal .fi-grid,
+.mw-content-picker-modal .fi-sc.fi-grid,
+.mw-content-picker-modal .fi-fo-component-ctn,
+.mw-content-picker-modal .fi-fo-field-content-col {
+    grid-template-columns: minmax(0, 1fr) !important;
+}
+
+/* AI-713 — primary "Add a block to this page" card visual
+   hierarchy: --ese-accent-soft tint + accent border + ≥1.5×
+   the height of a secondary card so it reads as the primary
+   action, not a peer of the secondary cards. Scoped to
+   .mw-add-content-group--primary (the group wrapper set on
+   the section) inside the picker modal. */
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
+    border-color: var(--ese-accent, #182433);
+    min-height: calc(var(--space-xl, 42px) * 1.5);
+    padding-block: var(--space-md, 13px);
+}
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.16));
+    border-color: var(--ese-accent, #182433);
+}
+/* task-2026-05-27-4b1344 / AI-1139 item 5: filled brand-blue circle */
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon {
+    background-color: var(--ese-accent, #182433);
+    border-radius: 50%;
+}
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon svg {
+    color: #ffffff !important;
+}
+/* Keep blue icon on hover — prevent generic hover rule from flipping it */
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon,
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon {
+    background-color: var(--ese-accent, #182433) !important;
+}
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
+.mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
+    color: #ffffff !important;
+}
+/* AI-1139 dark mode — dim per-type tint circles for dark bg;
+   task-2026-05-27-688e38: brightness(0.55) was too aggressive,
+   making SVG icons invisible. Raised to 0.75 for visibility. */
+.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon,
+.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon {
+    filter: brightness(0.75) saturate(0.8);
+}
+.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon svg,
+.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon svg {
+    color: #e5e7eb !important;
+}
+/* AI-1139: mobile bottom-sheet modal */
+@media (max-width: 767px) {
+    .fi-modal:has(> .fi-modal-window-ctn .mw-content-picker-modal) {
+        align-items: flex-end !important;
+    }
+    .fi-modal-window.mw-content-picker-modal {
+        border-radius: 16px 16px 0 0 !important;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+}
+
+/* task-2026-05-21-30040a / AI-870 — Z-flow regression root cause: an
+   INLINE <style> block (not from live-edit-classes.css) applies:
+     @media (min-width: 640px) {
+       .mw-content-picker-modal .fi-sc-component .mb-6 {
+         display: grid; grid-template-columns: 1fr 1fr;
+       }
+     }
+   .mw-add-content-modal-root carries the Tailwind class `mb-6`, so
+   at desktop (≥640px) the root becomes a 2-column grid, placing
+   search in the left column and the primary card in the right column
+   (Z-flow break). AI-713 targeted `.fi-grid` but the inline CSS
+   targets `.fi-sc-component .mb-6` — two different elements; AI-713
+   never overrode the actual culprit.
+   Force flex-column on the modal root so the blade rhythm
+   (search → primary full-width card → secondary 3-col grid)
+   reads top-to-bottom in a single column. */
+.mw-content-picker-modal .fi-sc-component .mw-add-content-modal-root {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* task-2026-05-18-76a360 — Add Content card filter-on-typing visibility
+ * rule. AI-694 (task-2026-05-16-de4ce4) introduced the no-reflow filter
+ * path that toggles a `.mw-add-content-card--hidden` class on cards
+ * whose `data-mw-add-content-haystack` does not include the current
+ * query. The companion CSS rule was placed in
+ * `live-edit-module-settings.blade.php` <style> block — which is the
+ * sub-form LAYOUT view, only loaded when editing a module's settings,
+ * NOT loaded on `/admin/live-edit` (where the Add Content picker
+ * actually opens). Same defect class as task-bc28fd AI-691a + AI-697
+ * CHANGE absorption (move the picker-modal CSS rules to
+ * live-edit-classes.css so they ride the Webpack bundle loaded by
+ * `/admin/live-edit`).
+ *
+ * `visibility: hidden` keeps the card in document flow so siblings
+ * do not reflow when the query changes; `pointer-events: none`
+ * prevents the hidden card from being clicked or tab-focused. The
+ * Alpine helpers (`visibleCards()`, `visibleCount()`,
+ * `hasVisibleCardsInGroup()`) already filter out cards with
+ * `visibility: hidden` so keyboard nav + ENTER fallback skip them. */
+.mw-add-content-modal-action-wrapper.mw-add-content-card--hidden {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * AI-693 (task-2026-05-16-c3d0ed) — Add-Content modal monochrome
+ * icon palette accent contract — RELOCATED here per task-2026-05-16-
+ * 651cc2 CHANGE (designer DOM-probe verified rule was not firing
+ * in `live-edit-module-settings.blade.php`; same defect class as
+ * AI-691a + AI-697 — that Blade is the LiveEditModuleSettings
+ * sub-form layout, never renders on the live-edit canvas).
+ *
+ * The six picker cards render monochrome icons at rest
+ * (`.mw-add-content-icon` + `.text-gray-600 bg-gray-500/10` per
+ * the add-content-modal.blade.php tints, AI-693 / task-c3d0ed
+ * ESE 1.3b ship). On hover/focus, both the icon container bg AND
+ * the SVG fill flip to the ESE accent pair (`--ese-accent-soft` +
+ * `--ese-accent`) so the visual coupling matches MwToolButton's
+ * accent contract from ESE spec §4.5.
+ *
+ * Scoped to .mw-content-picker-modal so non-picker Filament
+ * modals keep their existing palette.
+ *
+ * Token-scoping note (SOUL #108): ESE tokens are :root-scoped via
+ * element-style-editor.css; literal fallbacks on every var() so
+ * the rule resolves even before the ESE stylesheet loads.
+ * ─────────────────────────────────────────────────────────────── */
+
+/* task-2026-05-17-247ca7 / AI-693 v4 CHANGE — designer CSSOM
+   probe found the hover rule didn't reach runtime even though
+   source + bundle were correct. Root cause: the icon element
+   carries Tailwind utility `.bg-gray-500/10` directly; under
+   Tailwind v4's `:where()` specificity-zero wrapping it should
+   still lose to our 0,4,0 selector — but designer's runtime
+   probe says it doesn't. Belt-and-braces: bump to !important
+   to win cascade unconditionally. Same defect family as
+   AI-697 v3 cascade collision (task-d994e7). */
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon,
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12)) !important;
+}
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
+    color: var(--ese-accent, #182433) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * task-2026-05-22-903d56 / AI-903 — Advanced panel: nav arrows + destructive item styling */
+#mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup:not(.mw-live-edit-advanced-settings-popup--destructive)::after {
+    content: '→';
+    margin-left: auto;
+    color: var(--ese-text-muted, #9ca3af);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+#mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive {
+    color: var(--ese-danger, #dc2626) !important;
+}
+#mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive svg {
+    fill: var(--ese-danger, #dc2626) !important;
+}
+.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive {
+    color: var(--ese-danger, #ef4444) !important;
+}
+.dark #mw-live-edit-advanced-panel-box .tools-panel .mw-live-edit-advanced-settings-popup--destructive svg {
+    fill: var(--ese-danger, #ef4444) !important;
+}
+/* Separator before destructive items */
+#mw-live-edit-advanced-panel-box .tools-panel li:has(.mw-live-edit-advanced-settings-popup--destructive):first-of-type {
+    border-top: 1px solid var(--ese-border, rgba(0, 0, 0, 0.08));
+    padding-top: var(--space-xs, 6px);
+    margin-top: var(--space-xs, 6px);
+}
+
+/* task-2026-05-22-AI-939 — Hide the live template preview iframe inside the
+   compact Create page modal. The preview loaded the site's live homepage with
+   stub content ("My title") which was confusing. The full preview is available
+   in the full admin form via "Show all options". Hiding the preview also
+   reduces modal height, improving AI-940 "More options" discoverability.
+   Previous rule capped at 160px (task-1f0503); now fully hidden in this context.
+   Scoped to .mw-content-form-modal; the settings/templates preview is unaffected. */
+.mw-content-form-modal .preview_frame_wrapper_holder {
+    display: none !important;
+}
+
+/* AI-968 / task-2026-05-22 — Slider navigation dots and arrows may lack contrast
+   in live-edit canvas mode. Ensure swiper pagination bullets and navigation
+   arrows are visible against the canvas background with minimum contrast.
+   These rules apply globally inside the canvas so ALL slider instances benefit.
+   Canvas styles load inside the iframe independently from admin styles. */
+.swiper-pagination-bullet {
+    background: rgba(0, 0, 0, 0.5) !important;
+    opacity: 0.6 !important;
+}
+.swiper-pagination-bullet-active {
+    background: #0d6efd !important;
+    opacity: 1 !important;
+}
+.swiper-button-next,
+.swiper-button-prev,
+.mw-slider-v2-button-next,
+.mw-slider-v2-button-prev {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    color: #ffffff !important;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 18px !important;
+    color: #ffffff !important;
+}
+
+/* task-2026-05-22-31aeb1 / AI-909 — Remove the blue focus outline that appears
+   between the toolbar and the canvas when the user clicks inside the iframe.
+   The live-edit canvas iframe is not keyboard-navigable by users; removing its
+   focus outline has no WCAG impact. The thick blue border was visually confusing
+   because it looked like a broken selection state rather than a focus indicator. */
+#live-editor-frame,
+#live-editor-frame:focus,
+#live-editor-frame:focus-visible {
+    outline: none;
+}
+
+/* task-2026-05-28-e1a4c9 / AI-1227 — Add Content modal CSS spacing regressions
+ *
+ * D1 — card padding was 0px: Tailwind `p-4` on .mw-add-content-modal-action-wrapper
+ *      is not processed by the microweber-filament-theme Webpack pipeline, so the
+ *      utility never reaches the browser. Explicit `padding: 1rem` here overrides.
+ *
+ * D2 — CTA horizontal padding was 0px: prior rule set only `padding-block`, leaving
+ *      inline (left/right) padding at 0. Unified `padding: 1rem` on the wrapper
+ *      fixes both axes.
+ *
+ * D3 — secondary-section top margin was 0px: Tailwind `mt-4` on
+ *      .mw-add-content-group--secondary had the same pipeline gap.
+ *      Explicit `margin-top: 1rem` here.
+ *
+ * D4 — search-input border dark in light mode: .dark selector in the existing rule
+ *      at ~line 1572 matches when the admin panel dark class is present but the
+ *      light-mode baseline rule was absent, so `border-gray-200` utility (also not
+ *      in the build pipeline) produced no border at all or inherited a dark one.
+ *      Explicit `border: 1px solid rgb(209, 213, 219)` (= Tailwind gray-200) + dark
+ *      override here.
+ * ─────────────────────────────────────────────────────────────────────────────── */
+
+/* D1 + D2 — card internal padding (baseline for all wrapper instances) */
+.mw-content-picker-modal .mw-add-content-modal-action-wrapper {
+    padding: 1rem;
+}
+
+/* D3 — secondary section top spacing */
+.mw-content-picker-modal .mw-add-content-group--secondary {
+    margin-top: 1rem;
+}
+
+/* D4 — search input border: explicit light-mode baseline */
+.mw-content-picker-modal .mw-add-content-modal-search-input {
+    border: 1px solid rgb(209, 213, 219);
+}
+.dark .mw-content-picker-modal .mw-add-content-modal-search-input {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+ * task-2026-05-28 / AI-1235 — Sidebar module-settings and add-module buttons:
+ * visual unification + icon visibility.
+ *
+ * Root cause: .module-settings-button and .add-module-button had no background,
+ * border, or explicit text/fill color, so:
+ *   - Light mode: icons with hardcoded SVG path fill="white" were invisible
+ *     on the white sidebar background.
+ *   - Dark mode: SVG fill was handled by an earlier rule but button had no
+ *     visual affordance (no box, no border).
+ *
+ * Fix strategy:
+ *   (A) Vue template: added live-edit-toolbar-buttons class to both button
+ *       divs so they inherit the full button-box treatment (white/dark bg,
+ *       border, border-radius, hover states) from existing rules.
+ *   (B) Path-level fill: the @apply !fill-black dark:!fill-white rule above
+ *       only targets the <svg> element, not <path>/<circle>/<rect> children
+ *       that may carry explicit fill attributes. Mirror those fills explicitly.
+ *   (C) Img icons: some module icons are <img> elements (base64 SVG or URL).
+ *       CSS fill rules do not apply to img content — use filter instead.
+ *   (D) Separator: .current-layout-modules uses <hr> elements as visual
+ *       dividers; in dark mode the default hr border is nearly invisible.
+ *   (E) Container bottom-border: the scoped Vue CSS was rgba(255,255,255,0.1)
+ *       (invisible in light mode); now fixed in the component's scoped CSS.
+ * ─────────────────────────────────────────────────────────────────────────────── */
+
+/* B — Path-level SVG fill for module buttons: light mode (dark icons) */
+.mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg path,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg circle,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg rect,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg polygon,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg path,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg circle,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg rect,
+.mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg polygon {
+    fill: #1f2937 !important;
+}
+
+/* B — dark mode: light icons */
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg path,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg circle,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg rect,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button svg polygon,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg path,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg circle,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg rect,
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.add-module-button svg polygon {
+    fill: #f1f5f9 !important;
+}
+
+/* C — Img icons: force to dark in light mode, light in dark mode */
+.mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button img {
+    filter: brightness(0) saturate(0);
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+.dark .mw-live-edit-right-sidebar-wrapper .btn-icon.module-settings-button img {
+    filter: brightness(0) saturate(0) invert(1);
+}
+
+/* D — Separator hr elements inside .current-layout-modules */
+.mw-live-edit-right-sidebar-template-sidebar .current-layout-modules hr {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 4px 0;
+    width: 100%;
+}
+.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules hr {
+    border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+/* E — Container bottom-border dark mode (light mode fixed in scoped Vue CSS) */
+.dark .mw-live-edit-right-sidebar-template-sidebar .current-layout-modules {
+    border-bottom-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+
+/* ================================================================== *
+ * task-2026-09-06-ledark — Live Edit toolbar dark-mode contrast fixes *
+ * ------------------------------------------------------------------- *
+ * Three defect families found live in html.dark admin:                *
+ *  (1) Device/resolution segmented switch: in dark mode it must be a   *
+ *      DARK pill with LIGHT icons (the earlier build forced a light    *
+ *      track from the index.css #toolbar rule, giving a white switch   *
+ *      with ink glyphs on the dark toolbar). We override the track +   *
+ *      cells to a translucent-light-on-dark surface and repaint the    *
+ *      glyphs #e5e7eb. The stray white fill also came from the         *
+ *      Tailwind @apply in general-styles.css:277-280 /                 *
+ *      live-edit-classes.css:374-377, which compiles (NOT dead) to     *
+ *      fill:var(--color-white) under &:is(.dark *) — (0,3,1)!important. *
+ *      We beat it with an #toolbar-anchored, .mw-segmented-scoped      *
+ *      selector so ONLY the top-bar device switch is affected (never   *
+ *      the filepicker tab-nav which reuses the wrapper class), and     *
+ *      light mode stays exactly as-is.                                 *
+ *  (2)/(3) The 3-dots Tools dropdown (+ its nested "More settings"     *
+ *      submenu) LI <button> items + their currentColor icons stayed    *
+ *      #222 on the dark panel, because the webpack dark theme only     *
+ *      had .dark .custom-dropdown .dropdown-content li a rules (the    *
+ *      matching li button rules and the component's own :global(.dark) *
+ *      scoped rules are dropped by the Vite build). Mirror the <a>     *
+ *      dark rules for <button> so both read #e5e7eb on the dark panel. *
+ * ================================================================== */
+
+/* (1) Device/resolution segmented switch — DARK pill + LIGHT icons in dark
+   mode. task-2026-09-06-ledark2 supersedes the earlier dark-ink forcing:
+   the switch now paints a dark surface on the dark toolbar (was a white
+   track from index.css #toolbar rule), so its glyphs must be LIGHT, not
+   ink. Track goes translucent-light-on-dark; inactive cells transparent
+   with #e5e7eb icons; the active/checked cell gets a slightly lighter
+   pill. Scoped to #toolbar + .mw-segmented so the filepicker tab-nav
+   (which reuses .mw-live-edit-resolutions-wrapper) is never touched.
+   Specificity (1 id, 3+ class, 1 elem) + !important beats the index.css
+   light-track rule (1 id, 2 class) AND the compiled Tailwind white-fill
+   @apply (0,3,1)!important. Light mode is left entirely as-is. */
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons {
+    background-color: transparent !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons svg,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons svg * {
+    color: #e5e7eb !important;
+    fill: #e5e7eb !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons:hover {
+    background-color: rgba(255, 255, 255, 0.10) !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons.is-active,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons.live-edit-resolution-active,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons[aria-checked="true"] {
+    background-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+/* (2)/(3) Tools dropdown + submenu <button> items — mirror the <a> dark
+   rules so button labels + currentColor icons read light on the dark
+   panel. .dropdown-content descendant selector also covers the nested
+   .submenu (More settings) buttons. */
+.dark .custom-dropdown .dropdown-content li button {
+    color: #e5e7eb !important;
+}
+.dark .custom-dropdown .dropdown-content li button:hover,
+.dark .custom-dropdown .dropdown-content li button:focus {
+    background-color: rgb(31 41 55) !important;
+    color: #ffffff !important;
+}
+.dark .custom-dropdown .dropdown-content li button.active,
+.dark .custom-dropdown .dropdown-content li button.expanded {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
+}
+/* Icons inside dropdown/submenu buttons use fill="currentColor"; keep
+   them locked to the button's (light) text colour in dark mode so a
+   stray global fill rule can't repaint them dark-on-dark. */
+.dark .custom-dropdown .dropdown-content li button svg {
+    fill: currentColor !important;
+    color: inherit !important;
+}
+
+
