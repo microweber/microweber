@@ -1,8 +1,0 @@
-/* Element Style Editor — split by concern from the former element-style-editor.css. */
-@import './01-base-variants.css';
-@import './02-tokens-dark-theme.css';
-@import './03-class-tags-swatches.css';
-@import './04-panels.css';
-@import './05-accordion-empty-states.css';
-@import './06-redesign-visibility-size.css';
-@import './07-labels-misc.css';

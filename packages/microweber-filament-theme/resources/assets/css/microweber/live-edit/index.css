@@ -1,8 +1,0 @@
-/* Live Edit classes — split by concern from the former live-edit-classes.css. */
-@import './01-toolbar.css';
-@import './02-save-button.css';
-@import './03-navigation-modals.css';
-@import './04-field-editor-classes.css';
-@import './05-module-settings.css';
-@import './06-page-scoped-dark.css';
-@import './07-add-content-modal.css';

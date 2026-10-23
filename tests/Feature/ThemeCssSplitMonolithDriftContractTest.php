@@ -29,8 +29,10 @@ class ThemeCssSplitMonolithDriftContractTest extends TestCase
     public static function monolithProvider(): array
     {
         return [
-            'general-styles.css' => ['general', 'general-styles.css'],
-            'mobile-touch.css'   => ['mobile', 'mobile-touch.css'],
+            'general-styles.css'       => ['general', 'general-styles.css'],
+            'mobile-touch.css'         => ['mobile', 'mobile-touch.css'],
+            'element-style-editor.css' => ['ese', 'element-style-editor.css'],
+            'live-edit-classes.css'    => ['live-edit', 'live-edit-classes.css'],
         ];
     }
 
