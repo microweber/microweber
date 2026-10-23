@@ -6,8 +6,10 @@
     cursor: pointer;
 
     &:checked {
-        border-color: var(--primary-600) !important;
-        background-color: var(--primary-600) !important;
+        /* --primary-N are comma triplets ("10, 88, 202"), so a bare var() is an
+           invalid colour (checked box rendered transparent). Wrap in rgb(). */
+        border-color: rgb(var(--primary-600)) !important;
+        background-color: rgb(var(--primary-600)) !important;
     }
 
     &:focus {
@@ -21,8 +23,8 @@
     background-color: #161922 !important;
 
     &:checked {
-        border-color: var(--primary-500) !important;
-        background-color: var(--primary-500) !important;
+        border-color: rgb(var(--primary-500)) !important;
+        background-color: rgb(var(--primary-500)) !important;
     }
 
     &:focus {
