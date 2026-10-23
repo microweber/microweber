@@ -580,6 +580,32 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply dark:bg-gray-800 dark:text-white;
 }
 
+/* File-manager top toolbar — align the + button, search and sort select on one
+   34px row. The search sits in a `.form-control-live-edit-label-wrapper` whose
+   floating-label top padding inflated it to 45px, and the + dropdown button
+   rendered at 28px, so the three controls read misaligned. Pin them all to 34px
+   and centre their contents. */
+.mw-file-manager-top-bar-actions {
+    align-items: center !important;
+}
+.mw-file-manager-search {
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    align-items: center !important;
+}
+.mw-file-manager-create-methods-dropdown {
+    display: inline-flex !important;
+    align-items: center !important;
+}
+.mw-file-manager-create-methods-dropdown > .btn {
+    height: 34px !important;
+    min-height: 34px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
 .settings-title-inside {
     @apply text-xl font-bold text-gray-900 dark:text-white dark:text-white leading-5;
 }
