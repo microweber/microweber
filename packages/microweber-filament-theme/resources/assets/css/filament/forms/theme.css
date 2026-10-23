@@ -1,6 +1,17 @@
 
 /* === extracted from microweber-theme-v3 === */
 /* 1214-1322 */
+/* =============================================================================
+   Inputs / form fields (.fi-input, .fi-input-wrp, .fi-fo-*) — navigation map.
+   Core styling: HERE + ../support/input/. Input rules also live (legitimately) in:
+     - Validation / error states: filament/forms/validation-enhancements.css.
+     - v2 reskin borders/focus + global-search input: microweber/general/12-v2-admin-reskin.css,
+       general/11-topbar-and-dashboard.css, general/01-primitives-overrides.css.
+     - Dark mode: filament/dark.css.
+     - Responsive / mobile (16px anti-zoom, touch floors): microweber/mobile/02-core-floors-chrome.css,
+       mobile/05-checkout-align.css, filament/responsive.css.
+   Colours come from tokens — rgb(var(--primary-N)); neutral surfaces var(--mw-*).
+   ============================================================================= */
 /* ============================================================================ */
 /* Form labels — MW v2: 16px/500 on create forms */
 /* ============================================================================ */

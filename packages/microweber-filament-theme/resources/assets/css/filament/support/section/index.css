@@ -1,3 +1,21 @@
+/* =============================================================================
+   Sections (.fi-section / -header / -content*) — navigation map for the next dev.
+
+   Core component styling: HERE + ./theme.css (padding, header radius) + ../card.css
+   (card surface). Section rules that legitimately live in a concern file — look
+   here first, then:
+     - Card surface bg/border/shadow/radius, SHARED with the dashboard stat widgets
+       (one paired rule): microweber/general/12-v2-admin-reskin.css
+       (`body.fi-panel-admin .fi-wi-stats-overview-stat, …fi-section`).
+     - Compact body padding + dark card bg (also shared w/ widgets):
+       microweber/general/04-compact-forms-misc.css.
+     - Dark mode: filament/dark.css.
+     - Responsive / mobile: filament/responsive.css, microweber/mobile/*.
+     - Inside forms / tags input: filament/forms/content-form.css.
+     - Content-edit page chrome: microweber/admin/content-edit.css.
+     - Live-Edit canvas + ESE context: microweber/live-edit-classes.css, live-edit-input.css.
+   Corner radius is unified to 4px (--mw-radius-md) via the general/12 reskin rule.
+   ============================================================================= */
 .fi-section:not(.fi-aside) {
     @apply rounded-md ring-0;
 }

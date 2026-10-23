@@ -1,6 +1,18 @@
 
 /* === extracted from microweber-theme-v3 === */
 /* 951-1213 */
+/* =============================================================================
+   Buttons (.fi-btn) — navigation map for the next dev.
+   Core styling: HERE + ../radius.css. Button rules also live (legitimately) in:
+     - Dashboard/topbar + "New X" / "+ Add" / Save & Live-Edit colours — USER-LOCKED
+       product decision (green SAVE, navy New+Add, navy-outline Save&LiveEdit; do NOT
+       normalise to --primary): microweber/general/11-topbar-and-dashboard.css,
+       general/12-v2-admin-reskin.css, filament/panels/topbar/theme.css.
+     - Radius: filament/support/radius.css.
+     - Dark mode: filament/dark.css.
+     - Responsive / mobile: filament/responsive.css,
+       microweber/mobile/11-buttons-editor-modal.css, mobile/13-admin-rows-primitives.css.
+   ============================================================================= */
 /* ============================================================================ */
 /* Buttons — MW v2 style */
 /* ============================================================================ */

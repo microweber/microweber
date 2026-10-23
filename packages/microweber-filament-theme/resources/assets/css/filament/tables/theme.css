@@ -1,6 +1,21 @@
 
 /* === extracted from microweber-theme-v3 === */
 /* 632-950 */
+/* =============================================================================
+   Tables (.fi-ta / -ctn / -cell / -header-cell / -row / -actions) — navigation map.
+   Core styling: HERE + ./cell.css, ./row.css, ./header-cell.css, ./container.css.
+   Table rules also live (legitimately) in:
+     - v2 reskin (header row, row colours, "card-row" content lists, actions):
+       microweber/general/12-v2-admin-reskin.css.
+     - Resource-list chrome: microweber/admin/resources.css.
+     - Dark mode: filament/dark.css.
+     - Last-wins overrides: global.css.
+     - Responsive / mobile (table→card flip, sticky cols, touch floors):
+       microweber/mobile/04-admin-form-floors.css, mobile/07-desktop-tables-forms.css,
+       mobile/03-touch-sweep-cards.css, filament/responsive.css.
+   NB: first/last body-cell flush (!ps-0/!pe-0) is scoped to header-LESS card lists
+   in ./cell.css so real tables keep header-matching cell padding.
+   ============================================================================= */
 /* ============================================================================ */
 /* Tables — clean, MW v2 style with subtle row dividers */
 /* ============================================================================ */
