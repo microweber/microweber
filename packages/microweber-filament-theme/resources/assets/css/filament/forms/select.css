@@ -1,3 +1,14 @@
+/* =============================================================================
+   Select inputs (.fi-select-input-btn, Choices.js .choices__*) — navigation map.
+   Choices.js (multi-select pills/dropdown) styling: HERE. The native select
+   trigger (.fi-select-input-btn / -placeholder) and wrapper live in:
+     - Base + placeholder: filament/forms/theme.css (.fi-select-input-btn[data-placeholder]).
+     - MW compact skin: microweber/general/04-compact-forms-misc.css.
+     - Per-page-rows select in table footer: filament/support/pagination/theme.css.
+     - Responsive / mobile (16px anti-zoom, touch floors): microweber/mobile/02-core-floors-chrome.css,
+       mobile/14-media-pagination-selects.css.
+     - Dark mode: filament/dark.css.
+   ============================================================================= */
 .choices__list--multiple .choices__item {
     @apply rounded-full bg-primary-100 text-primary-700 ring-0 dark:bg-primary-400/20 dark:text-primary-300;
 }

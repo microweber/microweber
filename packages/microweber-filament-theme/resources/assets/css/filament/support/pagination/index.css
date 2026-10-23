@@ -1,3 +1,13 @@
+/* =============================================================================
+   Pagination (.fi-pagination / -item / -item-btn / -overview) — navigation map.
+   Core styling: HERE + ./item.css (item/btn states), ./theme.css (MW v2 skin +
+   per-page select). Pagination rules also live (legitimately) in:
+     - MW compact override: microweber/general/04-compact-forms-misc.css.
+     - Dark mode: filament/dark.css.
+     - Responsive / mobile (per-page select floors): microweber/mobile/14-media-pagination-selects.css.
+   NB: the per-page-rows select (.fi-ta-ctn .fi-select-input) is styled in ./theme.css
+   because it only appears in the table footer next to the pager.
+   ============================================================================= */
 @import './theme.css';
 @import './item';
 
