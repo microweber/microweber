@@ -52,3 +52,17 @@
         background-color: rgb(var(--primary-400));
     }
 }
+
+/* Dark editor body — the base codemirror.css lib (loaded after this theme) paints
+   .CodeMirror solid white/black, so in dark mode the editing surface read as a
+   jarring white block inside the dark wrapper. Let it inherit the dark input
+   wrapper and use the panel's light input ink. !important because codemirror.css
+   loads later in the cascade. */
+.dark .fi-fo-markdown-editor .EasyMDEContainer .CodeMirror {
+    background-color: transparent !important;
+    color: var(--color-gray-200) !important;
+}
+
+.dark .fi-fo-markdown-editor .EasyMDEContainer .CodeMirror-cursor {
+    border-left-color: var(--color-gray-200) !important;
+}
