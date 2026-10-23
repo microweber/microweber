@@ -461,6 +461,14 @@ body.fi-panel-admin .fi-global-search-field input:focus {
 }
 .dark body.fi-panel-admin .fi-header {
     border-bottom-color: #374151 !important;
+    /* Dark header must inherit the dark page canvas. The broadened light header
+       rule (background #f6f8fb) otherwise leaks into dark mode on the profile +
+       vendor panels — a white heading bar on a dark page (the sibling dark rule
+       used `body.….dark` = .dark on the BODY, but Filament puts .dark on <html>,
+       so it never fired). This `.dark` ancestor matches html.dark correctly, and
+       being body.fi-panel-admin-scoped it is shared to profile/vendor by
+       broadenPanelScope() at (0,3,1) — above the light rule's (0,2,1). */
+    background-color: transparent !important;
 }
 .dark body.fi-panel-admin .fi-ta-ctn {
     background-color: #1f2937 !important;
