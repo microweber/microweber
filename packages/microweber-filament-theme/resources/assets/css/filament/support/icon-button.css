@@ -1,8 +1,33 @@
+/* =============================================================================
+   Icon buttons (.fi-icon-btn / -badge-ctn) — single owner + navigation map.
+
+   Base component styling lives HERE. Icon-button rules also live (legitimately)
+   in concern files — look here first, then:
+     - Context sizing/colour (table-row actions, topbar collapse handle), light
+       + dark: microweber/general/12-v2-admin-reskin.css
+       (mirrored byte-for-byte into the microweber/general-styles.css monolith).
+     - Dark mode base: filament/dark.css.
+     - Responsive / touch floors (≥44px targets, reorder handle): filament/responsive.css,
+       microweber/mobile/*.css (+ the mobile-touch.css monolith).
+     - Table action context: filament/forms/content-form.css, filament/panels/topbar/theme.css.
+     - Live-Edit toolbar context: microweber/live-edit-mobile.css.
+   Radius: non-context icon buttons use --mw-radius-sm (the !important below);
+   the context rules in general/12 override a few (e.g. table-row handles) — both
+   states are pinned by the kitchen-sink visual gate, so keep every declaration.
+   ============================================================================= */
 .fi-icon-btn {
+    /* rounded-md stays the fallback radius; it still wins for the handful of
+       icon buttons whose context rule opts out of the --mw-radius-sm override. */
     @apply rounded-md;
+    border-radius: var(--mw-radius-sm) !important;
+    transition: all 0.15s ease !important;
 
     &:focus-visible {
         @apply outline outline-4 outline-offset-0 outline-primary-500/30 !ring-0 dark:outline-primary-400/40;
+    }
+
+    &:not(.fi-disabled):not([disabled]):hover {
+        background-color: rgba(0, 0, 0, 0.04) !important;
     }
 }
 

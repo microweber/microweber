@@ -278,12 +278,5 @@ body.fi-panel-admin .mw-media-browser-primary-btn {
   font-size: 12px !important;
 }
 
-/* Icon buttons (small action buttons) */
-.fi-icon-btn {
-  border-radius: var(--mw-radius-sm) !important;
-  transition: all 0.15s ease !important;
-
-  &:not(.fi-disabled):not([disabled]):hover {
-    background-color: rgba(0, 0, 0, 0.04) !important;
-  }
-}
+/* Icon buttons (.fi-icon-btn): single-sourced to ../icon-button.css — radius,
+   transition and hover now live there with the focus-visible + badge rules. */
