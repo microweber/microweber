@@ -18,8 +18,8 @@
   }
 
   .fi-main {
-    padding-left: var(--mw-space-xs) !important;  /* GR: xs(6) */
-    padding-right: var(--mw-space-xs) !important;
+    padding-left: 14px !important;   /* phone content gutter — 6px was too tight, inputs read edge-to-edge */
+    padding-right: 14px !important;
     padding-top: var(--mw-space-md) !important;  /* GR: md(16) */
   }
 
@@ -30,38 +30,11 @@
     min-height: 44px !important;
   }
 
-  /* Collapse global search to icon-only on mobile */
-  .fi-global-search-field {
-    max-width: 36px !important;
-    overflow: hidden !important;
-
-    input {
-      width: 36px !important;
-      padding-left: var(--mw-space-lg) !important;  /* GR: lg(26) */
-      padding-right: 0 !important;
-      color: transparent !important;
-      cursor: pointer !important;
-      &::placeholder { color: transparent !important; }
-      &:focus {
-        width: 180px !important;
-        color: var(--mw-text-primary) !important;
-        &::placeholder { color: var(--mw-text-muted) !important; }
-      }
-    }
-  }
-
-  /* Hide "Live Edit" text label — show icon only */
-  .fi-topbar-end a[href*="editmode"] {
-    font-size: 0 !important;
-    padding: var(--mw-space-xs) !important;  /* GR: xs(6) */
-    min-width: 44px !important;
-    min-height: 44px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    svg, img { font-size: initial; width: 18px; height: 18px; }
-  }
+  /* NOTE: the topbar-fit rules (hide global search + Live-Edit, shrink the brand
+     wordmark) are NOT here — at 481–768px the full topbar still fits comfortably,
+     and applying them to tablets left a tiny squished logo + a sparse bar. They
+     live in the ≤600px / ≤480px blocks below, scoped to where the bar actually
+     overflows (~560px and narrower). */
 
   /* Compact "Add" button on mobile */
   .fi-btn.admin-toolbar-add {
@@ -167,6 +140,32 @@
   }
 }
 
+/* Topbar fit — only where it actually overflows (~560px and narrower). The full
+   topbar (logo + Add + hamburger + search + Live-Edit + notifications + user) is
+   ~560px wide, so at 601px+ it fits untouched; below that the two least-essential
+   items are dropped so the user menu + notifications never fall off the edge. */
+@media (max-width: 600px) {
+  /* Global search hidden. The .fi-global-search WRAPPER stays in the DOM (the
+     Microweber quick-nav widget anchors to it — see mobile/02-core-floors-chrome.css)
+     collapsed to zero width; only the search FIELD is display:none'd. */
+  .fi-topbar .fi-global-search {
+    max-width: 0 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+  .fi-topbar .fi-global-search-field {
+    display: none !important;
+  }
+
+  /* Hide the Live Edit button — live editing isn't practical on a narrow screen,
+     and it frees room for the right-side cluster. (The old mobile rule targeted
+     `.fi-topbar-end a[href*=editmode]`, a selector the current MW markup no longer
+     produces, so it was dead.) */
+  .fi-topbar a[href*="editmode"] {
+    display: none !important;
+  }
+}
+
 @media (max-width: 480px) {
   .fi-page-header-main-ctn {
     padding-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
@@ -180,9 +179,17 @@
   }
 
   .fi-main {
-    padding-left: var(--mw-space-hair) !important;  /* GR: hair(4) */
-    padding-right: var(--mw-space-hair) !important;
+    padding-left: 12px !important;   /* phone content gutter — hair(4) left inputs reading edge-to-edge/cut */
+    padding-right: 12px !important;
     padding-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+
+  /* Narrowest phones: even with search + Live-Edit gone, the full 200px wordmark
+     pushes notifications + the user menu off the edge, so compact it. (Tablets at
+     481px+ keep the full logo.) */
+  .fi-topbar .mw-admin-brand-mark__image {
+    max-width: 84px !important;
+    height: auto !important;
   }
 
   /* Hide "Add" label, show icon only */
