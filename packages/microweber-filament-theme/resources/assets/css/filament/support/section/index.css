@@ -92,3 +92,11 @@
 .fi-section-content-ctn > [class*="divide-"] > * + * {
   border-color: var(--mw-border-subtle) !important;
 }
+
+/* MW v2 demo form sections have PLAIN-TEXT headers (no leading icon). Hide the
+   section header icon (a direct <svg> child of .fi-section-header). The collapse
+   chevron sits in a <button>, so it's unaffected. Dashboard widgets use their own
+   classes (.mw-stats-card etc.), not .fi-section-header, so they keep their icons. */
+body.fi-panel-admin .fi-section-header > svg {
+  display: none !important;
+}

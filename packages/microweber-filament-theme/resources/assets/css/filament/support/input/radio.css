@@ -37,3 +37,44 @@
         box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15) !important;
     }
 }
+
+/* Visibility radio (content form) → MW v2 demo: green "Published" / red
+   "Unpublished" pill options. Scoped to the .mw-visibility-radio class set on the
+   Radio field. (Moved here from support/button/theme.css — radio lives with radio.) */
+.mw-visibility-radio {
+  gap: 10px !important;
+
+  .fi-fo-radio-label {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 6px 14px !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    width: -moz-fit-content !important;
+    width: fit-content !important;
+    transition: filter 0.15s ease !important;
+  }
+  /* Filament gives the radio input a top margin so it aligns to the first line
+   * of a multi-line label; in these single-line pills that fights align-items:
+   * center and drops the circle ~3px below the text. Zero it so the circle and
+   * label are truly centered. */
+  .fi-radio-input {
+    margin-top: 0 !important;
+    align-self: center !important;
+  }
+  .fi-fo-radio-label-text,
+  .fi-fo-radio-label-text p {
+    margin: 0 !important;
+  }
+  /* Published (value 1) → green tint (matches the success status pill) */
+  .fi-fo-radio-label:has(input[value="1"]) {
+    background-color: #eaf7ec !important;
+    color: #2fb344 !important;
+  }
+  /* Unpublished (value 0) → red tint (matches the danger status pill) */
+  .fi-fo-radio-label:has(input[value="0"]) {
+    background-color: #fdecec !important;
+    color: #d63939 !important;
+  }
+}
