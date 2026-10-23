@@ -185,7 +185,12 @@ export default {
 
             var saved = canvasWindow.mw.drag.save();
 
+            // Guard so the toast + button reset run exactly once, even if the
+            // save deferred resolves AND the safety-net timeout below fires.
+            var finishCalled = false;
             var finishSave = function (result) {
+                if (finishCalled) { return; }
+                finishCalled = true;
                 setTimeout(function () {
                     btn.classList.remove('btn-loading');
                     btn.disabled = false;
@@ -265,6 +270,16 @@ export default {
                 saved.fail(function () {
                     finishSave('error');
                 });
+
+                // Safety net: if mw.drag.save()'s deferred never resolves —
+                // neither done nor fail — the user otherwise gets NO toast and
+                // the SAVE button spins forever. This happens when the save
+                // target is gone (e.g. the page row was deleted server-side) or
+                // the request hangs. Surface the error toast + reset the button
+                // after a timeout so a save outcome is never silently swallowed.
+                setTimeout(function () {
+                    finishSave('error');
+                }, 15000);
             } else {
                 finishSave('success');
             }
