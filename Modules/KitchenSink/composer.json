@@ -1,0 +1,11 @@
+{
+    "name": "modules/kitchen-sink",
+    "description": "Admin UI component kitchen-sink / theme showcase.",
+    "authors": [{ "name": "Microweber Team", "email": "info@microweber.com" }],
+    "extra": { "laravel": { "providers": [], "aliases": {} } },
+    "autoload": {
+        "psr-4": {
+            "Modules\\KitchenSink\\": ""
+        }
+    }
+}

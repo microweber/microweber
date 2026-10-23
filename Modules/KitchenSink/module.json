@@ -1,0 +1,11 @@
+{
+    "name": "KitchenSink",
+    "alias": "kitchen_sink",
+    "description": "Admin UI component kitchen-sink / theme showcase — a single page rendering every Filament component, used as a visual-regression reference while refactoring the theme CSS.",
+    "keywords": ["dev", "theme", "showcase", "components"],
+    "priority": 0,
+    "providers": [
+        "Modules\\KitchenSink\\Providers\\KitchenSinkServiceProvider"
+    ],
+    "files": []
+}

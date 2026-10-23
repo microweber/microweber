@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Admin\Pages;
+namespace Modules\KitchenSink\Filament\Pages;
 
 use Filament\Actions\Action as FilamentAction;
 use Filament\Schemas\Components\Actions;
@@ -44,7 +44,7 @@ class KitchenSink extends Page
 {
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
-    protected string $view = 'filament.admin.pages.kitchen-sink';
+    protected string $view = 'modules.kitchen_sink::kitchen-sink';
 
     protected static string | \UnitEnum | null $navigationGroup = 'System Settings';
     protected static ?int $navigationSort = 99;
