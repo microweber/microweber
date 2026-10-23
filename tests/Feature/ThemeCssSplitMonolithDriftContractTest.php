@@ -33,6 +33,7 @@ class ThemeCssSplitMonolithDriftContractTest extends TestCase
             'mobile-touch.css'         => ['mobile', 'mobile-touch.css'],
             'element-style-editor.css' => ['ese', 'element-style-editor.css'],
             'live-edit-classes.css'    => ['live-edit', 'live-edit-classes.css'],
+            'admin/media-library.css'  => ['admin/media-library', 'admin/media-library.css'],
         ];
     }
 

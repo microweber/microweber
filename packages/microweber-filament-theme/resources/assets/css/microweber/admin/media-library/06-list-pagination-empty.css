@@ -1,0 +1,97 @@
+/* --- List view --- */
+.mw-media-list {
+  padding: 0;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead th {
+    padding: var(--mw-space-xs) var(--mw-space-sm);  /* GR: xs(6) sm(10) */
+    text-align: left;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--mw-text-muted);
+    border-bottom: 1px solid var(--mw-border-color);
+    background: var(--mw-bg-page);
+  }
+
+  tbody tr {
+    cursor: pointer;
+    border-bottom: 1px solid var(--mw-border-subtle);
+
+    &:hover { background: rgba(0, 0, 0, 0.02); }
+    &.selected { background: rgba(24, 36, 51, 0.06); }
+    &.bulk-selected { background: rgba(24, 36, 51, 0.06); }
+  }
+
+  tbody td {
+    padding: var(--mw-space-xs) var(--mw-space-sm);  /* GR: xs(6) sm(10) */
+    vertical-align: middle;
+    color: var(--mw-text-primary);
+  }
+}
+
+.mw-media-list-thumb {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: var(--mw-radius-sm);
+}
+
+.mw-media-list-type-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--mw-bg-page);
+  border-radius: var(--mw-radius-sm);
+  color: var(--mw-text-muted);
+}
+
+.mw-media-type-badge {
+  display: inline-block;
+  padding: var(--mw-border-xs) var(--mw-space-xs);  /* GR: border-xs(2) xs(6) */
+  border-radius: var(--mw-radius-pill);
+  background: var(--mw-bg-page);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--mw-text-secondary);
+}
+
+/* --- Pagination --- */
+.mw-media-pagination {
+  padding: var(--mw-space-sm);  /* GR: sm(10) */
+  border-top: 1px solid var(--mw-border-subtle);
+  margin-top: auto;
+}
+
+/* --- Empty state --- */
+.mw-media-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--mw-space-2xl) var(--mw-space-lg);  /* GR: 2xl(68) lg(26) */
+  gap: var(--mw-space-sm);  /* GR: sm(10) */
+  color: var(--mw-text-muted);
+  font-size: 14px;
+}
+
+.mw-media-empty-reset {
+  padding: var(--mw-space-xs) var(--mw-space-md);  /* GR: xs(6) md(16) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  background: var(--mw-bg-surface);
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--mw-accent);
+
+  &:hover { background: var(--mw-bg-page); }
+}
+

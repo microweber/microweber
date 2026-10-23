@@ -1,0 +1,351 @@
+/* --- Unsplash Panel --- */
+
+.mw-media-unsplash-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  padding: var(--mw-space-xs) var(--mw-space-md);  /* GR: xs(6) md(16) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  background: var(--mw-bg-surface);
+  color: var(--mw-text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover, &.active {
+    background: var(--mw-accent-light);
+    color: var(--mw-accent);
+    border-color: var(--mw-accent);
+  }
+}
+
+.mw-media-unsplash-panel {
+  padding: var(--mw-space-sm) var(--mw-space-md);  /* GR: sm(10) md(16) */
+  background: var(--mw-bg-surface);
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-md);
+  margin-bottom: var(--mw-space-sm);  /* GR: sm(10) */
+}
+
+.mw-media-unsplash-search {
+  display: flex;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  margin-bottom: var(--mw-space-sm);  /* GR: sm(10) */
+}
+
+.mw-media-unsplash-input {
+  flex: 1;
+  padding: var(--mw-space-xs) var(--mw-space-sm);  /* GR: xs(6) sm(10) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  font-size: 13px;
+  outline: none;
+
+  &:focus {
+    border-color: var(--mw-accent);
+  }
+}
+
+.mw-media-unsplash-search-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  padding: var(--mw-space-xs) var(--mw-space-md);  /* GR: xs(6) md(16) */
+  border: none;
+  border-radius: var(--mw-radius-sm);
+  background: var(--mw-accent);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.mw-media-unsplash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  overflow-y: auto;
+  padding: 0 var(--mw-space-hair);  /* GR: hair(4) */
+}
+
+.mw-media-unsplash-item {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--mw-radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover .mw-media-unsplash-overlay {
+    opacity: 1;
+  }
+}
+
+.mw-media-unsplash-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.mw-media-unsplash-download {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mw-space-hair);  /* GR: hair(4) */
+  padding: var(--mw-space-xs) var(--mw-space-sm);  /* GR: xs(6) sm(10) */
+  border: none;
+  border-radius: var(--mw-radius-sm);
+  background: #fff;
+  color: var(--mw-text-primary);
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--mw-accent-light);
+  }
+
+  &.is-downloading {
+    opacity: 0.7;
+    cursor: wait;
+  }
+}
+
+.mw-media-unsplash-credit {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.mw-media-unsplash-load-more {
+  text-align: center;
+  padding: var(--mw-space-sm) 0;  /* GR: sm(10) */
+}
+
+.mw-media-unsplash-more-btn {
+  padding: var(--mw-space-xs) var(--mw-space-lg);  /* GR: xs(6) lg(26) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  background: var(--mw-bg-surface);
+  color: var(--mw-text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--mw-bg-page);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+}
+
+.mw-media-unsplash-empty,
+.mw-media-unsplash-loading {
+  text-align: center;
+  padding: var(--mw-space-lg);  /* GR: lg(26) */
+  color: var(--mw-text-muted);
+  font-size: 13px;
+}
+
+.mw-media-unsplash-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+}
+
+/* --- Unsplash integrated tab (linter-generated layout) --- */
+
+.mw-unsplash-search-bar {
+  padding: var(--mw-space-md) 0 var(--mw-space-sm);  /* GR: md(16) sm(10) */
+}
+
+.mw-unsplash-search-form {
+  display: flex;
+  align-items: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  position: relative;
+
+  .mw-media-search-icon {
+    position: absolute;
+    left: var(--mw-space-sm);  /* GR: sm(10) */
+    width: var(--mw-space-md);  /* GR: md(16) */
+    height: var(--mw-space-md);
+    color: var(--mw-text-muted);
+  }
+
+  .mw-media-search-input {
+    padding-left: 32px;  /* Aligned with search icon */
+  }
+}
+
+.mw-unsplash-search-submit {
+  padding: var(--mw-space-xs) var(--mw-space-md);  /* GR: xs(6) md(16) */
+  border: none;
+  border-radius: var(--mw-radius-sm);
+  background: var(--mw-accent);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.mw-unsplash-attribution {
+  font-size: 11px;
+  color: var(--mw-text-muted);
+  margin-top: var(--mw-space-xs);  /* GR: xs(6) */
+}
+
+.mw-unsplash-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  padding: var(--mw-space-lg);  /* GR: lg(26) */
+  color: var(--mw-text-muted);
+  font-size: 13px;
+}
+
+.mw-unsplash-photo {
+  .mw-media-grid-thumb {
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.mw-unsplash-photo-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--mw-space-hair) var(--mw-space-xs);  /* GR: hair(4) xs(6) */
+  min-height: var(--mw-space-lg);  /* GR: lg(26) */
+}
+
+.mw-unsplash-photographer {
+  font-size: 11px;
+  color: var(--mw-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.mw-unsplash-download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--mw-space-hair);  /* GR: hair(4) */
+  border: none;
+  border-radius: var(--mw-radius-sm);
+  background: none;
+  color: var(--mw-text-secondary);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--mw-accent-light);
+    color: var(--mw-accent);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+}
+
+.mw-unsplash-load-more {
+  text-align: center;
+  padding: var(--mw-space-sm) 0;  /* GR: sm(10) */
+}
+
+.mw-unsplash-load-more-btn {
+  padding: var(--mw-space-xs) var(--mw-space-lg);  /* GR: xs(6) lg(26) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  background: var(--mw-bg-surface);
+  color: var(--mw-text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--mw-bg-page);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+}
+
+.mw-media-view-toggle {
+  display: flex;
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  overflow: hidden;
+}
+
+.mw-media-view-btn {
+  padding: var(--mw-space-xs) var(--mw-space-sm);  /* GR: xs(6) sm(10) */
+  border: none;
+  background: var(--mw-bg-surface);
+  color: var(--mw-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &.active {
+    background: var(--mw-accent);
+    color: #fff;
+  }
+
+  &:not(.active):hover {
+    background: var(--mw-bg-page);
+  }
+}
+
+/* task-2026-05-17-8c8d0b / AI-855 Defect 2 — Upload is THE primary action of */
+/* the Media Library modal; must render brand-blue per the AI-209 / AI-737 / */
+/* AI-794 / AI-816 primary-CTA lineage. Pre-fix background: var(--mw-text-primary) */
+/* (#182433 dark blue-black) competed visually with neighbouring secondary */
+/* buttons. Now consumes rgba(var(--primary-500), 1) so the AI-819 :root */
+/* override flows through; brand-blue (#0d6efd) at runtime in both light + */
+/* dark modes. !important defeats Filament's default .fi-btn cascade as the */
+/* AI-819 CHANGE rule at line 2914 does for sibling primary CTAs. */
+.mw-media-upload-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  padding: var(--mw-space-xs) var(--mw-space-md);  /* GR: xs(6) md(16) */
+  border: none;
+  border-radius: var(--mw-radius-sm);
+  background: rgba(var(--primary-500), 1) !important;
+  color: #fff !important;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(var(--primary-600), 1) !important;
+  }
+}
+

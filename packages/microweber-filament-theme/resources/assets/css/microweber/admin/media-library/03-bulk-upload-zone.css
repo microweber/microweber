@@ -1,0 +1,177 @@
+/* --- Bulk actions bar --- */
+.mw-media-bulk-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  padding: var(--mw-space-xs) var(--mw-space-sm);  /* GR: xs(6) sm(10) */
+  background: var(--mw-accent-light);
+  border-radius: var(--mw-radius-sm);
+  margin-bottom: var(--mw-space-xs);  /* GR: xs(6) */
+  flex-wrap: wrap;
+}
+
+.mw-media-bulk-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mw-text-primary);
+  margin-right: var(--mw-space-hair);  /* GR: hair(4) */
+}
+
+.mw-media-bulk-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mw-space-hair);  /* GR: hair(4) */
+  padding: var(--mw-space-hair) var(--mw-space-sm);  /* GR: hair(4) sm(10) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  background: var(--mw-bg-surface);
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--mw-text-primary);
+
+  &:hover { background: var(--mw-bg-page); }
+}
+
+.mw-media-bulk-danger {
+  color: #d63939;
+  border-color: #d63939;
+
+  &:hover { background: #fef2f2; }
+}
+
+.mw-media-confirm-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  padding: var(--mw-space-xs) var(--mw-space-sm);  /* GR: xs(6) sm(10) */
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: var(--mw-radius-sm);
+  margin-bottom: var(--mw-space-xs);  /* GR: xs(6) */
+  font-size: 13px;
+}
+
+.mw-media-confirm-yes {
+  padding: var(--mw-space-hair) var(--mw-space-sm);  /* GR: hair(4) sm(10) */
+  border: none;
+  border-radius: var(--mw-radius-sm);
+  background: #d63939;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mw-media-confirm-no {
+  padding: var(--mw-space-hair) var(--mw-space-sm);  /* GR: hair(4) sm(10) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  background: var(--mw-bg-surface);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* --- Upload zone --- */
+.mw-media-upload-zone {
+  border: 2px dashed var(--mw-border-color);
+  border-radius: var(--mw-radius-md);
+  padding: var(--mw-space-lg);  /* GR: lg(26) */
+  text-align: center;
+  margin-bottom: var(--mw-space-sm);  /* GR: sm(10) */
+  transition: border-color 200ms, background-color 200ms;
+
+  &.drag-over {
+    border-color: var(--mw-accent);
+    background: rgba(24, 36, 51, 0.05); /* ink tint to match the ink drag-over border */
+  }
+}
+
+.mw-media-upload-zone-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  color: var(--mw-text-muted);
+  font-size: 14px;
+}
+
+.mw-media-upload-browse-btn {
+  display: inline-block;
+  padding: var(--mw-space-xs) var(--mw-space-md);  /* GR: xs(6) md(16) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  background: var(--mw-bg-surface);
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--mw-text-primary);
+
+  &:hover { background: var(--mw-bg-page); }
+}
+
+.mw-media-upload-zone.is-uploading {
+  border-color: var(--mw-accent);
+  background: rgba(24, 36, 51, 0.03); /* ink tint to match ink border */
+  pointer-events: none;
+}
+
+.mw-media-upload-zone.is-complete {
+  border-color: #2fb344;
+  background: rgba(47, 179, 68, 0.05);
+}
+
+.mw-media-upload-zone.is-error {
+  border-color: #d63939;
+  background: rgba(214, 57, 57, 0.05);
+}
+
+.mw-media-upload-default,
+.mw-media-upload-progress,
+.mw-media-upload-complete,
+.mw-media-upload-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  width: 100%;
+}
+
+.mw-media-upload-progress-bar {
+  width: 100%;
+  max-width: 320px;
+  height: var(--mw-space-xs);  /* GR: xs(6) */
+  background: var(--mw-border-color);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.mw-media-upload-progress-fill {
+  height: 100%;
+  background: var(--mw-accent);
+  border-radius: 3px;
+  transition: width 200ms ease;
+}
+
+.mw-media-upload-percent {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mw-accent);
+}
+
+.mw-media-upload-status {
+  font-size: 14px;
+  color: var(--mw-text-muted);
+}
+
+.mw-media-upload-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--mw-border-color);
+  border-top-color: var(--mw-accent);
+  border-radius: 50%;
+  animation: mw-spin 0.8s linear infinite;
+}
+
+@keyframes mw-spin {
+  to { transform: rotate(360deg); }
+}
+

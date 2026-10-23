@@ -1,0 +1,231 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 4380-6339 */
+/* ============================================================================ */
+/* Media Library — 3-Panel Layout */
+/* ============================================================================ */
+
+.mw-media-library {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 0;
+}
+
+/* --- Toolbar --- */
+.mw-media-toolbar {
+  display: flex;
+  /* task-2026-06-13-letele2 — top-align (was center). When the left group wraps */
+  /* to 2 rows in the picker modal (search+type on row 1, From/To dates on row 2), */
+  /* center-aligning floated the right group (grid/list, Unsplash, Upload) 27px */
+  /* down between the rows. flex-start keeps them level with the search row; at */
+  /* full width (single-row) it's identical to center. */
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--mw-space-sm);  /* GR: sm(10) */
+  padding: var(--mw-space-sm) 0;  /* GR: sm(10) */
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--mw-border-subtle);
+  margin-bottom: 0;
+}
+
+.mw-media-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+  flex: 1;
+  min-width: 0;
+  /* task-2026-06-13-letele2 — the image-picker modal embeds this toolbar in a */
+  /* ~800px iframe (above the 768px mobile breakpoint), so the search + type */
+  /* select + From/To date inputs were squeezed into one cramped row with the */
+  /* "To" date truncated. Let the group wrap so the date filters drop to a tidy */
+  /* second row instead of cramming. */
+  flex-wrap: wrap;
+  row-gap: var(--mw-space-xs);
+}
+
+.mw-media-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--mw-space-xs);  /* GR: xs(6) */
+}
+
+/* task-2026-06-13-letele2 — normalize every row-1 control to one height so the */
+/* search, type select, view toggle, Unsplash and Upload line up exactly. They */
+/* were 38 / 46 / 34 / 32px, so vertical-centering left them visibly staggered */
+/* (the Upload button sat ~7px below the search). One height = clean baseline. */
+.mw-media-search-input,
+.mw-media-filter-select,
+.mw-media-view-toggle,
+.mw-media-unsplash-btn,
+.mw-media-upload-btn {
+  height: 36px;
+  box-sizing: border-box;
+}
+.mw-media-view-toggle {
+  align-items: stretch;
+  .mw-media-view-btn { height: 100%; }
+}
+
+.mw-media-search {
+  position: relative;
+  flex: 1;
+  max-width: 320px;
+  min-width: 200px;  /* keep usable when the toolbar wraps in the picker modal */
+}
+
+.mw-media-search-icon {
+  position: absolute;
+  left: var(--mw-space-sm);  /* GR: sm(10) */
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--mw-space-md);  /* GR: md(16) */
+  height: var(--mw-space-md);
+  color: var(--mw-text-muted);
+  pointer-events: none;
+}
+
+.mw-media-search-input {
+  width: 100%;
+  padding: var(--mw-space-xs) var(--mw-space-sm) var(--mw-space-xs) 32px;  /* GR: xs(6) sm(10) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  font-size: 13px;
+  background: var(--mw-bg-surface);
+  color: var(--mw-text-primary);
+  outline: none;
+
+  &:focus {
+    border-color: var(--mw-accent);
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15); /* ink #182433 at 15% to match the var(--mw-accent) border */
+  }
+}
+
+.mw-media-filter-select {
+  padding: var(--mw-space-xs) var(--mw-space-lg) var(--mw-space-xs) var(--mw-space-sm);  /* GR: xs(6) lg(26) xs(6) sm(10) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  font-size: 13px;
+  background: var(--mw-bg-surface);
+  color: var(--mw-text-primary);
+  outline: none;
+  appearance: auto;
+
+  &:focus {
+    border-color: var(--mw-accent);
+  }
+}
+
+/* AI-1039 / task-2026-05-22-558c11 — wrapper label aligns text + date input inline. */
+/* task-2026-06-13-letele2 — wrap the From/To label + native date input in one */
+/* bordered "pill" (and strip the input's own border) so the date filters read as */
+/* a single tidy control in the picker modal instead of a bare native field. */
+.mw-media-filter-date-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: default;
+  padding: 2px var(--mw-space-xs);  /* GR: xs(6) */
+  background: var(--mw-bg-surface);
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+
+  &:focus-within {
+    border-color: var(--mw-accent);
+  }
+}
+
+.mw-media-filter-date-label {
+  font-size: 12px;
+  color: var(--mw-text-secondary);
+  white-space: nowrap;
+}
+
+.mw-media-filter-date {
+  padding: var(--mw-space-xs) 0;  /* GR: xs(6) */
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  color: var(--mw-text-primary);
+  outline: none;
+  max-width: 130px;
+}
+
+/*
+ * Mobile responsive overrides for the media-library toolbar. The
+ * default rule above sets `.mw-media-toolbar-left { flex: 1; }`
+ * with no wrapping on its child controls, so on a 390px viewport
+ * the search input + type-filter select + two date inputs + clear
+ * button all squeeze into one row, truncating the search
+ * placeholder to "Sear" and clipping the date pickers. Force the
+ * toolbar's left and right groups to wrap below 768px and give the
+ * search field its own full-width row so an operator on a phone
+ * can actually type in it.
+ */
+@media (max-width: 768px) {
+  .mw-media-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .mw-media-toolbar-left,
+  .mw-media-toolbar-right {
+    flex-wrap: wrap;
+    gap: var(--mw-space-xs);
+  }
+  .mw-media-search {
+    flex: 1 1 100%;
+    max-width: none;
+    min-width: 200px;
+  }
+  .mw-media-filter-select,
+  .mw-media-filter-date {
+    flex: 1 1 auto;
+    min-width: 130px;
+    max-width: none;
+  }
+}
+
+.mw-media-clear-filters {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--mw-space-xs);  /* GR: xs(6) */
+  border: none;
+  background: none;
+  color: var(--mw-text-secondary);
+  cursor: pointer;
+  border-radius: var(--mw-radius-sm);
+
+  &:hover {
+    color: #d63939;
+    background: rgba(#d63939, 0.08);
+  }
+}
+
+.mw-media-detail-url {
+  padding: 0 var(--mw-space-sm) var(--mw-space-xs);  /* GR: sm(10) xs(6) */
+}
+
+.mw-media-detail-url-row {
+  display: flex;
+  gap: var(--mw-space-hair);  /* GR: hair(4) */
+  align-items: center;
+}
+
+.mw-media-detail-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--mw-space-xs);  /* GR: xs(6) */
+  border: 1px solid var(--mw-border-color);
+  border-radius: var(--mw-radius-sm);
+  background: var(--mw-bg-surface);
+  color: var(--mw-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--mw-bg-page);
+    color: var(--mw-text-primary);
+  }
+}
+
