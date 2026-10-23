@@ -1,4 +1,13 @@
-.fi-ta-cell {
+/* Flush the first/last body cell to the table-card edge — but ONLY for the
+   header-less content-list CARD layout (Pages/Posts/Products), where each row is
+   a separated card and there are no column headers to line up against.
+
+   Real tables (WITH column headers, e.g. Users, and the kitchen-sink table) must
+   keep their first/last cell padding, otherwise the body content sits flush-left
+   while the header cells stay padded → the column no longer lines up under its
+   header. Scoping to `:not(:has(.fi-ta-header-cell))` leaves those tables on
+   Filament's default (header-matching) cell padding. */
+.fi-ta:not(:has(.fi-ta-header-cell)) .fi-ta-cell {
     &:first-of-type {
         @apply !ps-0;
     }
