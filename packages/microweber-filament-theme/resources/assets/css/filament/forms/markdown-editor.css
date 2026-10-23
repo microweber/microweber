@@ -9,13 +9,46 @@
                 @apply transition duration-75;
             }
 
+            /* Toolbar glyphs are SVG MASKS painted by the ::before background-color.
+               Do NOT use `@apply bg-gray-*` here: under this theme's colour config a
+               `bg-gray-500` utility compiles to `rgb(var(--gray-500-rgb) / 1)`, and
+               because --gray-500-rgb is a COMMA triplet ("115, 115, 115") the mixed
+               comma + slash form is an invalid colour that paints transparent — an
+               invisible toolbar (the whole-app bug this rule fixes, markdown editor in
+               both the kitchen sink and OrderResource). Paint with the proper Tailwind
+               v4 --color-gray-* colour tokens, and the active glyph with
+               rgb(var(--primary-N)) per the project token rule (comma triplet, so the
+               rgb() wrapper has no slash-alpha and stays valid). */
             &:not(.active)::before {
-                @apply bg-gray-500 hover:bg-gray-700 dark:bg-gray-400 dark:hover:bg-gray-200;
+                background-color: var(--color-gray-500);
+            }
+
+            &:not(.active):hover::before {
+                background-color: var(--color-gray-700);
+            }
+
+            &.active::before {
+                background-color: rgb(var(--primary-600));
             }
 
             &.active {
                 @apply bg-transparent dark:bg-transparent;
             }
         }
+    }
+}
+
+/* Dark toolbar — lighter glyphs for contrast on the dark surface. */
+.dark .fi-fo-markdown-editor .EasyMDEContainer .editor-toolbar button {
+    &:not(.active)::before {
+        background-color: var(--color-gray-400);
+    }
+
+    &:not(.active):hover::before {
+        background-color: var(--color-gray-200);
+    }
+
+    &.active::before {
+        background-color: rgb(var(--primary-400));
     }
 }

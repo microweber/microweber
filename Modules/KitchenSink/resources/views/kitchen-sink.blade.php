@@ -26,7 +26,13 @@
     </script>
 
 
-    <div x-data="{ activeTab: 'components' }">
+    <div x-data="{ activeTab: 'components' }"
+         x-init="$watch('activeTab', () => $nextTick(() => {
+             /* JS editors (EasyMDE/CodeMirror) init with 0 height while their tab is
+                display:none; re-measure them when the tab becomes visible. */
+             window.dispatchEvent(new Event('resize'));
+             document.querySelectorAll('.CodeMirror').forEach(c => c.CodeMirror && c.CodeMirror.refresh());
+         }))">
 
         <x-filament::tabs>
             <x-filament::tabs.item
