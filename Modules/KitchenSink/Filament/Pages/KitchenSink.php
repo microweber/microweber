@@ -39,6 +39,7 @@ use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
 use MicroweberPackages\Filament\Forms\Components\MwInputSlider;
 use MicroweberPackages\Filament\Forms\Components\MwInputSliderGroup;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
+use MicroweberPackages\Filament\Schemas\RichFormSchemas;
 
 class KitchenSink extends Page
 {
@@ -115,6 +116,18 @@ class KitchenSink extends Page
     // Wizard tab
     public $step1_input = '';
     public $step2_input = '';
+    // Shared rich-form schema parts (RichFormSchemas) — same components the real
+    // content/SEO pages use, so styling verified here holds for them. Namespaced
+    // under one array prop so the schema's `title` field doesn't collide with
+    // Filament BasePage's static $title.
+    public array $richData = [
+        'title' => '',
+        'content_body' => '',
+        'excerpt' => '',
+        'meta_title' => '',
+        'meta_description' => '',
+        'meta_keywords' => '',
+    ];
 
 
 
@@ -129,6 +142,17 @@ class KitchenSink extends Page
 
         return $schema
             ->schema([
+
+                // Shared rich-form building blocks (RichFormSchemas) — the SAME
+                // components the real content/SEO pages use, rendered here so the
+                // kitchen sink is a faithful style reference for those "rich pages".
+                // Wrapped in a statePath'd Group so the schema's own field names
+                // (title, content_body, …) bind under $richData without colliding
+                // with the page's inherited static $title.
+                \Filament\Schemas\Components\Group::make([
+                    RichFormSchemas::contentSection(),
+                    RichFormSchemas::seoSection(),
+                ])->statePath('richData')->columnSpanFull(),
 
                 MwInputSliderGroup::make()
                     ->live()
