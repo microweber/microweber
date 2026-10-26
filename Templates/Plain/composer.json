@@ -1,0 +1,16 @@
+{
+    "name": "microweber-templates/plain",
+    "type": "microweber-template",
+    "description": "Plain — a minimal grid+utils-only template; design comes from the AI agent's global CSS.",
+    "autoload": {
+        "psr-4": {
+            "Templates\\Plain\\": ""
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": []
+        }
+    }
+}
