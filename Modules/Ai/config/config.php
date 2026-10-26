@@ -194,7 +194,9 @@ return [
 
         'replicate' => [
             'enabled' => env('REPLICATE_ENABLED', false),
-            'api_key' => env('REPLICATE_API_KEY'),
+            // REPLICATE_API_TOKEN is Replicate's own standard env name; accept it
+            // first, fall back to the legacy REPLICATE_API_KEY.
+            'api_key' => env('REPLICATE_API_TOKEN', env('REPLICATE_API_KEY')),
             'model' => env('REPLICATE_MODEL', 'google/imagen-4-fast'),
             'max_tokens' => env('REPLICATE_MAX_TOKENS', null),
             'temperature' => env('REPLICATE_TEMPERATURE', 0.7),
