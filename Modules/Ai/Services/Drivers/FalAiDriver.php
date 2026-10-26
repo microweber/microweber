@@ -161,8 +161,8 @@ class FalAiDriver extends BaseDriver implements AiImageServiceInterface
         if (!empty($imageData)) {
             // Create directory if it doesn't exist
             $directory = 'media/fal';
-            if (!Storage::disk('public')->exists($directory)) {
-                Storage::disk('public')->makeDirectory($directory);
+            if (!Storage::disk($this->mediaDisk())->exists($directory)) {
+                Storage::disk($this->mediaDisk())->makeDirectory($directory);
             }
 
             foreach ($imageData as $index => $imageUrl) {
@@ -233,14 +233,24 @@ class FalAiDriver extends BaseDriver implements AiImageServiceInterface
             $imagePath = $directory . '/' . md5($prompt . microtime() . $index) . '.' . $extension;
 
             // Save the image
-            Storage::disk('public')->put($imagePath, $imageContent);
+            Storage::disk($this->mediaDisk())->put($imagePath, $imageContent, ['visibility' => 'public']);
 
             // Add the public URL to the urls array
-            $urls[] = Storage::disk('public')->url($imagePath);
+            $urls[] = Storage::disk($this->mediaDisk())->url($imagePath);
 
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    /**
+     * The disk generated images are stored on — local "public" by default, or the
+     * configured remote disk (e.g. S3) when MEDIA_UPLOAD_DISK is set. Mirrors the
+     * Replicate driver so media persists/serves correctly wherever userfiles live.
+     */
+    protected function mediaDisk(): string
+    {
+        return function_exists('userfiles_disk') ? userfiles_disk() : 'public';
     }
 
     /**
@@ -264,10 +274,10 @@ class FalAiDriver extends BaseDriver implements AiImageServiceInterface
 
             // Download and store the image
             $imageContent = $this->fetchImageContent($imageUrl);
-            Storage::disk('public')->put($imagePath, $imageContent);
+            Storage::disk($this->mediaDisk())->put($imagePath, $imageContent, ['visibility' => 'public']);
 
             // Add the public URL to the urls array
-            $urls[] = Storage::disk('public')->url($imagePath);
+            $urls[] = Storage::disk($this->mediaDisk())->url($imagePath);
 
         } catch (\Exception $e) {
 

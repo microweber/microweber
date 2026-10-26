@@ -180,12 +180,18 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
                 }
             }
 
-            // Store each image to disk if URLs are available
+            // Store each image to the configured userfiles/media disk — local
+            // "public" by default, or the remote disk (e.g. S3) when
+            // MEDIA_UPLOAD_DISK is set. userfiles_disk() is the single source of
+            // truth for every userfiles writer, so generated images persist and
+            // serve from the right place wherever media lives.
             if (!empty($imageUrls)) {
+                $mediaDisk = function_exists('userfiles_disk') ? userfiles_disk() : 'public';
+
                 // Create directory if it doesn't exist
                 $directory = 'media/replicate';
-                if (!Storage::disk('public')->exists($directory)) {
-                    Storage::disk('public')->makeDirectory($directory);
+                if (!Storage::disk($mediaDisk)->exists($directory)) {
+                    Storage::disk($mediaDisk)->makeDirectory($directory);
                 }
 
                 $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
@@ -202,12 +208,13 @@ class ReplicateAiDriver extends BaseDriver implements AiImageServiceInterface
                     // Create a unique filename with correct extension
                     $imagePath = $directory . '/' . md5($prompt . microtime() . $index) . '.' . $extension;
 
-                    // Download and store the image
+                    // Download and store the image. Public visibility so the URL
+                    // is reachable on remote disks (S3) as well as locally.
                     $imageContent = $this->fetchImageContent($imageUrl);
-                    Storage::disk('public')->put($imagePath, $imageContent);
+                    Storage::disk($mediaDisk)->put($imagePath, $imageContent, ['visibility' => 'public']);
 
                     // Add the public URL to the urls array
-                    $urls[] = Storage::disk('public')->url($imagePath);
+                    $urls[] = Storage::disk($mediaDisk)->url($imagePath);
 
                 }
 
