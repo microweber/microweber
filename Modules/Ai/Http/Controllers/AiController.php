@@ -261,13 +261,23 @@ class AiController extends Controller
             // Get or create chat
             if ($chatId) {
                 $chat = AgentChat::findOrFail($chatId);
-                
+
                 // Verify user has access to this chat
                 if ($chat->user_id && $chat->user_id !== $userId) {
                     return response()->json([
                         'success' => false,
                         'message' => 'Unauthorized access to chat'
                     ], 403);
+                }
+                // Never run a different agent than the surface asked for: if the
+                // resumed chat belongs to another agent_type, its (wrong) tool set
+                // would be used. Start a fresh chat of the requested type instead.
+                if (!empty($agentType) && $chat->agent_type !== $agentType) {
+                    $chat = $agentFactory->createOrGetChat(
+                        agentType: $agentType,
+                        title: $chatTitle,
+                        userId: $userId
+                    );
                 }
             } else {
                 $chat = $agentFactory->createOrGetChat(
@@ -436,6 +446,21 @@ class AiController extends Controller
                     if ($chat->user_id && $chat->user_id !== $userId) {
                         $emitter->emit('error', ['message' => 'Unauthorized access to chat']);
                         return;
+                    }
+                    // Guard against an agent-type MISMATCH on resume. agentWithChat()
+                    // builds the agent from the CHAT's stored agent_type, so if the
+                    // surface (e.g. the Live-Edit box, agent_type=liveedit) resumed a
+                    // chat created by a DIFFERENT agent (e.g. an old 'customer' chat),
+                    // it would run that agent's wrong tool set — the model then has only
+                    // read-only tools, cannot edit, and (worse) the start event already
+                    // reported the requested type. Never run a different agent than the
+                    // surface asked for: start a fresh chat of the requested type.
+                    if ($agentType !== '' && $chat->agent_type !== $agentType) {
+                        $chat = $agentFactory->createOrGetChat(
+                            agentType: $agentType,
+                            title: $chatTitle,
+                            userId: $userId
+                        );
                     }
                 } else {
                     $chat = $agentFactory->createOrGetChat(
