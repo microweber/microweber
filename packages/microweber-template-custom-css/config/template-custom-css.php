@@ -101,6 +101,20 @@ return [
             // a save over a parser quirk.
             'validate' => false,
         ],
+        // Custom JavaScript layer — parallel to the live_edit.css layer. Saved to
+        // userfiles/css/<Template>/live_edit.js and served (deferred) in the footer
+        // of the PUBLISHED page only (never inside the Live-Edit canvas). Like the
+        // design CSS it is machine/user-written and must never be lost to a parser
+        // quirk, so it is NOT strict-validated; JS has no url() so no rewriting.
+        'live_edit_js' => [
+            'filename' => 'live_edit.js',
+            'storage' => 'file',
+            'option_key' => 'template_js',
+            'option_group_prefix' => 'template_',
+            'multisite' => true,
+            'rewrite_urls' => false,
+            'validate' => false,
+        ],
         'custom' => [
             'filename' => null,
             'storage' => 'option',

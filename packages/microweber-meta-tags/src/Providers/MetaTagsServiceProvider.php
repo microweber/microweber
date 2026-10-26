@@ -116,6 +116,11 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'live_edit_css_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\LiveEditCssHeadTags()
             );
+            // Custom JS layer — deferred <script> in the footer, published page only.
+            $package->addTag(
+                'live_edit_js_footer_tags',
+                new \MicroweberPackages\MetaTags\Entities\LiveEditJsFooterTags()
+            );
             $package->addTag(
                 'custom_fonts_css_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\CustomFontsCssHeadTags()

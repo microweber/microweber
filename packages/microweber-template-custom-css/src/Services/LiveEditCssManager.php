@@ -579,4 +579,176 @@ class LiveEditCssManager implements CssFileHandlerInterface
 
         return $default;
     }
+
+    // ───────────────────────── Custom JS layer ─────────────────────────
+    // Parallel to the live_edit.css layer: per-template custom JavaScript stored at
+    // userfiles/css/<Template>/live_edit.js + the `template_js` option, served
+    // (deferred) in the published footer. Reuses the shared template/folder/remote
+    // helpers; the CSS methods above are intentionally left untouched. Driven by the
+    // 'live_edit_js' file-type config (filename + option_key).
+
+    public function getLiveEditJsFilename(): string
+    {
+        return $this->fileTypeString('live_edit_js', 'filename', 'live_edit.js');
+    }
+
+    public function getLiveEditJsFilenameMultisite(): string
+    {
+        $base = $this->getLiveEditJsFilename();
+        if (!$this->isMultisite()) {
+            return $base;
+        }
+        $environment = $this->environment();
+        $stem = pathinfo($base, PATHINFO_FILENAME);
+        $ext = pathinfo($base, PATHINFO_EXTENSION);
+
+        return $stem . '_' . $environment . ($ext !== '' ? '.' . $ext : '');
+    }
+
+    public function getLiveEditJsPath(?string $template = null, bool $checkExists = true): string|false
+    {
+        $template = $this->normalizeTemplateName($template);
+        $folder = $this->getLiveEditCssSaveFolder($template);
+        $defaultPath = PathHelper::normalize($folder . $this->getLiveEditJsFilename(), false);
+
+        $multisitePath = false;
+        if ($this->isMultisite()) {
+            $multisitePath = PathHelper::normalize($folder . $this->getLiveEditJsFilenameMultisite(), false);
+        }
+
+        if ($checkExists) {
+            if ($multisitePath !== false && is_file($multisitePath)) {
+                return $multisitePath;
+            }
+            if (is_file($defaultPath)) {
+                return $defaultPath;
+            }
+
+            return false;
+        }
+
+        if ($multisitePath !== false) {
+            return $multisitePath;
+        }
+
+        return $defaultPath;
+    }
+
+    /**
+     * Public URL (with mtime cache-buster) of the template's live_edit.js, or null
+     * when the file is missing OR empty — so no empty <script> is emitted.
+     */
+    public function getLiveEditJsUrl(?string $template = null): ?string
+    {
+        $template = $this->normalizeTemplateName($template);
+        $path = $this->getLiveEditJsPath($template, true);
+
+        if ($path === false || !is_file($path) || @filesize($path) === 0) {
+            return null;
+        }
+
+        $remoteDisk = $this->remoteDisk();
+        $remoteRel = $remoteDisk ? $this->remoteJsRelPath($template) : null;
+        if ($remoteDisk !== null && $remoteRel !== null) {
+            try {
+                $url = \Illuminate\Support\Facades\Storage::disk($remoteDisk)->url($remoteRel);
+
+                return $url . '?version=' . filemtime($path);
+            } catch (\Throwable) {
+                // fall through to the local URL
+            }
+        }
+
+        $mtime = filemtime($path);
+        $baseUrl = rtrim($this->cssBaseUrl(), '/') . '/' . $template . '/';
+        $filename = $this->getLiveEditJsFilename();
+        if ($this->isMultisite() && is_file(PathHelper::normalize(
+            $this->getLiveEditCssSaveFolder($template) . $this->getLiveEditJsFilenameMultisite(),
+            false
+        ))) {
+            $filename = $this->getLiveEditJsFilenameMultisite();
+        }
+
+        return $baseUrl . $filename . '?version=' . $mtime;
+    }
+
+    /**
+     * Save custom JS to disk + the `template_js` option. Overwrite, like the CSS
+     * save. Never strict-validated (machine/user-written; never lose a save).
+     */
+    public function saveLiveEditJsContent(?string $jsCont, ?string $template = null): string
+    {
+        $template = $this->normalizeTemplateName($template);
+        $js = $jsCont ?? '';
+
+        $path = $this->resolveJsWritePath($template);
+
+        $optionKey = $this->fileTypeString('live_edit_js', 'option_key', 'template_js');
+        $groupPrefix = $this->fileTypeString('live_edit_js', 'option_group_prefix', 'template_');
+        $this->optionStore->save([
+            'option_value' => $js,
+            'option_key' => $optionKey,
+            'option_group' => $groupPrefix . $template,
+        ]);
+
+        PathHelper::ensureDirectory(dirname($path));
+        file_put_contents($path, $js);
+
+        $this->mirrorJsToRemoteDisk($template, $js);
+
+        return $js;
+    }
+
+    public function getLiveEditJsContent(?string $template = null): string
+    {
+        $path = $this->getLiveEditJsPath($template, true);
+        if ($path === false || !is_file($path)) {
+            return '';
+        }
+
+        return (string) file_get_contents($path);
+    }
+
+    protected function resolveJsWritePath(string $template): string
+    {
+        if ($this->isMultisite()) {
+            $folder = $this->getLiveEditCssSaveFolder($template);
+
+            return PathHelper::normalize($folder . $this->getLiveEditJsFilenameMultisite(), false);
+        }
+
+        $path = $this->getLiveEditJsPath($template, false);
+
+        return $path === false
+            ? PathHelper::normalize($this->getLiveEditCssSaveFolder($template) . $this->getLiveEditJsFilename(), false)
+            : $path;
+    }
+
+    protected function remoteJsRelPath(string $template): ?string
+    {
+        $base = $this->configString('css_base_relpath', '');
+        if ($base === '') {
+            return null;
+        }
+        $filename = $this->isMultisite()
+            ? $this->getLiveEditJsFilenameMultisite()
+            : $this->getLiveEditJsFilename();
+
+        return trim($base, '/') . '/' . $template . '/' . $filename;
+    }
+
+    protected function mirrorJsToRemoteDisk(string $template, string $js): void
+    {
+        $disk = $this->remoteDisk();
+        $rel = $disk ? $this->remoteJsRelPath($template) : null;
+        if ($disk === null || $rel === null) {
+            return;
+        }
+
+        try {
+            \Illuminate\Support\Facades\Storage::disk($disk)->put($rel, $js, ['visibility' => 'public']);
+        } catch (\Throwable) {
+            // mirror is best-effort; local file remains the source of truth
+        }
+    }
 }
