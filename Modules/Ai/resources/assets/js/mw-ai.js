@@ -879,6 +879,53 @@ function MwAi() {
                 return { ok: true, message: 'image updated' };
             },
 
+            // Surgical HTML edit (str_replace style) — change PART of an element's
+            // inner HTML without re-emitting the whole block. The model reads the
+            // current HTML with get_dom, copies the EXACT snippet to change, and
+            // passes find + replace. Saves tokens on edits and avoids clobbering
+            // siblings. find must match the live HTML verbatim (whitespace + attrs).
+            edit_html: function(args, api) {
+                const selector = (args && args.selector) ? String(args.selector) : '';
+                const find = (args && args.find) ? String(args.find) : '';
+                const replace = (args && typeof args.replace !== 'undefined') ? String(args.replace) : '';
+                if (!selector) { return { ok: false, message: 'no selector' }; }
+                if (!find) { return { ok: false, message: 'no "find" snippet — pass the exact current HTML to replace' }; }
+                const doc = api.canvasDocument();
+                const el = doc.querySelector(selector);
+                if (!el) { return { ok: false, message: 'no element for ' + selector }; }
+                const menu = api.menuTargetInfo(el);
+                if (menu) { return { ok: false, message: 'That is a navigation MENU (DB-backed) — a DOM edit will not persist. Use edit_menu_item, not edit_html.' }; }
+                const cur = String(el.innerHTML);
+                if (cur.indexOf(find) === -1) {
+                    return { ok: false, message: 'the "find" HTML was not found inside ' + selector + '. Call get_dom to read the EXACT current HTML (whitespace + attributes must match) and copy the snippet verbatim — do not paraphrase it.' };
+                }
+                el.innerHTML = cur.split(find).join(replace);
+                try { mw.top().app.registerChangedState(el); } catch (e) {}
+                return { ok: true, message: 'edited html in ' + selector };
+            },
+
+            // Surgical CSS edit — find/replace within the accumulated AI design CSS,
+            // to CHANGE or REMOVE a rule you already wrote without re-sending it all.
+            // To ADD a new rule, prefer apply_css (it merges by selector). Read the
+            // current CSS with get_page_context and copy the exact snippet to change.
+            replace_css: function(args, api) {
+                const find = (args && args.find) ? String(args.find) : '';
+                const replace = (args && typeof args.replace !== 'undefined') ? String(args.replace) : '';
+                if (!find) { return { ok: false, message: 'no "find" snippet' }; }
+                const doc = api.canvasDocument();
+                const el = doc.getElementById('mw-ai-global-css');
+                const cur = el ? String(el.textContent || '') : '';
+                if (!cur) { return { ok: false, message: 'no AI CSS yet — use apply_css to add rules first' }; }
+                if (cur.indexOf(find) === -1) {
+                    return { ok: false, message: 'the "find" CSS was not found. The stored AI CSS carries !important on each declaration; read it with get_page_context and copy the exact snippet, or use apply_css to add/override a rule (it merges by selector).' };
+                }
+                el.textContent = cur.split(find).join(replace);
+                doc.head.appendChild(el);
+                api.persistGlobalCss();
+                api.markDesignDirty();
+                return { ok: true, message: 'replaced css snippet' };
+            },
+
             // Delete an element/section/module. Reuses the canonical
             // elementActions.deleteElement with skipConfirm=true (no modal for the
             // AI); falls back to a direct remove + changed-state registration.
