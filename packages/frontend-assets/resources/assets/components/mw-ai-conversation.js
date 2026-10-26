@@ -166,6 +166,22 @@ html.dark .mw-ai-conv-input{ color:#e8eaed; }
 .mw-ai-conv-thread::-webkit-scrollbar-thumb{ background:#18243326; border-radius:8px; }
 html.dark .mw-ai-conv-input::-webkit-scrollbar-thumb,
 html.dark .mw-ai-conv-thread::-webkit-scrollbar-thumb{ background:#ffffff2a; }
+
+/* Floating "scroll to latest" arrow — appears when the thread is scrolled up. */
+.mw-ai-conv-scrolldown{
+    position:absolute; right:16px; bottom:84px; z-index:6;
+    width:34px; height:34px; border-radius:50%; border:1px solid #18243320;
+    background:#fff; color:#182433; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 2px 10px #18243330;
+    opacity:0; transform:translateY(6px) scale(.9); pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+}
+.mw-ai-conv-scrolldown.is-visible{ opacity:1; transform:none; pointer-events:auto; }
+.mw-ai-conv-scrolldown:hover{ background:#f4f6f8; }
+html.dark .mw-ai-conv-scrolldown{ background:#2a323c; color:#e8eaed; border-color:#ffffff24; box-shadow:0 2px 12px #00000050; }
+html.dark .mw-ai-conv-scrolldown:hover{ background:#333c47; }
+@media (prefers-reduced-motion: reduce){ .mw-ai-conv-scrolldown{ transition:none; } }
 .mw-ai-conv-send{
     width:34px; height:34px; min-width:34px; border-radius:50%; border:none; cursor:pointer;
     background:#182433; color:#fff; display:inline-flex; align-items:center; justify-content:center;
@@ -277,6 +293,7 @@ export class MwAiConversation extends MicroweberBaseClass {
                 </div>
             </div>
             <div class="mw-ai-conv-thread" role="log" aria-live="polite"></div>
+            <button type="button" class="mw-ai-conv-scrolldown" title="${mw.lang("Scroll to latest")}" aria-label="${mw.lang("Scroll to latest")}" tabindex="-1"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
             <div class="mw-ai-conv-attachments" aria-label="${mw.lang("Attached reference images")}"></div>
             <form class="mw-ai-conv-form">
                 <button type="button" class="mw-ai-conv-attach-btn" title="${mw.lang("Attach a reference image")}" aria-label="${mw.lang("Attach a reference image")}">${this.icon("image") || this.icon("image-change") || "🖼"}</button>
@@ -309,6 +326,16 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.attachBtn = el.querySelector(".mw-ai-conv-attach-btn");
         this.fileInput = el.querySelector(".mw-ai-conv-file");
         this.pendingImages = [];
+
+        // Floating "scroll to latest" arrow: shown when the user scrolls up.
+        this.scrollDownBtn = el.querySelector(".mw-ai-conv-scrolldown");
+        this.userScrolledUp = false;
+        if (this.thread) {
+            this.thread.addEventListener("scroll", () => this.onThreadScroll(), { passive: true });
+        }
+        if (this.scrollDownBtn) {
+            this.scrollDownBtn.addEventListener("click", () => this.scrollToLatest());
+        }
 
         this.wire();
         this.renderEmpty();
@@ -448,8 +475,48 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.input.focus();
     }
 
-    scrollDown() {
-        this.thread.scrollTop = this.thread.scrollHeight;
+    scrollDown(force) {
+        if (!this.thread) return;
+        // Respect the user's scroll position: auto-stick to the bottom only when
+        // they have NOT scrolled up to read. If they did, leave them there and let
+        // the floating "scroll to latest" arrow bring them back on demand.
+        if (force || !this.userScrolledUp) {
+            this.thread.scrollTop = this.thread.scrollHeight;
+        }
+        this.updateScrollDownBtn();
+    }
+
+    // True when the thread is scrolled to (near) its bottom.
+    nearBottom() {
+        const t = this.thread;
+        if (!t) return true;
+        return (t.scrollHeight - t.scrollTop - t.clientHeight) < 48;
+    }
+
+    // Fired on user scroll: remember whether they scrolled up (so new messages
+    // don't yank them down) and toggle the arrow.
+    onThreadScroll() {
+        this.userScrolledUp = this.thread ? !this.nearBottom() : false;
+        this.updateScrollDownBtn();
+    }
+
+    // Show the floating arrow only when scrolled up with more content below.
+    updateScrollDownBtn() {
+        if (!this.scrollDownBtn || !this.thread) return;
+        const overflowing = this.thread.scrollHeight > this.thread.clientHeight + 48;
+        this.scrollDownBtn.classList.toggle("is-visible", overflowing && !this.nearBottom());
+    }
+
+    // Smooth-scroll to the latest message (the arrow button click).
+    scrollToLatest() {
+        if (!this.thread) return;
+        this.userScrolledUp = false;
+        try {
+            this.thread.scrollTo({ top: this.thread.scrollHeight, behavior: "smooth" });
+        } catch (e) {
+            this.thread.scrollTop = this.thread.scrollHeight;
+        }
+        this.updateScrollDownBtn();
     }
 
     // Rasterise the live canvas so the AI can SEE the current design. The
