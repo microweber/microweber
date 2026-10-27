@@ -7,6 +7,23 @@ Route::post('api/mcp', [Modules\Ai\Http\Controllers\McpController::class, 'handl
     ->middleware(['api', 'mcp.client'])
     ->name('api.ai.mcp');
 
+// Streamable HTTP transport-level verbs (MCP 2025-03-26 / 2025-06-18).
+// GET is the optional server→client SSE channel — this tools-only server
+// returns a clean 405 (no server-initiated messages); DELETE terminates a
+// session. Neither carries a JSON-RPC body, so they skip the `mcp.client`
+// tool-auth middleware (which parses the body to resolve a tool + scope)
+// and act as transport no-ops that keep spec-strict remote clients
+// (OpenCode, mcp-remote, Open WebUI) from erroring on their handshake
+// probes. Declared before Microweber's catch-all page router so GET
+// /api/mcp resolves here instead of 403-ing as an unknown page.
+Route::get('api/mcp', [Modules\Ai\Http\Controllers\McpController::class, 'stream'])
+    ->middleware(['api'])
+    ->name('api.ai.mcp.stream');
+
+Route::delete('api/mcp', [Modules\Ai\Http\Controllers\McpController::class, 'terminate'])
+    ->middleware(['api'])
+    ->name('api.ai.mcp.terminate');
+
 Route::middleware(['admin'])->group(function () {
     Route::post('api/ai/chat', [Modules\Ai\Http\Controllers\AiController::class, 'chat'])
         ->name('api.ai.chat');

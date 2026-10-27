@@ -64,7 +64,10 @@ $allowedHeaders = array_values(array_filter(array_map('trim', explode(',', $allo
 // drop the rate-limit headers by clearing the var in .env.
 $exposedHeadersRaw = (string) env('CORS_EXPOSED_HEADERS', '');
 if ($exposedHeadersRaw === '') {
-    $exposedHeadersRaw = 'X-RateLimit-Limit,X-RateLimit-Remaining,Retry-After';
+    // `Mcp-Session-Id` must be readable by browser-based MCP clients so
+    // they can capture the Streamable-HTTP session handle the server
+    // mints on `initialize` and send it back on subsequent requests.
+    $exposedHeadersRaw = 'X-RateLimit-Limit,X-RateLimit-Remaining,Retry-After,Mcp-Session-Id';
 }
 $exposedHeaders = array_values(array_filter(array_map('trim', explode(',', $exposedHeadersRaw))));
 

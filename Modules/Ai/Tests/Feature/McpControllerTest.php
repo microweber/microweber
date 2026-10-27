@@ -558,49 +558,19 @@ class McpControllerTest extends TestCase
 
         $tools = collect($response->json('result.tools'));
 
-        $this->assertSame([
-            'content.lookup',
-            'content.get',
-            'content.create',
-            'product.lookup',
-            'product.create',
-            'order.lookup',
-            'settings.read',
-            'media.lookup',
-            'media.asset_detail',
-            'media.storage_health',
-            'layouts.layout_lookup',
-            'layouts.active_template',
-            'layouts.asset_summary',
-            'analytics.traffic_summary',
-            'analytics.top_pages',
-            'analytics.traffic_referrers',
-            'analytics.audience_breakdown',
-            'forms.form_lookup',
-            'forms.submission_search',
-            'forms.submission_detail',
-            'forms.activity_summary',
-            'billing.subscription_lookup',
-            'billing.plan_summary',
-            'billing.account_status',
-            'billing.metrics_summary',
-            'billing.invoice_lookup',
-            'billing.invoice_detail',
-            'billing.invoice_unpaid_summary',
-            'billing.invoice_customer_history',
-            'billing.payment_lookup',
-            'billing.payment_detail',
-            'billing.payment_provider_health',
-            'billing.payment_webhook_health',
-            'shipping.method_lookup',
-            'shipping.zone_summary',
-            'tax.rule_lookup',
-            'tax.preview',
-            'newsletter.campaign_lookup',
-            'newsletter.subscriber_lookup',
-            'newsletter.template_lookup',
-            'newsletter.automation_status',
-        ], $tools->pluck('name')->all());
+        // A full-access client (allowed_tools = ['*']) must receive the ENTIRE
+        // catalog over the wire, in catalog order. We derive the expectation
+        // from McpToolCatalog::allDefinitions() — the single source of truth —
+        // rather than re-pinning the name list here: the exact inventory is
+        // already pinned authoritatively in McpToolCatalogContractTest, and a
+        // second hardcoded ordered copy only breaks (as it did) on every new
+        // tool without adding coverage. This assertion's real job is the
+        // transport invariant: the HTTP tools/list response streams back
+        // exactly the catalog a full-access client is entitled to.
+        $expectedToolNames = array_keys(
+            app(\Modules\Ai\Services\Mcp\McpToolCatalog::class)->allDefinitions()
+        );
+        $this->assertSame($expectedToolNames, $tools->pluck('name')->all());
         $this->assertSame('object', data_get($tools->firstWhere('name', 'content.lookup'), 'inputSchema.type'));
         $this->assertTrue((bool) data_get($tools->firstWhere('name', 'settings.read'), 'annotations.readOnlyHint'));
     }
