@@ -16,8 +16,14 @@
 
     {{-- Plain template: ONLY the minimal structural CSS (grid + utils + reset).
          Everything visual (colours, fonts, components) comes from the AI agent's
-         global custom CSS / Live-Edit edits, loaded after this by meta_tags_head. --}}
+         global custom CSS / Live-Edit edits. --}}
     <link rel="stylesheet" href="{{ asset('templates/plain/css/plain.css') }}">
+
+    {{-- Design tokens (--mw-* custom properties), NEUTRAL by default: so modules
+         that reference var(--mw-*) have values and the AI agent's set_css_var has
+         tokens to override. The agent's custom CSS (apply_css / set_css_var) loads
+         LAST, in the footer via live_edit.css, so it always wins over these. --}}
+    <link rel="stylesheet" href="{{ asset('templates/plain/design-styles/design-vars.css') }}">
 
     <script>
         mw.iconLoader()
