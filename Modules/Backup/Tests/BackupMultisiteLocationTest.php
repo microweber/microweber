@@ -25,8 +25,11 @@ class BackupMultisiteLocationTest extends TestCase
 
         // Remove the scoped dirs the path helpers may have created.
         foreach (['alpha-mstest.com', 'beta-mstest.com'] as $site) {
-            @unlink(storage_path("backup_content/" . $this->app->environment() . "/sites/$site/.htaccess"));
-            @rmdir(storage_path("backup_content/" . $this->app->environment() . "/sites/$site"));
+            $base = storage_path("backup_content/" . $this->app->environment() . "/sites/$site");
+            @unlink("$base/.htaccess");
+            @rmdir("$base/cache_backup_zip");
+            @rmdir("$base/temp_backup_zip");
+            @rmdir($base);
             @rmdir(storage_path("backup/sites/$site/cache/session_stepper"));
             @rmdir(storage_path("backup/sites/$site/cache"));
             @rmdir(storage_path("backup/sites/$site"));
@@ -72,5 +75,27 @@ class BackupMultisiteLocationTest extends TestCase
         $this->assertNotSame($alphaLocation, $betaLocation);
         $this->assertNotSame($alphaStepper, $betaStepper);
         $this->assertStringStartsNotWith($betaLocation, $alphaLocation);
+    }
+
+    #[Test]
+    public function import_export_inherits_the_per_site_isolation(): void
+    {
+        // The Export module writes zips to backup_location() / backup_cache_location()
+        // and the Restore module reads from backup_location().'temp_backup_zip', both
+        // via SessionStepper — so they inherit the per-site segment with no separate
+        // fix. Pin that the import/export-facing paths are per-site too.
+        $_SERVER['MW_MULTISITE_SITE'] = 'alpha-mstest.com';
+        $alphaCache = backup_cache_location();
+
+        $_SERVER['MW_MULTISITE_SITE'] = 'beta-mstest.com';
+        $betaCache = backup_cache_location();
+
+        $this->assertStringContainsString('sites/alpha-mstest.com', $alphaCache);
+        $this->assertStringContainsString('sites/beta-mstest.com', $betaCache);
+        $this->assertNotSame($alphaCache, $betaCache);
+
+        unset($_SERVER['MW_MULTISITE_SITE']);
+        $this->assertStringNotContainsString('/sites/', backup_cache_location(),
+            'The default single site keeps the shared export/import cache path.');
     }
 }
