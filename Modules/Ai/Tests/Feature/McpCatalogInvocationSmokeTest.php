@@ -50,7 +50,7 @@ class McpCatalogInvocationSmokeTest extends TestCase
      *
      * @var list<string>
      */
-    private const WRITE_TOOLS = ['content.create', 'product.create'];
+    private const WRITE_TOOLS = ['content.create', 'product.create', 'post.create'];
 
     /**
      * Representative arguments for tools that validate required
@@ -67,6 +67,8 @@ class McpCatalogInvocationSmokeTest extends TestCase
             'content.get' => ['content_id' => 1],
             'product.lookup' => ['query' => 'a', 'limit' => 3],
             'order.lookup' => ['limit' => 3],
+            'order.detail' => ['order_id' => 1],
+            'cart.lookup' => ['limit' => 3],
             'settings.read' => ['option_group' => 'website', 'option_key' => 'website_title'],
             'media.lookup' => ['limit' => 3],
             'media.asset_detail' => ['media_id' => 1],
@@ -218,6 +220,21 @@ class McpCatalogInvocationSmokeTest extends TestCase
                 (string) Product::find($product->id)->title,
                 'product.edit must persist the updated title.'
             );
+
+            // post.create — a blog post persists with content_type=post.
+            $postSlug = 'mcp-smoke-post-' . uniqid();
+            $postOut = $catalog->callTool('post.create', [
+                'title' => 'MCP Smoke Post',
+                'content_body' => '<p>smoke post body</p>',
+                'url' => $postSlug,
+            ]);
+            $this->assertIsString($postOut);
+            $this->assertStringContainsString('ID:', $postOut, 'post.create must report the new row ID.');
+
+            $post = Content::where('url', $postSlug)->first();
+            $this->assertNotNull($post, 'post.create must persist a row.');
+            $createdContentIds[] = $post->id;
+            $this->assertSame('post', (string) $post->content_type);
         } finally {
             // No RefreshDatabase in this suite — clean up the rows we
             // created so the test is repeatable and leaves no residue.

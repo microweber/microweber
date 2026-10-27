@@ -70,8 +70,11 @@ use Modules\Content\Tools\PostListTool;
 use Modules\Content\Tools\PageListTool;
 use Modules\Content\Tools\ContentEditTool;
 use Modules\Content\Tools\PostEditTool;
+use Modules\Content\Tools\CreatePostTool;
 use Modules\Product\Tools\ProductEditTool;
 use Modules\Customer\Tools\CustomerLookupTool;
+use Modules\Order\Tools\OrderDetailTool;
+use Modules\Cart\Tools\CartLookupTool;
 use Modules\Settings\Tools\SettingsReadTool;
 use MicroweberPackages\AiTools\Contracts\ToolInterface;
 use ReflectionClass;
@@ -124,6 +127,11 @@ class McpToolCatalog
                 'module' => 'post',
                 'title' => 'Edit an existing blog post.',
             ],
+            'post.create' => [
+                'tool' => CreatePostTool::class,
+                'module' => 'post',
+                'title' => 'Create a new blog post (title + body required).',
+            ],
             'product.edit' => [
                 'tool' => ProductEditTool::class,
                 'module' => 'product',
@@ -133,6 +141,16 @@ class McpToolCatalog
                 'tool' => CustomerLookupTool::class,
                 'module' => 'customer',
                 'title' => 'Look up customers by id, email, phone or name.',
+            ],
+            'order.detail' => [
+                'tool' => OrderDetailTool::class,
+                'module' => 'order',
+                'title' => 'Get the full detail of a single order (customer, totals, status, line items).',
+            ],
+            'cart.lookup' => [
+                'tool' => CartLookupTool::class,
+                'module' => 'cart',
+                'title' => 'Inspect cart line items by order, session, or most recent.',
             ],
             'menu.list' => [
                 'tool' => MenuListTool::class,
