@@ -7,6 +7,10 @@ namespace Modules\Ai\Tests\Feature;
 use Modules\Ai\Services\Mcp\McpToolCatalog;
 use Modules\Content\Models\Content;
 use Modules\Product\Models\Product;
+use Modules\Customer\Models\Customer;
+use Modules\Newsletter\Models\NewsletterSubscriber;
+use Modules\Order\Models\Order;
+use Modules\Order\Models\OrderStatusHistory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -50,7 +54,10 @@ class McpCatalogInvocationSmokeTest extends TestCase
      *
      * @var list<string>
      */
-    private const WRITE_TOOLS = ['content.create', 'product.create', 'post.create'];
+    private const WRITE_TOOLS = [
+        'content.create', 'product.create', 'post.create',
+        'order.update_status', 'customer.create', 'newsletter.subscribe',
+    ];
 
     /**
      * Representative arguments for tools that validate required
@@ -69,6 +76,7 @@ class McpCatalogInvocationSmokeTest extends TestCase
             'order.lookup' => ['limit' => 3],
             'order.detail' => ['order_id' => 1],
             'cart.lookup' => ['limit' => 3],
+            'coupons.validate' => ['code' => 'ZZ-MCP-NONEXISTENT', 'cart_total' => '100'],
             'settings.read' => ['option_group' => 'website', 'option_key' => 'website_title'],
             'media.lookup' => ['limit' => 3],
             'media.asset_detail' => ['media_id' => 1],
@@ -240,6 +248,50 @@ class McpCatalogInvocationSmokeTest extends TestCase
             // created so the test is repeatable and leaves no residue.
             if ($createdContentIds !== []) {
                 Content::whereIn('id', $createdContentIds)->forceDelete();
+            }
+        }
+    }
+
+    #[Test]
+    public function write_action_tools_mutate_and_clean_up(): void
+    {
+        $catalog = app(McpToolCatalog::class);
+        $email = 'zz-mcp-' . uniqid() . '@test.local';
+        $order = null;
+
+        try {
+            // customer.create — persists a customers row (idempotent on email).
+            $custOut = $catalog->callTool('customer.create', ['email' => $email, 'first_name' => 'MCP']);
+            $this->assertIsString($custOut);
+            $this->assertNotNull(Customer::where('email', $email)->first(), 'customer.create must persist a customer.');
+
+            // newsletter.subscribe — persists a newsletter_subscribers row.
+            $subOut = $catalog->callTool('newsletter.subscribe', ['email' => $email]);
+            $this->assertIsString($subOut);
+            $this->assertNotNull(
+                NewsletterSubscriber::where('email', $email)->first(),
+                'newsletter.subscribe must persist a subscriber.'
+            );
+
+            // order.update_status — change a throwaway order's status (history auto-logged).
+            $order = Order::create(['email' => $email, 'order_status' => 'new', 'amount' => 10]);
+            $statusOut = $catalog->callTool('order.update_status', ['order_id' => $order->id, 'status' => 'completed']);
+            $this->assertIsString($statusOut);
+            $this->assertSame(
+                'completed',
+                (string) Order::find($order->id)->order_status,
+                'order.update_status must persist the new status.'
+            );
+
+            // Invalid status is rejected gracefully (no throw, no change).
+            $badOut = $catalog->callTool('order.update_status', ['order_id' => $order->id, 'status' => 'bogus']);
+            $this->assertStringContainsString('status must be one of', $badOut);
+        } finally {
+            Customer::where('email', $email)->delete();
+            NewsletterSubscriber::where('email', $email)->delete();
+            if ($order) {
+                OrderStatusHistory::where('order_id', $order->id)->delete();
+                $order->forceDelete();
             }
         }
     }

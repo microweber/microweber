@@ -73,8 +73,12 @@ use Modules\Content\Tools\PostEditTool;
 use Modules\Content\Tools\CreatePostTool;
 use Modules\Product\Tools\ProductEditTool;
 use Modules\Customer\Tools\CustomerLookupTool;
+use Modules\Customer\Tools\CustomerCreateTool;
 use Modules\Order\Tools\OrderDetailTool;
+use Modules\Order\Tools\OrderStatusUpdateTool;
 use Modules\Cart\Tools\CartLookupTool;
+use Modules\Coupons\Tools\CouponValidateTool;
+use Modules\Newsletter\Tools\NewsletterSubscribeTool;
 use Modules\Settings\Tools\SettingsReadTool;
 use MicroweberPackages\AiTools\Contracts\ToolInterface;
 use ReflectionClass;
@@ -151,6 +155,26 @@ class McpToolCatalog
                 'tool' => CartLookupTool::class,
                 'module' => 'cart',
                 'title' => 'Inspect cart line items by order, session, or most recent.',
+            ],
+            'order.update_status' => [
+                'tool' => OrderStatusUpdateTool::class,
+                'module' => 'order',
+                'title' => 'Change an order\'s status (recorded in the order status history).',
+            ],
+            'customer.create' => [
+                'tool' => CustomerCreateTool::class,
+                'module' => 'customer',
+                'title' => 'Create a customer (email required), reusing an existing one with the same email.',
+            ],
+            'newsletter.subscribe' => [
+                'tool' => NewsletterSubscribeTool::class,
+                'module' => 'newsletter',
+                'title' => 'Subscribe an email to the newsletter, optionally to a specific list.',
+            ],
+            'coupons.validate' => [
+                'tool' => CouponValidateTool::class,
+                'module' => 'coupons',
+                'title' => 'Validate a coupon code against a cart total (does not apply it).',
             ],
             'menu.list' => [
                 'tool' => MenuListTool::class,
