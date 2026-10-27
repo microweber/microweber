@@ -51,6 +51,7 @@
              its own process: Chrome degrades in a single 400-test process even
              with recycleEvery=10. Regenerate with scripts/gen-dusk-suites.php. -->
         <testsuite name="Browser-01">
+            <file>./tests/Browser/AdminAiAgentInteractionTest.php</file>
             <file>./tests/Browser/AdminAiChatWorkflowTest.php</file>
             <file>./tests/Browser/AdminApiApplicationsWorkflowTest.php</file>
             <file>./tests/Browser/AdminApiTokenEndToEndTest.php</file>
