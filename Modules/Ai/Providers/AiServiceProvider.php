@@ -142,6 +142,7 @@ class AiServiceProvider extends BaseModuleServiceProvider
                 McpClientListCommand::class,
                 McpToolsListCommand::class,
                 McpHealthCommand::class,
+                \Modules\Ai\Console\Commands\McpConnectCommand::class,
                 McpTokenRotateCommand::class,
                 McpTokenRevokeCommand::class,
                 McpPruneAuditCommand::class,
