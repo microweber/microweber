@@ -82,6 +82,14 @@ final class LiveEditDesignSystemContractTest extends TestCase
                 'LANDING / MARKETING PAGE STRUCTURE',
                 'The ordered landing-page section structure must be present.',
             ],
+            'build whole page in one go' => [
+                'BUILD THE WHOLE PAGE IN ONE GO',
+                'The agent must build every section in one pass before verifying, never stop after the hero.',
+            ],
+            'no inspect between sections' => [
+                'Do NOT call get_dom / get_computed_styles / screenshot BETWEEN sections',
+                'Per-section inspection during the initial build must be banned so the whole page gets built.',
+            ],
             'hero one primary CTA' => [
                 'ONE primary CTA',
                 'The hero must carry exactly one primary CTA (no competing CTAs above the fold).',
