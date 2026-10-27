@@ -446,4 +446,34 @@ class LiveEditToolsTest extends ToolTestCase
         $this->assertSame('apply_css', $calls[0]['tool']);
         $this->assertSame(['css' => 'a { color: red; }'], $calls[0]['args']);
     }
+
+    #[Test]
+    public function get_module_settings_discovers_available_option_keys_by_type(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\GetModuleSettingsTool();
+
+        // btn module: parsed from BtnModuleSettings' options.<key> statePaths.
+        $btn = json_decode($tool->__invoke(type: 'btn'), true);
+        $this->assertSame('btn', $btn['type']);
+        $this->assertArrayHasKey('text', $btn['available_settings']);
+        $this->assertArrayHasKey('backgroundColor', $btn['available_settings']);
+        $this->assertSame('color', $btn['available_settings']['backgroundColor']);
+        $this->assertSame('string', $btn['available_settings']['text']);
+
+        // google_maps uses HYPHENATED keys (options.data-city) — must be captured.
+        $map = json_decode($tool->__invoke(type: 'google_maps'), true);
+        $this->assertArrayHasKey('data-city', $map['available_settings']);
+
+        // The alias "map" resolves to google_maps.
+        $alias = json_decode($tool->__invoke(type: 'map'), true);
+        $this->assertArrayHasKey('data-city', $alias['available_settings']);
+    }
+
+    #[Test]
+    public function get_module_settings_requires_an_id_or_a_type(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\GetModuleSettingsTool();
+        $result = (string) $tool->__invoke();
+        $this->assertStringContainsString('Provide a module_id', $result);
+    }
 }

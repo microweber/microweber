@@ -126,6 +126,10 @@ final class LiveEditDesignSystemContractTest extends TestCase
                 'insert_module type "shop/products"',
                 'A working add-to-cart must come from the shop/products module, not static HTML.',
             ],
+            'discover module option keys' => [
+                'DISCOVER ITS OPTION KEYS',
+                'The agent must call get_module_settings(type=...) to learn real option keys before set_module_option.',
+            ],
         ];
     }
 
