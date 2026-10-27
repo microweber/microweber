@@ -25,9 +25,10 @@ class AddMenuItemTool extends BaseTool
     {
         parent::__construct(
             'add_menu_item',
-            'Add a link to the site\'s main navigation menu (the header menu). Use '
-            . 'this to wire up navigation after creating pages. Provide the visible '
-            . 'title and either a content_id (a page you created) or a url.'
+            'Add a link to one of the site\'s navigation menus — the header menu '
+            . '(default) or the footer menu. Use this to wire up navigation after '
+            . 'creating pages. Provide the visible title and either a content_id (a '
+            . 'page you created) or a url; set group to "footer" for a footer link.'
         );
     }
 
@@ -39,6 +40,12 @@ class AddMenuItemTool extends BaseTool
                 type: PropertyType::STRING,
                 description: 'The menu link text, e.g. "Features".',
                 required: true,
+            ),
+            new ToolProperty(
+                name: 'group',
+                type: PropertyType::STRING,
+                description: 'Which menu to add to: "header" (default) or "footer".',
+                required: false,
             ),
             new ToolProperty(
                 name: 'content_id',
@@ -67,12 +74,17 @@ class AddMenuItemTool extends BaseTool
             return $this->handleError('Provide a title and a content_id or url.');
         }
 
+        // Resolve the target group: "footer" -> footer_menu, anything else -> header.
+        $groupArg = strtolower(trim((string) ($args['group'] ?? 'header')));
+        $groupTitle = str_contains($groupArg, 'footer') ? 'footer_menu' : 'header_menu';
+        $groupLabel = $groupTitle === 'footer_menu' ? 'footer' : 'header';
+
         try {
-            // The primary navigation group is the "header_menu" row (parent of the
-            // top-level items). Resolve it, creating it if somehow absent.
-            $group = Menu::whereNull('parent_id')->where('title', 'header_menu')->first();
+            // The navigation group row (parent of the top-level items). Resolve it,
+            // creating it if somehow absent.
+            $group = Menu::whereNull('parent_id')->where('title', $groupTitle)->first();
             if (!$group) {
-                $group = Menu::create(['title' => 'header_menu']);
+                $group = Menu::create(['title' => $groupTitle]);
             }
 
             // Next position at the end of the menu.
@@ -94,7 +106,7 @@ class AddMenuItemTool extends BaseTool
 
             $item = Menu::create($data);
 
-            return "OK — added \"{$title}\" to the main navigation menu (item #{$item->id}).";
+            return "OK — added \"{$title}\" to the {$groupLabel} navigation menu (item #{$item->id}).";
         } catch (\Throwable $e) {
             return $this->handleError('Could not add the menu item: ' . $e->getMessage());
         }
