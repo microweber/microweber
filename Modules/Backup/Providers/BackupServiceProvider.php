@@ -111,10 +111,13 @@ class BackupServiceProvider extends BaseModuleServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
-        // Configure backup filesystem disk
+        // Configure backup filesystem disk. Root through backup_location() so the
+        // disk honours the same per-site segment as every other backup path
+        // (multisite isolation); on the default site this is the unchanged
+        // storage/backup_content/<env>/ path.
         Config::set('filesystems.disks.backup', [
             'driver' => 'local',
-            'root' => storage_path() . '/backup_content/' . \App::environment() . '/',
+            'root' => backup_location(),
             'visibility' => 'private',
         ]);
 

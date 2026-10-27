@@ -44,7 +44,11 @@ class SessionStepper
 
     public static function cachePath()
     {
-        $cacheDir = storage_path() .'/backup/' . self::$cachePath;
+        // Scope the stepper's temp cache per site under multisite (empty segment
+        // on the default site) so concurrent backups on different sites can't
+        // collide or read each other's step state. See backup_site_segment().
+        $segment = function_exists('backup_site_segment') ? backup_site_segment() : '';
+        $cacheDir = storage_path() .'/backup/' . $segment . self::$cachePath;
         if (!is_dir($cacheDir)) {
             mkdir_recursive($cacheDir);
         }
