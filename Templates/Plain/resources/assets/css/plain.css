@@ -269,3 +269,41 @@ ul[class], ol[class] { margin: 0; padding: 0; list-style: none; }
 .overflow-hidden { overflow: hidden !important; } .overflow-auto { overflow: auto !important; }
 .visually-hidden, .visually-hidden-focusable:not(:focus):not(:focus-within) { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; white-space: nowrap !important; border: 0 !important; }
 .clearfix::after { display: block; clear: both; content: ''; }
+
+/* ---- minimal component LAYOUT (structure only; no colours/decoration) ------ */
+/* Just enough so the module skins (menu/navbar, cards, buttons, forms, lists)
+   lay out correctly on the Plain template. All visual styling comes from the AI
+   agent's global apply_css. */
+.navbar { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.navbar-nav { display: flex; flex-direction: column; list-style: none; margin: 0; padding: 0; }
+.nav { display: flex; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; }
+.nav-link, .navbar-brand { display: inline-block; }
+.navbar-collapse { flex-basis: 100%; flex-grow: 1; align-items: center; }
+.navbar-toggler { display: inline-flex; align-items: center; cursor: pointer; background: transparent; border: 0; }
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-nav { flex-direction: row; }
+    .navbar-expand-lg .navbar-collapse { display: flex !important; flex-basis: auto; }
+    .navbar-expand-lg .navbar-toggler { display: none; }
+}
+@media (min-width: 768px) {
+    .navbar-expand-md .navbar-nav { flex-direction: row; }
+    .navbar-expand-md .navbar-collapse { display: flex !important; flex-basis: auto; }
+    .navbar-expand-md .navbar-toggler { display: none; }
+}
+.card { position: relative; display: flex; flex-direction: column; min-width: 0; word-wrap: break-word; }
+.card-body { flex: 1 1 auto; }
+.card-img, .card-img-top, .card-img-bottom { width: 100%; }
+.btn { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; -webkit-appearance: none; appearance: none; }
+.btn-group { display: inline-flex; vertical-align: middle; }
+.form-control, .form-select { display: block; width: 100%; -webkit-appearance: none; appearance: none; }
+.input-group { position: relative; display: flex; flex-wrap: wrap; align-items: stretch; width: 100%; }
+.list-group { display: flex; flex-direction: column; list-style: none; margin: 0; padding: 0; }
+.dropdown, .dropup, .dropend, .dropstart { position: relative; }
+.dropdown-menu { position: absolute; z-index: 1000; display: none; min-width: 10rem; list-style: none; margin: 0; padding: 0; }
+.dropdown-menu.show { display: block; }
+.collapse:not(.show) { display: none; }
+.carousel { position: relative; }
+.carousel-inner { position: relative; width: 100%; overflow: hidden; }
+.ratio { position: relative; width: 100%; }
+.ratio > * { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
