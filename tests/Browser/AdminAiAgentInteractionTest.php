@@ -108,8 +108,8 @@ class AdminAiAgentInteractionTest extends DuskTestCase
                     if (!ai) return { ok: false, why: 'no MwAi instance' };
                     var ft = ai.frontendTools || {};
                     var need = ['add_section','insert_module','set_module_option','set_text',
-                                'apply_css','set_image','add_form_field','delete_element',
-                                'insert_layout','navigate_to_page'];
+                                'apply_css','set_image','add_form_field','add_list_item',
+                                'delete_element','insert_layout','navigate_to_page'];
                     var missing = need.filter(function (t) { return typeof ft[t] !== 'function'; });
                     return {
                         ok: typeof ai.applyEdit === 'function' && missing.length === 0,

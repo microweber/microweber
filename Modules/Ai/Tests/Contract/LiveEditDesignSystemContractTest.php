@@ -130,6 +130,10 @@ final class LiveEditDesignSystemContractTest extends TestCase
                 'DISCOVER ITS OPTION KEYS',
                 'The agent must call get_module_settings(type=...) to learn real option keys before set_module_option.',
             ],
+            'list modules use add_list_item' => [
+                'LIST MODULES (faq, tabs, accordion, teamcard, testimonials)',
+                'List modules hold items, not flat options; the agent must fill them with add_list_item, not set_module_option or static HTML.',
+            ],
         ];
     }
 
@@ -166,6 +170,21 @@ final class LiveEditDesignSystemContractTest extends TestCase
             $this->agentSource(),
             'LiveEditAgent must raise toolMaxRuns so a full-page build does not hit the default 10-run cap.'
         );
+    }
+
+    #[Test]
+    public function add_list_item_tool_is_registered_and_echoed_on_the_canvas(): void
+    {
+        // The list-module prompt rule is useless unless the tool is actually
+        // wired into the agent AND the frontend echoes it (reloads the module),
+        // so a FAQ/tabs/team item shows on the canvas without a full refresh.
+        $this->assertStringContainsString('new AddListItemTool(', $this->agentSource(),
+            'LiveEditAgent must register AddListItemTool in setupTools().');
+
+        $js = dirname(__DIR__, 4) . '/Modules/Ai/resources/assets/js/mw-ai.js';
+        $this->assertFileExists($js, 'mw-ai.js is missing.');
+        $this->assertMatchesRegularExpression('~add_list_item:\s*function~', (string) file_get_contents($js),
+            'mw-ai.js must implement the add_list_item frontend echo (module reload).');
     }
 
     #[Test]

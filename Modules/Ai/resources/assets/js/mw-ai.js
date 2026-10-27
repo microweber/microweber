@@ -1217,6 +1217,23 @@ function MwAi() {
                 return { ok: true, message: 'form field added (reloading form)' };
             },
 
+            // Server-side: add_list_item writes a row to a list module's table
+            // (faq/tabs/accordion/teamcard/testimonials) keyed to the module id.
+            // Reload that module on the canvas so the new item shows immediately.
+            add_list_item: function(args, api) {
+                const id = (args && args.module_id) ? String(args.module_id)
+                    : ((mw.top().app._mwAiLastModule || {}).id || '');
+                const type = (args && args.module_type) ? String(args.module_type) : '';
+                setTimeout(function () {
+                    try {
+                        api.reloadCanvasModule(id
+                            ? ('#' + id + ', [id="' + id + '"]')
+                            : ('.module[data-type="' + type + '"]'));
+                    } catch (e) {}
+                }, 350);
+                return { ok: true, message: 'list item added (reloading ' + (type || 'module') + ')' };
+            },
+
             set_module_option: function(args, api) {
                 const key = (args && args.key) ? String(args.key) : '';
                 const value = (args && typeof args.value !== 'undefined') ? args.value : '';

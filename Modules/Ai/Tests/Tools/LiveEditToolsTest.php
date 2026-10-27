@@ -476,4 +476,67 @@ class LiveEditToolsTest extends ToolTestCase
         $result = (string) $tool->__invoke();
         $this->assertStringContainsString('Provide a module_id', $result);
     }
+
+    #[Test]
+    public function add_list_item_guards_bad_input_without_writing(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\AddListItemTool();
+
+        // Unknown list module type is rejected and names the supported set.
+        $unknown = (string) $tool->__invoke(module_type: 'carousel', module_id: 'm1', title: 'x');
+        $this->assertStringContainsString('Unknown list module', $unknown);
+
+        // A module_id is required (no row can be keyed without it).
+        $noId = (string) $tool->__invoke(module_type: 'faq', title: 'x');
+        $this->assertStringContainsString('Provide module_id', $noId);
+
+        // An item needs at least a title or text.
+        $empty = (string) $tool->__invoke(module_type: 'faq', module_id: 'm1');
+        $this->assertStringContainsString('at least a title or text', $empty);
+    }
+
+    #[Test]
+    public function add_list_item_maps_generic_fields_to_each_modules_columns(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\AddListItemTool();
+        $mid = 'zz-ai-listitem-unit-' . uniqid();
+
+        try {
+            // faq: title->question, text->answer.
+            $tool->__invoke(module_type: 'faq', module_id: $mid,
+                title: 'Do you ship abroad?', text: 'Yes, worldwide.');
+            $faq = \Modules\Faq\Models\Faq::where('rel_type', 'module')->where('rel_id', $mid)->first();
+            $this->assertNotNull($faq, 'add_list_item should create a faqs row.');
+            $this->assertSame('Do you ship abroad?', (string) $faq->question);
+            $this->assertStringContainsString('worldwide', (string) $faq->answer);
+            $this->assertSame(1, (int) $faq->position, 'First item takes position 1.');
+
+            // A second faq item appends at position 2.
+            $tool->__invoke(module_type: 'faq', module_id: $mid, title: 'Second?', text: 'A2');
+            $second = \Modules\Faq\Models\Faq::where('rel_id', $mid)->orderByDesc('id')->first();
+            $this->assertSame(2, (int) $second->position, 'Second item appends at the next position.');
+
+            // testimonials: subtitle->client_role, company->client_company, image_url->client_image.
+            $tool->__invoke(module_type: 'testimonials', module_id: $mid,
+                title: 'Sam', subtitle: 'Buyer', text: 'Loved it', company: 'Acme',
+                image_url: 'http://img/a.jpg', link: 'https://acme.test');
+            $t = \Modules\Testimonials\Models\Testimonial::where('rel_id', $mid)->first();
+            $this->assertNotNull($t, 'add_list_item should create a testimonials row.');
+            $this->assertSame('Sam', (string) $t->name);
+            $this->assertSame('Buyer', (string) $t->client_role);
+            $this->assertSame('Acme', (string) $t->client_company);
+
+            // Alias "team" resolves to teamcard (title->name).
+            $tool->__invoke(module_type: 'team', module_id: $mid, title: 'Jo', subtitle: 'CTO');
+            $team = \Modules\Teamcard\Models\Teamcard::where('rel_id', $mid)->first();
+            $this->assertNotNull($team, 'The "team" alias should write a teamcard row.');
+            $this->assertSame('Jo', (string) $team->name);
+            $this->assertSame('CTO', (string) $team->role);
+        } finally {
+            // Leave zero residue regardless of assertion outcome.
+            \Modules\Faq\Models\Faq::where('rel_id', $mid)->forceDelete();
+            \Modules\Testimonials\Models\Testimonial::where('rel_id', $mid)->forceDelete();
+            \Modules\Teamcard\Models\Teamcard::where('rel_id', $mid)->forceDelete();
+        }
+    }
 }
