@@ -175,6 +175,20 @@ class McpCatalogInvocationSmokeTest extends TestCase
             $this->assertSame(0, (int) $page->parent, 'content.create must persist parent=0 for root content.');
             $this->assertSame('page', (string) $page->content_type);
 
+            // content.edit — mutate the row we just created and confirm the change
+            // persists (the edit tools were wired alongside the list tools).
+            $editOut = $catalog->callTool('content.edit', [
+                'id' => $page->id,
+                'title' => 'MCP Smoke Page EDITED',
+            ]);
+            $this->assertIsString($editOut);
+            $this->assertNotSame('', $editOut, 'content.edit must return a result string.');
+            $this->assertSame(
+                'MCP Smoke Page EDITED',
+                (string) Content::find($page->id)->title,
+                'content.edit must persist the updated title.'
+            );
+
             // product.create — same root-visibility contract, content_type=product.
             $productSlug = 'mcp-smoke-product-' . uniqid();
             $productOut = $catalog->callTool('product.create', [
@@ -192,6 +206,18 @@ class McpCatalogInvocationSmokeTest extends TestCase
             $createdContentIds[] = $product->id;
             $this->assertSame(0, (int) $product->parent, 'product.create must persist parent=0 for root products.');
             $this->assertSame('product', (string) $product->content_type);
+
+            // product.edit — mutate the product we just created and confirm it persists.
+            $prodEditOut = $catalog->callTool('product.edit', [
+                'id' => $product->id,
+                'title' => 'MCP Smoke Product EDITED',
+            ]);
+            $this->assertIsString($prodEditOut);
+            $this->assertSame(
+                'MCP Smoke Product EDITED',
+                (string) Product::find($product->id)->title,
+                'product.edit must persist the updated title.'
+            );
         } finally {
             // No RefreshDatabase in this suite — clean up the rows we
             // created so the test is repeatable and leaves no residue.

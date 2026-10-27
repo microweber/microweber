@@ -68,6 +68,9 @@ use Modules\Product\Tools\ProductListTool;
 use Modules\Content\Tools\ContentListTool;
 use Modules\Content\Tools\PostListTool;
 use Modules\Content\Tools\PageListTool;
+use Modules\Content\Tools\ContentEditTool;
+use Modules\Content\Tools\PostEditTool;
+use Modules\Product\Tools\ProductEditTool;
 use Modules\Customer\Tools\CustomerLookupTool;
 use Modules\Settings\Tools\SettingsReadTool;
 use MicroweberPackages\AiTools\Contracts\ToolInterface;
@@ -110,6 +113,21 @@ class McpToolCatalog
                 'tool' => ProductListTool::class,
                 'module' => 'product',
                 'title' => 'List shop products with filters (price range, stock, category, status).',
+            ],
+            'content.edit' => [
+                'tool' => ContentEditTool::class,
+                'module' => 'content',
+                'title' => 'Edit an existing content item (title, body, description, url, status, custom fields).',
+            ],
+            'post.edit' => [
+                'tool' => PostEditTool::class,
+                'module' => 'post',
+                'title' => 'Edit an existing blog post.',
+            ],
+            'product.edit' => [
+                'tool' => ProductEditTool::class,
+                'module' => 'product',
+                'title' => 'Edit an existing shop product.',
             ],
             'customer.lookup' => [
                 'tool' => CustomerLookupTool::class,

@@ -124,8 +124,8 @@ class ContentEditTool extends AbstractContentTool
                 return $this->handleError('No fields to update provided.');
             }
 
-            // Update the content
-            $success = $this->updateContent($content, $updateData);
+            // Update the content (updateContent expects the int id, not the model).
+            $success = $this->updateContent((int) $content->id, $updateData);
 
             if (!$success) {
                 return $this->handleError('Failed to update content.');
