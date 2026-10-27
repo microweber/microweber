@@ -114,6 +114,10 @@ final class LiveEditDesignSystemContractTest extends TestCase
                 'FINISH LIKE A REAL SITE',
                 'Ship basics (footer legal links, alt text, semantic HTML, meta) must be present.',
             ],
+            'section layout containment' => [
+                'SECTION LAYOUT',
+                'Every section must center its content in a max-width container and use 1fr grids so cards fill the width.',
+            ],
         ];
     }
 

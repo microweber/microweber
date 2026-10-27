@@ -566,22 +566,34 @@ class AiController extends Controller
                 // build having been underway, so plain tweak requests ("make the
                 // hero blue") are NEVER forced to add more sections.
                 if ($agentType === 'liveedit') {
+                    // A build is "underway/expected" when the model already added a
+                    // section this turn, OR the page STARTED empty (a fresh-page
+                    // build): then a reply that narrates more work ("Now the FAQ…")
+                    // or falsely claims completion ("all seven sections are in
+                    // place") while the real add_section count is short means the
+                    // page is unfinished. Gated so a tweak on an EXISTING
+                    // (non-empty) page is never forced to grow sections.
+                    $startedEmpty = mb_strlen(trim($this->summarizeCanvas($canvasHtml))) < 40;
                     for ($attempt = 0; $attempt < 3; $attempt++) {
                         $builtBefore = $this->countEmittedTool($emitter, 'add_section');
-                        $looksUnfinished = $builtBefore > 0
-                            && preg_match(
-                                '/\b(now|next|let me|i\'?ll|i will|building|start(?:ing)? with|remaining|continue|then (?:i|the|add)|moving on)\b/i',
-                                $responseContent
-                            ) === 1;
-                        if (!$looksUnfinished) {
+                        $buildExpected = $builtBefore > 0 || $startedEmpty;
+                        $saysMoreOrDone = preg_match(
+                            '/\b(now|next|let me|i\'?ll|i will|building|start(?:ing)? with|remaining|continue|then (?:i|the|add)|moving on|all (?:seven|\d+|the) sections|page is (?:built|complete|ready|now)|sections are (?:now )?(?:in place|complete|done))\b/i',
+                            $responseContent
+                        ) === 1;
+                        // An empty-started build that produced too few sections is
+                        // unfinished even if the model went silent.
+                        $tooFewForBuild = $startedEmpty && $builtBefore < 5;
+                        if (!$buildExpected || (!$saysMoreOrDone && !$tooFewForBuild)) {
                             break;
                         }
-                        $emitter->emit('continue', ['attempt' => $attempt + 1]);
+                        $emitter->emit('continue', ['attempt' => $attempt + 1, 'built' => $builtBefore]);
                         $nudge = new UserMessage(
-                            'Continue building this page. Call add_section now for each section '
-                            . 'that is still missing, in order, through the final CTA. Do NOT write '
-                            . 'any text, plan or explanation — emit only tool calls until every '
-                            . 'section exists.'
+                            "You have added {$builtBefore} section(s) with add_section so far — "
+                            . 'that is the ENTIRE page; nothing else exists yet. Do NOT claim the '
+                            . 'page is built. Call add_section NOW for every section still missing, '
+                            . 'in order, through the final CTA. Emit only tool calls — no text, no '
+                            . 'plan — until every section exists.'
                         );
                         $result = $agent->chat($nudge)->getMessage();
                         $responseContent = $this->neuronMessageText($result);
