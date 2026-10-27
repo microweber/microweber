@@ -90,6 +90,10 @@ final class LiveEditDesignSystemContractTest extends TestCase
                 'Do NOT call get_dom / get_computed_styles / screenshot BETWEEN sections',
                 'Per-section inspection during the initial build must be banned so the whole page gets built.',
             ],
+            'no narration until built' => [
+                'DO NOT NARRATE OR STATE A PLAN until the page is FULLY built',
+                'A text reply ends the tool loop, so the agent must stay silent (no plan message either) until every section is built.',
+            ],
             'hero one primary CTA' => [
                 'ONE primary CTA',
                 'The hero must carry exactly one primary CTA (no competing CTAs above the fold).',
@@ -132,5 +136,36 @@ final class LiveEditDesignSystemContractTest extends TestCase
         $this->assertNotFalse($design, 'The DESIGN SYSTEM rule must be present.');
         $this->assertNotFalse($tools, 'The tools enumeration must be present.');
         $this->assertLessThan($tools, $design, 'The design-system block must sit before the tools list.');
+    }
+
+    #[Test]
+    public function tool_run_cap_is_raised_for_full_page_builds(): void
+    {
+        // NeuronAI caps each tool at 10 runs per session by default and throws
+        // ToolRunsExceededException on the next call. A full landing page is 7+
+        // add_section calls, so the default cap crashes mid-build. The agent must
+        // raise it.
+        $this->assertStringContainsString(
+            '$this->toolMaxRuns(',
+            $this->agentSource(),
+            'LiveEditAgent must raise toolMaxRuns so a full-page build does not hit the default 10-run cap.'
+        );
+    }
+
+    #[Test]
+    public function controller_has_a_half_built_page_backstop(): void
+    {
+        // If the model narrates the next sections as prose instead of calling the
+        // tools, NeuronAI's loop ends and the page is left half-built. The stream
+        // controller must detect an unfinished liveedit build and nudge the model
+        // to continue (bounded).
+        $path = dirname(__DIR__, 4) . '/Modules/Ai/Http/Controllers/AiController.php';
+        $this->assertFileExists($path, 'AiController.php is missing.');
+        $src = (string) file_get_contents($path);
+
+        $this->assertStringContainsString('countEmittedTool', $src,
+            'The controller must count built sections to detect an unfinished build.');
+        $this->assertStringContainsString("\$agent->chat(\$nudge)", $src,
+            'The controller must re-prompt the agent to continue an unfinished build.');
     }
 }

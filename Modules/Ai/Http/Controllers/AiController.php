@@ -553,13 +553,44 @@ class AiController extends Controller
 
                 $neuronMessage = new UserMessage($promptText);
                 $result = $agent->chat($neuronMessage)->getMessage();
+                $responseContent = $this->neuronMessageText($result);
 
-                $responseContent = '';
-                if ($result instanceof \NeuronAI\Chat\Messages\Message) {
-                    $responseContent = (string) $result->getContent();
-                } elseif (is_string($result)) {
-                    $responseContent = $result;
+                // BACKSTOP against half-built pages. The model sometimes ends a
+                // BUILD by narrating the next sections as prose ("Now social
+                // proof, FAQ and the final CTA.") instead of calling the tools —
+                // and a text reply ends NeuronAI's tool loop, so the page is left
+                // unfinished. If this turn actually built sections AND the reply
+                // reads as "to be continued", nudge the model to keep going (tools
+                // only), bounded, until it stops making progress or returns a real
+                // completion summary. Scoped to liveedit builds and gated on a
+                // build having been underway, so plain tweak requests ("make the
+                // hero blue") are NEVER forced to add more sections.
+                if ($agentType === 'liveedit') {
+                    for ($attempt = 0; $attempt < 3; $attempt++) {
+                        $builtBefore = $this->countEmittedTool($emitter, 'add_section');
+                        $looksUnfinished = $builtBefore > 0
+                            && preg_match(
+                                '/\b(now|next|let me|i\'?ll|i will|building|start(?:ing)? with|remaining|continue|then (?:i|the|add)|moving on)\b/i',
+                                $responseContent
+                            ) === 1;
+                        if (!$looksUnfinished) {
+                            break;
+                        }
+                        $emitter->emit('continue', ['attempt' => $attempt + 1]);
+                        $nudge = new UserMessage(
+                            'Continue building this page. Call add_section now for each section '
+                            . 'that is still missing, in order, through the final CTA. Do NOT write '
+                            . 'any text, plan or explanation — emit only tool calls until every '
+                            . 'section exists.'
+                        );
+                        $result = $agent->chat($nudge)->getMessage();
+                        $responseContent = $this->neuronMessageText($result);
+                        if ($this->countEmittedTool($emitter, 'add_section') === $builtBefore) {
+                            break; // the nudge produced no new sections: stop
+                        }
+                    }
                 }
+
                 if ($responseContent === '') {
                     $responseContent = 'Done.';
                 }
@@ -598,6 +629,35 @@ class AiController extends Controller
         $response->headers->set('Connection', 'keep-alive');
 
         return $response;
+    }
+
+    /**
+     * Extract the plain text of a NeuronAI chat result (Message | string | null).
+     */
+    protected function neuronMessageText(mixed $result): string
+    {
+        if ($result instanceof \NeuronAI\Chat\Messages\Message) {
+            return (string) $result->getContent();
+        }
+        if (is_string($result)) {
+            return $result;
+        }
+        return '';
+    }
+
+    /**
+     * Count how many times a given tool fired this turn, per the SSE emitter's
+     * recorded calls (used by the build backstop to detect progress).
+     */
+    protected function countEmittedTool(\Modules\Ai\Services\SseToolEmitter $emitter, string $toolName): int
+    {
+        $n = 0;
+        foreach ($emitter->all() as $call) {
+            if (($call['tool'] ?? null) === $toolName) {
+                $n++;
+            }
+        }
+        return $n;
     }
 
     /**
