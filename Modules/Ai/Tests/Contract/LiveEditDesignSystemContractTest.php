@@ -118,6 +118,14 @@ final class LiveEditDesignSystemContractTest extends TestCase
                 'SECTION LAYOUT',
                 'Every section must center its content in a max-width container and use 1fr grids so cards fill the width.',
             ],
+            'avatars never empty' => [
+                'AVATARS ARE NEVER EMPTY CIRCLES',
+                'Testimonial/team avatars must show initials or a portrait, never a blank disc.',
+            ],
+            'shop add to cart module' => [
+                'insert_module type "shop/products"',
+                'A working add-to-cart must come from the shop/products module, not static HTML.',
+            ],
         ];
     }
 
