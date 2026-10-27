@@ -1,0 +1,11 @@
+{
+    "name": "Plain",
+    "alias": "plain",
+    "description": "A minimal grid+utils-only template; all design comes from the AI agent's global CSS.",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Plain\\Providers\\PlainServiceProvider"
+    ],
+    "files": []
+}
