@@ -240,4 +240,46 @@ abstract class AbstractContentTool extends BaseAbstractContentTool
             }
         }
     }
+
+    /**
+     * Render a list of content items as an HTML summary + table.
+     *
+     * Shared by ContentListTool / PostListTool (and any content-list tool): both
+     * called this method but neither defined it — it was undefined, so the tools
+     * threw the moment they returned a non-empty result. One implementation here
+     * keeps the row shape consistent across content types.
+     *
+     * @param iterable<object> $items
+     * @param array<string, mixed> $params
+     */
+    protected function formatContentAsHtml($items, string $type, array $params = [], int $limit = 20): string
+    {
+        $headers = ['title' => 'Title', 'type' => 'Type', 'status' => 'Status', 'created' => 'Created'];
+
+        $rows = [];
+        foreach ($items as $item) {
+            $title = (string) ($item->title ?? '');
+            $rows[] = [
+                'title' => $title !== '' ? $title : 'Untitled',
+                'type' => (string) ($item->content_type ?? $type),
+                'status' => ((int) ($item->is_active ?? 0) === 1) ? 'Published' : 'Unpublished',
+                'created' => (string) ($item->created_at ?? ''),
+            ];
+        }
+
+        $found = count($rows);
+        $searchInfo = !empty($params['search_term']) ? 'Search: "' . htmlspecialchars((string) $params['search_term']) . '" ' : '';
+        $header = '<div class="content-list-header mb-2">'
+            . $searchInfo
+            . '<strong>Found:</strong> ' . $found . ' ' . htmlspecialchars($type) . ' item(s)'
+            . ($found >= $limit ? ' (showing first ' . (int) $limit . ')' : '')
+            . '</div>';
+
+        return $header . $this->formatAsHtmlTable(
+            $rows,
+            $headers,
+            'No ' . $type . ' items found.',
+            $type . '-list'
+        );
+    }
 }

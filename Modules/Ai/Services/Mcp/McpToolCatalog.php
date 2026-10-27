@@ -64,6 +64,11 @@ use Modules\Media\Tools\MediaLookupTool;
 use Modules\Media\Tools\MediaStorageHealthTool;
 use Modules\Order\Tools\OrderSearchTool;
 use Modules\Product\Tools\ProductSearchTool;
+use Modules\Product\Tools\ProductListTool;
+use Modules\Content\Tools\ContentListTool;
+use Modules\Content\Tools\PostListTool;
+use Modules\Content\Tools\PageListTool;
+use Modules\Customer\Tools\CustomerLookupTool;
 use Modules\Settings\Tools\SettingsReadTool;
 use MicroweberPackages\AiTools\Contracts\ToolInterface;
 use ReflectionClass;
@@ -85,6 +90,31 @@ class McpToolCatalog
                 'tool' => GetContentTool::class,
                 'module' => 'content',
                 'title' => 'Retrieve detailed information for a Microweber content item by ID.',
+            ],
+            'content.list' => [
+                'tool' => ContentListTool::class,
+                'module' => 'content',
+                'title' => 'List content items with filters (type, category, parent, custom fields, status).',
+            ],
+            'post.list' => [
+                'tool' => PostListTool::class,
+                'module' => 'post',
+                'title' => 'List blog posts with filters (category, parent, status, custom fields).',
+            ],
+            'page.list' => [
+                'tool' => PageListTool::class,
+                'module' => 'page',
+                'title' => 'List site pages, optionally as a parent/child hierarchy.',
+            ],
+            'product.list' => [
+                'tool' => ProductListTool::class,
+                'module' => 'product',
+                'title' => 'List shop products with filters (price range, stock, category, status).',
+            ],
+            'customer.lookup' => [
+                'tool' => CustomerLookupTool::class,
+                'module' => 'customer',
+                'title' => 'Look up customers by id, email, phone or name.',
             ],
             'menu.list' => [
                 'tool' => MenuListTool::class,
