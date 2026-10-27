@@ -498,7 +498,16 @@ class MediaLibrary extends Page
                 continue;
             }
 
-            $storedPath = $upload->store('userfiles/media', 'public');
+            // Store under the per-site media tree (userfiles/<site>/media/...) on
+            // the configured media disk (S3 when userfiles are remote), mirroring
+            // BulkUploadService. A hardcoded 'userfiles/media' + 'public' used to
+            // drop every site's uploads into one shared local folder (cross-site
+            // leak) and bypass S3.
+            $uploadDisk = function_exists('media_upload_disk') ? media_upload_disk() : 'public';
+            $uploadDir = function_exists('media_base_path_relative')
+                ? rtrim(media_base_path_relative(), '/')
+                : 'userfiles/media';
+            $storedPath = $upload->store($uploadDir, $uploadDisk);
 
             $mediaType = 'file';
             $imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'tiff'];
@@ -514,7 +523,7 @@ class MediaLibrary extends Page
 
             Media::create([
                 'title' => $sanitized,
-                'filename' => url('storage/' . $storedPath),
+                'filename' => \Illuminate\Support\Facades\Storage::disk($uploadDisk)->url($storedPath),
                 'media_type' => $mediaType,
                 'folder_id' => $this->selectedFolderId,
                 'file_size' => $upload->getSize(),

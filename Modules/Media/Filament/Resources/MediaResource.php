@@ -81,8 +81,14 @@ class MediaResource extends Resource
                 ->schema([
                     Forms\Components\FileUpload::make('filename')
                         ->label('Upload File')
-                        ->disk('public')
-                        ->directory('uploaded')
+                        // Per-site media tree on the configured disk (S3 when
+                        // userfiles are remote). Closures resolve the current site
+                        // per request. A hardcoded 'public' + 'uploaded' used to
+                        // write to one shared local folder outside the media tree.
+                        ->disk(fn () => function_exists('media_upload_disk') ? media_upload_disk() : 'public')
+                        ->directory(fn () => function_exists('media_base_path_relative')
+                            ? rtrim(media_base_path_relative(), '/') . '/uploaded'
+                            : 'uploaded')
                         ->preserveFilenames()
                         ->image()
                         ->maxSize(10240)
