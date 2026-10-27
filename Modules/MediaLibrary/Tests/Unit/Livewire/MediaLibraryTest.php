@@ -771,6 +771,10 @@ class MediaLibraryTest extends TestCase
     #[Test]
     public function it_warns_when_cdn_is_not_configured(): void
     {
+        // Force the not-configured path deterministically — .env.testing may carry
+        // real CDN creds, which would otherwise send this down the real-sync path.
+        config(['cdn-sync.enabled' => false]);
+
         $media = Media::create([
             'title' => 'Bulk Item CDN',
             'filename' => 'cdn-test.jpg',
@@ -781,6 +785,33 @@ class MediaLibraryTest extends TestCase
             ->set('bulkSelected', [$media->id])
             ->call('bulkSyncToCdn')
             ->assertDispatched('notify');
+    }
+
+    #[Test]
+    public function it_reports_counts_when_bulk_syncing_to_a_configured_cdn(): void
+    {
+        // bulkSync() returns success/failed as COUNTS (ints). bulkSyncToCdn() used
+        // to count() them, throwing a TypeError whenever CDN was configured and a
+        // user bulk-synced. Pin that the configured path consumes the ints and
+        // dispatches a notify instead of crashing.
+        $fake = \Mockery::mock(\MicroweberPackages\CdnSync\Services\CdnSyncService::class);
+        $fake->shouldReceive('isConfigured')->andReturn(true);
+        $fake->shouldReceive('bulkSync')->andReturn([
+            'total' => 1, 'success' => 1, 'failed' => 0, 'errors' => [],
+        ]);
+        \MicroweberPackages\CdnSync\Facades\CdnSync::swap($fake);
+
+        $media = Media::create([
+            'title' => 'Bulk Item CDN Configured',
+            'filename' => 'cdn-test-configured.jpg',
+            'media_type' => 'picture',
+        ]);
+
+        Livewire::test(MediaLibrary::class)
+            ->set('bulkSelected', [$media->id])
+            ->call('bulkSyncToCdn')
+            ->assertDispatched('notify')
+            ->assertSet('bulkSelected', []);
     }
 
     // =========================================================================

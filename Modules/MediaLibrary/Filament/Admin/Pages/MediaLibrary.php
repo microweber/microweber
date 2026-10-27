@@ -450,8 +450,12 @@ class MediaLibrary extends Page
         $models = \Modules\Media\Models\Media::whereIn('id', $this->bulkSelected)->get();
         $results = $cdn->bulkSync($models);
 
-        $successCount = count($results['success']);
-        $failedCount = count($results['failed']);
+        // bulkSync() returns {total, success, failed, errors} where success/failed
+        // are already COUNTS (ints), not lists — use them directly. count()-ing an
+        // int here threw a TypeError whenever CDN was configured and a user bulk
+        // synced.
+        $successCount = (int) ($results['success'] ?? 0);
+        $failedCount = (int) ($results['failed'] ?? 0);
 
         if ($failedCount === 0) {
             $this->dispatch('notify', type: 'success', message: "{$successCount} items synced to CDN.");
