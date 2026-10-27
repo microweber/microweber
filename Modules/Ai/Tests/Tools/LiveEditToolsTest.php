@@ -476,6 +476,20 @@ class LiveEditToolsTest extends ToolTestCase
             'The shop module must expose its own option keys, not be aliased away.');
         $this->assertArrayHasKey('show_price', $shop['available_settings']);
         $this->assertArrayHasKey('columns', $shop['available_settings']);
+
+        // The product-grid family is unified via aliases: "shop/products" (the
+        // add-to-cart grid the agent inserts) and the bare "products" both have
+        // empty settings classes, so they fall back to the canonical "shop" keys —
+        // the agent gets one consistent config surface whichever name it used.
+        $expected = array_keys($shop['available_settings']);
+        foreach (['shop/products', 'products'] as $alias) {
+            $resolved = json_decode($tool->__invoke(type: $alias), true);
+            $this->assertSame(
+                $expected,
+                array_keys($resolved['available_settings']),
+                "\"{$alias}\" must resolve to the same unified shop grid keys."
+            );
+        }
     }
 
     #[Test]

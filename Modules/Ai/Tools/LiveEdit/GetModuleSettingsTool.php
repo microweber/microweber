@@ -113,7 +113,17 @@ class GetModuleSettingsTool extends BaseTool
             return $direct;
         }
 
-        $aliases = ['map' => 'google_maps', 'shop' => 'shop/products', 'products' => 'shop/products'];
+        // Alias type strings that have NO discoverable settings of their own onto
+        // the canonical module that does. The product-grid family is unified onto
+        // "shop" (the only product module with a real options.* settings UI):
+        // "shop/products" (the add-to-cart grid) and the bare "products" both have
+        // empty settings classes, so configuring any of them now surfaces the same
+        // shop grid keys (content_from_id, default_sort, default_limit, columns, …).
+        $aliases = [
+            'map' => 'google_maps',
+            'shop/products' => 'shop',
+            'products' => 'shop',
+        ];
         if (isset($aliases[$type])) {
             return $this->keysForType($aliases[$type]);
         }
