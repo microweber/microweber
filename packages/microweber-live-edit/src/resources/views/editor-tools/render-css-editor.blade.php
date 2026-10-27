@@ -11,6 +11,16 @@
         $live_edit_css_content = file_get_contents($file);
     }
 
+    // Current live-edit JS (the same per-template live_edit.js layer the AI
+    // apply_js tool writes to, served in the published footer).
+    $live_edit_js_content = '';
+    try {
+        $live_edit_js_content = app(\MicroweberPackages\TemplateCustomCss\Services\TemplateCustomCssManager::class)
+            ->liveEdit()->getLiveEditJsContent($template);
+    } catch (\Throwable $e) {
+        $live_edit_js_content = '';
+    }
+
     ?>
 
     <style>
@@ -58,12 +68,15 @@
 
     <script>
         mw.lib.require('codemirror');
+        // The CSS editor only needs the core; the JS pane needs the javascript mode.
+        mw.require(mw.settings.libs_url + 'codemirror/javascript.js');
     </script>
     <script>
         function mwCssEditor() {
             // Private variables
             let css_code_area_editor;
             let live_edit_css_code_area_editor;
+            let live_edit_js_code_area_editor;
 
             const getOpenerMw = function() {
                 if (typeof window.opener !== 'undefined' && window.opener && window !== window.opener && window.opener.mw) {
@@ -108,6 +121,7 @@
 
                     initMainCssEditor();
                     initLiveEditCssEditor();
+                    initLiveEditJsEditor();
                     initTabs();
                     initEvents();
 
@@ -166,6 +180,27 @@
                 }
             };
 
+            // Initialize the live edit JS editor (the apply_js counterpart)
+            const initLiveEditJsEditor = function() {
+                if (document.getElementById("live_edit_custom_js_code_mirror")) {
+                    live_edit_js_code_area_editor = CodeMirror.fromTextArea(document.getElementById("live_edit_custom_js_code_mirror"), {
+                        lineNumbers: true,
+                        indentWithTabs: true,
+                        matchBrackets: true,
+                        gutter: false,
+                        extraKeys: {
+                            "Ctrl-Space": "autocomplete",
+                            "Ctrl-S": function (cm) { live_edit_savejs(); return false; },
+                            "Cmd-S": function (cm) { live_edit_savejs(); return false; }
+                        },
+                        mode: "javascript"
+                    });
+
+                    live_edit_js_code_area_editor.setSize("100%", "90%");
+                    live_edit_js_code_area_editor.setOption("theme", 'material');
+                }
+            };
+
             // Initialize tabs
             const initTabs = function() {
                 mw.tabs({
@@ -187,6 +222,12 @@
                     setTimeout(function() {
                         live_edit_css_code_area_editor.refresh();
                         live_edit_css_code_area_editor.setSize("100%", "90%");
+                    }, 500);
+                }
+                if (live_edit_js_code_area_editor) {
+                    setTimeout(function() {
+                        live_edit_js_code_area_editor.refresh();
+                        live_edit_js_code_area_editor.setSize("100%", "90%");
                     }, 500);
                 }
             };
@@ -311,11 +352,52 @@
                 });
             };
 
+            // Save live edit JS — the apply_js counterpart. Posts the full edited
+            // JS to the custom-JS endpoint, which overwrites the per-template
+            // live_edit.js (served, deferred, on the published page only — never
+            // run inside the editor canvas).
+            const saveLiveEditJs = function() {
+                if (!live_edit_js_code_area_editor) return;
+
+                const jsval = live_edit_js_code_area_editor.getValue();
+
+                var liveEditIframeData = null;
+                try {
+                    var top = (typeof mw.top === 'function') ? mw.top() : null;
+                    if (top && top.app && top.app.canvas && typeof top.app.canvas.getLiveEditData === 'function') {
+                        liveEditIframeData = top.app.canvas.getLiveEditData();
+                    }
+                } catch (e) {
+                    liveEditIframeData = null;
+                }
+
+                const payload = {
+                    js_file_content: jsval,
+                };
+
+                if (liveEditIframeData && liveEditIframeData.template_name) {
+                    payload.active_site_template = liveEditIframeData.template_name;
+                }
+
+                $.post(mw.settings.api_url + "current_template_save_custom_js", payload, function(res) {
+                    const primaryMw = getPrimaryMwContext();
+                    primaryMw.notification.success('JS Saved');
+                    if (primaryMw !== mw) {
+                        mw.notification.success('JS Saved');
+                    }
+                }).fail(function() {
+                    if (mw.notification && typeof mw.notification.error === 'function') {
+                        mw.notification.error('Could not save JS');
+                    }
+                });
+            };
+
             // Public methods
             return {
                 init: init,
                 saveMainCss: saveMainCss,
-                saveLiveEditCss: saveLiveEditCss
+                saveLiveEditCss: saveLiveEditCss,
+                saveLiveEditJs: saveLiveEditJs
             };
         }
 
@@ -329,6 +411,10 @@
 
         function live_edit_savecss() {
             cssEditor.saveLiveEditCss();
+        }
+
+        function live_edit_savejs() {
+            cssEditor.saveLiveEditJs();
         }
 
         // mw.lib.require('codemirror') above injects codemirror.js
@@ -367,6 +453,13 @@
                        data-bs-target="#style-edit-global-template-css-editor-holder-live-edit-css" type="button"
                        role="tab">
                         <span class="nav-link-title"><?php _e("Live edit CSS"); ?></span>
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="mw-admin-action-links mw-adm-liveedit-tabs  " data-bs-toggle="tab"
+                       data-bs-target="#style-edit-global-template-js-editor-holder-live-edit-js" type="button"
+                       role="tab">
+                        <span class="nav-link-title"><?php _e("Live edit JS"); ?></span>
                     </a>
                 </li>
             </ul>
@@ -413,6 +506,25 @@
                 </div>
 
             </div>
+            <div class="tab-pane tab-pane-slide-right" id="style-edit-global-template-js-editor-holder-live-edit-js"
+                 role="tabpanel">
+
+        {{-- Live-edit custom JS pane — the counterpart of apply_js. The JS is
+             saved to the per-template live_edit.js layer and runs on the PUBLISHED
+             page only (never inside the editor canvas, where a broken/looping
+             script would break editing). --}}
+        <textarea class="form-select  w100" dir="ltr" name="live_edit_custom_js"
+                  id="live_edit_custom_js_code_mirror" rows="30"
+                  aria-label="<?php _e('Live edit JS source'); ?>"
+                  placeholder="<?php _e('Type your JavaScript code here'); ?>"><?php echo htmlspecialchars((string) $live_edit_js_content, ENT_QUOTES); ?></textarea>
+
+                <div class="mw-css-editor-c2a-nav">
+
+                    <button id="mw-live-edit-js-save-btn" class="btn btn-dark" type="button"><?php _e('Save'); ?></button>
+
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -425,6 +537,10 @@
             var liveEditCssBtn = document.getElementById('mw-live-edit-css-save-btn');
             if (liveEditCssBtn) {
                 liveEditCssBtn.addEventListener('click', function () { live_edit_savecss(); });
+            }
+            var liveEditJsBtn = document.getElementById('mw-live-edit-js-save-btn');
+            if (liveEditJsBtn) {
+                liveEditJsBtn.addEventListener('click', function () { live_edit_savejs(); });
             }
         });
     </script>

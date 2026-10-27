@@ -81,6 +81,39 @@ class TemplateCustomCssController extends Controller
     }
 
     /**
+     * POST api/current_template_save_custom_js
+     *
+     * Saves live-edit custom JS for the current (or specified) template — the
+     * same per-template live_edit.js layer the AI apply_js tool writes to, served
+     * deferred in the published page footer. Overwrite semantics (the code editor
+     * sends the full edited JS), mirrored to the remote disk when userfiles are on
+     * S3. No validation: never lose a save.
+     */
+    public function saveLiveEditJs(Request $request): SymfonyResponse
+    {
+        if (!$this->isAdmin()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $jsRaw = $request->input('js_file_content', $request->input('js', ''));
+        $js = is_string($jsRaw) ? $jsRaw : '';
+
+        $templateRaw = $request->input('active_site_template', $request->input('template'));
+        $template = (is_string($templateRaw) && $templateRaw !== '') ? $templateRaw : null;
+
+        try {
+            $saved = $this->manager->liveEdit()->saveLiveEditJsContent($js, $template);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Unable to save JS: ' . $e->getMessage()], 400);
+        }
+
+        return response()->json([
+            'success' => true,
+            'content' => $saved,
+        ]);
+    }
+
+    /**
      * POST api/layouts/template_remove_custom_css
      */
     public function removeCustomCss(Request $request): SymfonyResponse

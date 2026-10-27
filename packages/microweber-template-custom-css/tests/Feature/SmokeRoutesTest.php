@@ -19,6 +19,7 @@ class SmokeRoutesTest extends TestCase
         return [
             ['GET', 'print_custom_css', [], [200]],
             ['POST', 'current_template_save_custom_css', [], [200, 400, 401, 403, 302, 419, 422]],
+            ['POST', 'current_template_save_custom_js', [], [200, 400, 401, 403, 302, 419, 422]],
             ['POST', 'template_remove_custom_css', [], [200, 400, 401, 403, 302, 419, 422]],
             ['POST', 'api.template.save_custom_css', [], [200, 401, 403, 302, 419, 422]],
             ['POST', 'api.template.validate_css', [], [200, 401, 403, 302, 419, 422]],

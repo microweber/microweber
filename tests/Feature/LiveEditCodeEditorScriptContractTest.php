@@ -102,4 +102,28 @@ class LiveEditCodeEditorScriptContractTest extends TestCase
         $this->assertStringNotContainsString('print $custom_css ', $content);
         $this->assertStringNotContainsString('print $live_edit_css_content ', $content);
     }
+
+    /**
+     * The code editor exposes a Live-edit JS pane — the apply_js counterpart. It
+     * must initialise a CodeMirror JS editor, escape its source like the CSS panes
+     * (breakout guard), and save to the custom-JS endpoint. If any of these drop
+     * out, the JS editor silently stops working.
+     */
+    #[Test]
+    public function code_editor_exposes_a_live_edit_js_pane_wired_to_the_js_endpoint(): void
+    {
+        $content = file_get_contents(base_path(
+            'packages/microweber-live-edit/src/resources/views/editor-tools/render-css-editor.blade.php'
+        ));
+
+        // The JS textarea, escaped like the CSS ones (no </textarea> breakout).
+        $this->assertStringContainsString('id="live_edit_custom_js_code_mirror"', $content);
+        $this->assertStringContainsString('htmlspecialchars((string) $live_edit_js_content, ENT_QUOTES)', $content);
+        // A CodeMirror JS editor is initialised and the javascript mode is loaded.
+        $this->assertStringContainsString('initLiveEditJsEditor', $content);
+        $this->assertStringContainsString('codemirror/javascript.js', $content);
+        // Save path is wired to the dedicated JS endpoint (the apply_js store).
+        $this->assertStringContainsString('current_template_save_custom_js', $content);
+        $this->assertStringContainsString('js_file_content', $content);
+    }
 }

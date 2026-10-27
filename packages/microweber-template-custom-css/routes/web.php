@@ -48,6 +48,15 @@ Route::post(
 )->name('current_template_save_custom_css')
     ->middleware($mutatingMiddleware);
 
+// Admin custom-JS save — the live-edit JS counterpart of the CSS editor, writing
+// the per-template live_edit.js layer (same store the AI apply_js tool uses).
+$saveLiveEditJsName = (string) config('template-custom-css.save_live_edit_js_route', 'current_template_save_custom_js');
+Route::post(
+    'api/' . ltrim($saveLiveEditJsName, '/'),
+    [TemplateCustomCssController::class, 'saveLiveEditJs']
+)->name('current_template_save_custom_js')
+    ->middleware($mutatingMiddleware);
+
 Route::post(
     'api/' . ltrim($removeName, '/'),
     [TemplateCustomCssController::class, 'removeCustomCss']
