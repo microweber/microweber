@@ -131,7 +131,7 @@ final class LiveEditDesignSystemContractTest extends TestCase
                 'The agent must call get_module_settings(type=...) to learn real option keys before set_module_option.',
             ],
             'list modules use add_list_item' => [
-                'LIST MODULES (faq, tabs, accordion, teamcard, testimonials)',
+                'LIST MODULES (faq, tabs, accordion, teamcard, testimonials, skills)',
                 'List modules hold items, not flat options; the agent must fill them with add_list_item, not set_module_option or static HTML.',
             ],
         ];

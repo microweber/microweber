@@ -14,14 +14,17 @@ use NeuronAI\Tools\PropertyType;
 use NeuronAI\Tools\ToolProperty;
 
 /**
- * Add one item to a LIST module — faq, tabs, accordion, teamcard or testimonials.
+ * Add one item to a LIST module — faq, tabs, accordion, teamcard, testimonials
+ * or skills.
  *
  * These modules do NOT have flat options you set with set_module_option; their
  * content is a LIST of rows (a FAQ Q&A, a tab panel, an accordion row, a team
- * member, a testimonial) stored in the module's own table, keyed to the module
- * instance by rel_type='module' + rel_id=<module id>. This is a real server-side
- * write (like add_menu_item): insert the module first, then call this once per
- * item, passing the module_id (the module instance's DOM id).
+ * member, a testimonial, a skill bar). Most store rows in the module's own table,
+ * keyed to the module instance by rel_type='module' + rel_id=<module id>; skills
+ * instead stores its rows as a JSON array in the module's "skills" option. Either
+ * way this is a real server-side write (like add_menu_item): insert the module
+ * first, then call this once per item, passing the module_id (the module
+ * instance's DOM id).
  *
  * Field meaning per module_type (pass what applies; title and/or text are enough):
  *   faq          → title=question, text=answer
@@ -30,6 +33,8 @@ use NeuronAI\Tools\ToolProperty;
  *   teamcard     → title=name, subtitle=role, text=bio, image_url=photo, link=website
  *   testimonials → title=name, subtitle=role, text=quote, image_url=avatar,
  *                  company=company, link=website
+ *   skills       → title=skill name, percent=0-100 bar value, subtitle=bar style
+ *                  (primary|success|info|warning|danger)
  */
 class AddListItemTool extends BaseTool
 {
@@ -67,19 +72,24 @@ class AddListItemTool extends BaseTool
         'team' => 'teamcard',
         'teamcards' => 'teamcard',
         'testimonial' => 'testimonials',
+        'skill' => 'skills',
     ];
+
+    /** Valid Bootstrap progress-bar styles for a skills item. */
+    private const SKILL_STYLES = ['primary', 'success', 'info', 'warning', 'danger'];
 
     public function __construct(protected array $dependencies = [])
     {
         parent::__construct(
             'add_list_item',
             'Add ONE item to a list module (faq, tabs, accordion, teamcard, '
-            . 'testimonials) — these store a LIST of rows, not flat options, so '
-            . 'set_module_option does NOT work on them. Insert the module first, '
+            . 'testimonials, skills) — these store a LIST of rows, not flat options, '
+            . 'so set_module_option does NOT work on them. Insert the module first, '
             . 'then call this once per item with module_id (the module\'s DOM id). '
             . 'Fields: title + text cover faq (question/answer), tabs & accordion '
             . '(label/content); for teamcard/testimonials also use subtitle (role), '
-            . 'image_url, company and link.'
+            . 'image_url, company and link; for skills use title (skill name) and '
+            . 'percent (0-100).'
         );
     }
 
@@ -89,7 +99,7 @@ class AddListItemTool extends BaseTool
             new ToolProperty(
                 name: 'module_type',
                 type: PropertyType::STRING,
-                description: 'One of: faq, tabs, accordion, teamcard, testimonials.',
+                description: 'One of: faq, tabs, accordion, teamcard, testimonials, skills.',
                 required: true,
             ),
             new ToolProperty(
@@ -116,7 +126,8 @@ class AddListItemTool extends BaseTool
             new ToolProperty(
                 name: 'subtitle',
                 type: PropertyType::STRING,
-                description: 'The role/title line for teamcard and testimonials.',
+                description: 'The role/title line for teamcard and testimonials; for '
+                    . 'skills, the bar style (primary, success, info, warning or danger).',
                 required: false,
             ),
             new ToolProperty(
@@ -137,6 +148,12 @@ class AddListItemTool extends BaseTool
                 description: 'Website URL — teamcard or testimonials.',
                 required: false,
             ),
+            new ToolProperty(
+                name: 'percent',
+                type: PropertyType::STRING,
+                description: 'Skills only: the bar value, 0-100 (defaults to 100).',
+                required: false,
+            ),
         ];
     }
 
@@ -146,9 +163,15 @@ class AddListItemTool extends BaseTool
         $type = self::TYPE_ALIASES[$type] ?? $type;
         $moduleId = trim((string) ($args['module_id'] ?? ''));
 
+        // skills stores its list as a JSON array in the "skills" option, not a
+        // table — handle it on its own path.
+        if ($type === 'skills') {
+            return $this->addSkill($moduleId, $args);
+        }
+
         if (!isset(self::MAP[$type])) {
             return $this->handleError(
-                'Unknown list module "' . $type . '". Supported: ' . implode(', ', array_keys(self::MAP)) . '.'
+                'Unknown list module "' . $type . '". Supported: ' . implode(', ', array_keys(self::MAP)) . ', skills.'
             );
         }
         if ($moduleId === '') {
@@ -197,6 +220,46 @@ class AddListItemTool extends BaseTool
                 . 'The canvas will reload the module to show it; the user saves the page to keep it.';
         } catch (\Throwable $e) {
             return $this->handleError('Could not add the ' . $type . ' item: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Append one skill bar to the module's "skills" option (a JSON array of
+     * {skill, percent, style}). Mirrors SkillsModuleSettings' own storage so the
+     * item renders through SkillsModule::render() exactly like a hand-added one.
+     */
+    private function addSkill(string $moduleId, array $args): string
+    {
+        if ($moduleId === '') {
+            return $this->handleError('Provide module_id — the id of the skills module instance (its DOM id).');
+        }
+
+        $name = trim((string) ($args['title'] ?? ''));
+        if ($name === '') {
+            return $this->handleError('Provide a title (the skill name) for the skills item.');
+        }
+
+        $percent = (int) round((float) ($args['percent'] ?? 100));
+        $percent = max(0, min(100, $percent));
+
+        $style = strtolower(trim((string) ($args['subtitle'] ?? '')));
+        if (!in_array($style, self::SKILL_STYLES, true)) {
+            $style = 'primary';
+        }
+
+        try {
+            $skills = json_decode((string) get_option('skills', $moduleId), true);
+            if (!is_array($skills)) {
+                $skills = [];
+            }
+            $skills[] = ['skill' => $name, 'percent' => $percent, 'style' => $style];
+            save_option('skills', json_encode(array_values($skills)), $moduleId);
+
+            return "OK — added skill \"{$name}\" ({$percent}%) to the skills module {$moduleId} "
+                . '(item #' . count($skills) . '). The canvas will reload the module to show it; '
+                . 'the user saves the page to keep it.';
+        } catch (\Throwable $e) {
+            return $this->handleError('Could not add the skills item: ' . $e->getMessage());
         }
     }
 }

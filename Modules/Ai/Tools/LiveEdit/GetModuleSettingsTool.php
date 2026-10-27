@@ -103,9 +103,31 @@ class GetModuleSettingsTool extends BaseTool
      */
     protected function availableSettings(string $type): array
     {
-        $aliases = ['map' => 'google_maps', 'shop' => 'shop/products', 'products' => 'shop/products'];
-        $type = $aliases[$type] ?? $type;
+        // Resolve the type's OWN settings class first. Only fall back to an alias
+        // when the type has no discoverable keys of its own — otherwise an alias
+        // hides a real module's settings (e.g. "shop" has its own ShopModuleSettings
+        // with 6 keys; aliasing it to "shop/products", whose settings class is empty,
+        // used to report zero keys and leave the agent unable to configure the grid).
+        $direct = $this->keysForType($type);
+        if (!empty($direct)) {
+            return $direct;
+        }
 
+        $aliases = ['map' => 'google_maps', 'shop' => 'shop/products', 'products' => 'shop/products'];
+        if (isset($aliases[$type])) {
+            return $this->keysForType($aliases[$type]);
+        }
+
+        return [];
+    }
+
+    /**
+     * Parse the option keys of exactly one module type's $settingsComponent.
+     *
+     * @return array<string,string>
+     */
+    private function keysForType(string $type): array
+    {
         $settingsClassFile = null;
         foreach (glob(base_path('Modules/*/Microweber/*Module.php')) as $f) {
             $src = (string) file_get_contents($f);

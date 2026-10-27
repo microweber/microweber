@@ -467,6 +467,15 @@ class LiveEditToolsTest extends ToolTestCase
         // The alias "map" resolves to google_maps.
         $alias = json_decode($tool->__invoke(type: 'map'), true);
         $this->assertArrayHasKey('data-city', $alias['available_settings']);
+
+        // "shop" has its OWN ShopModuleSettings — an alias must not hide it.
+        // (Regression: "shop" => "shop/products" used to report zero keys, so the
+        // agent could not configure the shop grid. A type's own keys win.)
+        $shop = json_decode($tool->__invoke(type: 'shop'), true);
+        $this->assertArrayHasKey('show_add_to_cart', $shop['available_settings'],
+            'The shop module must expose its own option keys, not be aliased away.');
+        $this->assertArrayHasKey('show_price', $shop['available_settings']);
+        $this->assertArrayHasKey('columns', $shop['available_settings']);
     }
 
     #[Test]
@@ -537,6 +546,41 @@ class LiveEditToolsTest extends ToolTestCase
             \Modules\Faq\Models\Faq::where('rel_id', $mid)->forceDelete();
             \Modules\Testimonials\Models\Testimonial::where('rel_id', $mid)->forceDelete();
             \Modules\Teamcard\Models\Teamcard::where('rel_id', $mid)->forceDelete();
+        }
+    }
+
+    #[Test]
+    public function add_list_item_appends_skills_to_the_json_option(): void
+    {
+        // skills is a list module too, but it stores its rows as a JSON array in
+        // the module's "skills" option (not a table) — add_list_item must write
+        // that shape so SkillsModule::render() picks the item up.
+        $tool = new \Modules\Ai\Tools\LiveEdit\AddListItemTool();
+        $mid = 'zz-ai-skills-unit-' . uniqid();
+
+        try {
+            // A skill needs a name (title).
+            $noTitle = (string) $tool->__invoke(module_type: 'skills', module_id: $mid);
+            $this->assertStringContainsString('skill name', $noTitle);
+
+            // title->skill, percent (clamped 0-100), subtitle->style.
+            $tool->__invoke(module_type: 'skills', module_id: $mid, title: 'PHP', percent: '90', subtitle: 'success');
+            // The "skill" alias, an out-of-range percent (clamped to 100) and an
+            // unknown style (falls back to primary).
+            $tool->__invoke(module_type: 'skill', module_id: $mid, title: 'Laravel', percent: '250', subtitle: 'rainbow');
+            // Defaults: percent 100, style primary.
+            $tool->__invoke(module_type: 'skills', module_id: $mid, title: 'Design');
+
+            $stored = json_decode((string) get_option('skills', $mid), true);
+            $this->assertIsArray($stored);
+            $this->assertCount(3, $stored, 'Each call appends one skill to the JSON array.');
+            $this->assertSame(['skill' => 'PHP', 'percent' => 90, 'style' => 'success'], $stored[0]);
+            $this->assertSame(100, $stored[1]['percent'], 'An out-of-range percent is clamped to 100.');
+            $this->assertSame('primary', $stored[1]['style'], 'An unknown style falls back to primary.');
+            $this->assertSame(100, $stored[2]['percent'], 'percent defaults to 100.');
+            $this->assertSame('primary', $stored[2]['style'], 'style defaults to primary.');
+        } finally {
+            \MicroweberPackages\Option\Models\Option::where('option_group', $mid)->delete();
         }
     }
 }
