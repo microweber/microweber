@@ -83,7 +83,25 @@ class AddSectionTool extends BaseTool
         $position = strtolower(trim((string) ($args['position'] ?? 'append')));
         $where = $position === 'prepend' ? 'at the top of' : 'to';
 
-        return "OK — added a new section {$where} the page (live). The user saves it "
-            . "with the Live-Edit Save button.";
+        // Reflect the just-added section in THIS turn's canvas context. The
+        // canvas DOM is a snapshot taken at the start of the turn (bound once in
+        // AiController); a follow-up get_dom reads that snapshot and would NOT
+        // show a section this turn's add_section just appended. The model then
+        // concludes the add failed, re-adds it, and the page ends up with 2-4
+        // copies of every section (the duplicate-section storm). Keeping the
+        // context DOM in sync here makes get_dom — and the model's own
+        // self-check — see what it already built, so it stops re-adding.
+        if (app()->bound('mw.ai.liveedit.context')) {
+            $ctx = (array) app('mw.ai.liveedit.context');
+            $dom = (string) ($ctx['dom'] ?? '');
+            $wrapped = "\n<section class=\"mw-ai-built-section\">\n{$html}\n</section>\n";
+            $ctx['dom'] = $position === 'prepend' ? $wrapped . $dom : $dom . $wrapped;
+            app()->instance('mw.ai.liveedit.context', $ctx);
+        }
+
+        return "OK — added a new section {$where} the page (live), and it is now part "
+            . "of the page. Do NOT add this same section again, and do NOT call get_dom "
+            . "just to confirm it — get_dom already reflects the sections you have added "
+            . "this turn. The user saves with the Live-Edit Save button.";
     }
 }

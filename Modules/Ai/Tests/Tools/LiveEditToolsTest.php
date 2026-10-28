@@ -101,6 +101,35 @@ class LiveEditToolsTest extends ToolTestCase
     }
 
     #[Test]
+    public function add_section_folds_into_the_turn_canvas_so_get_dom_reflects_it(): void
+    {
+        // The canvas DOM is a snapshot taken at the START of the turn. If
+        // add_section did not fold its section into that snapshot, a follow-up
+        // get_dom would read the stale (section-less) DOM, the model would think
+        // the add failed, and re-add it — the duplicate-section storm. This pins
+        // the sync: get_dom sees what add_section just built, in the same turn.
+        app()->instance('mw.ai.liveedit.context', ['dom' => '<main id="main-content"></main>']);
+        $add = new AddSectionTool();
+
+        $ok = $add->__invoke(html: '<h1>Northwind Studio</h1>', css: '.hero{}');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
+        // The confirmation steers the model away from re-adding / re-checking.
+        $this->assertStringContainsString('Do NOT add this same section again', $ok);
+
+        // get_dom now SEES the just-added section (same turn, same container).
+        $dom = json_decode((new \Modules\Ai\Tools\LiveEdit\GetDomTool())->__invoke(), true);
+        $this->assertStringContainsString('Northwind Studio', $dom['dom']);
+
+        // prepend places the new section ahead of the existing markup.
+        app()->instance('mw.ai.liveedit.context', ['dom' => 'EXISTING-MARKER']);
+        $add->__invoke(html: '<h1>Top</h1>', position: 'prepend');
+        $synced = (string) ((array) app('mw.ai.liveedit.context'))['dom'];
+        $this->assertLessThan(strpos($synced, 'EXISTING-MARKER'), strpos($synced, 'Top'));
+
+        app()->forgetInstance('mw.ai.liveedit.context');
+    }
+
+    #[Test]
     public function insert_module_requires_a_type(): void
     {
         $tool = new InsertModuleTool();
