@@ -307,3 +307,28 @@ ul[class], ol[class] { margin: 0; padding: 0; list-style: none; }
 .ratio { position: relative; width: 100%; }
 .ratio > * { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
+/* Header account / cart dropdowns. Plain ships no Bootstrap CSS; the shared
+   header skin uses data-bs-toggle and mw-framework.js toggles .show (the base
+   .dropdown-menu display/position is defined above). Give the open menu a plain,
+   usable surface — neutral, no brand colour. */
+.top-header-background .dropdown-menu,
+.mw-menu-skin-com .dropdown-menu {
+  right: 0; left: auto; z-index: 1200;
+  min-width: 13rem; margin: 10px 0 0; padding: 8px;
+  background: #fff; border: 1px solid rgba(30, 27, 46, .1);
+  border-radius: 14px; box-shadow: 0 16px 40px rgba(30, 27, 46, .16);
+}
+.top-header-background .dropdown-menu > li > a,
+.top-header-background .dropdown-menu .dropdown-item {
+  display: block; padding: 9px 12px; color: inherit;
+  text-decoration: none; border-radius: 9px; font-weight: 600; cursor: pointer;
+}
+.top-header-background .dropdown-menu > li > a:hover,
+.top-header-background .dropdown-menu .dropdown-item:hover { background: rgba(30, 27, 46, .05); }
+
+/* Cart: hide the "0" badge and the whole cart button while the cart is empty.
+   shop.js keeps the count's [hidden] attr in sync on cartModify, so the button
+   re-appears the moment an item is added. */
+.js-shopping-cart-quantity[hidden] { display: none !important; }
+.btn-shopping-cart:has(.js-shopping-cart-quantity[hidden]) { display: none !important; }
+

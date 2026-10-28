@@ -51,6 +51,13 @@
     <module type="layouts" template="footers/skin-1" id="footer-layout" template-filter="footers" />
 </div>
 
+{{-- Frontend JS from our own framework (vendored Bootstrap 5 bundle: dropdowns,
+     collapse, modal, …) — Plain ships no Bootstrap CSS, but the shared header/footer
+     skins use data-bs-toggle, so the behaviour JS must be present or the account /
+     cart dropdowns never open. Minimal dropdown CSS is supplied by the global
+     live_edit.css. --}}
+<script src="{{ asset('packages/microweber-css-framework-bootstrap/js/mw-framework.js') }}"></script>
+
 {!! meta_tags_footer() !!}
 </body>
 </html>
