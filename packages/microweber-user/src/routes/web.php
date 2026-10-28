@@ -35,7 +35,12 @@ Route::name('admin.')
 Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {
 
     Route::get('/logout', 'UserLogoutController@index')->name('logout');
-    Route::post('/logout', 'UserLogoutController@submit')->name('logout.submit');
+    // Laravel Fortify also registers `POST /logout` (named `logout`); an
+    // identical method+URI overrides this one in the route collection and drops
+    // its name, so the GET confirmation page's `route('logout.submit')` used to
+    // throw RouteNotFoundException (500). Keep the submit on its own URI — the
+    // name the confirm view depends on is unchanged.
+    Route::post('/logout/confirm', 'UserLogoutController@submit')->name('logout.submit');
 
 
     Route::get('email/verify/{id}/{hash}', 'UserVerifyController@verify')->name('verification.verify')
