@@ -332,3 +332,12 @@ ul[class], ol[class] { margin: 0; padding: 0; list-style: none; }
 .js-shopping-cart-quantity[hidden] { display: none !important; }
 .btn-shopping-cart:has(.js-shopping-cart-quantity[hidden]) { display: none !important; }
 
+/* Footer menu: Base's footers/skin-1 renders the same menu in three identical
+   columns with a placeholder "Footer Menu" label. On Plain keep one tidy column
+   of links and drop the placeholder heading. */
+.footer-background .col-md-10 > .col:nth-of-type(n + 2) { display: none; }
+.footer-background .col-md-10 > .col > p.font-weight-bold { display: none; }
+.footer-background .module-menu ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.footer-background .module-menu a { color: inherit; text-decoration: none; opacity: .85; }
+.footer-background .module-menu a:hover { opacity: 1; }
+
