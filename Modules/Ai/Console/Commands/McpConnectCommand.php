@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 use Modules\Ai\Models\McpClient;
 use Modules\Ai\Services\Mcp\GeneratedMcpClientToken;
 use Modules\Ai\Services\Mcp\McpClientTokenManager;
+use Modules\Ai\Services\Mcp\McpConnectionConfig;
 
 /**
  * Print ready-to-paste connection config for external MCP agents.
@@ -79,7 +80,7 @@ class McpConnectCommand extends Command
             $token = $generated->plainTextToken;
         }
 
-        $this->renderOutput($serverName, $httpUrl, $artisanPath, $token);
+        $this->renderOutput($serverName, $httpUrl, $artisanPath, $token, $baseUrl);
 
         return self::SUCCESS;
     }
@@ -141,79 +142,31 @@ class McpConnectCommand extends Command
         );
     }
 
-    private function renderOutput(string $serverName, string $httpUrl, string $artisanPath, string $token): void
+    private function renderOutput(string $serverName, string $httpUrl, string $artisanPath, string $token, string $baseUrl): void
     {
-        $authHeader = 'Authorization: Bearer ' . $token;
+        $config = app(McpConnectionConfig::class);
 
         $this->newLine();
         $this->info('MCP connection details for this install');
         $this->line('  Endpoint (HTTP / Streamable HTTP): ' . $httpUrl);
         $this->line('  Transport over stdio:              php ' . $artisanPath . ' ai:mcp:serve');
         $this->line('  Bearer token:                      ' . $token);
-        if ($token !== '<YOUR_TOKEN>') {
+        if ($token !== McpConnectionConfig::TOKEN_PLACEHOLDER) {
             $this->warn('  ⚠ This token is shown ONCE and cannot be recovered — store it securely. Revoke with ai:mcp:token:revoke.');
         }
 
-        $this->newLine();
-        $this->info('── OpenCode — remote (Streamable HTTP) ──');
-        $this->line('Add to opencode.json (or ~/.config/opencode/opencode.json):');
-        $this->line($this->json([
-            '$schema' => 'https://opencode.ai/config.json',
-            'mcp' => [
-                $serverName => [
-                    'type' => 'remote',
-                    'url' => $httpUrl,
-                    'enabled' => true,
-                    'headers' => ['Authorization' => 'Bearer ' . $token],
-                ],
-            ],
-        ]));
+        // The config blocks themselves come from the shared
+        // McpConnectionConfig so the CLI and the Filament "Connection
+        // setup" action can never print divergent snippets.
+        foreach ($config->blocks($serverName, $token, $baseUrl) as $block) {
+            $this->newLine();
+            $this->info('── ' . $block['title'] . ' ──');
+            if ($block['hint'] !== null) {
+                $this->line($block['hint']);
+            }
+            $this->line($block['body']);
+        }
 
-        $this->newLine();
-        $this->info('── OpenCode — local (stdio) ──');
-        $this->line($this->json([
-            'mcp' => [
-                $serverName => [
-                    'type' => 'local',
-                    'command' => ['php', $artisanPath, 'ai:mcp:serve', '--token=' . $token],
-                    'enabled' => true,
-                ],
-            ],
-        ]));
-
-        $this->newLine();
-        $this->info('── Claude Desktop / Cursor / Cline — stdio ──');
-        $this->line('Add to the client\'s mcpServers config:');
-        $this->line($this->json([
-            'mcpServers' => [
-                $serverName => [
-                    'command' => 'php',
-                    'args' => [$artisanPath, 'ai:mcp:serve', '--token=' . $token],
-                ],
-            ],
-        ]));
-
-        $this->newLine();
-        $this->info('── Claude Desktop / Cursor — remote via mcp-remote bridge ──');
-        $this->line('For clients that only speak stdio, bridge to the HTTP endpoint:');
-        $this->line($this->json([
-            'mcpServers' => [
-                $serverName => [
-                    'command' => 'npx',
-                    'args' => ['mcp-remote', $httpUrl, '--header', $authHeader],
-                ],
-            ],
-        ]));
-
-        $this->newLine();
-        $this->info('── Any agent — raw curl handshake ──');
-        $this->line(sprintf(
-            "curl -sS %s \\\n  -H %s \\\n  -H 'Content-Type: application/json' \\\n  -H 'Accept: application/json, text/event-stream' \\\n  -d '%s'",
-            escapeshellarg($httpUrl),
-            escapeshellarg($authHeader),
-            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"'
-                . (string) config('modules.ai.mcp.protocol_version') . '"}}'
-        ));
         $this->newLine();
     }
 
@@ -237,13 +190,5 @@ class McpConnectCommand extends Command
     private function csv(string $raw): array
     {
         return array_values(array_filter(array_map('trim', explode(',', $raw)), static fn ($v) => $v !== ''));
-    }
-
-    /**
-     * @param array<string, mixed> $data
-     */
-    private function json(array $data): string
-    {
-        return (string) json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 }

@@ -160,4 +160,55 @@ class McpClientResourceTest extends TestCase
 
         $this->assertContains(McpClientTokensRelationManager::class, $relations);
     }
+
+    #[Test]
+    public function the_connection_config_action_mounts_without_minting_a_token(): void
+    {
+        config(['app.url' => 'https://cms.example']);
+
+        $client = McpClient::factory()->create([
+            'slug' => 'docs-agent',
+            'allowed_scopes' => ['mcp:access'],
+            'allowed_tools' => ['*'],
+            'allowed_modules' => ['*'],
+        ]);
+
+        Livewire::test(ViewMcpClient::class, ['record' => $client->getKey()])
+            ->assertActionExists('connectionConfig');
+
+        // The "Connect" action is a read-only config viewer — it carries no
+        // form/submit and must never issue a key as a side effect.
+        $action = McpClientResource::connectionConfigAction();
+        $this->assertSame('connectionConfig', $action->getName());
+        $this->assertFalse($action->getModalSubmitAction() ?: false);
+        $this->assertSame(0, DB::table('mcp_client_tokens')->where('mcp_client_id', $client->id)->count());
+    }
+
+    #[Test]
+    public function the_connection_config_view_data_renders_per_site_snippets_for_the_client(): void
+    {
+        config([
+            'app.url' => 'https://cms.example',
+            'modules.ai.mcp.endpoint' => '/api/mcp',
+        ]);
+
+        $client = McpClient::factory()->create(['slug' => 'docs-agent']);
+
+        $data = McpClientResource::connectionConfigViewData($client);
+
+        $this->assertSame('https://cms.example/api/mcp', $data['endpoint']);
+        $this->assertFalse($data['hasToken']);
+        $this->assertSame('docs-agent', $data['serverName']);
+
+        // The server key inside the emitted OpenCode block is the client slug,
+        // so an operator managing several clients gets distinct config keys.
+        $bodies = implode("\n", array_column($data['blocks'], 'body'));
+        $this->assertStringContainsString('"docs-agent"', $bodies);
+        $this->assertStringContainsString('<YOUR_TOKEN>', $bodies);
+
+        // The modal view must compile and server-render with this data.
+        $html = view('modules.ai::filament.mcp-connection-config', $data)->render();
+        $this->assertStringContainsString('https://cms.example/api/mcp', $html);
+        $this->assertStringContainsString('OpenCode — remote (Streamable HTTP)', $html);
+    }
 }

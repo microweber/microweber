@@ -29,6 +29,7 @@ use Modules\Ai\Models\McpClient;
 use Modules\Ai\Services\Mcp\GeneratedMcpClientToken;
 use Modules\Ai\Services\Mcp\McpAdminInspector;
 use Modules\Ai\Services\Mcp\McpClientTokenManager;
+use Modules\Ai\Services\Mcp\McpConnectionConfig;
 
 class McpClientResource extends Resource
 {
@@ -151,6 +152,7 @@ class McpClientResource extends Resource
                     ->label('Test')
                     ->icon('heroicon-o-signal')
                     ->action(fn (McpClient $record) => static::notifyConnectionHealth($record)),
+                static::connectionConfigAction(),
                 ViewAction::make(),
                 EditAction::make(),
             ])
@@ -297,6 +299,50 @@ class McpClientResource extends Resource
             ->success()
             ->persistent()
             ->send();
+    }
+
+    /**
+     * "Connect" action: show paste-ready MCP connection config (OpenCode,
+     * Claude Desktop, Cursor, curl) for a client. Shared between the table
+     * row action and the View-page header so there is one definition.
+     *
+     * Deliberately non-mutating — it shows the config with a token
+     * placeholder, so clicking it repeatedly costs nothing and mints no
+     * credential. Keys are issued (and shown once) from the "Issue key"
+     * action / Keys tab, then pasted in place of the placeholder.
+     */
+    public static function connectionConfigAction(): \Filament\Actions\Action
+    {
+        return \Filament\Actions\Action::make('connectionConfig')
+            ->label('Connect')
+            ->icon('heroicon-o-link')
+            ->color('gray')
+            ->modalHeading(fn (McpClient $record): string => "Connect an agent to \"{$record->name}\"")
+            ->modalDescription('Paste one of these into your MCP client. The HTTP endpoint follows this site\'s URL (per-site under multisite).')
+            ->modalSubmitAction(false)
+            ->modalCancelActionLabel('Close')
+            ->modalContent(fn (McpClient $record) => view(
+                'modules.ai::filament.mcp-connection-config',
+                static::connectionConfigViewData($record),
+            ));
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function connectionConfigViewData(McpClient $client): array
+    {
+        $config = app(McpConnectionConfig::class);
+        $serverName = $client->slug ?: 'microweber';
+
+        return [
+            'endpoint' => $config->endpointUrl(),
+            'stdioCommand' => $config->stdioCommandDisplay(),
+            'blocks' => $config->blocks($serverName),
+            'hasToken' => false,
+            'placeholder' => McpConnectionConfig::TOKEN_PLACEHOLDER,
+            'serverName' => $serverName,
+        ];
     }
 
     public static function notifyConnectionHealth(McpClient $client): void

@@ -30,6 +30,7 @@ class ViewMcpClient extends ViewRecord
                 ->action(function (): void {
                     McpClientResource::notifyConnectionHealth($this->record);
                 }),
+            McpClientResource::connectionConfigAction(),
         ];
     }
 }
