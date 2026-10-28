@@ -24,6 +24,21 @@ Route::delete('api/mcp', [Modules\Ai\Http\Controllers\McpController::class, 'ter
     ->middleware(['api'])
     ->name('api.ai.mcp.terminate');
 
+// Legacy HTTP+SSE transport (MCP 2024-11-05) for clients that don't speak
+// Streamable HTTP. GET /api/mcp/sse opens the event stream (and hands back
+// the messages endpoint); POST /api/mcp/messages?sessionId=… carries the
+// client's JSON-RPC requests, whose responses are relayed over the stream.
+// Both authenticate with the same `mcp.client` middleware as POST /api/mcp
+// (GET /sse has no body, so only the base scope is checked). Declared before
+// Microweber's catch-all page router so these resolve instead of 403-ing.
+Route::get('api/mcp/sse', [Modules\Ai\Http\Controllers\McpSseController::class, 'sse'])
+    ->middleware(['api', 'mcp.client'])
+    ->name('api.ai.mcp.sse');
+
+Route::post('api/mcp/messages', [Modules\Ai\Http\Controllers\McpSseController::class, 'messages'])
+    ->middleware(['api', 'mcp.client'])
+    ->name('api.ai.mcp.messages');
+
 Route::middleware(['admin'])->group(function () {
     Route::post('api/ai/chat', [Modules\Ai\Http\Controllers\AiController::class, 'chat'])
         ->name('api.ai.chat');

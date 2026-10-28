@@ -22,6 +22,33 @@ return [
         'enabled' => env('AI_MCP_ENABLED', false),
         'endpoint' => env('AI_MCP_ENDPOINT', '/api/mcp'),
         'transport' => env('AI_MCP_TRANSPORT', 'http-jsonrpc'),
+        // Legacy HTTP+SSE transport (MCP 2024-11-05): the two-endpoint
+        // GET /api/mcp/sse + POST /api/mcp/messages pattern that older
+        // clients (and some that only speak the pre-Streamable transport)
+        // use. The modern Streamable-HTTP transport (POST /api/mcp) is
+        // always on; this is an opt-out compatibility shim.
+        'sse' => [
+            // Follows the MCP master switch by default — enabling MCP is
+            // already a deliberate act. Turn off where long-lived SSE
+            // connections would exhaust PHP-FPM workers (shared hosting).
+            'enabled' => (bool) env('AI_MCP_SSE_ENABLED', true),
+            // Max wall-clock seconds a single GET /sse stream stays open
+            // before it closes and the client reconnects. Keep it under
+            // the proxy / PHP max_execution_time so the stream recycles
+            // cleanly rather than being killed mid-frame.
+            'max_seconds' => (int) env('AI_MCP_SSE_MAX_SECONDS', 25),
+            // How often the open stream polls the session queue for
+            // responses enqueued by POST /messages (milliseconds).
+            'poll_ms' => (int) env('AI_MCP_SSE_POLL_MS', 250),
+            // Idle keepalive comment cadence (seconds) so proxies don't
+            // drop an otherwise-quiet stream.
+            'keepalive_seconds' => (int) env('AI_MCP_SSE_KEEPALIVE_SECONDS', 15),
+            // Cache store backing the cross-request session queue. null =
+            // the default store. MUST be a store shared across workers
+            // (file / redis / database) in production — the `array` store
+            // is per-request and only works on a single-process dev server.
+            'cache_store' => env('AI_MCP_SSE_CACHE_STORE'),
+        ],
         'protocol_version' => env('AI_MCP_PROTOCOL_VERSION', '2025-03-26'),
         'supported_protocol_versions' => array_filter(array_map(
             static fn (string $v): string => trim($v),
