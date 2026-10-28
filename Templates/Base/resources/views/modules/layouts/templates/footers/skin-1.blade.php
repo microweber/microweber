@@ -20,9 +20,9 @@ categories: Footers
                 <module type="logo" id="footer-logo-{{ $params['id'] }}" />
             </div>
 
-            <p class="font-weight-bold">Website Builder and CMS </p>
+            <p class="font-weight-bold">{{ app()->ui->brand_name() }}</p>
             <br>
-            <small>CMS is a website builder and content management system of new generation.</small>
+            <small>{{ get_option('website_description', 'website') ?: _e('Build, publish and grow your website.', true) }}</small>
             <br>
             <x-social-links />
         </x-col>
