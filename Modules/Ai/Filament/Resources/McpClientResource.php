@@ -337,6 +337,7 @@ class McpClientResource extends Resource
 
         return [
             'endpoint' => $config->endpointUrl(),
+            'sseEndpoint' => $config->sseEndpointUrl(),
             'stdioCommand' => $config->stdioCommandDisplay(),
             'blocks' => $config->blocks($serverName),
             'hasToken' => false,

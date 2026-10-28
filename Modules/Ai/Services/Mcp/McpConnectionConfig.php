@@ -37,6 +37,16 @@ class McpConnectionConfig
         return rtrim($baseUrl, '/') . '/' . ltrim($endpoint, '/');
     }
 
+    /**
+     * The legacy HTTP+SSE transport opens its event stream at
+     * `<endpoint>/sse` (and advertises its own messages URL from there),
+     * so it tracks the resolved endpoint — and app.url — automatically.
+     */
+    public function sseEndpointUrl(?string $baseUrl = null): string
+    {
+        return rtrim($this->endpointUrl($baseUrl), '/') . '/sse';
+    }
+
     public function artisanPath(): string
     {
         return base_path('artisan');
@@ -59,6 +69,7 @@ class McpConnectionConfig
         $token = $token !== null && $token !== '' ? $token : self::TOKEN_PLACEHOLDER;
         $serverName = $serverName !== '' ? $serverName : 'microweber';
         $url = $this->endpointUrl($baseUrl);
+        $sseUrl = $this->sseEndpointUrl($baseUrl);
         $artisanPath = $this->artisanPath();
         $authHeader = 'Authorization: Bearer ' . $token;
 
@@ -90,6 +101,15 @@ class McpConnectionConfig
                 'hint' => 'For clients that only speak stdio, bridge to the HTTP endpoint:',
                 'language' => 'json',
                 'body' => $this->json($this->mcpRemoteServers($serverName, $url, $authHeader)),
+            ],
+            [
+                'key' => 'sse',
+                'title' => 'Legacy HTTP+SSE transport (MCP 2024-11-05)',
+                'hint' => 'For older clients that only speak the two-endpoint HTTP+SSE transport — '
+                    . 'point them at the SSE endpoint (it advertises its own messages URL). '
+                    . 'Or bridge from stdio: npx mcp-remote ' . $sseUrl . ' --transport sse-only --header ' . $authHeader,
+                'language' => 'json',
+                'body' => $this->json($this->sseServers($serverName, $sseUrl, $token)),
             ],
             [
                 'key' => 'curl',
@@ -160,6 +180,27 @@ class McpConnectionConfig
                 $serverName => [
                     'command' => 'npx',
                     'args' => ['mcp-remote', $url, '--header', $authHeader],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Legacy HTTP+SSE transport (MCP 2024-11-05): clients that support a
+     * native `sse` server type connect straight to the SSE endpoint with
+     * the bearer header; the server hands back its messages URL over the
+     * stream's first frame.
+     *
+     * @return array<string, mixed>
+     */
+    public function sseServers(string $serverName, string $sseUrl, string $token): array
+    {
+        return [
+            'mcpServers' => [
+                $serverName => [
+                    'type' => 'sse',
+                    'url' => $sseUrl,
+                    'headers' => ['Authorization' => 'Bearer ' . $token],
                 ],
             ],
         ];

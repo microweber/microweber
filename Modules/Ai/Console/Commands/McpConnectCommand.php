@@ -24,6 +24,7 @@ use Modules\Ai\Services\Mcp\McpConnectionConfig;
  *   - OpenCode           (remote = Streamable HTTP, and local = stdio)
  *   - Claude Desktop / Cursor / Cline (stdio via `ai:mcp:serve`, and
  *     remote via the `mcp-remote` bridge)
+ *   - legacy HTTP+SSE    (the two-endpoint transport for older clients)
  *   - raw curl           (the initialize handshake, for any other agent)
  *
  * The minted token is shown ONCE — it is hashed at rest and cannot be
@@ -149,6 +150,7 @@ class McpConnectCommand extends Command
         $this->newLine();
         $this->info('MCP connection details for this install');
         $this->line('  Endpoint (HTTP / Streamable HTTP): ' . $httpUrl);
+        $this->line('  Endpoint (legacy HTTP+SSE):        ' . $config->sseEndpointUrl($baseUrl));
         $this->line('  Transport over stdio:              php ' . $artisanPath . ' ai:mcp:serve');
         $this->line('  Bearer token:                      ' . $token);
         if ($token !== McpConnectionConfig::TOKEN_PLACEHOLDER) {

@@ -5,6 +5,8 @@
     <div class="rounded-lg bg-gray-50 p-3 dark:bg-white/5">
         <div class="font-medium text-gray-950 dark:text-white">HTTP endpoint (Streamable HTTP)</div>
         <code class="break-all text-primary-600 dark:text-primary-400">{{ $endpoint }}</code>
+        <div class="mt-2 font-medium text-gray-950 dark:text-white">Legacy HTTP+SSE endpoint</div>
+        <code class="break-all text-primary-600 dark:text-primary-400">{{ $sseEndpoint }}</code>
         <div class="mt-2 font-medium text-gray-950 dark:text-white">Transport over stdio</div>
         <code class="break-all text-gray-700 dark:text-gray-300">{{ $stdioCommand }}</code>
     </div>

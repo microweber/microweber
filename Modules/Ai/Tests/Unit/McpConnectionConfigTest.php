@@ -70,6 +70,29 @@ class McpConnectionConfigTest extends TestCase
         $this->assertStringContainsString('--token=mcp_9|secrettoken', $byKey['opencode-local']);
         $this->assertStringContainsString('--token=mcp_9|secrettoken', $byKey['stdio']);
         $this->assertStringContainsString('Bearer mcp_9|secrettoken', $byKey['mcp-remote']);
+        // The legacy HTTP+SSE block carries it as a Bearer header too.
+        $this->assertStringContainsString('Bearer mcp_9|secrettoken', $byKey['sse']);
+    }
+
+    #[Test]
+    public function the_sse_endpoint_url_appends_sse_to_the_resolved_endpoint(): void
+    {
+        $this->assertSame('https://cms.example/api/mcp/sse', $this->config()->sseEndpointUrl());
+        // Follows an explicit base URL (per-site under multisite) just like
+        // the Streamable-HTTP endpoint.
+        $this->assertSame('https://tenant.example/api/mcp/sse', $this->config()->sseEndpointUrl('https://tenant.example/'));
+    }
+
+    #[Test]
+    public function the_sse_block_offers_the_legacy_transport_targeting_the_sse_endpoint(): void
+    {
+        $byKey = array_column($this->config()->blocks('my-agent'), 'body', 'key');
+
+        $this->assertArrayHasKey('sse', $byKey, 'Operators must be able to choose the legacy HTTP+SSE transport.');
+
+        $decoded = json_decode($byKey['sse'], true);
+        $this->assertSame('sse', $decoded['mcpServers']['my-agent']['type']);
+        $this->assertSame('https://cms.example/api/mcp/sse', $decoded['mcpServers']['my-agent']['url']);
     }
 
     #[Test]
