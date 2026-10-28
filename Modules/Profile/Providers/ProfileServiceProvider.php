@@ -2,8 +2,10 @@
 
 namespace Modules\Profile\Providers;
 
+use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Profile\Http\Middleware\TwoFactorRateLimit;
+use Modules\Profile\Livewire\AuthModal;
 
 class ProfileServiceProvider extends BaseModuleServiceProvider
 {
@@ -42,6 +44,8 @@ class ProfileServiceProvider extends BaseModuleServiceProvider
 
         $this->app->register(FilamentProfilePanelProvider::class);
 
-
+        // Frontend login/register component mounted in the header account
+        // dropdown's #loginModal (replaces the dead `users/login` module).
+        Livewire::component('modules.profile.livewire.auth-modal', AuthModal::class);
     }
 }

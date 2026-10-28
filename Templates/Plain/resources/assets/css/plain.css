@@ -341,3 +341,28 @@ ul[class], ol[class] { margin: 0; padding: 0; list-style: none; }
 .footer-background .module-menu a { color: inherit; text-decoration: none; opacity: .85; }
 .footer-background .module-menu a:hover { opacity: 1; }
 
+/* Header mini-cart. The dropdown now mounts the real Checkout\CartItems
+   Livewire component (the legacy shop/cart module was dead). Constrain it to a
+   usable dropdown size and give the item rows / empty state a plain surface,
+   since Plain ships none of the component's Tailwind utilities. */
+.mw-big-dropdown-cart { width: min(92vw, 360px); max-height: 72vh; overflow-y: auto; }
+.mw-big-dropdown-cart .flex { display: flex; align-items: center; gap: 10px; }
+.mw-big-dropdown-cart .flex-1 { flex: 1 1 auto; min-width: 0; }
+.mw-big-dropdown-cart img { max-width: 48px; height: auto; border-radius: 8px; }
+.mw-big-dropdown-cart input[type="number"] { width: 56px; padding: 6px 8px; border: 1px solid rgba(30, 27, 46, .15); border-radius: 8px; }
+.mw-big-dropdown-cart .mw-cart-remove-btn { border: 0; background: none; cursor: pointer; color: #b91c1c; padding: 6px; }
+.mw-big-dropdown-cart .mw-cart-empty { text-align: center; padding: 10px 6px; }
+.mw-big-dropdown-cart .mw-cart-empty__heading { font-size: 1rem; margin: 0 0 6px; color: #1e1b2e; }
+.mw-big-dropdown-cart .mw-cart-empty__body { margin: 0 0 12px; color: #6b7280; font-size: .9rem; }
+.mw-big-dropdown-cart .mw-cart-empty-cta { display: inline-block; padding: 9px 14px; background: #1e1b2e; color: #fff; border-radius: 9px; text-decoration: none; font-weight: 600; }
+
+/* Login / register modal overlay base. Plain ships no Bootstrap CSS; the
+   mw-framework.js modal opens by setting display:block and appending a
+   .modal-backdrop, so only the fixed-overlay chrome is supplied here — the
+   modal card + form styling travels with the Livewire component itself
+   (Modules/Profile .../livewire/auth-modal) so it renders on any template. */
+.modal { position: fixed; inset: 0; z-index: 1055; display: none; overflow-y: auto; }
+.modal.show { display: block; }
+.modal-backdrop { position: fixed; inset: 0; z-index: 1050; background: #1e1b2e; opacity: .5; }
+.modal-backdrop.show { opacity: .5; }
+
