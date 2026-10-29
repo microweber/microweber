@@ -2,14 +2,18 @@
 
 /*
 |--------------------------------------------------------------------------
-| DEPRECATED — legacy dynamic API dispatch (api_expose / api_bind family)
+| RETIRED — legacy dynamic API dispatch (api_expose / api_bind family)
 |--------------------------------------------------------------------------
 | These registered API endpoints as callbacks in a static array, served by a
 | greedy `api/{all}` catch-all (ApiController::api). That dynamic dispatch has
-| been replaced by explicit Laravel routes + controllers + FormRequests (see
-| App/Module/User routes/api.php). The functions are kept only for backward
-| compatibility with third-party/module code; do NOT add new api_expose*()
-| calls — define a real route + controller instead.
+| been REMOVED — it let an unauthenticated request invoke an arbitrary method
+| on any already-loaded class (CWE-306). ApiController::api() no longer reads
+| this registry, so these functions are now INERT no-ops: anything they
+| register is never dispatched. They are kept only so that legacy
+| third-party/module code calling them does not fatal. Every real endpoint is
+| an explicit Laravel route + controller + FormRequest (see App/Module/User
+| routes/api.php); do NOT add new api_expose*() calls — define a real route +
+| controller instead.
 */
 
 /**

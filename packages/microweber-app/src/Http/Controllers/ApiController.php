@@ -19,16 +19,21 @@ use MicroweberPackages\Format\Facades\Format;
 
 
 /**
- * Legacy dynamic API dispatcher.
+ * Module renderer + retired legacy API dispatcher.
  *
- * @deprecated The dynamic api_expose()/api_bind() dispatch this controller
- *   powered (via the greedy `api/{all}` catch-all → {@see api()}) has been
- *   replaced by explicit routes + controllers + FormRequests (see the
- *   App/Module/User routes/api.php). Do NOT route new endpoints here — define a
- *   real route + controller instead. It is retained only as the backward-compat
- *   catch-all fallback for the few remaining legacy `/api/*` and `/module/*`
- *   paths ({@see api()}, {@see api_html()}, {@see module()}); once those are
- *   migrated the class can be removed.
+ * The dynamic api_expose()/api_bind() dispatch this controller used to power
+ * (via the greedy `api/{all}` catch-all → {@see api()}) has been RETIRED: it
+ * resolved a class/function + method straight from the request URL and invoked
+ * it, and its `class_is_already_here` branch did so without consulting the
+ * $api_exposed allow list, letting an unauthenticated request call an arbitrary
+ * public method on any already-loaded class (CWE-306 — e.g.
+ * UserManager::make_logged → administrator-session takeover). Every real
+ * endpoint is now an explicit route + controller + FormRequest (see the
+ * App/Module/User routes/api.php); the api_expose()/api_bind() registry is
+ * empty. {@see api()} now only delegates to the module renderer and otherwise
+ * returns 403. Do NOT route new endpoints here — define a real route +
+ * controller instead. The still-live surface is the module renderer
+ * ({@see module()}, served by its own `/module/*` routes too).
  */
 class ApiController  extends FrontendController
 {
@@ -44,7 +49,6 @@ class ApiController  extends FrontendController
     public function api($api_function = false, $params = false)
     {
 
-
         if (!defined('MW_API_CALL')) {
             define('MW_API_CALL', true);
         }
@@ -54,22 +58,16 @@ class ApiController  extends FrontendController
             $set_constants = false;
         }
 
-        $mod_class_api = false;
-        $mod_class_api_called = false;
-        $mod_class_api_class_exist = false;
-        $caller_commander = false;
         if ($api_function == false) {
             $api_function_full = UrlManager::string();
             $api_function_full = Format::replace_once('api_html', '', $api_function_full);
             $api_function_full = Format::replace_once('api/api', 'api', $api_function_full);
-
             $api_function_full = Format::replace_once('api', '', $api_function_full);
             $api_function_full = trim($api_function_full, '/');
-
-            //$api_function_full = substr($api_function_full, 4);
         } else {
             $api_function_full = $api_function;
         }
+
         if (isset($api_function_full) and $api_function_full != '') {
             if (ltrim($api_function_full, '/') == 'module') {
                 $set_constants = false;
@@ -79,483 +77,46 @@ class ApiController  extends FrontendController
             $this->app->content_manager->define_constants();
         }
 
-
         if (defined('TEMPLATE_DIR')) {
             app()->template_manager->boot_template();
-        }
-
-        //$api_function_full = str_ireplace('api/', '', $api_function_full);
-
-        $api_function_full = sanitize_path($api_function_full);
-        $api_function_full = str_replace('\\', '/', $api_function_full);
-        $api_function_full = str_replace('//', '/', $api_function_full);
-
-        $api_function_full = DatabaseManager::escape_string($api_function_full);
-        if (is_string($api_function_full)) {
-            $mod_api_class = explode('/', $api_function_full);
-        } else {
-            $mod_api_class = $api_function_full;
-        }
-        $try_class_func = array_pop($mod_api_class);
-
-        // $try_class_func2 = array_pop($mod_api_class);
-        $mod_api_class_copy = $mod_api_class;
-        $try_class_func2 = array_pop($mod_api_class_copy);
-        $mod_api_class2 = implode(DS, $mod_api_class_copy);
-
-        $mod_api_class = implode(DS, $mod_api_class);
-        $mod_api_class_clean = ltrim($mod_api_class, '/');
-        $mod_api_class_clean = ltrim($mod_api_class_clean, '\\');
-        $mod_api_class_clean_uc1 = ucfirst($mod_api_class_clean);
-
-        $mod_api_class1 = normalize_path(modules_path() . $mod_api_class, false) . '.php';
-        $mod_api_class_native = normalize_path(mw_includes_path() . $mod_api_class, false) . '.php';
-        $mod_api_class_native_system = normalize_path(dirname(MW_PATH) . DS . $mod_api_class, false) . '.php';
-        $mod_api_class_native_global_ns = normalize_path(mw_includes_path() . 'classes' . DS . $mod_api_class2, false) . '.php';
-        $mod_api_class1_uc1 = normalize_path(modules_path() . $mod_api_class_clean_uc1, false) . '.php';
-        $mod_api_class_native_uc1 = normalize_path(mw_includes_path() . $mod_api_class_clean_uc1, false) . '.php';
-        $mod_api_class_native_global_ns_uc1 = normalize_path(mw_includes_path() . 'classes' . DS . $mod_api_class_clean_uc1, false) . '.php';
-
-        $mod_api_class2 = normalize_path(modules_path() . DS . $mod_api_class_clean . DS . $mod_api_class_clean, false) . '.php';
-        $mod_api_class2_uc1 = normalize_path(modules_path() . DS . $mod_api_class_clean . DS . $mod_api_class_clean, false) . '.php';
-
-        $try_class = '\\' . str_replace('/', '\\', $mod_api_class);
-
-        if (class_exists($try_class, false)) {
-            $caller_commander = 'class_is_already_here';
-            $mod_class_api_class_exist = true;
-        } else {
-            if (is_file($mod_api_class1)) {
-                $mod_class_api = true;
-                include_once $mod_api_class1;
-            } elseif (is_file($mod_api_class_native_system)) {
-                $mod_class_api = true;
-                include_once $mod_api_class_native_system;
-            } elseif (is_file($mod_api_class1_uc1)) {
-                $mod_class_api = true;
-                include_once $mod_api_class1_uc1;
-            } elseif (is_file($mod_api_class_native_global_ns_uc1)) {
-                $try_class = str_replace('/', '\\', $mod_api_class2);
-                $mod_class_api = true;
-
-                include_once $mod_api_class_native_global_ns_uc1;
-            } elseif (is_file($mod_api_class_native_global_ns)) {
-                $try_class = str_replace('/', '\\', $mod_api_class2);
-                $mod_class_api = true;
-                include_once $mod_api_class_native_global_ns;
-            } elseif (is_file($mod_api_class_native_uc1)) {
-                $mod_class_api = true;
-                include_once $mod_api_class_native_uc1;
-            } elseif (is_file($mod_api_class_native)) {
-                $mod_class_api = true;
-                include_once $mod_api_class_native;
-            } elseif (is_file($mod_api_class2)) {
-                $mod_class_api = true;
-                include_once $mod_api_class2;
-            } elseif (is_file($mod_api_class2_uc1)) {
-                $mod_class_api = true;
-                include_once $mod_api_class2_uc1;
-            }
-        }
-
-        $api_exposed = '';
-
-        // user functions
-        $api_exposed .= 'social_login_process';
-
-        // content functions
-
-        $api_exposed .= 'set_language ';
-        $api_exposed .= (api_expose(true));
-        $api_auth_exposed = ' ';
-        if (app()->user_manager->is_logged()) {
-            $get_exposed = (api_expose_user(true));
-            $api_exposed .= $get_exposed;
-            $api_auth_exposed .= $get_exposed;
-        }
-
-        if (is_admin()) {
-            $get_exposed = (api_expose_admin(true));
-            $api_exposed .= $get_exposed;
-            $api_auth_exposed .= $get_exposed;
-        }
-
-
-        $api_exposed = explode(' ', $api_exposed);
-        $api_exposed = array_unique($api_exposed);
-        $api_exposed = array_trim($api_exposed);
-
-        $api_auth_exposed = explode(' ', $api_auth_exposed);
-        $api_auth_exposed = array_unique($api_auth_exposed);
-        $api_auth_exposed = array_trim($api_auth_exposed);
-
-        $hooks = api_bind(true);
-        if (app()->user_manager->is_logged()) {
-            $hooks_admin = api_bind_user(true);
-            if (is_array($hooks_admin)) {
-                $hooks = array_merge($hooks, $hooks_admin);
-            }
-        }
-
-        if (is_admin()) {
-            $hooks_admin = api_bind_admin(true);
-            if (is_array($hooks_admin)) {
-                $hooks = array_merge($hooks, $hooks_admin);
-            }
         }
 
         if ($api_function == false) {
             $api_function = UrlManager::segment(1);
         }
 
-        if (!defined('MW_API_RAW')) {
-            if ($mod_class_api != false) {
-                $url_segs = UrlManager::segment(-1);
-            }
-        } else {
-            if (is_array($api_function)) {
-                $url_segs = $api_function;
-            } else {
-                $url_segs = explode('/', $api_function);
-            }
-        }
         if (!defined('MW_API_FUNCTION_CALL')) {
             define('MW_API_FUNCTION_CALL', $api_function);
         }
 
-        $api_skip_token_validation_items = ['clearcache','logout','user_login'];
-
-        if (in_array($api_function, $api_auth_exposed)) {
-            if(!in_array($api_function, $api_skip_token_validation_items)) {
-
-                $request = request();
-
-
-                $ref = $request->headers->get('referer');
-
-                $same_site = app()->make(SameSiteRefererMiddleware::class);
-                $is_same_site = $same_site->isSameSite($ref);
-
-                if (!$is_same_site) {
-                    $bearer_token = $request->bearerToken();
-                    $is_bearer_token_valid = false;
-
-
-                    if ($bearer_token) {
-                        $validator = app()->make(ApiAuth::class);
-                        $is_bearer_token_valid = $validator->validateBearerToken($bearer_token);
-                    }
-                    if (!$is_bearer_token_valid) {
-                        $validator = app()->make(VerifyCsrfTokenHelper::class);
-                        $is_token_valid = $validator->isValid($request);
-                        if (!$is_token_valid) {
-                            App::abort(403, 'Unauthorized action. The API function requires authentication.');
-                        }
-                    }
-                }
+        // SECURITY / DEPRECATION — the legacy dynamic dispatch has been retired.
+        //
+        // This catch-all once resolved a class/function + method straight from
+        // the request URL and invoked it (the api_expose()/api_bind() registry
+        // served through `api/{all}`). The `class_is_already_here` branch called
+        // the method WITHOUT consulting the $api_exposed allow list, so an
+        // unauthenticated POST could invoke an arbitrary public method on any
+        // already-loaded class — e.g. UserManager::make_logged(['id' => 1]) ->
+        // Auth::loginUsingId(1), a full administrator-session takeover from one
+        // anonymous request (CWE-306, Missing Authentication for Critical
+        // Function). CSRF was no barrier: the token is readable by any visitor.
+        //
+        // Every real endpoint is now an explicit route + controller + FormRequest
+        // (see App/Module/User routes/api.php); the api_expose()/api_bind()
+        // registry is empty. The only thing still served here is the module
+        // renderer, which keeps its own `/module/*` routes too.
+        $is_module_call = ($api_function === 'module');
+        if (!$is_module_call and is_string($api_function_full)) {
+            $normalized_full = ltrim(str_replace('\\', '/', $api_function_full), '/');
+            if ($normalized_full === 'module' or strpos($normalized_full, 'module/') === 0) {
+                $is_module_call = true;
             }
         }
-
-
-        switch ($caller_commander) {
-            case 'class_is_already_here':
-
-                if ($params != false) {
-                    $data = $params;
-                } elseif (!request()->isMethod('post')) {
-                    $data = UrlManager::params(true);
-                    if (empty($data)) {
-                        $data = UrlManager::segment(2);
-                    }
-                } else {
-
-                    //$data = $_REQUEST;
-                    $data = request()->all();
-                }
-
-                static $loaded_classes = array();
-
-                //$try_class_n = src_
-                if (isset($loaded_classes[$try_class]) == false) {
-                    $res = new $try_class($data);
-                    $loaded_classes[$try_class] = $res;
-                } else {
-                    $res = $loaded_classes[$try_class];
-                }
-
-                if (isset($hooks[$api_function_full]) and !empty($hooks[$api_function_full])) {
-                    foreach ($hooks[$api_function_full] as $hook) {
-                        if (is_array($hook)) {
-                            $hook = array_pop($hook);
-                        }
-                        if (is_callable($hook)) {
-                            $res = call_user_func($hook, $data);
-                            if (defined('MW_API_RAW')) {
-                                $mod_class_api_called = true;
-                            }
-                            return $this->_api_response($res);
-                        }
-                    }
-                }
-
-
-                if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
-                    if (method_exists($res, $try_class_func2)) {
-                        $try_class_func = $try_class_func2;
-                    }
-
-                    $res = $res->$try_class_func($data);
-
-                    if (defined('MW_API_RAW')) {
-                        $mod_class_api_called = true;
-                    }
-
-                    return $this->_api_response($res);
-                }
-                break;
-
-            default:
-                $res = false;
-                if (isset($hooks[$api_function_full])) {
-                    $data = request()->all();
-
-                    $call = $hooks[$api_function_full];
-
-                    if (!empty($call)) {
-                        foreach ($call as $call_item) {
-                            $res = call_user_func($call_item, $data);
-                        }
-                    }
-                    if ($res != false) {
-                        return $this->_api_response($res);
-                    }
-                }
-
-                if ($mod_class_api == true and $mod_api_class != false) {
-                    $mod_api_class = sanitize_path($mod_api_class);
-
-                    $try_class = str_replace('/', '\\', $mod_api_class);
-                    $try_class_full = str_replace('/', '\\', $api_function_full);
-
-                    $try_class_full2 = str_replace('\\', '/', $api_function_full);
-                    $mod_api_class_test = explode('/', $try_class_full2);
-                    $try_class_func_test = array_pop($mod_api_class_test);
-                    $mod_api_class_test_full = implode('/', $mod_api_class_test);
-                    $mod_api_err = false;
-                    if (!defined('MW_API_RAW')) {
-                        if (!in_array($try_class_full, $api_exposed, true) and !in_array($try_class_full2, $api_exposed, true) and !in_array($mod_api_class_test_full, $api_exposed, true)) {
-                            $mod_api_err = true;
-
-                            foreach ($api_exposed as $api_exposed_value) {
-                                if ($mod_api_err == true) {
-                                    if ($api_exposed_value == $try_class_full) {
-                                        $mod_api_err = false;
-                                    } elseif (strtolower('\\' . $api_exposed_value) == strtolower($try_class_full)) {
-                                        $mod_api_err = false;
-                                    } elseif ($api_exposed_value == $try_class_full2) {
-                                        $mod_api_err = false;
-                                    } else {
-                                        $convert_slashes = str_replace('\\', '/', $try_class_full);
-
-                                        if ($convert_slashes == $api_exposed_value) {
-                                            $mod_api_err = false;
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            $mod_api_err = false;
-                        }
-                    }
-
-                    if ($mod_class_api and $mod_api_err == false) {
-                        if (!class_exists($try_class, false)) {
-                            $remove = $url_segs;
-                            $last_seg = array_pop($remove);
-                            $last_prev_seg = array_pop($remove);
-                            $last_prev_seg2 = array_pop($remove);
-
-                            if (class_exists($last_prev_seg, false)) {
-                                $try_class = $last_prev_seg;
-                            } elseif (class_exists($last_prev_seg2, false)) {
-                                $try_class = $last_prev_seg2;
-                            }
-                        }
-
-                        if (!class_exists($try_class, false)) {
-                            $try_class_mw = ltrim($try_class, '/');
-                            $try_class_mw = ltrim($try_class_mw, '\\');
-                            $try_class = $try_class_mw;
-                        }
-
-                        if (class_exists($try_class, false)) {
-                            if ($params != false) {
-                                $data = $params;
-                            } elseif (!request()->isMethod('post')) {
-                                $data = UrlManager::params(true);
-                                if (empty($data)) {
-                                    $data = UrlManager::segment(2);
-                                }
-                            } else {
-                                $data = request()->all();
-                            }
-
-                            $res = new $try_class($data);
-
-                            if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
-                                if (method_exists($res, $try_class_func2)) {
-                                    $try_class_func = $try_class_func2;
-                                }
-
-                                $res = $res->$try_class_func($data);
-
-                                $mod_class_api_called = true;
-
-                                return $this->_api_response($res);
-                            }
-                        } else {
-                            mw_error('The api class ' . $try_class . '  does not exist');
-                        }
-                    }
-                }
-
-                break;
-        }
-
-        if ($api_function) {
-        } else {
-            $api_function = 'index';
-        }
-
-        if ($api_function == 'module' and $mod_class_api_called == false) {
-
+        if ($is_module_call) {
             return $this->module();
         }
-        $err = false;
-        if (!in_array($api_function, $api_exposed, true)) {
-            $err = true;
-        }
 
-
-
-        if ($err == true) {
-            foreach ($api_exposed as $api_exposed_item) {
-                if ($api_exposed_item == $api_function) {
-                    $err = false;
-                }
-            }
-        }
-
-        if (isset($api_function_full)) {
-            foreach ($api_exposed as $api_exposed_item) {
-                if (is_string($api_exposed_item) and is_string($api_function_full)) {
-                    $api_function_full = str_replace('\\', '/', $api_function_full);
-                    $api_function_full = ltrim($api_function_full, '/');
-
-                    if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
-                        $err = false;
-                    }
-                }
-            }
-        }
-
-        if ($err == false) {
-            if ($mod_class_api_called == false) {
-                if (!request()->isMethod('post')) {
-
-                    //  $data = UrlManager::segment(2);
-                    $data = UrlManager::params(true);
-                    if (empty($data)) {
-                        $data = UrlManager::segment(2);
-                    }
-                } else {
-
-                    //$data = $_REQUEST;
-                    $data = request()->all();
-                }
-
-                $api_function_full_2 = explode('/', $api_function_full);
-                unset($api_function_full_2[count($api_function_full_2) - 1]);
-                $api_function_full_2 = implode('/', $api_function_full_2);
-
-                if (function_exists($api_function)) {
-                    $res = $api_function($data);
-                } elseif (class_exists($api_function, false)) {
-
-                    //
-                    $segs = UrlManager::segment();
-                    $mmethod = array_pop($segs);
-
-                    $class = new $api_function($this->app);
-
-                    if (method_exists($class, $mmethod)) {
-                        $res = $class->$mmethod($data);
-                    }
-                } else {
-                    $api_function_full_2 = str_replace(array('..', '/'), array('', '\\'), $api_function_full_2);
-                    $api_function_full_2 = __NAMESPACE__ . '\\' . $api_function_full_2;
-
-                    if (class_exists($api_function_full_2, false)) {
-
-                        //
-
-                        $segs = UrlManager::segment();
-                        $mmethod = array_pop($segs);
-
-                        $class = new $api_function_full_2($this->app);
-
-                        if (method_exists($class, $mmethod)) {
-                            $res = $class->$mmethod($data);
-                        }
-                    } elseif (isset($api_function_full)) {
-                        $api_function_full = str_replace('\\', '/', $api_function_full);
-
-                        $api_function_full1 = explode('/', $api_function_full);
-                        $mmethod = array_pop($api_function_full1);
-                        $mclass = array_pop($api_function_full1);
-
-                        if (class_exists($mclass, false)) {
-
-                            if (is_array($this->app)) {
-                                $class = new $mclass($this->app);
-                            } else {
-                                $class = new $mclass();
-                            }
-
-                            if (method_exists($class, $mmethod)) {
-                                $res = $class->$mmethod($data);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (isset($res) and isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
-                foreach ($hooks[$api_function] as $hook_key => $hook_value) {
-                    if ($hook_value != false and $hook_value != null) {
-                        $hook_value($res);
-                    }
-                }
-            } else {
-
-                //error('The api function ' . $api_function . ' does not exist', __FILE__, __LINE__);
-            }
-
-            // print $api_function;`
-        } else {
-            $api_function = Format::clean_html($api_function);
-            $api_function = Format::clean_xss($api_function);
-            return response('The api function is not defined in the allowed functions list', 403);
-
-
-        }
-
-        if (isset($res)) {
-            return $this->_api_response($res);
-        }
-
-        return;
-
+        return response('The api function is not defined in the allowed functions list', 403);
     }
 
 

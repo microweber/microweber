@@ -111,17 +111,6 @@ function template_parent($templateName = false)
 
 }
 
-//
-//api_expose('template_stylesheet_reset_and_get_link' , function (){
-//
-//    $template_settings = app()->template_manager->get_config();
-//
-//    $stylesheet = app()->template_manager->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], $template_settings['stylesheet_compiler']['css_file'], false);
-//
-//
-//    return $stylesheet;
-//
-//});
 function template_stylesheet_url()
 {
     $template_settings = app()->template_manager->get_config();
