@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Ai\Services;
 
-use NeuronAI\Observability\Events\ToolCalled;
+use NeuronAI\Agent\Observability\ToolCalled;
 use NeuronAI\Observability\ObserverInterface;
 
 /**
