@@ -78,11 +78,18 @@ class AgentChatMessageStore implements MessageStoreInterface
         // De-duplicate the UI's pre-persisted turn: the chat component/controller
         // save the user message directly for an immediate echo, then the agent
         // appends the same turn through this store. Skip it when the thread's
-        // newest row already has this exact role + content (no message_id of its
-        // own), so the conversation isn't stored twice.
+        // newest row already holds this turn. Besides an exact role+content match,
+        // the Live-Edit controller feeds the model a context-prefixed user message
+        // ("<context>\n\n<raw>") while having stored the raw one — treat that as
+        // the same user turn too, so history keeps the clean raw text once.
         $newest = AgentChatMessage::where('chat_id', $chat->id)->orderByDesc('id')->first();
-        if ($newest !== null && $newest->role === $role && (string) $newest->content === $content) {
-            return;
+        if ($newest !== null && $newest->role === $role) {
+            $existing = (string) $newest->content;
+            $isSame = $content === $existing;
+            $isPrefixedUser = $role === 'user' && $existing !== '' && str_ends_with($content, "\n\n" . $existing);
+            if ($isSame || $isPrefixedUser) {
+                return;
+            }
         }
 
         AgentChatMessage::create([

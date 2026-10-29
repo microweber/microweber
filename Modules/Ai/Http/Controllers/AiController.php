@@ -331,26 +331,20 @@ class AiController extends Controller
                 $responseContent = 'I processed your message but couldn\'t generate a proper response.';
             }
 
-            // Save AI response to database
-            $assistantMessage = AgentChatMessage::create([
-                'chat_id' => $chat->id,
-                'role' => 'assistant',
-                'content' => $responseContent,
-                'agent_type' => $agentType,
-                'metadata' => [
-                    'processed_by' => $agentType,
-                    'timestamp' => now()->toISOString(),
-                    'tools_used' => count($agent->getTools()),
-                ],
-                'processed_at' => now(),
-            ]);
+            // NeuronAI v4 auto-persists the assistant turn to the chat's message
+            // store, so we no longer create it here (that produced a duplicate
+            // assistant row). Read back the persisted row for its id.
+            $assistantMessage = $chat->messages()
+                ->where('role', 'assistant')
+                ->orderByDesc('id')
+                ->first();
 
             return response()->json([
                 'success' => true,
                 'data' => [
                     'response' => $responseContent,
                     'chat_id' => $chat->id,
-                    'message_id' => $assistantMessage->id,
+                    'message_id' => $assistantMessage?->id,
                     'agent_type' => $agentType,
                     'chat_title' => $chat->title,
                     'message_count' => $chat->getMessageCount(),
