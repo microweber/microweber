@@ -53,7 +53,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv, pdo_mysql
           coverage: none
 
@@ -65,18 +65,18 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php8.3-composer-downloads-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php8.4-composer-downloads-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php8.3-composer-downloads-
+            ${{ runner.os }}-php8.4-composer-downloads-
 
       - name: Cache vendor directory
         id: vendor-cache
         uses: actions/cache@v4
         with:
           path: vendor
-          key: ${{ runner.os }}-php8.3-vendor-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php8.4-vendor-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php8.3-vendor-
+            ${{ runner.os }}-php8.4-vendor-
 
       - name: Install Composer dependencies
         if: steps.vendor-cache.outputs.cache-hit != 'true'

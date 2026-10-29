@@ -15,7 +15,7 @@ jobs:
       fail-fast: true
       max-parallel: 1
       matrix:
-        php-versions: [ '8.3' ]
+        php-versions: [ '8.4' ]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -96,7 +96,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: mbstring, dom, fileinfo, gd, curl, zip, sqlite, xml
 
       - name: Get composer cache directory
@@ -106,17 +106,17 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php8.3-composer-downloads-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php8.4-composer-downloads-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php8.3-composer-downloads-
+            ${{ runner.os }}-php8.4-composer-downloads-
       - name: Cache vendor directory (no-dev)
         id: vendor-cache
         uses: actions/cache@v4
         with:
           path: vendor
-          key: ${{ runner.os }}-php8.3-vendor-nodev-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php8.4-vendor-nodev-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php8.3-vendor-nodev-
+            ${{ runner.os }}-php8.4-vendor-nodev-
       - name: Install Dependencies
         if: steps.vendor-cache.outputs.cache-hit != 'true'
         run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader --no-interaction
@@ -194,7 +194,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: mbstring, dom, fileinfo, gd, curl, zip, sqlite, xml
 
       - name: Get composer cache directory
@@ -204,17 +204,17 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php8.3-composer-downloads-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php8.4-composer-downloads-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php8.3-composer-downloads-
+            ${{ runner.os }}-php8.4-composer-downloads-
       - name: Cache vendor directory (no-dev)
         id: vendor-cache
         uses: actions/cache@v4
         with:
           path: vendor
-          key: ${{ runner.os }}-php8.3-vendor-nodev-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php8.4-vendor-nodev-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php8.3-vendor-nodev-
+            ${{ runner.os }}-php8.4-vendor-nodev-
       - name: Install Dependencies
         if: steps.vendor-cache.outputs.cache-hit != 'true'
         run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader --no-interaction
