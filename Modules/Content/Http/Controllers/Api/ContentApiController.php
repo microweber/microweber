@@ -100,7 +100,7 @@ class ContentApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to create content',
-                'error' => $e->getMessage(),
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -201,7 +201,7 @@ class ContentApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to update content',
-                'error' => $e->getMessage(),
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -254,7 +254,7 @@ class ContentApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to delete content',
-                'error' => $e->getMessage(),
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

@@ -82,7 +82,7 @@ class ProductPublicApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to retrieve products',
-                'error' => $e->getMessage(),
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -120,7 +120,7 @@ class ProductPublicApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to retrieve product',
-                'error' => $e->getMessage(),
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -158,7 +158,7 @@ class ProductPublicApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to retrieve product',
-                'error' => $e->getMessage(),
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -191,7 +191,7 @@ class ProductPublicApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to retrieve featured products',
-                'error' => $e->getMessage(),
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -236,7 +236,7 @@ class ProductPublicApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to retrieve products',
-                'error' => $e->getMessage(),
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

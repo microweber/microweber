@@ -56,7 +56,7 @@ class TemplateCustomCssController extends Controller
                 }
             } catch (InvalidCssException $e) {
                 return response()->json([
-                    'error' => $e->getMessage(),
+                    'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
                     'errors' => $e->getErrors(),
                 ], 422);
             } catch (\Throwable) {
@@ -68,7 +68,7 @@ class TemplateCustomCssController extends Controller
             $result = $this->manager->saveLiveEditFromRequest($data);
         } catch (InvalidCssException $e) {
             return response()->json([
-                'error' => $e->getMessage(),
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
                 'errors' => $e->getErrors(),
             ], 422);
         }
@@ -194,7 +194,7 @@ class TemplateCustomCssController extends Controller
             $saved = $this->manager->customCss()->saveCustomCss($css);
         } catch (InvalidCssException $e) {
             return response()->json([
-                'error' => $e->getMessage(),
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
                 'errors' => $e->getErrors(),
             ], 422);
         }

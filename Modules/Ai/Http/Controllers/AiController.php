@@ -78,7 +78,7 @@ class AiController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
+                'message' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.')
             ], 500);
         }
     }
@@ -137,7 +137,7 @@ class AiController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
+                'message' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.')
             ], 500);
         }
     }
@@ -222,7 +222,7 @@ class AiController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
             ], 500);
         }
     }
