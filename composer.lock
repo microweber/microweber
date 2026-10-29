@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7da76fe3ef2fdeae34f98509f66ffbc1",
+    "content-hash": "f0acaae894c97a025362261beeedbfd7",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -5465,141 +5465,6 @@
             "time": "2026-04-05T10:38:18+00:00"
         },
         {
-            "name": "inspector-apm/inspector-php",
-            "version": "3.19.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/inspector-apm/inspector-php.git",
-                "reference": "27d5133dd47e96dabc6fa4f80e7328e5d74848a7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/inspector-apm/inspector-php/zipball/27d5133dd47e96dabc6fa4f80e7328e5d74848a7",
-                "reference": "27d5133dd47e96dabc6fa4f80e7328e5d74848a7",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "ext-curl": "*",
-                "friendsofphp/php-cs-fixer": "^3.75",
-                "neuron-core/neuron-ai": "^4.0",
-                "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^9.0",
-                "rector/rector": "^2.2",
-                "tomasvotruba/type-coverage": "^2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "3.17.x-dev",
-                    "dev-develop": "3.17.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Inspector\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Valerio Barbera",
-                    "email": "valerio@inspector.dev"
-                }
-            ],
-            "description": "Inspector monitoring for PHP applications.",
-            "keywords": [
-                "inspector",
-                "monitoring",
-                "observability",
-                "php",
-                "telemetry"
-            ],
-            "support": {
-                "issues": "https://github.com/inspector-apm/inspector-php/issues",
-                "source": "https://github.com/inspector-apm/inspector-php/tree/3.19.1"
-            },
-            "time": "2026-09-30T10:34:47+00:00"
-        },
-        {
-            "name": "inspector-apm/neuron-ai",
-            "version": "3.17.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/neuron-core/neuron-ai.git",
-                "reference": "3d46ba80472d6c59b6e6d60730ed146e76590e34"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/neuron-core/neuron-ai/zipball/3d46ba80472d6c59b6e6d60730ed146e76590e34",
-                "reference": "3d46ba80472d6c59b6e6d60730ed146e76590e34",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^7.0 || ^8.0",
-                "inspector-apm/inspector-php": "^3.18",
-                "php": "^8.1",
-                "psr/http-message": "^1.0|^2.0"
-            },
-            "require-dev": {
-                "amphp/amp": "^3.1.1",
-                "amphp/http-client": "^5.3",
-                "aws/aws-sdk-php": "^3.209",
-                "elasticsearch/elasticsearch": "^8.0|^9.0",
-                "ext-pdo": "*",
-                "friendsofphp/php-cs-fixer": "^3.75",
-                "google/auth": "^1.49",
-                "html2text/html2text": "^4.3",
-                "illuminate/database": "^10.0|^11.0|^12.0",
-                "laudis/neo4j-php-client": "^3.4",
-                "opensearch-project/opensearch-php": "^2.5",
-                "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^10.0",
-                "rector/rector": "^2.0",
-                "spatie/fork": "^1.2",
-                "tomasvotruba/type-coverage": "^2.0",
-                "typesense/typesense-php": "^5.0",
-                "vlucas/phpdotenv": "^5.6"
-            },
-            "bin": [
-                "bin/neuron"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "NeuronAI\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Valerio Barbera",
-                    "email": "valerio@inspector.dev"
-                }
-            ],
-            "description": "The PHP Agentic Framework.",
-            "support": {
-                "issues": "https://github.com/neuron-core/neuron-ai/issues",
-                "source": "https://github.com/neuron-core/neuron-ai/tree/3.17.2"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/neuron-core",
-                    "type": "github"
-                }
-            ],
-            "abandoned": "neuron-core/neuron-ai",
-            "time": "2026-10-08T07:18:33+00:00"
-        },
-        {
             "name": "intervention/gif",
             "version": "4.2.4",
             "source": {
@@ -9705,14 +9570,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-ai-tools",
-                "reference": "0ff59fdf34f7b72aef04da784cd28f9e1f074550"
+                "reference": "214dfa5453b54073535649d85d808e992872dd9e"
             },
             "require": {
                 "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "inspector-apm/neuron-ai": "^3.0",
                 "microweber-packages/package": "^1.0",
+                "neuron-core/neuron-ai": "^4.0",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
             },
@@ -13939,6 +13804,99 @@
                 "source": "https://github.com/nette/utils/tree/v4.1.5"
             },
             "time": "2026-07-17T23:02:45+00:00"
+        },
+        {
+            "name": "neuron-core/neuron-ai",
+            "version": "4.1.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/neuron-core/neuron-ai.git",
+                "reference": "14ecdbc02adbad066d83e32d4eb3c84f95cacfb7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/neuron-core/neuron-ai/zipball/14ecdbc02adbad066d83e32d4eb3c84f95cacfb7",
+                "reference": "14ecdbc02adbad066d83e32d4eb3c84f95cacfb7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": "^8.1",
+                "psr/event-dispatcher": "^1.0"
+            },
+            "require-dev": {
+                "amphp/amp": "^3.1.1",
+                "amphp/http-client": "^5.3",
+                "aws/aws-sdk-php": "^3.209",
+                "elasticsearch/elasticsearch": "^8.19|^9.0",
+                "ext-bcmath": "*",
+                "ext-igbinary": "*",
+                "ext-mongodb": "*",
+                "ext-pdo": "*",
+                "ext-pdo_pgsql": "*",
+                "ext-redis": "*",
+                "ext-sodium": "*",
+                "friendsofphp/php-cs-fixer": "^3.75",
+                "google/auth": "^1.49",
+                "guzzlehttp/guzzle": "^7.0|^8.0",
+                "html2text/html2text": "^4.3",
+                "illuminate/database": "^10.21|^11.0|^12.0",
+                "laudis/neo4j-php-client": "^3.4",
+                "mongodb/mongodb": "^2.3",
+                "opensearch-project/opensearch-php": "^2.5",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^10.0",
+                "psr/http-message": "^1.0|^2.0",
+                "psr/log": "^1.0|^2.0|^3.0",
+                "pusher/pusher-php-server": "^7.2.4",
+                "rector/rector": "^2.0",
+                "spatie/fork": "^1.2",
+                "symfony/mercure": "^0.7|^0.8",
+                "tomasvotruba/type-coverage": "^2.0",
+                "typesense/typesense-php": "^5.0.2",
+                "vlucas/phpdotenv": "^5.6"
+            },
+            "suggest": {
+                "ext-bcmath": "Exact integer tools in the Calculator toolkit (factorial, combinations, gcd, mod_pow, primes).",
+                "ext-igbinary": "Smaller/faster durable-step serialization via IgbinarySerializer.",
+                "ext-redis": "Redis workflow persistence via RedisPersistence and Pub/Sub streaming via RedisChannel and RedisChannelReader.",
+                "ext-sodium": "End-to-end encryption for Pusher streaming channels.",
+                "psr/log": "Logging observability events through LogListener.",
+                "pusher/pusher-php-server": "Pusher-compatible streaming channels, including encrypted channels (requires >=7.2.4 for HTTP timeout propagation).",
+                "spatie/fork": "Parallel evaluation runs via the --concurrency option (requires ext-pcntl and ext-posix).",
+                "symfony/mercure": "Mercure streaming channel (^0.8 for hubs speaking Mercure protocol 1.0)."
+            },
+            "bin": [
+                "bin/neuron"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NeuronAI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Valerio Barbera",
+                    "email": "valerio@inspector.dev"
+                }
+            ],
+            "description": "A unified layer for building AI-native applications in PHP.",
+            "support": {
+                "issues": "https://github.com/neuron-core/neuron-ai/issues",
+                "source": "https://github.com/neuron-core/neuron-ai/tree/4.1.14"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/neuron-core",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-10-25T14:24:58+00:00"
         },
         {
             "name": "nikic/php-parser",

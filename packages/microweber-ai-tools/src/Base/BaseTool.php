@@ -34,7 +34,10 @@ abstract class BaseTool extends Tool implements ToolInterface
         /** @var array<string, mixed> */
         protected array $dependencies = []
     ) {
-        parent::__construct($name, $description);
+        // NeuronAI v4: Tool is abstract with no constructor; identity is set via
+        // the $name/$description properties (was parent::__construct($name, $description)).
+        $this->name = $name;
+        $this->description = $description;
     }
 
     /**
