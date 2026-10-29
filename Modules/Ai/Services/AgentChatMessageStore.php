@@ -25,7 +25,12 @@ class AgentChatMessageStore implements MessageStoreInterface
     /** @return Message[] */
     public function loadActive(string $threadId): array
     {
-        return $this->toMessages(
+        // v4's ChatHistory validates the message sequence (no leading non-user,
+        // no two consecutive same-role turns). Our table can hold `system` UI
+        // notices and duplicate user rows (the chat UI persists a user message
+        // and the agent also appends one via this store), so return a sanitized,
+        // strictly-alternating user/assistant sequence for the model context.
+        return $this->toValidSequence(
             $this->query($threadId)->whereNull('archived_at')->orderBy('id')->get()
         );
     }
@@ -69,6 +74,16 @@ class AgentChatMessageStore implements MessageStoreInterface
         }
 
         [$role, $content, $metadata] = $this->describe($message);
+
+        // De-duplicate the UI's pre-persisted turn: the chat component/controller
+        // save the user message directly for an immediate echo, then the agent
+        // appends the same turn through this store. Skip it when the thread's
+        // newest row already has this exact role + content (no message_id of its
+        // own), so the conversation isn't stored twice.
+        $newest = AgentChatMessage::where('chat_id', $chat->id)->orderByDesc('id')->first();
+        if ($newest !== null && $newest->role === $role && (string) $newest->content === $content) {
+            return;
+        }
 
         AgentChatMessage::create([
             'chat_id' => $chat->id,
@@ -128,6 +143,43 @@ class AgentChatMessageStore implements MessageStoreInterface
         }
 
         return $messages;
+    }
+
+    /**
+     * Build a model-context sequence v4's HistoryTrimmer accepts: drop `system`
+     * notices, require the first turn to be `user`, and collapse consecutive
+     * same-role rows (keeping the latest of a run).
+     *
+     * @param Collection<int, AgentChatMessage> $rows
+     * @return Message[]
+     */
+    protected function toValidSequence(Collection $rows): array
+    {
+        $kept = [];
+        foreach ($rows as $row) {
+            if ($row->role === 'system') {
+                continue;
+            }
+            $role = in_array($row->role, ['user', 'assistant'], true) ? $row->role : 'assistant';
+
+            if ($kept === [] && $role !== 'user') {
+                continue; // history must open with a user turn
+            }
+            if ($kept !== [] && end($kept)->role === $role) {
+                array_pop($kept); // collapse a consecutive same-role run, keep the latest
+            }
+            $row->role = $role;
+            $kept[] = $row;
+        }
+
+        // The prior context must end on a completed exchange. A trailing `user`
+        // turn is an unanswered/failed message; drop it so the current turn's
+        // user message (appended by the agent) doesn't become user-after-user.
+        while ($kept !== [] && end($kept)->role === 'user') {
+            array_pop($kept);
+        }
+
+        return $this->toMessages(collect($kept));
     }
 
     protected function toMessage(AgentChatMessage $row): Message

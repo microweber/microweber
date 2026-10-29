@@ -11,7 +11,7 @@ use MicroweberPackages\User\Models\User;
 use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Services\AgentFactory;
 use NeuronAI\Chat\Messages\UserMessage;
-use NeuronAI\Workflow\WorkflowState;
+use NeuronAI\Agent\AgentState;
 
 /**
  * Drive the Microweber AI agent from the shell.
@@ -81,7 +81,7 @@ class MicroweberAiCommand extends Command
                 ? $agentFactory->agent($agentType)
                 : $agentFactory->agentWithChat($session);
 
-            $state = new WorkflowState();
+            $state = new AgentState(); // v4: agent graph requires AgentState
             $state->set('user_id', $user->id);
             if ($session !== null) {
                 $state->set('chat_id', $session->id);

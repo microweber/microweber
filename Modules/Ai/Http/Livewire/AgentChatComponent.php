@@ -86,12 +86,12 @@ class AgentChatComponent extends Component
 
     public function checkOnlineStatus(): void
     {
-        $this->isOffline = !$this->isOnline();
-    }
-
-    protected function isOnline(): bool
-    {
-        return !app()->environment('testing') && @fsockopen('www.google.com', 80, $errno, $errstr, 5) !== false;
+        // Do NOT gate the chat on reaching an external host: the AI provider is
+        // typically local (Ollama) and a probe to google.com fails behind
+        // firewalls/sandboxes, wrongly disabling the whole chat. The browser
+        // reports real connectivity via navigator.onLine + the Alpine
+        // online/offline listeners, which keep $isOffline in sync. Default online.
+        $this->isOffline = false;
     }
 
     #[On('refresh-messages')]
@@ -154,8 +154,10 @@ class AgentChatComponent extends Component
             $agentFactory = app(AgentFactory::class);
             $agent = $agentFactory->agentWithChat($this->chat);
 
-            // Set up workflow state
-            $state = new \NeuronAI\Workflow\WorkflowState();
+            // Set up agent state. NeuronAI v4's agent graph validates it is an
+            // AgentState (a WorkflowState subclass); a plain WorkflowState throws
+            // "AgentStartNode needs AgentState".
+            $state = new \NeuronAI\Agent\AgentState();
             $state->set('chat_id', $this->chat->id);
             $state->set('user_id', auth()->id());
 

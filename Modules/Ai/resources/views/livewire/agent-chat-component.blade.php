@@ -269,6 +269,7 @@
         @endif
     </div>
 
+    @assets
     <script>
         function agentChat() {
             return {
@@ -344,6 +345,7 @@
             }
         }
     </script>
+    @endassets
 
     <style>
         .chat-messages::-webkit-scrollbar {
