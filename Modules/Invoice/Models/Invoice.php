@@ -149,7 +149,9 @@ class Invoice extends Model
      */
     public static function generateUniqueHash(): string
     {
-        return md5(uniqid(mt_rand(), true));
+        // CSPRNG, 32 hex chars (128-bit) — same length as the former
+        // md5(uniqid(mt_rand(), true)) but unpredictable.
+        return bin2hex(random_bytes(16));
     }
 
     /**

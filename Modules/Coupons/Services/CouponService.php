@@ -17,7 +17,8 @@ class CouponService
 
     public function generateCouponCode(): string
     {
-        return strtoupper(substr(md5(uniqid()), 0, 8));
+        // CSPRNG (was md5(uniqid()) — clock-seeded, sequentially correlated).
+        return strtoupper(bin2hex(random_bytes(4)));
     }
 
     /**
@@ -31,7 +32,8 @@ class CouponService
     {
         do {
             $code = $prefix ? strtoupper($prefix) . '-' : '';
-            $code .= strtoupper(substr(md5(uniqid()), 0, $length));
+            // CSPRNG hex, trimmed to the requested length (was md5(uniqid())).
+            $code .= strtoupper(substr(bin2hex(random_bytes((int) ceil(max(1, $length) / 2))), 0, $length));
         } while (Coupon::where('coupon_code', $code)->exists());
 
         return $code;

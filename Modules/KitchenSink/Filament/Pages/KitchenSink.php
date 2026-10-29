@@ -157,7 +157,7 @@ class KitchenSink extends Page
                 MwInputSliderGroup::make()
                     ->live()
                     ->afterStateUpdated(function ($state) {
-                        dump($state);
+                        // debug dump removed (info disclosure in admin output)
                     })
                     ->sliders([
                         MwInputSlider::make('min')
@@ -278,7 +278,7 @@ class KitchenSink extends Page
                 MwColorPicker::make('mw_color_picker')
                     ->live()
                     ->afterStateUpdated(function ($state) {
-                        dump($state);
+                        // debug dump removed (info disclosure in admin output)
                     })->columnSpanFull(),
 
                 MwIconPicker::make('mw_icon_picker')
@@ -288,20 +288,20 @@ class KitchenSink extends Page
                     ->addIconSet('fontAwesome')
                     ->addIconSet('materialDesignIcons')
                     ->afterStateUpdated(function ($state) {
-                        dump($state);
+                        // debug dump removed (info disclosure in admin output)
                     })->columnSpanFull(),
 
                 MwLinkPicker::make('mw_link_picker')
                     ->live()
                     ->afterStateUpdated(function ($state) {
-                        dump($state);
+                        // debug dump removed (info disclosure in admin output)
                     })->columnSpanFull(),
 
                 ColorPicker::make('mw_color_picker')
                     ->live()
                     ->default('#133be8')
                     ->afterStateUpdated(function ($state) {
-                        dump($state);
+                        // debug dump removed (info disclosure in admin output)
                     })->columnSpanFull(),
 
                 Actions::make([

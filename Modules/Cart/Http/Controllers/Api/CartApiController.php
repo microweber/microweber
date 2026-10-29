@@ -48,7 +48,7 @@ class CartApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to retrieve cart',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -111,7 +111,7 @@ class CartApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to add item to cart',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -170,7 +170,7 @@ class CartApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to update cart item',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -212,7 +212,7 @@ class CartApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to remove cart item',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -241,7 +241,7 @@ class CartApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to empty cart',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -269,7 +269,7 @@ class CartApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to get cart totals',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -361,7 +361,7 @@ class CartApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to apply coupon',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -402,7 +402,7 @@ class CartApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to remove coupon',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

@@ -59,7 +59,7 @@ class CheckoutApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to get checkout data',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -129,7 +129,7 @@ class CheckoutApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to process checkout',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -168,7 +168,7 @@ class CheckoutApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to update checkout data',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -252,7 +252,7 @@ class CheckoutApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -280,7 +280,7 @@ class CheckoutApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to get shipping methods',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -308,7 +308,7 @@ class CheckoutApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to get payment methods',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -371,7 +371,7 @@ class CheckoutApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to calculate shipping',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -424,7 +424,7 @@ class CheckoutApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to get order status',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

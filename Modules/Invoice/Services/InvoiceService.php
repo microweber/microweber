@@ -48,7 +48,7 @@ class InvoiceService
             $invoice->discount_per_item = $params['discount_per_item'] ?? false;
             $invoice->tax = $params['tax'] ?? null;
             $invoice->notes = $params['notes'] ?? null;
-            $invoice->unique_hash = $params['unique_hash'] ?? md5(uniqid());
+            $invoice->unique_hash = $params['unique_hash'] ?? \Modules\Invoice\Models\Invoice::generateUniqueHash();
             $invoice->save();
 
             return [
