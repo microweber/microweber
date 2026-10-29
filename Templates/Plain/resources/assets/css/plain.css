@@ -366,3 +366,228 @@ ul[class], ol[class] { margin: 0; padding: 0; list-style: none; }
 .modal-backdrop { position: fixed; inset: 0; z-index: 1050; background: #1e1b2e; opacity: .5; }
 .modal-backdrop.show { opacity: .5; }
 
+/* ---- Header gutter ---------------------------------------------------------
+   The shared menus/skin-1 header row carries the Bootstrap -12px gutter margin,
+   and the logo column is px-0, so the logo landed flush at x=0 (touching the
+   viewport corner) on Plain. The .mw-menu-skin-com-container only has the stock
+   12px padding, which the -12px row margin fully cancels. Widen the container
+   gutter so the logo (and the mirror nav on the right) clears the edge; the top
+   social bar gets the same inset so the whole header column lines up.
+   padding-inline keeps it correct under [dir="rtl"]. */
+.mw-main .navigation-holder .mw-menu-skin-com-container,
+.mw-main .navigation-holder .top-header-background { padding-inline: clamp(24px, 3vw, 40px); }
+
+/* The shared header skin places some nav items (e.g. the social-links wrapper
+   <li class="btn-socials">) directly inside a <div> rather than a <ul>, so with
+   Plain's minimal CSS they keep the browser-default disc marker — a stray bullet
+   in the header's top-left when no social links are configured. The plain.css
+   reset only targets ul[class]/ol[class], so clear the marker on header list
+   items directly. */
+.mw-main .navigation-holder li { list-style: none; }
+
+/* =============================================================================
+   Plain template — READABLE BASELINE (typography + components).
+
+   Everything above is structure-only. The built-in Microweber layout skins
+   (content / features / gallery / pricing / cta …) assume Bootstrap's type scale
+   and component styling, so without this they render with tiny headings, bare
+   "btn" text-links and no rhythm. This layer supplies NEUTRAL, overridable
+   defaults so the skins read correctly out of the box. Element rules carry NO
+   !important on purpose: the AI agent's global live_edit.css loads LAST (footer)
+   and must win. Colours stay neutral (ink + grays + Bootstrap blue accent) so
+   nothing fights an applied brand design.
+   ============================================================================= */
+
+/* ---- base body + headings -------------------------------------------------- */
+body { font-size: 1rem; color: #212529; }
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 { margin-bottom: .5rem; font-weight: 600; line-height: 1.2; color: inherit; }
+h1, .h1 { font-size: calc(1.375rem + 1.5vw); }
+h2, .h2 { font-size: calc(1.325rem + .9vw); }
+h3, .h3 { font-size: calc(1.3rem + .6vw); }
+h4, .h4 { font-size: calc(1.275rem + .3vw); }
+h5, .h5 { font-size: 1.25rem; }
+h6, .h6 { font-size: 1rem; }
+@media (min-width: 1200px) {
+  h1, .h1 { font-size: 2.5rem; } h2, .h2 { font-size: 2rem; }
+  h3, .h3 { font-size: 1.75rem; } h4, .h4 { font-size: 1.5rem; }
+}
+
+/* ---- display / lead / small ------------------------------------------------ */
+.display-1 { font-size: calc(1.625rem + 4.5vw); font-weight: 300; line-height: 1.2; }
+.display-2 { font-size: calc(1.575rem + 3.9vw); font-weight: 300; line-height: 1.2; }
+.display-3 { font-size: calc(1.525rem + 3.3vw); font-weight: 300; line-height: 1.2; }
+.display-4 { font-size: calc(1.475rem + 2.7vw); font-weight: 300; line-height: 1.2; }
+.display-5 { font-size: calc(1.425rem + 2.1vw); font-weight: 300; line-height: 1.2; }
+.display-6 { font-size: calc(1.375rem + 1.5vw); font-weight: 300; line-height: 1.2; }
+@media (min-width: 1200px) {
+  .display-1 { font-size: 5rem; } .display-2 { font-size: 4.5rem; } .display-3 { font-size: 4rem; }
+  .display-4 { font-size: 3.5rem; } .display-5 { font-size: 3rem; } .display-6 { font-size: 2.5rem; }
+}
+.lead { font-size: 1.25rem; font-weight: 300; }
+small, .small { font-size: .875em; }
+
+/* ---- flow: paragraphs / lists / rules / plain links ------------------------ */
+p { margin-bottom: 1rem; }
+.mw-main p:last-child { margin-bottom: 0; }
+ul:not([class]), ol:not([class]) { margin: 0 0 1rem; padding-left: 1.5rem; }
+blockquote { margin: 0 0 1rem; }
+hr { border: 0; border-top: 1px solid currentColor; margin: 1rem 0; opacity: .2; }
+a:not([class]) { color: #0d6efd; text-decoration: underline; }
+
+/* ---- font-size / weight / style utilities ---------------------------------- */
+.fs-1 { font-size: calc(1.375rem + 1.5vw) !important; }
+.fs-2 { font-size: calc(1.325rem + .9vw) !important; }
+.fs-3 { font-size: calc(1.3rem + .6vw) !important; }
+.fs-4 { font-size: calc(1.275rem + .3vw) !important; }
+.fs-5 { font-size: 1.25rem !important; }
+.fs-6 { font-size: 1rem !important; }
+.fw-light { font-weight: 300 !important; } .fw-normal { font-weight: 400 !important; }
+.fw-medium { font-weight: 500 !important; } .fw-semibold { font-weight: 600 !important; }
+.fw-bold, .font-weight-bold { font-weight: 700 !important; } .fw-bolder { font-weight: bolder !important; }
+.fst-italic { font-style: italic !important; } .fst-normal { font-style: normal !important; }
+.lh-1 { line-height: 1 !important; } .lh-sm { line-height: 1.25 !important; }
+.lh-base { line-height: 1.5 !important; } .lh-lg { line-height: 2 !important; }
+.text-uppercase { text-transform: uppercase !important; }
+.text-lowercase { text-transform: lowercase !important; }
+.text-capitalize { text-transform: capitalize !important; }
+.text-nowrap { white-space: nowrap !important; }
+.text-truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.text-decoration-none { text-decoration: none !important; }
+.text-decoration-underline { text-decoration: underline !important; }
+
+/* ---- text / background colours (neutral) ----------------------------------- */
+.text-muted { color: #6c757d !important; }
+.text-body { color: #212529 !important; }
+.text-white { color: #fff !important; }
+.text-dark { color: #212529 !important; }
+.text-black { color: #000 !important; }
+.text-primary { color: #0d6efd !important; }
+.text-secondary { color: #6c757d !important; }
+.text-reset { color: inherit !important; }
+.bg-white { background-color: #fff !important; }
+.bg-light { background-color: #f8f9fa !important; }
+.bg-body { background-color: #fff !important; }
+.bg-dark { background-color: #212529 !important; }
+.bg-black { background-color: #000 !important; }
+.bg-primary { background-color: #0d6efd !important; }
+.bg-secondary { background-color: #6c757d !important; }
+.bg-transparent { background-color: transparent !important; }
+
+/* ---- buttons --------------------------------------------------------------- */
+.btn {
+  padding: .5rem 1.25rem; border: 1px solid transparent; border-radius: .5rem;
+  font-weight: 600; line-height: 1.5; text-align: center; background-color: transparent;
+  transition: color .15s ease, background-color .15s ease, border-color .15s ease;
+}
+.btn:hover { text-decoration: none; }
+.btn-lg { padding: .75rem 1.75rem; font-size: 1.125rem; border-radius: .625rem; }
+.btn-sm { padding: .3rem .85rem; font-size: .875rem; border-radius: .4rem; }
+.btn-primary { background-color: #0d6efd; border-color: #0d6efd; color: #fff; }
+.btn-primary:hover { background-color: #0b5ed7; border-color: #0a58ca; color: #fff; }
+.btn-secondary { background-color: #6c757d; border-color: #6c757d; color: #fff; }
+.btn-secondary:hover { background-color: #5c636a; color: #fff; }
+.btn-dark { background-color: #212529; border-color: #212529; color: #fff; }
+.btn-dark:hover { background-color: #1c1f23; color: #fff; }
+.btn-light { background-color: #f8f9fa; border-color: #f8f9fa; color: #212529; }
+.btn-light:hover { background-color: #e9ecef; color: #212529; }
+.btn-outline-primary { border-color: #0d6efd; color: #0d6efd; }
+.btn-outline-primary:hover { background-color: #0d6efd; color: #fff; }
+.btn-outline-dark { border-color: #212529; color: #212529; }
+.btn-outline-dark:hover { background-color: #212529; color: #fff; }
+.btn-outline-light { border-color: #f8f9fa; color: #f8f9fa; }
+.btn-outline-light:hover { background-color: #f8f9fa; color: #212529; }
+
+/* ---- cards ----------------------------------------------------------------- */
+.card { background-color: #fff; border: 1px solid rgba(0,0,0,.125); border-radius: .5rem; }
+.card-body { padding: 1.25rem; }
+.card-title { margin-bottom: .5rem; font-weight: 600; }
+.card-subtitle { margin-top: -.25rem; margin-bottom: 0; }
+.card-text:last-child { margin-bottom: 0; }
+.card-img, .card-img-top { border-top-left-radius: calc(.5rem - 1px); border-top-right-radius: calc(.5rem - 1px); }
+.card-img-bottom { border-bottom-left-radius: calc(.5rem - 1px); border-bottom-right-radius: calc(.5rem - 1px); }
+.card-header { padding: .75rem 1.25rem; border-bottom: 1px solid rgba(0,0,0,.125); }
+.card-footer { padding: .75rem 1.25rem; border-top: 1px solid rgba(0,0,0,.125); }
+
+/* ---- images / borders / shadows / rounding --------------------------------- */
+.img-fluid { max-width: 100%; height: auto; }
+.img-thumbnail { padding: .25rem; border: 1px solid #dee2e6; border-radius: .375rem; background: #fff; }
+.rounded { border-radius: .375rem !important; }
+.rounded-0 { border-radius: 0 !important; }
+.rounded-1 { border-radius: .2rem !important; }
+.rounded-2 { border-radius: .375rem !important; }
+.rounded-3 { border-radius: .5rem !important; }
+.rounded-circle { border-radius: 50% !important; }
+.rounded-pill { border-radius: 50rem !important; }
+.border { border: 1px solid #dee2e6 !important; }
+.border-0 { border: 0 !important; }
+.shadow-sm { box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important; }
+.shadow { box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important; }
+.shadow-lg { box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important; }
+.shadow-none { box-shadow: none !important; }
+
+/* ---- badges / alerts ------------------------------------------------------- */
+.badge { display: inline-block; padding: .35em .65em; font-size: .75em; font-weight: 700; line-height: 1; text-align: center; white-space: nowrap; border-radius: .375rem; }
+.alert { position: relative; padding: 1rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: .5rem; }
+
+/* ---- form controls (readable) ---------------------------------------------- */
+.form-control, .form-select {
+  padding: .5rem .75rem; border: 1px solid #ced4da; border-radius: .375rem;
+  background-color: #fff; line-height: 1.5;
+}
+.form-control:focus, .form-select:focus { outline: 0; border-color: #86b7fe; box-shadow: 0 0 0 .25rem rgba(13,110,253,.25); }
+.form-label { margin-bottom: .5rem; }
+
+/* ---- extended spacing scale (6 = 2rem, 7 = 3rem) --------------------------- */
+/* Microweber's built-in skins use spacers 6 and 7 (e.g. mb-6 / mb-7 appear in
+   dozens of content skins) beyond Bootstrap's stock 0–5 ladder. Without these
+   the large section gaps collapse and the skins render cramped. Values match the
+   richer templates' bundle (Big2) so a skin lays out identically on Plain. */
+.m-6 { margin: 2rem !important; } .m-7 { margin: 3rem !important; }
+.mt-6 { margin-top: 2rem !important; } .mt-7 { margin-top: 3rem !important; }
+.mb-6 { margin-bottom: 2rem !important; } .mb-7 { margin-bottom: 3rem !important; }
+.ms-6 { margin-left: 2rem !important; } .ms-7 { margin-left: 3rem !important; }
+.me-6 { margin-right: 2rem !important; } .me-7 { margin-right: 3rem !important; }
+.mx-6 { margin-left: 2rem !important; margin-right: 2rem !important; }
+.mx-7 { margin-left: 3rem !important; margin-right: 3rem !important; }
+.my-6 { margin-top: 2rem !important; margin-bottom: 2rem !important; }
+.my-7 { margin-top: 3rem !important; margin-bottom: 3rem !important; }
+.p-6 { padding: 2rem !important; } .p-7 { padding: 3rem !important; }
+.pt-6 { padding-top: 2rem !important; } .pt-7 { padding-top: 3rem !important; }
+.pb-6 { padding-bottom: 2rem !important; } .pb-7 { padding-bottom: 3rem !important; }
+.ps-6 { padding-left: 2rem !important; } .ps-7 { padding-left: 3rem !important; }
+.pe-6 { padding-right: 2rem !important; } .pe-7 { padding-right: 3rem !important; }
+.px-6 { padding-left: 2rem !important; padding-right: 2rem !important; }
+.px-7 { padding-left: 3rem !important; padding-right: 3rem !important; }
+.py-6 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+.py-7 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+
+/* ---- object-fit utilities -------------------------------------------------- */
+.object-fit-contain { object-fit: contain !important; }
+.object-fit-cover { object-fit: cover !important; }
+.object-fit-fill { object-fit: fill !important; }
+.object-fit-scale { object-fit: scale-down !important; }
+.object-fit-none { object-fit: none !important; }
+
+/* ---- img-as-background ------------------------------------------------------
+   Microweber skin class (used by ~17 layout skins) that turns a regular <img>
+   into a full-bleed background filling its wrapper. Without it the image renders
+   inline at natural size and breaks the section. Mirrors the Big2 bundle. */
+.img-as-background { overflow: hidden; position: relative; }
+.img-as-background img {
+  position: absolute; top: 0; left: -1px; z-index: 0;
+  width: calc(100% + 1px); max-width: none; height: 100%; margin: 0 auto;
+  object-fit: cover; object-position: center;
+}
+
+/* ---- aspect-ratio boxes (square family) -----------------------------------
+   Microweber skins use .square (53× across the layouts) + .square-75/.square-50
+   to give an img-as-background wrapper a fixed aspect, so its absolutely-
+   positioned image has a height to fill. Without it the wrapper collapses to 0
+   and the image vanishes. Classic padding-bottom aspect trick (matches Big2). */
+.square, .square-75, .square-50 { position: relative; }
+.square::after { content: ""; display: block; padding-bottom: 100%; }
+.square-75::after { content: ""; display: block; padding-bottom: 75%; }
+.square-50::after { content: ""; display: block; padding-bottom: 50%; }
+.square .content { padding: 0 20px; }
+
