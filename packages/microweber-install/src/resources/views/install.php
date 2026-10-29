@@ -112,7 +112,7 @@
                         var requrest_template = '';
 
                         <?php if (isset($_GET['request_template'])): ?>
-                        requrest_template = '<?php echo $_GET['request_template'];?>';
+                        requrest_template = <?php echo json_encode((string) $_GET['request_template'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
                         <?php endif; ?>
 
                         if (requrest_template == value.dir_name) {

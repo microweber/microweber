@@ -41,6 +41,25 @@ $enableUserRegistration = get_option('enable_user_registration', 'users');
 $showRegisterTab = $enableUserRegistration != 0;
 $redirect = $_GET['redirect'] ?? request()->get('redirect', '');
 
+// SECURITY (XSS / open-redirect): `redirect` is attacker-controllable. {{ }}
+// escapes HTML but not the `javascript:` URI scheme in an href context, and a
+// protocol-relative `//evil.com` would redirect off-site. Allow only a
+// site-relative path (single leading slash) or an absolute URL on this host.
+if ($redirect !== '') {
+    $isRelative = is_string($redirect) && strlen($redirect) > 1
+        && $redirect[0] === '/' && $redirect[1] !== '/' && $redirect[1] !== '\\';
+    if (!$isRelative) {
+        $parts = is_string($redirect) ? parse_url($redirect) : false;
+        $sameHost = is_array($parts)
+            && isset($parts['scheme'], $parts['host'])
+            && in_array(strtolower($parts['scheme']), ['http', 'https'], true)
+            && strtolower($parts['host']) === strtolower(request()->getHost());
+        if (!$sameHost) {
+            $redirect = '';
+        }
+    }
+}
+
 ?>
 @extends($extends)
 
