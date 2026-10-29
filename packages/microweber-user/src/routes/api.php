@@ -63,7 +63,12 @@ Route::prefix('api')
 Route::prefix('api')
     ->middleware(['admin', 'api', \MicroweberPackages\App\Http\Middleware\XSS::class])
     ->group(function () {
-        Route::any('user_make_logged', [UserLegacyApiController::class, 'makeLogged'])
+        // POST only: as Route::any it was GET-reachable, and with SameSite=lax
+        // session cookies a top-level cross-site GET navigation still sends the
+        // admin's cookie — so a crafted link could silently re-log an admin in
+        // as another user (CSRF impersonation). A cross-site POST does not carry
+        // the lax cookie.
+        Route::post('user_make_logged', [UserLegacyApiController::class, 'makeLogged'])
             ->name('api.user_make_logged');
 
         Route::any('users/register_email_send_test', [UserLegacyApiController::class, 'registerEmailSendTest'])
