@@ -32,16 +32,19 @@ class AgentChatMessage extends Model
 
     protected $fillable = [
         'chat_id',
+        'message_id',
         'role',
         'content',
         'metadata',
         'agent_type',
         'processed_at',
+        'archived_at',
     ];
 
     protected $casts = [
         'metadata' => 'array',
         'processed_at' => 'datetime',
+        'archived_at' => 'datetime',
     ];
 
     public function chat(): BelongsTo

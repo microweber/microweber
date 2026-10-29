@@ -9,9 +9,10 @@ use MicroweberPackages\AiTools\Facades\AiTools;
 
 use GuzzleHttp\Exception\RequestException;
 use Modules\Ai\Models\AgentChat;
-use Modules\Ai\Services\AgentChatHistory;
+use Modules\Ai\Services\AgentChatMessageStore;
 use NeuronAI\Agent\Agent;
-use NeuronAI\Chat\History\ChatHistoryInterface;
+use NeuronAI\Chat\History\MessageStoreInterface;
+use NeuronAI\Chat\History\InMemoryMessageStore;
 use NeuronAI\Chat\Messages\Message;
 use NeuronAI\Chat\Messages\ToolCallMessage;
 use NeuronAI\Chat\Messages\UserMessage;
@@ -39,7 +40,10 @@ class BaseAgent extends Agent
     protected array $tools = [];
     protected string $domain;
     protected int $maxTries = 5;
-    protected string $instructions = 'Your are a helpful and friendly AI that can help with anything that is asked.';
+    // NeuronAI v4: the Agent (HandleInstructions trait) declares
+    // `protected SystemMessage $instructions`; a `string $instructions` here would
+    // be a fatal property-type collision. Each concrete agent overrides
+    // instructions() anyway, so no default property is needed.
     protected $providerName = null;
     protected $model = null;
     protected ?AgentChat $agentChat = null;
@@ -105,7 +109,7 @@ class BaseAgent extends Agent
     }
 
 
-    public function setState(WorkflowState $state): \NeuronAI\Workflow\WorkflowInterface
+    public function setState(WorkflowState $state): static
     {
         foreach ($this->tools as $tool) {
             if (method_exists($tool, 'setState')) {
@@ -113,8 +117,7 @@ class BaseAgent extends Agent
             }
         }
 
-        // NeuronAI 3.x: Workflow::setState() returns WorkflowInterface (was void
-        // in 2.x). Delegate to the parent so the base wiring runs, then return it.
+        // NeuronAI v4: ResolveState::setState() returns static.
         return parent::setState($state);
     }
 
@@ -123,7 +126,7 @@ class BaseAgent extends Agent
         return $this->tools;
     }
 
-    public function addTool(ToolInterface|ToolkitInterface|ProviderToolInterface|array $tools): AgentInterface
+    public function addTool(ToolInterface|ToolkitInterface|ProviderToolInterface|array $tools): static
     {
         if (is_array($tools)) {
             foreach ($tools as $tool) {
@@ -147,6 +150,10 @@ class BaseAgent extends Agent
     public function setAgentChat(AgentChat $agentChat): self
     {
         $this->agentChat = $agentChat;
+        // NeuronAI v4: the agent is addressed by a thread ID (the conversation).
+        // chat()/stream() require one bound before they run; the message store
+        // resolves the AgentChat from it.
+        $this->setThreadId((string) $agentChat->id);
         return $this;
     }
 
@@ -159,21 +166,21 @@ class BaseAgent extends Agent
     }
 
     /**
-     * Override chatHistory to use our database-backed implementation
+     * NeuronAI v4: provide the database-backed message store (was chatHistory()).
+     * The store is stateless and resolves the AgentChat from the bound thread ID;
+     * with no AgentChat we fall back to the in-memory store.
      */
-    protected function chatHistory(): ChatHistoryInterface
+    protected function messageStore(): MessageStoreInterface
     {
-        if ($this->agentChat) {
-            return new AgentChatHistory(
-                chat: $this->agentChat,
-                contextWindow: $this->getContextWindow()
-            );
-        }
+        return $this->agentChat ? new AgentChatMessageStore() : new InMemoryMessageStore();
+    }
 
-        // Fallback to in-memory if no AgentChat is set
-        return new \NeuronAI\Chat\History\InMemoryChatHistory(
-            contextWindow: $this->getContextWindow()
-        );
+    /**
+     * NeuronAI v4: the context window is a hook on the Agent.
+     */
+    protected function contextWindow(): int
+    {
+        return $this->getContextWindow();
     }
 
     /**
