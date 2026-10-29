@@ -148,9 +148,13 @@ export class LiveEditWidgetsService extends BaseComponent{
     }
 
     #zIndex(target) {
-        const treeBox = mw.top().app.domTree.box.box;
+        const treeBox = mw.top().app.domTree?.box?.box;
         const adminBox = mw.top().doc.querySelector('aside.fi-sidebar');
         [treeBox, adminBox].forEach(box => {
+            // adminBox (aside.fi-sidebar) is absent in preview / setup-wizard mode,
+            // and the tree box may not be mounted yet — skip any missing box so
+            // closeAll() doesn't throw "Cannot read properties of null (style)".
+            if (!box) return;
             box.style.setProperty('z-index', (box === target ? 101 : 99), 'important');
         })
 

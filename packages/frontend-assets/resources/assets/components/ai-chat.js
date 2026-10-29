@@ -64,6 +64,31 @@ const AIChatFormCSS = `
         transition: border-color .15s ease, box-shadow .15s ease;
      }
 
+     /* Base text-field sizing. Keep it in the widget's own CSS so the field
+        renders full-width wherever the widget is mounted (e.g. the setup
+        wizard), instead of depending on a consumer component shipping these
+        rules in its own global <style>. Without this the textarea falls back
+        to the browser default (small inline-block cols/rows box). */
+     .mw-ai-chat-box .mw-ai-chat-box-area-field{
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 100px;
+        padding: 24px 20px 16px 20px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #2d3748;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        outline: none;
+        resize: none;
+     }
+     .mw-ai-chat-box .mw-ai-chat-box-area-field::placeholder{
+        color: #a0aec0;
+        opacity: 1;
+     }
+
     html.dark .mw-ai-chat-box-area textareat::placeholder {
         color: white;
         opacity: 0.5;
