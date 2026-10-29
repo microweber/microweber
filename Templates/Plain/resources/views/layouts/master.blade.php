@@ -48,7 +48,9 @@
         @yield('content')
     </main>
 
-    <module type="layouts" template="footers/skin-1" id="footer-layout" template-filter="footers" />
+    {{-- Simple footer skin (container + editable copyright line) instead of the
+         3-column footers/skin-1. --}}
+    <module type="layouts" template="footers/skin-30" id="footer-layout" template-filter="footers" />
 </div>
 
 {{-- Frontend JS from our own framework (vendored Bootstrap 5 bundle: dropdowns,
