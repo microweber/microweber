@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build docker images
-        run: docker-compose build
+        run: docker compose build
 
   build:
     name: Docker build

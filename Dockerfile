@@ -166,9 +166,13 @@ RUN apk add --no-cache \
     vim \
     htop
 
-# Install Xdebug
-RUN pecl install xdebug && \
-    docker-php-ext-enable xdebug
+# Install Xdebug (build via a temporary virtual package: phpize/pecl needs
+# autoconf + a C toolchain, which the runtime image doesn't ship — $PHPIZE_DEPS
+# provides them. Removed again afterwards to keep the image slim.)
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS && \
+    pecl install xdebug && \
+    docker-php-ext-enable xdebug && \
+    apk del .build-deps
 
 # Configure Xdebug
 RUN { \
