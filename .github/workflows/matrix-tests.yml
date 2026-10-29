@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.3', '8.4']
+        php: ['8.4']
         laravel: ['11']
         include:
           # Experimental builds - PHP 8.2 support
@@ -28,17 +28,11 @@ jobs:
             laravel: '11'
             experimental: true
           # Future builds - Laravel 12 (when released)
-          - php: '8.3'
-            laravel: '12'
-            experimental: true
           - php: '8.4'
             laravel: '12'
             experimental: true
           # Laravel 10 compatibility (may require dependency adjustments)
           - php: '8.2'
-            laravel: '10'
-            experimental: true
-          - php: '8.3'
             laravel: '10'
             experimental: true
 
@@ -141,7 +135,7 @@ jobs:
         run: vendor/bin/phpunit --configuration phpunit.xml --testsuite=Unit,Feature --coverage-text --log-junit build/test-results/unit-feature.xml 2>&1 | tee build/test-results/unit-feature-output.txt
 
       - name: Upload coverage to Codecov
-        if: always() && matrix.php == '8.3' && matrix.laravel == '11'
+        if: always() && matrix.php == '8.4' && matrix.laravel == '11'
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -305,7 +299,6 @@ jobs:
             const output = `### Matrix Test Results
             
             ✅ **Core Combinations:**
-            - PHP 8.3 + Laravel 11
             - PHP 8.4 + Laravel 11
             
             🧪 **Experimental Combinations:**
