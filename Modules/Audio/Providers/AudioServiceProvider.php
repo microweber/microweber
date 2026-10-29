@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Route;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
-use MicroweberPackages\Module\Http\Controllers\ModuleController;
 use Modules\Audio\Filament\AudioModuleSettings;
 
 class AudioServiceProvider extends BaseModuleServiceProvider
