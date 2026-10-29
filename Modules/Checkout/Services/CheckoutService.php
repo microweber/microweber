@@ -457,7 +457,8 @@ class CheckoutService
             'coupon_id' => $couponCodeGetDataFromSession['id'] ?? null,
             'items_count' => $this->app->cart_manager->sum(false),
             'order_reference_id' => $order_reference_id,
-            'payment_verify_token' => md5(uniqid(time())),
+            // CSPRNG token (was md5(uniqid(time())) — clock-seeded, predictable).
+            'payment_verify_token' => bin2hex(random_bytes(20)),
         ];
 
         // Add customer fields
@@ -482,9 +483,20 @@ class CheckoutService
 
         //dd($data, $orderData);
 
-        $orderDataMerged = array_merge($orderData, $data);
-        if(isset($data['id'])){
-            unset($orderDataMerged['id']);
+        // SECURITY (order integrity, CWE-345/-639): the client request may only
+        // contribute benign extras (notes, selections) — every server-computed
+        // field MUST win. Merging with $orderData LAST (not $data) means the
+        // trusted amount / is_paid / order_status / taxes / discount / shipping /
+        // currency / verify-token always override anything the caller sent.
+        // Without this, the public `POST api/module/checkout` let a client set
+        // `amount=0.01` (gateway charges a penny for any cart) or `is_paid=1`
+        // (order marked paid with no payment via the no-gateway branch).
+        $orderDataMerged = array_merge($data, $orderData);
+        unset($orderDataMerged['id']);
+        // Fields the server doesn't set here but that must never come from the
+        // client (payment state is established only by a verified gateway/webhook).
+        foreach (['payment_status', 'transaction_id', 'paid', 'paid_at', 'is_canceled'] as $protected) {
+            unset($orderDataMerged[$protected]);
         }
 
         return $orderDataMerged;
