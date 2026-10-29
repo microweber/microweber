@@ -101,7 +101,11 @@ class AnalyticsAudienceBreakdownTool extends AbstractAnalyticsTool
                         'stats_browser_agents.is_phone',
                         'stats_browser_agents.is_tablet',
                         'stats_browser_agents.is_robot',
-                        DB::raw('COUNT(stats_sessions.id) as sessions_count')
+                        // COUNT(*) not COUNT(stats_sessions.id): a raw table ref
+                        // isn't table-prefixed by the builder, so it broke when a
+                        // DB table prefix is configured (unknown column
+                        // stats_sessions.id). id is the PK, so COUNT(*) is equal.
+                        DB::raw('COUNT(*) as sessions_count')
                     )
                     ->groupBy(
                         'stats_browser_agents.is_desktop',
