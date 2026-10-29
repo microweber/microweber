@@ -121,21 +121,52 @@ class ThumbnailController extends Controller
      */
     protected function resolveSourcePath(string $src): ?string
     {
-        // Already an absolute path that exists
-        if (is_file($src)) {
-            return $src;
+        // A full site URL (e.g. after {SITE_URL} expansion) reduces to its path.
+        if (str_starts_with($src, 'http://') || str_starts_with($src, 'https://')) {
+            $parsed = parse_url($src, PHP_URL_PATH);
+            $src = is_string($parsed) ? $parsed : '';
         }
 
-        // Try public_path
-        $publicPath = public_path($src);
-        if (is_file($publicPath)) {
-            return $publicPath;
+        $src = str_replace('\\', '/', $src);
+
+        // SECURITY (CWE-22): `src` is attacker-controlled on the public
+        // /thumbnail_img route. Resolve it only to a file whose realpath is
+        // contained inside the public web root or the public storage disk
+        // (which holds userfiles/media). Reject traversal, NUL bytes, and
+        // absolute paths that escape those roots. Previously `is_file($src)`
+        // returned any absolute path verbatim and public_path()/storage_path()
+        // were fed the raw value, so `?src=/path/any.svg` or `?src=../../x.svg`
+        // streamed arbitrary server-readable files to anonymous callers.
+        if ($src === '' || str_contains($src, '..') || str_contains($src, "\0")) {
+            return null;
         }
 
-        // Try storage path
-        $storagePath = storage_path('app/public/' . ltrim($src, '/'));
-        if (is_file($storagePath)) {
-            return $storagePath;
+        $roots = array_values(array_filter([
+            realpath(public_path()),
+            realpath(storage_path('app/public')),
+        ]));
+
+        $isAbsolute = str_starts_with($src, '/') || preg_match('#^[A-Za-z]:/#', $src) === 1;
+        $relative = ltrim($src, '/');
+
+        $candidates = [];
+        if ($isAbsolute) {
+            // Honoured only if the containment check below passes.
+            $candidates[] = $src;
+        }
+        $candidates[] = public_path($relative);
+        $candidates[] = storage_path('app/public/' . $relative);
+
+        foreach ($candidates as $candidate) {
+            $real = realpath($candidate);
+            if ($real === false || !is_file($real)) {
+                continue;
+            }
+            foreach ($roots as $root) {
+                if ($real === $root || str_starts_with($real, $root . DIRECTORY_SEPARATOR)) {
+                    return $real;
+                }
+            }
         }
 
         return null;
