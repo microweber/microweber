@@ -501,14 +501,10 @@ class ImageOptimizationService
             $path = is_string($parsed) ? $parsed : '';
         }
 
-        // SECURITY (CWE-22): `src` is attacker-controlled on the public
-        // image-optimization routes. Only ever resolve to a file whose realpath
-        // is contained inside the public web root or the public storage disk.
-        // An absolute path is honoured ONLY when it already lives inside one of
-        // those roots (internal callers pass real storage paths); anything else
-        // — /etc/passwd, the project-root .env, a /tmp file — resolves to ''.
-        // Previously `is_file($path)` returned any absolute path verbatim, which
-        // served arbitrary files to unauthenticated callers.
+        // SECURITY (CWE-22): `src` is attacker-controlled; resolve only to a file
+        // whose realpath is inside the public web root / public storage disk
+        // (absolute paths honoured only if already within a root). Previously
+        // `is_file($path)` returned any absolute path, serving arbitrary files.
         $path = str_replace('\\', '/', $path);
 
         if ($path === '' || str_contains($path, '..') || str_contains($path, "\0")) {

@@ -188,9 +188,7 @@ class NewsletterMailSender
             $mailProvider->setToName($this->subscriber['name']);
 
 
-            // Carry the per-subscriber ownership token so the unsubscribe page
-            // can verify the request without letting anyone opt out an arbitrary
-            // address by email alone.
+            // Carry the ownership token so unsubscribe can't be driven by email alone.
             $unsubscribeParams = ['email' => $this->subscriber['email']];
             if (!empty($this->subscriber['confirmation_code'])) {
                 $unsubscribeParams['code'] = $this->subscriber['confirmation_code'];

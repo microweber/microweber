@@ -129,14 +129,10 @@ class ThumbnailController extends Controller
 
         $src = str_replace('\\', '/', $src);
 
-        // SECURITY (CWE-22): `src` is attacker-controlled on the public
-        // /thumbnail_img route. Resolve it only to a file whose realpath is
-        // contained inside the public web root or the public storage disk
-        // (which holds userfiles/media). Reject traversal, NUL bytes, and
-        // absolute paths that escape those roots. Previously `is_file($src)`
-        // returned any absolute path verbatim and public_path()/storage_path()
-        // were fed the raw value, so `?src=/path/any.svg` or `?src=../../x.svg`
-        // streamed arbitrary server-readable files to anonymous callers.
+        // SECURITY (CWE-22): `src` is attacker-controlled; resolve only to a file
+        // whose realpath is inside the public web root / public storage disk
+        // (holds userfiles/media). Previously `is_file($src)` returned any
+        // absolute path, so `?src=/any.svg` or `?src=../../x.svg` leaked files.
         if ($src === '' || str_contains($src, '..') || str_contains($src, "\0")) {
             return null;
         }

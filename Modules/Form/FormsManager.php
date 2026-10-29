@@ -722,8 +722,7 @@ class FormsManager
             $formDataValue->field_name = xss_clean($dataValue['field_name']);
             $formDataValue->field_key = xss_clean($dataValue['field_key']);
             $formDataValue->field_value = xss_clean($dataValue['field_value']);
-            // Clean the multi-value JSON column too (it was the only sibling left
-            // raw) so it can't carry markup into the admin entry view.
+            // Clean the multi-value JSON column too (was the only sibling left raw).
             $formDataValue->field_value_json = xss_clean($dataValue['field_value_json']);
             $formDataValue->form_data_id = $save;
             $formDataValue->save();

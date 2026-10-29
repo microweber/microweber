@@ -340,10 +340,8 @@ class NewsletterApiController extends Controller
 
         $data = $validator->validated();
 
-        // Ownership: a guest must present the per-subscriber confirmation_code
-        // (a UUID issued on subscribe) to prove they control the address.
-        // Without this, anyone could force-unsubscribe an arbitrary known email.
-        // Admins may unsubscribe by email alone (list management).
+        // A guest must present the matching confirmation_code (admins may use
+        // email alone); else anyone could force-unsubscribe a known address.
         $isAdmin = $request->user() && (int) $request->user()->is_admin === 1;
         if (!$isAdmin && empty($data['confirmation_code'])) {
             return response()->json([

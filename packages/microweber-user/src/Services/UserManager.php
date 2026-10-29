@@ -1704,11 +1704,8 @@ private function __check_id_has_ability_to_edit_user($user_id)
             }
         }
 
-        // SECURITY (CWE-639): editing/deleting an EXISTING user requires being an
-        // admin or that same user. This was previously an unconditional
-        // `return true`, making the "ability to edit" gate a no-op — it did not
-        // actually protect delete() or the legacy reset_password_from_link()
-        // path. (Creating a new user has no id and returns true above.)
+        // SECURITY (CWE-639): editing/deleting an existing user requires admin or
+        // self (was an unconditional `return true` — a no-op gate).
         if (is_admin()) {
             return true;
         }

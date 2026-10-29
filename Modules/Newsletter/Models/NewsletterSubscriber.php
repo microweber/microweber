@@ -32,10 +32,8 @@ class NewsletterSubscriber extends Model
         'subscribed_at',
         'unsubscribed_at',
         'is_subscribed',
-        // Per-subscriber ownership token. It was set on subscribe (controller)
-        // but was NOT fillable, so it never persisted — which is why unsubscribe
-        // could be driven by email alone. Persisting it lets the unsubscribe
-        // flow require proof of ownership.
+        // Ownership token for unsubscribe — was set on subscribe but not fillable,
+        // so it never persisted (hence unsubscribe-by-email-alone).
         'confirmation_code',
     ];
 

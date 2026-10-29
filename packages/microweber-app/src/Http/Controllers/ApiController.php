@@ -21,19 +21,10 @@ use MicroweberPackages\Format\Facades\Format;
 /**
  * Module renderer + retired legacy API dispatcher.
  *
- * The dynamic api_expose()/api_bind() dispatch this controller used to power
- * (via the greedy `api/{all}` catch-all → {@see api()}) has been RETIRED: it
- * resolved a class/function + method straight from the request URL and invoked
- * it, and its `class_is_already_here` branch did so without consulting the
- * $api_exposed allow list, letting an unauthenticated request call an arbitrary
- * public method on any already-loaded class (CWE-306 — e.g.
- * UserManager::make_logged → administrator-session takeover). Every real
- * endpoint is now an explicit route + controller + FormRequest (see the
- * App/Module/User routes/api.php); the api_expose()/api_bind() registry is
- * empty. {@see api()} now only delegates to the module renderer and otherwise
- * returns 403. Do NOT route new endpoints here — define a real route +
- * controller instead. The still-live surface is the module renderer
- * ({@see module()}, served by its own `/module/*` routes too).
+ * The dynamic api_expose()/api_bind() dispatch (the `api/{all}` catch-all) was
+ * retired — it let an unauthenticated request invoke an arbitrary method on any
+ * already-loaded class (CWE-306). {@see api()} now only delegates to the module
+ * renderer, else 403; real endpoints are explicit routes. Do NOT add any here.
  */
 class ApiController  extends FrontendController
 {
@@ -89,22 +80,9 @@ class ApiController  extends FrontendController
             define('MW_API_FUNCTION_CALL', $api_function);
         }
 
-        // SECURITY / DEPRECATION — the legacy dynamic dispatch has been retired.
-        //
-        // This catch-all once resolved a class/function + method straight from
-        // the request URL and invoked it (the api_expose()/api_bind() registry
-        // served through `api/{all}`). The `class_is_already_here` branch called
-        // the method WITHOUT consulting the $api_exposed allow list, so an
-        // unauthenticated POST could invoke an arbitrary public method on any
-        // already-loaded class — e.g. UserManager::make_logged(['id' => 1]) ->
-        // Auth::loginUsingId(1), a full administrator-session takeover from one
-        // anonymous request (CWE-306, Missing Authentication for Critical
-        // Function). CSRF was no barrier: the token is readable by any visitor.
-        //
-        // Every real endpoint is now an explicit route + controller + FormRequest
-        // (see App/Module/User routes/api.php); the api_expose()/api_bind()
-        // registry is empty. The only thing still served here is the module
-        // renderer, which keeps its own `/module/*` routes too.
+        // Legacy dynamic class/method dispatch retired (CWE-306: an unauth request
+        // could invoke any already-loaded class method, e.g. make_logged). Only the
+        // module renderer is still served here; everything else returns 403.
         $is_module_call = ($api_function === 'module');
         if (!$is_module_call and is_string($api_function_full)) {
             $normalized_full = ltrim(str_replace('\\', '/', $api_function_full), '/');

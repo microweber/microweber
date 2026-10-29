@@ -31,9 +31,8 @@ class UnsubscribePage extends Component
 
     public function unsubscribe(): void
     {
-        // Re-verify from the authoritative inputs (email + code). Livewire public
-        // properties like $subscriberId/$pageState are client-tamperable, so the
-        // action must NOT trust the state set during mount().
+        // Re-verify from email+code; Livewire props ($subscriberId/$pageState)
+        // are client-tamperable, so don't trust state set during mount().
         $subscriber = $this->resolveAuthorizedSubscriber();
 
         if (! $subscriber) {
@@ -80,10 +79,8 @@ class UnsubscribePage extends Component
     }
 
     /**
-     * Resolve the subscriber for the current email, enforcing ownership: when
-     * the subscriber has a confirmation_code (every newly subscribed address
-     * does), the request must carry the matching code. Legacy subscribers with
-     * no stored code remain reachable by email alone (backward compatibility).
+     * Resolve the subscriber for the current email, requiring the matching
+     * confirmation_code when one exists (legacy code-less rows stay email-only).
      */
     protected function resolveAuthorizedSubscriber(): ?NewsletterSubscriber
     {

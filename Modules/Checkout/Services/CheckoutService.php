@@ -483,18 +483,12 @@ class CheckoutService
 
         //dd($data, $orderData);
 
-        // SECURITY (order integrity, CWE-345/-639): the client request may only
-        // contribute benign extras (notes, selections) — every server-computed
-        // field MUST win. Merging with $orderData LAST (not $data) means the
-        // trusted amount / is_paid / order_status / taxes / discount / shipping /
-        // currency / verify-token always override anything the caller sent.
-        // Without this, the public `POST api/module/checkout` let a client set
-        // `amount=0.01` (gateway charges a penny for any cart) or `is_paid=1`
-        // (order marked paid with no payment via the no-gateway branch).
+        // SECURITY (CWE-345/-639): merge $orderData LAST so server-computed fields
+        // (amount, is_paid, status, taxes, discount, …) always beat the client —
+        // else a checkout POST could set amount=0.01 or is_paid=1.
         $orderDataMerged = array_merge($data, $orderData);
         unset($orderDataMerged['id']);
-        // Fields the server doesn't set here but that must never come from the
-        // client (payment state is established only by a verified gateway/webhook).
+        // Payment state is set only by a verified gateway/webhook, never the client.
         foreach (['payment_status', 'transaction_id', 'paid', 'paid_at', 'is_canceled'] as $protected) {
             unset($orderDataMerged[$protected]);
         }
