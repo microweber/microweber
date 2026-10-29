@@ -15,7 +15,8 @@ use Modules\Ai\Tools\LiveEdit\SavePageTool;
 use Modules\Ai\Tools\LiveEdit\SetImageTool;
 use Modules\Ai\Tools\LiveEdit\SetModuleOptionTool;
 use Modules\Ai\Tools\LiveEdit\SetTextTool;
-use NeuronAI\Observability\Events\ToolCalled;
+use NeuronAI\Agent\Observability\ToolCalled;
+use NeuronAI\Tools\ToolCall;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
@@ -467,8 +468,11 @@ class LiveEditToolsTest extends ToolTestCase
     {
         $collector = new ToolCallCollector();
 
-        $tool = (new ApplyCssTool())->setInputs(['css' => 'a { color: red; }']);
-        $collector->onEvent('tool-called', $this, new ToolCalled($tool));
+        // NeuronAI v4: ToolCalled carries a ToolCall value object (name + inputs),
+        // not the Tool instance.
+        $tool = new ApplyCssTool();
+        $call = new ToolCall($tool->getName(), 'call_1', ['css' => 'a { color: red; }']);
+        $collector->onEvent('tool-called', $this, new ToolCalled($call));
 
         $calls = $collector->all();
         $this->assertCount(1, $calls);
