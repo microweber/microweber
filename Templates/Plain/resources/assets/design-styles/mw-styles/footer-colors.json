@@ -1,0 +1,145 @@
+{
+    "settings": [
+                {
+                    "title": "Background color",
+                    "description": "Background color",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-footer-background-color"
+                    }
+                },
+                {
+                    "title": "Text color",
+                    "description": "Text color",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-footer-text-color"
+                    }
+                },
+                {
+                    "title": "Primary color",
+                    "description": "Primary color",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-footer-primary-color"
+                    }
+                },
+                {
+                    "title": "Link color",
+                    "description": "Link color",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-footer-link-color"
+                    }
+                },
+                {
+                    "title": "link color hover",
+                    "description": "Link color hover",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-footer-link-hover-color"
+                    }
+                },
+                {
+                    "title": "Button background color",
+                    "description": "Button color hover",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-footer-button-background-color"
+                    }
+                },
+                {
+                    "title": "Button background hover color",
+                    "description": "Button background hover color",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-footer-button-background-hover-color"
+                    }
+                },
+                {
+                    "title": "Button text color",
+                    "description": "Button text color",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-footer-button-text-color"
+                    }
+                },
+                {
+                    "title": "Button text hover color",
+                    "description": "Button text hover color",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-footer-button-text-hover-color"
+                    }
+                },
+                {
+                    "title": "Font size",
+                    "description": "Menu Font size",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-footer-font-size",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Clear All",
+                    "description": "Clear all colors styles you have set for your site.",
+                    "fieldType": "clearAll",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "properties": [
+                            "--mw-footer-background-color",
+                            "--mw-footer-text-color",
+                            "--mw-footer-primary-color",
+                            "--mw-footer-link-color",
+                            "--mw-footer-link-hover-color",
+                            "--mw-footer-button-background-color",
+                            "--mw-footer-button-background-hover-color",
+                            "--mw-footer-button-text-color",
+                            "--mw-footer-button-text-hover-color",
+                            "--mw-footer-font-size"
+                        ]
+                    }
+                }
+
+            ]
+
+}
+
+
+

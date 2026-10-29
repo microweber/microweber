@@ -1,0 +1,19 @@
+{
+    "settings": [
+        {
+            "title": "Customize Styles",
+            "description": "",
+            "class": "mw-customize-styles-main-btn",
+            "readSettingsFromFiles": [
+                "resources/assets/design-styles/main-styles/customize-styles.json"
+            ],
+            "settings": [
+                {
+                    "selectors": [
+                        ":root"
+                    ]
+                }
+            ]
+        }
+    ]
+}
