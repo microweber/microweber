@@ -498,24 +498,52 @@ class ImageOptimizationService
     {
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
             $parsed = parse_url($path, PHP_URL_PATH);
-            $path = is_string($parsed) ? $parsed : $path;
+            $path = is_string($parsed) ? $parsed : '';
         }
 
-        if (is_file($path)) {
-            return $path;
+        // SECURITY (CWE-22): `src` is attacker-controlled on the public
+        // image-optimization routes. Only ever resolve to a file whose realpath
+        // is contained inside the public web root or the public storage disk.
+        // An absolute path is honoured ONLY when it already lives inside one of
+        // those roots (internal callers pass real storage paths); anything else
+        // — /etc/passwd, the project-root .env, a /tmp file — resolves to ''.
+        // Previously `is_file($path)` returned any absolute path verbatim, which
+        // served arbitrary files to unauthenticated callers.
+        $path = str_replace('\\', '/', $path);
+
+        if ($path === '' || str_contains($path, '..') || str_contains($path, "\0")) {
+            return '';
         }
 
-        $publicPath = public_path(ltrim($path, '/'));
-        if (is_file($publicPath)) {
-            return $publicPath;
+        $roots = array_values(array_filter([
+            realpath(public_path()),
+            realpath(storage_path('app/public')),
+        ]));
+
+        $isAbsolute = str_starts_with($path, '/') || preg_match('#^[A-Za-z]:/#', $path) === 1;
+        $relative = ltrim($path, '/');
+
+        $candidates = [];
+        if ($isAbsolute) {
+            // Honoured only if the containment check below passes.
+            $candidates[] = $path;
+        }
+        $candidates[] = public_path($relative);
+        $candidates[] = storage_path('app/public/' . $relative);
+
+        foreach ($candidates as $candidate) {
+            $real = realpath($candidate);
+            if ($real === false || !is_file($real)) {
+                continue;
+            }
+            foreach ($roots as $root) {
+                if ($real === $root || str_starts_with($real, $root . DIRECTORY_SEPARATOR)) {
+                    return $real;
+                }
+            }
         }
 
-        $storagePath = storage_path('app/public/' . ltrim($path, '/'));
-        if (is_file($storagePath)) {
-            return $storagePath;
-        }
-
-        return $path;
+        return '';
     }
 
     /**

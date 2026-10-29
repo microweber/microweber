@@ -205,9 +205,22 @@ class ImageOptimizationServiceTest extends TestCase
 
     public function test_resolve_full_path_for_existing_file(): void
     {
+        // A file genuinely inside the public storage disk resolves (internal
+        // callers pass such absolute paths).
+        $dir = storage_path('app/public');
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        $inRoot = $dir . '/imgopt_resolve_' . uniqid() . '.txt';
+        file_put_contents($inRoot, 'x');
+        $this->assertSame(realpath($inRoot), $this->service->resolveFullPath($inRoot));
+        @unlink($inRoot);
+
+        // SECURITY: a file OUTSIDE the public/storage roots must never resolve,
+        // even when it exists (this is the CWE-22 arbitrary-read guard).
         $tmp = tempnam(sys_get_temp_dir(), 'imgopt');
         file_put_contents($tmp, 'x');
-        $this->assertEquals($tmp, $this->service->resolveFullPath($tmp));
+        $this->assertSame('', $this->service->resolveFullPath($tmp));
         @unlink($tmp);
     }
 

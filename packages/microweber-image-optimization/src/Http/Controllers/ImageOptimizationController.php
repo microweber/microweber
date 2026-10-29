@@ -35,8 +35,9 @@ class ImageOptimizationController extends Controller
             return response()->json(['error' => 'Missing src parameter'], 422);
         }
 
-        // Prevent path traversal
-        if (str_contains($src, '..')) {
+        // Prevent path traversal (absolute-path / containment enforcement lives
+        // in ImageOptimizationService::resolveFullPath()).
+        if (str_contains($src, '..') || str_contains($src, "\0")) {
             return response()->json(['error' => 'Invalid src'], 400);
         }
 
