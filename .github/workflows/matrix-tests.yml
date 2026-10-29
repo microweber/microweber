@@ -23,17 +23,9 @@ jobs:
         php: ['8.4']
         laravel: ['11']
         include:
-          # Experimental builds - PHP 8.2 support
-          - php: '8.2'
-            laravel: '11'
-            experimental: true
           # Future builds - Laravel 12 (when released)
           - php: '8.4'
             laravel: '12'
-            experimental: true
-          # Laravel 10 compatibility (may require dependency adjustments)
-          - php: '8.2'
-            laravel: '10'
             experimental: true
 
     continue-on-error: ${{ matrix.experimental || false }}
@@ -81,12 +73,6 @@ jobs:
             echo "Adjusting for Laravel ${{ matrix.laravel }}..."
             # Update composer.json to use specified Laravel version
             sed -i 's/"laravel\/framework": "\^11"/"laravel\/framework": "^${{ matrix.laravel }}"/' composer.json
-            # Check PHP compatibility
-            if [ "${{ matrix.php }}" = "8.2" ] && [ "${{ matrix.laravel }}" = "11" ]; then
-              # Laravel 11 requires PHP 8.2, but our composer.json requires PHP ^8.3
-              # Allow PHP 8.2 temporarily for this test
-              sed -i 's/"php": "\^8.3"/"php": "^8.2"/' composer.json
-            fi
           fi
 
       - name: Install Composer dependencies
@@ -302,7 +288,6 @@ jobs:
             - PHP 8.4 + Laravel 11
             
             🧪 **Experimental Combinations:**
-            - PHP 8.2 + Laravel 10/11
             - Laravel 12 (future compatibility)
             
             *Note: Experimental combinations may fail and are allowed to fail.*`;
