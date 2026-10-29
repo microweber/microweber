@@ -188,7 +188,14 @@ class NewsletterMailSender
             $mailProvider->setToName($this->subscriber['name']);
 
 
-            $unsubscribeLink = route('modules.newsletter.unsubscribe') . '?email=' . $this->subscriber['email'];
+            // Carry the per-subscriber ownership token so the unsubscribe page
+            // can verify the request without letting anyone opt out an arbitrary
+            // address by email alone.
+            $unsubscribeParams = ['email' => $this->subscriber['email']];
+            if (!empty($this->subscriber['confirmation_code'])) {
+                $unsubscribeParams['code'] = $this->subscriber['confirmation_code'];
+            }
+            $unsubscribeLink = route('modules.newsletter.unsubscribe') . '?' . http_build_query($unsubscribeParams);
 
             $mailProvider->setListUnsubscribeLink($unsubscribeLink);
 

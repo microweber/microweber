@@ -31,7 +31,12 @@ class NewsletterSubscriber extends Model
         'status',
         'subscribed_at',
         'unsubscribed_at',
-        'is_subscribed'
+        'is_subscribed',
+        // Per-subscriber ownership token. It was set on subscribe (controller)
+        // but was NOT fillable, so it never persisted — which is why unsubscribe
+        // could be driven by email alone. Persisting it lets the unsubscribe
+        // flow require proof of ownership.
+        'confirmation_code',
     ];
 
     protected static function newFactory()
