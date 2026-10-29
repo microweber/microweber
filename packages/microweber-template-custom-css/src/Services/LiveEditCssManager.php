@@ -473,6 +473,14 @@ class LiveEditCssManager implements CssFileHandlerInterface
      */
     protected function canonicalTemplateFolder(string $template): string
     {
+        // Defence in depth (CWE-22): the returned name is concatenated into the
+        // filesystem path that live_edit.css/.js is written to. Strip traversal
+        // so an admin-supplied template value can't escape the templates tree,
+        // regardless of which branch below returns.
+        if (function_exists('sanitize_path')) {
+            $template = sanitize_path($template);
+        }
+
         if ($template === '' || $template === 'default' || !function_exists('templates_dir')) {
             return $template;
         }

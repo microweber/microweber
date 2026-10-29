@@ -19,6 +19,12 @@ class TemplateApiController
     {
 
         $template = $request->get('template', false);
+        // Defence in depth (CWE-22): $template is concatenated into filesystem
+        // paths and stored as the active template; strip traversal so the
+        // admin-supplied value can't escape templates_dir().
+        if ($template && function_exists('sanitize_path')) {
+            $template = sanitize_path($template);
+        }
         $importType = $request->get('import_type', 'default');
 
         $filePath = templates_dir() . $template . DS . 'mw_default_content.zip';
