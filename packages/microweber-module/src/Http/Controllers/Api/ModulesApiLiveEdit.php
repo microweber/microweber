@@ -781,6 +781,7 @@ class ModulesApiLiveEdit extends Controller
             $the_active_site_template = $templateAdapter->getTemplateFolderName();
             $templateUrlLower = strtolower($the_active_site_template);
             $templateAssetBase = 'templates/' . $templateUrlLower . '/';
+            [$previewCssTags, $previewJsTags] = $this->previewTemplateAssetTags($templateUrlLower);
 
         // Build a standalone HTML page matching the master layout structure
         $html = '<!DOCTYPE html>
@@ -792,7 +793,7 @@ class ModulesApiLiveEdit extends Controller
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="' . site_url('vendor/microweber-packages/frontend-assets/build/default.css') . '">
-    <link rel="stylesheet" href="' . asset($templateAssetBase . 'dist/build/app.css') . '">
+    ' . $previewCssTags . '
     ' . meta_tags_head() . '
     <style>
         body { margin: 0; padding: 0; background: #fff; overflow: hidden; }
@@ -810,7 +811,7 @@ class ModulesApiLiveEdit extends Controller
 
         </div>
     </div>
-    <script src="' . asset($templateAssetBase . 'dist/build/app.js') . '"></script>
+    ' . $previewJsTags . '
     ' . meta_tags_footer() . '
 </body>
 </html>';
@@ -821,6 +822,48 @@ class ModulesApiLiveEdit extends Controller
                 $templateAdapter->templateFolderName = $originalTemplate;
             }
         }
+    }
+
+    /**
+     * Build the <link>/<script> tags for a template's own front-end assets,
+     * used to style the standalone layout-preview iframe.
+     *
+     * Not every template ships a Vite bundle at dist/build/app.{css,js}: the
+     * richer templates (Big2, Bootstrap, Big) do, but minimal ones (e.g. Plain)
+     * ship a plain stylesheet + design tokens instead. Hard-coding dist/build
+     * left Plain previews unstyled (app.css fell through to an HTML 404 with the
+     * wrong MIME type) and logged a 404 for the missing app.js — so the layout
+     * cards rendered blank. Emit only the asset files that actually exist.
+     *
+     * @return array{0: string, 1: string} [cssTags, jsTags]
+     */
+    private function previewTemplateAssetTags(string $templateUrlLower): array
+    {
+        $base = 'templates/' . $templateUrlLower . '/';
+        $cssTags = '';
+        $jsTags = '';
+
+        if (is_file(public_path($base . 'dist/build/app.css'))) {
+            $cssTags .= '<link rel="stylesheet" href="' . asset($base . 'dist/build/app.css') . '">';
+        } else {
+            // Fall back to the conventional stylesheets a bundle-less template
+            // ships (loaded in the same order its master layout uses them).
+            foreach ([
+                'css/' . $templateUrlLower . '.css',
+                'css/style.css',
+                'design-styles/design-vars.css',
+            ] as $rel) {
+                if (is_file(public_path($base . $rel))) {
+                    $cssTags .= '<link rel="stylesheet" href="' . asset($base . $rel) . '">' . "\n    ";
+                }
+            }
+        }
+
+        if (is_file(public_path($base . 'dist/build/app.js'))) {
+            $jsTags .= '<script src="' . asset($base . 'dist/build/app.js') . '"></script>';
+        }
+
+        return [rtrim($cssTags), $jsTags];
     }
 
     /**
@@ -917,6 +960,7 @@ class ModulesApiLiveEdit extends Controller
             // own CSS/JS so the preview looks like the live site.
             $templateUrlLower = strtolower($candidateTemplate);
             $templateAssetBase = 'templates/' . $templateUrlLower . '/';
+            [$previewCssTags, $previewJsTags] = $this->previewTemplateAssetTags($templateUrlLower);
             $html = '<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -926,7 +970,7 @@ class ModulesApiLiveEdit extends Controller
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="' . site_url('vendor/microweber-packages/frontend-assets/build/default.css') . '">
-    <link rel="stylesheet" href="' . asset($templateAssetBase . 'dist/build/app.css') . '">
+    ' . $previewCssTags . '
     ' . meta_tags_head() . '
     <style>
         body { margin: 0; padding: 0; background: #fff; overflow: hidden; }
@@ -937,7 +981,7 @@ class ModulesApiLiveEdit extends Controller
     <div class="layout-preview-wrapper">
         ' . $renderedHtml . '
     </div>
-    <script src="' . asset($templateAssetBase . 'dist/build/app.js') . '"></script>
+    ' . $previewJsTags . '
     ' . meta_tags_footer() . '
 </body>
 </html>';
