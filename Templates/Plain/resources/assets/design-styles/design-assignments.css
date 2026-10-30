@@ -9,11 +9,11 @@
    Spacing / typography appears to do nothing.
 
    Mirrors Templates/Big/resources/assets/design-styles/design-assignments.css,
-   but Plain-safe and intentionally BOUNDED to the four spacing tokens the
-   Spacing / Typography panel edits (line-height, letter-spacing, font-weight,
-   text-transform). Colours, buttons and backgrounds are left to the agent's
-   global live_edit.css for now (their token defaults differ from Plain's literal
-   readable baseline, so wiring them needs its own regression pass).
+   but Plain-safe. Covers the Spacing / Typography tokens (line-height,
+   letter-spacing, font-weight, text-transform), the text/link Colours, and now
+   the Buttons + Backgrounds — each token's :root default in design-vars.css is
+   aligned to Plain's readable Bootstrap baseline, so consuming it here keeps the
+   default look identical while making the matching panel fields take effect.
 
    Heading vs body carry DIFFERENT clean-Plain defaults (headings 600/1.2, body
    400/1.5). A single shared token can't express both, so line-height and
@@ -75,3 +75,62 @@ h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 { color: var(--mw-heading-color, #212529); }
 a:not([class]) { color: var(--mw-link-color, #0d6efd); }
 a:not([class]):hover { color: var(--mw-link-hover-color, #0a58ca); }
+
+/* Buttons ------------------------------------------------------------------ */
+/* Consume the --mw-btn-* tokens (whose :root defaults are aligned to plain.css's
+   Bootstrap button baseline) at a higher specificity than plain.css, so the
+   default look is unchanged BUT the Customize-Styles "Buttons" fields now apply.
+   Sized variants (.btn-sm / .btn-lg) are EXCLUDED from the sizing rule so they
+   keep their own padding/radius/font-size; only colour follows the tokens. No
+   blanket `.btn { color }` — that would recolour .btn-light / outline text —
+   colours are set per variant instead. */
+.btn:not(.btn-link):not(.btn-sm):not(.btn-lg) {
+    padding-block: var(--mw-btn-padding-block);
+    padding-inline: var(--mw-btn-padding-inline);
+    border-radius: var(--mw-btn-border-radius);
+    border-width: var(--mw-btn-border-size);
+    border-style: var(--mw-btn-border-style);
+    font-size: var(--mw-btn-font-size);
+}
+.btn.btn-primary {
+    background-color: var(--mw-btn-background-color);
+    border-color: var(--mw-btn-border-color);
+    color: var(--mw-btn-text-color);
+}
+.btn.btn-primary:hover, .btn.btn-primary:focus, .btn.btn-primary:active, .btn.btn-primary.active {
+    background-color: var(--mw-btn-background-hover-color);
+    border-color: var(--mw-btn-background-hover-color);
+    color: var(--mw-btn-text-hover-color);
+}
+.btn.btn-secondary {
+    background-color: var(--mw-btn-secondary-background-color);
+    border-color: var(--mw-btn-secondary-border-color);
+    color: var(--mw-btn-secondary-text-color);
+}
+.btn.btn-secondary:hover, .btn.btn-secondary:focus, .btn.btn-secondary:active, .btn.btn-secondary.active {
+    background-color: var(--mw-btn-secondary-background-hover-color);
+    color: var(--mw-btn-secondary-text-hover-color);
+}
+.btn.btn-outline-primary, .btn.btn-outline {
+    background-color: var(--mw-btn-outline-background-color);
+    border-color: var(--mw-btn-outline-border-color);
+    color: var(--mw-btn-outline-text-color);
+}
+.btn.btn-outline-primary:hover, .btn.btn-outline-primary:focus, .btn.btn-outline-primary:active, .btn.btn-outline-primary.active,
+.btn.btn-outline:hover, .btn.btn-outline:focus, .btn.btn-outline:active, .btn.btn-outline.active {
+    background-color: var(--mw-btn-outline-background-hover-color);
+    border-color: var(--mw-btn-outline-background-hover-color);
+    color: var(--mw-btn-outline-text-hover-color);
+}
+
+/* Backgrounds -------------------------------------------------------------- */
+/* The page / section / header / footer background tokens default to #ffffff in
+   design-vars.css (Plain's white baseline), so these render white by default
+   (unchanged) while the Colors / Background panel fields now apply. Header keeps
+   !important (mirrors Big) because the menu skin paints its own background;
+   .header-background is Big's class, .top-header-background is Plain's (a no-op
+   when absent). */
+body { background-color: var(--mw-background-color); }
+section.section { background-color: var(--mw-section-background-color); }
+.header-background, .top-header-background { background-color: var(--mw-header-background-color) !important; }
+.footer-background { background-color: var(--mw-footer-background-color); }

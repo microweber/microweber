@@ -40,27 +40,31 @@
             --mw-text-transform: none;
             --mw-link-color: #0d6efd;
             --mw-link-hover-color: #0a58ca;
-            --mw-btn-background-color: #1f2937;
-            --mw-btn-background-hover-color: #111827;
+            /* Button tokens: defaults ALIGNED to plain.css's Bootstrap button
+               baseline (#0d6efd / .5rem radius / 1px border / .5rem·1.25rem
+               padding) so design-assignments.css can consume them without
+               changing the default look — a panel "Buttons" edit then overrides. */
+            --mw-btn-background-color: #0d6efd;
+            --mw-btn-background-hover-color: #0b5ed7;
             --mw-btn-text-color: #ffffff;
             --mw-btn-text-hover-color: #ffffff;
-            --mw-btn-border-color: #1f2937;
-            --mw-btn-border-radius: 33px;
-            --mw-btn-border-size: 2px;
+            --mw-btn-border-color: #0d6efd;
+            --mw-btn-border-radius: 0.5rem;
+            --mw-btn-border-size: 1px;
             --mw-btn-border-style: solid;
-            --mw-btn-padding-block: 15px;
-            --mw-btn-padding-inline: 24px;
-            --mw-btn-font-size: 16px;
-            --mw-btn-secondary-background-color: #4b5563;
-            --mw-btn-secondary-background-hover-color: #1f2937;
+            --mw-btn-padding-block: 0.5rem;
+            --mw-btn-padding-inline: 1.25rem;
+            --mw-btn-font-size: 1rem;
+            --mw-btn-secondary-background-color: #6c757d;
+            --mw-btn-secondary-background-hover-color: #5c636a;
             --mw-btn-secondary-text-color: #ffffff;
             --mw-btn-secondary-text-hover-color: #ffffff;
-            --mw-btn-secondary-border-color: #1f2937;
+            --mw-btn-secondary-border-color: #6c757d;
             --mw-btn-outline-background-color: transparent;
-            --mw-btn-outline-background-hover-color: #1f2937;
-            --mw-btn-outline-text-color: #1f2937;
+            --mw-btn-outline-background-hover-color: #0d6efd;
+            --mw-btn-outline-text-color: #0d6efd;
             --mw-btn-outline-text-hover-color: #ffffff;
-            --mw-btn-outline-border-color: #1f2937;
+            --mw-btn-outline-border-color: #0d6efd;
             --mw-header-background-color: #ffffff;
             --mw-header-link-color: #1f2937;
             --mw-header-link-hover-color: #1f2937;
