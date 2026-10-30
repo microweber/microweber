@@ -25,6 +25,12 @@
          LAST, in the footer via live_edit.css, so it always wins over these. --}}
     <link rel="stylesheet" href="{{ asset('templates/plain/design-styles/design-vars.css') }}">
 
+    {{-- Design ASSIGNMENTS: the rules that consume the --mw-* typography tokens
+         above, so Live-Edit Template/Layout "Customize Styles" spacing edits take
+         visible effect. Must load AFTER design-vars.css and before the footer
+         live_edit.css (which still wins for anything the agent hardcodes). --}}
+    <link rel="stylesheet" href="{{ asset('templates/plain/design-styles/design-assignments.css') }}">
+
     <script>
         mw.iconLoader()
             .addIconSet('iconsMindLine')

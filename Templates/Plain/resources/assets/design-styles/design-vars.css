@@ -4,9 +4,17 @@
    values and the AI agent's set_css_var has tokens to override. Deliberately
    NEUTRAL (grayscale): a plain, usable baseline with no brand identity — the agent
    paints the real palette via set_css_var / apply_css (loaded LAST in the footer).
-   ============================================================================= */
-   Contains ONLY :root custom properties (no rules), exactly like
-   Templates/Big/resources/assets/design-styles/design-vars.css.
+
+   Contains ONLY :root custom properties (no rules), like
+   Templates/Big/resources/assets/design-styles/design-vars.css. The rules that
+   CONSUME these tokens live in design-assignments.css.
+
+   NOTE: --mw-line-height and --mw-font-weight are intentionally NOT defined here.
+   Plain's headings and body need different clean defaults (600/1.2 vs 400/1.5),
+   which a single shared token can't express, so design-assignments.css reads them
+   as var(--token, <fallback>) with the baseline as the fallback. Defining them
+   here would force one value onto both and regress the default look; a value the
+   Live-Edit panel writes (globally or per-layout) still overrides the fallback.
    ============================================================================= */
         :root {
             --mw-primary-color: #1f2937;
@@ -22,9 +30,10 @@
             --mw-paragraph-size: 16px;
             --mw-paragraph-color: #000000;
             --mw-heading-color: #000000;
-            --mw-line-height: 1.5;
+            /* --mw-line-height / --mw-font-weight: see header note — read via
+               fallback in design-assignments.css so headings (600/1.2) and body
+               (400/1.5) keep distinct defaults; the panel overrides either. */
             --mw-letter-spacing: 0;
-            --mw-font-weight: 400;
             --mw-text-transform: none;
             --mw-link-color: #1f2937;
             --mw-link-hover-color: #111827;

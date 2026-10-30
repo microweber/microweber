@@ -1,0 +1,60 @@
+/* =============================================================================
+   Plain template — design ASSIGNMENTS.
+
+   These rules CONSUME the --mw-* typography tokens defined in design-vars.css so
+   that Live-Edit "Customize Styles" edits in Template mode (global) and Layout
+   mode (scoped to a #layout / #section root) take VISIBLE effect. Without this
+   file the panel correctly sets a token on the layout root — e.g.
+   `#my-section { --mw-letter-spacing: 8px }` — but nothing reads it, so editing
+   Spacing / typography appears to do nothing.
+
+   Mirrors Templates/Big/resources/assets/design-styles/design-assignments.css,
+   but Plain-safe and intentionally BOUNDED to the four spacing tokens the
+   Spacing / Typography panel edits (line-height, letter-spacing, font-weight,
+   text-transform). Colours, buttons and backgrounds are left to the agent's
+   global live_edit.css for now (their token defaults differ from Plain's literal
+   readable baseline, so wiring them needs its own regression pass).
+
+   Heading vs body carry DIFFERENT clean-Plain defaults (headings 600/1.2, body
+   400/1.5). A single shared token can't express both, so line-height and
+   font-weight are read via `var(--token, <fallback>)` and are deliberately NOT
+   defined at :root in design-vars.css — the fallback IS the clean-Plain baseline,
+   and any value the panel writes (on :root globally, or on a #layout/#section
+   root, inherited by descendants) overrides it.
+
+   Load order (master.blade.php): plain.css → design-vars.css → THIS FILE →
+   (footer) live_edit.css. The agent's live_edit.css still wins for anything it
+   hardcodes.
+   ============================================================================= */
+
+/* Body — the explicit typographic base. ------------------------------------- */
+body {
+    line-height: var(--mw-line-height, 1.5);
+    letter-spacing: var(--mw-letter-spacing, normal);
+    font-weight: var(--mw-font-weight, 400);
+    text-transform: var(--mw-text-transform, none);
+}
+
+/* Flowing block text — INHERIT line-height / font-weight when no token is set,
+   so they keep tracking body (including any value the agent's live_edit.css sets
+   on body) instead of being pinned to a literal that would break that cascade.
+   letter-spacing / text-transform have a single uniform default (0 / none), so a
+   literal fallback there is safe. A token written by the panel on :root (global)
+   or a #layout/#section root (inherited) overrides either way. */
+p, li, dd, dt, blockquote, figcaption {
+    line-height: var(--mw-line-height, inherit);
+    letter-spacing: var(--mw-letter-spacing, normal);
+    font-weight: var(--mw-font-weight, inherit);
+    text-transform: var(--mw-text-transform, none);
+}
+
+/* Headings — explicit bolder / tighter clean-Plain defaults via fallback. On the
+   agent-designed demo live_edit.css styles headings directly and still wins; on a
+   clean Plain page these fallbacks reproduce plain.css's baseline (600 / 1.2). --*/
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    line-height: var(--mw-line-height, 1.2);
+    letter-spacing: var(--mw-letter-spacing, normal);
+    font-weight: var(--mw-font-weight, 600);
+    text-transform: var(--mw-text-transform, none);
+}
