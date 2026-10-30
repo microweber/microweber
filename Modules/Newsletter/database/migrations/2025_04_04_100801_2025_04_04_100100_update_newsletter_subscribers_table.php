@@ -41,10 +41,24 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('newsletter_subscribers', function (Blueprint $table) {
-            $table->dropColumn(['status', 'subscribed_at', 'unsubscribed_at', 'list_id']);
-            $table->dropForeign(['list_id']);
-            $table->dropUnique('subscriber_email_unique');
-        });
+        if (!Schema::hasTable('newsletter_subscribers')) {
+            return;
+        }
+
+        // Reverse exactly what up() added (guarded, since up() adds conditionally).
+        // up() creates a plain `list_id` column (no foreign-key constraint) and does
+        // NOT create the subscriber_email_unique index, so the old dropForeign/
+        // dropUnique calls here referenced things that never existed and broke
+        // rollback (QueryException). confirmation_code was also missed.
+        $columns = array_values(array_filter(
+            ['status', 'subscribed_at', 'unsubscribed_at', 'list_id', 'confirmation_code'],
+            static fn (string $column): bool => Schema::hasColumn('newsletter_subscribers', $column)
+        ));
+
+        if ($columns !== []) {
+            Schema::table('newsletter_subscribers', function (Blueprint $table) use ($columns) {
+                $table->dropColumn($columns);
+            });
+        }
     }
 };

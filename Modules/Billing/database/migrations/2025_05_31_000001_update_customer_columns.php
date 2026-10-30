@@ -47,13 +47,21 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->dropColumn([
-                'stripe_id',
-                'pm_type',
-                'pm_last_four',
-                'trial_ends_at',
-            ]);
-        });
+        if (!Schema::hasTable('customers')) {
+            return;
+        }
+
+        // Drop exactly what up() added, guarded (up() adds conditionally, and
+        // 'status' was previously missing from the drop list).
+        $columns = array_values(array_filter(
+            ['stripe_id', 'pm_type', 'status', 'pm_last_four', 'trial_ends_at'],
+            static fn (string $column): bool => Schema::hasColumn('customers', $column)
+        ));
+
+        if ($columns !== []) {
+            Schema::table('customers', function (Blueprint $table) use ($columns) {
+                $table->dropColumn($columns);
+            });
+        }
     }
 };
