@@ -256,6 +256,49 @@
     cursor: pointer;
 }
 
+/* ── Customize-Styles nav rows polish ────────────────────────────────
+   settings-main-group links render as inline bold text, so the Typography /
+   Colors groups and their Spacing / Headings / … sub-sections read as a flat
+   word list. Present them as full-width settings rows with padding, hover and a
+   navigate-in chevron so the panel reads as a proper list. Panel-scoped so it
+   only affects the template-settings surface. */
+.mw-template-settings-panel .settings-main-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 11px 38px 11px 14px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+    color: var(--ese-accent, #182433);
+    text-decoration: none;
+    transition: background-color .15s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23182433' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 15px 15px;
+}
+.mw-template-settings-panel .settings-main-group:hover {
+    background-color: rgba(24, 36, 51, .06);
+}
+/* drop the theme's underline-tab indicator for these list rows */
+.mw-template-settings-panel .settings-main-group::after,
+.mw-template-settings-panel .settings-main-group::before {
+    display: none !important;
+}
+/* small-caps sub-section labels (FONT PACK, etc.) */
+.mw-template-settings-panel .text-uppercase {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    color: #6b7280;
+    margin: 16px 0 6px;
+}
+/* a little breathing room around field controls */
+.mw-template-settings-panel .form-control,
+.mw-template-settings-panel .form-select {
+    margin-top: 4px;
+}
+
 /* ── "Currently editing layout" picker ───────────────────────────── */
 .live-edit-layout-picker {
     width: 100%;
