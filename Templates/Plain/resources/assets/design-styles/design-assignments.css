@@ -58,3 +58,20 @@ h1, h2, h3, h4, h5, h6,
     font-weight: var(--mw-font-weight, 600);
     text-transform: var(--mw-text-transform, none);
 }
+
+/* Text colours ------------------------------------------------------------- */
+/* The colour tokens' :root defaults in design-vars.css are aligned to plain.css's
+   readable baseline (#212529 text, #0d6efd content links), so consuming them here
+   preserves the default look while making the Colors panel functional. Links are
+   scoped to a:not([class]) to match plain.css and avoid restyling nav/footer/
+   button links (which carry classes and keep their own colour). On the designed
+   demo, live_edit.css colours still win. */
+body { color: var(--mw-body-color, #212529); }
+/* inherit fallback (token unset at :root) so flowing text keeps tracking body's
+   colour — incl. whatever live_edit.css sets — until a paragraph-colour token is
+   written globally or on a #layout/#section root. */
+p, li, dd, dt, blockquote, figcaption { color: var(--mw-paragraph-color, inherit); }
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 { color: var(--mw-heading-color, #212529); }
+a:not([class]) { color: var(--mw-link-color, #0d6efd); }
+a:not([class]):hover { color: var(--mw-link-hover-color, #0a58ca); }

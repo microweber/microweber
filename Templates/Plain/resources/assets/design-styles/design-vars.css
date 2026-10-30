@@ -21,22 +21,25 @@
             --mw-secondary-color: #6c757d;
             --mw-background-color: #ffffff;
             --mw-section-background-color: #ffffff;
-            --mw-body-color: #000000;
+            --mw-body-color: #212529;
             --mw-text-dark: #212529;
             --mw-text-light: #f8f9fa;
             --mw-body-font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             --mw-heading-font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             --mw-body-font-size: 16px;
             --mw-paragraph-size: 16px;
-            --mw-paragraph-color: #000000;
-            --mw-heading-color: #000000;
+            /* --mw-paragraph-color: intentionally unset (see design-assignments.css):
+               flowing text inherits body colour via an inherit fallback until a
+               paragraph-colour token is written; defining it here would pin p to a
+               literal and break that inheritance. */
+            --mw-heading-color: #212529;
             /* --mw-line-height / --mw-font-weight: see header note — read via
                fallback in design-assignments.css so headings (600/1.2) and body
                (400/1.5) keep distinct defaults; the panel overrides either. */
             --mw-letter-spacing: 0;
             --mw-text-transform: none;
-            --mw-link-color: #1f2937;
-            --mw-link-hover-color: #111827;
+            --mw-link-color: #0d6efd;
+            --mw-link-hover-color: #0a58ca;
             --mw-btn-background-color: #1f2937;
             --mw-btn-background-hover-color: #111827;
             --mw-btn-text-color: #ffffff;
