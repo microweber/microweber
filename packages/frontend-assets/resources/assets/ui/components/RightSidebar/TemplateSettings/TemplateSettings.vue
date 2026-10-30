@@ -19,7 +19,13 @@
          .mw-template-settings-section-header consuming
          --font-label / --weight-label / --letter-label /
          --ese-text-muted per spec. -->
-    <div class="mw-template-settings-panel">
+    <!-- mw-admin-live-edit-page: the panel renders in a floating control box
+         appended to <body>, OUTSIDE the canvas-area .mw-admin-live-edit-page
+         wrapper, so the theme's Live-Edit styles (scoped to that class — the
+         accordion group tabs, action links, etc.) never reached it and the
+         Customize-Styles accordion rendered unstyled. Carry the scope class on
+         the panel root so those styles apply. -->
+    <div class="mw-template-settings-panel mw-admin-live-edit-page">
         <div v-if="isLoading" class="text-center">
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
