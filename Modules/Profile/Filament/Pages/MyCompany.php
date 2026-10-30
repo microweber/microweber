@@ -77,7 +77,7 @@ class MyCompany extends Page
                     TextInput::make('company_number')->label(__('Registration number'))->maxLength(191),
                     TextInput::make('vat_number')->label(__('VAT number'))->maxLength(191),
                     TextInput::make('email')->label(__('Billing email'))->email(),
-                    TextInput::make('phone')->label(__('Phone')),
+                    TextInput::make('phone')->label(__('Phone'))->tel()->maxLength(191),
                     TextInput::make('website')->label(__('Website'))->url(),
                 ]),
                 Section::make(__('Address'))->columns(2)->schema([
