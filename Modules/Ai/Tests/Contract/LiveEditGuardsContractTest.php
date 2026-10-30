@@ -172,6 +172,64 @@ final class LiveEditGuardsContractTest extends TestCase
         );
     }
 
+    #[Test]
+    public function apply_css_tokenises_base_element_declarations_before_forcing_important(): void
+    {
+        $src = $this->mwAiSource();
+
+        // The transform must exist and map base-element properties to --mw-* tokens.
+        $this->assertStringContainsString('tokenizeDesignCss', $src,
+            'tokenizeDesignCss() must exist so base-element literals become var(--mw-token, literal).');
+        // Larger window than sliceFunction(): this transform (token map + selector
+        // kind detection + body rewrite) is longer than the 2.2k default bound.
+        $tokStart = strpos($src, 'tokenizeDesignCss(css) {');
+        $this->assertNotFalse($tokStart, 'tokenizeDesignCss(css) definition must exist.');
+        $tok = substr($src, $tokStart, 4000);
+        foreach ([
+            '--mw-heading-color', '--mw-body-color', '--mw-paragraph-color',
+            '--mw-link-color', '--mw-line-height', '--mw-font-weight',
+        ] as $token) {
+            $this->assertStringContainsString($token, $tok,
+                "tokenizeDesignCss must map a base property to {$token}.");
+        }
+        // It must emit a var() wrapper carrying the original literal as the fallback.
+        $this->assertStringContainsString('var(', $tok,
+            'tokenizeDesignCss must wrap the literal in var(--token, <literal>).');
+        // It must lift a trailing !important OUTSIDE the var() (an !important inside
+        // a var() fallback is invalid CSS) — required to re-tokenise stored CSS that
+        // already ran through forceImportant.
+        $this->assertMatchesRegularExpression('/!\s*important/i', $tok,
+            'tokenizeDesignCss must handle a trailing !important (lift it outside var()).');
+
+        // apply_css must run the CSS through tokenizeDesignCss, and BEFORE
+        // forceImportant (so the !important rides on the var-wrapped value).
+        $applyCss = $this->sliceFunction($src, 'apply_css: function');
+        $this->assertStringContainsString('tokenizeDesignCss', $applyCss,
+            'apply_css must tokenise base-element declarations.');
+        $this->assertMatchesRegularExpression(
+            '/forceImportant\s*\(\s*(?:api\.|this\.)?tokenizeDesignCss/',
+            $applyCss,
+            'apply_css must tokenise BEFORE forcing !important (forceImportant(tokenizeDesignCss(css))).'
+        );
+    }
+
+    #[Test]
+    public function agent_prompt_keeps_base_typography_editable_via_tokens(): void
+    {
+        $prompt = $this->agentSource();
+        $this->assertMatchesRegularExpression(
+            '/KEEP BASE TYPOGRAPHY.*EDITABLE|editable from the panel/i',
+            $prompt,
+            'Agent must be told to keep base typography/colour editable from the panel.'
+        );
+        // It must show the var(--token, literal) shape for base elements.
+        $this->assertMatchesRegularExpression(
+            '/var\(--mw-heading-color,|var\(--token, *<your literal>\)|var\(--mw-line-height,/',
+            $prompt,
+            'Agent must be shown the var(--token, <literal>) pattern for base elements.'
+        );
+    }
+
     /**
      * Return the source of a frontend tool function, from its declaration to a
      * reasonable bound, so assertions can't match an unrelated tool.

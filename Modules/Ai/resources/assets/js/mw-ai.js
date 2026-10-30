@@ -596,6 +596,93 @@ function MwAi() {
             return out.trim() + '\n';
         },
 
+        // Rewrite LITERAL, token-backed declarations on BASE-ELEMENT selectors into
+        // `var(--mw-token, <literal>)` so the Live-Edit "Customize Styles" panel (and
+        // layout/template token edits) can still override the AI's design afterwards.
+        // WHY: apply_css forces !important on every declaration, so a literal like
+        // `h1 { color:#182433 !important }` can NOT be beaten by a later :root /
+        // #layout token write — the panel edit then appears dead (the exact bug the
+        // user hit: "editing the layout setting does nothing"). Wrapping the literal
+        // in var() keeps the design identical by default BUT lets a token write win,
+        // because custom-property resolution is independent of the consuming rule's
+        // !important/source-order precedence.
+        // BOUNDED ON PURPOSE: only rules whose rightmost simple selector is a base
+        // element (body / h1-h6 / .h1-.h6 / p / li / blockquote / dd / dt /
+        // figcaption / a) — the surfaces the Customize-Styles panel governs — and
+        // only the handful of properties the --mw-* design tokens cover. The AI's own
+        // decorative classes (.ot-card, .hero-badge) keep their literals untouched,
+        // and a value already using var() is left alone (idempotent).
+        tokenizeDesignCss(css) {
+            const MAPS = {
+                heading: { 'color': '--mw-heading-color', 'line-height': '--mw-line-height', 'letter-spacing': '--mw-letter-spacing', 'font-weight': '--mw-font-weight', 'text-transform': '--mw-text-transform', 'font-family': '--mw-heading-font-family' },
+                body: { 'color': '--mw-body-color', 'line-height': '--mw-line-height', 'letter-spacing': '--mw-letter-spacing', 'font-weight': '--mw-font-weight', 'text-transform': '--mw-text-transform', 'font-family': '--mw-body-font-family' },
+                text: { 'color': '--mw-paragraph-color', 'line-height': '--mw-line-height', 'letter-spacing': '--mw-letter-spacing', 'font-weight': '--mw-font-weight', 'text-transform': '--mw-text-transform' },
+                link: { 'color': '--mw-link-color' },
+                linkHover: { 'color': '--mw-link-hover-color' },
+            };
+            const kindOfPart = function (selPart) {
+                const hover = /:hover\b/.test(selPart);
+                // rightmost simple selector (after the last descendant/child/sibling combinator)
+                let s = String(selPart).trim().split(/[\s>+~]+/).pop() || '';
+                s = s.replace(/::?[a-z-]+(\([^)]*\))?/gi, ''); // strip pseudo-classes/elements
+                s = s.replace(/\[[^\]]*\]/g, '');              // strip attribute selectors
+                if (/\.h[1-6](\b|$)/.test(s)) { return 'heading'; }
+                const m = s.match(/^([a-z0-9]+)/i);
+                const el = m ? m[1].toLowerCase() : '';
+                if (/^h[1-6]$/.test(el)) { return 'heading'; }
+                if (el === 'body' || el === 'html') { return 'body'; }
+                if (el === 'p' || el === 'li' || el === 'blockquote' || el === 'dd' || el === 'dt' || el === 'figcaption') { return 'text'; }
+                if (el === 'a') { return hover ? 'linkHover' : 'link'; }
+                return null;
+            };
+            // One shared kind for the whole selector list, or null if mixed/none —
+            // keeps rules intact (no splitting) so the later merge-by-selector holds.
+            const kindOfSelector = function (selector) {
+                const parts = String(selector).split(',');
+                let kind = null;
+                for (let i = 0; i < parts.length; i++) {
+                    const k = kindOfPart(parts[i]);
+                    if (!k) { return null; }
+                    if (kind === null) { kind = k; }
+                    else if (kind !== k) { return null; }
+                }
+                return kind;
+            };
+            const rewriteBody = function (body, map) {
+                return String(body).split(';').map(function (decl) {
+                    const raw = decl;
+                    if (!decl.trim()) { return raw; }
+                    const idx = decl.indexOf(':');
+                    if (idx < 0) { return raw; }
+                    const prop = decl.slice(0, idx).trim().toLowerCase();
+                    let val = decl.slice(idx + 1).trim();
+                    const token = map[prop];
+                    if (!token || !val) { return raw; }
+                    if (/var\s*\(/i.test(val)) { return raw; } // already tokenised
+                    // Lift a trailing !important OUTSIDE the var() — an !important
+                    // inside a var() fallback is invalid CSS (would void the whole
+                    // declaration). Matters when re-tokenising CSS that already ran
+                    // through forceImportant (e.g. migrating a stored live_edit.css).
+                    let bang = '';
+                    const imp = val.match(/^([\s\S]*?)\s*!\s*important\s*$/i);
+                    if (imp) { val = imp[1].trim(); bang = ' !important'; }
+                    if (!val) { return raw; }
+                    // Preserve the original leading whitespace/indent of the declaration.
+                    const lead = decl.slice(0, decl.length - decl.trimStart().length);
+                    return lead + prop + ': var(' + token + ', ' + val + ')' + bang;
+                }).join(';');
+            };
+            const self = this;
+            let out = '';
+            this.splitTopLevelCss(css || '').forEach(function (b) {
+                if (b.type !== 'rule') { out += b.text.trim() + '\n'; return; } // at-rules verbatim
+                const map = MAPS[kindOfSelector(b.selector)];
+                const body = map ? rewriteBody(b.body, map) : b.body;
+                out += b.selector + ' {' + body + '}\n';
+            });
+            return out.trim() + '\n';
+        },
+
         // Force `!important` on every declaration so AI design CSS reliably WINS the
         // cascade over the template's own rules (user request — the footer/header/
         // menu etc. otherwise kept the template colour). Brace-aware: recurses into
@@ -794,7 +881,11 @@ function MwAi() {
                 // makes AI design CSS win the cascade. Trade-off: the ESE can no
                 // longer override these rules; re-styling is done by the AI itself
                 // (apply_css again). @keyframes/@font-face are left untouched.
-                api.injectGlobalCss(api.forceImportant(css));
+                // tokenizeDesignCss first: literal, token-backed declarations on base
+                // elements (h1/p/a/body…) become var(--mw-token, literal) so a later
+                // Customize-Styles / layout-token edit can still override them despite
+                // the forced !important (otherwise the panel edit appears dead).
+                api.injectGlobalCss(api.forceImportant(api.tokenizeDesignCss(css)));
                 api.persistGlobalCss();
                 api.markDesignDirty();
                 return { ok: true, message: 'applied global css' };
