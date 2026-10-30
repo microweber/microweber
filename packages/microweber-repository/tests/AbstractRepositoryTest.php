@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Repository\Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Repository\Tests\Stubs\TestModel;
 use MicroweberPackages\Repository\Tests\Stubs\TestRepository;

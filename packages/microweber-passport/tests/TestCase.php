@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\Passport\Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * Base test case for the microweber-passport package.
@@ -15,7 +14,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 if (class_exists(\Orchestra\Testbench\TestCase::class) && ! trait_exists(\Tests\CreatesApplication::class)) {
     abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
-        use RefreshDatabase;
 
         protected function getPackageProviders($app): array
         {

@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\ContentField\Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\ContentField\ContentFieldManager;
 use PHPUnit\Framework\Attributes\Test;
@@ -10,7 +9,6 @@ use MicroweberPackages\ContentField\Facades\ContentField;
 
 class ContentFieldManagerTest extends TestCase
 {
-    use RefreshDatabase;
 
     private function manager(): ContentFieldManager
     {
