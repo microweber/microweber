@@ -80,6 +80,28 @@ abstract class TestCase extends OrchestraTestCase
         });
 
         parent::setUp();
+
+        // Make sqlite understand MySQL's REGEXP operator (used by some production
+        // queries) so those tests don't error with "no such function: REGEXP".
+        $this->registerSqliteRegexp();
+    }
+
+    private function registerSqliteRegexp(): void
+    {
+        try {
+            $pdo = DB::connection()->getPdo();
+            if ($pdo instanceof \PDO && $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'sqlite') {
+                $pdo->sqliteCreateFunction('regexp', static function ($pattern, $value): int {
+                    if ($value === null) {
+                        return 0;
+                    }
+
+                    return @preg_match('/' . $pattern . '/i', (string) $value) ? 1 : 0;
+                }, 2);
+            }
+        } catch (\Throwable) {
+            // No usable connection yet — skip; a later test re-registers it.
+        }
     }
 
     /**

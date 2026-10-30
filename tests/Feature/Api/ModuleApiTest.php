@@ -1231,14 +1231,26 @@ final class ModuleApiTest extends TestCase
     #[Test]
     public function newsletter_unsubscribe_is_public_and_flips_status(): void
     {
+        // Public = no login required, but a guest must present the subscriber's
+        // own confirmation_code (unsubscribe-by-email-alone would let anyone
+        // force-unsubscribe a known address — see UnsubscribeApiOwnershipTest).
+        $code = 'unsub-code-' . uniqid();
         $subscriber = NewsletterSubscriber::factory()->create([
             'email' => 'unsub-' . uniqid() . '@example.com',
             'is_subscribed' => true,
             'status' => 'active',
+            'confirmation_code' => $code,
         ]);
 
+        // Email alone is rejected (the vulnerability guard).
         $this->postJson('/api/module/newsletter/unsubscribe', ['email' => $subscriber->email])
-            ->assertStatus(200);
+            ->assertStatus(403);
+
+        // Email + the matching confirmation code succeeds and flips the status.
+        $this->postJson('/api/module/newsletter/unsubscribe', [
+            'email' => $subscriber->email,
+            'confirmation_code' => $code,
+        ])->assertStatus(200);
 
         $this->assertDatabaseHas('newsletter_subscribers', [
             'id' => $subscriber->id,
