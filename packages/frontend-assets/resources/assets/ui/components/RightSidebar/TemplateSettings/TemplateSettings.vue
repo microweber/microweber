@@ -1302,16 +1302,28 @@ export default {
         },
 
         // Build the list of selectable layouts from the current canvas page.
-        // Only top-level layouts (header / content sections / footer) — nested
-        // sub-layouts (ids containing "--") are excluded to keep the picker clean.
+        // Two kinds of selectable targets:
+        //   1. Layout modules (.module-layouts) — header / content layouts / footer.
+        //      Nested sub-layouts (ids containing "--") are excluded.
+        //   2. Static content sections — top-level .element blocks that live
+        //      directly inside the editable content area but aren't layout modules
+        //      (e.g. hero / "What we do" sections, including AI-built ones). They
+        //      can be styled per-section too, so expose them in the picker. Any that
+        //      lack an id get a stable one assigned so #id style edits have a target
+        //      (the id persists into the saved content).
         refreshAvailableLayouts() {
             const doc = window.mw?.top?.()?.app?.canvas?.getDocument?.();
-            const nodes = doc
-                ? Array.from(doc.querySelectorAll('.module-layouts')).filter(n => n.id && !n.id.includes('--'))
-                : [];
+            if (!doc) {
+                this.availableLayouts = [];
+                return;
+            }
+
+            // 1) Layout modules.
+            const layoutNodes = Array.from(doc.querySelectorAll('.module-layouts'))
+                .filter(n => n.id && !n.id.includes('--'));
             let contentIndex = 0;
-            const multipleContent = nodes.filter(n => !/header|footer/i.test(n.id)).length > 1;
-            this.availableLayouts = nodes.map(n => {
+            const multipleContent = layoutNodes.filter(n => !/header|footer/i.test(n.id)).length > 1;
+            const layoutItems = layoutNodes.map(n => {
                 const id = n.id;
                 let label;
                 if (/header/i.test(id)) {
@@ -1324,6 +1336,37 @@ export default {
                 }
                 return { id, label };
             });
+
+            // 2) Static content sections.
+            const contentArea = doc.querySelector('.edit.main-content')
+                || doc.querySelector('.edit[field="content"]')
+                || doc.querySelector('[field="content"]');
+            let sectionItems = [];
+            if (contentArea) {
+                const sectionNodes = Array.from(contentArea.children).filter(n =>
+                    n.classList
+                    && n.classList.contains('element')
+                    && !n.classList.contains('module-layouts')
+                );
+                sectionItems = sectionNodes.map((n, i) => {
+                    if (!n.id) {
+                        n.id = 'mw-section-' + this.makeSectionIdSuffix() + '-' + (i + 1);
+                    }
+                    const heading = n.querySelector('h1, h2, h3, [class*="title"]');
+                    const headingText = heading && heading.textContent ? heading.textContent.trim() : '';
+                    const label = headingText
+                        ? 'Section ' + (i + 1) + ' · ' + headingText.slice(0, 18)
+                        : 'Section ' + (i + 1);
+                    return { id: n.id, label };
+                });
+            }
+
+            this.availableLayouts = [...layoutItems, ...sectionItems];
+        },
+
+        // Short, collision-resistant suffix for an auto-assigned section id.
+        makeSectionIdSuffix() {
+            return Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);
         },
 
         // Pick a layout from the dropdown: select it on the canvas (so the layout
