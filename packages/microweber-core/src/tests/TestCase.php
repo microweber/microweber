@@ -237,8 +237,17 @@ abstract class TestCase extends OrchestraTestCase
             Artisan::call('cache:clear');
             Artisan::call('route:clear');
             Config::set('microweber.is_installed', 1);
-            $is_installed = mw_is_installed();
-            $this->assertEquals(1, $is_installed);
+            // NB: don't assert via mw_is_installed() here — it memoises a
+            // users-table check in a process-static that can already be "false"
+            // if the helper ran during bootstrap before the installer seeded
+            // users (reproduced only under `vendor/bin/phpunit`, not `artisan
+            // test`, which pre-boots the app). The installer returned success
+            // above; verify the installed state directly against the DB instead.
+            $this->assertTrue(
+                \Illuminate\Support\Facades\Schema::hasTable('users')
+                    && \Illuminate\Support\Facades\DB::table('users')->exists(),
+                'Microweber install did not create and seed the users table.'
+            );
 
             // Persist to the env repository so ensureMicroweberInstalled() and
             // assertPreConditions() see MW_IS_INSTALLED=1 in all subsequent tests
