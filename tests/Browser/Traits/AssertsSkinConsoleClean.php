@@ -72,6 +72,14 @@ trait AssertsSkinConsoleClean
         // regression.
         'ResizeObserver loop completed with undelivered notifications',
         'ResizeObserver loop limit exceeded',
+        // Benign Chromium intervention, not an app error. Live Edit arms a
+        // beforeunload unsaved-changes guard on the canvas; when the test
+        // navigates PROGRAMMATICALLY (no user gesture), Chrome BLOCKS the
+        // confirmation dialog and logs this at SEVERE. Nothing failed — Chrome
+        // suppressed a dialog that only a real user interaction could trigger —
+        // so filtering it keeps the gate honest without deleting a genuine
+        // unsaved-changes warning that real users depend on.
+        "Blocked attempt to show a 'beforeunload' confirmation panel",
     ];
 
     /**
