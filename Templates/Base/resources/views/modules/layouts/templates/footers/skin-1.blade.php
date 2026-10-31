@@ -15,7 +15,7 @@ categories: Footers
     container-class="mw-layout-container no-element text-md-start text-center"
 >
     <x-row>
-        <x-col size-md="2" class="me-4">
+        <x-col size-md="2" class="col-12 me-md-4">
             <div class="pb-7">
                 <module type="logo" id="footer-logo-{{ $params['id'] }}" />
             </div>
@@ -26,19 +26,19 @@ categories: Footers
             <br>
             <x-social-links />
         </x-col>
-        <x-row class="col-md-10 row px-md-10">
+        <x-row class="col-12 col-md-10 row px-md-10">
             <div class="col">
-                <p class="font-weight-bold ms-3"> Footer Menu  </p>
+                <p class="font-weight-bold ms-md-3"> Footer Menu  </p>
                 <module type="menu" template="simple" class="pb-lg-4" name="footer_menu"/>
             </div>
 
             <div class="col">
-                <p class="font-weight-bold ms-3"> Footer Menu 1 </p>
+                <p class="font-weight-bold ms-md-3"> Footer Menu 1 </p>
                 <module type="menu" template="simple" name="footer_menu"/>
             </div>
 
             <div class="col">
-                <p class="font-weight-bold ms-3"> Footer Menu 2 </p>
+                <p class="font-weight-bold ms-md-3"> Footer Menu 2 </p>
                 <module type="menu" template="simple" name="footer_menu"/>
             </div>
         </x-row>

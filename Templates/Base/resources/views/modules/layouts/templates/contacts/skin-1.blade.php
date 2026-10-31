@@ -29,7 +29,7 @@ categories: Contact Us
     :has-background="false"
     container-class="mw-layout-container no-element container edit safe-mode"
 >
-    <x-row class="col-12 col-lg-4 col-md-6 ms-auto p-3 cloneable element background-color-element allow-select regular-mode" style="background-color: #fff;">
+    <x-row class="col-12 col-lg-4 col-md-6 ms-lg-auto p-3 cloneable element background-color-element allow-select regular-mode" style="background-color: #fff;">
                 <h3 data-mwplaceholder="{{ _e('Enter title here') }}" class="mb-4">Contact Us</h3>
                 <p data-mwplaceholder="{{ _e('Enter text here') }}">We are here to help and answer any question you might have.</p>
                  <module type="contact_form" template="skin-3"/>

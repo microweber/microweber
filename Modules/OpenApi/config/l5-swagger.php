@@ -210,10 +210,23 @@ return [
         ],
 
         /*
-         * Set this to `true` in development mode so that docs would be regenerated on each request
-         * Set this to `false` to disable swagger generation on production
+         * Serve the pre-generated spec file by default; do NOT regenerate on
+         * every request.
+         *
+         * Request-time regeneration walks the broad, explicitly-listed module
+         * API controller scan (see `paths.annotations` above). That scan is
+         * fragile under an HTTP request: zircote/swagger-php emits an
+         * `@OA\Info() not found` validation warning via trigger_error(), which
+         * Laravel's HandleExceptions promotes to a fatal ErrorException — the
+         * SwaggerController catches it and aborts 404, so the Swagger UI's
+         * async spec fetch (`/docs?api-docs.json`) 404s and the whole docs
+         * page breaks (a SEVERE browser-console entry). The generated
+         * `storage/api-docs/api-docs.json` is committed to the repo and valid,
+         * so serving it is both correct and stable. Refresh it explicitly with
+         * `php artisan l5-swagger:generate` (or set L5_SWAGGER_GENERATE_ALWAYS=true
+         * locally) when the annotated API surface changes.
         */
-        'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', true),
+        'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', false),
 
         /*
          * Set this to `true` to generate a copy of documentation in yaml format

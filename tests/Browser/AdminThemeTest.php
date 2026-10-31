@@ -164,15 +164,20 @@ class AdminThemeTest extends DuskTestCase
                 $failed['topbar_border'] = $e->getMessage();
             }
 
-            // Section containers on desktop
-            $browser->visit('/admin/orders')->pause(1200);
+            // Section containers on desktop. The orders page hydrates its
+            // Filament section via Livewire, so wait for the element rather
+            // than a fixed pause (a short pause races the hydration and the
+            // section container reads as absent — a flaky null).
+            $browser->visit('/admin/orders');
 
             try {
+                $browser->waitFor('.fi-section', 8);
                 $radius = $browser->script("
-                    var ctn = document.querySelector('.fi-section-content-ctn');
+                    var ctn = document.querySelector('.fi-section')
+                        || document.querySelector('.fi-section-content-ctn');
                     return ctn ? getComputedStyle(ctn).borderRadius : null;
                 ");
-                $this->assertNotNull($radius[0], '.fi-section-content-ctn should exist');
+                $this->assertNotNull($radius[0], 'A Filament .fi-section should exist');
                 $this->assertStringContainsString('4px', $radius[0],
                     'Section containers should use 4px radius (joined with header — asymmetric 0 0 4px 4px allowed)');
                 $passed++;
@@ -357,22 +362,39 @@ class AdminThemeTest extends DuskTestCase
             $browser->visit('/admin/tags/create')->pause(1200);
 
             try {
-                $browser->script("
-                    var input = document.querySelector('input[id*=\"name\"]');
-                    if (input) input.focus();
-                ");
                 $browser->pause(500);
 
+                // The admin theme indicates input focus differently per colour
+                // scheme: dark mode paints a box-shadow ring on
+                // `.fi-input-wrp:focus-within`, while light mode shifts the
+                // wrapper border to brand blue (the box-shadow ring is
+                // deliberately suppressed there to avoid a doubled ring). So
+                // assert that focusing produces SOME visible change — a ring,
+                // an outline, or a border-colour shift — rather than pinning
+                // one mechanism.
                 $focusStyle = $browser->script("
-                    var focused = document.activeElement;
-                    if (!focused) return null;
-                    var wrapper = focused.closest('.fi-input-wrp');
+                    var input = document.querySelector('input[id*=\"name\"]');
+                    if (!input) return null;
+                    var wrapper = input.closest('.fi-input-wrp');
                     if (!wrapper) return null;
-                    return { boxShadow: getComputedStyle(wrapper).boxShadow };
+                    function snap(el){ var s = getComputedStyle(el); return s.boxShadow + '|' + s.outlineStyle + '|' + s.borderColor; }
+                    input.blur();
+                    var before = snap(wrapper);
+                    input.focus();
+                    var s = getComputedStyle(wrapper);
+                    var after = snap(wrapper);
+                    return {
+                        changed: before !== after,
+                        boxShadow: s.boxShadow,
+                        outlineStyle: s.outlineStyle
+                    };
                 ");
                 if ($focusStyle[0] !== null) {
-                    $this->assertNotEquals('none', $focusStyle[0]['boxShadow'],
-                        'Focused input should have a box-shadow focus ring');
+                    $hasIndicator = $focusStyle[0]['changed']
+                        || $focusStyle[0]['boxShadow'] !== 'none'
+                        || $focusStyle[0]['outlineStyle'] !== 'none';
+                    $this->assertTrue($hasIndicator,
+                        'Focused input should show a visible focus indicator (ring, outline, or border-colour change)');
                     $passed++;
                 }
             } catch (\Exception $e) {

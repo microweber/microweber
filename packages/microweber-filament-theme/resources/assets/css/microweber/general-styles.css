@@ -5630,7 +5630,19 @@ body.fi-panel-admin .fi-input {
 }
 body.fi-panel-admin .fi-input:focus {
     border-color: rgb(var(--primary-600)) !important;
-    /* ring is owned by .fi-input-wrp:focus-within (forms/theme.css) — no box-shadow here to avoid a doubled ring */
+    /* no box-shadow here to avoid a doubled ring — the focus ring is painted
+       on the wrapper (.fi-input-wrp:focus-within) just below */
+}
+/* Visible focus indicator for every admin input, light scheme included.
+   The visible border lives on the .fi-input-wrp wrapper (the inner .fi-input
+   has border-width:0), so a border-colour change on .fi-input alone is
+   invisible. Paint a brand-blue ring on the wrapper on focus-within. Dark mode
+   has its own more-specific rule (.dark body.fi-panel-admin …) and the content
+   edit pages keep their ink accent ring (both outrank this on specificity),
+   so this only fills the previously-unstyled light-scheme panel-wide case. */
+body.fi-panel-admin .fi-input-wrp:focus-within {
+    border-color: rgb(var(--primary-600)) !important;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25) !important;
 }
 body.fi-panel-admin .fi-input:disabled,
 body.fi-panel-admin .fi-input[readonly],

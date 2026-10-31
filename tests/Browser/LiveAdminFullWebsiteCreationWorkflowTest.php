@@ -1589,6 +1589,10 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
         $pack = $this->loadNeonNightPack();
         $this->assertNotEmpty($pack, 'Stage 7: neon-night pack JSON must exist');
 
+        $customCssRowExisted = DB::table('options')
+            ->where('option_key', 'custom_css')
+            ->where('option_group', 'template')
+            ->exists();
         $customCssBaseline = (string) DB::table('options')
             ->where('option_key', 'custom_css')
             ->where('option_group', 'template')
@@ -1647,11 +1651,20 @@ class LiveAdminFullWebsiteCreationWorkflowTest extends DuskTestCase
                 );
             });
         } finally {
-            // Restore the operator's baseline custom_css so the
-            // dev install sees no drift. If baseline was empty
-            // we still write the empty string; save_option is
-            // idempotent.
-            save_option('custom_css', $customCssBaseline, 'template');
+            // Restore the operator's baseline custom_css so the dev install
+            // sees no drift. Writing the empty string back is NOT enough when
+            // the row did not exist before this stage — save_option would
+            // leave a now-empty row behind, drifting the `options` row count
+            // by +1 and tripping the WorkflowFixturePurger leak guard. So when
+            // there was no baseline row, delete the row the stage created.
+            if ($customCssRowExisted) {
+                save_option('custom_css', $customCssBaseline, 'template');
+            } else {
+                DB::table('options')
+                    ->where('option_key', 'custom_css')
+                    ->where('option_group', 'template')
+                    ->delete();
+            }
             $this->bustOptionCaches();
         }
     }

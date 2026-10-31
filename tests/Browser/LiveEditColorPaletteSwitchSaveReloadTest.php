@@ -384,12 +384,15 @@ class LiveEditColorPaletteSwitchSaveReloadTest extends DuskTestCase
             if ($needle === '') {
                 continue;
             }
-            // Match "property:value" allowing any amount of whitespace.
+            // Match "property:value" allowing any amount of whitespace, and
+            // an optional "!important" flag — the palette writer stores each
+            // custom property with "!important" so it outranks the base/theme
+            // cascade, so "#ffffff !important;" is the real stored form.
             $pattern = '/'
                 . preg_quote($prop, '/')
                 . '\s*:\s*'
                 . preg_quote($needle, '/')
-                . '\s*[;}]/';
+                . '\s*(?:!important)?\s*[;}]/';
             if (preg_match($pattern, $haystack) === 1) {
                 return true;
             }
