@@ -846,6 +846,20 @@ class ModulesApiLiveEdit extends Controller
         if (is_file(public_path($base . 'dist/build/app.css'))) {
             $cssTags .= '<link rel="stylesheet" href="' . asset($base . 'dist/build/app.css') . '">';
         } else {
+            // Bundle-less templates (Base, Plain, and the extra/child templates
+            // built on them) don't ship a self-contained dist/build/app.css —
+            // they pull Bootstrap + the MW utility classes from the SHARED
+            // framework at packages/microweber-css-framework-bootstrap. Their
+            // master layout loads it FIRST, before the template's own base.css
+            // + design-vars. Without it here the preview iframe had no grid and
+            // no utilities (mh-*, position-*-*, extended spacers, …), so layouts
+            // rendered unstyled/blank in the picker even though they render
+            // correctly once inserted on a real page. Inject it in the same
+            // order the master layout uses.
+            $frameworkRel = 'packages/microweber-css-framework-bootstrap/css/mw-framework.css';
+            if (is_file(public_path($frameworkRel))) {
+                $cssTags .= '<link rel="stylesheet" href="' . asset($frameworkRel) . '">' . "\n    ";
+            }
             // Fall back to the conventional stylesheets a bundle-less template
             // ships (loaded in the same order its master layout uses them).
             foreach ([
