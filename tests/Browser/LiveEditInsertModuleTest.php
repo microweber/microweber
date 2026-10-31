@@ -103,8 +103,14 @@ class LiveEditInsertModuleTest extends DuskTestCase
             }
 
             // ── Check 3: Search input is clickable (not blocked by overlay) ──
+            // The le2 modules list (api-core/core/le2/modules-list.js) renders
+            // its search field (.modules-list-search-field) asynchronously
+            // after the dialog opens, so wait for it before interacting — a
+            // bare click() throws "unable to locate element" when it races the
+            // async render.
             try {
-                $browser->click('.mw-le-modules-dialog .modules-list-search-field')
+                $browser->waitFor('.mw-le-modules-dialog .modules-list-search-field', 10)
+                    ->click('.mw-le-modules-dialog .modules-list-search-field')
                     ->pause(500);
 
                 // Type into search field
