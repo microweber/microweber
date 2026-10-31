@@ -216,19 +216,31 @@ class AdminAiAgentInteractionTest extends DuskTestCase
             // ── Check 6: apply_css injects a rule that takes effect on the canvas ──
             // Scoped to .mw-ai-dusk-probe so it is harmless even if it were flushed
             // (it is not — the test never SAVEs).
+            //
+            // Use a NON-tokenised declaration (background-color on the container
+            // class), NOT a heading colour. apply_css deliberately runs
+            // tokenizeDesignCss(), which rewrites text colours on base-element
+            // selectors (h1-h6 / p / a …) into `var(--mw-heading-color, <literal>)`
+            // so the Customize-Styles panel can still override the AI's design.
+            // Because the active template DEFINES --mw-heading-color, that var
+            // resolves to the template value and the literal fallback never shows
+            // — so a per-heading literal colour is unobservable by design. A
+            // background-colour on a container class is left as a literal, so it
+            // is the faithful probe for "the injected rule reaches and paints the
+            // canvas".
             try {
                 $styled = $browser->script(self::MWAI_ACCESSOR . "
-                    var r = __mwai().applyEdit({ tool: 'apply_css', args: { css: '.mw-ai-dusk-probe h2 { color: rgb(7, 83, 155); }' } });
+                    var r = __mwai().applyEdit({ tool: 'apply_css', args: { css: '.mw-ai-dusk-probe { background-color: rgb(7, 83, 155); }' } });
                     var doc = __canvasDoc();
-                    var h = doc.querySelector('#mw-ai-dusk-h');
+                    var el = doc.querySelector('.mw-ai-dusk-probe');
                     var win = doc.defaultView || window;
-                    var color = h ? win.getComputedStyle(h).color : null;
-                    return { ok: r && r.ok, color: color };
+                    var bg = el ? win.getComputedStyle(el).backgroundColor : null;
+                    return { ok: r && r.ok, bg: bg };
                 ");
                 $st = $styled[0] ?? [];
                 $this->assertTrue($st['ok'] ?? false, 'apply_css should report ok.');
-                $this->assertStringContainsString('7, 83, 155', (string) ($st['color'] ?? ''),
-                    'apply_css must actually recolour the heading (got ' . ($st['color'] ?? 'null') . ').');
+                $this->assertStringContainsString('7, 83, 155', (string) ($st['bg'] ?? ''),
+                    'apply_css must apply the injected rule on the canvas (background-color; got ' . ($st['bg'] ?? 'null') . ').');
                 $checks++;
             } catch (\Exception $e) {
                 $failed['apply_css'] = substr($e->getMessage(), 0, 240);
