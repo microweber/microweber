@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Papaya Mint",
+            "description": "Tropical papaya oranges and cool mints for a lively, fresh look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Papaya Mint",
+                        "properties": {
+                            "--mw-background-color": "#fff8f2",
+                            "--mw-section-background-color": "#fff8f2",
+                            "--mw-primary-color": "#ffb347",
+                            "--mw-secondary": "#7fffd4",
+                            "--mw-textDark": "#2e4631",
+                            "--mw-textLight": "#fff8f2",
+                            "--mw-body-color": "#2e4631",
+                            "--mw-heading-color": "#805a24",
+                            "--mw-paragraph-color": "#805a24",
+                            "--mw-link-color": "#805a24",
+                            "--mw-link-hover-color": "#7fffd4",
+                            "--mw-header-background-color": "#fff8f2",
+                            "--mw-header-link-color": "#805a24",
+                            "--mw-header-link-hover-color": "#7fffd4",
+                            "--mw-header-link-background-hover-color": "rgba(127, 255, 212, 0.08)",
+                            "--mw-top-header-background-color": "#fff8f2",
+                            "--mw-top-header-primary-color": "#ffb347",
+                            "--mw-top-header-link-color": "#40806a",
+                            "--mw-top-header-link-hover-color": "#ffb347",
+                            "--mw-top-header-button-background-color": "#ffb347",
+                            "--mw-top-header-button-background-hover-color": "#7fffd4",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#2e4631",
+                            "--mw-footer-background-color": "#fff8f2",
+                            "--mw-footer-text-color": "#2e4631",
+                            "--mw-footer-primary-color": "#ffb347",
+                            "--mw-footer-link-color": "#40806a",
+                            "--mw-footer-hover-link-color": "#ffb347",
+                            "--mw-footer-button-background-color": "#ffb347",
+                            "--mw-footer-button-background-hover-color": "#7fffd4",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#2e4631",
+                            "--mw-text-decoration-color": "#ffb347",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Cobalt Wave",
+            "description": "Bold cobalts and deep blues for a striking, modern look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Cobalt Wave",
+                        "properties": {
+                            "--mw-background-color": "#f3f7fa",
+                            "--mw-section-background-color": "#f3f7fa",
+                            "--mw-primary-color": "#2563eb",
+                            "--mw-secondary": "#1e40af",
+                            "--mw-textDark": "#1e293b",
+                            "--mw-textLight": "#f3f7fa",
+                            "--mw-body-color": "#1e293b",
+                            "--mw-heading-color": "#2563eb",
+                            "--mw-paragraph-color": "#2563eb",
+                            "--mw-link-color": "#2563eb",
+                            "--mw-link-hover-color": "#1e40af",
+                            "--mw-header-background-color": "#f3f7fa",
+                            "--mw-header-link-color": "#2563eb",
+                            "--mw-header-link-hover-color": "#1e40af",
+                            "--mw-header-link-background-hover-color": "rgba(30, 64, 175, 0.08)",
+                            "--mw-top-header-background-color": "#f3f7fa",
+                            "--mw-top-header-primary-color": "#2563eb",
+                            "--mw-top-header-link-color": "#1e40af",
+                            "--mw-top-header-link-hover-color": "#2563eb",
+                            "--mw-top-header-button-background-color": "#2563eb",
+                            "--mw-top-header-button-background-hover-color": "#1e40af",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#1e293b",
+                            "--mw-footer-background-color": "#f3f7fa",
+                            "--mw-footer-text-color": "#1e293b",
+                            "--mw-footer-primary-color": "#2563eb",
+                            "--mw-footer-link-color": "#1e40af",
+                            "--mw-footer-hover-link-color": "#2563eb",
+                            "--mw-footer-button-background-color": "#2563eb",
+                            "--mw-footer-button-background-hover-color": "#1e40af",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#1e293b",
+                            "--mw-text-decoration-color": "#2563eb",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

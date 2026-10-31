@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Cherry Blossom",
+            "description": "Soft pinks and gentle whites for a delicate, floral look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Cherry Blossom",
+                        "properties": {
+                            "--mw-background-color": "#fff7fa",
+                            "--mw-section-background-color": "#fff7fa",
+                            "--mw-primary-color": "#ffb6c1",
+                            "--mw-secondary": "#ff69b4",
+                            "--mw-textDark": "#a8326e",
+                            "--mw-textLight": "#fff7fa",
+                            "--mw-body-color": "#a8326e",
+                            "--mw-heading-color": "#805b61",
+                            "--mw-paragraph-color": "#805b61",
+                            "--mw-link-color": "#805b61",
+                            "--mw-link-hover-color": "#ff69b4",
+                            "--mw-header-background-color": "#fff7fa",
+                            "--mw-header-link-color": "#805b61",
+                            "--mw-header-link-hover-color": "#ff69b4",
+                            "--mw-header-link-background-hover-color": "rgba(255, 105, 180, 0.08)",
+                            "--mw-top-header-background-color": "#fff7fa",
+                            "--mw-top-header-primary-color": "#ffb6c1",
+                            "--mw-top-header-link-color": "#80355a",
+                            "--mw-top-header-link-hover-color": "#ffb6c1",
+                            "--mw-top-header-button-background-color": "#ffb6c1",
+                            "--mw-top-header-button-background-hover-color": "#ff69b4",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#a8326e",
+                            "--mw-footer-background-color": "#fff7fa",
+                            "--mw-footer-text-color": "#a8326e",
+                            "--mw-footer-primary-color": "#ffb6c1",
+                            "--mw-footer-link-color": "#80355a",
+                            "--mw-footer-hover-link-color": "#ffb6c1",
+                            "--mw-footer-button-background-color": "#ffb6c1",
+                            "--mw-footer-button-background-hover-color": "#ff69b4",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#a8326e",
+                            "--mw-text-decoration-color": "#ffb6c1",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,6 +1,14 @@
 {
     "settings": [
         {
+            "title": "Predefined Styles",
+            "description": "",
+            "class": "mw-predefined-styles-main-btn",
+            "readSettingsFromFiles": [
+                "resources/assets/design-styles/main-styles/main-colors.json"
+            ]
+        },
+        {
             "title": "Customize Styles",
             "description": "",
             "class": "mw-customize-styles-main-btn",

@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Flamingo Pink",
+            "description": "Bright pinks and soft blush for a lively, playful look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Flamingo Pink",
+                        "properties": {
+                            "--mw-background-color": "#fff5fa",
+                            "--mw-section-background-color": "#fff5fa",
+                            "--mw-primary-color": "#ff69b4",
+                            "--mw-secondary": "#ffb6c1",
+                            "--mw-textDark": "#a8326e",
+                            "--mw-textLight": "#fff5fa",
+                            "--mw-body-color": "#a8326e",
+                            "--mw-heading-color": "#80355a",
+                            "--mw-paragraph-color": "#80355a",
+                            "--mw-link-color": "#80355a",
+                            "--mw-link-hover-color": "#ffb6c1",
+                            "--mw-header-background-color": "#fff5fa",
+                            "--mw-header-link-color": "#80355a",
+                            "--mw-header-link-hover-color": "#ffb6c1",
+                            "--mw-header-link-background-hover-color": "rgba(255, 182, 193, 0.08)",
+                            "--mw-top-header-background-color": "#fff5fa",
+                            "--mw-top-header-primary-color": "#ff69b4",
+                            "--mw-top-header-link-color": "#805b61",
+                            "--mw-top-header-link-hover-color": "#ff69b4",
+                            "--mw-top-header-button-background-color": "#ff69b4",
+                            "--mw-top-header-button-background-hover-color": "#ffb6c1",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#a8326e",
+                            "--mw-footer-background-color": "#fff5fa",
+                            "--mw-footer-text-color": "#a8326e",
+                            "--mw-footer-primary-color": "#ff69b4",
+                            "--mw-footer-link-color": "#805b61",
+                            "--mw-footer-hover-link-color": "#ff69b4",
+                            "--mw-footer-button-background-color": "#ff69b4",
+                            "--mw-footer-button-background-hover-color": "#ffb6c1",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#a8326e",
+                            "--mw-text-decoration-color": "#ff69b4",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

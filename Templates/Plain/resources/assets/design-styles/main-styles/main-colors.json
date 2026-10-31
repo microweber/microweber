@@ -1,0 +1,60 @@
+{
+    "settings": [
+        {
+            "title": "Website colors",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "previewElementsFormat": "flex",
+            "previewElementsMode": "stylePackOpener",
+            "previewElements": [
+                {
+                    "tag": "div",
+                    "class": "color-palette-item",
+                    "label": " ",
+                    "attributes": {
+                        "style": "background-color: var(--mw-section-background-color);"
+                    }
+                },
+                {
+                    "tag": "div",
+                    "class": "color-palette-item",
+                    "label": " ",
+                    "attributes": {
+                        "style": "background-color: var(--mw-primary-color);"
+                    }
+                },
+                {
+                    "tag": "div",
+                    "class": "color-palette-item",
+                    "label": " ",
+                    "attributes": {
+                        "style": "background-color: var(--mw-heading-color);"
+                    }
+                },
+                {
+                    "tag": "div",
+                    "class": "color-palette-item",
+                    "label": " ",
+                    "attributes": {
+                        "style": "background-color: var(--mw-paragraph-color);"
+                    }
+                }
+            ],
+            "previewElementsStyleProperties": [
+                {
+                    "label": "Current Website Colors",
+                    "properties": {
+                    }
+                }
+            ],
+            "mergeFieldSettingsFromFolders": [
+                "resources/assets/design-styles/style-packs/colors"
+            ],
+            "mergeFieldSettingsFromFilesxxx": [
+                "resources/assets/design-styles/style-packs/full-colors.json"
+            ]
+        }
+    ]
+}

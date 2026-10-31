@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Cloudy Day",
+            "description": "Soft grays and gentle blues for a calm, overcast look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Cloudy Day",
+                        "properties": {
+                            "--mw-background-color": "#f7fafd",
+                            "--mw-section-background-color": "#f7fafd",
+                            "--mw-primary-color": "#b0bec5",
+                            "--mw-secondary": "#90a4ae",
+                            "--mw-textDark": "#37474f",
+                            "--mw-textLight": "#f7fafd",
+                            "--mw-body-color": "#37474f",
+                            "--mw-heading-color": "#585f63",
+                            "--mw-paragraph-color": "#585f63",
+                            "--mw-link-color": "#585f63",
+                            "--mw-link-hover-color": "#90a4ae",
+                            "--mw-header-background-color": "#f7fafd",
+                            "--mw-header-link-color": "#585f63",
+                            "--mw-header-link-hover-color": "#90a4ae",
+                            "--mw-header-link-background-hover-color": "rgba(144, 164, 174, 0.08)",
+                            "--mw-top-header-background-color": "#f7fafd",
+                            "--mw-top-header-primary-color": "#b0bec5",
+                            "--mw-top-header-link-color": "#485257",
+                            "--mw-top-header-link-hover-color": "#b0bec5",
+                            "--mw-top-header-button-background-color": "#b0bec5",
+                            "--mw-top-header-button-background-hover-color": "#90a4ae",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#37474f",
+                            "--mw-footer-background-color": "#f7fafd",
+                            "--mw-footer-text-color": "#37474f",
+                            "--mw-footer-primary-color": "#b0bec5",
+                            "--mw-footer-link-color": "#485257",
+                            "--mw-footer-hover-link-color": "#b0bec5",
+                            "--mw-footer-button-background-color": "#b0bec5",
+                            "--mw-footer-button-background-hover-color": "#90a4ae",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#37474f",
+                            "--mw-text-decoration-color": "#b0bec5",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Citrus Mint",
+            "description": "Zesty citrus and cool mint for a refreshing, energetic look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Citrus Mint",
+                        "properties": {
+                            "--mw-background-color": "#f6fff2",
+                            "--mw-section-background-color": "#f6fff2",
+                            "--mw-primary-color": "#b6e388",
+                            "--mw-secondary": "#ffe066",
+                            "--mw-textDark": "#2e4631",
+                            "--mw-textLight": "#f6fff2",
+                            "--mw-body-color": "#2e4631",
+                            "--mw-heading-color": "#5b7244",
+                            "--mw-paragraph-color": "#5b7244",
+                            "--mw-link-color": "#5b7244",
+                            "--mw-link-hover-color": "#ffe066",
+                            "--mw-header-background-color": "#f6fff2",
+                            "--mw-header-link-color": "#5b7244",
+                            "--mw-header-link-hover-color": "#ffe066",
+                            "--mw-header-link-background-hover-color": "rgba(255, 224, 102, 0.08)",
+                            "--mw-top-header-background-color": "#f6fff2",
+                            "--mw-top-header-primary-color": "#b6e388",
+                            "--mw-top-header-link-color": "#807033",
+                            "--mw-top-header-link-hover-color": "#b6e388",
+                            "--mw-top-header-button-background-color": "#b6e388",
+                            "--mw-top-header-button-background-hover-color": "#ffe066",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#2e4631",
+                            "--mw-footer-background-color": "#f6fff2",
+                            "--mw-footer-text-color": "#2e4631",
+                            "--mw-footer-primary-color": "#b6e388",
+                            "--mw-footer-link-color": "#807033",
+                            "--mw-footer-hover-link-color": "#b6e388",
+                            "--mw-footer-button-background-color": "#b6e388",
+                            "--mw-footer-button-background-hover-color": "#ffe066",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#2e4631",
+                            "--mw-text-decoration-color": "#b6e388",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

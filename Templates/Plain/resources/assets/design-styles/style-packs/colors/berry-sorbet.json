@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Berry Sorbet",
+            "description": "Vivid pinks and purples for a sweet, playful look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Berry Sorbet",
+                        "properties": {
+                            "--mw-background-color": "#fff0fa",
+                            "--mw-section-background-color": "#fff0fa",
+                            "--mw-primary-color": "#e75480",
+                            "--mw-secondary": "#a259c6",
+                            "--mw-textDark": "#3a1a3c",
+                            "--mw-textLight": "#fff0fa",
+                            "--mw-body-color": "#3a1a3c",
+                            "--mw-heading-color": "#742a40",
+                            "--mw-paragraph-color": "#742a40",
+                            "--mw-link-color": "#742a40",
+                            "--mw-link-hover-color": "#a259c6",
+                            "--mw-header-background-color": "#fff0fa",
+                            "--mw-header-link-color": "#742a40",
+                            "--mw-header-link-hover-color": "#a259c6",
+                            "--mw-header-link-background-hover-color": "rgba(162, 89, 198, 0.08)",
+                            "--mw-top-header-background-color": "#fff0fa",
+                            "--mw-top-header-primary-color": "#e75480",
+                            "--mw-top-header-link-color": "#512d63",
+                            "--mw-top-header-link-hover-color": "#e75480",
+                            "--mw-top-header-button-background-color": "#e75480",
+                            "--mw-top-header-button-background-hover-color": "#a259c6",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#3a1a3c",
+                            "--mw-footer-background-color": "#fff0fa",
+                            "--mw-footer-text-color": "#3a1a3c",
+                            "--mw-footer-primary-color": "#e75480",
+                            "--mw-footer-link-color": "#512d63",
+                            "--mw-footer-hover-link-color": "#e75480",
+                            "--mw-footer-button-background-color": "#e75480",
+                            "--mw-footer-button-background-hover-color": "#a259c6",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#3a1a3c",
+                            "--mw-text-decoration-color": "#e75480",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

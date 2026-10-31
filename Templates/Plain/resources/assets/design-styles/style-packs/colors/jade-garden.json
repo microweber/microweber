@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Jade Garden",
+            "description": "Serene jades and leafy greens for a peaceful, botanical look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Jade Garden",
+                        "properties": {
+                            "--mw-background-color": "#f0fff4",
+                            "--mw-section-background-color": "#f0fff4",
+                            "--mw-primary-color": "#34d399",
+                            "--mw-secondary": "#059669",
+                            "--mw-textDark": "#14532d",
+                            "--mw-textLight": "#f0fff4",
+                            "--mw-body-color": "#14532d",
+                            "--mw-heading-color": "#1a6a4d",
+                            "--mw-paragraph-color": "#1a6a4d",
+                            "--mw-link-color": "#1a6a4d",
+                            "--mw-link-hover-color": "#059669",
+                            "--mw-header-background-color": "#f0fff4",
+                            "--mw-header-link-color": "#1a6a4d",
+                            "--mw-header-link-hover-color": "#059669",
+                            "--mw-header-link-background-hover-color": "rgba(5, 150, 105, 0.08)",
+                            "--mw-top-header-background-color": "#f0fff4",
+                            "--mw-top-header-primary-color": "#34d399",
+                            "--mw-top-header-link-color": "#034b35",
+                            "--mw-top-header-link-hover-color": "#34d399",
+                            "--mw-top-header-button-background-color": "#34d399",
+                            "--mw-top-header-button-background-hover-color": "#059669",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#14532d",
+                            "--mw-footer-background-color": "#f0fff4",
+                            "--mw-footer-text-color": "#14532d",
+                            "--mw-footer-primary-color": "#34d399",
+                            "--mw-footer-link-color": "#034b35",
+                            "--mw-footer-hover-link-color": "#34d399",
+                            "--mw-footer-button-background-color": "#34d399",
+                            "--mw-footer-button-background-hover-color": "#059669",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#14532d",
+                            "--mw-text-decoration-color": "#34d399",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

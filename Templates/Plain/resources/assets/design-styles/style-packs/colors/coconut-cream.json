@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Coconut Cream",
+            "description": "Creamy whites and soft browns for a smooth, tropical look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Coconut Cream",
+                        "properties": {
+                            "--mw-background-color": "#f9f6f2",
+                            "--mw-section-background-color": "#f9f6f2",
+                            "--mw-primary-color": "#e6ccb2",
+                            "--mw-secondary": "#b08968",
+                            "--mw-textDark": "#4b3a1e",
+                            "--mw-textLight": "#f9f6f2",
+                            "--mw-body-color": "#4b3a1e",
+                            "--mw-heading-color": "#736659",
+                            "--mw-paragraph-color": "#736659",
+                            "--mw-link-color": "#736659",
+                            "--mw-link-hover-color": "#b08968",
+                            "--mw-header-background-color": "#f9f6f2",
+                            "--mw-header-link-color": "#736659",
+                            "--mw-header-link-hover-color": "#b08968",
+                            "--mw-header-link-background-hover-color": "rgba(176, 137, 104, 0.08)",
+                            "--mw-top-header-background-color": "#f9f6f2",
+                            "--mw-top-header-primary-color": "#e6ccb2",
+                            "--mw-top-header-link-color": "#584534",
+                            "--mw-top-header-link-hover-color": "#e6ccb2",
+                            "--mw-top-header-button-background-color": "#e6ccb2",
+                            "--mw-top-header-button-background-hover-color": "#b08968",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#4b3a1e",
+                            "--mw-footer-background-color": "#f9f6f2",
+                            "--mw-footer-text-color": "#4b3a1e",
+                            "--mw-footer-primary-color": "#e6ccb2",
+                            "--mw-footer-link-color": "#584534",
+                            "--mw-footer-hover-link-color": "#e6ccb2",
+                            "--mw-footer-button-background-color": "#e6ccb2",
+                            "--mw-footer-button-background-hover-color": "#b08968",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#4b3a1e",
+                            "--mw-text-decoration-color": "#e6ccb2",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

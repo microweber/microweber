@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Blush Coral",
+            "description": "Soft corals and creams for a gentle, modern look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Blush Coral",
+                        "properties": {
+                            "--mw-background-color": "#fffaf7",
+                            "--mw-section-background-color": "#fffaf7",
+                            "--mw-primary-color": "#ff6f61",
+                            "--mw-secondary": "#f7cac9",
+                            "--mw-textDark": "#2e1f1c",
+                            "--mw-textLight": "#fffaf7",
+                            "--mw-body-color": "#2e1f1c",
+                            "--mw-heading-color": "#803831",
+                            "--mw-paragraph-color": "#803831",
+                            "--mw-link-color": "#803831",
+                            "--mw-link-hover-color": "#f7cac9",
+                            "--mw-header-background-color": "#fffaf7",
+                            "--mw-header-link-color": "#803831",
+                            "--mw-header-link-hover-color": "#f7cac9",
+                            "--mw-header-link-background-hover-color": "rgba(255, 111, 97, 0.08)",
+                            "--mw-top-header-background-color": "#fffaf7",
+                            "--mw-top-header-primary-color": "#ff6f61",
+                            "--mw-top-header-link-color": "#553a37",
+                            "--mw-top-header-link-hover-color": "#ff6f61",
+                            "--mw-top-header-button-background-color": "#ff6f61",
+                            "--mw-top-header-button-background-hover-color": "#f7cac9",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#ffffff",
+                            "--mw-footer-background-color": "#fffaf7",
+                            "--mw-footer-text-color": "#2e1f1c",
+                            "--mw-footer-primary-color": "#ff6f61",
+                            "--mw-footer-link-color": "#7c6565",
+                            "--mw-footer-hover-link-color": "#ff6f61",
+                            "--mw-footer-button-background-color": "#ff6f61",
+                            "--mw-footer-button-background-hover-color": "#f7cac9",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#ffffff",
+                            "--mw-text-decoration-color": "#ff6f61",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

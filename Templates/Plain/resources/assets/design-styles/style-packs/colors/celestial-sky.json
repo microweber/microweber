@@ -1,0 +1,55 @@
+{
+    "settings": [
+        {
+            "title": "Celestial Sky",
+            "description": "Deep blues and starry whites for a cosmic, dreamy look.",
+            "fieldType": "stylePack",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "styleProperties": [
+                    {
+                        "label": "Celestial Sky",
+                        "properties": {
+                            "--mw-background-color": "#f5f7fa",
+                            "--mw-section-background-color": "#f5f7fa",
+                            "--mw-primary-color": "#3b82f6",
+                            "--mw-secondary": "#1e293b",
+                            "--mw-textDark": "#0f172a",
+                            "--mw-textLight": "#f5f7fa",
+                            "--mw-body-color": "#0f172a",
+                            "--mw-heading-color": "#1e417b",
+                            "--mw-paragraph-color": "#1e417b",
+                            "--mw-link-color": "#1e417b",
+                            "--mw-link-hover-color": "#1e293b",
+                            "--mw-header-background-color": "#f5f7fa",
+                            "--mw-header-link-color": "#1e417b",
+                            "--mw-header-link-hover-color": "#1e293b",
+                            "--mw-header-link-background-hover-color": "rgba(30, 41, 59, 0.08)",
+                            "--mw-top-header-background-color": "#f5f7fa",
+                            "--mw-top-header-primary-color": "#3b82f6",
+                            "--mw-top-header-link-color": "#1e293b",
+                            "--mw-top-header-link-hover-color": "#3b82f6",
+                            "--mw-top-header-button-background-color": "#3b82f6",
+                            "--mw-top-header-button-background-hover-color": "#1e293b",
+                            "--mw-top-header-button-text-color": "#ffffff",
+                            "--mw-top-header-button-text-hover-color": "#f5f7fa",
+                            "--mw-footer-background-color": "#f5f7fa",
+                            "--mw-footer-text-color": "#0f172a",
+                            "--mw-footer-primary-color": "#3b82f6",
+                            "--mw-footer-link-color": "#1e293b",
+                            "--mw-footer-hover-link-color": "#3b82f6",
+                            "--mw-footer-button-background-color": "#3b82f6",
+                            "--mw-footer-button-background-hover-color": "#1e293b",
+                            "--mw-footer-button-text-color": "#ffffff",
+                            "--mw-footer-button-text-hover-color": "#f5f7fa",
+                            "--mw-text-decoration-color": "#3b82f6",
+                            "--text-on-dark-background": "#ffffff"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
