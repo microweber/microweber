@@ -47,7 +47,11 @@ class LivewireModalServiceProvider extends PackageServiceProvider
      */
     private function registerModalTestPlayground(): void
     {
-        if (!app()->environment(['local', 'testing'])) {
+        // Include 'dusk': the Dusk server commonly boots with APP_ENV=dusk
+        // (.env.dusk), and the playground must register there too or the
+        // browser request falls through to the frontend {slug} catch-all and
+        // renders the homepage instead of the modal playground.
+        if (!app()->environment(['local', 'testing', 'dusk'])) {
             return;
         }
 
