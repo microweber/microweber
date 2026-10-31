@@ -18,4 +18,14 @@ class TeamcardItemsController extends ModuleItemsController
     {
         return ['name', 'role', 'bio'];
     }
+
+    protected function defaultContentKey(): ?string
+    {
+        return 'teamcard';
+    }
+
+    protected function defaultSeedGuardKey(): ?string
+    {
+        return 'getTeamcardCreatedDefault';
+    }
 }

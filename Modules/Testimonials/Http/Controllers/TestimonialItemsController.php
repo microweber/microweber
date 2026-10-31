@@ -18,4 +18,14 @@ class TestimonialItemsController extends ModuleItemsController
     {
         return ['name', 'content', 'client_role', 'client_company'];
     }
+
+    protected function defaultContentKey(): ?string
+    {
+        return 'testimonials';
+    }
+
+    protected function defaultSeedGuardKey(): ?string
+    {
+        return 'getTestimonialsCreatedDefault';
+    }
 }

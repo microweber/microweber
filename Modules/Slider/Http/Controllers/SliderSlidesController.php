@@ -18,4 +18,19 @@ class SliderSlidesController extends ModuleItemsController
     {
         return ['name', 'description', 'button_text', 'link'];
     }
+
+    protected function defaultContentKey(): ?string
+    {
+        return 'slides';
+    }
+
+    protected function defaultContentFile(): ?string
+    {
+        return base_path('Modules/Slider/resources/default-content/default_content.json');
+    }
+
+    protected function defaultSeedGuardKey(): ?string
+    {
+        return 'getSlidesCreatedDefault';
+    }
 }
