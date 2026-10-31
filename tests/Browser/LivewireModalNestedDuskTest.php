@@ -63,19 +63,23 @@ class LivewireModalNestedDuskTest extends DuskTestCase
     public function multi_instance_modals_have_distinct_instance_ids(): void
     {
         $this->browse(function (Browser $browser) {
+            // The second openModal is a full Livewire roundtrip that renders a
+            // second stacked instance; a fixed pause races that latency (the
+            // stacking itself works — server assigns a unique uniqid per open).
+            // Wait until both distinct instances exist rather than guessing.
+            $distinctInstances = '(function () {'
+                . ' var n = document.querySelectorAll(".js-modal-livewire[data-mw-modal-instance]");'
+                . ' return n.length >= 2'
+                . '   && n[0].getAttribute("data-mw-modal-instance") !== n[1].getAttribute("data-mw-modal-instance");'
+                . ' })()';
+
             $browser->visit('/__mw_livewire_modal_test')
                 ->waitFor('@open-demo', 15)
                 ->click('@open-demo')
                 ->waitFor('[data-testid="demo-modal"]', 15)
                 ->click('@open-demo-again')
-                ->pause(800)
-                ->assertScript(
-                    'return (function () {'
-                    . ' var n = document.querySelectorAll(".js-modal-livewire[data-mw-modal-instance]");'
-                    . ' return n.length >= 2'
-                    . '   && n[0].getAttribute("data-mw-modal-instance") !== n[1].getAttribute("data-mw-modal-instance");'
-                    . ' })();'
-                );
+                ->waitUntil($distinctInstances, 15)
+                ->assertScript('return ' . $distinctInstances . ';');
         });
     }
 }
