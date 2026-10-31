@@ -109,6 +109,7 @@ export default {
                 :aria-expanded="open ? 'true' : 'false'"
                 :aria-label="'Device preview: ' + currentLabel"
                 :title="'Device preview: ' + currentLabel"
+                :data-mw-mobile-label="currentLabel"
                 v-on:click="toggleOpen">
             <i class="mw-device-switch__icon" v-html="currentIcon" aria-hidden="true"></i>
             <svg class="mw-device-switch__caret" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 10l5 5 5-5z"/></svg>

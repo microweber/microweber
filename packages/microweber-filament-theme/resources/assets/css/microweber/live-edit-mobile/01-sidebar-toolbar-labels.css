@@ -123,6 +123,20 @@
         line-height: 1.15;
     }
     /*
+     * The device-preview switch is a dropdown whose aria-label is the verbose
+     * "Device preview: Desktop" — much longer than the other toolbar labels,
+     * so the generic attr(aria-label) caption wraps to three cramped lines
+     * under the icon (reported on mobile). Show just the short current-device
+     * name instead (data-mw-mobile-label = "Desktop" / "Tablet" / "Mobile"),
+     * kept to one line. Higher specificity (extra class in the compound) so it
+     * wins over the generic rule above.
+     */
+    .mw-live-edit-page .btn-icon.live-edit-toolbar-buttons.mw-device-switch__trigger::after {
+        content: attr(data-mw-mobile-label);
+        white-space: nowrap;
+        max-width: none;
+    }
+    /*
      * task-2026-05-16-8149b5: widen the right vertical sidebar from
      * its 50px desktop width so the new wrapped labels have room.
      * 72px fits "Template settings" on two short lines without
