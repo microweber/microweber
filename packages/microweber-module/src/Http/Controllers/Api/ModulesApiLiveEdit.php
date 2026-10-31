@@ -873,6 +873,20 @@ class ModulesApiLiveEdit extends Controller
             }
         }
 
+        // Icon glyph fonts the layouts reference via mw-micon-* (the
+        // mw-icons-mind set). These live in the shared frontend-assets-libs
+        // package, NOT in a template's app.css (Big's app.css carries 0 micon
+        // glyphs), so inject them for EVERY preview — otherwise icon-driven
+        // layouts (features, pricing, …) preview with invisible icons.
+        foreach ([
+            'vendor/microweber-packages/frontend-assets-libs/mw-icons-mind/line/style.css',
+            'vendor/microweber-packages/frontend-assets-libs/mw-icons-mind/solid/style.css',
+        ] as $iconRel) {
+            if (is_file(public_path($iconRel))) {
+                $cssTags .= "\n    " . '<link rel="stylesheet" href="' . asset($iconRel) . '">';
+            }
+        }
+
         if (is_file(public_path($base . 'dist/build/app.js'))) {
             $jsTags .= '<script src="' . asset($base . 'dist/build/app.js') . '"></script>';
         }
