@@ -12,39 +12,24 @@ use Tests\Browser\Traits\LiveEditColorPaletteTrait;
 use Tests\DuskTestCase;
 
 /**
- * Phase-6 picker UX regression — preview thumbnail colors.
+ * Phase-6 picker UX regression — preview swatch colors.
  *
  * Every swatch (`.style-pack-item`) rendered inside the "Website colors"
- * FieldStylePack iframe contains three `.color-palette-item`
- * preview thumbnails, declared by `main-colors.json`:
- *
- *   previewElements[0] → background-color: var(--mw-primary-color)
- *   previewElements[1] → background-color: var(--mw-body-color)
- *   previewElements[2] → background-color: var(--mw-background-color)
- *
- * FieldStylePack.vue's `createStylePackElement()` (line 852) sets the
- * pack's CSS custom properties as inline style on both the swatch `div`
- * and every preview `component`. The preview's `background-color: var(...)`
- * attribute resolves against those inline custom props — so each
- * thumbnail ends up painted with the pack's own color, independent of
- * what's currently on `:root`.
+ * FieldStylePack iframe shows a `.mw-sp-palette` row of `.mw-sp-dot`
+ * preview dots. FieldStylePack.vue's `extractPackColors()` picks the pack's
+ * representative colours from its own `properties`, ranked
+ * primary(0) → secondary/accent(1) → heading(2) → link(3) → body/background(4),
+ * deduped to the first five — so the FIRST dot paints the pack's own
+ * `--mw-primary-color`, independent of what is currently on `:root`.
  *
  * What this catches:
- *   - A regression where `main-colors.json`'s `previewElements` shape
- *     (`colorPaletteFromTemplateFolderLibrary`-style thumbnails) is
- *     dropped or replaced by the fallback-selectors branch at
- *     FieldStylePack.vue:917. The swatch would render only label text
- *     without colored thumbnails — a visual-signal regression invisible
- *     to the per-palette `:root` assertions in Phase 3.
- *   - A regression where the per-pack inline style override is lost
- *     (e.g. only `stylePackDiv.style.setProperty` is called but
- *     `component.style.setProperty` is dropped, or the preview element
- *     doesn't inherit the custom props from an ancestor). All three
- *     thumbnails would then paint the current `:root` palette instead
- *     of the pack's own palette — a "every swatch looks the same" bug.
- *   - A regression where the preview-element ordering mutates; the
- *     test asserts each index paints the expected variable, so swaps
- *     surface as per-index mismatches.
+ *   - A regression where the swatch renders only label text without any
+ *     `.mw-sp-dot` preview dots — a visual-signal regression invisible to
+ *     the per-palette `:root` assertions in Phase 3.
+ *   - A regression where the per-pack inline colours are lost so every
+ *     swatch paints the current `:root` palette instead of the pack's own
+ *     ("every swatch looks the same"): the first dot would no longer match
+ *     THIS pack's primary colour.
  *
  * Computed-style probe:
  *   `getComputedStyle(el).backgroundColor` returns `rgb(r, g, b)` for
@@ -63,20 +48,6 @@ class LiveEditColorPalettePickerThumbnailColorsTest extends DuskTestCase
     use AdminLoginTrait;
     use CleansColorPaletteTestFixtures;
     use LiveEditColorPaletteTrait;
-
-    /**
-     * Preview-element order declared by `main-colors.json` —
-     * the FieldStylePack renderer iterates `previewElements[]`
-     * in-order and appends `.color-palette-item` children in that
-     * order. Keep this array aligned with the pack JSON.
-     *
-     * @var list<string>
-     */
-    private const THUMBNAIL_VAR_ORDER = [
-        '--mw-primary-color',
-        '--mw-body-color',
-        '--mw-background-color',
-    ];
 
     protected function assertPreConditions(): void
     {
@@ -117,20 +88,15 @@ class LiveEditColorPalettePickerThumbnailColorsTest extends DuskTestCase
                 $title = (string)$pack['title'];
                 $slug = (string)$pack['slug'];
 
-                // Skip packs that declare any of the three core vars in
-                // a non-color form — `background-color` rejects gradients
-                // and the thumbnail would fall back to transparent.
-                $skip = false;
-                $expected = [];
-                foreach (self::THUMBNAIL_VAR_ORDER as $var) {
-                    $val = (string)($pack['properties'][$var] ?? '');
-                    if ($val === '' || !$this->isSolidColor($val)) {
-                        $skip = true;
-                        break;
-                    }
-                    $expected[] = $this->normalizeCssColor($val);
-                }
-                if ($skip) {
+                // The redesigned swatch renders a `.mw-sp-palette` of
+                // `.mw-sp-dot` preview dots whose colours come from
+                // FieldStylePack.vue's extractPackColors() — ranked
+                // primary(0), secondary/accent(1), heading(2), link(3),
+                // body/background(4), deduped to the first five. The rank-0
+                // (first) dot is therefore the pack's own primary colour.
+                // Skip packs whose primary isn't a solid colour literal.
+                $primary = (string)($pack['properties']['--mw-primary-color'] ?? '');
+                if ($primary === '' || !$this->isSolidColor($primary)) {
                     continue;
                 }
 
@@ -138,40 +104,38 @@ class LiveEditColorPalettePickerThumbnailColorsTest extends DuskTestCase
                     $title,
                     $thumbnails,
                     "Picker swatch for pack '{$slug}' (title '{$title}') "
-                    . 'did not expose thumbnail colors — either the swatch '
-                    . 'is missing or its preview `.color-palette-item` '
-                    . 'children were not rendered'
+                    . 'did not expose preview colours — either the swatch is '
+                    . 'missing or its `.mw-sp-dot` preview dots were not rendered'
                 );
 
                 $actual = $thumbnails[$title];
-                $this->assertCount(
-                    count(self::THUMBNAIL_VAR_ORDER),
-                    $actual,
+                $this->assertGreaterThanOrEqual(
+                    3,
+                    count($actual),
                     "Pack '{$slug}' swatch rendered " . count($actual)
-                    . ' `.color-palette-item` thumbnails, expected '
-                    . count(self::THUMBNAIL_VAR_ORDER) . '. Actual: '
+                    . ' `.mw-sp-dot` preview dots, expected at least 3. Actual: '
                     . json_encode($actual)
                 );
 
-                foreach (self::THUMBNAIL_VAR_ORDER as $i => $var) {
-                    $this->assertSame(
-                        $expected[$i],
-                        $actual[$i],
-                        "Pack '{$slug}' thumbnail #{$i} (bound to {$var}) "
-                        . "expected '{$expected[$i]}' but got '{$actual[$i]}'. "
-                        . 'This means the per-pack preview did not override '
-                        . 'the inline CSS variable — thumbnails are painting '
-                        . 'the current :root palette instead of the packs.'
-                    );
-                }
+                // The first dot must paint THIS pack's primary colour. If the
+                // per-pack inline style override were lost, every swatch would
+                // instead paint the current :root palette — so a per-pack
+                // mismatch here is exactly that regression.
+                $this->assertSame(
+                    $this->normalizeCssColor($primary),
+                    $actual[0] ?? '',
+                    "Pack '{$slug}' first preview dot must paint the pack's own "
+                    . "--mw-primary-color ('{$primary}'), not the current :root "
+                    . "palette — got '" . ($actual[0] ?? 'null') . "'."
+                );
             }
         });
     }
 
     /**
      * Return a map keyed by pack title → list of computed
-     * `background-color` values of the three `.color-palette-item`
-     * thumbnails inside that swatch, in render order.
+     * background-color values of the `.mw-sp-dot` preview dots inside
+     * that swatch, in render order (primary-ranked first).
      *
      * @return array<string, array<int, string>>
      */
@@ -190,7 +154,7 @@ class LiveEditColorPalettePickerThumbnailColorsTest extends DuskTestCase
                     var title = lblEl ? (lblEl.textContent || '').trim() : '';
                     if (!title) continue;
 
-                    var thumbs = items[i].querySelectorAll('.color-palette-item');
+                    var thumbs = items[i].querySelectorAll('.mw-sp-dot');
                     var colors = [];
                     for (var j = 0; j < thumbs.length; j++) {
                         var cs = win.getComputedStyle(thumbs[j]);
