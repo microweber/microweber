@@ -413,9 +413,17 @@
                                                     scrolling="no"
                                                     frameborder="0"
                                                     sandbox="allow-same-origin allow-scripts"
+                                                    v-on:load="onIframeLoaded(iframeKeyFor(item, index))"
                                                 ></iframe>
                                                 <div v-else class="layout-iframe-placeholder">
                                                     <span>{{ item.title }}</span>
+                                                </div>
+                                                <!-- Loading spinner shown over the iframe until its
+                                                     load event fires, so the card is never a blank
+                                                     white box while the preview renders. -->
+                                                <div v-if="iframeIsInView(iframeKeyFor(item, index)) && !iframeIsLoaded(iframeKeyFor(item, index))"
+                                                     class="layout-iframe-loading" aria-hidden="true">
+                                                    <span class="layout-iframe-spinner"></span>
                                                 </div>
                                             </div>
                                             <div v-else class="layout-no-preview">
@@ -519,9 +527,15 @@
                                             scrolling="no"
                                             frameborder="0"
                                             sandbox="allow-same-origin allow-scripts"
+                                            v-on:load="onIframeLoaded(iframeKeyFor(item, index))"
                                         ></iframe>
                                         <div v-else class="layout-iframe-placeholder">
                                             <span>{{ item.title }}</span>
+                                        </div>
+                                        <!-- Loading spinner until the iframe's load event fires. -->
+                                        <div v-if="iframeIsInView(iframeKeyFor(item, index)) && !iframeIsLoaded(iframeKeyFor(item, index))"
+                                             class="layout-iframe-loading" aria-hidden="true">
+                                            <span class="layout-iframe-spinner"></span>
                                         </div>
                                     </div>
                                     <div
@@ -1048,6 +1062,32 @@
     transform: scale(0.25);
     transform-origin: 0 0;
     pointer-events: none;
+}
+
+/* Loading overlay shown over a live preview iframe until its load event fires,
+   so a card is never a blank white box while the preview renders. The overlay
+   background matches the preview's so the transition reads as spinner -> content.
+   pointer-events:none keeps the card itself clickable underneath. */
+.layout-iframe-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    z-index: 1;
+    pointer-events: none;
+}
+.layout-iframe-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(0, 0, 0, 0.12);
+    border-top-color: rgba(0, 0, 0, 0.45);
+    border-radius: 50%;
+    animation: mw-layout-iframe-spin 0.7s linear infinite;
+}
+@keyframes mw-layout-iframe-spin {
+    to { transform: rotate(360deg); }
 }
 
 .modules-list-block-item-masonry .layout-iframe-preview {
@@ -2691,6 +2731,16 @@ export default {
             return !!this.iframesInView[key];
         },
 
+        iframeIsLoaded(key) {
+            return !!this.iframesLoaded[key];
+        },
+
+        onIframeLoaded(key) {
+            if (!key) return;
+            // Vue 3 reactivity: plain assignment on a data() object is tracked.
+            this.iframesLoaded[key] = true;
+        },
+
         setupIframeObserver() {
             // No-op outside browsers (SSR / unit tests).
             if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') {
@@ -3143,6 +3193,11 @@ export default {
             // never un-mount an iframe the user has already seen — that
             // would re-trigger the costly load if they scrolled back).
             iframesInView: {},
+            // Map { iframeKey => true } for iframes whose `load` event has
+            // fired. Drives the per-card loading spinner so a card shows a
+            // spinner (not a blank white box) between the iframe mounting and
+            // finishing its render.
+            iframesLoaded: {},
             // IntersectionObserver instance, retained so beforeUnmount
             // can disconnect cleanly. Sentinel `null` until mounted.
             iframeObserver: null,
