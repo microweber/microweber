@@ -134,6 +134,18 @@ function templates_dir()
     if (!$folder) {
         //  $folder = (userfiles_path() . MW_TEMPLATES_FOLDER_NAME . DIRECTORY_SEPARATOR);
         $folder = (base_path('Templates') . DIRECTORY_SEPARATOR);
+        // When microweber is required as a dependency into a host app, the bundled
+        // Templates live under vendor/microweber/microweber/Templates, not the host root.
+        // Resolve portably via Composer install metadata when base_path('Templates') is
+        // absent. No-op in the monorepo (base_path('Templates') exists → kept as-is).
+        if (!is_dir($folder)
+            && class_exists(\Composer\InstalledVersions::class)
+            && \Composer\InstalledVersions::isInstalled('microweber/microweber')) {
+            $root = \Composer\InstalledVersions::getInstallPath('microweber/microweber');
+            if ($root && is_dir(rtrim($root, '/\\') . DIRECTORY_SEPARATOR . 'Templates')) {
+                $folder = rtrim($root, '/\\') . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
+            }
+        }
     }
 
     return $folder;
