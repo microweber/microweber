@@ -114,8 +114,15 @@ abstract class DuskTestCase extends BaseTestCase
             define('MW_UNIT_TEST', true);
         }
 
-        //  $_ENV['APP_ENV'] = 'testing';
-        //  putenv('APP_ENV=testing');
+        // Allow the test server URL to be overridden via DUSK_SITE_URL (mirrors
+        // the DUSK_CHROME_PORT override): on a shared host where :8000 is already
+        // held by another server, point the suite at a clean APP_ENV=testing
+        // server on a free port without editing this file. Defaults to :8000.
+        $envSiteUrl = getenv('DUSK_SITE_URL');
+        if ($envSiteUrl !== false && trim($envSiteUrl) !== '') {
+            $this->siteUrl = rtrim(trim($envSiteUrl), '/') . '/';
+        }
+
         if (!defined('MW_SITE_URL')) {
             define('MW_SITE_URL', $this->siteUrl);
         }
@@ -257,14 +264,28 @@ abstract class DuskTestCase extends BaseTestCase
             // install
             $installController = new InstallController();
 
+            // Install into the SAME connection the app is configured to use,
+            // so the DB the installer populates is the one the served site and
+            // the in-process Dusk factories (e.g. ColorPaletteFactory::
+            // ensureAdminUser) actually query. This previously hardcoded
+            // db_driver=sqlite + storage_path('database.sqlite'); when the env
+            // pointed the default connection elsewhere — CI copies
+            // .env.example (DB_DATABASE=database/database.sqlite), not
+            // .env.dusk's storage/database.sqlite — install populated one file
+            // while every test queried the other, so the first `users` query
+            // threw "Base table or view not found" (SQLSTATE[42S02]).
+            $defaultConnection = config('database.default');
+            $connectionConfig = config('database.connections.' . $defaultConnection, []);
+
             // Basic installation parameters
             $installParams = [
                 'make_install' => 1,
-                'db_driver' => 'sqlite',
-                'db_name' => storage_path('database.sqlite'),
-                'db_username' => '',
-                'db_password' => '',
-                'db_prefix' => '',
+                'db_driver' => $connectionConfig['driver'] ?? 'sqlite',
+                'db_host' => $connectionConfig['host'] ?? '',
+                'db_name' => ($connectionConfig['database'] ?? '') ?: storage_path('database.sqlite'),
+                'db_username' => $connectionConfig['username'] ?? '',
+                'db_password' => $connectionConfig['password'] ?? '',
+                'db_prefix' => $connectionConfig['prefix'] ?? '',
                 'admin_username' => 'admin',
                 'admin_email' => 'admin@localhost',
                 'admin_password' => 'admin',
