@@ -27,9 +27,13 @@ class FilesystemAllowanceCheckerTest extends TestCase
         $this->assertTrue($checker->isAllowed('photo.jpg'));
         $this->assertTrue($checker->isAllowed('doc.pdf'));
         $this->assertTrue($checker->isAllowed('data.json'));
-        // Extension-less names: standalone denylist allows them; when the CMS
-        // mw_filesystem() is bound it applies its own allow-list (which may reject).
-        if (!function_exists('mw_filesystem') || !app()->bound(\MicroweberPackages\Filesystem\FilesystemService::class)) {
+        // Extension-less names: the standalone denylist allows them, but when
+        // the CMS is present the checker delegates to mw_filesystem()->
+        // isAllowedFile(), which applies a strict allow-list and rejects
+        // unknown/extension-less names (the safer choice for zip extraction).
+        // Guard on the SAME condition the checker branches on (function_exists)
+        // so the expectation matches the code path actually taken.
+        if (!function_exists('mw_filesystem')) {
             $this->assertTrue($checker->isAllowed('readme'));
         }
     }

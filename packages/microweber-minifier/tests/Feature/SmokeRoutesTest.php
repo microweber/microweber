@@ -16,6 +16,11 @@ class SmokeRoutesTest extends TestCase
     {
         parent::setUp();
 
+        // Minification is opt-in (disabled by default). The smoke provider
+        // expects the enabled statuses (422 for missing code on the POST
+        // routes), so enable the feature for these route checks.
+        config(['minifier.enabled' => true]);
+
         // Routes are admin-gated (config/minifier.php) — authenticate as admin.
         $admin = new User();
         $admin->username = 'minifier_smoke_' . uniqid();

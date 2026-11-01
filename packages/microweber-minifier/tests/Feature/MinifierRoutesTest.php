@@ -13,6 +13,13 @@ class MinifierRoutesTest extends TestCase
     {
         parent::setUp();
 
+        // Minification is opt-in — disabled by default since the "make it
+        // actually work, harden it" cycle (config/minifier.php defaults
+        // enabled=false). These tests exercise the ENABLED behaviour of the
+        // endpoints, so turn the feature on. The disabled/503 path is covered
+        // by the service unit tests.
+        config(['minifier.enabled' => true]);
+
         // The minifier routes are admin-gated (see config/minifier.php), so
         // authenticate as an admin — is_admin() gates the Admin middleware.
         $admin = new User();
