@@ -46,6 +46,49 @@ for suite in "${SUITES[@]}"; do
     echo ""
     echo "--- Running suite: $suite ---"
 
+    if [ "$suite" = "Feature" ]; then
+        # The Feature suite (~4000 tests) overflows the per-process 4GB
+        # memory_limit set in microweber-core's TestCase because of PHP's
+        # ~6MB/test leak, so a single --testsuite=Feature run OOMs. Run its test
+        # files in batches instead — each batch is its own PHP process with a
+        # fresh 4GB budget. Same reasoning that split the Modules-* suites, but
+        # Feature's files are flat so we batch the file list rather than add
+        # <testsuite> entries. Batch count is overridable via FEATURE_BATCHES.
+        mapfile -t FEATURE_FILES < <(find tests/Feature -name '*Test.php' -type f \
+            ! -path '*/Fixtures/*' ! -path '*/Concerns/*' | sort)
+        FEATURE_RUNNABLE=()
+        for ff in "${FEATURE_FILES[@]}"; do
+            # Skip abstract base cases / traits (e.g. the abstract AuthorizationTest):
+            # phpunit aborts the entire run if handed a non-instantiable class file.
+            if grep -qE '^[[:space:]]*(abstract class|trait )' "$ff"; then
+                continue
+            fi
+            FEATURE_RUNNABLE+=("$ff")
+        done
+        FEATURE_COUNT=${#FEATURE_RUNNABLE[@]}
+        FEATURE_BATCHES="${FEATURE_BATCHES:-8}"
+        FEATURE_PER=$(( (FEATURE_COUNT + FEATURE_BATCHES - 1) / FEATURE_BATCHES ))
+        feature_failed=0
+        for (( fb=0; fb<FEATURE_BATCHES; fb++ )); do
+            chunk=( "${FEATURE_RUNNABLE[@]:fb*FEATURE_PER:FEATURE_PER}" )
+            [ ${#chunk[@]} -eq 0 ] && continue
+            echo "  Feature batch $(( fb + 1 ))/$FEATURE_BATCHES (${#chunk[@]} files)"
+            if $PHPUNIT "${chunk[@]}" --no-progress --display-errors; then
+                :
+            else
+                feature_failed=1
+            fi
+        done
+        if [ "$feature_failed" -eq 0 ]; then
+            RESULTS+=("PASS: $suite")
+        else
+            RESULTS+=("FAIL: $suite (one or more batches failed)")
+            FAILED=1
+        fi
+        echo "--- Suite $suite complete ---"
+        continue
+    fi
+
     if $PHPUNIT --testsuite="$suite" --no-progress --display-errors 2>&1; then
         RESULTS+=("PASS: $suite")
     else
