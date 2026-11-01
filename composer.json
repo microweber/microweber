@@ -481,6 +481,9 @@
     },
     "extra": {
         "laravel": {
+            "providers": [
+                "MicroweberPackages\\App\\Providers\\AppServiceProvider"
+            ],
             "dont-discover": [
                 "microweber-packages/package",
                 "microweber-packages/module-registry",

@@ -331,7 +331,11 @@ class AppServiceProvider extends ServiceProvider
 
 
         if ($this->app->environment('local', 'testing')) {
-            if (is_cli()) {
+            // DuskPackageServiceProvider lives in autoload-DEV; when microweber is
+            // required as a non-dev dependency into a host app the class isn't
+            // autoloadable, so guard on existence (registers in the monorepo where
+            // the dev autoload is present; skipped gracefully in a standalone host).
+            if (is_cli() && class_exists(DuskPackageServiceProvider::class)) {
                 // $this->app->register(CollisionServiceProvider::class);
                 $this->app->register(DuskPackageServiceProvider::class);
             }
