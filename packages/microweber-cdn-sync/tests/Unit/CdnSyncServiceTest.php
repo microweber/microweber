@@ -9,6 +9,29 @@ use MicroweberPackages\CdnSync\Facades\CdnSync;
 
 class CdnSyncServiceTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Establish a known not-configured baseline. Under the CMS-integrated
+        // harness the loaded env (.env.testing) ships real CDN_SYNC_* creds and
+        // the shared DB may carry demo options, so isConfigured() would other-
+        // wise be true. Tests that need a configured service set config in-body.
+        config([
+            'cdn-sync.enabled' => false,
+            'cdn-sync.key'     => '',
+            'cdn-sync.secret'  => '',
+            'cdn-sync.bucket'  => '',
+            'cdn-sync.endpoint' => '',
+            'cdn-sync.region'  => 'us-east-1',
+        ]);
+        if (function_exists('save_option')) {
+            foreach (['enabled', 'key', 'secret', 'bucket', 'region', 'endpoint', 'url', 'use_path_style_endpoint', 'cdn_url', 'path_prefix'] as $k) {
+                save_option('cdn_sync_' . $k, '', 'cdn_sync');
+            }
+        }
+    }
+
     public function test_service_can_be_resolved(): void
     {
         $service = CdnSync::getFacadeRoot();

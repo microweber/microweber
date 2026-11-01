@@ -41,6 +41,17 @@ class CdnSyncSettingsLivewireTest extends TestCase
                 save_option('cdn_sync_' . $k, '', 'cdn_sync');
             }
         }
+        // The loaded env (.env.testing) ships real CDN_SYNC_* values
+        // (enabled=true, region=eu-central, …); mount() falls back to config
+        // when no option is set, so pin config to the packaged defaults to
+        // assert the true "unset" state rather than the env's values.
+        config([
+            'cdn-sync.enabled'  => false,
+            'cdn-sync.region'   => 'us-east-1',
+            'cdn-sync.key'      => '',
+            'cdn-sync.secret'   => '',
+            'cdn-sync.bucket'   => '',
+        ]);
 
         $component = Livewire::test(CdnSyncSettings::class);
         // Form fills with defaults via mount()
