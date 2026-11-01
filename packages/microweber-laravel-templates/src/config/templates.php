@@ -72,7 +72,20 @@ return [
         | This path will also be added automatically to the list of scanned folders.
         |
         */
-        'modules' => base_path('Templates'),
+        'modules' => (static function () {
+            // Resolve Microweber's bundled Templates dir portably — project root in the
+            // monorepo (== base_path('Templates')), vendor/microweber/microweber/Templates
+            // when microweber is a host dependency. Mirrors the modules-path resolution so
+            // bundled templates are discovered standalone. Falls back to base_path.
+            if (class_exists(\Composer\InstalledVersions::class)
+                && \Composer\InstalledVersions::isInstalled('microweber/microweber')) {
+                $root = \Composer\InstalledVersions::getInstallPath('microweber/microweber');
+                if ($root && is_dir(rtrim($root, '/\\') . DIRECTORY_SEPARATOR . 'Templates')) {
+                    return rtrim($root, '/\\') . DIRECTORY_SEPARATOR . 'Templates';
+                }
+            }
+            return base_path('Templates');
+        })(),
 
         /*
         |--------------------------------------------------------------------------

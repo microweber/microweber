@@ -75,7 +75,22 @@ return [
         | This path will also be added automatically to the list of scanned folders.
         |
         */
-        'modules' => base_path('Modules'),
+        'modules' => (static function () {
+            // Resolve Microweber's bundled Modules dir portably. In the monorepo this
+            // is the project root (so == base_path('Modules')); when microweber is
+            // required into a host Laravel app it is vendor/microweber/microweber/Modules.
+            // Uses Composer install metadata — no path-nesting assumptions — so the 80+
+            // bundled modules are discovered whether microweber is the root app or a
+            // dependency. Falls back to base_path('Modules') if metadata is unavailable.
+            if (class_exists(\Composer\InstalledVersions::class)
+                && \Composer\InstalledVersions::isInstalled('microweber/microweber')) {
+                $root = \Composer\InstalledVersions::getInstallPath('microweber/microweber');
+                if ($root && is_dir(rtrim($root, '/\\') . DIRECTORY_SEPARATOR . 'Modules')) {
+                    return rtrim($root, '/\\') . DIRECTORY_SEPARATOR . 'Modules';
+                }
+            }
+            return base_path('Modules');
+        })(),
 
         /*
         |--------------------------------------------------------------------------
