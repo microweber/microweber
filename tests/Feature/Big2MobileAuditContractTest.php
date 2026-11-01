@@ -161,14 +161,20 @@ class Big2MobileAuditContractTest extends TestCase
             );
         }
 
-        // (b) The shared partial is the single is_admin()-guarded source
+        // (b) The shared partial is the single edit-context-guarded source
         // of the empty-state markup, so it never leaks to anon visitors.
+        // Commit a396caad60 ("gate Pictures/Page/Content empty-states on
+        // is_live_edit() too (same leak as menu)") tightened the guard from
+        // is_admin() to is_live_edit(): the add-content placeholder + CTAs
+        // only make sense inside the Live-Edit canvas, and is_live_edit()
+        // implies an authenticated editing session, so it satisfies the
+        // AI-104 "never leaks to anon" contract strictly more than is_admin().
         $partial = $this->read(self::EMPTY_STATE_PARTIAL);
         $partialStripped = preg_replace('/\\{\\{--[\\s\\S]*?--\\}\\}/', '', $partial);
         $this->assertMatchesRegularExpression(
-            '/@if\\s*\\(\\s*is_admin\\(\\s*\\)\\s*\\)/',
+            '/@if\\s*\\(\\s*is_live_edit\\(\\s*\\)\\s*\\)/',
             $partialStripped,
-            self::EMPTY_STATE_PARTIAL . ': shared empty-state partial must wrap its markup in `@if(is_admin())` so it never leaks onto anonymous public pages (AI-104)'
+            self::EMPTY_STATE_PARTIAL . ': shared empty-state partial must wrap its markup in `@if(is_live_edit())` so it never leaks onto anonymous public pages (AI-104, tightened in a396caad60)'
         );
     }
 }
