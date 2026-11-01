@@ -240,7 +240,12 @@ class FileUploaderService
      */
     public function getDefaultUploadPath(): string
     {
-        if (function_exists('media_uploads_path')) {
+        // media_uploads_path() resolves against userfiles_path(); both come from
+        // the Microweber helper set. Require both so a partial boot (e.g. the
+        // package's standalone test harness, where media_uploads_path() is
+        // defined but its transitive userfiles_path() is not) falls back cleanly
+        // instead of fataling on an undefined function.
+        if (function_exists('media_uploads_path') && function_exists('userfiles_path')) {
             $path = media_uploads_path();
             return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
         }
