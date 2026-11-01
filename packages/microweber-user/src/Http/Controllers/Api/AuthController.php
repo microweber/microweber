@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\User\Http\Controllers\Api;
 
-use App\Models\User;
+use MicroweberPackages\User\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;

@@ -2,8 +2,6 @@
 
 namespace MicroweberPackages\Admin\Filament\Pages\Abstract;
 
-use App\Filament\Admin\Pages\Concerns\HasModuleOption;
-use App\Filament\Admin\Pages\Concerns\HasOptions;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;

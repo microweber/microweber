@@ -1,8 +1,6 @@
 <?php
 
 namespace MicroweberPackages\User\Http\Controllers;
-
-use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;

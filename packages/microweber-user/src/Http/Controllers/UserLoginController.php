@@ -1,8 +1,6 @@
 <?php
 
 namespace MicroweberPackages\User\Http\Controllers;
-
-use App\Http\Resources\User\UserResource;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
