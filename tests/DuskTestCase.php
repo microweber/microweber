@@ -260,22 +260,43 @@ abstract class DuskTestCase extends BaseTestCase
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
         $this->assertEquals('testing', app()->environment());
 
+        // Resolve the default connection the app is actually configured to use,
+        // so install, mw_is_installed()'s users probe, the served site and the
+        // in-process factories (e.g. ColorPaletteFactory::ensureAdminUser) all
+        // agree on ONE database. Previously the installer hardcoded
+        // storage_path('database.sqlite'); when the env pointed the default
+        // connection elsewhere (CI copies .env.example, not .env.dusk) install
+        // populated one file while every test queried another.
+        $defaultConnection = config('database.default');
+        $connectionConfig = config('database.connections.' . $defaultConnection, []);
+
+        // Laravel's SQLite connector refuses to auto-create the database file
+        // and throws "Database file at path [...] does not exist" on the very
+        // first query — before install can run. So for sqlite: make the path
+        // absolute (so artisan and the Apache docroot resolve the same file
+        // regardless of cwd), create it if missing, and pin the connection to
+        // the absolute path so install and the tests share exactly this file.
+        if (($connectionConfig['driver'] ?? null) === 'sqlite') {
+            $sqlitePath = $connectionConfig['database'] ?? '';
+            if ($sqlitePath !== '' && $sqlitePath !== ':memory:') {
+                if (!str_starts_with($sqlitePath, DIRECTORY_SEPARATOR)) {
+                    $sqlitePath = base_path($sqlitePath);
+                }
+                if (!is_dir(dirname($sqlitePath))) {
+                    @mkdir(dirname($sqlitePath), 0777, true);
+                }
+                if (!file_exists($sqlitePath)) {
+                    @touch($sqlitePath);
+                }
+                config(['database.connections.' . $defaultConnection . '.database' => $sqlitePath]);
+                DB::purge($defaultConnection);
+                $connectionConfig['database'] = $sqlitePath;
+            }
+        }
+
         if (!mw_is_installed()) {
             // install
             $installController = new InstallController();
-
-            // Install into the SAME connection the app is configured to use,
-            // so the DB the installer populates is the one the served site and
-            // the in-process Dusk factories (e.g. ColorPaletteFactory::
-            // ensureAdminUser) actually query. This previously hardcoded
-            // db_driver=sqlite + storage_path('database.sqlite'); when the env
-            // pointed the default connection elsewhere — CI copies
-            // .env.example (DB_DATABASE=database/database.sqlite), not
-            // .env.dusk's storage/database.sqlite — install populated one file
-            // while every test queried the other, so the first `users` query
-            // threw "Base table or view not found" (SQLSTATE[42S02]).
-            $defaultConnection = config('database.default');
-            $connectionConfig = config('database.connections.' . $defaultConnection, []);
 
             // Basic installation parameters
             $installParams = [
