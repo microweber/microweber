@@ -87,18 +87,31 @@ class BaseTemplateTest extends TestCase
     }
 
     /**
-     * Test that the master layout only uses CSS variables (no hardcoded SCSS).
+     * Test that the template's design CSS variables are defined.
+     *
+     * Since the design-vars refactor (task-2026-10-23, ported from Big) the
+     * `--mw-*` design tokens live in the dedicated design-vars.css cascade
+     * layer (design-styles/design-vars.css) rather than inline in the master
+     * layout, so the master stays markup-only and the tokens have a single
+     * authoritative source. This pins that the tokens remain defined there.
      */
     public function testMasterLayoutUsesCssVariables()
     {
-        $layoutPath = templates_path() . 'Base/resources/views/layouts/master.blade.php';
-        $content = file_get_contents($layoutPath);
+        $content = file_get_contents($this->designVarsPath());
 
         $this->assertStringContainsString('--mw-primary-color:', $content);
         $this->assertStringContainsString('--mw-background-color:', $content);
         $this->assertStringContainsString('--mw-btn-background-color:', $content);
         $this->assertStringContainsString('--mw-header-background-color:', $content);
         $this->assertStringContainsString('--mw-footer-background-color:', $content);
+    }
+
+    /**
+     * Authoritative source of the Base template's `--mw-*` design tokens.
+     */
+    private function designVarsPath(): string
+    {
+        return templates_path() . 'Base/resources/assets/design-styles/design-vars.css';
     }
 
     /**
@@ -324,8 +337,7 @@ class BaseTemplateTest extends TestCase
      */
     public function testHeadingSizeCssVariablesDefined()
     {
-        $layoutPath = templates_path() . 'Base/resources/views/layouts/master.blade.php';
-        $content = file_get_contents($layoutPath);
+        $content = file_get_contents($this->designVarsPath());
 
         $this->assertStringContainsString('--mw-heading-one:', $content);
         $this->assertStringContainsString('--mw-heading-two:', $content);
@@ -340,8 +352,7 @@ class BaseTemplateTest extends TestCase
      */
     public function testLinkCssVariablesDefined()
     {
-        $layoutPath = templates_path() . 'Base/resources/views/layouts/master.blade.php';
-        $content = file_get_contents($layoutPath);
+        $content = file_get_contents($this->designVarsPath());
 
         $this->assertStringContainsString('--mw-link-color:', $content);
         $this->assertStringContainsString('--mw-link-hover-color:', $content);
@@ -352,8 +363,7 @@ class BaseTemplateTest extends TestCase
      */
     public function testFormCssVariablesDefined()
     {
-        $layoutPath = templates_path() . 'Base/resources/views/layouts/master.blade.php';
-        $content = file_get_contents($layoutPath);
+        $content = file_get_contents($this->designVarsPath());
 
         $this->assertStringContainsString('--mw-form-control-border-radius:', $content);
         $this->assertStringContainsString('--mw-form-control-border-color:', $content);
@@ -401,9 +411,14 @@ class BaseTemplateTest extends TestCase
 
         $content = file_get_contents($cssPath);
 
-        // Should be small — not contain full framework rules
+        // Should be small — template-specific only, never a copy of the shared
+        // framework (which runs into the thousands of lines). The file carries
+        // the Jost @import, touch-target safety, and the mobile layout
+        // normalizer added for Base/Big layout parity (task-2026-10-11), so the
+        // ceiling allows that targeted growth while still catching a framework
+        // dump landing here.
         $lineCount = substr_count($content, "\n");
-        $this->assertLessThan(100, $lineCount, 'base.css should be minimal (under 100 lines)');
+        $this->assertLessThan(200, $lineCount, 'base.css should stay minimal (template-specific only)');
 
         // Should reference Jost font
         $this->assertStringContainsString('Jost', $content);

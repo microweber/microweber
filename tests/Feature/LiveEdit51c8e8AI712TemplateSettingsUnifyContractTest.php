@@ -95,10 +95,14 @@ class LiveEdit51c8e8AI712TemplateSettingsUnifyContractTest extends TestCase
     #[Test]
     public function panel_wrapper_carries_scope_class(): void
     {
+        // The wrapper may carry additional co-classes (e.g. the
+        // mw-admin-live-edit-page hook added so the theme's Live-Edit styles
+        // reach the floating control box); only require that the scope class
+        // is present on the outermost <div>.
         $this->assertMatchesRegularExpression(
-            '/<div\s+class="mw-template-settings-panel"/',
+            '/<div\s+class="[^"]*\bmw-template-settings-panel\b[^"]*"/',
             $this->templateSettings,
-            'Template Settings panel outermost wrapper must carry class="mw-template-settings-panel" so the AI-712 scoped CSS rules resolve.'
+            'Template Settings panel outermost wrapper must carry the mw-template-settings-panel class so the AI-712 scoped CSS rules resolve.'
         );
     }
 
