@@ -13,6 +13,13 @@
         "laravel/framework": "^11.0|^13.0"
     },
     "autoload": { "psr-4": { "MicroweberPackages\\Core\\": "src/" } },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MicroweberPackages\\Core\\CoreServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }

@@ -40,9 +40,6 @@
     },
     "extra": {
         "laravel": {
-            "providers": [
-                "MicroweberPackages\\Multisite\\MultisiteServiceProvider"
-            ],
             "aliases": {
                 "Multisite": "MicroweberPackages\\Multisite\\Facades\\Multisite"
             }

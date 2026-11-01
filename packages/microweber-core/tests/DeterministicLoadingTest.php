@@ -97,8 +97,12 @@ class DeterministicLoadingTest extends TestCase
     }
 
     /**
-     * CoreServiceProvider is registered as the FIRST thing AppServiceProvider
-     * does — so every package loads before the rest of the app.
+     * CoreServiceProvider is registered as (effectively) the FIRST thing
+     * AppServiceProvider does — so every package loads before the rest of the
+     * app. The one documented exception is MultisiteServiceProvider, which may
+     * register immediately before Core: per-site cache/session isolation must
+     * be applied before the cache/session managers are resolved, which Core's
+     * sub-providers would otherwise trigger (see AppServiceProvider::register()).
      */
     public function test_core_service_provider_registered_first_by_app_provider(): void
     {
@@ -111,19 +115,34 @@ class DeterministicLoadingTest extends TestCase
         );
 
         // AppServiceProvider::register() must register CoreServiceProvider before
-        // any other provider (its first $this->app->register(...) call).
+        // any other provider — the only permitted predecessor is the Multisite
+        // provider (see the docblock above).
         $src = file_get_contents(base_path('packages/microweber-app/src/Providers/AppServiceProvider.php'));
         $registerBody = substr($src, strpos($src, 'function register'));
 
-        $corePos = strpos($registerBody, 'register(CoreServiceProvider::class)');
-        $this->assertNotFalse($corePos, 'AppServiceProvider::register() must register CoreServiceProvider');
+        // Collect the registered provider class names in source order.
+        preg_match_all('/\$this->app->register\(\s*\\\\?([A-Za-z0-9_\\\\]+)::class/', $registerBody, $m);
+        $registered = $m[1] ?? [];
+        $this->assertNotEmpty($registered, 'AppServiceProvider::register() must register providers');
 
-        $firstRegisterPos = strpos($registerBody, '$this->app->register(');
-        $this->assertSame(
-            $corePos - strlen('$this->app->'),
-            $firstRegisterPos,
-            'CoreServiceProvider must be the FIRST $this->app->register(...) call in AppServiceProvider::register()'
-        );
+        $coreIndex = null;
+        foreach ($registered as $i => $class) {
+            if (str_ends_with($class, 'CoreServiceProvider')) {
+                $coreIndex = $i;
+                break;
+            }
+        }
+        $this->assertNotNull($coreIndex, 'AppServiceProvider::register() must register CoreServiceProvider');
+
+        // Anything registered before Core must be the Multisite provider.
+        for ($i = 0; $i < $coreIndex; $i++) {
+            $this->assertStringContainsString(
+                'MultisiteServiceProvider',
+                $registered[$i],
+                'Only MultisiteServiceProvider may be registered before CoreServiceProvider '
+                . "(found '{$registered[$i]}')"
+            );
+        }
 
         // And it must actually be loaded.
         $this->assertArrayHasKey(
