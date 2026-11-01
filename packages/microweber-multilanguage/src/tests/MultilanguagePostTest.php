@@ -43,7 +43,7 @@ class MultilanguagePostTest extends MultilanguageTestBase
         save_option($option);
 
         $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->actingAs($user, 'api');
 
         $rand = time().rand(111,999);
 

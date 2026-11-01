@@ -19,7 +19,7 @@ class PageApiControllerTest extends TestCase
         $categoryIds = [];
 
         $user = User::where('is_admin','=', '1')->first();
-        Auth::login($user);
+        $this->actingAs($user, 'api');
 
 
         $category = new Category();
@@ -90,7 +90,7 @@ class PageApiControllerTest extends TestCase
         $menu->save();
 
         $user = User::where('is_admin','=', '1')->first();
-        Auth::login($user);
+        $this->actingAs($user, 'api');
 
         $title = 'Test add page from api ' . rand();
         $title2 = 'Test update page from api ' . rand();
@@ -158,7 +158,7 @@ class PageApiControllerTest extends TestCase
     #[Test]
     public function it_destroy_content_from_controller(): void {
         $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->actingAs($user, 'api');
 
         $title = 'Test add content from api ' . rand();
 
