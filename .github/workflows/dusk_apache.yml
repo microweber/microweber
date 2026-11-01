@@ -46,7 +46,12 @@ jobs:
         uses: thunder/apache-shiva-php-action@v1
         with:
           php-version: '8.4'
-          site-directory: /home/runner/work/microweber/microweber/
+          # DocumentRoot must be Laravel's public/ (it holds index.php +
+          # .htaccess). Pointing it at the repo root made Apache 404 every
+          # route (/admin/login, /admin/live-edit, …) — the screenshots showed
+          # Apache's own "Not Found" page — so every browser test timed out
+          # waiting for selectors that never rendered.
+          site-directory: /home/runner/work/microweber/microweber/public
           # Defaults to 8888
           http-port: 8000
       # Match version against the runner's installed Chrome — without

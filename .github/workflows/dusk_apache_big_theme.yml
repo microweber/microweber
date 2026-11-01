@@ -52,7 +52,9 @@ jobs:
         uses: thunder/apache-shiva-php-action@v1
         with:
           php-version: '8.4'
-          site-directory: /home/runner/work/microweber/microweber/
+          # DocumentRoot must be Laravel's public/ (index.php + .htaccess);
+          # the repo root made Apache 404 every route and time out the tests.
+          site-directory: /home/runner/work/microweber/microweber/public
           # Defaults to 8888
           http-port: 8000
       # Cached vendor/ doesn't include the platform-specific
