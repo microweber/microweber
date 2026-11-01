@@ -388,6 +388,20 @@ class InstallController extends Controller
                 $envToSave['MW_COMPILE_ASSETS'] = 1;
                 $envToSave['MW_DISABLE_MODEL_CACHE'] = 0;
             }
+
+            // Microweber relies on cache tagging (Cache::tags()). The 'file' store is
+            // extended to be taggable (TaggableFileCacheServiceProvider) and is the
+            // monorepo default (its .env has no CACHE_STORE → config falls back to 'file').
+            // A host Laravel app, however, often ships CACHE_STORE=database (no tag
+            // support) — which fatals with "This cache store does not support tagging" on
+            // the first tagged read. Pin the installed site to the taggable 'file' store
+            // unless the host already uses a tag-capable store (redis/memcached/array).
+            // A user may switch to redis post-install (also taggable).
+            $currentCacheStore = env('CACHE_STORE') ?: env('CACHE_DRIVER');
+            if (!in_array($currentCacheStore, ['redis', 'memcached', 'array', 'dynamodb', 'octane'], true)) {
+                Config::set('cache.default', 'file');
+                $envToSave['CACHE_STORE'] = 'file';
+            }
             if (isset($input['clean_pre_configured'])) {
                 Config::set('microweber.pre_configured', null);
                 Config::set('microweber.pre_configured_input', null);
