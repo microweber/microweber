@@ -207,6 +207,22 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         parent::boot();
 
         self::creating(function ($model) {
+            // Ensure `name` is populated. Microweber identifies users by
+            // username / first_name / last_name and may not set `name`, but some host
+            // schemas keep users.name NOT NULL (e.g. a stock Laravel skeleton's default
+            // create_users_table migration, present when microweber is installed into an
+            // existing app). Default it so user creation — including the installer's admin
+            // user — succeeds on any host schema. Also satisfies Filament's HasName.
+            if (empty($model->name)) {
+                $derived = trim(($model->first_name ?? '') . ' ' . ($model->last_name ?? ''));
+                if ($derived === '') {
+                    $derived = $model->username
+                        ?: (is_string($model->email) ? explode('@', $model->email)[0] : '');
+                }
+                if ($derived !== '') {
+                    $model->name = $derived;
+                }
+            }
             //$model->is_active = 0;
             $model->is_verified = 0;
             event(new UserIsCreating($model->getAttributes()));
