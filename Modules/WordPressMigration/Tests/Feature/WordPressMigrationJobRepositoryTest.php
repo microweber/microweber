@@ -198,8 +198,11 @@ class WordPressMigrationJobRepositoryTest extends TestCase
 
         Carbon::setTestNow('2026-04-23 11:00:00');
         $pruned = $this->repository->pruneExpiredCredentials();
-        Carbon::setTestNow();
 
+        // Keep time frozen through the assertions: hasValidCredentials() reads
+        // credentials_expire_at->isFuture(), so resetting Carbon here would
+        // compare the frozen April-2026 expiry against the real clock and make
+        // the still-fresh credentials read as expired.
         $this->assertSame(1, $pruned);
 
         $freshFresh = $fresh->fresh();
@@ -210,6 +213,8 @@ class WordPressMigrationJobRepositoryTest extends TestCase
         $this->assertNull($freshStale->encrypted_credentials);
         $this->assertNull($freshStale->credentials_expire_at);
         $this->assertFalse($freshStale->hasValidCredentials());
+
+        Carbon::setTestNow();
     }
 
     #[Test]

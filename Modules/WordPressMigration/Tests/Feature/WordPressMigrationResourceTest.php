@@ -29,9 +29,9 @@ class WordPressMigrationResourceTest extends TestCase
 {
     use InteractsWithFilamentPanel;
 
-    private const SOURCE_URL = 'https://resource-test.example.invalid';
+    private const SOURCE_URL = 'https://resource-test.wpmigrated.net';
 
-    private const SOURCE_HOST = 'resource-test.example.invalid';
+    private const SOURCE_HOST = 'resource-test.wpmigrated.net';
 
     protected function setUp(): void
     {
@@ -97,9 +97,11 @@ class WordPressMigrationResourceTest extends TestCase
     }
 
     #[Test]
-    public function sidebar_entry_sits_in_the_content_group_with_the_import_label(): void
+    public function sidebar_entry_sits_in_the_system_settings_group_with_the_import_label(): void
     {
-        $this->assertSame('Content', WordPressMigrationResource::getNavigationGroup());
+        // Nav was deliberately regrouped Content -> 'System Settings' (alongside
+        // Backup) in 20942cb724; this pins the current, intended placement.
+        $this->assertSame('System Settings', WordPressMigrationResource::getNavigationGroup());
         $this->assertSame('Import from WordPress', WordPressMigrationResource::getNavigationLabel());
     }
 
@@ -137,9 +139,9 @@ class WordPressMigrationResourceTest extends TestCase
     {
         $finished = $this->seedJob();
         $running = WordPressMigrationJob::create([
-            'source_url' => 'https://other.example.invalid',
-            'source_url_hash' => hash('sha256', 'https://other.example.invalid'),
-            'source_host' => 'other.example.invalid',
+            'source_url' => 'https://other.wpmigrated.net',
+            'source_url_hash' => hash('sha256', 'https://other.wpmigrated.net'),
+            'source_host' => 'other.wpmigrated.net',
             'status' => WordPressMigrationJob::STATUS_RUNNING,
             'mode' => 'rss',
         ]);
@@ -175,20 +177,20 @@ class WordPressMigrationResourceTest extends TestCase
         StagingContent::create([
             'job_id' => $job->id,
             'source_guid' => 'guid-kept',
-            'source_url' => 'https://' . self::SOURCE_HOST . '/guid-kept',
+            'canonical_url' => 'https://' . self::SOURCE_HOST . '/guid-kept',
             'title' => 'Kept post',
-            'html' => '<p>Body</p>',
-            'source' => 'rest',
+            'content_html' => '<p>Body</p>',
+            'import_source' => 'rest',
             'source_host' => self::SOURCE_HOST,
             'excluded' => false,
         ]);
         StagingContent::create([
             'job_id' => $job->id,
             'source_guid' => 'guid-dropped',
-            'source_url' => 'https://' . self::SOURCE_HOST . '/guid-dropped',
+            'canonical_url' => 'https://' . self::SOURCE_HOST . '/guid-dropped',
             'title' => 'Dropped post',
-            'html' => '<p>Body</p>',
-            'source' => 'rest',
+            'content_html' => '<p>Body</p>',
+            'import_source' => 'rest',
             'source_host' => self::SOURCE_HOST,
             'excluded' => true,
         ]);
@@ -209,30 +211,30 @@ class WordPressMigrationResourceTest extends TestCase
         StagingContent::create([
             'job_id' => $job->id,
             'source_guid' => 'g1',
-            'source_url' => 'https://' . self::SOURCE_HOST . '/g1',
+            'canonical_url' => 'https://' . self::SOURCE_HOST . '/g1',
             'title' => 'A',
-            'html' => '<p>A</p>',
-            'source' => 'rest',
+            'content_html' => '<p>A</p>',
+            'import_source' => 'rest',
             'source_host' => self::SOURCE_HOST,
             'excluded' => false,
         ]);
         StagingContent::create([
             'job_id' => $job->id,
             'source_guid' => 'g2',
-            'source_url' => 'https://' . self::SOURCE_HOST . '/g2',
+            'canonical_url' => 'https://' . self::SOURCE_HOST . '/g2',
             'title' => 'B',
-            'html' => '<p>B</p>',
-            'source' => 'rest',
+            'content_html' => '<p>B</p>',
+            'import_source' => 'rest',
             'source_host' => self::SOURCE_HOST,
             'excluded' => true,
         ]);
         StagingContent::create([
             'job_id' => $job->id,
             'source_guid' => 'g3',
-            'source_url' => 'https://' . self::SOURCE_HOST . '/g3',
+            'canonical_url' => 'https://' . self::SOURCE_HOST . '/g3',
             'title' => 'C',
-            'html' => '<p>C</p>',
-            'source' => 'rest',
+            'content_html' => '<p>C</p>',
+            'import_source' => 'rest',
             'source_host' => self::SOURCE_HOST,
             'excluded' => false,
         ]);

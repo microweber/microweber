@@ -76,10 +76,10 @@ class ImportWordPressStatusCommandTest extends TestCase
         StagingContent::create([
             'job_id' => $job->id,
             'source_guid' => 'status:guid-1',
-            'source_url' => 'https://' . self::SOURCE_HOST . '/1',
+            'canonical_url' => 'https://' . self::SOURCE_HOST . '/1',
             'title' => 'T1',
-            'html' => '<p>X</p>',
-            'source' => 'rest',
+            'content_html' => '<p>X</p>',
+            'import_source' => 'rest',
             'source_host' => self::SOURCE_HOST,
             'excluded' => false,
             'last_commit_error' => 'boom',
@@ -87,10 +87,10 @@ class ImportWordPressStatusCommandTest extends TestCase
         StagingContent::create([
             'job_id' => $job->id,
             'source_guid' => 'status:guid-2',
-            'source_url' => 'https://' . self::SOURCE_HOST . '/2',
+            'canonical_url' => 'https://' . self::SOURCE_HOST . '/2',
             'title' => 'T2',
-            'html' => '<p>X</p>',
-            'source' => 'rest',
+            'content_html' => '<p>X</p>',
+            'import_source' => 'rest',
             'source_host' => self::SOURCE_HOST,
             'excluded' => true,
         ]);
