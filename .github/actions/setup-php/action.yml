@@ -66,8 +66,15 @@ runs:
         cp --force /home/runner/work/microweber/microweber/.env.example /home/runner/work/microweber/microweber/.env
         chmod 777 /home/runner/work/microweber/microweber/.env
         chmod 777 /home/runner/work/microweber/microweber/storage/
-        sudo php artisan config:clear
-        sudo php artisan optimize:clear
+        # Force an in-memory cache store for these bootstrap-cache clears.
+        # .env.example ships CACHE_STORE=database over a sqlite DB
+        # (database/database.sqlite) that does not exist until Microweber is
+        # installed, so cache:clear — run as part of optimize:clear — would
+        # otherwise fatal ("Database file ... does not exist" / "no such table:
+        # cache") and abort this whole setup step. There is nothing cached yet
+        # on a fresh checkout, so clearing the array store is an equivalent no-op.
+        sudo CACHE_STORE=array php artisan config:clear
+        sudo CACHE_STORE=array php artisan optimize:clear
       shell: bash
     - name: Set env to testing
       run: |
