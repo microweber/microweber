@@ -112,6 +112,19 @@ return new class extends Migration
             return;
         }
 
+        // Drop the indexes FIRST — on SQLite a column that still participates
+        // in an index cannot be dropped ("error in index … after drop column"),
+        // so the index removals must run as their own statement before the
+        // column drops below.
+        Schema::table('cart_coupons', function (Blueprint $table) {
+            if (Schema::hasIndex('cart_coupons', 'cart_coupons_bogo_enabled_index')) {
+                $table->dropIndex('cart_coupons_bogo_enabled_index');
+            }
+            if (Schema::hasIndex('cart_coupons', 'cart_coupons_tiered_enabled_index')) {
+                $table->dropIndex('cart_coupons_tiered_enabled_index');
+            }
+        });
+
         Schema::table('cart_coupons', function (Blueprint $table) {
             $columns = [
                 'bogo_enabled',
@@ -132,14 +145,6 @@ return new class extends Migration
                 if (Schema::hasColumn('cart_coupons', $column)) {
                     $table->dropColumn($column);
                 }
-            }
-
-            // Drop indexes
-            if (Schema::hasIndex('cart_coupons', 'cart_coupons_bogo_enabled_index')) {
-                $table->dropIndex('cart_coupons_bogo_enabled_index');
-            }
-            if (Schema::hasIndex('cart_coupons', 'cart_coupons_tiered_enabled_index')) {
-                $table->dropIndex('cart_coupons_tiered_enabled_index');
             }
         });
 
