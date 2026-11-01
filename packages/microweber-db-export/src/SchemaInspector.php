@@ -25,8 +25,18 @@ class SchemaInspector
             'information_schema', 'pg_catalog',
         ];
 
+        // getTables() returns PHYSICAL names (connection prefix included), but
+        // the rest of the export pipeline (hasTable/hasColumn/$conn->table())
+        // re-applies the prefix itself. Return LOGICAL (unprefixed) names here,
+        // otherwise a prefixed install double-prefixes and silently exports
+        // nothing.
+        $prefix = $conn->getTablePrefix();
+
         foreach ($conn->getSchemaBuilder()->getTables() as $info) {
             $name = $info['name'] ?? '';
+            if ($prefix !== '' && str_starts_with($name, $prefix)) {
+                $name = substr($name, strlen($prefix));
+            }
             if ($name === '' || in_array($name, $skip, true)) {
                 continue;
             }
