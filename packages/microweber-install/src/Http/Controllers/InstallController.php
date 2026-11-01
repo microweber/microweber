@@ -466,7 +466,19 @@ class InstallController extends Controller
 
 
 
-            \Illuminate\Support\Facades\Cache::flush();
+            // Flush any stale config/boot cache before we build the schema.
+            // This runs BEFORE migrations, so with the database cache store
+            // (CACHE_STORE=database) the `cache` table does not exist yet and
+            // Cache::flush() issues `DELETE FROM cache` → SQLSTATE[42S02] which
+            // aborts a fresh CLI/MySQL install. There is nothing meaningful to
+            // flush on a fresh install, so a missing store is a no-op, not a
+            // fatal — same "do nothing" idiom as the optimize:clear below.
+            try {
+                \Illuminate\Support\Facades\Cache::flush();
+            } catch (\Throwable $e) {
+                // Cache store not provisioned yet (e.g. database driver before
+                // migrations) — nothing to flush, carry on with the install.
+            }
 
             if ($config_only) {
                 Config::set('microweber.pre_configured', 1);
@@ -878,7 +890,14 @@ class InstallController extends Controller
         //Cache::flush();
 
         app()->terminating(function () {
-            Cache::flush();
+            // Guard for the same reason as the pre-migration flush above: if the
+            // install aborted before the (database) cache table was created,
+            // flushing during shutdown would throw. Nothing to flush → no-op.
+            try {
+                Cache::flush();
+            } catch (\Throwable $e) {
+                // store not provisioned — ignore
+            }
         });
 
         return $layout;
