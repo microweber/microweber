@@ -61,14 +61,26 @@ jobs:
       - name: Install Chromedriver
         run: php artisan dusk:chrome-driver --detect
       # `php artisan dusk` swaps in the committed .env.dusk
-      # (DB_DATABASE=storage/database.sqlite); Laravel's SQLiteConnector will
-      # not auto-create a missing sqlite file and throws on the first query
-      # before DuskTestCase can install. Create the empty file so the connector
-      # opens it and DuskTestCase auto-installs the schema on the first test.
-      - name: Create the Dusk sqlite database file
+      # (DB_DATABASE=storage/database.sqlite). On CI that file is absent and
+      # DuskTestCase's in-process auto-install does not reliably populate it
+      # under the Dusk runtime, so install the schema explicitly here into the
+      # exact file Dusk uses (touch first — the SQLite connector needs the file
+      # to exist — then microweber:install builds tables + admin + content).
+      - name: Create and install the Dusk sqlite database
         run: |
           mkdir -p storage
           touch storage/database.sqlite
+          php artisan key:generate --ansi || true
+          php artisan microweber:install \
+            --db-driver=sqlite \
+            --db-name=storage/database.sqlite \
+            --db-prefix= \
+            --email=admin@admin.com \
+            --username=admin \
+            --password=admin \
+            --default-content=default \
+            --template=bootstrap \
+            --no-interaction
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
