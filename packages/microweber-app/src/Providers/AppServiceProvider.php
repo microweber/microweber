@@ -192,6 +192,34 @@ class AppServiceProvider extends ServiceProvider
         //  return;
         //app()->usePublicPath(base_path());
 
+        // When microweber is the root Laravel app, config/microweber.php is auto-loaded
+        // from the project config/ dir. When microweber is required as a DEPENDENCY into
+        // a host app, Laravel only loads the HOST's config/, so the bundled microweber
+        // config — incl. is_installed => env('MW_IS_INSTALLED'), admin_url, etc. — is
+        // never loaded, mw_is_installed() returns false and the frontend falls through to
+        // the setup wizard. Merge it in explicitly when absent. Resolve the package root
+        // portably (monorepo root OR vendor/microweber/microweber). The empty() guard
+        // makes this a NO-OP in the monorepo (config already loaded) and the fix in a host.
+        if (empty(config('microweber'))) {
+            $mwConfigFile = null;
+            if (class_exists(\Composer\InstalledVersions::class)
+                && \Composer\InstalledVersions::isInstalled('microweber/microweber')) {
+                $mwRoot = \Composer\InstalledVersions::getInstallPath('microweber/microweber');
+                if ($mwRoot && is_file(rtrim($mwRoot, '/\\') . '/config/microweber.php')) {
+                    $mwConfigFile = rtrim($mwRoot, '/\\') . '/config/microweber.php';
+                }
+            }
+            if ($mwConfigFile === null) {
+                $fallback = __DIR__ . '/../../../../config/microweber.php';
+                if (is_file($fallback)) {
+                    $mwConfigFile = $fallback;
+                }
+            }
+            if ($mwConfigFile !== null) {
+                $this->mergeConfigFrom($mwConfigFile, 'microweber');
+            }
+        }
+
         // Multisite FIRST: per-site cache/session (and media) isolation must be
         // applied before the cache/session managers are resolved. A no-op unless
         // the current Host maps to a config/<domain>/microweber.php site. The
