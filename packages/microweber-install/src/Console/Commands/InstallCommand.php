@@ -140,21 +140,22 @@ class InstallCommand extends Command
             $templateFound = $input['default_template'];
         }
 
-        if (!$templateFound) {
-            // Search in composer json
-           //$availTemplates = scandir(templates_dir());
-//            foreach ($availTemplates as $templateFolderName) {
-//                $templateComposerFile = templates_dir() . $templateFolderName . DS . 'composer.json';
-//                if (is_file($templateComposerFile)) {
-//                    $templateComposerContent = file_get_contents($templateComposerFile);
-//                    $templateComposerContent = json_decode($templateComposerContent, true);
-//                    if (isset($templateComposerContent['name'])) {
-//                        if ($input['default_template'] == $templateComposerContent['name']) {
-//                            $templateFound = $templateFolderName;
-//                        }
-//                    }
-//                }
-//            }
+        if (!$templateFound && $input['default_template'] && is_dir(templates_dir())) {
+            // Case-insensitive fallback: template FOLDERS are case-sensitive on Linux, but
+            // users (and env defaults) commonly pass 'bootstrap' for the 'Bootstrap' folder.
+            // Resolve to the real folder name so the template actually activates on install
+            // (otherwise current_template stays empty and the frontend has no theme).
+            $wanted = strtolower((string) $input['default_template']);
+            foreach (scandir(templates_dir()) as $templateFolderName) {
+                if ($templateFolderName === '.' || $templateFolderName === '..') {
+                    continue;
+                }
+                if (strtolower($templateFolderName) === $wanted
+                    && is_file(templates_dir() . $templateFolderName . DS . 'composer.json')) {
+                    $templateFound = $templateFolderName;
+                    break;
+                }
+            }
         }
 
         $input['default_template'] = $templateFound;
