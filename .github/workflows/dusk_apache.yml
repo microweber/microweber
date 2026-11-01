@@ -65,10 +65,15 @@ jobs:
       # microweber:install builds tables + admin + default content.
       - name: Create and install the Dusk sqlite database
         run: |
+          # Install into the exact env Dusk uses. .env.dusk points DB at
+          # storage/database.sqlite and leaves CACHE_STORE unset; copying it
+          # over .env (and forcing the array cache for the install itself)
+          # avoids the .env.example CACHE_STORE=database "no such table: cache"
+          # fatal that aborts the installer before the cache table exists.
+          cp .env.dusk .env
           mkdir -p storage
           touch storage/database.sqlite
-          php artisan key:generate --ansi || true
-          php artisan microweber:install \
+          CACHE_STORE=array php artisan microweber:install \
             --db-driver=sqlite \
             --db-name=storage/database.sqlite \
             --db-prefix= \
