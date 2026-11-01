@@ -55,6 +55,18 @@ jobs:
       # platform-specific binary. Mirrors the fix in dusk.yml.
       - name: Install Chromedriver
         run: php artisan dusk:chrome-driver --detect
+      # `php artisan dusk` swaps in the committed .env.dusk
+      # (DB_DATABASE=storage/database.sqlite). Laravel's SQLiteConnector
+      # refuses to auto-create a missing sqlite file — it throws
+      # "Database file at path [storage/database.sqlite] does not exist" on
+      # the first query, before DuskTestCase's auto-install can populate the
+      # schema, so every color-palette test errored. Create the empty file
+      # here; the connector then opens it and DuskTestCase installs into it
+      # (users table absent -> not installed -> auto-install) on the first test.
+      - name: Create the Dusk sqlite database file
+        run: |
+          mkdir -p storage
+          touch storage/database.sqlite
       # Phase-9 discrete-check: run the palette group first so a color
       # regression shows up as a separate red step (not buried inside the
       # 250+ test Browser suite). `--group=color-palettes` targets every

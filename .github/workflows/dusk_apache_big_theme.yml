@@ -60,6 +60,15 @@ jobs:
       # test step doesn't 100% fail with "Invalid path to Chromedriver".
       - name: Install Chromedriver
         run: php artisan dusk:chrome-driver --detect
+      # `php artisan dusk` swaps in the committed .env.dusk
+      # (DB_DATABASE=storage/database.sqlite); Laravel's SQLiteConnector will
+      # not auto-create a missing sqlite file and throws on the first query
+      # before DuskTestCase can install. Create the empty file so the connector
+      # opens it and DuskTestCase auto-installs the schema on the first test.
+      - name: Create the Dusk sqlite database file
+        run: |
+          mkdir -p storage
+          touch storage/database.sqlite
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
