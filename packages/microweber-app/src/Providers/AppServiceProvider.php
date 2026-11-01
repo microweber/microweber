@@ -220,6 +220,41 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
+        // blade-icons' "default" set path is 'resources/svg' (resolved against base_path):
+        // present in the monorepo, absent in a host app, where blade-icons throws
+        // CannotRegisterIconSet on the first icon render. Provide the directory in the host
+        // by symlinking it to microweber's bundled resources/svg (and any other base_path
+        // code that reads it then resolves too). Guarded + idempotent; no-op in the monorepo
+        // where base_path('resources/svg') already exists. Mirrors microweber's existing
+        // bootstrap filesystem setup (storage symlink, etc.).
+        $hostSvg = base_path('resources/svg');
+        if (! is_dir($hostSvg) && ! is_link($hostSvg)) {
+            $bundledSvg = null;
+            if (class_exists(\Composer\InstalledVersions::class)
+                && \Composer\InstalledVersions::isInstalled('microweber/microweber')) {
+                $r = \Composer\InstalledVersions::getInstallPath('microweber/microweber');
+                if ($r && is_dir(rtrim($r, '/\\') . '/resources/svg')) {
+                    $bundledSvg = rtrim($r, '/\\') . '/resources/svg';
+                }
+            }
+            if ($bundledSvg === null) {
+                $fb = __DIR__ . '/../../../../resources/svg';
+                if (is_dir($fb)) {
+                    $bundledSvg = $fb;
+                }
+            }
+            if ($bundledSvg !== null) {
+                if (! is_dir(dirname($hostSvg))) {
+                    @mkdir(dirname($hostSvg), 0777, true);
+                }
+                // Prefer a symlink (shares the real icons); fall back to the config path
+                // override if symlinking is not permitted on the host.
+                if (! @symlink($bundledSvg, $hostSvg)) {
+                    config(['blade-icons.sets.default.path' => $bundledSvg]);
+                }
+            }
+        }
+
         // Multisite FIRST: per-site cache/session (and media) isolation must be
         // applied before the cache/session managers are resolved. A no-op unless
         // the current Host maps to a config/<domain>/microweber.php site. The
