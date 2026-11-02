@@ -157,7 +157,19 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
             $statuses[$template->name] = (bool)$template->status;
         }
 
-        if (empty($statuses)) {
+        // Seed the table for any on-disk template that has no row yet. The table
+        // used to self-seed only when COMPLETELY empty, so a bundled template
+        // shipped AFTER the first seed never got a row — and an absent template
+        // is treated as disabled. On a database-activator (multisite) site that
+        // silently disabled every newly-added template. seedFromManifests() is
+        // insert-only, so existing rows (an admin's own enable/disable choices)
+        // are preserved; only the missing templates are added, with their
+        // manifest "active" default. Covers both the empty-table (fresh install)
+        // and partial-table (template added later) cases in one pass.
+        $onDisk = array_keys($this->manifestStatuses());
+        $missing = array_diff($onDisk, array_keys($statuses));
+
+        if (!empty($missing)) {
             $seeded = $this->seedFromManifests();
 
             if ($seeded > 0) {
@@ -338,11 +350,20 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
                 continue;
             }
 
+            // Insert-only: never overwrite an existing row, so an admin's own
+            // enable/disable choice (and any metadata) is preserved. Only
+            // templates with no row yet are seeded — this makes it safe to call on
+            // a partially-populated table to back-fill templates added after the
+            // first seed, not just on a completely empty one.
+            if (SystemTemplates::getByName($name)) {
+                continue;
+            }
+
             $status = array_key_exists($name, $fileStatuses)
                 ? (bool) $fileStatuses[$name]
                 : (bool) $json->get('active', 1);
 
-            $row = SystemTemplates::getByName($name) ?: new SystemTemplates();
+            $row = new SystemTemplates();
             $row->fill([
                 'name' => $name,
                 'alias' => (string) ($json->get('alias') ?: strtolower($name)),

@@ -140,6 +140,56 @@ class LaravelModulesDatabaseActivatorTest extends TestCase
         );
     }
 
+    #[Test]
+    public function readstatus_backfills_modules_added_after_the_first_seed_without_touching_existing_rows(): void
+    {
+        // Full initial seed so every manifest module has a row.
+        (new LaravelModulesDatabaseActivator(app()))->readStatus();
+        $this->assertNotNull(SystemModules::getByName($this->knownModule));
+
+        // Simulate a bundled module shipped AFTER the first seed: present on disk
+        // (Modules/<name>/module.json) but with no row — the exact state that used
+        // to make it silently disabled on a database (multisite) activator.
+        SystemModules::query()->where('name', $this->knownModule)->delete();
+        $this->assertNull(SystemModules::getByName($this->knownModule));
+
+        // Mark a DIFFERENT, still-present module disabled to prove the back-fill
+        // is insert-only and never rewrites an admin's own choice.
+        $other = $this->knownModule === 'Accordion' ? 'Menu' : 'Accordion';
+        $otherRow = SystemModules::getByName($other);
+        $this->assertNotNull($otherRow);
+        $otherOriginal = (int) $otherRow->status;
+        $otherRow->status = 0;
+        $otherRow->save();
+
+        $this->flushModulesCache();
+
+        // Fresh read must back-fill the missing module (enabled per its manifest
+        // default) and leave the disabled row untouched.
+        $statuses = (new LaravelModulesDatabaseActivator(app()))->readStatus();
+
+        $this->assertArrayHasKey($this->knownModule, $statuses);
+        $this->assertTrue(
+            $statuses[$this->knownModule],
+            'A module added after the first seed must default to enabled, not silently disabled.'
+        );
+
+        $backfilled = SystemModules::getByName($this->knownModule);
+        $this->assertNotNull($backfilled, 'The missing module must be back-filled with a row.');
+        $this->assertTrue((bool) $backfilled->status);
+
+        $this->assertSame(
+            0,
+            (int) SystemModules::getByName($other)->status,
+            'Insert-only back-fill must not overwrite an existing (admin-disabled) row.'
+        );
+
+        // Restore the mutated row so the shared table returns to its prior state.
+        $restore = SystemModules::getByName($other);
+        $restore->status = $otherOriginal;
+        $restore->save();
+    }
+
     /**
      * Flush the modules activation cache so readStatus() is observed fresh.
      */

@@ -246,7 +246,20 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
             $statuses[$module->name] = (bool)$module->status;
         }
 
-        if (empty($statuses)) {
+        // Seed the table for any on-disk module that has no row yet. The table
+        // used to self-seed only when COMPLETELY empty, so a bundled module
+        // shipped AFTER the first seed never got a row — and an absent module is
+        // treated as disabled (see hasStatus()). On a database-activator
+        // (multisite) site that silently disabled every newly-added module.
+        // seedFromManifests() is insert-only, so existing rows (an admin's own
+        // enable/disable choices) are preserved; only the missing modules are
+        // added, with their manifest "active" default (enabled). Covers both the
+        // empty-table (fresh install) and partial-table (module added later)
+        // cases in one pass.
+        $onDisk = array_keys($this->manifestStatuses());
+        $missing = array_diff($onDisk, array_keys($statuses));
+
+        if (!empty($missing)) {
             $seeded = $this->seedFromManifests();
 
             if ($seeded > 0) {
@@ -466,11 +479,20 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
                 continue;
             }
 
+            // Insert-only: never overwrite an existing row, so an admin's own
+            // enable/disable choice (and any metadata) is preserved. Only modules
+            // with no row yet are seeded — this is what makes it safe to call on a
+            // partially-populated table to back-fill modules added after the first
+            // seed, not just on a completely empty one.
+            if (SystemModules::getByName($name)) {
+                continue;
+            }
+
             $status = array_key_exists($name, $fileStatuses)
                 ? (bool) $fileStatuses[$name]
                 : (bool) $json->get('active', 1);
 
-            $row = SystemModules::getByName($name) ?: new SystemModules();
+            $row = new SystemModules();
             $row->fill([
                 'name' => $name,
                 'alias' => (string) ($json->get('alias') ?: strtolower($name)),

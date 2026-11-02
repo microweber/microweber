@@ -439,6 +439,9 @@
         <testsuite name="MicroweberLaravelModulesStandalone">
             <directory>packages/microweber-laravel-modules/tests</directory>
         </testsuite>
+        <testsuite name="MicroweberLaravelTemplatesStandalone">
+            <directory>packages/microweber-laravel-templates/tests</directory>
+        </testsuite>
         <testsuite name="MicroweberLivewireModal">
             <directory>packages/microweber-livewire-modal/tests</directory>
             <exclude>packages/microweber-livewire-modal/tests/Browser</exclude>
