@@ -42,6 +42,20 @@ This will start:
 
 Access the application at: http://localhost
 
+On first boot the entrypoint runs `php artisan microweber:install` (not just
+`migrate`), so the container comes up as a fully installed CMS — admin at
+`/admin` with `admin@admin.com` / `admin` (override via the `MW_ADMIN_*` env
+vars). A marker at `storage/app/.mw-installed` prevents reinstall on restart.
+
+### Multisite
+
+To serve several independent sites (one DB each) from a single container, see
+[README-multisite.md](README-multisite.md) and `docker-compose.multisite.yml`:
+
+```bash
+docker compose -f docker-compose.multisite.yml up -d --build
+```
+
 ### Production
 
 Start the production environment:

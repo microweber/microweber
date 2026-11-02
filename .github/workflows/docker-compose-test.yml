@@ -47,6 +47,10 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile
+          # Publish the PRODUCTION image. Without an explicit target the build
+          # stops at the Dockerfile's last stage (development) and would ship a
+          # debug image (xdebug, APP_DEBUG) as the public tag.
+          target: production
           push: true
           tags: microweber/microweber:${{ env.BRANCH }}
           build-args: |
@@ -59,6 +63,7 @@ jobs:
         with:
           context: ./
           file: ./Dockerfile
+          target: production
           push: true
           tags: microweber/microweber:latest
 

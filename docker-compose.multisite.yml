@@ -1,0 +1,166 @@
+# =============================================================================
+# Microweber — MULTISITE sample
+# =============================================================================
+# One codebase + one app container serves N independent sites, each with its own
+# database, cache, session and media tree, selected at runtime by the Host
+# header (microweber-packages/multisite).
+#
+#   localhost        -> microweber   (default site, installed by `app`)
+#   site-a.localhost -> mw_site_a
+#   site-b.localhost -> mw_site_b     (both provisioned by `site-provision`)
+#
+# Quick start:
+#   1) Add the demo hosts to /etc/hosts (browsers resolve *.localhost to
+#      127.0.0.1 already; curl/CLI need this line):
+#        127.0.0.1  site-a.localhost site-b.localhost
+#   2) docker compose -f docker-compose.multisite.yml up -d --build
+#   3) Watch provisioning:  docker compose -f docker-compose.multisite.yml logs -f site-provision
+#   4) Open http://localhost , http://site-a.localhost , http://site-b.localhost
+#      Admin for every site: /admin  (admin@admin.com / admin)
+#
+# This sample uses the `development` image target (bind-mounted source) so the
+# per-site markers (config/<domain>/) and .env.<domain> files persist on the
+# host. For a PRODUCTION multisite you would bake those into the image or mount
+# config/ + the .env.<domain> files as a volume, and switch to the production
+# target.
+# =============================================================================
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: mw-multisite-app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html:delegated
+      - app_vendor:/var/www/html/vendor
+      - app_node_modules:/var/www/html/node_modules
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_URL=http://localhost
+      # --- multisite ---
+      - MULTISITE_ENABLED=true
+      # Per-site module/template activation lives in each site's own DB, so use
+      # the database activators (the file activator shares one JSON across sites).
+      - MODULES_ACTIVATOR=database
+      - TEMPLATES_ACTIVATOR=database
+      # --- default site database ---
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=microweber
+      - DB_USERNAME=microweber
+      - DB_PASSWORD=secret
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - QUEUE_CONNECTION=database
+      - CACHE_STORE=redis
+      - SESSION_DRIVER=redis
+      - MW_ADMIN_EMAIL=admin@admin.com
+      - MW_ADMIN_USERNAME=admin
+      - MW_ADMIN_PASSWORD=admin
+      - MW_DEFAULT_CONTENT=default
+    networks:
+      - microweber-multisite
+    ports:
+      - "80:80"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/up"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # One-shot: provisions site-a / site-b after the default site is installed.
+  site-provision:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: mw-multisite-provision
+    restart: "no"
+    entrypoint: ["sh", "/var/www/html/docker/entrypoint-multisite-provision.sh"]
+    volumes:
+      - .:/var/www/html:delegated
+      - app_vendor:/var/www/html/vendor
+    environment:
+      - APP_ENV=local
+      - MULTISITE_ENABLED=true
+      - MODULES_ACTIVATOR=database
+      - TEMPLATES_ACTIVATOR=database
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USERNAME=microweber
+      - DB_PASSWORD=secret
+      - REDIS_HOST=redis
+      - CACHE_STORE=redis
+      - MW_ADMIN_EMAIL=admin@admin.com
+      - MW_ADMIN_USERNAME=admin
+      - MW_ADMIN_PASSWORD=admin
+    networks:
+      - microweber-multisite
+    depends_on:
+      app:
+        condition: service_started
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    container_name: mw-multisite-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_secret
+      - MYSQL_DATABASE=microweber
+      - MYSQL_USER=microweber
+      - MYSQL_PASSWORD=secret
+      - MYSQL_INITDB_SKIP_TZINFO=1
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      # NOTE: a different init dir than the single-site compose — it creates the
+      # extra per-site databases (mw_site_a, mw_site_b).
+      - ./docker/mysql/init-multisite:/docker-entrypoint-initdb.d:ro
+    networks:
+      - microweber-multisite
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "microweber", "-psecret"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  redis:
+    image: redis:7-alpine
+    container_name: mw-multisite-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - microweber-multisite
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+networks:
+  microweber-multisite:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local
+  redis_data:
+    driver: local
+  app_vendor:
+    driver: local
+  app_node_modules:
+    driver: local

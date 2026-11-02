@@ -15,7 +15,8 @@ mkdir -p storage/framework/sessions
 mkdir -p storage/framework/views
 mkdir -p storage/framework/testing
 mkdir -p bootstrap/cache
-mkdir -p public/storage
+# NOTE: do not `mkdir public/storage` — it is a symlink to storage/app/public
+# (created by `storage:link`). mkdir -p would follow it and fail.
 
 # Set proper permissions
 chmod -R 777 storage bootstrap/cache 2>/dev/null || true
@@ -62,18 +63,18 @@ if [ ! -d /var/www/html/vendor ] || [ -z "$(ls -A /var/www/html/vendor 2>/dev/nu
     composer install --no-interaction --prefer-dist --no-scripts 2>/dev/null || true
 fi
 
-# Install Node.js dependencies and build assets if needed
-if [ ! -d /var/www/html/node_modules ] || [ -z "$(ls -A /var/www/html/node_modules 2>/dev/null)" ]; then
-    echo "Installing Node.js dependencies..."
-    npm ci 2>/dev/null || npm install 2>/dev/null || echo "Skipping npm install (no package.json or npm not available)"
-fi
-
-# Run npm build if package.json exists and build script is available
-if [ -f /var/www/html/package.json ]; then
-    if grep -q '"build"' /var/www/html/package.json 2>/dev/null; then
-        echo "Building frontend assets..."
-        npm run build 2>/dev/null || echo "Build completed or skipped"
-    fi
+# Build the two runtime asset bundles (public frontend + Filament admin theme)
+# only when the published output is missing — the repo is bind-mounted, so a
+# host that already built them is reused and `up` stays fast. The full
+# per-package build (run-build.js, ~200 folders) is intentionally NOT run here;
+# set MW_SKIP_ASSET_BUILD=1 to skip entirely.
+FRONTEND_BUILD="/var/www/html/public/vendor/microweber-packages/frontend-assets/build"
+if [ "${MW_SKIP_ASSET_BUILD:-0}" != "1" ] && [ ! -d "$FRONTEND_BUILD" ]; then
+    echo "Building front-end asset bundles (first run)..."
+    ( cd /var/www/html/packages/frontend-assets && (npm ci || npm install) && npm run build ) \
+        2>/dev/null || echo "Frontend bundle build skipped/failed"
+    ( cd /var/www/html/packages/microweber-filament-theme && (npm ci || npm install) && npm run build ) \
+        2>/dev/null || echo "Filament theme build skipped/failed"
 fi
 
 # Wait for database to be ready
@@ -115,8 +116,33 @@ if [ -n "$DB_HOST" ]; then
     wait_for_db
 fi
 
-# Run migrations
-if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
+# Install Microweber on first boot, otherwise migrate. `migrate` alone does NOT
+# yield a working CMS (no admin user, no module/template statuses, no content) —
+# the installer does. Marker on the storage volume prevents reinstall on restart.
+MW_INSTALL_MARKER="/var/www/html/storage/app/.mw-installed"
+if [ "${MW_SKIP_INSTALL:-0}" = "1" ]; then
+    echo "MW_SKIP_INSTALL=1 — skipping install/migrate (worker/scheduler role)."
+elif [ ! -f "$MW_INSTALL_MARKER" ]; then
+    echo "Microweber not installed yet — running microweber:install..."
+    if php artisan microweber:install \
+        --db-driver="${DB_CONNECTION:-mysql}" \
+        --db-host="$DB_HOST" \
+        --db-port="${DB_PORT:-3306}" \
+        --db-name="$DB_DATABASE" \
+        --db-username="$DB_USERNAME" \
+        --db-password="$DB_PASSWORD" \
+        --email="${MW_ADMIN_EMAIL:-admin@admin.com}" \
+        --username="${MW_ADMIN_USERNAME:-admin}" \
+        --password="${MW_ADMIN_PASSWORD:-admin}" \
+        --default-content="${MW_DEFAULT_CONTENT:-default}" \
+        --app-url="${APP_URL:-http://localhost}" \
+        --no-interaction; then
+        touch "$MW_INSTALL_MARKER"
+        echo "Microweber installed. Admin: ${MW_ADMIN_EMAIL:-admin@admin.com} / ${MW_ADMIN_PASSWORD:-admin}"
+    else
+        echo "WARNING: microweber:install failed — it will be retried on next start."
+    fi
+elif [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
     echo "Running database migrations..."
     php artisan migrate --force --no-interaction 2>/dev/null || echo "Migration may have already run or database not ready"
 fi
@@ -124,6 +150,10 @@ fi
 # Publish assets
 php artisan vendor:publish --tag=public --force --no-interaction 2>/dev/null || true
 php artisan storage:link --force --no-interaction 2>/dev/null || true
+
+# Artisan ran as root above; the fpm pool runs as www. Hand storage/ and
+# bootstrap/cache back so runtime logging/caching doesn't 500 on a write.
+chown -R www:www storage bootstrap/cache 2>/dev/null || true
 
 echo "=========================================="
 echo "Development environment ready!"

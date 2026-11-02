@@ -29,7 +29,7 @@ RUN apk add --no-cache \
 
 # Configure and install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-webp --with-jpeg && \
-    docker-php-ext-install -j$(nproc) gd pdo pdo_mysql zip dom curl mbstring intl bcmath sodium opcache pcntl posix
+    docker-php-ext-install -j$(nproc) gd exif pdo pdo_mysql zip dom curl mbstring intl bcmath sodium opcache pcntl posix
 
 # Install Redis extension
 RUN pecl install redis && \
@@ -39,31 +39,51 @@ RUN pecl install redis && \
 RUN apk del --no-cache $PHPIZE_DEPS && \
     rm -rf /tmp/* /var/cache/apk/*
 
-# Create application user
+# Create application user, and run the php-fpm pool as it (the default pool runs
+# as www-data, but the app files + nginx are 'www' — a mismatch would stop fpm
+# from writing storage/.env/userfiles at runtime).
 RUN addgroup -g 1000 www && \
-    adduser -u 1000 -G www -s /bin/sh -D www
+    adduser -u 1000 -G www -s /bin/sh -D www && \
+    sed -i 's/^user = www-data/user = www/; s/^group = www-data/group = www/' \
+        /usr/local/etc/php-fpm.d/www.conf
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # =============================================================================
-# Stage 2: Build stage for Node assets
+# Stage 2: Asset + vendor builder
 # =============================================================================
-FROM node:20-alpine AS node-build
+# Derives from `base` (so it has PHP + Composer) and adds Node, because the two
+# runtime bundles we build depend on Composer deps: the Filament admin theme
+# imports vendor/filament/filament/dist/theme.css. We deliberately do NOT run
+# the repo-root `npm run build` (run-build.js), which walks ~200 sub-packages
+# and is far too slow/fragile for an image build — only the public frontend
+# (Vite) and the Filament theme (Webpack), both of which publish into
+# public/vendor/microweber-packages/…. The production stage copies both the
+# built public/vendor bundles and this stage's vendor/ (no second composer run).
+FROM base AS asset-build
 
-WORKDIR /app
+RUN apk add --no-cache nodejs npm
 
-# Copy package files
-COPY package*.json ./
+WORKDIR /var/www/html
 
-# Install dependencies
-RUN npm ci --production=false 2>/dev/null || npm install
-
-# Copy source files for building
+# Whole tree so each bundle resolves its own sources + package.json.
 COPY . .
 
-# Build frontend assets
-RUN npm run build 2>/dev/null || echo "No build script found"
+# Composer deps first — the Filament theme build reads vendor/filament/…/theme.css.
+# --no-scripts: package:discover needs a bootable app (.env), done at container start.
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts && \
+    composer clear-cache
+
+# Public frontend bundle (Vite) → public/vendor/microweber-packages/frontend-assets/build
+RUN cd packages/frontend-assets \
+    && (npm ci || npm install) \
+    && npm run build
+
+# Filament admin theme (Webpack) → public/vendor/microweber-packages/microweber-filament-theme/build
+RUN cd packages/microweber-filament-theme \
+    && (npm ci || npm install) \
+    && npm run build
 
 # =============================================================================
 # Stage 3: Production image
@@ -91,7 +111,7 @@ RUN { \
     echo 'opcache.revalidate_freq=0'; \
     echo 'opcache.fast_shutdown=1'; \
     echo 'opcache.enable_cli=1'; \
-    echo 'memory_limit=512M'; \
+    echo 'memory_limit=1024M'; \
     echo 'upload_max_filesize=50M'; \
     echo 'post_max_size=50M'; \
     echo 'max_execution_time=300'; \
@@ -111,28 +131,35 @@ WORKDIR /var/www/html
 # Copy application code
 COPY --chown=www:www . .
 
-# Copy built assets from node stage (if they exist)
-# Note: These are optional - assets may be built to different locations
-# The node build copies them to /app, we just copy what exists
-COPY --chown=www:www --from=node-build /app/public/css ./public/css
-COPY --chown=www:www --from=node-build /app/public/js ./public/js
-COPY --chown=www:www --from=node-build /app/resources/assets/dist ./resources/assets/dist
+# Reuse the builder's Composer vendor/ (already --no-dev --optimize-autoloader)
+# rather than running composer again here.
+COPY --chown=www:www --from=asset-build /var/www/html/vendor ./vendor
 
-# Install PHP dependencies (production only)
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader && \
-    composer clear-cache
+# Overlay the built front-end bundles. Both the Vite frontend and the Webpack
+# Filament theme publish under public/vendor/…, which is .gitignore'd (absent
+# from a fresh checkout) so it MUST come from the builder stage.
+COPY --chown=www:www --from=asset-build /var/www/html/public/vendor ./public/vendor
 
-# Set permissions
-RUN chown -R www:www /var/www/html && \
-    chmod -R 755 /var/www/html && \
+# Permissions. The COPY --chown lines above already own everything as www:www,
+# so we do NOT `chown -R` the whole tree — a recursive chmod/chown here rewrites
+# every file into a new layer, duplicating the entire codebase (~5 GB). Only the
+# group-writable runtime dirs need adjusting.
+# Normalize the project root: the base image ships /var/www/html as mode 1777
+# (world-writable + sticky) owned www-data. With the kernel's fs.protected_regular
+# hardening, that sticky world-writable dir blocks EVEN ROOT from writing files it
+# doesn't own (e.g. the www-owned .env the installer must update) — so make it a
+# plain www-owned 0755 dir. Non-recursive: recursing would duplicate the tree.
+RUN chown www:www /var/www/html && chmod 0755 /var/www/html && \
+    mkdir -p storage/app/public storage/framework/cache storage/framework/sessions \
+             storage/framework/views bootstrap/cache && \
     chmod -R 775 storage bootstrap/cache && \
     mkdir -p /var/log/supervisor && \
-    chown www:www /var/log/supervisor
+    chown -R www:www /var/log/supervisor storage/app bootstrap/cache
 
-# Create storage symlink
-RUN if [ ! -L public/storage ]; then \
-    ln -s /var/www/html/storage/app/public /var/www/html/public/storage; \
-    fi
+# Storage symlink. Force-recreate it (the committed one is a dev absolute path,
+# and it's excluded from the context anyway) pointing at this container's path.
+RUN rm -f public/storage && \
+    ln -s /var/www/html/storage/app/public /var/www/html/public/storage
 
 # Expose port
 EXPOSE 80

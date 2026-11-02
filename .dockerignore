@@ -13,11 +13,25 @@ public/build
 public/hot
 dist
 build
+# Built front-end bundles come from the asset-build stage, not the context.
+public/vendor
+# The committed public/storage symlink points at an absolute dev path
+# (/home/.../storage/app/public); the image recreates it correctly instead.
+public/storage
 
-# Environment files
-.env
-.env.local
-.env.*.local
+# Nested package-manager artifacts. Runtime is PHP; the asset-build stage runs
+# its own npm ci for the bundles it builds, so none of these are needed in the
+# image — and they add ~800 MB to the COPY/chown layers.
+**/node_modules
+**/bower_components
+
+# Environment files — ship ONLY the example; the entrypoint generates .env.
+# Committed .env.production/.staging/.dusk/.testing carry stale dev values AND,
+# worse, make Laravel (APP_ENV=production) load .env.production instead of the
+# .env the entrypoint generates — so the installer writes one file and the app
+# reads another, leaving the site "not installed".
+.env*
+!.env.example
 
 # IDE
 .idea
@@ -42,16 +56,44 @@ storage/framework/views/*
 npm-debug.log
 yarn-error.log
 
+# Runtime storage data. Recreated at container start (entrypoint mkdir -p) and
+# masked by the app_storage volume in production. storage/app in particular holds
+# dev-only bulk (Dusk chrome-profiles ~2 GB, uploaded media) that must never ship.
+storage/app
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+storage/framework/testing
+storage/logs
+storage/debugbar
+storage/clockwork
+storage/*.sqlite
+database/*.sqlite
+
 # Cache
 .cache
 .php-cs-fixer.cache
 
-# Documentation
-docs/*.md
-!docs/*.md
+# Compiled bootstrap caches — DEV-generated manifests list dev-only providers
+# (e.g. Laravel\Pail\PailServiceProvider), which fatals a --no-dev image. The
+# entrypoint regenerates them (package:discover / config:cache) at startup.
+bootstrap/cache/*.php
+bootstrap/cache/*.txt
+bootstrap/cache/*.json
+
+# Documentation (not needed at runtime)
+docs
 README.md
 CHANGELOG.md
 CONTRIBUTING.md
+
+# Dev cruft in the working tree
+*.zip
+d1.jpeg
+d2.jpeg
+unread.jpeg
+xdebug_server.php
+public/xdebug_server.php
 
 # Docker
 Dockerfile*

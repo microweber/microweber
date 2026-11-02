@@ -19,7 +19,11 @@ services:
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
+      - APP_URL=${APP_URL:-http://localhost}
+      - APP_KEY_FILE=/run/secrets/app_key
+      - DB_CONNECTION=mysql
       - DB_HOST=db
+      - DB_PORT=3306
       - DB_DATABASE=microweber
       - DB_USERNAME=microweber
       - DB_PASSWORD_FILE=/run/secrets/db_password
@@ -29,6 +33,11 @@ services:
       - SESSION_DRIVER=redis
       - RUN_MIGRATIONS=true
       - CACHE_WARM=true
+      # First-boot installer admin credentials (override via a .env next to this file)
+      - MW_ADMIN_EMAIL=${MW_ADMIN_EMAIL:-admin@admin.com}
+      - MW_ADMIN_USERNAME=${MW_ADMIN_USERNAME:-admin}
+      - MW_ADMIN_PASSWORD=${MW_ADMIN_PASSWORD:-admin}
+      - MW_DEFAULT_CONTENT=${MW_DEFAULT_CONTENT:-default}
     networks:
       - microweber-prod
     depends_on:
@@ -61,10 +70,21 @@ services:
       - app_storage:/var/www/html/storage
     environment:
       - APP_ENV=production
+      - APP_KEY_FILE=/run/secrets/app_key
+      - DB_CONNECTION=mysql
       - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=microweber
+      - DB_USERNAME=microweber
+      - DB_PASSWORD_FILE=/run/secrets/db_password
       - REDIS_HOST=redis
       - QUEUE_CONNECTION=database
       - CACHE_STORE=redis
+      # Worker: never run the installer/migrations (the app container owns that).
+      - MW_SKIP_INSTALL=1
+    secrets:
+      - db_password
+      - app_key
     networks:
       - microweber-prod
     depends_on:
@@ -91,8 +111,20 @@ services:
       "
     environment:
       - APP_ENV=production
+      - APP_KEY_FILE=/run/secrets/app_key
+      - DB_CONNECTION=mysql
       - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=microweber
+      - DB_USERNAME=microweber
+      - DB_PASSWORD_FILE=/run/secrets/db_password
       - REDIS_HOST=redis
+      - CACHE_STORE=redis
+      # Scheduler: never run the installer/migrations (the app container owns that).
+      - MW_SKIP_INSTALL=1
+    secrets:
+      - db_password
+      - app_key
     networks:
       - microweber-prod
     depends_on:

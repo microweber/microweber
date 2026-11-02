@@ -8,6 +8,22 @@ echo "Microweber Docker Entrypoint"
 echo "Environment: ${APP_ENV:-production}"
 echo "=========================================="
 
+# Docker secrets support: any VAR_FILE pointing at a readable file is loaded
+# into VAR (the compose production file passes DB_PASSWORD_FILE, APP_KEY_FILE,
+# etc. via /run/secrets/*). An already-set VAR is not overwritten.
+load_secret_files() {
+    for var in APP_KEY DB_PASSWORD DB_ROOT_PASSWORD DB_USERNAME REDIS_PASSWORD; do
+        eval "file=\${${var}_FILE:-}"
+        eval "cur=\${${var}:-}"
+        if [ -n "$file" ] && [ -f "$file" ] && [ -z "$cur" ]; then
+            val="$(cat "$file")"
+            export "$var=$val"
+            echo "Loaded $var from \$${var}_FILE"
+        fi
+    done
+}
+load_secret_files
+
 # Create required directories if they don't exist
 mkdir -p storage/logs
 mkdir -p storage/app/public
@@ -16,7 +32,8 @@ mkdir -p storage/framework/sessions
 mkdir -p storage/framework/views
 mkdir -p storage/framework/testing
 mkdir -p bootstrap/cache
-mkdir -p public/storage
+# NOTE: do not `mkdir public/storage` — it is a symlink to storage/app/public
+# (created in the image / by `storage:link`). mkdir -p would follow it and fail.
 
 # Set proper permissions
 chown -R www:www storage bootstrap/cache
@@ -63,30 +80,74 @@ if [ ! -f /var/www/html/.env ]; then
     fi
 fi
 
-# Generate application key if not set
-if [ -z "$(grep "^APP_KEY=" /var/www/html/.env | cut -d '=' -f2)" ]; then
+# If an APP_KEY was provided (e.g. via the app_key Docker secret) persist it so
+# config:cache below sees it; otherwise generate one when none is set.
+if [ -n "${APP_KEY:-}" ]; then
+    if grep -q "^APP_KEY=" /var/www/html/.env 2>/dev/null; then
+        sed -i "s|^APP_KEY=.*|APP_KEY=${APP_KEY}|" /var/www/html/.env
+    else
+        echo "APP_KEY=${APP_KEY}" >> /var/www/html/.env
+    fi
+elif [ -z "$(grep "^APP_KEY=" /var/www/html/.env | cut -d '=' -f2)" ]; then
     echo "Generating application key..."
     php artisan key:generate --no-interaction --force 2>/dev/null || true
 fi
+
+# .env is created/written as root above; the fpm pool runs as www, so hand it
+# over (and keep it writable) or runtime env writes (admin settings) would fail.
+chown www:www /var/www/html/.env 2>/dev/null || true
+chmod 664 /var/www/html/.env 2>/dev/null || true
+
+# The production image ran `composer install --no-scripts`, so Laravel's package
+# manifest hasn't been built yet. Do it now that .env/APP_KEY exist.
+echo "Discovering packages..."
+php artisan package:discover --ansi 2>/dev/null || true
 
 # Wait for database
 if [ -n "$DB_HOST" ]; then
     wait_for_db
 fi
 
-# Run migrations if requested
-if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
+# Install Microweber on first boot, otherwise just migrate. `migrate` alone does
+# NOT produce a working CMS (no admin user, no seeded module/template statuses,
+# no default content) — the installer does. The marker lives on the persisted
+# storage volume so a restart doesn't reinstall.
+MW_INSTALL_MARKER="/var/www/html/storage/app/.mw-installed"
+if [ "${MW_SKIP_INSTALL:-0}" = "1" ]; then
+    echo "MW_SKIP_INSTALL=1 — skipping install/migrate (worker/scheduler role)."
+elif [ ! -f "$MW_INSTALL_MARKER" ]; then
+    echo "Microweber not installed yet — running microweber:install..."
+    if php artisan microweber:install \
+        --db-driver="${DB_CONNECTION:-mysql}" \
+        --db-host="$DB_HOST" \
+        --db-port="${DB_PORT:-3306}" \
+        --db-name="$DB_DATABASE" \
+        --db-username="$DB_USERNAME" \
+        --db-password="$DB_PASSWORD" \
+        --email="${MW_ADMIN_EMAIL:-admin@admin.com}" \
+        --username="${MW_ADMIN_USERNAME:-admin}" \
+        --password="${MW_ADMIN_PASSWORD:-admin}" \
+        --default-content="${MW_DEFAULT_CONTENT:-default}" \
+        --app-url="${APP_URL:-http://localhost}" \
+        --no-interaction; then
+        touch "$MW_INSTALL_MARKER"
+        echo "Microweber installed."
+    else
+        echo "WARNING: microweber:install failed — it will be retried on next start."
+    fi
+elif [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
     echo "Running database migrations..."
     php artisan migrate --force --no-interaction 2>/dev/null || echo "Migration may have already run or database not ready"
 fi
 
-# Clear and cache config in production
+# Production optimization. Microweber is NOT compatible with the aggressive
+# Laravel caches, so we only do the safe one (icons):
+#   - config:cache  -> MW config holds non-serializable values (closures) -> throws
+#   - route:cache / event:cache -> closure routes/listeners -> serializable-closure OOM
+#   - view:cache    -> an orphan view uses <x-app-layout> (unregistered) -> throws
+# The app runs correctly uncached; forcing these only produces broken/half caches.
 if [ "${APP_ENV:-production}" = "production" ]; then
     echo "Optimizing for production..."
-    php artisan config:cache 2>/dev/null || true
-    php artisan route:cache 2>/dev/null || true
-    php artisan view:cache 2>/dev/null || true
-    php artisan event:cache 2>/dev/null || true
     php artisan icons:cache 2>/dev/null || true
 fi
 
@@ -101,6 +162,12 @@ if [ "${CACHE_WARM:-false}" = "true" ]; then
     echo "Warming cache..."
     php artisan cache:warm 2>/dev/null || true
 fi
+
+# The artisan steps above ran as root and created root-owned files under
+# storage/ (laravel.log, compiled views) and bootstrap/cache. The fpm pool runs
+# as www, so hand those trees back or runtime logging/caching 500s (the log
+# write itself throws). This is the final step before services start.
+chown -R www:www storage bootstrap/cache 2>/dev/null || true
 
 echo "=========================================="
 echo "Starting services..."
