@@ -32,6 +32,16 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
     public $templatesStatuses;
 
     /**
+     * Whether $templatesStatuses has been loaded yet. Loading is DEFERRED out of
+     * the constructor for the same reason as the modules activator — see the
+     * $statusesLoaded docblock there — so constructing this activator performs no
+     * DB / manifest work and cannot re-enter a half-built ActivatorInterface.
+     *
+     * @var bool
+     */
+    protected $templatesStatusesLoaded = false;
+
+    /**
      * Create a new DatabaseActivator instance.
      *
      * @param Container $app
@@ -43,8 +53,23 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
         $this->table = $this->config('table', 'system_templates');
         $this->setModelConnection();
         $this->cacheKey = $this->config('cache-key', 'templates.activations');
-        $this->templatesStatuses = $this->getTemplatesStatuses();
 
+        // Statuses load lazily on first use (see ensureTemplatesStatusesLoaded()).
+    }
+
+    /**
+     * Load the template activation statuses on first use. Deferred out of the
+     * constructor so building the activator does no DB / manifest / module-factory
+     * work (the source of the old circular dependency). Safe to call repeatedly.
+     */
+    protected function ensureTemplatesStatusesLoaded(): void
+    {
+        if ($this->templatesStatusesLoaded) {
+            return;
+        }
+
+        $this->templatesStatuses = $this->getTemplatesStatuses();
+        $this->templatesStatusesLoaded = true;
     }
 
     /**
@@ -56,6 +81,7 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
             SystemTemplates::query()->update(['status' => 0]);
         }
         $this->templatesStatuses = [];
+        $this->templatesStatusesLoaded = true;
         $this->flushCache();
     }
 
@@ -64,6 +90,8 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
      */
     public function hasStatus(Module|string $module, bool $status): bool
     {
+        $this->ensureTemplatesStatusesLoaded();
+
         $name = $module instanceof Module ? $module->getName() : $module;
 
         if (!isset($this->templatesStatuses[$name])) {
@@ -87,6 +115,7 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
      */
     public function setActiveByName(string $name, bool $status): void
     {
+        $this->ensureTemplatesStatusesLoaded();
         $this->flushCache();
         $this->templatesStatuses[$name] = $status;
         $this->writeStatus();
@@ -98,6 +127,7 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
      */
     public function delete(Module $module): void
     {
+        $this->ensureTemplatesStatusesLoaded();
         if (!isset($this->templatesStatuses[$module->getName()])) {
             return;
         }
@@ -116,11 +146,13 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
             return;
         }
 
+        $this->ensureTemplatesStatusesLoaded();
+
         // Reset all templates to inactive
         SystemTemplates::query()->update(['status' => 0]);
 
         // Update active templates
-        foreach ($this->templatesStatuses as $name => $status) {
+        foreach ((array) $this->templatesStatuses as $name => $status) {
             if ($status === true) {
                 $templateActivation = SystemTemplates::getByName($name);
                 if ($templateActivation) {
@@ -211,6 +243,8 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
         if (empty($this->getTableName())) {
             return;
         }
+
+        $this->ensureTemplatesStatusesLoaded();
 
         foreach ($templates as $key => $template) {
             if ($template instanceof Module) {

@@ -292,10 +292,13 @@ return [
             // Per-site on multisite: each domain gets its own
             // storage/sites/<domain>/modules_statuses.json (seeded from the base
             // file on first use), so disabling a module on one site never
-            // affects another. Single-site keeps the shared file. The database
-            // activator would avoid the disk entirely but currently crashes boot
-            // (unbound modules.factory) and mis-seeds — opt in via MODULES_ACTIVATOR
-            // only once fixed.
+            // affects another. Single-site keeps the shared file (no DB needed
+            // before install, no per-request DB read). The database activator
+            // avoids the disk entirely and is used on multisite; it no longer
+            // crashes boot — statuses load lazily (not in the constructor) and
+            // seed by reading the module.json manifests directly, so building the
+            // activator never touches the module factory. Opt in anywhere via
+            // MODULES_ACTIVATOR=database.
             'statuses-file' => (function_exists('mw_multisite_statuses_path')
                 ? mw_multisite_statuses_path('modules_statuses.json')
                 : storage_path('modules_statuses.json')),

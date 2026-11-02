@@ -113,6 +113,27 @@ class LaravelTemplatesDatabaseActivatorTest extends TestCase
         $restore->save();
     }
 
+    #[Test]
+    public function construction_defers_status_loading_to_avoid_the_circular_dependency(): void
+    {
+        $activator = new LaravelTemplatesDatabaseActivator(app());
+
+        $loaded = new \ReflectionProperty($activator, 'templatesStatusesLoaded');
+        $loaded->setAccessible(true);
+
+        $this->assertFalse(
+            $loaded->getValue($activator),
+            'Constructing the templates activator must NOT eager-load statuses.'
+        );
+
+        $activator->hasStatus($this->knownTemplate, true);
+
+        $this->assertTrue(
+            $loaded->getValue($activator),
+            'The first status query must lazily load template statuses.'
+        );
+    }
+
     protected function flushTemplatesCache(): void
     {
         if (app()->bound('templates')) {

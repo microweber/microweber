@@ -77,6 +77,21 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
     public $modulesStatuses;
 
     /**
+     * Whether $modulesStatuses has been loaded yet. Loading is DEFERRED out of
+     * the constructor (see ensureStatusesLoaded()) so building this activator
+     * never reads the database or the module manifests. That is what keeps the
+     * ActivatorInterface singleton cheap to construct and breaks the historical
+     * circular dependency: a Nwidart Module resolves ActivatorInterface in its
+     * own constructor, so any status computation that touched the module factory
+     * while THIS object was still being built re-entered a half-constructed
+     * singleton (and hit an unbound 'modules.factory' early in boot). Deferring
+     * the load means it runs on first access, after the container is booted.
+     *
+     * @var bool
+     */
+    protected $statusesLoaded = false;
+
+    /**
      * Database table name.
      *
      * @var string
@@ -102,9 +117,25 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
 
         $this->cacheKey = $this->config('cache-key', 'modules.activations');
         $this->cacheLifetime = $this->config('cache-lifetime', 604800);
+
+        // NOTE: statuses are intentionally NOT loaded here — see
+        // ensureStatusesLoaded() and the $statusesLoaded docblock. Loading lazily
+        // is what removes the circular modules.factory dependency.
+    }
+
+    /**
+     * Load the activation statuses on first use. Deferred out of the constructor
+     * so constructing the activator performs no DB / manifest / module-factory
+     * work (the source of the old circular dependency). Safe to call repeatedly.
+     */
+    protected function ensureStatusesLoaded(): void
+    {
+        if ($this->statusesLoaded) {
+            return;
+        }
+
         $this->modulesStatuses = $this->getModulesStatuses();
-
-
+        $this->statusesLoaded = true;
     }
 
     /**
@@ -126,6 +157,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
             SystemModules::query()->update(['status' => 0]);
         }
         $this->modulesStatuses = [];
+        $this->statusesLoaded = true;
         $this->flushCache();
     }
 
@@ -150,6 +182,8 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      */
     public function hasStatus(Module|string $module, bool $status): bool
     {
+        $this->ensureStatusesLoaded();
+
         $name = $module instanceof Module ? $module->getName() : $module;
 
         if (!isset($this->modulesStatuses[$name])) {
@@ -173,6 +207,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      */
     public function setActiveByName(string $name, bool $status): void
     {
+        $this->ensureStatusesLoaded();
         $this->flushCache();
         $this->modulesStatuses[$name] = $status;
         $this->writeStatus();
@@ -184,6 +219,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      */
     public function delete(Module $module): void
     {
+        $this->ensureStatusesLoaded();
         if (!isset($this->modulesStatuses[$module->getName()])) {
             return;
         }
@@ -202,12 +238,13 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
             return;
         }
 
+        $this->ensureStatusesLoaded();
 
         // Reset all modules to inactive
         SystemModules::query()->update(['status' => 0]);
 
         // Update active modules
-        foreach ($this->modulesStatuses as $name => $status) {
+        foreach ((array) $this->modulesStatuses as $name => $status) {
             if ($status === true) {
                 $moduleActivation = SystemModules::getByName($name);
                 if ($moduleActivation) {
@@ -331,6 +368,8 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
             return;
         }
 
+        $this->ensureStatusesLoaded();
+
 
 
             foreach ($modules as $key => $module) {
@@ -382,15 +421,18 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      * @return array
      */
     /**
-     * Seed system_modules from the on-disk module.json manifests when the table
-     * is empty (fresh site / first switch to the database activator).
+     * Seed system_modules from the on-disk module.json manifests for any module
+     * that has no row yet (fresh site, first switch to the database activator, or
+     * a module shipped after the first seed).
      *
      * Reads the manifests DIRECTLY — no module factory, no Module objects, no
-     * ActivatorInterface resolution — so it is safe to run from this activator's
-     * own constructor. (Building a Nwidart Module here would resolve
-     * ActivatorInterface, which is mid-construction → a circular dependency.
-     * The previous implementation also called an unbound 'modules.factory',
-     * which crashed boot outright.)
+     * ActivatorInterface resolution. Status loading is already deferred out of the
+     * constructor (ensureStatusesLoaded()), so this runs after the container is
+     * booted; reading manifests directly keeps it independent of the module
+     * factory as a second line of defence. Historically the inverse was true:
+     * building a Nwidart Module here resolved ActivatorInterface while this very
+     * singleton was still constructing → a circular dependency, and early in boot
+     * 'modules.factory' was not even bound yet → the boot crashed outright.
      *
      * Each module seeds with the current file-activator status when a statuses
      * file exists (so switching activators preserves the enabled set), otherwise

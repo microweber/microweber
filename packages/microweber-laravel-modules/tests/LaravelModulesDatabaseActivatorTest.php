@@ -190,6 +190,32 @@ class LaravelModulesDatabaseActivatorTest extends TestCase
         $restore->save();
     }
 
+    #[Test]
+    public function construction_defers_status_loading_to_avoid_the_circular_dependency(): void
+    {
+        // Building the activator must do NO status work: a Nwidart Module resolves
+        // ActivatorInterface in its own constructor, so eager-loading here (the old
+        // behaviour) could re-enter this half-built singleton / the unbound module
+        // factory. Loading is deferred to first use instead.
+        $activator = new LaravelModulesDatabaseActivator(app());
+
+        $loaded = new \ReflectionProperty($activator, 'statusesLoaded');
+        $loaded->setAccessible(true);
+
+        $this->assertFalse(
+            $loaded->getValue($activator),
+            'Constructing the activator must NOT eager-load statuses.'
+        );
+
+        // The first status query triggers the lazy load.
+        $activator->hasStatus($this->knownModule, true);
+
+        $this->assertTrue(
+            $loaded->getValue($activator),
+            'The first status query must lazily load statuses.'
+        );
+    }
+
     /**
      * Flush the modules activation cache so readStatus() is observed fresh.
      */
