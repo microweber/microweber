@@ -14,10 +14,10 @@ use Tests\TestCase;
  *
  * The real site uses the FILE activator, so system_templates is normally empty.
  * These tests drive the DATABASE activator directly, which seeds the table from
- * the on-disk template module.json manifests. Only module.json-bearing templates
- * (e.g. Big, Bootstrap) are manifest-seedable; templates without a module.json
- * are out of scope for the manifest activator. Every row the test creates is
- * cleaned up in tearDown so the shared table returns to its prior state.
+ * the on-disk template module.json manifests across EVERY template root — the
+ * primary Templates/ folder and the extra drop-in roots (ExtraTemplates/…) the
+ * scanner also walks. Every row the test creates is cleaned up in tearDown so
+ * the shared table returns to its prior state.
  */
 class LaravelTemplatesDatabaseActivatorTest extends TestCase
 {
@@ -132,6 +132,44 @@ class LaravelTemplatesDatabaseActivatorTest extends TestCase
             $loaded->getValue($activator),
             'The first status query must lazily load template statuses.'
         );
+    }
+
+    #[Test]
+    public function readstatus_covers_templates_from_extra_drop_in_roots(): void
+    {
+        // Alfa ships under ExtraTemplates/ (a scan root), not the primary
+        // Templates/ folder. It must still be manifest-seeded and enabled on the
+        // database activator — otherwise every extra drop-in template would be
+        // silently disabled on a multisite domain.
+        $extra = 'Alfa';
+
+        if (! $this->extraTemplateExists($extra)) {
+            $this->markTestSkipped("Extra template {$extra} not present in this checkout.");
+        }
+
+        $statuses = (new LaravelTemplatesDatabaseActivator(app()))->readStatus();
+
+        $this->assertArrayHasKey(
+            $extra,
+            $statuses,
+            'Templates from extra drop-in roots (ExtraTemplates/) must be discovered.'
+        );
+        $this->assertTrue($statuses[$extra], 'An extra drop-in template must default to enabled.');
+        $this->assertNotNull(
+            SystemTemplates::getByName($extra),
+            'An extra drop-in template must be back-filled with a row.'
+        );
+    }
+
+    private function extraTemplateExists(string $name): bool
+    {
+        foreach ((array) config('templates.scan.paths', []) as $root) {
+            if (is_file(rtrim((string) $root, '/\\') . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'module.json')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function flushTemplatesCache(): void

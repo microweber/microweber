@@ -465,15 +465,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
     protected function manifestStatuses(): array
     {
         $statuses = [];
-        $path = $this->app['config']->get($this->configPrefix . '.paths.modules');
-        if (!$path || !is_dir($path)) {
-            return $statuses;
-        }
-        $files = new Filesystem();
-        $manifests = $files->glob(
-            rtrim($path, '/\\') . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.json'
-        );
-        foreach ((array) $manifests as $manifest) {
+        foreach ($this->manifestFiles() as $manifest) {
             $json = Json::make($manifest);
             $name = $json->get('name');
             if ($name) {
@@ -484,22 +476,68 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
         return $statuses;
     }
 
+    /**
+     * Every root that may hold a manifest: the primary modules/templates root
+     * PLUS the extra drop-in scan roots (ExtraModules/…, ExtraTemplates/…). This
+     * mirrors the folders the scanner walks, so manifest-based seeding covers
+     * every discoverable module/template — not only those under the primary root
+     * — while still reading straight from disk: no scanner, no module factory, no
+     * Module objects, hence no re-entrancy into this activator. configPrefix is
+     * 'modules' or 'templates', so one implementation serves both.
+     *
+     * @return array<int, string>
+     */
+    protected function manifestRoots(): array
+    {
+        $roots = [];
+
+        $primary = $this->app['config']->get($this->configPrefix . '.paths.modules');
+        if ($primary) {
+            $roots[] = $primary;
+        }
+
+        if ($this->app['config']->get($this->configPrefix . '.scan.enabled')) {
+            foreach ((array) $this->app['config']->get($this->configPrefix . '.scan.paths', []) as $extra) {
+                if ($extra) {
+                    $roots[] = $extra;
+                }
+            }
+        }
+
+        return array_values(array_filter(array_unique($roots), 'is_dir'));
+    }
+
+    /**
+     * module.json manifest file paths across every root.
+     *
+     * @return array<int, string>
+     */
+    protected function manifestFiles(): array
+    {
+        $files = new Filesystem();
+        $manifests = [];
+
+        foreach ($this->manifestRoots() as $root) {
+            $found = $files->glob(
+                rtrim($root, '/\\') . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.json'
+            );
+            if (is_array($found)) {
+                $manifests = array_merge($manifests, $found);
+            }
+        }
+
+        return $manifests;
+    }
+
     protected function seedFromManifests(): int
     {
         if (empty($this->getTableName())) {
             return 0;
         }
 
-        $modulesPath = $this->app['config']->get($this->configPrefix . '.paths.modules');
-        if (!$modulesPath || !is_dir($modulesPath)) {
-            return 0;
-        }
-
-        $files = new Filesystem();
-        $manifests = $files->glob(
-            rtrim($modulesPath, '/\\') . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.json'
-        );
-        if (!is_array($manifests) || empty($manifests)) {
+        // All roots (primary + extra drop-in roots like ExtraModules/).
+        $manifests = $this->manifestFiles();
+        if (empty($manifests)) {
             return 0;
         }
 

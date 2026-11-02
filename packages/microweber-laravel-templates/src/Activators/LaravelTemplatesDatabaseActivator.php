@@ -319,34 +319,11 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
         }
     }
 
-    /**
-     * On-disk default statuses read straight from the template manifests
-     * (name => active flag, default enabled). Used as a safe fallback when the
-     * status table is unavailable so templates still render.
-     *
-     * @return array<string, bool>
-     */
-    protected function manifestStatuses(): array
-    {
-        $statuses = [];
-        $path = $this->app['config']->get($this->configPrefix . '.paths.modules');
-        if (!$path || !is_dir($path)) {
-            return $statuses;
-        }
-        $files = new Filesystem();
-        $manifests = $files->glob(
-            rtrim($path, '/\\') . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.json'
-        );
-        foreach ((array) $manifests as $manifest) {
-            $json = Json::make($manifest);
-            $name = $json->get('name');
-            if ($name) {
-                $statuses[$name] = (bool) $json->get('active', 1);
-            }
-        }
-
-        return $statuses;
-    }
+    // manifestStatuses(), manifestRoots() and manifestFiles() are inherited from
+    // LaravelModulesDatabaseActivator — they are configPrefix-aware ('templates'
+    // here), so they already walk the primary Templates root plus the extra
+    // drop-in roots (ExtraTemplates/…). Only seedFromManifests() is overridden,
+    // because it persists rows through the SystemTemplates model.
 
     protected function seedFromManifests(): int
     {
@@ -354,16 +331,9 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
             return 0;
         }
 
-        $templatesPath = $this->app['config']->get($this->configPrefix . '.paths.modules');
-        if (!$templatesPath || !is_dir($templatesPath)) {
-            return 0;
-        }
-
-        $files = new Filesystem();
-        $manifests = $files->glob(
-            rtrim($templatesPath, '/\\') . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.json'
-        );
-        if (!is_array($manifests) || empty($manifests)) {
+        // All template roots (primary + extra drop-in roots like ExtraTemplates/).
+        $manifests = $this->manifestFiles();
+        if (empty($manifests)) {
             return 0;
         }
 
