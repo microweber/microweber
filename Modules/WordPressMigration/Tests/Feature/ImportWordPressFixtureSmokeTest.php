@@ -46,6 +46,16 @@ class ImportWordPressFixtureSmokeTest extends TestCase
         DB::table('wp_migration_staging_media')->delete();
         DB::table('wp_migration_jobs')->delete();
 
+        // The dry-run importer skips posts whose GUID is already in content_data
+        // (alreadyImportedGuids() reads field_name = source_guid). The suite's
+        // install-once DB persists those rows across runs, so a prior WordPress
+        // import — in a sibling test or an earlier run — would dedup the entire
+        // fixture down to zero staged rows and make this smoke flap. Clear the
+        // dedup source so the staging assertion only reflects THIS run.
+        DB::table('content_data')
+            ->where('field_name', \Modules\WordPressMigration\Services\WordPressContentMapper::META_SOURCE_GUID)
+            ->delete();
+
         $this->startFixtureServer();
     }
 
