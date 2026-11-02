@@ -153,8 +153,14 @@ trait ScansAndReloadsModules
                     $this->log('Migrating template: ' . $name);
 
                     //  app()->mw_migrator->run([ $modulePath . DS . 'database/migrations']);
-                    Artisan::call('template:migrate', ['module' => $name, '--force'], $output);
-                    $this->log($output->fetch());
+                    // Isolate per template: one template's migration failure must not
+                    // abort the loop and skip every template after it.
+                    try {
+                        Artisan::call('template:migrate', ['module' => $name, '--force'], $output);
+                        $this->log($output->fetch());
+                    } catch (\Throwable $templateMigrateError) {
+                        $this->log('Template migration skipped (' . $name . '): ' . $templateMigrateError->getMessage());
+                    }
                 }
 
                 $output = new BufferedOutput();
@@ -258,8 +264,18 @@ trait ScansAndReloadsModules
                     $this->log('Migrating module: ' . $name);
 
                     // app()->mw_migrator->run([ $modulePath . DS . 'database/migrations']);
-                    Artisan::call('module:migrate', ['module' => $name, '--force'], $output);
-                    $this->log($output->fetch());
+                    // A single module's migration failure (e.g. a cross-module FK
+                    // whose referenced table hasn't been migrated yet, because module
+                    // scan order is alphabetical, not dependency-ordered) must NOT
+                    // abort the whole reload loop — otherwise every module after the
+                    // failing one is left un-enabled and its providers/commands never
+                    // register. Log and continue.
+                    try {
+                        Artisan::call('module:migrate', ['module' => $name, '--force'], $output);
+                        $this->log($output->fetch());
+                    } catch (\Throwable $moduleMigrateError) {
+                        $this->log('Module migration skipped (' . $name . '): ' . $moduleMigrateError->getMessage());
+                    }
                 }
 
                 $output = new BufferedOutput();
