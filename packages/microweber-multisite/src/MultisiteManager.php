@@ -48,6 +48,14 @@ class MultisiteManager
         return [
             'enabled' => true,
             'config_path' => null,
+            // Directory that holds the per-domain .env.<domain> files. null (the
+            // default) keeps them in the application root next to .env — the
+            // historical layout. A relative value is resolved against the app
+            // base path; an absolute value is used as-is. Because this setting
+            // governs WHICH env file gets loaded, it cannot itself be read from
+            // .env (chicken-and-egg): it must come from a real OS environment
+            // variable (MULTISITE_ENV_PATH), exactly like APP_ENV already must.
+            'env_path' => self::envPathFromEnvironment(),
             'isolate' => [
                 'cache' => true,
                 'session' => true,
@@ -154,6 +162,98 @@ class MultisiteManager
     }
 
     /**
+     * The configured per-domain env directory, read from the raw OS environment
+     * (MULTISITE_ENV_PATH). Returns null when unset/empty — meaning "root".
+     *
+     * Read from the real environment, NOT from a loaded .env: this value decides
+     * which env file to load, so it has to be resolvable before any .env exists
+     * (same bootstrapping constraint as APP_ENV). Empty string => null (root).
+     */
+    public static function envPathFromEnvironment(): ?string
+    {
+        $value = getenv('MULTISITE_ENV_PATH');
+        if ($value === false || $value === '') {
+            $value = $_SERVER['MULTISITE_ENV_PATH'] ?? $_ENV['MULTISITE_ENV_PATH'] ?? null;
+        }
+
+        $value = is_string($value) ? trim($value) : null;
+
+        return ($value === null || $value === '') ? null : $value;
+    }
+
+    /**
+     * Turn a configured env_path (relative or absolute, or null) into the
+     * absolute directory that holds the .env.<domain> files, or null for the
+     * default root layout. Pure — safe at autoload time.
+     */
+    public static function resolveEnvDir(string $base, ?string $configured): ?string
+    {
+        if ($configured === null || $configured === '') {
+            return null;
+        }
+
+        $configured = rtrim($configured, '/\\');
+
+        // Absolute? (unix /..., windows C:\..., or UNC \\...)
+        $isAbsolute = str_starts_with($configured, '/')
+            || str_starts_with($configured, '\\')
+            || (bool) preg_match('#^[A-Za-z]:[\\\\/]#', $configured);
+
+        return $isAbsolute
+            ? $configured
+            : rtrim($base, '/\\') . DIRECTORY_SEPARATOR . ltrim($configured, '/\\');
+    }
+
+    /**
+     * Load a relocated per-domain env file at autoload time.
+     *
+     * When the .env.<domain> files live in a custom folder (env_path), Laravel's
+     * own LoadEnvironmentVariables bootstrapper — which only looks in the app
+     * root — can't find them, so it would silently fall back to the shared .env
+     * and boot the domain against the wrong database. We therefore load the
+     * file here, before the framework boots, into Laravel's shared *immutable*
+     * env repository: first-write-wins means the per-site values lock in now and
+     * the base .env (loaded by Laravel afterwards) only fills the keys this file
+     * omits — APP_KEY, MAIL_*, etc. That overlay is exactly what a partial
+     * per-site env (as written by `multisite:install`) needs.
+     *
+     * No-op / best-effort: returns false if the file or phpdotenv is absent, or
+     * on any error. Never throws — a failure here must not break autoloading.
+     */
+    public static function loadSiteEnvFile(string $dir, string $site): bool
+    {
+        $name = '.env.' . $site;
+        if (!is_file(rtrim($dir, '/\\') . DIRECTORY_SEPARATOR . $name)) {
+            return false;
+        }
+        if (!class_exists(\Dotenv\Dotenv::class)) {
+            return false;
+        }
+
+        try {
+            // Build our OWN immutable repository — deliberately NOT Laravel's
+            // Env::getRepository() singleton. Both write the same underlying
+            // $_SERVER/$_ENV/putenv stores, so when Laravel later loads the base
+            // .env through its own (separate) repository, phpdotenv sees our
+            // keys as "externally set" and refuses to overwrite them. Sharing a
+            // single repository instead would let that later load clobber our
+            // per-site values (an immutable writer may re-write keys it set
+            // itself), which is exactly the bug this avoids. Writing putenv too
+            // keeps getenv()-based readers consistent.
+            $repository = \Dotenv\Repository\RepositoryBuilder::createWithDefaultAdapters()
+                ->addAdapter(\Dotenv\Repository\Adapter\PutenvAdapter::class)
+                ->immutable()
+                ->make();
+
+            \Dotenv\Dotenv::create($repository, $dir, $name)->safeLoad();
+
+            return true;
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
+    /**
      * Autoload-time entrypoint: resolve the current site from the environment
      * and define MW_USERFILES_FOLDER_NAME = "userfiles/{site}" before Microweber's
      * bootstrap.php (which guards the define with `if (!defined(...))`) runs.
@@ -195,6 +295,16 @@ class MultisiteManager
                 $_SERVER['APP_ENV'] = $site;
             }
 
+            // When the per-domain env files have been relocated to a custom
+            // folder (MULTISITE_ENV_PATH), load this site's .env.<domain> now —
+            // Laravel only looks in the app root and would otherwise miss it and
+            // boot against the shared database. Default (null) keeps the root
+            // layout, where Laravel loads .env.<domain> itself — nothing to do.
+            $envDir = self::resolveEnvDir($base, self::envPathFromEnvironment());
+            if ($envDir !== null) {
+                self::loadSiteEnvFile($envDir, $site);
+            }
+
             $defaults = self::defaultConfig();
             if (!($defaults['isolate']['userfiles'] ?? true)) {
                 return $site;
@@ -227,6 +337,40 @@ class MultisiteManager
         }
 
         return (self::discoverBasePath() ?? getcwd()) . DIRECTORY_SEPARATOR . 'config';
+    }
+
+    /** The application base path (parent of config/), for resolving env_path. */
+    protected function basePath(): string
+    {
+        // base_path() may be defined yet unusable (no booted app, e.g. in a
+        // bare unit test) — fall back to filesystem discovery if it throws.
+        if (function_exists('base_path')) {
+            try {
+                return base_path();
+            } catch (\Throwable $e) {
+                // fall through
+            }
+        }
+
+        return self::discoverBasePath() ?? getcwd();
+    }
+
+    /**
+     * Absolute directory that holds the per-domain .env.<domain> files, or null
+     * for the default root layout. Driven by the `env_path` config (relative to
+     * the app base, or absolute).
+     */
+    public function envDir(): ?string
+    {
+        return self::resolveEnvDir($this->basePath(), $this->config['env_path'] ?? null);
+    }
+
+    /** Absolute path to a site's env file (.env.<site>), honouring env_path. */
+    public function siteEnvFile(string $site): string
+    {
+        $dir = $this->envDir() ?? $this->basePath();
+
+        return rtrim($dir, '/\\') . DIRECTORY_SEPARATOR . '.env.' . $site;
     }
 
     /** The resolved site slug for this request, or null for the default (single) site. */

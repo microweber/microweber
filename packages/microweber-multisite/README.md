@@ -84,6 +84,30 @@ php artisan multisite:install domain-a.com \
 writes `.env.<domain>` (via env-writer) with the DB credentials, cache prefix
 and session cookie. Then create the DB and point DNS at the server.
 
+## Per-domain env folder (optional)
+
+By default the `.env.<domain>` files sit in the application root next to `.env`.
+To collect them in a folder instead, set **`env_path`** (config `multisite.env_path`):
+
+```bash
+# a sibling "envs/" folder (relative to the app base), or an absolute path
+export MULTISITE_ENV_PATH=envs
+php artisan multisite:install domain-a.com --db-name=mw_domain_a ...
+# → writes envs/.env.domain-a.com; booted from there automatically
+```
+
+- The value must be a **real OS environment variable** (web-server `SetEnv`,
+  docker `environment:`, or a shell `export`) — **not** a line in `.env`. It
+  decides *which* env file to load, so it has to be known before any `.env` is
+  read, exactly like `APP_ENV`.
+- Relative values resolve against the app base; absolute values are used as-is.
+  Keep the folder **outside** the `public/` docroot (the app root and a sibling
+  `envs/` both are).
+- A relocated `.env.<domain>` is a partial overlay: the shared base `.env` still
+  fills the keys it omits (`APP_KEY`, `MAIL_*`, …) while the per-site values win.
+- Leave it unset (the default) to keep every env file in the root — unchanged
+  behaviour.
+
 ## API
 
 ```php
@@ -94,6 +118,8 @@ Multisite::isActive();           // bool
 Multisite::sites();              // ['domain-a.com', 'domain-b.com']
 Multisite::userfilesFolder();    // 'userfiles/domain-a.com'
 Multisite::cachePrefix();        // 'mw_domain_a_com_cache'
+Multisite::envDir();             // '/app/envs' | null (root layout)
+Multisite::siteEnvFile('domain-a.com'); // absolute path to its .env.<domain>
 ```
 
 ## Tests

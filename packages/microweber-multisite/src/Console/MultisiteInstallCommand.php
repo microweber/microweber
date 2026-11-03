@@ -40,7 +40,10 @@ class MultisiteInstallCommand extends Command
 
         $configDir = $manager->configBasePath() . DIRECTORY_SEPARATOR . $domain;
         $markerFile = $configDir . DIRECTORY_SEPARATOR . 'microweber.php';
-        $envFile = base_path('.env.' . $domain);
+        // Honour the configured env_path: the .env.<domain> file is written to
+        // that folder (or the app root by default), and read back from the same
+        // place at boot by MultisiteManager::loadSiteEnvFile().
+        $envFile = $manager->siteEnvFile($domain);
 
         if ((is_file($markerFile) || is_file($envFile)) && !$this->option('force')) {
             $this->error("Site '{$domain}' already exists. Re-run with --force to overwrite.");
@@ -79,12 +82,21 @@ class MultisiteInstallCommand extends Command
             $values['DB_PREFIX'] = $this->option('db-prefix');
         }
 
+        $envDir = dirname($envFile);
+        if (!is_dir($envDir)) {
+            mkdir($envDir, 0775, true);
+        }
+
         if (!$envWriter->save($values, $envFile)) {
             $this->error('Failed to write ' . $envFile);
 
             return self::FAILURE;
         }
-        $this->info('Wrote env: .env.' . $domain);
+        // Show the path relative to the app base when it sits inside it, else the
+        // absolute path — so a relocated env_path is visible in the output.
+        $base = rtrim(base_path(), '/\\') . DIRECTORY_SEPARATOR;
+        $shownEnv = str_starts_with($envFile, $base) ? substr($envFile, strlen($base)) : $envFile;
+        $this->info('Wrote env: ' . $shownEnv);
 
         // 3) pre-create the per-site storage trees so the first request is clean.
         $manager->ensureDirectories($domain);
