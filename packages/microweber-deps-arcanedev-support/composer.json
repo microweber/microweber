@@ -1,5 +1,5 @@
 {
-    "name": "microweber-packages/deps-arcanedev-support",
+    "name": "microweber-packages/microweber-deps-arcanedev-support",
     "description": "Arcanedev Support — Microweber fork with Laravel 13 support. Replaces arcanedev/support.",
     "license": "MIT",
     "replace": {

@@ -1,5 +1,5 @@
 {
-    "name": "microweber-packages/deps-laravel-repository",
+    "name": "microweber-packages/microweber-deps-laravel-repository",
     "description": "Base repository implementation for Laravel — Microweber fork with Laravel 13 support. Replaces torann/laravel-repository.",
     "license": "BSD-2-Clause",
     "replace": {

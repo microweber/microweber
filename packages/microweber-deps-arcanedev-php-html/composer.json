@@ -1,5 +1,5 @@
 {
-    "name": "microweber-packages/deps-arcanedev-php-html",
+    "name": "microweber-packages/microweber-deps-arcanedev-php-html",
     "description": "Arcanedev PHP-Html — Microweber fork with Laravel 13 support. Replaces arcanedev/php-html.",
     "license": "MIT",
     "replace": {

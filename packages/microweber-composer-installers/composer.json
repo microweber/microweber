@@ -1,5 +1,5 @@
 {
-    "name": "microweber-packages/composer-installers",
+    "name": "microweber-packages/microweber-composer-installers",
     "type": "composer-plugin",
     "license": "MIT",
     "description": "Microweber fork of composer/installers (adds the microweber-module / microweber-template install paths). Replaces composer/installers.",

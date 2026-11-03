@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "848b086f5990ad5fb2de6b989e2c93fe",
+    "content-hash": "7238dfbc824cfd7eebf36a0d206132e3",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9606,145 +9606,6 @@
             }
         },
         {
-            "name": "microweber-packages/composer-installers",
-            "version": "2.0.17.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-composer-installers",
-                "reference": "f8ca5f48d3d85bb5a7ddfaaa3570fb0f6da55a41"
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "php": "^7.2 || ^8.0"
-            },
-            "replace": {
-                "composer/installers": "*"
-            },
-            "require-dev": {
-                "composer/composer": "^1.10.27 || ^2.7.8",
-                "composer/semver": "^1.7.2 || ^3.4.2",
-                "phpstan/phpstan": "^1.11.11",
-                "phpstan/phpstan-phpunit": "^1.4",
-                "phpunit/phpunit": "^8.5.39 || ^9.6.20",
-                "symfony/process": "^5 || ^6 || ^7.1.3"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Composer\\Installers\\Plugin",
-                "branch-alias": {
-                    "dev-main": "2.x-dev"
-                },
-                "plugin-modifies-install-path": true
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\Installers\\": "src/Composer/Installers"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Composer\\Installers\\Test\\": "tests/Composer/Installers/Test"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "@php phpunit"
-                ],
-                "phpstan": [
-                    "@php phpstan analyse"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kyle Robinson Young",
-                    "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama"
-                }
-            ],
-            "description": "Microweber fork of composer/installers (adds the microweber-module / microweber-template install paths). Replaces composer/installers.",
-            "keywords": [
-                "AGL",
-                "AnnotateCms",
-                "Attogram",
-                "Bitrix",
-                "CakePHP",
-                "Chef",
-                "Cockpit",
-                "CodeIgniter",
-                "ConcreteCMS",
-                "Croogo",
-                "DokuWiki",
-                "Dolibarr",
-                "Drupal",
-                "Elgg",
-                "Eliasis",
-                "ExpressionEngine",
-                "FuelPHP",
-                "Grav",
-                "Hurad",
-                "ImageCMS",
-                "Kanboard",
-                "Known",
-                "Kohana",
-                "Lan Management System",
-                "Laravel",
-                "Lavalite",
-                "Lithium",
-                "MODULEWork",
-                "MODX",
-                "MODX Evo",
-                "Magento",
-                "Mako",
-                "MantisBT",
-                "Matomo",
-                "Mautic",
-                "Maya",
-                "MediaWiki",
-                "Miaoxing",
-                "Moodle",
-                "OXID",
-                "PPI",
-                "Pantheon",
-                "Piwik",
-                "Plentymarkets",
-                "Porto",
-                "ProcessWire",
-                "Puppet",
-                "RadPHP",
-                "ReIndex",
-                "Roundcube",
-                "SMF",
-                "SilverStripe",
-                "Starbug",
-                "SyDES",
-                "Sylius",
-                "TastyIgniter",
-                "Thelia",
-                "WHMCS",
-                "WolfCMS",
-                "WordPress",
-                "YAWIK",
-                "Zend",
-                "Zikula",
-                "concrete5",
-                "eZ Platform",
-                "iTop",
-                "installer",
-                "majima",
-                "osclass",
-                "phpBB",
-                "pxcms",
-                "shopware"
-            ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
             "name": "microweber-packages/config",
             "version": "1.0.0",
             "dist": {
@@ -10114,102 +9975,6 @@
             "support": {
                 "email": "support@microweber.com"
             },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/deps-arcanedev-php-html",
-            "version": "2.0.17.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-deps-arcanedev-php-html",
-                "reference": "4ce21b8a16a0bfcedff2a5f01ff870cf08d4e9c1"
-            },
-            "require": {
-                "illuminate/support": "^11.0|^12.0|^13.0",
-                "php": "^8.2"
-            },
-            "replace": {
-                "arcanedev/php-html": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Arcanedev\\Html\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Arcanedev PHP-Html — Microweber fork with Laravel 13 support. Replaces arcanedev/php-html.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/deps-arcanedev-support",
-            "version": "2.0.17.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-deps-arcanedev-support",
-                "reference": "cadc8598b879d0ceee9d83094f661262d7209bce"
-            },
-            "require": {
-                "illuminate/contracts": "^11.0|^12.0|^13.0",
-                "illuminate/support": "^11.0|^12.0|^13.0",
-                "php": "^8.2"
-            },
-            "replace": {
-                "arcanedev/support": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Arcanedev\\Support\\": "src/"
-                },
-                "files": [
-                    "helpers.php"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Arcanedev Support — Microweber fork with Laravel 13 support. Replaces arcanedev/support.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/deps-laravel-repository",
-            "version": "2.0.17.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-deps-laravel-repository",
-                "reference": "628d6a619a6741b15923e78010818438f733ef96"
-            },
-            "require": {
-                "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.2"
-            },
-            "replace": {
-                "torann/laravel-repository": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Torann\\LaravelRepository\\": "src/"
-                }
-            },
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "description": "Base repository implementation for Laravel — Microweber fork with Laravel 13 support. Replaces torann/laravel-repository.",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -11280,6 +11045,241 @@
             ],
             "description": "Microweber CMS – head/footer meta-tag rendering (head tags, scripts, SEO).",
             "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-composer-installers",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-composer-installers",
+                "reference": "07972ab9bf7898db09b128fba555609b2de7cf54"
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "replace": {
+                "composer/installers": "*"
+            },
+            "require-dev": {
+                "composer/composer": "^1.10.27 || ^2.7.8",
+                "composer/semver": "^1.7.2 || ^3.4.2",
+                "phpstan/phpstan": "^1.11.11",
+                "phpstan/phpstan-phpunit": "^1.4",
+                "phpunit/phpunit": "^8.5.39 || ^9.6.20",
+                "symfony/process": "^5 || ^6 || ^7.1.3"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Composer\\Installers\\Plugin",
+                "branch-alias": {
+                    "dev-main": "2.x-dev"
+                },
+                "plugin-modifies-install-path": true
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Installers\\": "src/Composer/Installers"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Composer\\Installers\\Test\\": "tests/Composer/Installers/Test"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "@php phpunit"
+                ],
+                "phpstan": [
+                    "@php phpstan analyse"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle Robinson Young",
+                    "email": "kyle@dontkry.com",
+                    "homepage": "https://github.com/shama"
+                }
+            ],
+            "description": "Microweber fork of composer/installers (adds the microweber-module / microweber-template install paths). Replaces composer/installers.",
+            "keywords": [
+                "AGL",
+                "AnnotateCms",
+                "Attogram",
+                "Bitrix",
+                "CakePHP",
+                "Chef",
+                "Cockpit",
+                "CodeIgniter",
+                "ConcreteCMS",
+                "Croogo",
+                "DokuWiki",
+                "Dolibarr",
+                "Drupal",
+                "Elgg",
+                "Eliasis",
+                "ExpressionEngine",
+                "FuelPHP",
+                "Grav",
+                "Hurad",
+                "ImageCMS",
+                "Kanboard",
+                "Known",
+                "Kohana",
+                "Lan Management System",
+                "Laravel",
+                "Lavalite",
+                "Lithium",
+                "MODULEWork",
+                "MODX",
+                "MODX Evo",
+                "Magento",
+                "Mako",
+                "MantisBT",
+                "Matomo",
+                "Mautic",
+                "Maya",
+                "MediaWiki",
+                "Miaoxing",
+                "Moodle",
+                "OXID",
+                "PPI",
+                "Pantheon",
+                "Piwik",
+                "Plentymarkets",
+                "Porto",
+                "ProcessWire",
+                "Puppet",
+                "RadPHP",
+                "ReIndex",
+                "Roundcube",
+                "SMF",
+                "SilverStripe",
+                "Starbug",
+                "SyDES",
+                "Sylius",
+                "TastyIgniter",
+                "Thelia",
+                "WHMCS",
+                "WolfCMS",
+                "WordPress",
+                "YAWIK",
+                "Zend",
+                "Zikula",
+                "concrete5",
+                "eZ Platform",
+                "iTop",
+                "installer",
+                "majima",
+                "osclass",
+                "phpBB",
+                "pxcms",
+                "shopware"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-deps-arcanedev-php-html",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-deps-arcanedev-php-html",
+                "reference": "0cc5246a128f9f6b11ca931059965677948ce39c"
+            },
+            "require": {
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "replace": {
+                "arcanedev/php-html": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Arcanedev\\Html\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Arcanedev PHP-Html — Microweber fork with Laravel 13 support. Replaces arcanedev/php-html.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-deps-arcanedev-support",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-deps-arcanedev-support",
+                "reference": "c6379daaa70cc9c3f1f376a13be3b04471d9b9ec"
+            },
+            "require": {
+                "illuminate/contracts": "^11.0|^12.0|^13.0",
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "replace": {
+                "arcanedev/support": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Arcanedev\\Support\\": "src/"
+                },
+                "files": [
+                    "helpers.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Arcanedev Support — Microweber fork with Laravel 13 support. Replaces arcanedev/support.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-deps-laravel-repository",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-deps-laravel-repository",
+                "reference": "beed4b0f62f42bd829b99128f812568864aecbfa"
+            },
+            "require": {
+                "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "replace": {
+                "torann/laravel-repository": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Torann\\LaravelRepository\\": "src/"
+                }
+            },
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "Base repository implementation for Laravel — Microweber fork with Laravel 13 support. Replaces torann/laravel-repository.",
             "transport-options": {
                 "symlink": true,
                 "relative": true
