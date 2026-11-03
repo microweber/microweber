@@ -18,7 +18,6 @@
         "laravel/sanctum": "^4.0",
         "livewire/livewire": "^4.2"
     },
-    "require-dev": [],
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\App\\": "src/"

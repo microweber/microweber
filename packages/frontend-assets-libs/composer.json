@@ -12,7 +12,6 @@
         "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
-    "require-dev": [],
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\FrontendAssetsLibs\\": "src/"

@@ -22,15 +22,6 @@
         "orchestra/testbench": "^8.0|^9.0|^10.0",
         "phpunit/phpunit": "^10.0|^11.0"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../microweber-security",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\Format\\": "src/"

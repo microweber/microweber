@@ -31,15 +31,6 @@
     "suggest": {
         "microweber-packages/format": "Used by the @module Blade directive for HTML attribute encoding when a CMS parser is present"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../microweber-format",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\View\\": "src/"
