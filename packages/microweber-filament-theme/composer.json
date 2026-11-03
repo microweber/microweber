@@ -34,7 +34,6 @@
             "MicroweberPackages\\MicroweberFilamentTheme\\Tests\\": "tests/"
         }
     },
-    "scripts": [],
     "config": {
         "sort-packages": true,
         "allow-plugins": {

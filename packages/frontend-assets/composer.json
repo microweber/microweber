@@ -19,10 +19,8 @@
             "MicroweberPackages\\FrontendAssets\\Tests\\": "tests/"
         }
     },
-    "scripts": [],
     "config": {
-        "sort-packages": true,
-        "allow-plugins": []
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
