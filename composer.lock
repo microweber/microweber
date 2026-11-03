@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1d9c2460560abe51d0bbacc52c97047",
+    "content-hash": "848b086f5990ad5fb2de6b989e2c93fe",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -138,33 +138,6 @@
                 "source": "https://github.com/aawnu/php-ga4/releases/latest"
             },
             "time": "2026-08-06T15:49:29+00:00"
-        },
-        {
-            "name": "arcanedev/php-html",
-            "version": "9.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-deps-arcanedev-php-html",
-                "reference": "7a74db8690bd5fb388826453fb1073e49f1ccca0"
-            },
-            "require": {
-                "illuminate/support": "^11.0|^12.0|^13.0",
-                "php": "^8.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Arcanedev\\Html\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Arcanedev PHP-Html — Microweber fork with Laravel 13 support.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
         },
         {
             "name": "aws/aws-crt-php",
@@ -10147,6 +10120,36 @@
             }
         },
         {
+            "name": "microweber-packages/deps-arcanedev-php-html",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-deps-arcanedev-php-html",
+                "reference": "4ce21b8a16a0bfcedff2a5f01ff870cf08d4e9c1"
+            },
+            "require": {
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "replace": {
+                "arcanedev/php-html": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Arcanedev\\Html\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Arcanedev PHP-Html — Microweber fork with Laravel 13 support. Replaces arcanedev/php-html.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/deps-arcanedev-support",
             "version": "2.0.17.x-dev",
             "dist": {
@@ -10175,6 +10178,38 @@
                 "MIT"
             ],
             "description": "Arcanedev Support — Microweber fork with Laravel 13 support. Replaces arcanedev/support.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/deps-laravel-repository",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-deps-laravel-repository",
+                "reference": "628d6a619a6741b15923e78010818438f733ef96"
+            },
+            "require": {
+                "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "replace": {
+                "torann/laravel-repository": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Torann\\LaravelRepository\\": "src/"
+                }
+            },
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "Base repository implementation for Laravel — Microweber fork with Laravel 13 support. Replaces torann/laravel-repository.",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -24410,35 +24445,6 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.4.0"
             },
             "time": "2025-12-02T11:56:42+00:00"
-        },
-        {
-            "name": "torann/laravel-repository",
-            "version": "1.2.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-deps-laravel-repository",
-                "reference": "0a20ebf561c7dbff37a3f2b04c75375831538af8"
-            },
-            "require": {
-                "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Torann\\LaravelRepository\\": "src/"
-                }
-            },
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "description": "Base repository implementation for Laravel — Microweber fork with Laravel 13 support.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
         },
         {
             "name": "tucker-eric/eloquentfilter",

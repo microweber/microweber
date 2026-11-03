@@ -1,8 +1,10 @@
 {
-    "name": "arcanedev/php-html",
-    "description": "Arcanedev PHP-Html — Microweber fork with Laravel 13 support.",
+    "name": "microweber-packages/deps-arcanedev-php-html",
+    "description": "Arcanedev PHP-Html — Microweber fork with Laravel 13 support. Replaces arcanedev/php-html.",
     "license": "MIT",
-    "version": "9.0.0",
+    "replace": {
+        "arcanedev/php-html": "*"
+    },
     "require": {
         "php": "^8.2",
         "illuminate/support": "^11.0|^12.0|^13.0"
