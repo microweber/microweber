@@ -47,6 +47,7 @@
         "calebporzio/sushi": "^2.5",
         "composer/composer": "^2.9.3",
         "microweber-packages/composer-installers": "*",
+        "microweber-packages/deps-arcanedev-support": "*",
         "coolsam/flatpickr": "~5.0",
         "microweber-deps/filament-modules": "^1.0",
         "doctrine/dbal": "^4.2",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6db5bca6a44b8261d5cf77c5de6d2e61",
+    "content-hash": "a1d9c2460560abe51d0bbacc52c97047",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -161,37 +161,6 @@
                 "MIT"
             ],
             "description": "Arcanedev PHP-Html — Microweber fork with Laravel 13 support.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "arcanedev/support",
-            "version": "12.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-deps-arcanedev-support",
-                "reference": "3ced1ef780c4a8f12ec46815c0cf3c654ef7cc8a"
-            },
-            "require": {
-                "illuminate/contracts": "^11.0|^12.0|^13.0",
-                "illuminate/support": "^11.0|^12.0|^13.0",
-                "php": "^8.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Arcanedev\\Support\\": "src/"
-                },
-                "files": [
-                    "helpers.php"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Arcanedev Support — Microweber fork with Laravel 13 support.",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -10172,6 +10141,40 @@
             "support": {
                 "email": "support@microweber.com"
             },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/deps-arcanedev-support",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-deps-arcanedev-support",
+                "reference": "cadc8598b879d0ceee9d83094f661262d7209bce"
+            },
+            "require": {
+                "illuminate/contracts": "^11.0|^12.0|^13.0",
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "php": "^8.2"
+            },
+            "replace": {
+                "arcanedev/support": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Arcanedev\\Support\\": "src/"
+                },
+                "files": [
+                    "helpers.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Arcanedev Support — Microweber fork with Laravel 13 support. Replaces arcanedev/support.",
             "transport-options": {
                 "symlink": true,
                 "relative": true
