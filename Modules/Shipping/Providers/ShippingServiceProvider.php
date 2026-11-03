@@ -43,7 +43,12 @@ class ShippingServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
 
 
-        View::addNamespace('shipping', __DIR__ . '/../resources/views');
+        // Only register the 'shipping' view namespace when the dir exists — a
+        // missing hint path makes Blade's Finder throw during `view:cache`.
+        $shippingViews = __DIR__ . '/../resources/views';
+        if (is_dir($shippingViews)) {
+            View::addNamespace('shipping', $shippingViews);
+        }
 
 
         $this->app->singleton('shipping_method_manager', function ($app) {

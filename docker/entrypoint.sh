@@ -140,17 +140,19 @@ elif [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
     php artisan migrate --force --no-interaction 2>/dev/null || echo "Migration may have already run or database not ready"
 fi
 
-# Production optimization. Microweber is NOT compatible with the aggressive
-# Laravel caches, so we only do the safe one (icons):
+# Production optimization. Microweber is NOT compatible with Laravel's config/
+# route/event caches, so we run only the safe precompiles (icons + views):
 #   - config:cache  -> MW config holds non-serializable values (closures) -> throws
 #   - route:cache / event:cache -> closure routes/listeners -> serializable-closure OOM
-#   - view:cache    -> Filament panel component views (<x-filament-panels::...>)
-#                      only resolve inside a live panel request, so eager
-#                      precompilation can't locate them -> throws
-# The app runs correctly uncached; forcing these only produces broken/half caches.
+#   - view:cache    -> OK. Precompiles ALL Blade, Filament panel views included.
+#                      This used to throw, but the cause was dead Blade views and
+#                      a few providers registering non-existent resources/views
+#                      dirs (now fixed), not Filament itself. `|| true` keeps a
+#                      rare failure from blocking boot — the app renders uncached.
 if [ "${APP_ENV:-production}" = "production" ]; then
     echo "Optimizing for production..."
     php artisan icons:cache 2>/dev/null || true
+    php artisan view:cache || true
 fi
 
 # Create storage symlink
