@@ -14,7 +14,14 @@
         "php": "^8.3",
         "filament/filament": "~5.6",
         "laravel/framework": "^11.0|^13.0",
-        "livewire/livewire": "^4.2"
+        "livewire/livewire": "^4.2",
+        "microweber-packages/microweber-config-merge": "*",
+        "microweber-packages/microweber-package": "*",
+        "microweber-packages/microweber-taggable-file-cache": "*",
+        "microweber-packages/microweber-class-loader": "*",
+        "microweber-packages/microweber-laravel-templates": "*",
+        "microweber-packages/microweber-filament-registry": "*",
+        "microweber-packages/microweber-filament": "*"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",

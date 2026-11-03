@@ -15,7 +15,10 @@
         "filament/filament": "~5.6",
         "illuminate/database": "^11.0|^13.0",
         "illuminate/http": "^11.0|^13.0",
-        "illuminate/support": "^11.0|^13.0"
+        "illuminate/support": "^11.0|^13.0",
+        "microweber-packages/microweber-config-merge": "*",
+        "microweber-packages/microweber-filament-registry": "*",
+        "microweber-packages/microweber-admin": "*"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",

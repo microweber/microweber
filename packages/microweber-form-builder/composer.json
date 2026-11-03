@@ -13,7 +13,9 @@
     "require": {
         "php": "^8.3",
         "filament/filament": "~5.6",
-        "illuminate/support": "^11.0|^13.0"
+        "illuminate/support": "^11.0|^13.0",
+        "microweber-packages/microweber-filament": "*",
+        "microweber-packages/microweber-multilanguage": "*"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",

@@ -14,7 +14,25 @@
         "php": "^8.3",
         "illuminate/http": "^11.0|^13.0",
         "illuminate/support": "^11.0|^13.0",
-        "livewire/livewire": "^4.2"
+        "livewire/livewire": "^4.2",
+        "microweber-packages/microweber-template-custom-css": "*",
+        "microweber-packages/microweber-format": "*",
+        "microweber-packages/microweber-event-manager": "*",
+        "microweber-packages/microweber-minifier": "*",
+        "microweber-packages/microweber-config": "*",
+        "microweber-packages/microweber-install": "*",
+        "microweber-packages/microweber-db-installer": "*",
+        "microweber-packages/microweber-user": "*",
+        "microweber-packages/microweber-meta-tags": "*",
+        "microweber-packages/microweber-core": "*",
+        "microweber-packages/microweber-admin": "*",
+        "microweber-packages/microweber-zip": "*",
+        "microweber-packages/microweber-url": "*",
+        "microweber-packages/microweber-view": "*",
+        "microweber-packages/microweber-laravel-modules": "*",
+        "microweber-packages/microweber-laravel-templates": "*",
+        "microweber-packages/microweber-template-fonts": "*",
+        "microweber-packages/microweber-option": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0|^11.0|^12.0"

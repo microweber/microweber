@@ -18,7 +18,9 @@
         "microweber-packages/microweber-deps-laravel-repository": "*",
         "microweber-packages/laravel-helper-functions": "*",
         "microweber-packages/microweber-package": "*",
-        "spatie/laravel-package-tools": "^1.16"
+        "spatie/laravel-package-tools": "^1.16",
+        "microweber-packages/microweber-database": "*",
+        "microweber-packages/microweber-event-manager": "*"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",

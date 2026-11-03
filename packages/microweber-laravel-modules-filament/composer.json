@@ -33,5 +33,9 @@
     },
     "replace": {
         "microweber-packages/laravel-modules-filament": "*"
+    },
+    "require": {
+        "microweber-packages/microweber-filament-registry": "*",
+        "microweber-packages/microweber-laravel-modules": "*"
     }
 }

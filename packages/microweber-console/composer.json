@@ -13,7 +13,12 @@
     "require": {
         "php": "^8.3",
         "illuminate/console": "^11.0|^13.0",
-        "illuminate/support": "^11.0|^13.0"
+        "illuminate/support": "^11.0|^13.0",
+        "microweber-packages/microweber-system-licenses": "*",
+        "microweber-packages/microweber-laravel-modules": "*",
+        "microweber-packages/microweber-laravel-templates": "*",
+        "microweber-packages/microweber-db-installer": "*",
+        "microweber-packages/microweber-install": "*"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",

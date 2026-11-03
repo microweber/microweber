@@ -19,7 +19,13 @@
         "illuminate/filesystem": "^11.0|^13.0",
         "illuminate/http": "^11.0|^13.0",
         "illuminate/support": "^11.0|^13.0",
-        "livewire/livewire": "^4.2"
+        "livewire/livewire": "^4.2",
+        "microweber-packages/microweber-meta-tags": "*",
+        "microweber-packages/microweber-user": "*",
+        "microweber-packages/microweber-multilanguage": "*",
+        "microweber-packages/microweber-social-login": "*",
+        "microweber-packages/microweber-filament-theme": "*",
+        "microweber-packages/microweber-admin": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0|^11.0|^12.0"

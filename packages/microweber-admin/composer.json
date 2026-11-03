@@ -14,7 +14,20 @@
         "php": "^8.3",
         "filament/filament": "~5.6",
         "laravel/framework": "^11.0|^13.0",
-        "livewire/livewire": "^4.2"
+        "livewire/livewire": "^4.2",
+        "microweber-packages/microweber-template": "*",
+        "microweber-packages/microweber-user": "*",
+        "microweber-packages/microweber-multilanguage": "*",
+        "microweber-packages/microweber-livewire-modal": "*",
+        "microweber-packages/microweber-install": "*",
+        "microweber-packages/microweber-view": "*",
+        "microweber-packages/microweber-url": "*",
+        "microweber-packages/microweber-filament-registry": "*",
+        "microweber-packages/microweber-filament": "*",
+        "microweber-packages/microweber-live-edit": "*",
+        "microweber-packages/microweber-filament-theme": "*",
+        "microweber-packages/microweber-filament-modal-teleport": "*",
+        "microweber-packages/microweber-option": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0|^11.0|^12.0"
