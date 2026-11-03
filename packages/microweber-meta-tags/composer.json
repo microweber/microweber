@@ -12,11 +12,21 @@
     ],
     "require": {
         "php": "^8.3",
-        "illuminate/support": "^11.0|^13.0"
+        "illuminate/support": "^11.0|^13.0",
+        "butschster/meta-tags": "^3.2"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
     },
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\MetaTags\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\MetaTags\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

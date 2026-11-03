@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache">
+    <testsuites>
+        <testsuite name="Microweber Form Builder Package Tests">
+            <directory suffix="Test.php">./tests</directory>
+            <!-- The pre-existing tests/Unit suite targets the integrated CMS
+                 (extends the monorepo Tests\TestCase and resolves Microweber
+                 Filament custom components); it runs via the root phpunit.xml,
+                 not in this standalone Testbench harness. -->
+            <exclude>./tests/Unit</exclude>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+    </source>
+</phpunit>

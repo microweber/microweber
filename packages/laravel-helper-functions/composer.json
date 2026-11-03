@@ -11,6 +11,11 @@
             "src/helpers.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\LaravelHelperFunctions\\Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Peter Ivanov",
@@ -18,8 +23,13 @@
         }
     ],
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
     }
 }

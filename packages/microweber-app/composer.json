@@ -18,6 +18,9 @@
         "laravel/sanctum": "^4.0",
         "livewire/livewire": "^4.2"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\App\\": "src/"
@@ -27,6 +30,11 @@
             "src/functions/laravel.php",
             "src/functions/common.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\App\\StandaloneTests\\": "tests/"
+        }
     },
     "config": {
         "sort-packages": true

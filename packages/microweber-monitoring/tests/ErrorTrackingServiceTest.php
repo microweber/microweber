@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MicroweberPackages\Monitoring\Tests;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Monitoring\Services\ErrorTrackingService;
 use PHPUnit\Framework\Attributes\Test;
-use Tests\TestCase;
 
 /**
  * Covers the error-tracking service: insert, de-duplication (shared by
@@ -28,7 +29,7 @@ class ErrorTrackingServiceTest extends TestCase
         $e = new \RuntimeException($this->marker . uniqid());
 
         $id1 = $svc->trackException($e);
-        $id2 = $svc->trackException($e); // same message+file+line → dedupe
+        $id2 = $svc->trackException($e); // same message+file+line -> dedupe
 
         $this->assertIsInt($id1);
         $this->assertSame($id1, $id2, 'repeat exception should update, not insert');
@@ -67,15 +68,5 @@ class ErrorTrackingServiceTest extends TestCase
         $this->assertNull(Cache::get('monitoring:error_stats:today'), 'period cache should be cleared');
         $after = $svc->getErrorStats('today')['total'];
         $this->assertSame($before + 1, $after);
-    }
-
-    protected function tearDown(): void
-    {
-        DB::table('error_tracking')->where('message', 'like', $this->marker . '%')->delete();
-        foreach (['today', 'week', 'month'] as $p) {
-            Cache::forget("monitoring:error_stats:{$p}");
-        }
-
-        parent::tearDown();
     }
 }

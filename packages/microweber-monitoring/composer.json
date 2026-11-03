@@ -18,9 +18,18 @@
         "illuminate/support": "^11.0|^13.0",
         "microweber-packages/microweber-filament-registry": "*"
     },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\Monitoring\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Monitoring\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

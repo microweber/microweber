@@ -24,6 +24,10 @@
         "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\MicroweberFilamentTheme\\": "src/"

@@ -14,9 +14,18 @@
         "php": "^8.3",
         "laravel/framework": "^11.0|^13.0"
     },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\Option\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Option\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

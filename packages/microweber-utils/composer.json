@@ -13,9 +13,18 @@
     "require": {
         "php": "^8.3"
     },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\Utils\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Utils\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

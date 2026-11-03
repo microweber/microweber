@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache">
+    <testsuites>
+        <testsuite name="Microweber Dusk Package Tests">
+            <directory suffix="Test.php">./tests</directory>
+            <!-- The browser suite needs a live Chrome/ChromeDriver + a running
+                 Microweber server and the monorepo Tests\CreatesApplication; it
+                 runs via php artisan dusk, not in this standalone harness. -->
+            <exclude>./tests/Browser</exclude>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+    </source>
+</phpunit>

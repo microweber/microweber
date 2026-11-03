@@ -21,9 +21,17 @@
         "illuminate/support": "^11.0|^13.0",
         "livewire/livewire": "^4.2"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\Filament\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Filament\\StandaloneTests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

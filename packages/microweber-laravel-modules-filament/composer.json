@@ -7,9 +7,18 @@
             "email": "info@microweber.com"
         }
     ],
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\LaravelModulesFilament\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\LaravelModulesFilament\\Tests\\": "tests/"
         }
     },
     "config": {

@@ -17,9 +17,18 @@
         "illuminate/support": "^11.0|^13.0",
         "livewire/livewire": "^4.2"
     },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.0|^11.0|^12.0"
+    },
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\Frontend\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\Frontend\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
