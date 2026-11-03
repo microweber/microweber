@@ -16,7 +16,8 @@
         "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
         "enshrined/svg-sanitize": "^0.22|^1.0",
         "microweber-packages/microweber-package": "*",
-        "spatie/laravel-package-tools": "^1.16"
+        "spatie/laravel-package-tools": "^1.16",
+        "microweber-packages/microweber-file-uploader": "*"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",

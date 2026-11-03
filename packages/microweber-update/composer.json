@@ -13,7 +13,8 @@
     "require": {
         "php": "^8.3",
         "illuminate/support": "^11.0|^13.0",
-        "illuminate/database": "^11.0|^13.0"
+        "illuminate/database": "^11.0|^13.0",
+        "microweber-packages/microweber-package": "*"
     },
     "autoload": {
         "psr-4": {
