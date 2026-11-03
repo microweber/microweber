@@ -144,7 +144,9 @@ fi
 # Laravel caches, so we only do the safe one (icons):
 #   - config:cache  -> MW config holds non-serializable values (closures) -> throws
 #   - route:cache / event:cache -> closure routes/listeners -> serializable-closure OOM
-#   - view:cache    -> an orphan view uses <x-app-layout> (unregistered) -> throws
+#   - view:cache    -> Filament panel component views (<x-filament-panels::...>)
+#                      only resolve inside a live panel request, so eager
+#                      precompilation can't locate them -> throws
 # The app runs correctly uncached; forcing these only produces broken/half caches.
 if [ "${APP_ENV:-production}" = "production" ]; then
     echo "Optimizing for production..."

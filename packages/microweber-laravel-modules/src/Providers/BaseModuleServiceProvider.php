@@ -94,7 +94,17 @@ abstract class BaseModuleServiceProvider extends MicroweberPackageServiceProvide
 
         $this->publishes([$sourcePath => $viewPath], ['views', $this->moduleNameLower . '-module-views']);
 
-        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), 'modules.' . $this->moduleNameLower);
+        // Only register the module's own views dir as a hint when it actually
+        // exists — many modules ship no resources/views. Registering a missing
+        // path makes Blade's Finder throw during `view:cache` ("directory does
+        // not exist"), which broke production view caching. (registerViews'
+        // sibling registerTranslations() already guards the same way.)
+        $viewPaths = $this->getPublishableViewPaths();
+        if (is_dir($sourcePath)) {
+            $viewPaths[] = $sourcePath;
+        }
+
+        $this->loadViewsFrom($viewPaths, 'modules.' . $this->moduleNameLower);
 
         $componentNamespace = str_replace('/', '\\', config('modules.namespace') . '\\' . $this->moduleName . '\\' . ltrim(config('modules.paths.generator.component-class.path'), config('modules.paths.app_folder', '')));
         Blade::componentNamespace($componentNamespace, 'modules.' . $this->moduleNameLower);
