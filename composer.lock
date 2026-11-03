@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7238dfbc824cfd7eebf36a0d206132e3",
+    "content-hash": "db2b6db66df8632f80336d08a407a3f4",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -11336,6 +11336,70 @@
             }
         },
         {
+            "name": "microweber-packages/microweber-package",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-package",
+                "reference": "64814f260fcbf5ce09e2c002c9983b50f9bb15a8"
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/package": "*"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "livewire/livewire": "Enables ModulePackage Live Edit / view component registration when the CMS ModuleAdmin facade is present",
+                "microweber-packages/filament-registry": "Enables ModulePackage Filament page/resource/widget/plugin registration"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Package\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Package\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M -c phpstan.neon.dist"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Microweber package loader based on spatie/laravel-package-tools. Provides an abstract service provider and optional CMS module registration helpers for use inside the CMS or any Laravel app.",
+            "homepage": "https://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/microweber-ui",
             "version": "1.0.0",
             "dist": {
@@ -11838,67 +11902,6 @@
             ],
             "description": "Microweber CMS.",
             "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/package",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-package",
-                "reference": "fa607803d9b8bd04f69c753562b01337407d6921"
-            },
-            "require": {
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpstan/phpstan": "^2.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "suggest": {
-                "livewire/livewire": "Enables ModulePackage Live Edit / view component registration when the CMS ModuleAdmin facade is present",
-                "microweber-packages/filament-registry": "Enables ModulePackage Filament page/resource/widget/plugin registration"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Package\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\Package\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M -c phpstan.neon.dist"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Standalone Microweber package loader based on spatie/laravel-package-tools. Provides an abstract service provider and optional CMS module registration helpers for use inside the CMS or any Laravel app.",
-            "homepage": "https://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
             "transport-options": {
                 "symlink": true,
                 "relative": true

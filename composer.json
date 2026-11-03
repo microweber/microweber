@@ -190,7 +190,7 @@
         "microweber-packages/package-manager-client": "*@dev",
         "microweber-packages/notification": "^1.0",
         "microweber-packages/ai-tools": "*@dev",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "microweber-packages/module-registry": "^1.0",
         "microweber-packages/module": "^1.0",
         "microweber-packages/livewire-modal": "^1.0",
@@ -487,7 +487,7 @@
                 "MicroweberPackages\\App\\Providers\\AppServiceProvider"
             ],
             "dont-discover": [
-                "microweber-packages/package",
+                "microweber-packages/microweber-package",
                 "microweber-packages/module-registry",
                 "microweber-packages/core",
                 "microweber-packages/filesystem",

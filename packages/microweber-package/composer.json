@@ -1,9 +1,11 @@
 {
-    "name": "microweber-packages/package",
+    "name": "microweber-packages/microweber-package",
     "description": "Standalone Microweber package loader based on spatie/laravel-package-tools. Provides an abstract service provider and optional CMS module registration helpers for use inside the CMS or any Laravel app.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
+    "replace": {
+        "microweber-packages/package": "*"
+    },
     "homepage": "https://microweber.com",
     "authors": [
         {
