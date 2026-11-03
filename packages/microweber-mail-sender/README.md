@@ -1,4 +1,4 @@
-# microweber-packages/mail-sender
+# microweber-packages/microweber-mail-sender
 
 Standalone Laravel package for sending transactional email via configurable
 transports (SMTP, PHP `mail()`, Gmail, cPanel, Plesk). Extracted from the
@@ -7,7 +7,7 @@ Microweber CMS `MailSender` so it can be reused in any Laravel application.
 ## Install
 
 ```bash
-composer require microweber-packages/mail-sender
+composer require microweber-packages/microweber-mail-sender
 ```
 
 Register the service provider (or rely on CoreServiceProvider / auto-discovery):

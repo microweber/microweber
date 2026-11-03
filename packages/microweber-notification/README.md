@@ -1,4 +1,4 @@
-# microweber-packages/notification
+# microweber-packages/microweber-notification
 
 Standalone Laravel package for database notifications, the `AppMailChannel`
 mail delivery channel, admin notification management, and mail logs. Extracted
@@ -8,7 +8,7 @@ Laravel application (with dependent packages such as `mail-sender`).
 ## Install
 
 ```bash
-composer require microweber-packages/notification
+composer require microweber-packages/microweber-notification
 ```
 
 Register the service provider (auto-discovery is supported):
@@ -90,7 +90,7 @@ See `config/microweber-notification.php`.
 
 ## Dependent packages
 
-- [microweber-packages/mail-sender](../microweber-mail-sender) — mail transport for `AppMailChannel` and test mail
+- [microweber-packages/microweber-mail-sender](https://github.com/microweber-packages/microweber-mail-sender) — mail transport for `AppMailChannel` and test mail
 
 Optional:
 

@@ -5,7 +5,7 @@ A reusable Laravel package providing the repository pattern with built-in cachin
 ## Installation
 
 ```bash
-composer require microweber-packages/repository
+composer require microweber-packages/microweber-repository
 ```
 
 The service provider is auto-discovered by Laravel.

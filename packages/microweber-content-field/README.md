@@ -1,11 +1,11 @@
-# microweber-packages/content-field
+# microweber-packages/microweber-content-field
 
 Standalone content-field persistence layer for Laravel. Manages `content_fields` and `content_fields_drafts` tables — the storage backend for live-edit editable regions and multilanguage field values.
 
 ## Installation
 
 ```bash
-composer require microweber-packages/content-field
+composer require microweber-packages/microweber-content-field
 ```
 
 The package auto-discovers its service provider. If you disable auto-discovery, add the provider to `config/app.php`:

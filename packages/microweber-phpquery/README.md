@@ -5,7 +5,7 @@ A server-side, chainable, CSS3 selector driven DOM API based on jQuery. Standalo
 ## Installation
 
 ```bash
-composer require microweber-packages/phpquery
+composer require microweber-packages/microweber-phpquery
 ```
 
 The service provider and facade are auto-discovered by Laravel.

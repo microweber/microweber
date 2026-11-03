@@ -1,4 +1,4 @@
-# microweber-packages/module-registry
+# microweber-packages/microweber-module-registry
 
 Standalone Laravel package that provides the Microweber **module registry**: register modules, render them, discover blade skins/templates, and integrate with Live Edit settings.
 
@@ -7,7 +7,7 @@ Usable **inside the Microweber CMS** or in any **standalone Laravel application*
 ## Installation
 
 ```bash
-composer require microweber-packages/module-registry
+composer require microweber-packages/microweber-module-registry
 ```
 
 The service provider auto-discovers. If you disable discovery, register:

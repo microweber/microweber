@@ -1,4 +1,4 @@
-# microweber-packages/package-manager-client
+# microweber-packages/microweber-package-manager-client
 
 Standalone Composer package manager client for **Microweber CMS** and any **Laravel** application.
 
@@ -17,7 +17,7 @@ Standalone Composer package manager client for **Microweber CMS** and any **Lara
 ## Install
 
 ```bash
-composer require microweber-packages/package-manager-client
+composer require microweber-packages/microweber-package-manager-client
 ```
 
 Path repository (monorepo):

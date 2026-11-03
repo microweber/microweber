@@ -16,7 +16,7 @@ Works as a drop-in for `wire-elements/modal` (`livewire-ui-modal` / `wire-elemen
 ## Installation
 
 ```bash
-composer require microweber-packages/livewire-modal
+composer require microweber-packages/microweber-livewire-modal
 ```
 
 Laravel auto-discovers the service provider. Publish config/views if needed:

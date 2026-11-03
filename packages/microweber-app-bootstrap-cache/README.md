@@ -12,7 +12,7 @@ optionally your application version) in the cache file names.
 ## Installation
 
 ```bash
-composer require microweber-packages/app-bootstrap-cache
+composer require microweber-packages/microweber-app-bootstrap-cache
 ```
 
 ## Usage

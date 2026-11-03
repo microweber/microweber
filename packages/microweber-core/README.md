@@ -30,7 +30,7 @@ as its very first statement, so every package loads before the rest of the app.
 ### In a standalone Laravel app
 
 ```bash
-composer require microweber-packages/core
+composer require microweber-packages/microweber-core
 ```
 
 Add to `bootstrap/providers.php` (Laravel 11+):

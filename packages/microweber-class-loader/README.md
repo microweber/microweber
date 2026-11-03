@@ -1,4 +1,4 @@
-# microweber-packages/class-loader
+# microweber-packages/microweber-class-loader
 
 Standalone **instance-based** class loader for Laravel applications.
 
@@ -12,7 +12,7 @@ Replaces the CMS-entangled static `ClassLoader` / `SplClassLoader` with a reusab
 ## Installation
 
 ```bash
-composer require microweber-packages/class-loader
+composer require microweber-packages/microweber-class-loader
 ```
 
 Register the provider (Microweber CMS does this via `CoreServiceProvider`):

@@ -5,7 +5,7 @@ A standalone `.env` file writer for Laravel. Reads, updates and appends key-valu
 ## Installation
 
 ```bash
-composer require microweber-packages/env-writer
+composer require microweber-packages/microweber-env-writer
 ```
 
 The service provider is auto-discovered by Laravel.

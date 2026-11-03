@@ -1,4 +1,4 @@
-# microweber-packages/ai-tools
+# microweber-packages/microweber-ai-tools
 
 Standalone Laravel package providing an AI **tool-calling framework**:
 
@@ -13,10 +13,10 @@ register into the shared registry via `RegistersAiTools`.
 ## Install (standalone Laravel app)
 
 ```bash
-composer require microweber-packages/ai-tools
+composer require microweber-packages/microweber-ai-tools
 ```
 
-Register the provider (or load via `microweber-packages/core`):
+Register the provider (or load via `microweber-packages/microweber-core`):
 
 ```php
 // bootstrap/providers.php or config/app.php

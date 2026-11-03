@@ -14,7 +14,7 @@ Standalone Laravel package for **template CSS management**:
 ## Installation
 
 ```bash
-composer require microweber-packages/template-custom-css
+composer require microweber-packages/microweber-template-custom-css
 ```
 
 Publish config (optional):

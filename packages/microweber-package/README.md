@@ -1,4 +1,4 @@
-# microweber-packages/package
+# microweber-packages/microweber-package
 
 Standalone Microweber package loader built on [spatie/laravel-package-tools](https://github.com/spatie/laravel-package-tools).
 
@@ -15,7 +15,7 @@ Use this package as the base for every Microweber library under `packages/*`, an
 ## Installation
 
 ```bash
-composer require microweber-packages/package
+composer require microweber-packages/microweber-package
 ```
 
 ## Usage in a package
@@ -60,7 +60,7 @@ When FilamentRegistry / ModuleAdmin are not installed, those calls are no-ops.
 
 ## Standalone Laravel
 
-1. `composer require microweber-packages/package`
+1. `composer require microweber-packages/microweber-package`
 2. Extend `MicroweberPackageServiceProvider` in your package
 3. Register your concrete provider in `bootstrap/providers.php` or via package auto-discovery
 

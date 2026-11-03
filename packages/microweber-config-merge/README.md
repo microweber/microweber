@@ -1,4 +1,4 @@
-# microweber-packages/config-merge
+# microweber-packages/microweber-config-merge
 
 Package-priority config merging for Laravel service providers.
 
@@ -11,7 +11,7 @@ This package inverts that behaviour: the **package/module** config values take p
 ## Installation
 
 ```bash
-composer require microweber-packages/config-merge
+composer require microweber-packages/microweber-config-merge
 ```
 
 ## Usage

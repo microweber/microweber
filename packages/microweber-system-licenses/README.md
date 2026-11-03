@@ -5,7 +5,7 @@ Standalone Laravel package for managing software licenses. Provides a `SystemLic
 ## Installation
 
 ```bash
-composer require microweber-packages/system-licenses
+composer require microweber-packages/microweber-system-licenses
 ```
 
 The package auto-discovers its service provider. Run migrations:

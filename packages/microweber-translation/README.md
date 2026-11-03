@@ -5,7 +5,7 @@ A standalone Laravel package for managing translations with database storage, im
 ## Installation
 
 ```bash
-composer require microweber-packages/translation
+composer require microweber-packages/microweber-translation
 ```
 
 ## Setup

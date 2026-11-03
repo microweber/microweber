@@ -13,7 +13,7 @@ Standalone Laravel package for generating and serving placeholder (pixum) PNG im
 ## Installation
 
 ```bash
-composer require microweber-packages/media-pixum
+composer require microweber-packages/microweber-media-pixum
 ```
 
 The package auto-discovers its service provider. Publish the config:

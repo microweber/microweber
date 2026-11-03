@@ -13,7 +13,7 @@ The root `composer.json` already references this package via `path` repository. 
 ### Standalone (any Laravel app)
 
 ```bash
-composer require microweber-packages/svg-icons
+composer require microweber-packages/microweber-svg-icons
 ```
 
 ## Usage
@@ -48,7 +48,7 @@ To serve icons via public URL:
 php artisan vendor:publish --tag=mw-svg-icons --force
 ```
 
-Icons will be available at `/vendor/microweber-packages/svg-icons/<name>.svg`.
+Icons will be available at `/vendor/microweber-packages/microweber-svg-icons/<name>.svg`.
 
 ## Available icons
 

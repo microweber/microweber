@@ -5,7 +5,7 @@ A custom file cache driver for Laravel that supports Cache Tags with a file-base
 ## Installation
 
 ```
-composer require microweber-packages/taggable-file-cache
+composer require microweber-packages/microweber-taggable-file-cache
 ```
 
 The service provider is auto-discovered. If you need to register it manually:

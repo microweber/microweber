@@ -1,4 +1,4 @@
-# microweber-packages/zip
+# microweber-packages/microweber-zip
 
 Standalone Laravel package for creating and extracting ZIP archives with:
 
@@ -10,7 +10,7 @@ Standalone Laravel package for creating and extracting ZIP archives with:
 ## Install
 
 ```bash
-composer require microweber-packages/zip
+composer require microweber-packages/microweber-zip
 ```
 
 When used as a path repository inside the Microweber monorepo:

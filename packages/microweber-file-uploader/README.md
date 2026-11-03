@@ -16,7 +16,7 @@ A standalone Laravel package for secure file uploads with comprehensive validati
 ## Installation
 
 ```bash
-composer require microweber-packages/file-uploader
+composer require microweber-packages/microweber-file-uploader
 ```
 
 The package auto-discovers its service provider and facade.

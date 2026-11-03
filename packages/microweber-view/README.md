@@ -15,7 +15,7 @@ Reusable Laravel package extracted from Microweber CMS.
 ## Install (standalone Laravel)
 
 ```bash
-composer require microweber-packages/view
+composer require microweber-packages/microweber-view
 ```
 
 Register the service provider (auto-discovered unless disabled):

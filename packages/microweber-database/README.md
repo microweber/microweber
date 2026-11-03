@@ -5,7 +5,7 @@ A reusable Laravel package providing database management utilities, CRUD helpers
 ## Installation
 
 ```bash
-composer require microweber-packages/database
+composer require microweber-packages/microweber-database
 ```
 
 ## Features

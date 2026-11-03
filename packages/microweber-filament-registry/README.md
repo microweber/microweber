@@ -5,7 +5,7 @@ A standalone Laravel package for dynamically registering Filament panel componen
 ## Installation
 
 ```bash
-composer require microweber-packages/filament-registry
+composer require microweber-packages/microweber-filament-registry
 ```
 
 The service provider auto-registers via Laravel's package discovery.

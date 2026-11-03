@@ -5,7 +5,7 @@ Cache expensive Blade fragments with a simple `@cache` / `@endcache` directive.
 ## Installation
 
 ```bash
-composer require microweber-packages/blade-cache
+composer require microweber-packages/microweber-blade-cache
 ```
 
 The service provider is auto-discovered.

@@ -12,7 +12,7 @@ Standalone Laravel package for media thumbnail caching and on-demand generation.
 ## Installation
 
 ```bash
-composer require microweber-packages/media-thumbnail
+composer require microweber-packages/microweber-media-thumbnail
 ```
 
 The package auto-discovers its service provider. Publish the config and migration:
@@ -25,7 +25,7 @@ php artisan migrate
 
 ## Dependencies
 
-- `microweber-packages/thumbnailer` — the low-level image thumbnail generator (GD-based).
+- `microweber-packages/microweber-thumbnailer` — the low-level image thumbnail generator (GD-based).
 
 ## Configuration
 

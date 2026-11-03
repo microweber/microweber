@@ -5,7 +5,7 @@ A reusable Laravel package providing HTML sanitization, XSS cleaning, and stored
 ## Installation
 
 ```bash
-composer require microweber-packages/security
+composer require microweber-packages/microweber-security
 ```
 
 The package auto-discovers its service provider via Laravel's package discovery.

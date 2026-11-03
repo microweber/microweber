@@ -5,7 +5,7 @@ Reusable Laravel formatting & utility package – dates, strings, arrays, encodi
 ## Installation
 
 ```bash
-composer require microweber-packages/format
+composer require microweber-packages/microweber-format
 ```
 
 ## Usage

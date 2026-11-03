@@ -9,7 +9,7 @@ A standalone Laravel package that extends the default config repository with:
 ## Installation
 
 ```bash
-composer require microweber-packages/config
+composer require microweber-packages/microweber-config
 ```
 
 The package auto-registers its service provider via Laravel's package discovery.

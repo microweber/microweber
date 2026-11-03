@@ -13,7 +13,7 @@ Standalone Laravel package for **JavaScript** and **CSS** minification. Extracte
 ## Installation
 
 ```bash
-composer require microweber-packages/minifier
+composer require microweber-packages/microweber-minifier
 ```
 
 The service provider is auto-discovered. Publish the config if needed:

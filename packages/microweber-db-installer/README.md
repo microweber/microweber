@@ -6,10 +6,10 @@ The Microweber database installer, extracted from the CMS install system.
 
 1. ensures the `sessions` and `migrations` tables exist,
 2. runs the custom migrator (`app()->mw_migrator`, provided by
-   [`microweber-packages/db-migrator`](../microweber-db-migrator)),
+   [`microweber-packages/microweber-db-migrator`](https://github.com/microweber-packages/microweber-db-migrator)),
 3. builds each array-defined system table via the database table builder
    (`MicroweberPackages\Database\Utils::build_table` — the single source of
-   truth for the array→table engine, from `microweber-packages/database`),
+   truth for the array→table engine, from `microweber-packages/microweber-database`),
 4. seeds the system data.
 
 ## Relationship to other packages

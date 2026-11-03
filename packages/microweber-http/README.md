@@ -5,7 +5,7 @@ A standalone Laravel HTTP client package with Guzzle/cURL adapters, SSL enforcem
 ## Installation
 
 ```bash
-composer require microweber-packages/http
+composer require microweber-packages/microweber-http
 ```
 
 ## Usage

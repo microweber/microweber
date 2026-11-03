@@ -47,7 +47,7 @@ If you are using Laravel 10 please use [version 3.x](https://github.com/savannab
 You can install the package via composer:
 
 ```bash
-composer require coolsam/modules:^4
+composer require microweber-packages/microweber-modules
 ```
 
 This will automatically install `nwidart/laravel-modules: ^11` as well. Make sure you go through

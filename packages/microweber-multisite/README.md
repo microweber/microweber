@@ -1,4 +1,4 @@
-# Multisite (microweber-packages/multisite)
+# Multisite (microweber-packages/microweber-multisite)
 
 Per-domain multisite isolation for Laravel — and Microweber on top of it. One
 checkout of the codebase serves **N independent sites**, each with its own
@@ -7,7 +7,7 @@ checkout of the codebase serves **N independent sites**, each with its own
 
 It is a standalone Laravel package (Spatie package-tools) and can be used in a
 clean Laravel app as a proof of concept. It depends on
-[`microweber-packages/env-writer`](../microweber-env-writer) to write each
+[`microweber-packages/microweber-env-writer`](https://github.com/microweber-packages/microweber-env-writer) to write each
 domain's `.env.<domain>` credentials.
 
 ## How a site is resolved
@@ -58,7 +58,7 @@ Each subsystem is toggleable in `config/multisite.php` (`isolate.*`).
 ## Clean-Laravel PoC
 
 ```bash
-composer require microweber-packages/multisite
+composer require microweber-packages/microweber-multisite
 ```
 
 Enable media isolation without Microweber by turning on the public disk in

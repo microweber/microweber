@@ -5,7 +5,7 @@ A standalone event manager package for Laravel. Provides a simple event binding 
 ## Installation
 
 ```bash
-composer require microweber-packages/event-manager
+composer require microweber-packages/microweber-event-manager
 ```
 
 The service provider will be auto-discovered by Laravel.

@@ -5,7 +5,7 @@ A reusable Laravel package for URL management, slug generation, URL security val
 ## Installation
 
 ```bash
-composer require microweber-packages/url
+composer require microweber-packages/microweber-url
 ```
 
 The package uses Laravel auto-discovery, so the service provider will be registered automatically.

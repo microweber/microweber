@@ -5,7 +5,7 @@ A standalone Laravel package that adds searchable field definitions to Eloquent 
 ## Installation
 
 ```bash
-composer require microweber-packages/searchable
+composer require microweber-packages/microweber-searchable
 ```
 
 ## Usage

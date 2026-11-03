@@ -13,15 +13,15 @@ application.
 The service provider binds it to the container as `mw_migrator`.
 
 > The database installer orchestration lives in
-> [`microweber-packages/db-installer`](../microweber-db-installer), and the
-> array→table builder lives in `microweber-packages/database`
+> [`microweber-packages/microweber-db-installer`](https://github.com/microweber-packages/microweber-db-installer), and the
+> array→table builder lives in `microweber-packages/microweber-database`
 > (`MicroweberPackages\Database\Utils::build_table`). This package is the
 > migrator only.
 
 ## Installation
 
 ```bash
-composer require microweber-packages/db-migrator
+composer require microweber-packages/microweber-db-migrator
 ```
 
 The package auto-discovers its service provider. If you need to register manually:

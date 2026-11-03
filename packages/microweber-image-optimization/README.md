@@ -14,7 +14,7 @@ Works in Microweber CMS and in any standalone Laravel application.
 ## Installation
 
 ```bash
-composer require microweber-packages/image-optimization
+composer require microweber-packages/microweber-image-optimization
 ```
 
 The service provider is auto-discovered. Publish the config if needed:

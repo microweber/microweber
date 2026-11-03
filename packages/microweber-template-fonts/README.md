@@ -1,4 +1,4 @@
-# microweber-packages/template-fonts
+# microweber-packages/microweber-template-fonts
 
 Standalone Laravel package for template font management:
 
@@ -13,7 +13,7 @@ Standalone Laravel package for template font management:
 ## Install
 
 ```bash
-composer require microweber-packages/template-fonts
+composer require microweber-packages/microweber-template-fonts
 php artisan migrate
 ```
 
@@ -22,7 +22,7 @@ Or path-repo in a monorepo:
 ```json
 {
   "repositories": [{ "type": "path", "url": "packages/microweber-template-fonts" }],
-  "require": { "microweber-packages/template-fonts": "^1.0" }
+  "require": { "microweber-packages/microweber-template-fonts": "^1.0" }
 }
 ```
 
