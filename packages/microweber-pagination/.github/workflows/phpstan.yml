@@ -1,0 +1,30 @@
+name: PHPStan
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  phpstan:
+    name: PHPStan (PHP 8.4)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction --no-progress
+      - name: Install PHPStan + Larastan
+        run: composer require --dev --no-interaction --no-progress "larastan/larastan:^3.0" || composer require --dev --no-interaction --no-progress "phpstan/phpstan:^2.0"
+      - name: Run PHPStan
+        continue-on-error: true
+        run: |
+          if [ ! -f phpstan.neon ] && [ ! -f phpstan.neon.dist ]; then
+            printf "parameters:\n  level: 3\n  paths:\n    - src\n" > phpstan.neon
+          fi
+          vendor/bin/phpstan analyse --no-progress --memory-limit=1G
