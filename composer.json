@@ -46,7 +46,7 @@
         "butschster/meta-tags": "^3.2",
         "calebporzio/sushi": "^2.5",
         "composer/composer": "^2.9.3",
-        "composer/installers": "dev-master",
+        "microweber-packages/composer-installers": "*",
         "coolsam/flatpickr": "~5.0",
         "microweber-deps/filament-modules": "^1.0",
         "doctrine/dbal": "^4.2",
@@ -561,6 +561,7 @@
         "sort-packages": false,
         "allow-plugins": {
             "composer/installers": true,
+            "microweber-packages/composer-installers": true,
             "php-http/discovery": true,
             "wikimedia/composer-merge-plugin": true,
             "dealerdirect/phpcodesniffer-composer-installer": true
@@ -698,12 +699,11 @@
             }
         },
         {
-            "type": "vcs",
-            "url": "https://github.com/peter-mw/installers",
-            "canonical": true,
-            "only": [
-                "composer/installers"
-            ]
+            "type": "path",
+            "url": "packages/microweber-composer-installers",
+            "options": {
+                "symlink": true
+            }
         },
         {
             "type": "path",

@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Unsafe access to private property Composer\\\\Installers\\\\BitrixInstaller\\:\\:\\$checkedDuplicates through static\\:\\:\\.$#"
+			count: 2
+			path: src/Composer/Installers/BitrixInstaller.php

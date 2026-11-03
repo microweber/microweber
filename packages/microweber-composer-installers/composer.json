@@ -1,0 +1,119 @@
+{
+    "name": "microweber-packages/composer-installers",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "description": "Microweber fork of composer/installers (adds the microweber-module / microweber-template install paths). Replaces composer/installers.",
+    "replace": {
+        "composer/installers": "*"
+    },
+    "keywords": [
+        "installer",
+        "AGL",
+        "AnnotateCms",
+        "Attogram",
+        "Bitrix",
+        "CakePHP",
+        "Chef",
+        "Cockpit",
+        "CodeIgniter",
+        "concrete5",
+        "ConcreteCMS",
+        "Croogo",
+        "DokuWiki",
+        "Dolibarr",
+        "Drupal",
+        "Elgg",
+        "Eliasis",
+        "ExpressionEngine",
+        "eZ Platform",
+        "FuelPHP",
+        "Grav",
+        "Hurad",
+        "ImageCMS",
+        "iTop",
+        "Kanboard",
+        "Known",
+        "Kohana",
+        "Lan Management System",
+        "Laravel",
+        "Lavalite",
+        "Lithium",
+        "Magento",
+        "majima",
+        "Mako",
+        "MantisBT",
+        "Matomo",
+        "Mautic",
+        "Maya",
+        "MODX",
+        "MODX Evo",
+        "MediaWiki",
+        "Miaoxing",
+        "OXID",
+        "osclass",
+        "MODULEWork",
+        "Moodle",
+        "Pantheon",
+        "Piwik",
+        "pxcms",
+        "phpBB",
+        "Plentymarkets",
+        "PPI",
+        "Puppet",
+        "Porto",
+        "ProcessWire",
+        "RadPHP",
+        "ReIndex",
+        "Roundcube",
+        "shopware",
+        "SilverStripe",
+        "SMF",
+        "Starbug",
+        "SyDES",
+        "Sylius",
+        "TastyIgniter",
+        "Thelia",
+        "WHMCS",
+        "WolfCMS",
+        "WordPress",
+        "YAWIK",
+        "Zend",
+        "Zikula"
+    ],
+    "authors": [
+        {
+            "name": "Kyle Robinson Young",
+            "email": "kyle@dontkry.com",
+            "homepage": "https://github.com/shama"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Composer\\Installers\\": "src/Composer/Installers" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Composer\\Installers\\Test\\": "tests/Composer/Installers/Test" }
+    },
+    "extra": {
+        "class": "Composer\\Installers\\Plugin",
+        "branch-alias": {
+            "dev-main": "2.x-dev"
+        },
+        "plugin-modifies-install-path": true
+    },
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "composer-plugin-api": "^1.0 || ^2.0"
+    },
+    "require-dev": {
+        "composer/composer": "^1.10.27 || ^2.7.8",
+        "composer/semver": "^1.7.2 || ^3.4.2",
+        "phpunit/phpunit": "^8.5.39 || ^9.6.20",
+        "phpstan/phpstan": "^1.11.11",
+        "symfony/process": "^5 || ^6 || ^7.1.3",
+        "phpstan/phpstan-phpunit": "^1.4"
+    },
+    "scripts": {
+        "test": "@php phpunit",
+        "phpstan": "@php phpstan analyse"
+    }
+}

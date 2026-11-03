@@ -1,0 +1,58 @@
+name: "Continuous Integration"
+
+on:
+  - push
+  - pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: "CI"
+
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+
+    strategy:
+      matrix:
+        php-version:
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+          - "8.1"
+          - "8.2"
+          - "8.3"
+          - "8.4"
+        dependencies: [highest]
+        experimental: [false]
+        os: [ubuntu-latest]
+        include:
+          - php-version: "7.2"
+            dependencies: lowest
+            os: ubuntu-latest
+            experimental: false
+          - php-version: "8.3"
+            dependencies: lowest
+            os: ubuntu-latest
+            experimental: false
+          - php-version: "8.3"
+            dependencies: highest
+            os: windows-latest
+            experimental: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php-version }}"
+          coverage: none
+
+      - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.dependencies }}
+
+      - name: Run tests
+        run: composer test

@@ -1,0 +1,43 @@
+name: "PHP Lint"
+
+on:
+  - push
+  - pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: "Lint"
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - "7.2"
+          - "nightly"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php-version }}"
+          coverage: none
+
+      - name: "Lint PHP files"
+        run: |
+          hasErrors=0
+          for f in $(find src/ tests/ -type f -name '*.php' ! -path '*/vendor/*' ! -path '*/Fixtures/*')
+          do
+            { error="$(php -derror_reporting=-1 -ddisplay_errors=1 -l -f $f 2>&1 1>&3 3>&-)"; } 3>&1;
+            if [ "$error" != "" ]; then
+              while IFS= read -r line; do echo "::error file=$f::$line"; done <<< "$error"
+              hasErrors=1
+            fi
+          done
+          if [ $hasErrors -eq 1 ]; then
+            exit 1
+          fi

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9cea48f521be181a45066ddfd5b8be0d",
+    "content-hash": "6db5bca6a44b8261d5cf77c5de6d2e61",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -1526,149 +1526,6 @@
                 }
             ],
             "time": "2026-08-27T11:34:23+00:00"
-        },
-        {
-            "name": "composer/installers",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/peter-mw/installers.git",
-                "reference": "8d033f3d6f3b4e5519fa440fdb728678995a126f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/peter-mw/installers/zipball/8d033f3d6f3b4e5519fa440fdb728678995a126f",
-                "reference": "8d033f3d6f3b4e5519fa440fdb728678995a126f",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "php": "^7.2 || ^8.0"
-            },
-            "require-dev": {
-                "composer/composer": "^1.10.27 || ^2.7.8",
-                "composer/semver": "^1.7.2 || ^3.4.2",
-                "phpstan/phpstan": "^1.11.11",
-                "phpstan/phpstan-phpunit": "^1.4",
-                "phpunit/phpunit": "^8.5.39 || ^9.6.20",
-                "symfony/process": "^5 || ^6 || ^7.1.3"
-            },
-            "default-branch": true,
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Composer\\Installers\\Plugin",
-                "branch-alias": {
-                    "dev-main": "2.x-dev"
-                },
-                "plugin-modifies-install-path": true
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\Installers\\": "src/Composer/Installers"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Composer\\Installers\\Test\\": "tests/Composer/Installers/Test"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "@php phpunit"
-                ],
-                "phpstan": [
-                    "@php phpstan analyse"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kyle Robinson Young",
-                    "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama"
-                }
-            ],
-            "description": "A multi-framework Composer library installer",
-            "keywords": [
-                "AGL",
-                "AnnotateCms",
-                "Attogram",
-                "Bitrix",
-                "CakePHP",
-                "Chef",
-                "Cockpit",
-                "CodeIgniter",
-                "ConcreteCMS",
-                "Croogo",
-                "DokuWiki",
-                "Dolibarr",
-                "Drupal",
-                "Elgg",
-                "Eliasis",
-                "ExpressionEngine",
-                "FuelPHP",
-                "Grav",
-                "Hurad",
-                "ImageCMS",
-                "Kanboard",
-                "Known",
-                "Kohana",
-                "Lan Management System",
-                "Laravel",
-                "Lavalite",
-                "Lithium",
-                "MODULEWork",
-                "MODX",
-                "MODX Evo",
-                "Magento",
-                "Mako",
-                "MantisBT",
-                "Matomo",
-                "Mautic",
-                "Maya",
-                "MediaWiki",
-                "Miaoxing",
-                "Moodle",
-                "OXID",
-                "PPI",
-                "Pantheon",
-                "Piwik",
-                "Plentymarkets",
-                "Porto",
-                "ProcessWire",
-                "Puppet",
-                "RadPHP",
-                "ReIndex",
-                "Roundcube",
-                "SMF",
-                "SilverStripe",
-                "Starbug",
-                "SyDES",
-                "Sylius",
-                "TastyIgniter",
-                "Thelia",
-                "WHMCS",
-                "WolfCMS",
-                "WordPress",
-                "YAWIK",
-                "Zend",
-                "Zikula",
-                "concrete5",
-                "eZ Platform",
-                "iTop",
-                "installer",
-                "majima",
-                "osclass",
-                "phpBB",
-                "pxcms",
-                "shopware"
-            ],
-            "support": {
-                "source": "https://github.com/peter-mw/installers/tree/microweber-v3"
-            },
-            "time": "2025-01-22T16:53:16+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -9807,6 +9664,145 @@
             }
         },
         {
+            "name": "microweber-packages/composer-installers",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-composer-installers",
+                "reference": "f8ca5f48d3d85bb5a7ddfaaa3570fb0f6da55a41"
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "replace": {
+                "composer/installers": "*"
+            },
+            "require-dev": {
+                "composer/composer": "^1.10.27 || ^2.7.8",
+                "composer/semver": "^1.7.2 || ^3.4.2",
+                "phpstan/phpstan": "^1.11.11",
+                "phpstan/phpstan-phpunit": "^1.4",
+                "phpunit/phpunit": "^8.5.39 || ^9.6.20",
+                "symfony/process": "^5 || ^6 || ^7.1.3"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Composer\\Installers\\Plugin",
+                "branch-alias": {
+                    "dev-main": "2.x-dev"
+                },
+                "plugin-modifies-install-path": true
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Installers\\": "src/Composer/Installers"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Composer\\Installers\\Test\\": "tests/Composer/Installers/Test"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "@php phpunit"
+                ],
+                "phpstan": [
+                    "@php phpstan analyse"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle Robinson Young",
+                    "email": "kyle@dontkry.com",
+                    "homepage": "https://github.com/shama"
+                }
+            ],
+            "description": "Microweber fork of composer/installers (adds the microweber-module / microweber-template install paths). Replaces composer/installers.",
+            "keywords": [
+                "AGL",
+                "AnnotateCms",
+                "Attogram",
+                "Bitrix",
+                "CakePHP",
+                "Chef",
+                "Cockpit",
+                "CodeIgniter",
+                "ConcreteCMS",
+                "Croogo",
+                "DokuWiki",
+                "Dolibarr",
+                "Drupal",
+                "Elgg",
+                "Eliasis",
+                "ExpressionEngine",
+                "FuelPHP",
+                "Grav",
+                "Hurad",
+                "ImageCMS",
+                "Kanboard",
+                "Known",
+                "Kohana",
+                "Lan Management System",
+                "Laravel",
+                "Lavalite",
+                "Lithium",
+                "MODULEWork",
+                "MODX",
+                "MODX Evo",
+                "Magento",
+                "Mako",
+                "MantisBT",
+                "Matomo",
+                "Mautic",
+                "Maya",
+                "MediaWiki",
+                "Miaoxing",
+                "Moodle",
+                "OXID",
+                "PPI",
+                "Pantheon",
+                "Piwik",
+                "Plentymarkets",
+                "Porto",
+                "ProcessWire",
+                "Puppet",
+                "RadPHP",
+                "ReIndex",
+                "Roundcube",
+                "SMF",
+                "SilverStripe",
+                "Starbug",
+                "SyDES",
+                "Sylius",
+                "TastyIgniter",
+                "Thelia",
+                "WHMCS",
+                "WolfCMS",
+                "WordPress",
+                "YAWIK",
+                "Zend",
+                "Zikula",
+                "concrete5",
+                "eZ Platform",
+                "iTop",
+                "installer",
+                "majima",
+                "osclass",
+                "phpBB",
+                "pxcms",
+                "shopware"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/config",
             "version": "1.0.0",
             "dist": {
@@ -9909,13 +9905,20 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-core",
-                "reference": "595abd54e75be5f15cc6361bbb2cc0175ceb9b36"
+                "reference": "ffaf655c843ba51a3c901a3f7a7cc08330a69a89"
             },
             "require": {
                 "laravel/framework": "^11.0|^13.0",
                 "php": "^8.3"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Core\\CoreServiceProvider"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\Core\\": "src/"
@@ -11585,7 +11588,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-multisite",
-                "reference": "7250a10d6851f0c8ff18aec459cc951a6096cd22"
+                "reference": "1ffc64638a80820c2819728db57c5e9cdf1a8278"
             },
             "require": {
                 "microweber-packages/env-writer": "^1.0",
@@ -11600,9 +11603,6 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Multisite\\MultisiteServiceProvider"
-                    ],
                     "aliases": {
                         "Multisite": "MicroweberPackages\\Multisite\\Facades\\Multisite"
                     }
@@ -29862,7 +29862,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "alexwestergaard/php-ga4": 20,
-        "composer/installers": 20,
         "finlet/flexmail": 20,
         "microweber-deps/image-comparator": 20,
         "microweber-deps/seo-helper": 20,
