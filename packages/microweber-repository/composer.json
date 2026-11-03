@@ -23,7 +23,7 @@
         "microweber-packages/microweber-event-manager": "*"
     },
     "require-dev": {
-        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
         "phpunit/phpunit": "^10.0|^11.0"
     },
     "autoload": {

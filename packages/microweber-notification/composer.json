@@ -30,7 +30,7 @@
         "microweber-packages/microweber-url": "*"
     },
     "require-dev": {
-        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
         "phpunit/phpunit": "^10.0|^11.0",
         "larastan/larastan": "^3.0",
         "laravel/dusk": "^8.0|^9.0"
