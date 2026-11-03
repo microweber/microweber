@@ -51,7 +51,7 @@
         "microweber-packages/microweber-deps-arcanedev-php-html": "*",
         "microweber-packages/microweber-deps-laravel-repository": "*",
         "coolsam/flatpickr": "~5.0",
-        "microweber-packages/filament-modules": "*",
+        "microweber-packages/microweber-modules": "*",
         "doctrine/dbal": "^4.2",
         "enshrined/svg-sanitize": "^1.1",
         "erusev/parsedown": "^1.7",
@@ -521,10 +521,8 @@
                 "microweber-packages/microweber-filament-theme",
                 "microweber-packages/microweber-file-uploader",
                 "microweber-packages/microweber-css-framework-bootstrap",
-                "microweber-packages/filament-modules",
+                "microweber-packages/microweber-modules",
                 "nwidart/laravel-modules",
-                "coolsam/modules",
-                "savannabits/filament-modules",
                 "mhmiton/laravel-modules-livewire",
                 "rtconner/laravel-tagging",
                 "butschster/meta-tags",
@@ -708,7 +706,7 @@
         },
         {
             "type": "path",
-            "url": "packages/filament-modules",
+            "url": "packages/microweber-modules",
             "options": {
                 "reference": "config",
                 "symlink": true

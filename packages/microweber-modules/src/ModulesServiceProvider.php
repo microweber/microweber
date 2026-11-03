@@ -124,13 +124,11 @@ class ModulesServiceProvider extends MicroweberPackageServiceProvider
     protected function getCommands(): array
     {
         return [
+            // Microweber does not use the Filament make-* generators that
+            // Coolsam/filament-modules ships; they overrode Filament make-command
+            // signatures and broke on Filament 5.11. Removed (superseded by the
+            // microweber-modules package). Only the install command is kept.
             Commands\ModuleFilamentInstallCommand::class,
-            Commands\ModuleMakeFilamentClusterCommand::class,
-            Commands\ModuleMakeFilamentPluginCommand::class,
-            Commands\ModuleMakeFilamentResourceCommand::class,
-            Commands\ModuleMakeFilamentPageCommand::class,
-            Commands\ModuleMakeFilamentWidgetCommand::class,
-            Commands\ModuleMakeFilamentThemeCommand::class,
         ];
     }
 

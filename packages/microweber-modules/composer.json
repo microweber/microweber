@@ -1,6 +1,6 @@
 {
-    "name": "microweber-packages/filament-modules",
-    "description": "Organize your Filament Code into modules using nwidart/laravel-modules",
+    "name": "microweber-packages/microweber-modules",
+    "description": "Microweber Filament modules integration (supersedes coolsam/savannabits filament-modules). Organize Filament code into modules using nwidart/laravel-modules.",
     "keywords": [
         "coolsam",
         "laravel",
@@ -70,6 +70,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "replace": {
-        "microweber-deps/filament-modules": "*"
+        "microweber-deps/filament-modules": "*",
+        "coolsam/modules": "*",
+        "savannabits/filament-modules": "*"
     }
 }
