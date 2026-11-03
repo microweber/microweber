@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/config-merge",
+    "name": "microweber-packages/microweber-config-merge",
     "description": "Package-priority config merging for Laravel – lets package/module config values override application defaults instead of the other way around.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "homepage": "https://microweber.com",
@@ -30,10 +29,12 @@
             "MicroweberPackages\\ConfigMerge\\Tests\\": "tests/"
         }
     },
-
     "config": {
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "replace": {
+        "microweber-packages/config-merge": "*"
+    }
 }

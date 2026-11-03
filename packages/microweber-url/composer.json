@@ -1,5 +1,5 @@
 {
-    "name": "microweber-packages/url",
+    "name": "microweber-packages/microweber-url",
     "description": "URL management package for Microweber - can be used standalone with any Laravel application",
     "type": "library",
     "license": "MIT",
@@ -27,7 +27,7 @@
         "php": "^8.1",
         "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -35,9 +35,11 @@
         "orchestra/testbench": "^8.0|^9.0|^10.0",
         "phpunit/phpunit": "^10.0|^11.0"
     },
-    "version": "1.0.0",
     "scripts": {
         "test": "vendor/bin/phpunit",
         "analyse": "vendor/bin/phpstan analyse --memory-limit=512M -c phpstan.neon.dist"
+    },
+    "replace": {
+        "microweber-packages/url": "*"
     }
 }

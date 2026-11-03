@@ -1,9 +1,8 @@
 {
-    "name": "microweber-packages/ai-tools",
+    "name": "microweber-packages/microweber-ai-tools",
     "description": "Standalone Laravel AI tool-calling framework with a tool registry, base tools, and external service tools",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "homepage": "https://microweber.com",
     "authors": [
         {
@@ -17,7 +16,7 @@
         "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
         "neuron-core/neuron-ai": "^4.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -51,5 +50,8 @@
     },
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/ai-tools": "*"
     }
 }

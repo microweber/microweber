@@ -1,9 +1,8 @@
 {
-    "name": "microweber-packages/package-manager-client",
+    "name": "microweber-packages/microweber-package-manager-client",
     "description": "Standalone Composer package manager client for Microweber and Laravel apps: search, install, update modules/templates and nwidart Laravel modules with install-dir detection",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "authors": [
         {
             "name": "Microweber",
@@ -23,9 +22,9 @@
         "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
-        "microweber-packages/zip": "^1.0",
-        "microweber-packages/system-licenses": "^1.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-zip": "*",
+        "microweber-packages/microweber-system-licenses": "*",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -55,5 +54,8 @@
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/package-manager-client": "*"
     }
 }

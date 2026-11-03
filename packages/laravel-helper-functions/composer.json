@@ -19,8 +19,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
-    },
-    "version": "1.0.0"
+    }
 }

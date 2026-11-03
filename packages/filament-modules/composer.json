@@ -1,6 +1,5 @@
 {
-    "name": "microweber-deps/filament-modules",
-    "version": "v1.0",
+    "name": "microweber-packages/filament-modules",
     "description": "Organize your Filament Code into modules using nwidart/laravel-modules",
     "keywords": [
         "coolsam",
@@ -22,10 +21,10 @@
         }
     ],
     "require": {
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
-    "require-dev": {},
+    "require-dev": [],
     "autoload": {
         "psr-4": {
             "Coolsam\\Modules\\": "src/",
@@ -69,5 +68,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "replace": {
+        "microweber-deps/filament-modules": "*"
+    }
 }

@@ -1,8 +1,7 @@
 {
-    "name": "microweber/css-framework-bootstrap",
+    "name": "microweber-packages/microweber-css-framework-bootstrap",
     "description": "Shared Microweber CSS framework based on Bootstrap with semantic --mw- CSS variables",
     "type": "microweber-package",
-    "version": "1.0.0",
     "license": "MIT",
     "authors": [
         {
@@ -16,7 +15,10 @@
         }
     },
     "require": {
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
+    },
+    "replace": {
+        "microweber/css-framework-bootstrap": "*"
     }
 }

@@ -9,10 +9,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
-    "require-dev": {},
+    "require-dev": [],
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\FrontendAssetsLibs\\": "src/"
@@ -30,6 +30,5 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "version": "1.0.0"
+    "prefer-stable": true
 }

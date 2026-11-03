@@ -19,16 +19,15 @@
             "MicroweberPackages\\FrontendAssets\\Tests\\": "tests/"
         }
     },
-    "scripts": {},
+    "scripts": [],
     "config": {
         "sort-packages": true,
-        "allow-plugins": {}
+        "allow-plugins": []
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "version": "1.0.0",
     "require": {
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     }
 }

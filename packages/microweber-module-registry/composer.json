@@ -1,9 +1,8 @@
 {
-    "name": "microweber-packages/module-registry",
+    "name": "microweber-packages/microweber-module-registry",
     "description": "Standalone Microweber module registry for Laravel. Register, discover, render modules and scan blade skins/templates. Usable inside the CMS or any standalone Laravel app.",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "homepage": "https://microweber.com",
     "authors": [
         {
@@ -23,7 +22,7 @@
         "php": "^8.2",
         "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -60,5 +59,8 @@
     },
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/module-registry": "*"
     }
 }

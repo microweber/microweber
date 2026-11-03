@@ -1,9 +1,8 @@
 {
-    "name": "microweber-packages/security",
+    "name": "microweber-packages/microweber-security",
     "description": "Reusable Laravel security package with HTML sanitizer, XSS cleaner and stored-XSS stripper",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "authors": [
         {
             "name": "Microweber",
@@ -20,7 +19,7 @@
         "symfony/html-sanitizer": "^7.0",
         "voku/anti-xss": "^4.1",
         "ezyang/htmlpurifier": "^4.18",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -50,5 +49,8 @@
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/security": "*"
     }
 }

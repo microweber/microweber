@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/laravel-modules",
+    "name": "microweber-packages/microweber-laravel-modules",
     "description": "Microweber CMS.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "homepage": "https://microweber.com",
@@ -23,5 +22,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "replace": {
+        "microweber-packages/laravel-modules": "*"
+    }
 }

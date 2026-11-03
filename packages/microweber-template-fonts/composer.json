@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/template-fonts",
+    "name": "microweber-packages/microweber-template-fonts",
     "description": "Standalone Laravel package for template font management: Google Fonts, system fonts, custom TTF/WOFF uploads, CSS generation, and Filament admin. Reusable in any Laravel app.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -19,8 +18,8 @@
         "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
         "guzzlehttp/guzzle": "^7.0",
         "sabberworm/php-css-parser": "^8.4|^9.0",
-        "microweber-packages/database": "^1.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-database": "*",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -61,5 +60,8 @@
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/template-fonts": "*"
     }
 }

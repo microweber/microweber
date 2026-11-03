@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/meta-tags",
+    "name": "microweber-packages/microweber-meta-tags",
     "description": "Microweber CMS – head/footer meta-tag rendering (head tags, scripts, SEO).",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "homepage": "https://microweber.com",
@@ -21,5 +20,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "replace": {
+        "microweber-packages/meta-tags": "*"
+    }
 }

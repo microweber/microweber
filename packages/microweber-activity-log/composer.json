@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/activity-log",
+    "name": "microweber-packages/microweber-activity-log",
     "description": "Microweber CMS.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "homepage": "https://microweber.com",
@@ -21,5 +20,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "replace": {
+        "microweber-packages/activity-log": "*"
+    }
 }

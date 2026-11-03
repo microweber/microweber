@@ -1,9 +1,8 @@
 {
-    "name": "microweber-packages/db-installer",
-    "description": "Microweber database installer \u2014 orchestrates system schema creation, migration and seeding using the db-migrator (custom migrator) and the database table builder.",
+    "name": "microweber-packages/microweber-db-installer",
+    "description": "Microweber database installer — orchestrates system schema creation, migration and seeding using the db-migrator (custom migrator) and the database table builder.",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "authors": [
         {
             "name": "Microweber",
@@ -14,7 +13,7 @@
         "php": "^8.2",
         "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -42,5 +41,8 @@
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/db-installer": "*"
     }
 }

@@ -1,12 +1,12 @@
 {
-    "name": "microweber/dusk",
-    "description": "Microweber Dusk browser test suite \u2014 portable across CMS configurations",
+    "name": "microweber-packages/microweber-dusk",
+    "description": "Microweber Dusk browser test suite — portable across CMS configurations",
     "type": "library",
     "license": "MIT",
     "require": {
         "php": "^8.2",
         "laravel/dusk": "^8.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "autoload": {
@@ -14,5 +14,8 @@
             "MicroweberPackages\\Dusk\\": "src/",
             "MicroweberPackages\\Dusk\\Tests\\": "tests/"
         }
+    },
+    "replace": {
+        "microweber/dusk": "*"
     }
 }

@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/mail-sender",
+    "name": "microweber-packages/microweber-mail-sender",
     "description": "Standalone Laravel package for sending email via configurable transports (SMTP, PHP mail, Gmail, cPanel, Plesk). Reusable in any Laravel app. Extracted from Microweber CMS MailSender.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -18,7 +17,7 @@
         "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -57,5 +56,8 @@
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/mail-sender": "*"
     }
 }

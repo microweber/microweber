@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/laravel-modules-filament",
+    "name": "microweber-packages/microweber-laravel-modules-filament",
     "description": "Microweber CMS integration with Laravel Modules Filament",
-    "version": "0.0.1",
     "authors": [
         {
             "name": "Microweber",
@@ -22,5 +21,8 @@
     "license": "MIT",
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/laravel-modules-filament": "*"
     }
 }

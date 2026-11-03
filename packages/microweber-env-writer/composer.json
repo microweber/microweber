@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/env-writer",
+    "name": "microweber-packages/microweber-env-writer",
     "description": "A standalone .env file writer for Laravel. Reads, updates and appends key-value pairs while preserving comments and preventing duplicate keys.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -27,7 +26,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^8.1",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -44,5 +43,8 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
+    },
+    "replace": {
+        "microweber-packages/env-writer": "*"
     }
 }

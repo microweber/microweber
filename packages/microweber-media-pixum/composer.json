@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/media-pixum",
-    "description": "Standalone Laravel package for generating and serving placeholder (pixum) images. No exit() calls \u2014 fully testable.",
-    "version": "1.0.0",
+    "name": "microweber-packages/microweber-media-pixum",
+    "description": "Standalone Laravel package for generating and serving placeholder (pixum) images. No exit() calls — fully testable.",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -15,8 +14,8 @@
         "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
-        "microweber-packages/laravel-helper-functions": "^1.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/laravel-helper-functions": "*",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -48,5 +47,8 @@
     "scripts": {
         "test": "vendor/bin/phpunit",
         "analyse": "vendor/bin/phpstan analyse --memory-limit=512M"
+    },
+    "replace": {
+        "microweber-packages/media-pixum": "*"
     }
 }

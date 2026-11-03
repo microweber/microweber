@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/media-thumbnail",
+    "name": "microweber-packages/microweber-media-thumbnail",
     "description": "Standalone Laravel package for media thumbnail caching and generation. Provides the MediaThumbnail model, migration, repository, and thumbnail-serving routes.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -16,11 +15,11 @@
         "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
-        "microweber-packages/thumbnailer": "^1.0",
-        "microweber-packages/database": "^1.0",
-        "microweber-packages/laravel-helper-functions": "^1.0",
-        "microweber-packages/media-pixum": "^1.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-thumbnailer": "*",
+        "microweber-packages/microweber-database": "*",
+        "microweber-packages/laravel-helper-functions": "*",
+        "microweber-packages/microweber-media-pixum": "*",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -48,5 +47,8 @@
     "scripts": {
         "test": "vendor/bin/phpunit",
         "analyse": "vendor/bin/phpstan analyse --memory-limit=512M"
+    },
+    "replace": {
+        "microweber-packages/media-thumbnail": "*"
     }
 }

@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/filament",
+    "name": "microweber-packages/microweber-filament",
     "description": "Microweber CMS.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "homepage": "https://microweber.com",
@@ -28,5 +27,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "replace": {
+        "microweber-packages/filament": "*"
+    }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db2b6db66df8632f80336d08a407a3f4",
+    "content-hash": "c78282503862eff98ba9c0780038f6f5",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -8868,94 +8868,6 @@
             "time": "2025-07-19T12:41:25+00:00"
         },
         {
-            "name": "microweber-deps/filament-modules",
-            "version": "v1.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/filament-modules",
-                "reference": "1a1cc57ce53cd6741fe72929e2cbe1095ef8a8f5"
-            },
-            "require": {
-                "microweber-packages/package": "^1.0",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Coolsam\\Modules\\": "src/",
-                    "Coolsam\\Modules\\Database\\Factories\\": "database/factories/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Coolsam\\Modules\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "post-autoload-dump": [
-                    "@clear",
-                    "@prepare",
-                    "@php ./vendor/bin/testbench package:discover --ansi"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse"
-                ],
-                "test": [
-                    "vendor/bin/pest"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage"
-                ],
-                "format": [
-                    "vendor/bin/pint"
-                ],
-                "clear": [
-                    "@php vendor/bin/testbench package:purge-skeleton --ansi"
-                ],
-                "prepare": [
-                    "@php vendor/bin/testbench package:discover --ansi"
-                ],
-                "build": [
-                    "@php vendor/bin/testbench workbench:build --ansi"
-                ],
-                "serve": [
-                    "Composer\\Config::disableProcessTimeout",
-                    "@build",
-                    "@php vendor/bin/testbench serve"
-                ],
-                "lint": [
-                    "@php vendor/bin/pint",
-                    "@php vendor/bin/phpstan analyse"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sam Maosa",
-                    "email": "maosa.sam@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Organize your Filament Code into modules using nwidart/laravel-modules",
-            "homepage": "https://github.com/savannabits/filament-modules",
-            "keywords": [
-                "FilamentModules",
-                "coolsam",
-                "filament",
-                "laravel"
-            ],
-            "support": {
-                "issues": "https://github.com/savannabits/filament-modules/issues",
-                "source": "https://github.com/savannabits/filament-modules"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
             "name": "microweber-deps/filament-slider-input-field",
             "version": "1.0",
             "source": {
@@ -9294,16 +9206,227 @@
             "time": "2023-04-10T09:35:09+00:00"
         },
         {
-            "name": "microweber-packages/activity-log",
-            "version": "1.0.0",
+            "name": "microweber-packages/filament-modules",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/filament-modules",
+                "reference": "2ab1f4fb94aebb224c88d81bd181de4dc33f0583"
+            },
+            "require": {
+                "microweber-packages/microweber-package": "*",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-deps/filament-modules": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Coolsam\\Modules\\": "src/",
+                    "Coolsam\\Modules\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Coolsam\\Modules\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@clear",
+                    "@prepare",
+                    "@php ./vendor/bin/testbench package:discover --ansi"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-skeleton --ansi"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "serve": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@build",
+                    "@php vendor/bin/testbench serve"
+                ],
+                "lint": [
+                    "@php vendor/bin/pint",
+                    "@php vendor/bin/phpstan analyse"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Maosa",
+                    "email": "maosa.sam@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Organize your Filament Code into modules using nwidart/laravel-modules",
+            "homepage": "https://github.com/savannabits/filament-modules",
+            "keywords": [
+                "FilamentModules",
+                "coolsam",
+                "filament",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/savannabits/filament-modules/issues",
+                "source": "https://github.com/savannabits/filament-modules"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/frontend-assets",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/frontend-assets",
+                "reference": "d15606a2468220e6574515fd583f0e8f6cedf293"
+            },
+            "require": {
+                "microweber-packages/microweber-package": "*",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\FrontendAssets\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\FrontendAssets\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Microweber CMS - Frontend Assets",
+            "keywords": [
+                "laravel",
+                "microweber",
+                "microweber-frontend-assets",
+                "microweber-packages"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/frontend-assets-libs",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/frontend-assets-libs",
+                "reference": "c2c972201e690b0665d62ee83f7ec9e08211af47"
+            },
+            "require": {
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\FrontendAssetsLibs\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\FrontendAssetsLibs\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@php ./vendor/bin/testbench package:discover --ansi"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for frontend assets",
+            "keywords": [
+                "laravel",
+                "microweber-frontend-assets",
+                "microweber-packages"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/laravel-helper-functions",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/laravel-helper-functions",
+                "reference": "4b7c61c2e8c857fc445038d7cc184f013b9a88c6"
+            },
+            "require": {
+                "microweber-packages/microweber-package": "*",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\LaravelHelperFunctions\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                }
+            ],
+            "description": "Helper functions for Microweber",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-activity-log",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-activity-log",
-                "reference": "b8d68334eb3aa63d32a2895b60a48188d3e222c1"
+                "reference": "6a0d3d2c36342b9dd47c57f13ff61b67aade9a8c"
             },
             "require": {
                 "illuminate/support": "^11.0|^13.0",
                 "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/activity-log": "*"
             },
             "type": "library",
             "autoload": {
@@ -9328,18 +9451,21 @@
             }
         },
         {
-            "name": "microweber-packages/admin",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-admin",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-admin",
-                "reference": "acdd1827a39db9e41a4067e44fc6ab3ef698aeb8"
+                "reference": "a094cb284a0ea073e79c58526742874b96ba9bbe"
             },
             "require": {
                 "filament/filament": "~5.6",
                 "laravel/framework": "^11.0|^13.0",
                 "livewire/livewire": "^4.2",
                 "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/admin": "*"
             },
             "type": "library",
             "autoload": {
@@ -9364,21 +9490,24 @@
             }
         },
         {
-            "name": "microweber-packages/ai-tools",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-ai-tools",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-ai-tools",
-                "reference": "214dfa5453b54073535649d85d808e992872dd9e"
+                "reference": "b742d851c0de684dc0e599c4c4a4df51903e2963"
             },
             "require": {
                 "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "neuron-core/neuron-ai": "^4.0",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/ai-tools": "*"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -9429,20 +9558,23 @@
             }
         },
         {
-            "name": "microweber-packages/blade-cache",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-blade-cache",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-blade-cache",
-                "reference": "788479231700e7ba21f9209abc4052adfe4a542a"
+                "reference": "1186fad34db24fe9a0645aee0bccac98f40a54ea"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/blade-cache": "*"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
@@ -9479,21 +9611,24 @@
             }
         },
         {
-            "name": "microweber-packages/cdn-sync",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-cdn-sync",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-cdn-sync",
-                "reference": "c9ae757d2cec6903435a75db45cef637588f4dd5"
+                "reference": "70513fe04d7101e54bbd84eea8c5b7fe1aea40f4"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "league/flysystem-aws-s3-v3": "^3.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/cdn-sync": "*"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -9544,20 +9679,23 @@
             }
         },
         {
-            "name": "microweber-packages/class-loader",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-class-loader",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-class-loader",
-                "reference": "19120ca463192865013b1d2e3159f2d4c5e12c77"
+                "reference": "7917e2dad32d276f606a24c14dcd6034f41e687d"
             },
             "require": {
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/class-loader": "*"
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
@@ -9600,1451 +9738,6 @@
             "support": {
                 "email": "support@microweber.com"
             },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/config",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-config",
-                "reference": "11c4e6e38aa2eaa37e361b8a66c6e3e4128e21ee"
-            },
-            "require": {
-                "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Config\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\Config\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Peter Ivanov",
-                    "email": "peter@microweber.com"
-                },
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
-                }
-            ],
-            "description": "Standalone Laravel config package with per-environment file loading and runtime save support. Enables multi-site configurations by loading config files from environment-specific subdirectories.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/console",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-console",
-                "reference": "afb4f2d615ed3c54662872336feac0d3c39d9def"
-            },
-            "require": {
-                "illuminate/console": "^11.0|^13.0",
-                "illuminate/support": "^11.0|^13.0",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Console\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/core",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-core",
-                "reference": "ffaf655c843ba51a3c901a3f7a7cc08330a69a89"
-            },
-            "require": {
-                "laravel/framework": "^11.0|^13.0",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MicroweberPackages\\Core\\CoreServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Core\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/database",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-database",
-                "reference": "b431b3860b77384175f412569618604060c9cb51"
-            },
-            "require": {
-                "graham-campbell/markdown": "^15.0|^16.0",
-                "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/events": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "microweber-packages/repository": "^1.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "suggest": {
-                "doctrine/dbal": "Required only for the Postgres schema-introspection path in Utils (guarded; throws a friendly error if missing)."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Database\\": "src/"
-                },
-                "files": [
-                    "src/functions/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\Database\\tests\\": "src/tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
-                }
-            ],
-            "description": "Reusable Laravel database manager package with caching, CRUD helpers, query filtering, model traits and utilities",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/db-export",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-db-export",
-                "reference": "d6a77489911f477072dec0a64947bac483c0f559"
-            },
-            "require": {
-                "halaxa/json-machine": "^1.0",
-                "illuminate/console": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.9",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\DbExport\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\DbExport\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Database export, import, and cross-connection migration for Laravel. Supports SQLite, MySQL, and PostgreSQL with chunked transfers, auto-increment preservation, index detection, and JSON streaming.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/db-installer",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-db-installer",
-                "reference": "6e8d0bfa81e6185527acb8cbe0e942f65128b2f2"
-            },
-            "require": {
-                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\DbInstaller\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\DbInstaller\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber database installer — orchestrates system schema creation, migration and seeding using the db-migrator (custom migrator) and the database table builder.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/db-migrator",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-db-migrator",
-                "reference": "7a5b29bc99161316c37f03f6aacbb0ff911c3299"
-            },
-            "require": {
-                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/events": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\DbMigrator\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\DbMigrator\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Standalone Laravel database migrator and schema builder. Provides a custom migrator, table builder, and schema installer that can be reused across any Laravel application.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/env-writer",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-env-writer",
-                "reference": "49a436456f25e937f8139fda7f70ee5fabb700a3"
-            },
-            "require": {
-                "microweber-packages/package": "^1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\EnvWriter\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\EnvWriter\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Peter Ivanov",
-                    "email": "peter@microweber.com"
-                },
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "A standalone .env file writer for Laravel. Reads, updates and appends key-value pairs while preserving comments and preventing duplicate keys.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/event-manager",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-event-manager",
-                "reference": "9ca1280ec121d00d8f14c7dc0ca3e0054dcedcbb"
-            },
-            "require": {
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.9",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Event\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\Event\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
-                }
-            ],
-            "description": "Standalone event manager package for Laravel. Provides a simple event binding and triggering system that can be used in any Laravel application.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/filament",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-filament",
-                "reference": "e1299cfe57e2a871bbbde4200d1662f1e791246c"
-            },
-            "require": {
-                "filament/filament": "~5.6",
-                "illuminate/auth": "^11.0|^13.0",
-                "illuminate/contracts": "^11.0|^13.0",
-                "illuminate/database": "^11.0|^13.0",
-                "illuminate/filesystem": "^11.0|^13.0",
-                "illuminate/http": "^11.0|^13.0",
-                "illuminate/support": "^11.0|^13.0",
-                "livewire/livewire": "^4.2",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Filament\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/filesystem",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-filesystem",
-                "reference": "c844fa8be2e87add74a60bcf4fc04bcc96344e75"
-            },
-            "require": {
-                "enshrined/svg-sanitize": "^0.22|^1.0",
-                "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Filesystem\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\Filesystem\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Standalone Laravel filesystem service: file utilities, path normalization, directory operations, extension validation, and SVG sanitization",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/form-builder",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-form-builder",
-                "reference": "46696632d12ca9b0d5a785a0a09bca95a5ff89df"
-            },
-            "require": {
-                "filament/filament": "~5.6",
-                "illuminate/support": "^11.0|^13.0",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\FormBuilder\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\FormBuilder\\Tests\\": "tests/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber Form Builder – field-type registry and form-definition engine.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/format",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-format",
-                "reference": "f8462214005d95eca8a2e8d6549321da106253e4"
-            },
-            "require": {
-                "hashids/hashids": "^5.0|^4.0",
-                "illuminate/encryption": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "microweber-packages/security": "^1.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Format\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\Format\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Reusable Laravel formatting & utility package – dates, strings, arrays, encoding, XSS/HTML cleaning helpers. Accessible via app()->format facade.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/frontend",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-frontend",
-                "reference": "23fb0e02bc2dbb44b79814a502022a15ff43adda"
-            },
-            "require": {
-                "illuminate/http": "^11.0|^13.0",
-                "illuminate/routing": "^11.0|^13.0",
-                "illuminate/support": "^11.0|^13.0",
-                "livewire/livewire": "^4.2",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Frontend\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/frontend-assets",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/frontend-assets",
-                "reference": "6d55b514d9a5b37414dbb0e179e863a81f369bc5"
-            },
-            "require": {
-                "microweber-packages/package": "^1.0",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\FrontendAssets\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\FrontendAssets\\Tests\\": "tests/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Microweber CMS - Frontend Assets",
-            "keywords": [
-                "laravel",
-                "microweber",
-                "microweber-frontend-assets",
-                "microweber-packages"
-            ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/frontend-assets-libs",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/frontend-assets-libs",
-                "reference": "3f6a254cef83716f4f4264f585e26b5ebd26b512"
-            },
-            "require": {
-                "microweber-packages/package": "^1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\FrontendAssetsLibs\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\FrontendAssetsLibs\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "post-autoload-dump": [
-                    "@php ./vendor/bin/testbench package:discover --ansi"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Library for frontend assets",
-            "keywords": [
-                "laravel",
-                "microweber-frontend-assets",
-                "microweber-packages"
-            ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/http",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-http",
-                "reference": "5b792a4655d9fdf121900307cb5d4d69c8f07d31"
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^7.0",
-                "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Http\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\Http\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Standalone Laravel HTTP client package with Guzzle/cURL adapters, SSL enforcement, SSRF guard and URL fetch guard",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/image-optimization",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-image-optimization",
-                "reference": "328f2758295ea88b1321ef7283ac14746c9ab45f"
-            },
-            "require": {
-                "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "intervention/image": "^3.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "filament/filament": "~5.0",
-                "larastan/larastan": "^3.9",
-                "laravel/dusk": "^8.0|^9.0",
-                "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "suggest": {
-                "filament/filament": "Required for the Filament admin settings page",
-                "microweber-packages/media-pixum": "For placeholder images",
-                "microweber-packages/media-thumbnail": "For media thumbnail URL generation",
-                "microweber-packages/thumbnailer": "For thumbnail resizing integration"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\ImageOptimization\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\ImageOptimization\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Standalone Laravel package for image optimization: WebP conversion, lazy loading, responsive images, and cache management. Reusable in any Laravel app.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/install",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-install",
-                "reference": "625287349c83384dfd13b1b1d064633738d0baff"
-            },
-            "require": {
-                "laravel/framework": "^11.0|^13.0",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Install\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/laravel-helper-functions",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/laravel-helper-functions",
-                "reference": "20d6232a8dda347a73e184188f7f3bd59e972a8d"
-            },
-            "require": {
-                "microweber-packages/package": "^1.0",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\LaravelHelperFunctions\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Peter Ivanov",
-                    "email": "peter@microweber.com"
-                }
-            ],
-            "description": "Helper functions for Microweber",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/laravel-modules",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-laravel-modules",
-                "reference": "492aeba06b216292f4833bb608713d00afa6fb4a"
-            },
-            "require": {
-                "filament/filament": "~5.6",
-                "laravel/framework": "^11.0|^13.0",
-                "livewire/livewire": "^4.2",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\LaravelModules\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/laravel-templates",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-laravel-templates",
-                "reference": "f7c701b80e887fb5c5b9b8c41b5640bcbf2a6745"
-            },
-            "require": {
-                "laravel/framework": "^11.0|^13.0",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\LaravelTemplates\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/live-edit",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-live-edit",
-                "reference": "c31db84a59a05114e62566ef75b7c913b042db27"
-            },
-            "require": {
-                "filament/filament": "~5.6",
-                "laravel/framework": "^11.0|^13.0",
-                "livewire/livewire": "^4.2",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\LiveEdit\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/livewire",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-livewire",
-                "reference": "dffd83c2564ede46f34abd2bba8c74c29462b65f"
-            },
-            "require": {
-                "filament/filament": "~5.6",
-                "illuminate/database": "^11.0|^13.0",
-                "illuminate/support": "^11.0|^13.0",
-                "livewire/livewire": "^4.2",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Livewire\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/livewire-modal",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-livewire-modal",
-                "reference": "69a2487832f9b794616dee0d74915c04f5a79f7b"
-            },
-            "require": {
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
-                "livewire/livewire": "^3.0|^4.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpstan/phpstan": "^2.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\LivewireModal\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\LivewireModal\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
-                }
-            ],
-            "description": "Standalone Livewire modal package for Laravel. Supports stacked/nested modals, unique multi-instance IDs, skins, and configurable close/backdrop/escape options. Drop-in replacement for wire-elements/modal with multi-instance fixes.",
-            "homepage": "https://microweber.com",
-            "keywords": [
-                "dialog",
-                "laravel",
-                "livewire",
-                "microweber",
-                "modal"
-            ],
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/mail-sender",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-mail-sender",
-                "reference": "67897fa5ac70f785b7f6abec99dec9809cb52aaf"
-            },
-            "require": {
-                "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/mail": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "filament/filament": "~5.0",
-                "larastan/larastan": "^3.0",
-                "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "suggest": {
-                "filament/filament": "Required for the Filament admin settings page"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\MailSender\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\MailSender\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Standalone Laravel package for sending email via configurable transports (SMTP, PHP mail, Gmail, cPanel, Plesk). Reusable in any Laravel app. Extracted from Microweber CMS MailSender.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/media-pixum",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-media-pixum",
-                "reference": "8929257ea70ef3cbd115dbe04ec53fc75ca78cb5"
-            },
-            "require": {
-                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/laravel-helper-functions": "^1.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.9",
-                "laravel/dusk": "^8.0|^9.0",
-                "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\MediaPixum\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\MediaPixum\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Standalone Laravel package for generating and serving placeholder (pixum) images. No exit() calls — fully testable.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/media-thumbnail",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-media-thumbnail",
-                "reference": "e105d98b0a8101c57b823a92eb00c14fdabf025f"
-            },
-            "require": {
-                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/database": "^1.0",
-                "microweber-packages/laravel-helper-functions": "^1.0",
-                "microweber-packages/media-pixum": "^1.0",
-                "microweber-packages/package": "^1.0",
-                "microweber-packages/thumbnailer": "^1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.9",
-                "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\MediaThumbnail\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\MediaThumbnail\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Standalone Laravel package for media thumbnail caching and generation. Provides the MediaThumbnail model, migration, repository, and thumbnail-serving routes.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/meta-tags",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-meta-tags",
-                "reference": "6b5e8e12e6f034ff3c9b5bb8125dec9acaaf5136"
-            },
-            "require": {
-                "illuminate/support": "^11.0|^13.0",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\MetaTags\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS – head/footer meta-tag rendering (head tags, scripts, SEO).",
-            "homepage": "https://microweber.com",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -11190,6 +9883,438 @@
             }
         },
         {
+            "name": "microweber-packages/microweber-config",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-config",
+                "reference": "fb3c3b3b1548aab162e202bd09a271cbdb6a752c"
+            },
+            "require": {
+                "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/config": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Config\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Config\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel config package with per-environment file loading and runtime save support. Enables multi-site configurations by loading config files from environment-specific subdirectories.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-console",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-console",
+                "reference": "b456769a9ec1d95827e53cc4319d42a788fae34b"
+            },
+            "require": {
+                "illuminate/console": "^11.0|^13.0",
+                "illuminate/support": "^11.0|^13.0",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/console": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Console\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-core",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-core",
+                "reference": "aaa259dbf0b31bcabfc458e4c3281d457b659212"
+            },
+            "require": {
+                "laravel/framework": "^11.0|^13.0",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/core": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\Core\\CoreServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Core\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-css-framework-bootstrap",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-css-framework-bootstrap",
+                "reference": "66c8651792f4f84db629326739440ead22189d14"
+            },
+            "require": {
+                "microweber-packages/microweber-package": "*",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber/css-framework-bootstrap": "*"
+            },
+            "type": "microweber-package",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\CssFrameworkBootstrap\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Shared Microweber CSS framework based on Bootstrap with semantic --mw- CSS variables",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-database",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-database",
+                "reference": "243c1a7cb5d19acbfdbed365d38b5e30c96b1c3b"
+            },
+            "require": {
+                "graham-campbell/markdown": "^15.0|^16.0",
+                "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/events": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "microweber-packages/microweber-repository": "*",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/database": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "doctrine/dbal": "Required only for the Postgres schema-introspection path in Utils (guarded; throws a friendly error if missing)."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Database\\": "src/"
+                },
+                "files": [
+                    "src/functions/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Database\\tests\\": "src/tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Reusable Laravel database manager package with caching, CRUD helpers, query filtering, model traits and utilities",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-db-export",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-db-export",
+                "reference": "af0a29252778b897ff3b5a196c9c33850f0b32bf"
+            },
+            "require": {
+                "halaxa/json-machine": "^1.0",
+                "illuminate/console": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/db-export": "*"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.9",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\DbExport\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\DbExport\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Database export, import, and cross-connection migration for Laravel. Supports SQLite, MySQL, and PostgreSQL with chunked transfers, auto-increment preservation, index detection, and JSON streaming.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-db-installer",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-db-installer",
+                "reference": "feefc2df4f32920cf7d5015895bae3e21f0ede11"
+            },
+            "require": {
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/db-installer": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\DbInstaller\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\DbInstaller\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber database installer — orchestrates system schema creation, migration and seeding using the db-migrator (custom migrator) and the database table builder.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-db-migrator",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-db-migrator",
+                "reference": "1461ce3a8ba76854638e799cf056c1fd86f24aad"
+            },
+            "require": {
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/events": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/db-migrator": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\DbMigrator\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\DbMigrator\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel database migrator and schema builder. Provides a custom migrator, table builder, and schema installer that can be reused across any Laravel application.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/microweber-deps-arcanedev-php-html",
             "version": "2.0.17.x-dev",
             "dist": {
@@ -11286,15 +10411,185 @@
             }
         },
         {
+            "name": "microweber-packages/microweber-env-writer",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-env-writer",
+                "reference": "cfc5490c123c183061e5dee5e7eada310dbef98a"
+            },
+            "require": {
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/env-writer": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\EnvWriter\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\EnvWriter\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "A standalone .env file writer for Laravel. Reads, updates and appends key-value pairs while preserving comments and preventing duplicate keys.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-event-manager",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-event-manager",
+                "reference": "4d10a4aaf6368bfc9c8b80d7fa1132d8d4ff309e"
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/event-manager": "*"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.9",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Event\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Event\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Standalone event manager package for Laravel. Provides a simple event binding and triggering system that can be used in any Laravel application.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-filament",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-filament",
+                "reference": "06054762f2568c0c627c6e7175719a1ecf7d2bc3"
+            },
+            "require": {
+                "filament/filament": "~5.6",
+                "illuminate/auth": "^11.0|^13.0",
+                "illuminate/contracts": "^11.0|^13.0",
+                "illuminate/database": "^11.0|^13.0",
+                "illuminate/filesystem": "^11.0|^13.0",
+                "illuminate/http": "^11.0|^13.0",
+                "illuminate/support": "^11.0|^13.0",
+                "livewire/livewire": "^4.2",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/filament": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Filament\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "microweber-packages/microweber-filament-theme",
-            "version": "1.0.0",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "eb66b3e9b49479f7e03fe8ca80092820cf343f41"
+                "reference": "894d650c12935d15782e5adf2933080e4c86f092"
             },
             "require": {
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.16"
             },
@@ -11330,6 +10625,1336 @@
                 "issues": "https://github.com/microweber-packages/microweber-filament-theme/issues",
                 "source": "https://github.com/microweber-packages/microweber-filament-theme"
             },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-filesystem",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-filesystem",
+                "reference": "09a70ad8442d28e5c2ef3332a5abf5c5b913b818"
+            },
+            "require": {
+                "enshrined/svg-sanitize": "^0.22|^1.0",
+                "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/filesystem": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Filesystem\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Filesystem\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel filesystem service: file utilities, path normalization, directory operations, extension validation, and SVG sanitization",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-form-builder",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-form-builder",
+                "reference": "07233ed7f4633caf1470c05704a75afe3e8ceabe"
+            },
+            "require": {
+                "filament/filament": "~5.6",
+                "illuminate/support": "^11.0|^13.0",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/form-builder": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\FormBuilder\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\FormBuilder\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber Form Builder – field-type registry and form-definition engine.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-format",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-format",
+                "reference": "6f90d8d4cc75e81340b1158fbfb5f53026d97e0a"
+            },
+            "require": {
+                "hashids/hashids": "^5.0|^4.0",
+                "illuminate/encryption": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "microweber-packages/microweber-security": "*",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/format": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Format\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Format\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Reusable Laravel formatting & utility package – dates, strings, arrays, encoding, XSS/HTML cleaning helpers. Accessible via app()->format facade.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-frontend",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-frontend",
+                "reference": "dd69f15441d857c56b350b5f71656fed7b9b9963"
+            },
+            "require": {
+                "illuminate/http": "^11.0|^13.0",
+                "illuminate/routing": "^11.0|^13.0",
+                "illuminate/support": "^11.0|^13.0",
+                "livewire/livewire": "^4.2",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/frontend": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Frontend\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-http",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-http",
+                "reference": "68a7ee93c3b6ebbeb390a246d10ce92aaa256328"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/http": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Http\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Http\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel HTTP client package with Guzzle/cURL adapters, SSL enforcement, SSRF guard and URL fetch guard",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-image-optimization",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-image-optimization",
+                "reference": "b8a03cb63fe37182653c26d011d38001e25268f8"
+            },
+            "require": {
+                "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "intervention/image": "^3.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/image-optimization": "*"
+            },
+            "require-dev": {
+                "filament/filament": "~5.0",
+                "larastan/larastan": "^3.9",
+                "laravel/dusk": "^8.0|^9.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "filament/filament": "Required for the Filament admin settings page",
+                "microweber-packages/media-pixum": "For placeholder images",
+                "microweber-packages/media-thumbnail": "For media thumbnail URL generation",
+                "microweber-packages/thumbnailer": "For thumbnail resizing integration"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\ImageOptimization\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\ImageOptimization\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for image optimization: WebP conversion, lazy loading, responsive images, and cache management. Reusable in any Laravel app.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-install",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-install",
+                "reference": "f7276441b3e95c8a094229d379800d9222a3e8ea"
+            },
+            "require": {
+                "laravel/framework": "^11.0|^13.0",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/install": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Install\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-laravel-modules",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-laravel-modules",
+                "reference": "06ff50f870d32745f5b133d5950e3c34a421dc4d"
+            },
+            "require": {
+                "filament/filament": "~5.6",
+                "laravel/framework": "^11.0|^13.0",
+                "livewire/livewire": "^4.2",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/laravel-modules": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\LaravelModules\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-laravel-templates",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-laravel-templates",
+                "reference": "d05442af06307297f041a115a8e8b9799569d840"
+            },
+            "require": {
+                "laravel/framework": "^11.0|^13.0",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/laravel-templates": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\LaravelTemplates\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-live-edit",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-live-edit",
+                "reference": "a01c96d1634b28b70d09c0937c74566e3dc6190e"
+            },
+            "require": {
+                "filament/filament": "~5.6",
+                "laravel/framework": "^11.0|^13.0",
+                "livewire/livewire": "^4.2",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/live-edit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\LiveEdit\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-livewire",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-livewire",
+                "reference": "169d631a28c1944538f1cf460013c6ead14e83c9"
+            },
+            "require": {
+                "filament/filament": "~5.6",
+                "illuminate/database": "^11.0|^13.0",
+                "illuminate/support": "^11.0|^13.0",
+                "livewire/livewire": "^4.2",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/livewire": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Livewire\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-livewire-modal",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-livewire-modal",
+                "reference": "dcb70dc3e2387731bb2da433828552defa3d6c24"
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/livewire-modal": "*"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\LivewireModal\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\LivewireModal\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Standalone Livewire modal package for Laravel. Supports stacked/nested modals, unique multi-instance IDs, skins, and configurable close/backdrop/escape options. Drop-in replacement for wire-elements/modal with multi-instance fixes.",
+            "homepage": "https://microweber.com",
+            "keywords": [
+                "dialog",
+                "laravel",
+                "livewire",
+                "microweber",
+                "modal"
+            ],
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-mail-sender",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-mail-sender",
+                "reference": "a99c17a171242149c223bfd39a07b41a653554fb"
+            },
+            "require": {
+                "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/mail": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/mail-sender": "*"
+            },
+            "require-dev": {
+                "filament/filament": "~5.0",
+                "larastan/larastan": "^3.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "filament/filament": "Required for the Filament admin settings page"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\MailSender\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\MailSender\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for sending email via configurable transports (SMTP, PHP mail, Gmail, cPanel, Plesk). Reusable in any Laravel app. Extracted from Microweber CMS MailSender.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-media-pixum",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-media-pixum",
+                "reference": "04784150fda8d5be97597817d40de5fa26790f99"
+            },
+            "require": {
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/laravel-helper-functions": "*",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/media-pixum": "*"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.9",
+                "laravel/dusk": "^8.0|^9.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\MediaPixum\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\MediaPixum\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for generating and serving placeholder (pixum) images. No exit() calls — fully testable.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-media-thumbnail",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-media-thumbnail",
+                "reference": "4a3b167e1f9015a5549e4ad6ec6fae2764c88faf"
+            },
+            "require": {
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/laravel-helper-functions": "*",
+                "microweber-packages/microweber-database": "*",
+                "microweber-packages/microweber-media-pixum": "*",
+                "microweber-packages/microweber-package": "*",
+                "microweber-packages/microweber-thumbnailer": "*",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/media-thumbnail": "*"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.9",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\MediaThumbnail\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\MediaThumbnail\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for media thumbnail caching and generation. Provides the MediaThumbnail model, migration, repository, and thumbnail-serving routes.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-meta-tags",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-meta-tags",
+                "reference": "491f04cbe77c5e1a7a05e7b26ccef05c30685745"
+            },
+            "require": {
+                "illuminate/support": "^11.0|^13.0",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/meta-tags": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\MetaTags\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS – head/footer meta-tag rendering (head tags, scripts, SEO).",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-microweber-ui",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-microweber-ui",
+                "reference": "e175d188c84c09054d924ff620fc2ab02a54a8de"
+            },
+            "require": {
+                "illuminate/support": "^11.0|^13.0",
+                "illuminate/view": "^11.0|^13.0",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/microweber-ui": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\MicroweberUI\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-minifier",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-minifier",
+                "reference": "cbd912d91f5af9b8487c75fd9e7500cbbc727f31"
+            },
+            "require": {
+                "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/minifier": "*"
+            },
+            "require-dev": {
+                "filament/filament": "~5.0",
+                "larastan/larastan": "^3.0",
+                "laravel/dusk": "^8.0|^9.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "filament/filament": "Required for the Filament admin settings page"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Minifier\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Minifier\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for JS and CSS minification. Reusable in any Laravel app. Based on fixed JShrink for JavaScript.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-module",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-module",
+                "reference": "87bbd94ba094afaaa9dfe298ddad79e250f57f60"
+            },
+            "require": {
+                "filament/filament": "~5.6",
+                "laravel/framework": "^11.0|^13.0",
+                "livewire/livewire": "^4.2",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/module": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Module\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-module-registry",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-module-registry",
+                "reference": "d02173e4c4f677fd8b38a6a6eaae67638bf94bd3"
+            },
+            "require": {
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/module-registry": "*"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "livewire/livewire": "^3.0|^4.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "livewire/livewire": "Required for the NoSettings Livewire component used as the default module settings UI",
+                "microweber-packages/filesystem": "Provides normalize_path() used by blade template scanning",
+                "microweber-packages/url": "Provides UrlManager for the optional ManagesUrl trait"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\ModuleRegistry\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\ModuleRegistry\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M -c phpstan.neon.dist"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
+            "description": "Standalone Microweber module registry for Laravel. Register, discover, render modules and scan blade skins/templates. Usable inside the CMS or any standalone Laravel app.",
+            "homepage": "https://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-monitoring",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-monitoring",
+                "reference": "9cb5d8b4814356d62f123d4833976b4e3c05c1d7"
+            },
+            "require": {
+                "filament/filament": "~5.6",
+                "illuminate/console": "^11.0|^13.0",
+                "illuminate/database": "^11.0|^13.0",
+                "illuminate/support": "^11.0|^13.0",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/monitoring": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Monitoring\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-multilanguage",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-multilanguage",
+                "reference": "23c7c1452c07cca9e39098ec26a74d0020e6fba9"
+            },
+            "require": {
+                "filament/filament": "~5.6",
+                "laravel/framework": "^11.0|^13.0",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/multilanguage": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Multilanguage\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-multisite",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-multisite",
+                "reference": "8d0e6cf086104e0a4f14663aa2f2b5448dc1a748"
+            },
+            "require": {
+                "microweber-packages/microweber-env-writer": "*",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/multisite": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Multisite": "MicroweberPackages\\Multisite\\Facades\\Multisite"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Multisite\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Multisite\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Per-domain multisite isolation for Laravel/Microweber: resolves a site from the Host header (config/<domain>/microweber.php marker) and gives each site its own database, cache, session and media/userfiles tree on one shared codebase.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-notification",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-notification",
+                "reference": "8fc7be609d2dbf1489d66ed3e79a7a6be085d257"
+            },
+            "require": {
+                "illuminate/auth": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/bus": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/mail": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/notifications": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/queue": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-mail-sender": "*",
+                "microweber-packages/microweber-package": "*",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.16",
+                "tucker-eric/eloquentfilter": "^3.0"
+            },
+            "replace": {
+                "microweber-packages/notification": "*"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/dusk": "^8.0|^9.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.0|^11.0"
+            },
+            "suggest": {
+                "microweber-packages/mail-sender": "Configures mail transport used by AppMailChannel"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Notification\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Notification\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse --memory-limit=512M"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber Team",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Standalone Laravel package for database notifications, mail channel delivery, admin notification management, and mail logs. Extracted from Microweber CMS so it can be reused in any Laravel application.",
+            "homepage": "http://microweber.com",
+            "support": {
+                "email": "support@microweber.com"
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/microweber-option",
+            "version": "2.0.17.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "packages/microweber-option",
+                "reference": "dfb36e860c4ee8fc1ecd4066da3c58e60d0e2832"
+            },
+            "require": {
+                "laravel/framework": "^11.0|^13.0",
+                "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/option": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\Option\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Microweber",
+                    "email": "info@microweber.com"
+                }
+            ],
+            "description": "Microweber CMS.",
+            "homepage": "https://microweber.com",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -11400,520 +12025,12 @@
             }
         },
         {
-            "name": "microweber-packages/microweber-ui",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-microweber-ui",
-                "reference": "3dfc484532ab6191de64959990ed57662f98e1da"
-            },
-            "require": {
-                "illuminate/support": "^11.0|^13.0",
-                "illuminate/view": "^11.0|^13.0",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\MicroweberUI\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/minifier",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-minifier",
-                "reference": "7f4a3da79bb2dfe467d6a42074caac0eca9167fb"
-            },
-            "require": {
-                "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "filament/filament": "~5.0",
-                "larastan/larastan": "^3.0",
-                "laravel/dusk": "^8.0|^9.0",
-                "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "suggest": {
-                "filament/filament": "Required for the Filament admin settings page"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Minifier\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\Minifier\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Standalone Laravel package for JS and CSS minification. Reusable in any Laravel app. Based on fixed JShrink for JavaScript.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/module",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-module",
-                "reference": "d8422b3557c0b3c2895cfc656e52591926cb903c"
-            },
-            "require": {
-                "filament/filament": "~5.6",
-                "laravel/framework": "^11.0|^13.0",
-                "livewire/livewire": "^4.2",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Module\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/module-registry",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-module-registry",
-                "reference": "2e08764ca9f8d1d25ab2912401a746e5d5ab418c"
-            },
-            "require": {
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.0",
-                "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpstan/phpstan": "^2.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "suggest": {
-                "livewire/livewire": "Required for the NoSettings Livewire component used as the default module settings UI",
-                "microweber-packages/filesystem": "Provides normalize_path() used by blade template scanning",
-                "microweber-packages/url": "Provides UrlManager for the optional ManagesUrl trait"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\ModuleRegistry\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\ModuleRegistry\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M -c phpstan.neon.dist"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
-                    "name": "Peter Ivanov",
-                    "email": "peter@microweber.com"
-                },
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
-                }
-            ],
-            "description": "Standalone Microweber module registry for Laravel. Register, discover, render modules and scan blade skins/templates. Usable inside the CMS or any standalone Laravel app.",
-            "homepage": "https://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/monitoring",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-monitoring",
-                "reference": "d22731a57492b9d1d97619138d173b7c1a756dc1"
-            },
-            "require": {
-                "filament/filament": "~5.6",
-                "illuminate/console": "^11.0|^13.0",
-                "illuminate/database": "^11.0|^13.0",
-                "illuminate/support": "^11.0|^13.0",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Monitoring\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/multilanguage",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-multilanguage",
-                "reference": "1c4c2adb2978286ea196d1fb578ba0c570039829"
-            },
-            "require": {
-                "filament/filament": "~5.6",
-                "laravel/framework": "^11.0|^13.0",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Multilanguage\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/multisite",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-multisite",
-                "reference": "1ffc64638a80820c2819728db57c5e9cdf1a8278"
-            },
-            "require": {
-                "microweber-packages/env-writer": "^1.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.16"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "Multisite": "MicroweberPackages\\Multisite\\Facades\\Multisite"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Multisite\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\Multisite\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Peter Ivanov",
-                    "email": "peter@microweber.com"
-                },
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Per-domain multisite isolation for Laravel/Microweber: resolves a site from the Host header (config/<domain>/microweber.php marker) and gives each site its own database, cache, session and media/userfiles tree on one shared codebase.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/notification",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-notification",
-                "reference": "b0d745e98949e5e920825199fb817bea1aaea7b8"
-            },
-            "require": {
-                "illuminate/auth": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/bus": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/mail": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/notifications": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/queue": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/mail-sender": "^1.0",
-                "microweber-packages/package": "^1.0",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16",
-                "tucker-eric/eloquentfilter": "^3.0"
-            },
-            "require-dev": {
-                "larastan/larastan": "^3.0",
-                "laravel/dusk": "^8.0|^9.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^10.0|^11.0"
-            },
-            "suggest": {
-                "microweber-packages/mail-sender": "Configures mail transport used by AppMailChannel"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Notification\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\Notification\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Standalone Laravel package for database notifications, mail channel delivery, admin notification management, and mail logs. Extracted from Microweber CMS so it can be reused in any Laravel application.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com"
-            },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/omnipay-momo-mtn",
-            "version": "0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/microweber-packages/omnipay-momo-mtn.git",
-                "reference": "766307b26adda4ef0fa3ae65ec5006a2c73bd115"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/omnipay-momo-mtn/zipball/766307b26adda4ef0fa3ae65ec5006a2c73bd115",
-                "reference": "766307b26adda4ef0fa3ae65ec5006a2c73bd115",
-                "shasum": ""
-            },
-            "require": {
-                "omnipay/common": "^3.4"
-            },
-            "require-dev": {
-                "http-interop/http-factory-guzzle": "^1.2",
-                "omnipay/tests": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Omnipay\\MoMoMtn\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Peter Ivanov",
-                    "email": "peter@microweber.com"
-                }
-            ],
-            "description": "MoMo payment gateway driver for Omnipay library",
-            "homepage": "https://github.com/microweber-packages/omnipay-momo-mtn",
-            "support": {
-                "issues": "https://github.com/microweber-packages/omnipay-momo-mtn/issues",
-                "source": "https://github.com/microweber-packages/omnipay-momo-mtn/tree/0.2"
-            },
-            "time": "2025-09-25T10:07:12+00:00"
-        },
-        {
-            "name": "microweber-packages/option",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "packages/microweber-option",
-                "reference": "7c3e648821ca9aee67d8f0ad09aeaaf0fd681417"
-            },
-            "require": {
-                "laravel/framework": "^11.0|^13.0",
-                "php": "^8.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MicroweberPackages\\Option\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                }
-            ],
-            "description": "Microweber CMS.",
-            "homepage": "https://microweber.com",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "microweber-packages/package-manager-client",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-package-manager-client",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-package-manager-client",
-                "reference": "bc68187822aa6b6477bed65f6ba9ff8b5eb7680c"
+                "reference": "ea0844c32fbf5d4c4ff17368ef6182294a1a44fd"
             },
             "require": {
                 "composer/semver": "^3.0",
@@ -11923,11 +12040,14 @@
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
-                "microweber-packages/system-licenses": "^1.0",
-                "microweber-packages/zip": "^1.0",
+                "microweber-packages/microweber-package": "*",
+                "microweber-packages/microweber-system-licenses": "*",
+                "microweber-packages/microweber-zip": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/package-manager-client": "*"
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
@@ -11977,22 +12097,25 @@
             }
         },
         {
-            "name": "microweber-packages/passport",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-passport",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-passport",
-                "reference": "810a5843ca84f41fb4da827a70dfb9c998da8035"
+                "reference": "b5f8265e3e736583e796364f825c6dd2655efec3"
             },
             "require": {
                 "illuminate/database": "^11.0|^12.0|^13.0",
                 "illuminate/routing": "^11.0|^12.0|^13.0",
                 "illuminate/support": "^11.0|^12.0|^13.0",
                 "laravel/passport": "^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "phpseclib/phpseclib": "^3.0",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/passport": "*"
             },
             "require-dev": {
                 "orchestra/testbench": "^9.0|^10.0",
@@ -12026,20 +12149,23 @@
             }
         },
         {
-            "name": "microweber-packages/phpquery",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-phpquery",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-phpquery",
-                "reference": "5a6a5a58d8cd0c1dc38c3c36e0183e23ab7f6bfb"
+                "reference": "d23bd70880e985da40810802abbcea6f11e85085"
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/phpquery": "*"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
@@ -12075,12 +12201,12 @@
             }
         },
         {
-            "name": "microweber-packages/queue",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-queue",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-queue",
-                "reference": "5bbd35585ec6d3cad369aa92ae39c09ab2a2f713"
+                "reference": "61e8826ea79e2686fbe078216c12f69a7057b02a"
             },
             "require": {
                 "illuminate/bus": "^10.0|^11.0|^12.0|^13.0",
@@ -12092,9 +12218,12 @@
                 "illuminate/queue": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/queue": "*"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -12149,23 +12278,26 @@
             }
         },
         {
-            "name": "microweber-packages/repository",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-repository",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-repository",
-                "reference": "7054f4a1df13bdae88b6cce7332d0246307995cf"
+                "reference": "b48d182a440e3aa0f6d89c3d821438e84feff4d0"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/events": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/laravel-helper-functions": "^1.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/laravel-helper-functions": "*",
+                "microweber-packages/microweber-deps-laravel-repository": "*",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.16",
-                "torann/laravel-repository": "^1.0"
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/repository": "*"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -12203,12 +12335,12 @@
             }
         },
         {
-            "name": "microweber-packages/role",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-role",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-role",
-                "reference": "588dc45660f973a1f5128a1fe5a56f1451981241"
+                "reference": "7598261213c27317a05586e26f38ca2a9fcd794a"
             },
             "require": {
                 "filament/filament": "~5.6",
@@ -12216,6 +12348,9 @@
                 "illuminate/http": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
                 "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/role": "*"
             },
             "type": "library",
             "autoload": {
@@ -12240,19 +12375,22 @@
             }
         },
         {
-            "name": "microweber-packages/searchable",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-searchable",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-searchable",
-                "reference": "808098befb56ba378c363a886420d3311cb2f98f"
+                "reference": "d0a96a05d013682884f861a9259a884098c01d6a"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/searchable": "*"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -12290,21 +12428,24 @@
             }
         },
         {
-            "name": "microweber-packages/security",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-security",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-security",
-                "reference": "5fe7e0f6900c3e75f2bf950f5ecedabe7e0ab39d"
+                "reference": "06027470753db4493263e1b434f514450074142c"
             },
             "require": {
                 "ezyang/htmlpurifier": "^4.18",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16",
                 "symfony/html-sanitizer": "^7.0",
                 "voku/anti-xss": "^4.1"
+            },
+            "replace": {
+                "microweber-packages/security": "*"
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
@@ -12354,19 +12495,22 @@
             }
         },
         {
-            "name": "microweber-packages/svg-icons",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-svg-icons",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-svg-icons",
-                "reference": "ac65855bb7fafd7b42344c5f25770f5418c42ef6"
+                "reference": "0c941dd164dbf96a86eba88db1bc3542952fea50"
             },
             "require": {
                 "blade-ui-kit/blade-icons": "^1.6",
                 "illuminate/support": "^11.0||^12.0||^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.3",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/svg-icons": "*"
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
@@ -12404,21 +12548,24 @@
             }
         },
         {
-            "name": "microweber-packages/system-licenses",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-system-licenses",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-system-licenses",
-                "reference": "6278977efecf50db6188eb4518ad7e550474bf3a"
+                "reference": "b49b739cb28a779a951e0423f7521085f1ada5fb"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/database": "^1.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-database": "*",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/system-licenses": "*"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -12463,21 +12610,24 @@
             }
         },
         {
-            "name": "microweber-packages/taggable-file-cache",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-taggable-file-cache",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-taggable-file-cache",
-                "reference": "e12934fd1182f2744527ad4d65e0c49640ba3458"
+                "reference": "e0c1506cd45a8bbede29a8e3d4045aca569e9fce"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/taggable-file-cache": "*"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
@@ -12518,18 +12668,21 @@
             }
         },
         {
-            "name": "microweber-packages/template",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-template",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-template",
-                "reference": "debeef805981873c44649b3016dc972e925f8234"
+                "reference": "f639bc6b7d58624826369002c6aff0380efc5b58"
             },
             "require": {
                 "illuminate/http": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
                 "livewire/livewire": "^4.2",
                 "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/template": "*"
             },
             "type": "library",
             "autoload": {
@@ -12554,12 +12707,12 @@
             }
         },
         {
-            "name": "microweber-packages/template-custom-css",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-template-custom-css",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-template-custom-css",
-                "reference": "0eadb6bc91dc5852d8b9a596cb25f3d4722a36ba"
+                "reference": "6a4330d09c66895e3a2fada427c2051f79e510e5"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
@@ -12567,10 +12720,13 @@
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "sabberworm/php-css-parser": "^8.4|^9.0",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/template-custom-css": "*"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -12625,12 +12781,12 @@
             }
         },
         {
-            "name": "microweber-packages/template-fonts",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-template-fonts",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-template-fonts",
-                "reference": "cf53c72d083c848be0b11ae618de475cf4bee244"
+                "reference": "84250b07a04158194544620af9ca2fca0e6b1c1c"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.0",
@@ -12639,11 +12795,14 @@
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/database": "^1.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-database": "*",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "sabberworm/php-css-parser": "^8.4|^9.0",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/template-fonts": "*"
             },
             "require-dev": {
                 "filament/filament": "~5.0",
@@ -12699,20 +12858,23 @@
             }
         },
         {
-            "name": "microweber-packages/thumbnailer",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-thumbnailer",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-thumbnailer",
-                "reference": "0db704c57d7c6f41b5d245894fa98543a7852f51"
+                "reference": "5bf9fb24389f976e39d725d376d8fbe8754c24e9"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/thumbnailer": "*"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -12748,22 +12910,25 @@
             }
         },
         {
-            "name": "microweber-packages/translation",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-translation",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-translation",
-                "reference": "cb514660fc42c617dd7ce966a9f8b66859a14df6"
+                "reference": "a05a4af0a24ee9eb7e041e75f214821f887313b9"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/translation": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/searchable": "^1.0",
+                "microweber-packages/microweber-searchable": "*",
                 "php": "^8.2",
                 "symfony/intl": "^6.0|^7.0",
                 "whitecube/lingua": "^1.1"
+            },
+            "replace": {
+                "microweber-packages/translation": "*"
             },
             "require-dev": {
                 "orchestra/testbench": "^8.0|^9.0|^10.0",
@@ -12805,17 +12970,20 @@
             }
         },
         {
-            "name": "microweber-packages/update",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-update",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-update",
-                "reference": "5d9638061374bf45a1ff5d8c7192b3eb6c8cb04c"
+                "reference": "337b0f54b9d8a2a888ac80cc8ae48bf3f4486afb"
             },
             "require": {
                 "illuminate/database": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
                 "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/update": "*"
             },
             "type": "library",
             "autoload": {
@@ -12840,19 +13008,22 @@
             }
         },
         {
-            "name": "microweber-packages/url",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-url",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-url",
-                "reference": "2bd1fa71f56df0f583df7de600b217dc75fc06d9"
+                "reference": "23ab0ea729c6c5321a334e4d081d868470269972"
             },
             "require": {
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/url": "*"
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
@@ -12897,12 +13068,12 @@
             }
         },
         {
-            "name": "microweber-packages/user",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-user",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-user",
-                "reference": "b36e304688233c0a7e853fd0ef3188ea3b451b05"
+                "reference": "45e0fd87a836d583dbcfd55fe47e9ed689da0e8d"
             },
             "require": {
                 "filament/filament": "~5.6",
@@ -12911,6 +13082,9 @@
                 "laravel/socialite": "^5.18",
                 "livewire/livewire": "^4.2",
                 "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/user": "*"
             },
             "type": "library",
             "autoload": {
@@ -12935,15 +13109,18 @@
             }
         },
         {
-            "name": "microweber-packages/utils",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-utils",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-utils",
-                "reference": "4c138a8e34724b4103603759db30178e86ceab72"
+                "reference": "92ea3db2738a559bfc19b6e860d82c118e9db424"
             },
             "require": {
                 "php": "^8.3"
+            },
+            "replace": {
+                "microweber-packages/utils": "*"
             },
             "type": "library",
             "autoload": {
@@ -12968,25 +13145,28 @@
             }
         },
         {
-            "name": "microweber-packages/view",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-view",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-view",
-                "reference": "8343a884cce5675f930d0640d5c9c41a674896ed"
+                "reference": "3033724aa5c46d93e0672d1a082723f695d0f7cd"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16",
                 "symfony/http-foundation": "^6.0|^7.0",
                 "twig/twig": "^3.0"
             },
+            "replace": {
+                "microweber-packages/view": "*"
+            },
             "require-dev": {
                 "larastan/larastan": "^3.0",
-                "microweber-packages/format": "^1.0",
+                "microweber-packages/microweber-format": "*",
                 "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
@@ -13036,19 +13216,22 @@
             }
         },
         {
-            "name": "microweber-packages/zip",
-            "version": "1.0.0",
+            "name": "microweber-packages/microweber-zip",
+            "version": "2.0.17.x-dev",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-zip",
-                "reference": "0f7e7a5949c9e4e0ea10f893f73a68d7ed9ecb71"
+                "reference": "5739c2f41a114f266d6e802d65e8c0139fed665b"
             },
             "require": {
                 "ext-zip": "*",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
-                "microweber-packages/package": "^1.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "replace": {
+                "microweber-packages/zip": "*"
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
@@ -13094,37 +13277,49 @@
             }
         },
         {
-            "name": "microweber/css-framework-bootstrap",
-            "version": "1.0.0",
+            "name": "microweber-packages/omnipay-momo-mtn",
+            "version": "0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/omnipay-momo-mtn.git",
+                "reference": "766307b26adda4ef0fa3ae65ec5006a2c73bd115"
+            },
             "dist": {
-                "type": "path",
-                "url": "packages/microweber-css-framework-bootstrap",
-                "reference": "0f59386f95c5eda7b91c6a6e80674a73c867e73e"
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/omnipay-momo-mtn/zipball/766307b26adda4ef0fa3ae65ec5006a2c73bd115",
+                "reference": "766307b26adda4ef0fa3ae65ec5006a2c73bd115",
+                "shasum": ""
             },
             "require": {
-                "microweber-packages/package": "^1.0",
-                "spatie/laravel-package-tools": "^1.16"
+                "omnipay/common": "^3.4"
             },
-            "type": "microweber-package",
+            "require-dev": {
+                "http-interop/http-factory-guzzle": "^1.2",
+                "omnipay/tests": "*"
+            },
+            "type": "library",
             "autoload": {
                 "psr-4": {
-                    "MicroweberPackages\\CssFrameworkBootstrap\\": ""
+                    "Omnipay\\MoMoMtn\\": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 }
             ],
-            "description": "Shared Microweber CSS framework based on Bootstrap with semantic --mw- CSS variables",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "description": "MoMo payment gateway driver for Omnipay library",
+            "homepage": "https://github.com/microweber-packages/omnipay-momo-mtn",
+            "support": {
+                "issues": "https://github.com/microweber-packages/omnipay-momo-mtn/issues",
+                "source": "https://github.com/microweber-packages/omnipay-momo-mtn/tree/0.2"
+            },
+            "time": "2025-09-25T10:07:12+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -29876,9 +30071,7 @@
         "alexwestergaard/php-ga4": 20,
         "finlet/flexmail": 20,
         "microweber-deps/image-comparator": 20,
-        "microweber-deps/seo-helper": 20,
-        "microweber-packages/ai-tools": 20,
-        "microweber-packages/package-manager-client": 20
+        "microweber-deps/seo-helper": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

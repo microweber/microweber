@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/queue",
+    "name": "microweber-packages/microweber-queue",
     "description": "Standalone Laravel package for queue management: process pending jobs, Filament admin for jobs/failed jobs, and chunked Bus dispatch so large workloads (e.g. newsletter bulk sends) stay under job timeout limits.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -21,7 +20,7 @@
         "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/events": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/console": "^10.0|^11.0|^12.0|^13.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -61,5 +60,8 @@
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/queue": "*"
     }
 }

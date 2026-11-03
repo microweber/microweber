@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/form-builder",
+    "name": "microweber-packages/microweber-form-builder",
     "description": "Microweber Form Builder – field-type registry and form-definition engine.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "homepage": "https://microweber.com",
@@ -27,5 +26,8 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "replace": {
+        "microweber-packages/form-builder": "*"
+    }
 }

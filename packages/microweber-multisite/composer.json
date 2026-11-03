@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/multisite",
+    "name": "microweber-packages/microweber-multisite",
     "description": "Per-domain multisite isolation for Laravel/Microweber: resolves a site from the Host header (config/<domain>/microweber.php marker) and gives each site its own database, cache, session and media/userfiles tree on one shared codebase.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -30,8 +29,8 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^8.1",
-        "microweber-packages/package": "^1.0",
-        "microweber-packages/env-writer": "^1.0",
+        "microweber-packages/microweber-package": "*",
+        "microweber-packages/microweber-env-writer": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -55,5 +54,8 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
+    },
+    "replace": {
+        "microweber-packages/multisite": "*"
     }
 }

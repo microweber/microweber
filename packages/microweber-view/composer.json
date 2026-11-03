@@ -1,7 +1,6 @@
 {
-    "name": "microweber-packages/view",
+    "name": "microweber-packages/microweber-view",
     "description": "Reusable Microweber View package for Laravel: PHP file views, StringBlade rendering, Twig string rendering, and Blade module tag compilation. Usable in standalone Laravel apps.",
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -20,14 +19,14 @@
         "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
         "twig/twig": "^3.0",
         "symfony/http-foundation": "^6.0|^7.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
         "phpunit/phpunit": "^10.0|^11.0|^12.0",
         "larastan/larastan": "^3.0",
-        "microweber-packages/format": "^1.0"
+        "microweber-packages/microweber-format": "*"
     },
     "suggest": {
         "microweber-packages/format": "Used by the @module Blade directive for HTML attribute encoding when a CMS parser is present"
@@ -64,5 +63,8 @@
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/view": "*"
     }
 }

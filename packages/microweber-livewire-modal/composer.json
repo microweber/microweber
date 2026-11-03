@@ -1,9 +1,8 @@
 {
-    "name": "microweber-packages/livewire-modal",
+    "name": "microweber-packages/microweber-livewire-modal",
     "description": "Standalone Livewire modal package for Laravel. Supports stacked/nested modals, unique multi-instance IDs, skins, and configurable close/backdrop/escape options. Drop-in replacement for wire-elements/modal with multi-instance fixes.",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "keywords": [
         "laravel",
         "livewire",
@@ -57,5 +56,8 @@
     "scripts": {
         "test": "vendor/bin/phpunit",
         "analyse": "vendor/bin/phpstan analyse --memory-limit=512M"
+    },
+    "replace": {
+        "microweber-packages/livewire-modal": "*"
     }
 }

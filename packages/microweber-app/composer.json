@@ -1,7 +1,6 @@
 {
     "name": "microweber-packages/microweber-app",
     "description": "Microweber App.",
-    "version": "0.0.1",
     "authors": [
         {
             "name": "Microweber",

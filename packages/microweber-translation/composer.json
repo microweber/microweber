@@ -1,9 +1,8 @@
 {
-    "name": "microweber-packages/translation",
+    "name": "microweber-packages/microweber-translation",
     "description": "Standalone Laravel package for managing translations with database storage, import/export, and locale helpers",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "authors": [
         {
             "name": "Microweber",
@@ -16,7 +15,7 @@
         "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/translation": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
-        "microweber-packages/searchable": "^1.0",
+        "microweber-packages/microweber-searchable": "*",
         "whitecube/lingua": "^1.1",
         "symfony/intl": "^6.0|^7.0"
     },
@@ -54,5 +53,8 @@
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/translation": "*"
     }
 }

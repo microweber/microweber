@@ -1,9 +1,8 @@
 {
-    "name": "microweber-packages/filesystem",
+    "name": "microweber-packages/microweber-filesystem",
     "description": "Standalone Laravel filesystem service: file utilities, path normalization, directory operations, extension validation, and SVG sanitization",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
     "authors": [
         {
             "name": "Microweber",
@@ -16,7 +15,7 @@
         "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
         "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
         "enshrined/svg-sanitize": "^0.22|^1.0",
-        "microweber-packages/package": "^1.0",
+        "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
@@ -47,5 +46,8 @@
     "homepage": "http://microweber.com",
     "support": {
         "email": "support@microweber.com"
+    },
+    "replace": {
+        "microweber-packages/filesystem": "*"
     }
 }
