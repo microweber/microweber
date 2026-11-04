@@ -45,6 +45,38 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
             ),
         );
 
+        // AI chat sidebar: load the standalone sidebar service (window.mw.aiChat +
+        // the mw:ai-chat:* event listeners) plus the streaming client, and add a
+        // floating trigger that opens the chat for the admin 'general' agent. The
+        // same event API powers Live Edit — here it runs without a canvas.
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::BODY_END,
+            function (): HtmlString {
+                $mwAi = asset('modules/ai/js/mw-ai.js');
+                $sidebar = asset('vendor/microweber-packages/frontend-assets/build/ai-chat-sidebar.js');
+                $title = json_encode('AI assistant');
+                $html = <<<HTML
+<script src="{$mwAi}"></script>
+<script src="{$sidebar}"></script>
+<button type="button" id="mw-admin-ai-chat-trigger" aria-label="AI assistant" title="AI assistant"
+    style="position:fixed;right:20px;bottom:20px;z-index:2147482000;width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;background:#182433;color:#fff;box-shadow:0 6px 24px rgba(24,36,51,.28);display:flex;align-items:center;justify-content:center;">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+<script>
+(function(){
+    var btn = document.getElementById('mw-admin-ai-chat-trigger');
+    if (!btn) { return; }
+    btn.addEventListener('click', function(){
+        window.dispatchEvent(new CustomEvent('mw:ai-chat:open', { detail: { agentType: 'general', title: {$title}, canvas: false } }));
+    });
+})();
+</script>
+HTML;
+
+                return new HtmlString($html);
+            },
+        );
+
         // Inject Microweber admin JS assets (admin.js, libs, etc.) into the Filament head.
         // Using FilamentView::registerRenderHook (global) so it fires for all admin pages.
         FilamentView::registerRenderHook(

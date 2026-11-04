@@ -135,6 +135,42 @@ export default defineConfig(({ mode }) => {
         };
     }
 
+    // Standalone AI chat sidebar bundle (IIFE) — loaded as a plain <script> on
+    // the Filament admin panel so the chat can be opened there via an event.
+    if (mode === 'ai-chat-sidebar') {
+        return {
+            plugins: [
+                {
+                    name: 'copy-ai-chat-sidebar',
+                    closeBundle() {
+                        ['ai-chat-sidebar.js', 'ai-chat-sidebar.css'].forEach((f) => {
+                            const src = path.resolve(__dirname, outputDir, f);
+                            const dest = path.resolve(__dirname, publicDest, f);
+                            if (fs.existsSync(src)) {
+                                fs.copySync(src, dest);
+                                console.log('Copied ' + f + ' to', dest);
+                            }
+                        });
+                    },
+                },
+            ],
+            build: {
+                outDir: outputDir,
+                emptyOutDir: false,
+                sourcemap: false,
+                rollupOptions: {
+                    input: path.resolve(__dirname, 'resources/assets/ai-chat-sidebar.entry.js'),
+                    output: {
+                        format: 'iife',
+                        entryFileNames: 'ai-chat-sidebar.js',
+                        assetFileNames: 'ai-chat-sidebar[extname]',
+                        inlineDynamicImports: true,
+                    },
+                },
+            },
+        };
+    }
+
     // Default build: all other entry points as ES modules with code splitting
     return {
         plugins: [

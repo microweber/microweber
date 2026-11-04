@@ -853,13 +853,16 @@ export class MwAiConversation extends MicroweberBaseClass {
             'create_content','create_post','generate_image'];
         const self = this;
 
-        // Capture what the page looks like now so the AI can see the design.
-        const screenshot = await this.captureScreenshot();
+        // Capture what the page looks like now so the AI can see the design
+        // (canvas contexts only — e.g. Live Edit; skipped for a non-canvas
+        // surface such as the admin panel sidebar).
+        const screenshot = (this.settings.canvas !== false) ? await this.captureScreenshot() : null;
+        const agentType = this.settings.agentType || "liveedit";
 
         try {
             const done = await MwAi().agentChatStream(
                 (text || (refImages.length ? "Recreate this design as closely as possible on the page." : "")),
-                { chat_id: this.chatId || undefined, content_id: this.settings.contentId || undefined, screenshot: screenshot, reference_images: refImages },
+                { chat_id: this.chatId || undefined, content_id: this.settings.contentId || undefined, screenshot: screenshot, reference_images: refImages, agent_type: agentType },
                 {
                     onStart(data) {
                         if (data && data.chat_id) { self._rememberChat(data.chat_id); }
@@ -908,7 +911,10 @@ export class MwAiConversation extends MicroweberBaseClass {
             // Auto-save the model's edits so nothing is lost (unless a navigation
             // this turn already saved before leaving the page).
             if (anyEdit && !navigated) {
-                try { MwAi().saveCanvas(); self._dirty = false; } catch (e) {}
+                if (this.settings.canvas !== false) {
+                    try { MwAi().saveCanvas(); } catch (e) {}
+                }
+                self._dirty = false;
             } else if (navigated) {
                 self._dirty = false;
             }
@@ -932,7 +938,7 @@ export class MwAiConversation extends MicroweberBaseClass {
             // run the autonomous MATCH LOOP: screenshot the result, compare it to
             // the target, fix the differences, and repeat until it matches (or a
             // round cap). Otherwise do the one-round self-check for visual bugs.
-            if (!navigated && !this._verifying && this.settings.verify !== false) {
+            if (!navigated && !this._verifying && this.settings.verify !== false && this.settings.canvas !== false) {
                 if (refImages.length) {
                     await this.runRecreationLoop(editsWrap, turn);
                 } else if (visualEdit) {

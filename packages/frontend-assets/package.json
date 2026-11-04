@@ -9,7 +9,7 @@
     },
     "private": true,
     "scripts": {
-        "build": "vite build && vite build --mode frontend && vite build --mode booking",
+        "build": "vite build && vite build --mode frontend && vite build --mode booking && vite build --mode ai-chat-sidebar",
         "dev": "vite build --watch"
     },
     "devDependencies": {

@@ -4,6 +4,7 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 // mw live-edit core
 import '../api-core/services/bootstrap.js';
+import '../services/mw-ai-chat-sidebar.js';
 import '../libs/jseldom/jseldom-jquery.js';
 
 import {StylesheetEditor} from "../api-core/services/services/stylesheet-editor.service.js";
