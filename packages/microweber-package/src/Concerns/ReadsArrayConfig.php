@@ -9,7 +9,7 @@ namespace MicroweberPackages\Package\Concerns;
  * $config` property and need safe string/int/bool access with a default. Keeps
  * the (previously copy-pasted, byte-identical) coercion logic in one place.
  *
- * @property array $config
+ * @property array<string, mixed> $config
  */
 trait ReadsArrayConfig
 {

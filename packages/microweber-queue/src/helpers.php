@@ -22,8 +22,8 @@ if (! function_exists('chunked_dispatch')) {
         ?string $name = null,
         bool $useBatch = true,
     ): ?Batch {
-        /** @var ChunkedDispatcher $dispatcher */
-        $dispatcher = app(ChunkedDispatcher::class);
+        /** @var ChunkedDispatcherService $dispatcher */
+        $dispatcher = app(ChunkedDispatcherService::class);
 
         return $dispatcher->dispatch($items, $jobFactory, $chunkSize, $queue, $name, $useBatch);
     }

@@ -33,7 +33,7 @@ class SchemaInspector
         $prefix = $conn->getTablePrefix();
 
         foreach ($conn->getSchemaBuilder()->getTables() as $info) {
-            $name = $info['name'] ?? '';
+            $name = $info['name'];
             if ($prefix !== '' && str_starts_with($name, $prefix)) {
                 $name = substr($name, strlen($prefix));
             }
@@ -82,10 +82,10 @@ class SchemaInspector
         foreach ($schemaColumns as $col) {
             $cols[] = new ColumnMeta(
                 name:     $col['name'],
-                type:     $this->normalizeType($col['type_name'] ?? $col['type'] ?? 'string', $driver),
-                nullable: (bool) ($col['nullable'] ?? true),
+                type:     $this->normalizeType($col['type_name'], $driver),
+                nullable: (bool) $col['nullable'],
                 default:  $col['default'] ?? null,
-                autoIncrement: (bool) ($col['auto_increment'] ?? false),
+                autoIncrement: (bool) $col['auto_increment'],
             );
         }
 
@@ -189,10 +189,10 @@ class SchemaInspector
         }
 
         foreach ($rawIndexes as $idx) {
-            $name    = $idx['name'] ?? '';
-            $columns = $idx['columns'] ?? [];
-            $unique  = (bool) ($idx['unique'] ?? false);
-            $primary = (bool) ($idx['primary'] ?? false);
+            $name    = $idx['name'];
+            $columns = $idx['columns'];
+            $unique  = (bool) $idx['unique'];
+            $primary = (bool) $idx['primary'];
 
             // Skip primary key — it's created with the column
             if ($primary) {

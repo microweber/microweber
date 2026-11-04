@@ -488,7 +488,7 @@ class LiveEditCssManager implements CssFileHandlerInterface
         $roots = [templates_dir()];
         if (function_exists('config')) {
             foreach ((array) config('microweber.extra_templates_paths', []) as $extra) {
-                $roots[] = rtrim((string) $extra, '/\\') . DIRECTORY_SEPARATOR;
+                $roots[] = rtrim(is_scalar($extra) ? (string) $extra : '', '/\\') . DIRECTORY_SEPARATOR;
             }
         }
         foreach ($roots as $dir) {

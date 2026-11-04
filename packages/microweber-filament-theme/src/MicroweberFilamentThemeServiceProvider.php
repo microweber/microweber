@@ -13,14 +13,14 @@ class MicroweberFilamentThemeServiceProvider extends MicroweberPackageServicePro
             ->hasAssets();
     }
 
-    public function register(): void
+    public function register()
     {
 
         $this->publishes([
             dirname(__DIR__) . '/resources/dist' => public_path('vendor/microweber-packages/microweber-filament-theme'),
         ], 'public');
 
-        parent::register();
+        return parent::register();
     }
 
     public function packageBooted(): void

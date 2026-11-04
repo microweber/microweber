@@ -37,7 +37,7 @@ final class ZipExtractor
         // or an ['error' => ...] shape.
         $result = (new Unzip())->extract($archivePath, $destination, true);
 
-        if ($result === false || (is_array($result) && isset($result['error']))) {
+        if ($result === false || isset($result['error'])) {
             throw PackageManagerException::extractFailed($archivePath);
         }
 

@@ -81,7 +81,8 @@ class ContentFieldManager
         if (! empty($data['order_by'])) {
             $orderBy = is_string($data['order_by']) ? $data['order_by'] : '';
             $parts   = explode(' ', trim($orderBy), 2);
-            $query->orderBy($parts[0], $parts[1] ?? 'asc');
+            $direction = strtolower($parts[1] ?? 'asc') === 'desc' ? 'desc' : 'asc';
+            $query->orderBy($parts[0], $direction);
         }
 
         if (isset($data['limit'])) {
@@ -276,7 +277,7 @@ class ContentFieldManager
     public function deduplicateGlobalFields(string $field, string $relType, mixed $relId): void
     {
         // rel_id is a string column; normalise so the comparison is reliable.
-        $relId = (string) $relId;
+        $relId = is_scalar($relId) ? (string) $relId : '';
 
         $rows = DB::table('content_fields')
             ->where('field', $field)
@@ -293,7 +294,11 @@ class ContentFieldManager
         // Scoped by rel_id so duplicates for OTHER rel_ids are never touched
         // (the previous implementation deleted other rel_ids' rows and could
         // even delete the keeper when the loose rel_id comparison misfired).
-        $keepId = $rows->first()->id;
+        $first = $rows->first();
+        if ($first === null) {
+            return;
+        }
+        $keepId = $first->id;
 
         DB::table('content_fields')
             ->where('field', $field)

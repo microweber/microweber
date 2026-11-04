@@ -54,7 +54,7 @@ class Palette
     /**
      * Full palette passed to Panel::colors() and FilamentColor::register().
      *
-     * @return array<string, array<int, string>|\Filament\Support\Colors\ColorPalette>
+     * @return array<string, array<int, string>>
      */
     public static function colors(): array
     {

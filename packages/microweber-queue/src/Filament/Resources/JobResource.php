@@ -50,7 +50,9 @@ class JobResource extends Resource
 
     public static function getNavigationSort(): ?int
     {
-        return (int) config('microweber-queue.filament.navigation_sort', 80);
+        $sort = config('microweber-queue.filament.navigation_sort', 80);
+
+        return is_numeric($sort) ? (int) $sort : 80;
     }
 
     public static function canAccess(): bool

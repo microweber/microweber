@@ -125,7 +125,9 @@ class PackageManagerClientServiceProvider extends MicroweberPackageServiceProvid
                         if (class_exists(\MicroweberPackages\SystemLicenses\Models\SystemLicense::class)) {
                             $licenses = \MicroweberPackages\SystemLicenses\Models\SystemLicense::all();
                             if ($licenses !== null) {
-                                $client->setLicenses($licenses->toArray());
+                                /** @var list<array<string, mixed>> $licenseRows */
+                                $licenseRows = array_values($licenses->toArray());
+                                $client->setLicenses($licenseRows);
                             }
                         }
                     } catch (\Throwable) {
@@ -135,7 +137,8 @@ class PackageManagerClientServiceProvider extends MicroweberPackageServiceProvid
                     try {
                         if (function_exists('app') && app()->bound(\MicroweberPackages\SystemLicenses\SystemLicensesManager::class)) {
                             $fileLicenses = SystemLicenses::getFileLicenses();
-                            if (is_array($fileLicenses) && $fileLicenses !== []) {
+                            if ($fileLicenses !== []) {
+                                /** @var list<array<string, mixed>> $fileLicenses */
                                 $client->setLicenses($fileLicenses);
                             }
                         }
@@ -150,7 +153,11 @@ class PackageManagerClientServiceProvider extends MicroweberPackageServiceProvid
                         $settings = get_white_label_config();
                         if (is_array($settings) && !empty($settings['marketplace_repositories_urls'])) {
                             $urls = $settings['marketplace_repositories_urls'];
-                            $client->setPackageServers(is_array($urls) ? $urls : [$urls]);
+                            $servers = is_array($urls) ? $urls : [$urls];
+                            $client->setPackageServers(array_values(array_map(
+                                static fn ($u): string => is_scalar($u) ? (string) $u : '',
+                                $servers
+                            )));
                         }
                     } catch (\Throwable) {
                         // ignore

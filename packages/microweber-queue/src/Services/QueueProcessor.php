@@ -18,8 +18,10 @@ class QueueProcessor
 {
     public function process(?int $limit = null): int
     {
-        $limit = $limit ?? (int) config('microweber-queue.process_limit', 10);
-        $maxAttempts = (int) config('microweber-queue.process_max_attempts', 10);
+        $limitRaw = config('microweber-queue.process_limit', 10);
+        $limit = $limit ?? (is_numeric($limitRaw) ? (int) $limitRaw : 10);
+        $maxAttemptsRaw = config('microweber-queue.process_max_attempts', 10);
+        $maxAttempts = is_numeric($maxAttemptsRaw) ? (int) $maxAttemptsRaw : 10;
 
         if ($limit < 1) {
             return 0;

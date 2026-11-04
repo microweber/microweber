@@ -13,3 +13,6 @@ parameters:
         - '#Call to static method \w+\(\) on an unknown class MicroweberPackages\\FilamentRegistry\\Facades\\FilamentRegistry#'
         # Spatie base methods are intentionally untyped upstream
         - '#Method Spatie\\LaravelPackageTools\\PackageServiceProvider::(register|boot)\(\) invoked with#'
+        # Shared library trait — consumed by sibling packages (template-custom-css,
+        # template-fonts), so it has no consumer within this package's own src.
+        - '#Trait MicroweberPackages\\Package\\Concerns\\ReadsArrayConfig is used zero times#'

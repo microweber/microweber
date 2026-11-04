@@ -5,10 +5,9 @@ parameters:
     level: 4
     paths:
         - src
-        - config
-        - database
     tmpDir: build/phpstan
-    checkOctaneCompatibility: true
-    checkModelProperties: true
-    checkMissingIterableValueType: false
+    ignoreErrors:
+        # Microweber runtime global helper, provided by the CMS at runtime and
+        # not a dependency of this standalone theme package.
+        - '#Function public_asset not found#'
 

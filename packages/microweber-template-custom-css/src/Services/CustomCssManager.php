@@ -119,7 +119,7 @@ class CustomCssManager implements CssFileHandlerInterface
         try {
             $minified = css_minify($css);
 
-            if (!is_string($minified) || $minified === '') {
+            if ($minified === '') {
                 return $css;
             }
 

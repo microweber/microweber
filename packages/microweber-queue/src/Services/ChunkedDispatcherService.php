@@ -42,12 +42,14 @@ class ChunkedDispatcherService
         ?string $name = null,
         bool $useBatch = true,
     ): ?Batch {
-        $chunkSize = $chunkSize ?? (int) config('microweber-queue.chunk_size', 100);
+        $chunkSizeRaw = config('microweber-queue.chunk_size', 100);
+        $chunkSize = $chunkSize ?? (is_numeric($chunkSizeRaw) ? (int) $chunkSizeRaw : 100);
         if ($chunkSize < 1) {
             throw new InvalidArgumentException('chunkSize must be at least 1.');
         }
 
-        $queue = $queue ?? (string) config('microweber-queue.default_queue', 'default');
+        $queueRaw = config('microweber-queue.default_queue', 'default');
+        $queue = $queue ?? (is_string($queueRaw) ? $queueRaw : 'default');
 
         $collection = $this->toCollection($items);
         if ($collection->isEmpty()) {
@@ -122,7 +124,8 @@ class ChunkedDispatcherService
             throw new InvalidArgumentException('batchSize must be at least 1.');
         }
 
-        $queue = $queue ?? (string) config('microweber-queue.default_queue', 'default');
+        $queueRaw = config('microweber-queue.default_queue', 'default');
+        $queue = $queue ?? (is_string($queueRaw) ? $queueRaw : 'default');
         $collection = $jobs instanceof Collection ? $jobs->values() : Collection::make($jobs)->values();
 
         if ($collection->isEmpty()) {
@@ -172,7 +175,8 @@ class ChunkedDispatcherService
             return 0;
         }
 
-        $chunkSize = $chunkSize ?? (int) config('microweber-queue.chunk_size', 100);
+        $chunkSizeRaw = config('microweber-queue.chunk_size', 100);
+        $chunkSize = $chunkSize ?? (is_numeric($chunkSizeRaw) ? (int) $chunkSizeRaw : 100);
         if ($chunkSize < 1) {
             return 0;
         }
