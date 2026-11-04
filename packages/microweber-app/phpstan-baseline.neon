@@ -881,9 +881,3 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: src/routes/debugbar-routes.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:logout\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/tests/ApiExposeRoutesTest.php

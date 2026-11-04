@@ -55,24 +55,6 @@ parameters:
 			path: src/Filament/Pages/Login.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$content_manager\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Http/Controllers/AdminController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$parser\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Http/Controllers/AdminController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$template_manager\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Http/Controllers/AdminController.php
-
-		-
 			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$update\.$#'
 			identifier: property.notFound
 			count: 1
@@ -115,12 +97,6 @@ parameters:
 			path: src/Http/Middleware/Admin.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$update\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Http/Middleware/Admin.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Support\\Optional\:\:getName\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -157,28 +133,10 @@ parameters:
 			path: src/Http/Middleware/Admin.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$template_manager\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Services/AdminManager.php
-
-		-
 			message: '#^Function _e not found\.$#'
 			identifier: function.notFound
 			count: 1
 			path: src/resources/views/layout.blade.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$content_repository\.$#'
-			identifier: property.notFound
-			count: 2
-			path: src/resources/views/layouts/partials/add-content-buttons.blade.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$module_manager\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/resources/views/layouts/partials/add-content-buttons.blade.php
 
 		-
 			message: '#^Function modules_url not found\.$#'
@@ -197,12 +155,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: src/resources/views/layouts/partials/add-content-buttons.blade.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$ui\.$#'
-			identifier: property.notFound
-			count: 3
-			path: src/resources/views/layouts/partials/copyright.blade.php
 
 		-
 			message: '#^Constant MW_VERSION not found\.$#'
@@ -239,12 +191,6 @@ parameters:
 			identifier: function.notFound
 			count: 1
 			path: src/resources/views/layouts/partials/header.blade.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$template_manager\.$#'
-			identifier: property.notFound
-			count: 2
-			path: src/resources/views/layouts/partials/loads-user-custom-fonts.blade.php
 
 		-
 			message: '#^Function current_lang not found\.$#'
@@ -289,34 +235,10 @@ parameters:
 			path: src/resources/views/layouts/partials/navbar-bottom-menu.blade.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$ui\.$#'
-			identifier: property.notFound
-			count: 4
-			path: src/resources/views/layouts/partials/navbar.blade.php
-
-		-
 			message: '#^Function admin_url not found\.$#'
 			identifier: function.notFound
 			count: 1
 			path: src/resources/views/layouts/partials/navbar.blade.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$content_manager\.$#'
-			identifier: property.notFound
-			count: 6
-			path: src/resources/views/layouts/partials/topbar.blade.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$module_manager\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/resources/views/layouts/partials/topbar.blade.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$ui\.$#'
-			identifier: property.notFound
-			count: 4
-			path: src/resources/views/layouts/partials/topbar.blade.php
 
 		-
 			message: '#^Call to static method has\(\) on an unknown class Route\.$#'
@@ -335,12 +257,6 @@ parameters:
 			identifier: function.notFound
 			count: 1
 			path: src/resources/views/layouts/partials/topbar.blade.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$module_manager\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/resources/views/layouts/partials/topbar2-links-left-default.blade.php
 
 		-
 			message: '#^Function modules_url not found\.$#'

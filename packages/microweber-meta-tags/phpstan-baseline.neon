@@ -83,15 +83,3 @@ parameters:
 			identifier: function.notFound
 			count: 1
 			path: src/Entities/LivewireHeadTags.php
-
-		-
-			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: src/tests/TemplateMetaTagsSeoTagsTest.php
-
-		-
-			message: '#^Function templates_dir not found\.$#'
-			identifier: function.notFound
-			count: 1
-			path: src/tests/TemplateMetaTagsSeoTagsTest.php

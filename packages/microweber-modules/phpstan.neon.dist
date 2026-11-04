@@ -5,4 +5,7 @@ parameters:
     level: 3
     paths:
         - src
+    excludePaths:
+        - src/tests (?)
+        - tests (?)
     reportUnmatchedIgnoredErrors: false

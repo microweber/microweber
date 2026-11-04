@@ -269,15 +269,3 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: src/Utils.php
-
-		-
-			message: '#^Call to an undefined static method MicroweberPackages\\Option\\Models\\Option\:\:where\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: src/tests/DbTest.php
-
-		-
-			message: '#^Call to an undefined static method Modules\\CustomFields\\Models\\CustomFieldValue\:\:where\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: src/tests/DbTest.php
