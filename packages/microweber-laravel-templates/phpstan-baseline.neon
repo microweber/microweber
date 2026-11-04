@@ -1,0 +1,139 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\LaravelTemplates\\Models\\SystemTemplates\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Activators/LaravelTemplatesDatabaseActivator.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\LaravelTemplates\\Models\\SystemTemplates\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Activators/LaravelTemplatesDatabaseActivator.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\ConnectionInterface\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Activators/LaravelTemplatesDatabaseActivator.php
+
+		-
+			message: '#^Call to an undefined method Nwidart\\Modules\\Module\:\:getRelativePath\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Activators/LaravelTemplatesDatabaseActivator.php
+
+		-
+			message: '#^Call to an undefined method Nwidart\\Modules\\Generators\\ModuleGenerator\:\:setTemplatesActivator\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Commands/Make/TemplateMakeCommand.php
+
+		-
+			message: '#^Access to protected property Illuminate\\Console\\Command\:\:\$components\.$#'
+			identifier: property.protected
+			count: 4
+			path: src/Commands/Publish/TemplateAssetPublisher.php
+
+		-
+			message: '#^Call to an undefined method Nwidart\\Modules\\Module\:\:getModulePath\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Generators/TemplateGenerator.php
+
+		-
+			message: '#^Call to an undefined method Nwidart\\Modules\\Module\:\:has\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Generators/TemplateGenerator.php
+
+		-
+			message: '#^Method Nwidart\\Modules\\Module\:\:delete\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Generators/TemplateGenerator.php
+
+		-
+			message: '#^Property MicroweberPackages\\LaravelTemplates\\Generators\\TemplateGenerator\:\:\$module \(Nwidart\\Modules\\Module\) does not accept MicroweberPackages\\LaravelTemplates\\Repositories\\LaravelTemplatesFileRepository\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Generators/TemplateGenerator.php
+
+		-
+			message: '#^Constant DS not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: src/Helpers/StaticTemplateCreator.php
+
+		-
+			message: '#^Variable \$moduleJson in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/Helpers/StaticTemplateCreator.php
+
+		-
+			message: '#^Access to property \$templates on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/LaravelTemplate.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Cache\\Repository\:\:flush\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/LaravelTemplate.php
+
+		-
+			message: '#^Call to method getCachedConfigPath\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/LaravelTemplate.php
+
+		-
+			message: '#^Call to method getCachedServicesPath\(\) on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/LaravelTemplate.php
+
+		-
+			message: '#^Property MicroweberPackages\\LaravelModules\\LaravelModule\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/LaravelTemplate.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\LaravelTemplates\\Contracts\\TemplatesRepositoryInterface\:\:config\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/LaravelTemplatesServiceProvider.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\LaravelTemplates\\Models\\SystemTemplates\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Models/SystemTemplates.php
+
+		-
+			message: '#^PHPDoc type array of property MicroweberPackages\\LaravelTemplates\\Models\\SystemTemplates\:\:\$fillable is not covariant with PHPDoc type array\<int, string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: src/Models/SystemTemplates.php
+
+		-
+			message: '#^Call to an undefined static method Fruitcake\\LaravelDebugbar\\Facades\\Debugbar\:\:startMeasure\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/Repositories/LaravelTemplatesFileRepository.php
+
+		-
+			message: '#^Call to an undefined static method Fruitcake\\LaravelDebugbar\\Facades\\Debugbar\:\:stopMeasure\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/Repositories/LaravelTemplatesFileRepository.php
+
+		-
+			message: '#^Property MicroweberPackages\\LaravelModules\\Repositories\\LaravelModulesFileRepository\:\:\$app \(Illuminate\\Contracts\\Foundation\\Application\|Laravel\\Lumen\\Application\) does not accept Illuminate\\Container\\Container\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Repositories/LaravelTemplatesFileRepository.php

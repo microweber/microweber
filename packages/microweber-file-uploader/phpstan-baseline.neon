@@ -1,0 +1,13 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Filesystem\\Filesystem\:\:directoryExists\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FileUploaderService.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Filesystem\\Filesystem\:\:url\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FileUploaderService.php

@@ -1,0 +1,331 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Filament\\Actions\\ImportAction\:\:\$afterImport\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Actions/ImportAction.php
+
+		-
+			message: '#^Parameter \$condition of method MicroweberPackages\\Filament\\Forms\\Components\\MwFileUpload\:\:multiple\(\) has invalid type MicroweberPackages\\Filament\\Forms\\Components\\Closure\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Forms/Components/MwFileUpload.php
+
+		-
+			message: '#^Parameter \$fileTypes of method MicroweberPackages\\Filament\\Forms\\Components\\MwFileUpload\:\:fileTypes\(\) has invalid type MicroweberPackages\\Filament\\Forms\\Components\\Closure\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Forms/Components/MwFileUpload.php
+
+		-
+			message: '#^Property MicroweberPackages\\Filament\\Forms\\Components\\MwFileUpload\:\:\$isMultiple has unknown class MicroweberPackages\\Filament\\Forms\\Components\\Closure as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Forms/Components/MwFileUpload.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Forms/Components/MwInputSliderGroup.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Media\\Models\\Media\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Forms/Components/MwMediaBrowser.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Media\\Models\\Media\:\:\$filename\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Forms/Components/MwMediaBrowser.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Media\\Models\\Media\:\:\$rel_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Forms/Components/MwMediaBrowser.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Media\\Models\\Media\:\:\$rel_type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Forms/Components/MwMediaBrowser.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Media\\Models\\Media\:\:\$session_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Forms/Components/MwMediaBrowser.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Ai\\Facades\\AiImages\:\:isImageGenerationAvailable\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Forms/Components/MwMediaBrowser.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Media\\Models\\Media\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/Forms/Components/MwMediaBrowser.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Media\\Models\\Media\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/Forms/Components/MwMediaBrowser.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Media\\Models\\Media\:\:whereIn\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Forms/Components/MwMediaBrowser.php
+
+		-
+			message: '#^Cannot access property \$id on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Forms/Components/MwMediaBrowser.php
+
+		-
+			message: '#^Anonymous function has an unused use \$activeSiteTemplateInputName\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: src/Forms/Components/MwSelectTemplateForPage.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#1 \$activeSiteTemplateInputName \(string\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwSelectTemplateForPage.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#2 \$layoutFileInputName \(string\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwSelectTemplateForPage.php
+
+		-
+			message: '#^Function site_templates not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Forms/Components/MwSelectTemplateForPage.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#1 \$fieldTitle \(string\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#10 \$titlePlaceholder \(string\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#11 \$titleExtraInputAttributes \(array\|Closure\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#16 \$titleAfterStateUpdated \(Closure\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#17 \$slugLabel \(string\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#2 \$fieldSlug \(string\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#21 \$slugAfterStateUpdated \(Closure\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#22 \$slugSlugifier \(Closure\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#24 \$slugLabelPostfix \(string\|Closure\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#4 \$urlHost \(string\|Closure\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#7 \$urlVisitLinkLabel \(Closure\|string\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#8 \$urlVisitLinkRoute \(Closure\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Deprecated in PHP 8\.4\: Parameter \#9 \$titleLabel \(string\|Closure\) is implicitly nullable via default value null\.$#'
+			identifier: parameter.implicitlyNullable
+			count: 1
+			path: src/Forms/Components/MwTitleWithSlugInput.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Middleware/AuthenticateAdmin.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:check\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Middleware/AuthenticateUser.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''notifications\:\:database\.modal\.empty\-state'' \(''notifications\:\:database\.modal\.empty\-state'', ''notifications\:\:database\.modal\.empty\-state''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: src/MicroweberTheme.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:user\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/MwFilamentImport.php
+
+		-
+			message: '#^Method MicroweberPackages\\Filament\\Plugins\\FilamentTranslatableFieldsPlugin\:\:get\(\) should return static\(MicroweberPackages\\Filament\\Plugins\\FilamentTranslatableFieldsPlugin\) but returns Filament\\Contracts\\Plugin\|Filament\\FilamentManager\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Plugins/FilamentTranslatableFieldsPlugin.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Module\\Facades\\ModuleAdmin\:\:getSettingsComponents\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Support/MwDialogRegistry.php
+
+		-
+			message: '#^Undefined variable\: \$this$#'
+			identifier: variable.undefined
+			count: 6
+			path: src/Support/RegistersMwDialogMacro.php
+
+		-
+			message: '#^Variable \$this in PHPDoc tag @var does not exist\.$#'
+			identifier: varTag.variableNotFound
+			count: 3
+			path: src/Support/RegistersMwDialogMacro.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Tabs\\Models\\Tab\:\:\$content\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/tests/FilamentV5MigrationTest.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Tabs\\Models\\Tab\:\:\$rel_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/tests/FilamentV5MigrationTest.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Tabs\\Models\\Tab\:\:\$rel_type\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/tests/FilamentV5MigrationTest.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Tabs\\Models\\Tab\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/tests/FilamentV5MigrationTest.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Testimonials\\Models\\Testimonial\:\:\$content\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/tests/FilamentV5MigrationTest.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Testimonials\\Models\\Testimonial\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/tests/FilamentV5MigrationTest.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Testimonials\\Models\\Testimonial\:\:\$rel_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/tests/FilamentV5MigrationTest.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Testimonials\\Models\\Testimonial\:\:\$rel_type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/tests/FilamentV5MigrationTest.php
+
+		-
+			message: '#^Call to an undefined method Livewire\\Features\\SupportTesting\\Testable\:\:callTableAction\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/tests/FilamentV5MigrationTest.php
+
+		-
+			message: '#^Method MicroweberPackages\\Filament\\Tests\\FilamentV5MigrationTest\:\:actingAsAdmin\(\) should return MicroweberPackages\\User\\Models\\User but returns Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: src/tests/FilamentV5MigrationTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Filesystem\\Filesystem\:\:assertExists\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: src/tests/Forms/Components/MwFileUploadTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Filesystem\\Filesystem\:\:assertMissing\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/Forms/Components/MwFileUploadTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Filesystem\\Filesystem\:\:mimeType\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/tests/Forms/Components/MwFileUploadTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Filesystem\\Filesystem\:\:url\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/Forms/Components/MwFileUploadTest.php
+
+		-
+			message: '#^Method MicroweberPackages\\Filament\\Tests\\Forms\\Components\\MwFileUploadTest\:\:actingAsAdmin\(\) should return MicroweberPackages\\User\\Models\\User but returns Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: src/tests/Forms/Components/MwFileUploadTest.php

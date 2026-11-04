@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property Laravel\\Passport\\Client\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Pages/ApiApplicationsPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:user\(\)\.$#'
+			identifier: method.notFound
+			count: 8
+			path: src/Filament/Pages/ApiApplicationsPage.php
+
+		-
+			message: '#^Call to an undefined static method Laravel\\Passport\\Client\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Filament/Pages/ApiApplicationsPage.php
+
+		-
+			message: '#^Call to static method table\(\) on an unknown class DB\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Filament/Pages/ApiApplicationsPage.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$password\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/Api/AuthController.php

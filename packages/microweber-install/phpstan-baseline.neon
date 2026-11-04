@@ -1,0 +1,289 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Constant DS not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: src/Console/Commands/InstallCommand.php
+
+		-
+			message: '#^Function templates_dir not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/Console/Commands/InstallCommand.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Option\\Models\\Option\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/DefaultOptionsInstaller.php
+
+		-
+			message: '#^Property MicroweberPackages\\Option\\Models\\Option\:\:\$option_value \(string\|null\) does not accept int\.$#'
+			identifier: assign.propertyType
+			count: 3
+			path: src/DefaultOptionsInstaller.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Controllers/InstallController.php
+
+		-
+			message: '#^Comparison operation "\=\=" between \*NEVER\* and 1 results in an error\.$#'
+			identifier: equal.invalid
+			count: 2
+			path: src/Http/Controllers/InstallController.php
+
+		-
+			message: '#^Comparison operation "\=\=" between \*NEVER\* and 2 results in an error\.$#'
+			identifier: equal.invalid
+			count: 1
+			path: src/Http/Controllers/InstallController.php
+
+		-
+			message: '#^Comparison operation "\=\=" between \*NEVER\* and 3 results in an error\.$#'
+			identifier: equal.invalid
+			count: 1
+			path: src/Http/Controllers/InstallController.php
+
+		-
+			message: '#^Comparison operation "\=\=" between \*NEVER\* and 4 results in an error\.$#'
+			identifier: equal.invalid
+			count: 1
+			path: src/Http/Controllers/InstallController.php
+
+		-
+			message: '#^Comparison operation "\=\=" between \*NEVER\* and 5 results in an error\.$#'
+			identifier: equal.invalid
+			count: 1
+			path: src/Http/Controllers/InstallController.php
+
+		-
+			message: '#^Comparison operation "\=\=" between \*NEVER\* and 6 results in an error\.$#'
+			identifier: equal.invalid
+			count: 1
+			path: src/Http/Controllers/InstallController.php
+
+		-
+			message: '#^Comparison operation "\=\=" between \*NEVER\* and 7 results in an error\.$#'
+			identifier: equal.invalid
+			count: 3
+			path: src/Http/Controllers/InstallController.php
+
+		-
+			message: '#^Function site_templates not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/InstallController.php
+
+		-
+			message: '#^Function userfiles_path not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/Http/Controllers/InstallController.php
+
+		-
+			message: '#^Function scan_for_elements not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/ModulesInstaller.php
+
+		-
+			message: '#^Function scan_for_modules not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/ModulesInstaller.php
+
+		-
+			message: '#^Constant DS not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: src/Schema/Countries.php
+
+		-
+			message: '#^Constant MW_PATH not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: src/Schema/Countries.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Content\\Models\\Content\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Content\\Models\\Content\:\:\$is_home\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Content\\Models\\Content\:\:\$parent\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Content\\Models\\Content\:\:\$subtype\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Content\\Models\\Content\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Content\\Models\\Content\:\:\$url\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Menu\\Models\\Menu\:\:\$content_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Menu\\Models\\Menu\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Menu\\Models\\Menu\:\:\$item_type\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Menu\\Models\\Menu\:\:\$parent_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Menu\\Models\\Menu\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Access to protected property Modules\\Content\\Models\\Content\:\:\$content_type\.$#'
+			identifier: property.protected
+			count: 1
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Content\\Models\\Content\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Menu\\Models\\Menu\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Constant DS not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: src/TemplateInstaller.php
+
+		-
+			message: '#^Call to static method put\(\) on an unknown class File\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/WebserverInstaller.php
+
+		-
+			message: '#^Constant DS not found\.$#'
+			identifier: constant.notFound
+			count: 3
+			path: src/WebserverInstaller.php
+
+		-
+			message: '#^Variable \$rwBase might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/WebserverInstaller.php
+
+		-
+			message: '#^Constant MW_VERSION not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 52
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Function _ejs not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Function current_lang not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Function mw_root_path not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Function userfiles_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Variable \$dbEngineNames might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Variable \$dbEngines might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Variable \$done might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Variable \$templates in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/resources/views/install.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layout.blade.php

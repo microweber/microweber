@@ -1,0 +1,361 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Anonymous function should return string but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Filament/FilamentAdminPanelProvider.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:id\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/FilamentAdminPanelProvider.php
+
+		-
+			message: '#^Function mw_admin_prefix_url not found\.$#'
+			identifier: function.notFound
+			count: 3
+			path: src/Filament/FilamentAdminPanelProvider.php
+
+		-
+			message: '#^Method Hydrat\\TableLayoutToggle\\TableLayoutTogglePlugin\:\:defaultLayout\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Filament/FilamentAdminPanelProvider.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Option\\Models\\ModuleOption\:\:whereIn\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Filament/Pages/Abstract/AdminSettingsPage.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Option\\Models\\Option\:\:whereIn\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Filament/Pages/Abstract/AdminSettingsPage.php
+
+		-
+			message: '#^Undefined variable\: \$formState$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/Filament/Pages/Abstract/AdminSettingsPage.php
+
+		-
+			message: '#^Variable \$formState in isset\(\) is never defined\.$#'
+			identifier: isset.variable
+			count: 2
+			path: src/Filament/Pages/Abstract/AdminSettingsPage.php
+
+		-
+			message: '#^Call to an undefined method Filament\\Schemas\\Components\\Component\:\:placeholder\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Filament/Pages/Login.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$content_manager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/AdminController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$parser\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/AdminController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$template_manager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/AdminController.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$update\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/AdminController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/Http/Controllers/AdminController.php
+
+		-
+			message: '#^Call to static method login\(\) on an unknown class Auth\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Http/Controllers/AdminController.php
+
+		-
+			message: '#^Call to static method only\(\) on an unknown class Request\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Http/Controllers/AdminController.php
+
+		-
+			message: '#^Function modules_path not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/AdminController.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/Http/Livewire/Filament/TopNavigationActions.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$is_admin\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Middleware/Admin.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$update\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Middleware/Admin.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Support\\Optional\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Middleware/Admin.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Middleware/Admin.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Middleware/Admin.php
+
+		-
+			message: '#^Method MicroweberPackages\\Admin\\Http\\Middleware\\Admin\:\:handle\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\JsonResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Middleware/Admin.php
+
+		-
+			message: '#^Method MicroweberPackages\\Admin\\Http\\Middleware\\Admin\:\:handle\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Middleware/Admin.php
+
+		-
+			message: '#^Method MicroweberPackages\\Admin\\Http\\Middleware\\Admin\:\:handle\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\RedirectResponse\|Illuminate\\Routing\\Redirector\.$#'
+			identifier: return.type
+			count: 2
+			path: src/Http/Middleware/Admin.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$template_manager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/AdminManager.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layout.blade.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$content_repository\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/resources/views/layouts/partials/add-content-buttons.blade.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$module_manager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/add-content-buttons.blade.php
+
+		-
+			message: '#^Function modules_url not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/resources/views/layouts/partials/add-content-buttons.blade.php
+
+		-
+			message: '#^Variable \$isIframe in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/resources/views/layouts/partials/add-content-buttons.blade.php
+
+		-
+			message: '#^Variable \$showEditContentButtonForContentId might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/layouts/partials/add-content-buttons.blade.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$ui\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/resources/views/layouts/partials/copyright.blade.php
+
+		-
+			message: '#^Constant MW_VERSION not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/copyright.blade.php
+
+		-
+			message: '#^Function _ejs not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/resources/views/layouts/partials/header.blade.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/header.blade.php
+
+		-
+			message: '#^Function current_lang not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/header.blade.php
+
+		-
+			message: '#^Function is_shop_module_enabled_for_user not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/header.blade.php
+
+		-
+			message: '#^Function lang_attributes not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/header.blade.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$template_manager\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/resources/views/layouts/partials/loads-user-custom-fonts.blade.php
+
+		-
+			message: '#^Function current_lang not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/navabar-bottom-menu-lang-switch-native.blade.php
+
+		-
+			message: '#^File ends with a trailing whitespace\. This may cause problems when running the code in the web browser\. Remove the closing \?\> mark or remove the whitespace\.$#'
+			identifier: whitespace.fileEnd
+			count: 1
+			path: src/resources/views/layouts/partials/navabar-bottom-menu-lang-switch.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/navabar-bottom-menu-lang-switch.blade.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/navabar-bottom-menu-lang-switch.blade.php
+
+		-
+			message: '#^Function current_lang not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/resources/views/layouts/partials/navabar-bottom-menu-lang-switch.blade.php
+
+		-
+			message: '#^Function get_supported_languages not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/navabar-bottom-menu-lang-switch.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/resources/views/layouts/partials/navbar-bottom-menu.blade.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$ui\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/resources/views/layouts/partials/navbar.blade.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/navbar.blade.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$content_manager\.$#'
+			identifier: property.notFound
+			count: 6
+			path: src/resources/views/layouts/partials/topbar.blade.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$module_manager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/topbar.blade.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$ui\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/resources/views/layouts/partials/topbar.blade.php
+
+		-
+			message: '#^Call to static method has\(\) on an unknown class Route\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/topbar.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/resources/views/layouts/partials/topbar.blade.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/topbar.blade.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Foundation\\Application\:\:\$module_manager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/topbar2-links-left-default.blade.php
+
+		-
+			message: '#^Function modules_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/topbar2-links-left-default.blade.php
+
+		-
+			message: '#^Function modules_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/layouts/partials/topbar2-links-right-default.blade.php
+
+		-
+			message: '#^Function mw_admin_prefix_url_legacy not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/routes/admin.php

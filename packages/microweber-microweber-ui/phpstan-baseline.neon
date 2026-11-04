@@ -1,0 +1,13 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Return type \(void\) of method MicroweberPackages\\MicroweberUI\\Providers\\MicroweberUIServiceProvider\:\:boot\(\) should be compatible with return type \(\$this\(MicroweberPackages\\Package\\MicroweberPackageServiceProvider\)\) of method MicroweberPackages\\Package\\MicroweberPackageServiceProvider\:\:boot\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: src/Providers/MicroweberUIServiceProvider.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/components/icon-picker.blade.php

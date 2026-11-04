@@ -1,0 +1,349 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Function url2dir not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/Api/ModuleUploadController.php
+
+		-
+			message: '#^Function userfiles_path not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/Api/ModuleUploadController.php
+
+		-
+			message: '#^Constant DS not found\.$#'
+			identifier: constant.notFound
+			count: 3
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Function load_module not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Function module_templates not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Function templates_dir not found\.$#'
+			identifier: function.notFound
+			count: 3
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Function titlelize not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Undefined variable\: \$params$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Variable \$expCategories in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Variable \$hide_from_display_list in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Variable \$is_elements in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Variable \$module_layouts in empty\(\) always exists and is always falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Variable \$modules in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 2
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Variable \$params in isset\(\) is never defined\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Variable \$sorted_modules in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/Http/Controllers/Api/ModulesApiLiveEdit.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Module\\Models\\Module\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Http/Livewire/Admin/AskForModuleUninstallModal.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Module\\Models\\Module\:\:\$categories\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/ListModules.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Module\\Models\\Module\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/ListModules.php
+
+		-
+			message: '#^Function mw_post_update not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/ListModules.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Module\\Http\\Livewire\\Admin\\ModuleOption\\OptionElement\:\:\$settings\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/ModuleOption/OptionElement.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Option\\Models\\ModuleOption\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/ModuleOption/OptionElement.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Option\\Models\\Option\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/ModuleOption/OptionElement.php
+
+		-
+			message: '#^Function get_supported_languages not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/ModuleOption/OptionElement.php
+
+		-
+			message: '#^Variable \$settings in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Http/Livewire/Admin/ModuleOption/OptionElement.php
+
+		-
+			message: '#^Variable \$translations in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Http/Livewire/Admin/ModuleOption/OptionElement.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Page\\Models\\Page\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/ModuleOption/SelectPageOption.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Page\\Models\\Page\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/ModuleOption/SelectPageOption.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Tag\\Models\\Tag\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/ModuleOption/SelectTagsOption.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Tag\\Models\\Tag\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Http/Livewire/Admin/ModuleOption/SelectTagsOption.php
+
+		-
+			message: '#^Variable \$selectedOption in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/Http/Livewire/Admin/ModuleOption/SelectTagsOption.php
+
+		-
+			message: '#^Access to an undefined property \$this\(MicroweberPackages\\Module\\Models\\Module\)\:\:\$module\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/Module.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Module\\Models\\Module\:\:\$icon\.$#'
+			identifier: property.notFound
+			count: 5
+			path: src/Models/Module.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Module\\Models\\Module\:\:\$module\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/Module.php
+
+		-
+			message: '#^Function url2dir not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Models/Module.php
+
+		-
+			message: '#^Call to an undefined static method Livewire\\Livewire\:\:resolveMissingComponent\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/ModuleAdminManager.php
+
+		-
+			message: '#^Constant DS not found\.$#'
+			identifier: constant.notFound
+			count: 6
+			path: src/ModuleManager.php
+
+		-
+			message: '#^Function modules_path not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/ModuleManager.php
+
+		-
+			message: '#^Function mw_error not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/ModuleManager.php
+
+		-
+			message: '#^Result of function parse_str \(void\) is used\.$#'
+			identifier: function.void
+			count: 2
+			path: src/ModuleManager.php
+
+		-
+			message: '#^Variable \$laravelModules in PHPDoc tag @var does not exist\.$#'
+			identifier: varTag.variableNotFound
+			count: 1
+			path: src/ModuleManager.php
+
+		-
+			message: '#^Call to an undefined static method Livewire\\Livewire\:\:resolveMissingComponent\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/ModuleServiceProvider.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:create\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Repositories/ModuleRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:where\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Repositories/ModuleRepository.php
+
+		-
+			message: '#^Argument of an invalid type Illuminate\\Routing\\RouteCollectionInterface supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/helpers.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Module\\Facades\\ModuleAdmin\:\:getAdminUrl\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/helpers.php
+
+		-
+			message: '#^Constant EMPTY_MOD_STR not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: src/helpers.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/helpers.php
+
+		-
+			message: '#^Function module_css_class not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/helpers.php
+
+		-
+			message: '#^Result of function parse_str \(void\) is used\.$#'
+			identifier: function.void
+			count: 1
+			path: src/helpers.php
+
+		-
+			message: '#^Variable \$module_name might not be defined\.$#'
+			identifier: variable.undefined
+			count: 3
+			path: src/helpers.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/livewire/admin/list-modules.blade.php
+
+		-
+			message: '#^Function mw_admin_prefix_url_legacy not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/routes/admin.php
+
+		-
+			message: '#^Function mw_post_update not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/routes/api.php
+
+		-
+			message: '#^Function mw_reload_modules not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/routes/api.php
+
+		-
+			message: '#^Call to static method raw\(\) on an unknown class DB\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/slow_tests/ModuleManagerTest.php
+
+		-
+			message: '#^Function modules_path not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/slow_tests/ModuleManagerTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/slow_tests/ModuleParseTest.php

@@ -1,0 +1,91 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Binary operation "/" between string and string results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 3
+			path: src/Libs/PHPImageMagician/ImageLib.php
+
+		-
+			message: '#^Class MicroweberPackages\\Thumbnailer\\Libs\\PHPImageMagician\\PhpPsdReader does not have a constructor and must be instantiated without any parameters\.$#'
+			identifier: new.noConstructor
+			count: 1
+			path: src/Libs/PHPImageMagician/ImageLib.php
+
+		-
+			message: '#^Method MicroweberPackages\\Thumbnailer\\Libs\\PHPImageMagician\\ImageLib\:\:sharpen\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Libs/PHPImageMagician/ImageLib.php
+
+		-
+			message: '#^Variable \$a might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Libs/PHPImageMagician/ImageLib.php
+
+		-
+			message: '#^Variable \$b0 might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Libs/PHPImageMagician/ImageLib.php
+
+		-
+			message: '#^Variable \$degrees might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Libs/PHPImageMagician/ImageLib.php
+
+		-
+			message: '#^Variable \$g0 might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Libs/PHPImageMagician/ImageLib.php
+
+		-
+			message: '#^Variable \$optimalHeight might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Libs/PHPImageMagician/ImageLib.php
+
+		-
+			message: '#^Variable \$optimalWidth might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Libs/PHPImageMagician/ImageLib.php
+
+		-
+			message: '#^Variable \$r0 might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Libs/PHPImageMagician/ImageLib.php
+
+		-
+			message: '#^Class MicroweberPackages\\Thumbnailer\\Libs\\PHPImageMagician\\PhpPsdReader does not have a constructor and must be instantiated without any parameters\.$#'
+			identifier: new.noConstructor
+			count: 1
+			path: src/Libs/PHPImageMagician/PhpPsdReader.php
+
+		-
+			message: '#^Function MicroweberPackages\\Thumbnailer\\Libs\\PHPImageMagician\\imagecreatefrompsd\(\) has invalid return type MicroweberPackages\\Thumbnailer\\Libs\\PHPImageMagician\\image\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Libs/PHPImageMagician/PhpPsdReader.php
+
+		-
+			message: '#^Function MicroweberPackages\\Thumbnailer\\Libs\\PHPImageMagician\\imagecreatefrompsd\(\) should return MicroweberPackages\\Thumbnailer\\Libs\\PHPImageMagician\\image but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Libs/PHPImageMagician/PhpPsdReader.php
+
+		-
+			message: '#^Variable \$bitPointer might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Libs/PHPImageMagician/PhpPsdReader.php
+
+		-
+			message: '#^Variable \$currentByteBits might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Libs/PHPImageMagician/PhpPsdReader.php

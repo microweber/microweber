@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Filament\\Schemas\\Components\\Group\:\:label\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Resolvers/MwCustomFieldResolver.php

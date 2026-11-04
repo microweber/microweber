@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Laravel\\Dusk\\Browser\:\:saveDuskCoverage\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/DuskPackageServiceProvider.php

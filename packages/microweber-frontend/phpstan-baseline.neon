@@ -1,0 +1,25 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$path\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/ServeStaticFileController.php
+
+		-
+			message: '#^Function userfiles_path not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/ServeStaticFileController.php
+
+		-
+			message: '#^Method MicroweberPackages\\Frontend\\Http\\Controllers\\ServeStaticFileController\:\:sendResponse\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Contracts\\Routing\\ResponseFactory\.$#'
+			identifier: return.type
+			count: 2
+			path: src/Http/Controllers/ServeStaticFileController.php
+
+		-
+			message: '#^Function mw_admin_prefix_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/routes/web.php

@@ -1,0 +1,55 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined static method Filament\\Widgets\\ChartWidget\:\:canAccess\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/ChartWidget.php
+
+		-
+			message: '#^Call to an undefined method Nwidart\\Modules\\Module\:\:appPath\(\)\.$#'
+			identifier: method.notFound
+			count: 6
+			path: src/Commands/ModuleFilamentInstallCommand.php
+
+		-
+			message: '#^Call to an undefined static method Coolsam\\Modules\\Facades\\FilamentModules\:\:convertPathToNamespace\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/ModulesPlugin.php
+
+		-
+			message: '#^Access to offset ''config'' on an unknown class Laravel\\Lumen\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/ModulesServiceProvider.php
+
+		-
+			message: '#^Call to an undefined method Nwidart\\Modules\\Module\:\:databasePath\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/ModulesServiceProvider.php
+
+		-
+			message: '#^Call to an undefined method Nwidart\\Modules\\Module\:\:namespace\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/ModulesServiceProvider.php
+
+		-
+			message: '#^Call to an undefined static method Coolsam\\Modules\\Facades\\FilamentModules\:\:convertPathToNamespace\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/ModulesServiceProvider.php
+
+		-
+			message: '#^Call to an undefined static method Filament\\Widgets\\StatsOverviewWidget\:\:canAccess\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/StatsOverviewWidget.php
+
+		-
+			message: '#^Call to an undefined static method Filament\\Widgets\\TableWidget\:\:canAccess\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/TableWidget.php

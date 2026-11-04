@@ -1,0 +1,151 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Property MicroweberPackages\\Core\\Events\\AbstractModelEvent\:\:\$model has unknown class MicroweberPackages\\Core\\Events\\Model as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractModelEvent.php
+
+		-
+			message: '#^Method MicroweberPackages\\Core\\Events\\AbstractResourceIsCreating\:\:getData\(\) has invalid return type MicroweberPackages\\Core\\Events\\data\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceIsCreating.php
+
+		-
+			message: '#^Method MicroweberPackages\\Core\\Events\\AbstractResourceIsCreating\:\:getModel\(\) has invalid return type MicroweberPackages\\Core\\Events\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceIsCreating.php
+
+		-
+			message: '#^Property MicroweberPackages\\Core\\Events\\AbstractResourceIsCreating\:\:\$model has unknown class MicroweberPackages\\Core\\Events\\Model as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceIsCreating.php
+
+		-
+			message: '#^Method MicroweberPackages\\Core\\Events\\AbstractResourceIsUpdating\:\:getData\(\) has invalid return type MicroweberPackages\\Core\\Events\\data\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceIsUpdating.php
+
+		-
+			message: '#^Method MicroweberPackages\\Core\\Events\\AbstractResourceIsUpdating\:\:getModel\(\) has invalid return type MicroweberPackages\\Core\\Events\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceIsUpdating.php
+
+		-
+			message: '#^Property MicroweberPackages\\Core\\Events\\AbstractResourceIsUpdating\:\:\$model has unknown class MicroweberPackages\\Core\\Events\\Model as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceIsUpdating.php
+
+		-
+			message: '#^Method MicroweberPackages\\Core\\Events\\AbstractResourceWasCreated\:\:getData\(\) has invalid return type MicroweberPackages\\Core\\Events\\Data\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceWasCreated.php
+
+		-
+			message: '#^Method MicroweberPackages\\Core\\Events\\AbstractResourceWasCreated\:\:getModel\(\) has invalid return type MicroweberPackages\\Core\\Events\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceWasCreated.php
+
+		-
+			message: '#^Property MicroweberPackages\\Core\\Events\\AbstractResourceWasCreated\:\:\$model has unknown class MicroweberPackages\\Core\\Events\\Model as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceWasCreated.php
+
+		-
+			message: '#^Property MicroweberPackages\\Core\\Events\\AbstractResourceWasDeleted\:\:\$model has unknown class MicroweberPackages\\Core\\Events\\Model as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceWasDeleted.php
+
+		-
+			message: '#^Method MicroweberPackages\\Core\\Events\\AbstractResourceWasUpdated\:\:getData\(\) has invalid return type MicroweberPackages\\Core\\Events\\Data\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceWasUpdated.php
+
+		-
+			message: '#^Method MicroweberPackages\\Core\\Events\\AbstractResourceWasUpdated\:\:getModel\(\) has invalid return type MicroweberPackages\\Core\\Events\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceWasUpdated.php
+
+		-
+			message: '#^Property MicroweberPackages\\Core\\Events\\AbstractResourceWasUpdated\:\:\$model has unknown class MicroweberPackages\\Core\\Events\\Model as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/AbstractResourceWasUpdated.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:create\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Repositories/BaseRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:filter\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Repositories/BaseRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:find\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Repositories/BaseRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:findOrFail\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Repositories/BaseRepository.php
+
+		-
+			message: '#^Call to an undefined static method Illuminate\\Support\\Facades\\Config\:\:save\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/ConfigFileTest.php
+
+		-
+			message: '#^Constant MW_ROOTPATH not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: src/tests/ConfigFileTest.php
+
+		-
+			message: '#^Function site_templates not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/tests/TemplateTest.php
+
+		-
+			message: '#^Call to static method call\(\) on an unknown class Artisan\.$#'
+			identifier: class.notFound
+			count: 7
+			path: src/tests/TestArtisanCommand.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/TestCase.php
+
+		-
+			message: '#^Call to an undefined static method Illuminate\\Support\\Facades\\Config\:\:save\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/TestConfigFile.php
+
+		-
+			message: '#^Call to static method call\(\) on an unknown class Artisan\.$#'
+			identifier: class.notFound
+			count: 4
+			path: src/tests/TestTrustProxiesMiddleware.php

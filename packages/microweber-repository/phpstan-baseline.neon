@@ -1,0 +1,163 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Foundation\\Application\:\:getProvider\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Providers/RepositoryServiceProvider.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:\$message_bag\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:filterByParams\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getSearchable\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:queryClosureLogic\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:queryExcludeIdsLogic\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:queryGroupByLogic\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:queryIncludeIdsLogic\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:queryKeywordLogic\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:queryLimitLogic\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:queryOrderByLogic\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:querySelectLogic\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:queryTagsLogic\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Cannot call method add\(\) on array\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Cannot call method first\(\) on array\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Cannot call method toArray\(\) on stdClass\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:getByParams\(\) should return MicroweberPackages\\Repository\\Repositories\\AbstractRepository but returns null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Method MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:getErrors\(\) should return array but returns Illuminate\\Support\\MessageBag\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$attributes$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$key$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$queries$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^PHPDoc tag @return with type Illuminate\\Support\\MessageBag is incompatible with native type array\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^PHPDoc tag @return with type MicroweberPackages\\Repository\\Repositories\\AbstractRepository is not subtype of native type static\(MicroweberPackages\\Repository\\Repositories\\AbstractRepository\)\.$#'
+			identifier: return.phpDocType
+			count: 3
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^PHPDoc tag @return with type bool\|null is not subtype of native type bool\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Property MicroweberPackages\\Repository\\Repositories\\AbstractRepository\:\:\$query \(Illuminate\\Database\\Eloquent\\Builder\) does not accept MicroweberPackages\\Repository\\Repositories\\AbstractRepository\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Method MicroweberPackages\\Repository\\RepositoryManager\:\:getDefaultDriver\(\) should return string\|null but empty return statement found\.$#'
+			identifier: return.empty
+			count: 1
+			path: src/RepositoryManager.php

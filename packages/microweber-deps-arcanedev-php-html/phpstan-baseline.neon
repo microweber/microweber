@@ -1,0 +1,109 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Illuminate\\Support\\HigherOrderTapProxy\<static\(Arcanedev\\Html\\Elements\\HtmlElement\)\>\:\:initChildren\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Elements/HtmlElement.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Elements\\HtmlElement\:\:addChild\(\) should return \$this\(Arcanedev\\Html\\Elements\\HtmlElement\) but returns static\(Arcanedev\\Html\\Elements\\HtmlElement\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Elements/HtmlElement.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Elements\\HtmlElement\:\:attribute\(\) should return \$this\(Arcanedev\\Html\\Elements\\HtmlElement\) but returns static\(Arcanedev\\Html\\Elements\\HtmlElement\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Elements/HtmlElement.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Elements\\HtmlElement\:\:attributes\(\) should return \$this\(Arcanedev\\Html\\Elements\\HtmlElement\) but returns static\(Arcanedev\\Html\\Elements\\HtmlElement\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Elements/HtmlElement.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Elements\\HtmlElement\:\:class\(\) should return \$this\(Arcanedev\\Html\\Elements\\HtmlElement\) but returns static\(Arcanedev\\Html\\Elements\\HtmlElement\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Elements/HtmlElement.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Elements\\HtmlElement\:\:forgetAttribute\(\) should return \$this\(Arcanedev\\Html\\Elements\\HtmlElement\) but returns static\(Arcanedev\\Html\\Elements\\HtmlElement\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Elements/HtmlElement.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Elements\\HtmlElement\:\:make\(\) should return \$this\(Arcanedev\\Html\\Elements\\HtmlElement\) but returns static\(Arcanedev\\Html\\Elements\\HtmlElement\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Elements/HtmlElement.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Elements\\HtmlElement\:\:prependChildren\(\) should return \$this\(Arcanedev\\Html\\Elements\\HtmlElement\) but returns static\(Arcanedev\\Html\\Elements\\HtmlElement\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Elements/HtmlElement.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Elements\\HtmlElement\:\:pushClass\(\) should return \$this\(Arcanedev\\Html\\Elements\\HtmlElement\) but returns static\(Arcanedev\\Html\\Elements\\HtmlElement\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Elements/HtmlElement.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Elements/HtmlElement.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Elements\\Select\:\:value\(\) should return \$this\(Arcanedev\\Html\\Elements\\Select\) but returns static\(Arcanedev\\Html\\Elements\\Select\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Elements/Select.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Entities/Attributes.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Entities\\Attributes\\ClassAttribute\:\:make\(\) should return \$this\(Arcanedev\\Html\\Entities\\Attributes\\ClassAttribute\) but returns static\(Arcanedev\\Html\\Entities\\Attributes\\ClassAttribute\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Entities/Attributes/ClassAttribute.php
+
+		-
+			message: '#^Unsafe call to private method Arcanedev\\Html\\Entities\\Attributes\\ClassAttribute\:\:parseClasses\(\) through static\:\:\.$#'
+			identifier: staticClassAccess.privateMethod
+			count: 1
+			path: src/Entities/Attributes/ClassAttribute.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Entities/Attributes/ClassAttribute.php
+
+		-
+			message: '#^Method Arcanedev\\Html\\Entities\\ChildrenCollection\:\:parse\(\) should return \$this\(Arcanedev\\Html\\Entities\\ChildrenCollection\) but returns static\(Arcanedev\\Html\\Entities\\ChildrenCollection\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Entities/ChildrenCollection.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Exceptions/InvalidHtmlException.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Exceptions/MissingTagException.php

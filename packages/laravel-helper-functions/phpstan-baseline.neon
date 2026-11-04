@@ -1,0 +1,49 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Result of function parse_str \(void\) is used\.$#'
+			identifier: function.void
+			count: 1
+			path: src/functions/array.php
+
+		-
+			message: '#^Function mb_substr invoked with 4 parameters, 2\-3 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/functions/laravel.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(mixed\)\: Unexpected token "\\n     \* ", expected variable at offset 83 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/functions/laravel.php
+
+		-
+			message: '#^Function character_limiter\(\) should return string but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/functions/string.php
+
+		-
+			message: '#^Function url_segment\(\) should return string\|false but empty return statement found\.$#'
+			identifier: return.empty
+			count: 1
+			path: src/functions/url.php
+
+		-
+			message: '#^Function url_segment\(\) should return string\|false but returns list\<string\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/functions/url.php
+
+		-
+			message: '#^Result of function parse_str \(void\) is used\.$#'
+			identifier: function.void
+			count: 1
+			path: src/functions/url.php
+
+		-
+			message: '#^Variable \$u in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/functions/url.php

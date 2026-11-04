@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$local_key\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Commands/AddLicenseKeyCommand.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Commands/AddLicenseKeyCommand.php
+
+		-
+			message: '#^Function mw_post_update not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Commands/ReloadDatabaseCommand.php
+
+		-
+			message: '#^Call to static method flush\(\) on an unknown class Cache\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Commands/ResetCommand.php
+
+		-
+			message: '#^Function userfiles_path not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/Commands/ResetCommand.php

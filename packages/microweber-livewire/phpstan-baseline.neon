@@ -1,0 +1,19 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Function userfiles_path not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/LivewireFrontendAssetsManager.php
+
+		-
+			message: '#^Class MicroweberPackages\\Modules\\Admin\\ImportExportTool\\Http\\Livewire\\Admin\\DropdownMappingPreview not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/tests/LivewireComponentsAccessTest.php
+
+		-
+			message: '#^Function get_class_protected_property_value not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/tests/LivewireComponentsAccessTest.php

@@ -1,0 +1,217 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\TranslationKey\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Http/Controllers/TranslationController.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\TranslationKey\:\:\$translation_group\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/TranslationController.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\TranslationKey\:\:\$translation_key\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/TranslationController.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\TranslationKey\:\:\$translation_namespace\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/TranslationController.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\TranslationText\:\:\$translation_key_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/TranslationController.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\TranslationText\:\:\$translation_locale\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/TranslationController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationKey\:\:join\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/TranslationController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationKey\:\:whereNotIn\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/TranslationController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationText\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Http/Controllers/TranslationController.php
+
+		-
+			message: '#^Call to static method tags\(\) on an unknown class Cache\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Http/Controllers/TranslationController.php
+
+		-
+			message: '#^Variable \$default_locale in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/Locale/LanguagesData.php
+
+		-
+			message: '#^Variable \$locales in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/Locale/LanguagesData.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\Translation\:\:\$translation_group\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/Translation.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\Translation\:\:\$translation_key\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Models/Translation.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\Translation\:\:\$translation_namespace\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/Translation.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\Translation\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Models/Translation.php
+
+		-
+			message: '#^Call to static method raw\(\) on an unknown class DB\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Models/Translation.php
+
+		-
+			message: '#^PHPDoc type array of property MicroweberPackages\\Translation\\Models\\Translation\:\:\$guarded is not covariant with PHPDoc type array\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$guarded\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: src/Models/Translation.php
+
+		-
+			message: '#^PHPDoc type int of property MicroweberPackages\\Translation\\Models\\Translation\:\:\$timestamps is not covariant with PHPDoc type bool of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$timestamps\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: src/Models/Translation.php
+
+		-
+			message: '#^Property MicroweberPackages\\Translation\\Models\\Translation\:\:\$timestamps \(int\) does not accept default value of type true\.$#'
+			identifier: property.defaultValue
+			count: 1
+			path: src/Models/Translation.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\TranslationKey\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/TranslationKey.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Translation\\Models\\TranslationKey\:\:\$translation_key\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/TranslationKey.php
+
+		-
+			message: '#^Anonymous function has an unused use \$like\.$#'
+			identifier: closure.unusedUse
+			count: 2
+			path: src/Models/TranslationKey.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationText\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Models/TranslationKey.php
+
+		-
+			message: '#^Call to static method raw\(\) on an unknown class DB\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Models/TranslationKey.php
+
+		-
+			message: '#^Call to an undefined static method Illuminate\\Support\\Facades\\DB\:\:rollback\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Providers/TranslationServiceProvider.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationKey\:\:insert\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Providers/TranslationServiceProvider.php
+
+		-
+			message: '#^Call to static method hasTable\(\) on an unknown class Schema\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Providers/TranslationServiceProvider.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:select\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Repositories/TranslationKeyRepository.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationKey\:\:insert\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/TranslationImport.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationKey\:\:insertGetId\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/TranslationImport.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationKey\:\:select\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/TranslationImport.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationText\:\:insert\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/TranslationImport.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationText\:\:select\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/TranslationImport.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationText\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/TranslationImport.php
+
+		-
+			message: '#^Call to static method tags\(\) on an unknown class Cache\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/TranslationImport.php

@@ -1,0 +1,1498 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method MicroweberPackages\\User\\Events\\UserWasRegistered\:\:getData\(\) has invalid return type MicroweberPackages\\User\\Events\\Data\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/UserWasRegistered.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Events\\UserWasRegistered\:\:getModel\(\) has invalid return type MicroweberPackages\\User\\Events\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/UserWasRegistered.php
+
+		-
+			message: '#^Property MicroweberPackages\\User\\Events\\UserWasRegistered\:\:\$model has unknown class MicroweberPackages\\User\\Events\\Model as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Events/UserWasRegistered.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:id\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Pages/AdminProfileRedirectPage.php
+
+		-
+			message: '#^Function mw_admin_prefix_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Filament/Pages/AdminProfileRedirectPage.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/UsersResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$first_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/UsersResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/UsersResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/UsersResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_admin\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/UsersResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$last_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/UsersResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$phone\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/UsersResource.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:filter\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/Admin/UserController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Http/Controllers/Admin/UserController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/Api/AuthController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$password\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/Api/AuthController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$username\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Http/Controllers/Api/AuthController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/Http/Controllers/Api/AuthController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/Api/UserApiController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:filter\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/Api/UserApiController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/Api/UserApiController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:findOrFail\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Http/Controllers/Api/UserApiController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Http/Controllers/Api/UserLegacyApiController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:findOrFail\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/Api/UserLegacyApiController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/Api/UsersApiController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/Http/Controllers/Api/UsersApiController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Http/Controllers/UserForgotPasswordController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$token\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/UserForgotPasswordController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Support\\HigherOrderTapProxy\<mixed\>\:\:save\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Controllers/UserForgotPasswordController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\PasswordReset\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Http/Controllers/UserForgotPasswordController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 5
+			path: src/Http/Controllers/UserForgotPasswordController.php
+
+		-
+			message: '#^Call to static method loginUsingId\(\) on an unknown class Auth\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Http/Controllers/UserForgotPasswordController.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/UserForgotPasswordController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$is_admin\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Http/Controllers/UserLoginController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:user\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/Http/Controllers/UserLoginController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:select\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/UserLoginController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/UserLoginController.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/Http/Controllers/UserLoginController.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/Http/Controllers/UserLoginController.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Controllers\\UserLoginController\:\:index\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\RedirectResponse\|Illuminate\\Routing\\Redirector\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Controllers/UserLoginController.php
+
+		-
+			message: '#^Result of static method Illuminate\\Support\\Facades\\Auth\:\:logout\(\) \(void\) is used\.$#'
+			identifier: staticMethod.void
+			count: 1
+			path: src/Http/Controllers/UserLoginController.php
+
+		-
+			message: '#^Variable \$params in isset\(\) is never defined\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Http/Controllers/UserLoginController.php
+
+		-
+			message: '#^Function logout invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Http/Controllers/UserLogoutController.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Controllers\\UserLogoutController\:\:index\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Controllers/UserLogoutController.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Address\\Models\\Address\:\:\$customer_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/UserProfileController.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Address\\Models\\Address\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/UserProfileController.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Customer\\Models\\Customer\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/UserProfileController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/UserRegisterController.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Controllers\\UserRegisterController\:\:register\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\JsonResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Controllers/UserRegisterController.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Controllers\\UserRegisterController\:\:register\(\) should return Illuminate\\Http\\Response but returns array\<string, string\|true\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Controllers/UserRegisterController.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$request with type Illuminate\\Http\\Request is not subtype of native type MicroweberPackages\\User\\Http\\Requests\\RegisterRequest\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: src/Http/Controllers/UserRegisterController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$hash\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/UserVerifyController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/UserVerifyController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/Http/Controllers/UserVerifyController.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\CreateProfileInformationForm\:\:render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Livewire/Admin/CreateProfileInformationForm.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/DeleteUserForm.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\DeleteUserForm\:\:deleteUser\(\) with return type void returns Illuminate\\Http\\RedirectResponse but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: src/Http/Livewire/Admin/DeleteUserForm.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\DeleteUserForm\:\:render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Livewire/Admin/DeleteUserForm.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\LoginAsUserForm\:\:loginAsUser\(\) with return type void returns Illuminate\\Http\\RedirectResponse but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: src/Http/Livewire/Admin/LoginAsUserForm.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\LoginAsUserForm\:\:render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Livewire/Admin/LoginAsUserForm.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$password\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/LogoutOtherBrowserSessionsForm.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Authenticatable\:\:getKey\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Http/Livewire/Admin/LogoutOtherBrowserSessionsForm.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\StatefulGuard\:\:logoutOtherDevices\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/LogoutOtherBrowserSessionsForm.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\LogoutOtherBrowserSessionsForm\:\:render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Livewire/Admin/LogoutOtherBrowserSessionsForm.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$deleter$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/LogoutOtherBrowserSessionsForm.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$password\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UpdatePasswordForm.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Authenticatable\:\:forceFill\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UpdatePasswordForm.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UpdatePasswordForm.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\UpdatePasswordForm\:\:render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Livewire/Admin/UpdatePasswordForm.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Http/Livewire/Admin/UpdatePasswordWithoutConfirmFormModal.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\UpdatePasswordWithoutConfirmFormModal\:\:render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Livewire/Admin/UpdatePasswordWithoutConfirmFormModal.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$thumbnail\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UpdateProfileInformationForm.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Authenticatable\:\:save\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UpdateProfileInformationForm.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Authenticatable\:\:toArray\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UpdateProfileInformationForm.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Authenticatable\:\:withoutRelations\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UpdateProfileInformationForm.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/Http/Livewire/Admin/UpdateProfileInformationForm.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\UpdateProfileInformationForm\:\:render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Livewire/Admin/UpdateProfileInformationForm.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\UpdateProfileInformationForm\:\:updateProfileInformation\(\) with return type void returns Illuminate\\Http\\RedirectResponse but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: src/Http/Livewire/Admin/UpdateProfileInformationForm.php
+
+		-
+			message: '#^Property MicroweberPackages\\User\\Http\\Livewire\\Admin\\UpdateProfileInformationForm\:\:\$userId \(int\) does not accept default value of type false\.$#'
+			identifier: property.defaultValue
+			count: 1
+			path: src/Http/Livewire/Admin/UpdateProfileInformationForm.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Authenticatable\:\:withoutRelations\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UpdateStatusAndRoleForm.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Http/Livewire/Admin/UpdateStatusAndRoleForm.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\Admin\\UpdateStatusAndRoleForm\:\:render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Livewire/Admin/UpdateStatusAndRoleForm.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\App\\LoginAttempt\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UserLoginAttemptsModal.php
+
+		-
+			message: '#^Access to property \$data on an unknown class MicroweberPackages\\Export\\Formats\\XlsxExport\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/Http/Livewire/Admin/UsersList.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:filter\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UsersList.php
+
+		-
+			message: '#^Call to method start\(\) on an unknown class MicroweberPackages\\Export\\Formats\\XlsxExport\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UsersList.php
+
+		-
+			message: '#^Instantiated class MicroweberPackages\\Export\\Formats\\XlsxExport not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Http/Livewire/Admin/UsersList.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$password\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Livewire/LogoutOtherBrowserSessionsForm.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\StatefulGuard\:\:logoutOtherDevices\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Http/Livewire/LogoutOtherBrowserSessionsForm.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Livewire\\LogoutOtherBrowserSessionsForm\:\:render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Livewire/LogoutOtherBrowserSessionsForm.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$hash\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Middleware/UserValidateEmailSignature.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Middleware/UserValidateEmailSignature.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Middleware\\UserValidateEmailSignature\:\:handle\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Middleware/UserValidateEmailSignature.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Http\\Requests\\EmailVerificationRequest\:\:withValidator\(\) with return type void returns Illuminate\\Validation\\Validator but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: src/Http/Requests/EmailVerificationRequest.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\User\\Http\\Resources\\UserApiResource\:\:\$is_public\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Resources/UserApiResource.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\User\\Http\\Resources\\UserApiResource\:\:\$last_login\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Resources/UserApiResource.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\User\\Http\\Resources\\UserApiResource\:\:\$profile_url\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Resources/UserApiResource.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\User\\Http\\Resources\\UserApiResource\:\:\$role\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Resources/UserApiResource.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\User\\Http\\Resources\\UserApiResource\:\:\$website_url\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Resources/UserApiResource.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\User\\Http\\Resources\\UserResource\:\:\$attribute\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordAuthenticatedLoginListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$ip\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordAuthenticatedLoginListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$success\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordAuthenticatedLoginListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$time\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordAuthenticatedLoginListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$user_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordAuthenticatedLoginListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$username\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordAuthenticatedLoginListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordFailedLoginAttemptListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$ip\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordFailedLoginAttemptListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$success\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordFailedLoginAttemptListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$time\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordFailedLoginAttemptListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$user_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordFailedLoginAttemptListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$username\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/RecordFailedLoginAttemptListener.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:whereIsAdmin\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Listeners/UserRegisteredListener.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Models/User.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\User\\Models\\User\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Call to an undefined method Laravel\\Socialite\\Contracts\\User\:\:getRaw\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/Models/User.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Models/User.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\UserOauthData\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Call to static method username\(\) on an unknown class MicroweberPackages\\User\\Models\\Fortify\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Class Carbon\\Carbon referenced with incorrect case\: carbon\\carbon\.$#'
+			identifier: class.nameCase
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Class MicroweberPackages\\User\\Models\\TwoFactorAuthenticationProvider not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Function url2dir not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Models\\User\:\:findForPassport\(\) has invalid return type App\\User\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Models/User.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Notifications/MailResetPasswordNotification.php
+
+		-
+			message: '#^Function get_mail_template_by_id invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Notifications/MailResetPasswordNotification.php
+
+		-
+			message: '#^Function get_mail_template_by_id invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Notifications/NewRegistration.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Notifications/NewRegistrationAdminNotification.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$created_by\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Providers/AuthServiceProvider.php
+
+		-
+			message: '#^Call to an undefined static method Livewire\\Livewire\:\:resolveMissingComponent\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Providers/UserServiceProvider.php
+
+		-
+			message: '#^Variable \$count_only in isset\(\) is never defined\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Services/Concerns/QueriesUsers.php
+
+		-
+			message: '#^Variable \$limit in isset\(\) is never defined\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Services/Concerns/QueriesUsers.php
+
+		-
+			message: '#^Call to static method create\(\) on an unknown class Microweber\\App\\User\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Services/Registrar.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Validator\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Services/Registrar.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Services\\Registrar\:\:create\(\) has invalid return type Microweber\\App\\User\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Services/Registrar.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$user_manager\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Services/TosManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$is_admin\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$attributes_manager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$cache_manager\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$captcha_manager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$content_manager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$option_manager\.$#'
+			identifier: property.notFound
+			count: 7
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$template_manager\.$#'
+			identifier: property.notFound
+			count: 5
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$url\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$ip\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$success\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$time\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$user_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LoginAttempt\:\:\$username\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\User\\Models\\User\:\:\$pending_email\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\User\\Models\\User\:\:\$pending_email_created_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\User\\Models\\User\:\:\$pending_email_hash\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 5
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:first\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 8
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:whereNotNull\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Address\\Models\\Address\:\:updateOrCreate\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Address\\Models\\Address\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Customer\\Models\\Customer\:\:firstOrCreate\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Customer\\Models\\Customer\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Hash\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 5
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 5
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Function get_mail_template_by_id invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Function modules_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Function xss_clean not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Services\\UserManager\:\:codeLogin\(\) should return array\|bool but returns Illuminate\\Http\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Services\\UserManager\:\:codeLogin\(\) should return array\|bool but returns Illuminate\\Http\\RedirectResponse\|Illuminate\\Routing\\Redirector\.$#'
+			identifier: return.type
+			count: 5
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Method MicroweberPackages\\User\\Services\\UserManager\:\:get_by_id\(\) should return array but returns false\.$#'
+			identifier: return.type
+			count: 2
+			path: src/Services/UserManager.php
+
+		-
+			message: '''
+				#^PHPDoc tag @param has invalid value \(
+				           int id\)\: Unexpected token "\\n     \* ", expected type at offset 122 on line 5$#
+			'''
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$params$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Static method MicroweberPackages\\Event\\Facades\\EventManager\:\:trigger\(\) invoked with 3 parameters, 1\-2 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Undefined variable\: \$count_only$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Undefined variable\: \$limit$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/Services/UserManager.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:user\(\)\.$#'
+			identifier: method.notFound
+			count: 5
+			path: src/Tests/Unit/Filament/ApiApplicationsPageTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\|Illuminate\\Database\\Eloquent\\Model\:\:createToken\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Tests/Unit/Filament/ApiApplicationsPageTest.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\|Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Tests/Unit/Filament/UsersResourceTest.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Tests/Unit/Filament/UsersResourceTest.php
+
+		-
+			message: '#^Call to an undefined method Livewire\\Features\\SupportTesting\\Testable\:\:assertTableColumnExists\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Tests/Unit/Filament/UsersResourceTest.php
+
+		-
+			message: '#^Call to an undefined method Livewire\\Features\\SupportTesting\\Testable\:\:callTableBulkAction\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Tests/Unit/Filament/UsersResourceTest.php
+
+		-
+			message: '#^Call to an undefined method Livewire\\Features\\SupportTesting\\Testable\:\:loadTable\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Tests/Unit/Filament/UsersResourceTest.php
+
+		-
+			message: '#^Call to an undefined method Livewire\\Features\\SupportTesting\\Testable\:\:searchTable\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Tests/Unit/Filament/UsersResourceTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/Tests/Unit/Filament/UsersResourceTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:whereIn\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Tests/Unit/Filament/UsersResourceTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Schema\\Blueprint\:\:hasIndex\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/database/migrations/2021_03_04_000001_add_index_to_user_table.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$is_admin\.$#'
+			identifier: property.notFound
+			count: 3
+			path: src/helpers/helpers.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/helpers/helpers.php
+
+		-
+			message: '#^Function mw_error not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/helpers/helpers.php
+
+		-
+			message: '#^Call to static method user\(\) on an unknown class Auth\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/resources/views/admin/auth/index.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 8
+			path: src/resources/views/admin/livewire/edit-user/delete-user-form.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 7
+			path: src/resources/views/admin/livewire/edit-user/login-as-user-form.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/resources/views/admin/livewire/edit-user/update-password-form.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/resources/views/admin/livewire/edit-user/update-profile-information-form.blade.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/admin/livewire/edit-user/update-profile-information-form.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 13
+			path: src/resources/views/admin/livewire/edit-user/update-status-and-role-form.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 11
+			path: src/resources/views/admin/livewire/profile/logout-other-browser-sessions-form.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 11
+			path: src/resources/views/admin/livewire/profile/two-factor-authentication-form.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 29
+			path: src/resources/views/admin/livewire/users/list.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 8
+			path: src/resources/views/admin/livewire/users/user-login-attempts-modal.blade.php
+
+		-
+			message: '#^Variable \$loginAttempts might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/resources/views/admin/livewire/users/user-login-attempts-modal.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 3
+			path: src/resources/views/admin/livewire/users/user-tos-log-modal.blade.php
+
+		-
+			message: '#^Function titlelize not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/admin/livewire/users/user-tos-log-modal.blade.php
+
+		-
+			message: '#^Variable \$terms might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/admin/livewire/users/user-tos-log-modal.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/email/resend.blade.php
+
+		-
+			message: '#^Function lang_attributes not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/email/resend.blade.php
+
+		-
+			message: '#^Function mw_admin_prefix_url_legacy not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/routes/api.php
+
+		-
+			message: '#^Method Illuminate\\Routing\\Route\:\:excludedMiddleware\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: src/routes/api.php
+
+		-
+			message: '#^Variable \$getData in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/routes/api.php
+
+		-
+			message: '#^Function mw_admin_prefix_url_legacy not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/routes/web.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/EmailChangePolicyTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 6
+			path: src/tests/EmailChangePolicyTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/EmailChangeVerificationTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/tests/EmailChangeVerificationTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/EmailChangeVerificationTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/tests/LogoutRouteTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/tests/LogoutRouteTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/tests/SaveUserApiTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/SaveUserApiTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/tests/SaveUserApiTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/tests/SaveUserCredentialReauthTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 8
+			path: src/tests/SaveUserCredentialReauthTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/tests/UserEditAbilityGateTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/tests/UserEditAbilityGateTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/tests/UserEditAbilityGateTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:logout\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/UserLegacyApiRoutesTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/tests/UserLegacyApiRoutesTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/tests/UserLegacyApiRoutesTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/tests/UserLivewireComponentsAccessTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/tests/UserLivewireComponentsAccessTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 10
+			path: src/tests/UserLoginControllerTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/UserLoginControllerTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/tests/UserLoginControllerTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:user\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/UserManagerTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/tests/UserManagerTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/tests/UserManagerTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/tests/UserManagerTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Address\\Models\\Address\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/UserManagerTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Address\\Models\\Address\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/UserManagerTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Customer\\Models\\Customer\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/UserManagerTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Customer\\Models\\Customer\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/UserManagerTest.php
+
+		-
+			message: '#^Call to static method id\(\) on an unknown class Auth\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/tests/UserManagerTest.php
+
+		-
+			message: '#^Call to static method set\(\) on an unknown class Config\.$#'
+			identifier: class.notFound
+			count: 3
+			path: src/tests/UserManagerTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 17
+			path: src/tests/UserRegisterControllerTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/tests/UserRegisterControllerTest.php
+
+		-
+			message: '#^Call to static method set\(\) on an unknown class Config\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/tests/UserRegisterControllerTest.php

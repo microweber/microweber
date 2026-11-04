@@ -1,0 +1,511 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\LiveEdit\\Filament\\Admin\\Pages\\Abstract\\LiveEditModuleSettings\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Filament/Admin/Pages/Abstract/LiveEditModuleSettings.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Option\\Models\\ModuleOption\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/Abstract/LiveEditModuleSettings.php
+
+		-
+			message: '#^Function module_templates not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/Filament/Admin/Pages/Abstract/LiveEditModuleSettings.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\LiveEdit\\Filament\\Admin\\Pages\\Abstract\\LiveEditModuleSettingsTable\:\:\$modelName\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Filament/Admin/Pages/Abstract/LiveEditModuleSettingsTable.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Content\\Models\\Content\:\:\$content\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditPage.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Content\\Models\\Content\:\:\$content_body\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditPage.php
+
+		-
+			message: '#^Access to an undefined property Modules\\Content\\Models\\Content\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:id\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Filesystem\\Filesystem\:\:url\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\View\\View\:\:layout\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditPage.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Content\\Models\\Content\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Filament/Admin/Pages/AdminLiveEditPage.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Content\\Models\\Content\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditPage.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Media\\Models\\Media\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditPage.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\View\\View\:\:layout\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditSidebarElementStyleEditorPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\View\\View\:\:layout\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/AdminLiveEditSidebarTemplateSettingsPage.php
+
+		-
+			message: '#^Access to constant Full on an unknown class Filament\\Support\\Enums\\MaxWidth\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/VisualEditorPage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\View\\View\:\:layout\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/VisualEditorPage.php
+
+		-
+			message: '#^Method MicroweberPackages\\LiveEdit\\Filament\\Admin\\Pages\\VisualEditorPage\:\:getMaxContentWidth\(\) has invalid return type Filament\\Support\\Enums\\MaxWidth\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Filament/Admin/Pages/VisualEditorPage.php
+
+		-
+			message: '#^Property MicroweberPackages\\LiveEdit\\Filament\\Admin\\Pages\\VisualEditorPage\:\:\$contentId \(int\|null\) does not accept array\|string\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Filament/Admin/Pages/VisualEditorPage.php
+
+		-
+			message: '#^Call to static method share\(\) on an unknown class View\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Http/Controllers/ModuleSettingsController.php
+
+		-
+			message: '#^Function site_templates not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/SetupWizardController.php
+
+		-
+			message: '#^Function templates_path not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Controllers/SetupWizardController.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\LiveEdit\\Http\\Livewire\\ItemsEditor\\ModuleSettingsItemsEditorEditItemComponent\:\:\$settings\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Livewire/ItemsEditor/ModuleSettingsItemsEditorEditItemComponent.php
+
+		-
+			message: '#^Variable \$newItem in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 2
+			path: src/Http/Livewire/ItemsEditor/ModuleSettingsItemsEditorEditItemComponent.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Livewire/LiveEditSidebarAdmin/LiveEditSidebarAdminModulesListComponent.php
+
+		-
+			message: '#^Function module_templates not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Livewire/ModuleTemplateSelectComponent.php
+
+		-
+			message: '#^Function save_module_as_template not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Livewire/Presets/ModulePresetsManager.php
+
+		-
+			message: '#^Function titlelize not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Http/Livewire/Presets/ModulePresetsManager.php
+
+		-
+			message: '#^Call to an undefined method DOMNameSpaceNode\|DOMNode\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Http/Livewire/VisualEditor/VisualEditorComponent.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\LiveEdit\\Models\\ModuleItemSushi\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/ModuleItemSushi.php
+
+		-
+			message: '#^Access to an undefined static property Illuminate\\Database\\Eloquent\\Model\:\:\$optionGroup\.$#'
+			identifier: staticProperty.notFound
+			count: 1
+			path: src/Models/Scopes/HasOptionGroupScope.php
+
+		-
+			message: '#^Call to an undefined static method Livewire\\Livewire\:\:resolveMissingComponent\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Providers/LiveEditServiceProvider.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Module\\Facades\\ModuleAdmin\:\:registerLiveEditSettingsUrl\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 7
+			path: src/Providers/LiveEditServiceProvider.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Providers/LiveEditServiceProvider.php
+
+		-
+			message: '#^Method MicroweberPackages\\LiveEdit\\Providers\\LiveEditServiceProvider\:\:register\(\) should return \$this\(MicroweberPackages\\LiveEdit\\Providers\\LiveEditServiceProvider\) but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/Providers/LiveEditServiceProvider.php
+
+		-
+			message: '#^Return type \(void\) of method MicroweberPackages\\LiveEdit\\Providers\\LiveEditServiceProvider\:\:boot\(\) should be compatible with return type \(\$this\(MicroweberPackages\\Package\\MicroweberPackageServiceProvider\)\) of method MicroweberPackages\\Package\\MicroweberPackageServiceProvider\:\:boot\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: src/Providers/LiveEditServiceProvider.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$menu$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Services/LiveEditManagerService.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 7
+			path: src/resources/views/editor-tools/render-code-editor.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 12
+			path: src/resources/views/editor-tools/render-css-editor.blade.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Module\\Facades\\ModuleAdmin\:\:getLiveEditSettingsUrls\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/resources/views/iframe-page.blade.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Module\\Facades\\ModuleAdmin\:\:getSettingsComponents\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/resources/views/iframe-page.blade.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/iframe-page.blade.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Module\\Facades\\ModuleAdmin\:\:getLiveEditSettingsUrls\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/resources/views/iframe.blade.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Module\\Facades\\ModuleAdmin\:\:getSettingsComponents\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/resources/views/iframe.blade.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/iframe.blade.php
+
+		-
+			message: '#^Function lang_attributes not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/iframe.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/resources/views/module-items-editor-list-items.blade.php
+
+		-
+			message: '#^Variable \$moduleId might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/module-items-editor-list-items.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 8
+			path: src/resources/views/module-items-editor-list.blade.php
+
+		-
+			message: '#^Cannot call method html\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/resources/views/module-select-template.blade.php
+
+		-
+			message: '#^Function _ejs not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/resources/views/module-select-template.blade.php
+
+		-
+			message: '#^Variable \$componentNameForModuleSkin might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/module-select-template.blade.php
+
+		-
+			message: '#^Variable \$legacySkinSettingsFileSkin might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/module-select-template.blade.php
+
+		-
+			message: '#^Variable \$moduleId might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/resources/views/module-select-template.blade.php
+
+		-
+			message: '#^Variable \$moduleType might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/resources/views/module-select-template.blade.php
+
+		-
+			message: '#^Variable \$this might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/module-settings-form.blade.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Module\\Facades\\ModuleAdmin\:\:getSettings\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/resources/views/module-settings.blade.php
+
+		-
+			message: '#^Function _ejs not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/module-settings.blade.php
+
+		-
+			message: '#^Function xss_clean not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/module-settings.blade.php
+
+		-
+			message: '#^Variable \$moduleId might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/module-settings.blade.php
+
+		-
+			message: '#^Variable \$moduleType might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/resources/views/module-settings.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/resources/views/presets/module-presets-manager.blade.php
+
+		-
+			message: '#^Variable \$module might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/preview-layout/layout_render.blade.php
+
+		-
+			message: '#^Variable \$skin might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/resources/views/preview-layout/layout_render.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/setup-wizard.blade.php
+
+		-
+			message: '#^Function lang_attributes not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/resources/views/setup-wizard.blade.php
+
+		-
+			message: '#^Variable \$packageName might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/resources/views/unlock-package/unlock-package-modal.blade.php
+
+		-
+			message: '#^Variable \$params might not be defined\.$#'
+			identifier: variable.undefined
+			count: 4
+			path: src/resources/views/unlock-package/unlock-package-modal.blade.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Content\\Models\\Content\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/routes/api.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Media\\Models\\Media\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/routes/api.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Menu\\Models\\Menu\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 6
+			path: src/routes/api.php
+
+		-
+			message: '#^Function mw_admin_prefix_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/routes/web.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/tests/LiveEditSaveContentApiTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Page\\Models\\Page\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/LiveEditSaveContentApiTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Page\\Models\\Page\:\:whereId\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/LiveEditSaveContentApiTest.php
+
+		-
+			message: '#^Offset 0 does not exist on Illuminate\\Testing\\AssertableJsonString\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/tests/LiveEditSaveContentApiTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/LiveEditTopRightMenuTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/LiveEditTopRightMenuTest.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/tests/LiveEditTopRightMenuTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Option\\Models\\Option\:\:truncate\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/ModuleSettingsItemsEditorTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/ModuleSettingsItemsEditorTest.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\|Illuminate\\Database\\Eloquent\\Model\:\:\$content_body\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/tests/VisualEditor/VisualEditorComponentTest.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\|Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 13
+			path: src/tests/VisualEditor/VisualEditorComponentTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:logout\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/VisualEditor/VisualEditorComponentTest.php

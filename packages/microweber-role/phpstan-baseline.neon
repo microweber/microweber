@@ -1,0 +1,241 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$guard_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/PermissionResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/PermissionResource.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Role\\Models\\Permission\:\:distinct\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Filament/Resources/PermissionResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_system\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Filament/Resources/RoleResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Filament/Resources/RoleResource.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Role\\Models\\Role\:\:\$is_system\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Filament/Resources/RoleResource.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Role\\Models\\Permission\:\:orderBy\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Filament/Resources/RoleResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Collection\<int, Spatie\\Permission\\Models\\Role\>\|Spatie\\Permission\\Models\\Role\:\:\$permissions\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Http\\Request\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Call to an undefined static method Spatie\\Permission\\Models\\Role\:\:findOrFail\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Call to an undefined static method Spatie\\Permission\\Models\\Role\:\:whereIn\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Method MicroweberPackages\\Role\\Http\\Controllers\\Admin\\RolesController\:\:create\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Method MicroweberPackages\\Role\\Http\\Controllers\\Admin\\RolesController\:\:destroy\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Method MicroweberPackages\\Role\\Http\\Controllers\\Admin\\RolesController\:\:edit\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Method MicroweberPackages\\Role\\Http\\Controllers\\Admin\\RolesController\:\:index\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Method MicroweberPackages\\Role\\Http\\Controllers\\Admin\\RolesController\:\:store\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Method MicroweberPackages\\Role\\Http\\Controllers\\Admin\\RolesController\:\:update\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\RedirectResponse\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$request with type App\\Http\\Requests\\StoreRolesRequest is not subtype of native type Illuminate\\Http\\Request\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$request with type App\\Http\\Requests\\UpdateRolesRequest is not subtype of native type Illuminate\\Http\\Request\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Parameter \$request of method MicroweberPackages\\Role\\Http\\Controllers\\Admin\\RolesController\:\:store\(\) has invalid type App\\Http\\Requests\\StoreRolesRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Parameter \$request of method MicroweberPackages\\Role\\Http\\Controllers\\Admin\\RolesController\:\:update\(\) has invalid type App\\Http\\Requests\\UpdateRolesRequest\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Http/Controllers/Admin/RolesController.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Role\\Models\\ResourcePermission\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Models/ResourcePermission.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Role\\Models\\ResourcePermission\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Models/ResourcePermission.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Role\\Models\\Role\:\:\$is_system\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Models/Role.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<MicroweberPackages\\Role\\Models\\ResourcePermission\>\:\:withTimestamps\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Models/Role.php
+
+		-
+			message: '#^Function get_modules not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/Repositories/Permission.php
+
+		-
+			message: '#^Unsafe call to private method MicroweberPackages\\Role\\Repositories\\Permission\:\:getEnabledModulePermissions\(\) through static\:\:\.$#'
+			identifier: staticClassAccess.privateMethod
+			count: 1
+			path: src/Repositories/Permission.php
+
+		-
+			message: '#^Variable \$getRoles in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/Repositories/Role.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model&object\{pivot\: Illuminate\\Database\\Eloquent\\Relations\\Pivot\}\:\:\$action\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/ResourcePermissionService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$pivot\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/ResourcePermissionService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Relations\\Pivot\:\:\$conditions\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/ResourcePermissionService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Relations\\Pivot\:\:\$is_allowed\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Services/ResourcePermissionService.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Role\\Models\\ResourcePermission\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Services/ResourcePermissionService.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Role\\Models\\ResourcePermission\:\:orderBy\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Services/ResourcePermissionService.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Role\\Models\\ResourcePermission\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Services/ResourcePermissionService.php
+
+		-
+			message: '#^Anonymous function has an unused use \$tableNames\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: src/database/migrations/2020_00_00_00002_create_model_has_permissions_table.php
+
+		-
+			message: '#^Anonymous function has an unused use \$tableNames\.$#'
+			identifier: closure.unusedUse
+			count: 2
+			path: src/database/migrations/2020_00_00_00003_create_model_has_roles_table.php
+
+		-
+			message: '#^Anonymous function has an unused use \$tableNames\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: src/database/migrations/2020_00_00_00004_create_role_has_permissions_table.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 19
+			path: src/resources/views/admin/roles/edit.blade.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 6
+			path: src/resources/views/admin/roles/index.blade.php

@@ -1,0 +1,25 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Exceptions/PackageException.php
+
+		-
+			message: '#^Method Arcanedev\\Support\\Stub\:\:create\(\) should return \$this\(Arcanedev\\Support\\Stub\) but returns static\(Arcanedev\\Support\\Stub\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Stub.php
+
+		-
+			message: '#^Method Arcanedev\\Support\\Stub\:\:createFromPath\(\) should return \$this\(Arcanedev\\Support\\Stub\) but returns static\(Arcanedev\\Support\\Stub\)\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Stub.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: src/Stub.php

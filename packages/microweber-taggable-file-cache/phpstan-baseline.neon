@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$handle$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/CacheFileHandler/MemoryCacheFileHandler.php
+
+		-
+			message: '#^Attribute class MicroweberPackages\\TaggableFileCache\\AllowDynamicProperties does not exist\.$#'
+			identifier: attribute.notFound
+			count: 1
+			path: src/TaggableFileStore.php
+
+		-
+			message: '#^Default value of the parameter \#3 \$seconds \(false\) of method MicroweberPackages\\TaggableFileCache\\TaggableFileStore\:\:put\(\) is incompatible with type int\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: src/TaggableFileStore.php
+
+		-
+			message: '#^Method Carbon\\CarbonInterface\:\:addYear\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/TaggableFileStore.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/TaggableFileStore.php

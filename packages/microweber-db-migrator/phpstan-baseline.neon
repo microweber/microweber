@@ -1,0 +1,37 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method MicroweberPackages\\DbMigrator\\MicroweberMigrator\:\:run\(\) should return array but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/MicroweberMigrator.php
+
+		-
+			message: '#^Method MicroweberPackages\\DbMigrator\\MicroweberMigrator\:\:runMigration\(\) with return type void returns false but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: src/MicroweberMigrator.php
+
+		-
+			message: '#^Method MicroweberPackages\\DbMigrator\\MicroweberMigrator\:\:runMigration\(\) with return type void returns null but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: src/MicroweberMigrator.php
+
+		-
+			message: '#^Method MicroweberPackages\\DbMigrator\\MicroweberMigrator\:\:runUp\(\) with return type void returns null but should not return anything\.$#'
+			identifier: return.void
+			count: 1
+			path: src/MicroweberMigrator.php
+
+		-
+			message: '#^Result of method Illuminate\\Database\\Migrations\\Migrator\:\:pretendToRun\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 1
+			path: src/MicroweberMigrator.php
+
+		-
+			message: '#^Result of method Illuminate\\Database\\Migrations\\Migrator\:\:runMigration\(\) \(void\) is used\.$#'
+			identifier: staticMethod.void
+			count: 1
+			path: src/MicroweberMigrator.php

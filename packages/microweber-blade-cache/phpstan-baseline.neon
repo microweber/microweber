@@ -1,0 +1,16 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Cache\\Repository\:\:tags\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/BladeCacheService.php
+
+		-
+			message: '''
+				#^PHPDoc tag @cache has invalid value \(\('sidebar', \['navigation'\], 3600\)
+				      \{\{\-\- expensive HTML \-\-\}\}\)\: Unexpected token "'sidebar'", expected TOKEN_DOUBLE_QUOTED_STRING at offset 83 on line 5$#
+			'''
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/CacheDirective.php

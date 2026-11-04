@@ -1,0 +1,115 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Function get_mail_provider_settings not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/Mail/MailSubscriber.php
+
+		-
+			message: '#^Function get_mail_subscriber not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/Mail/MailSubscriber.php
+
+		-
+			message: '#^Function save_mail_subscriber not found\.$#'
+			identifier: function.notFound
+			count: 3
+			path: src/Mail/MailSubscriber.php
+
+		-
+			message: '#^Call to method readfile_chunked\(\) on an unknown class MicroweberPackages\\Utils\\Misc\\Import\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Misc/ContentExport.php
+
+		-
+			message: '#^Function get_comments not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Misc/ContentExport.php
+
+		-
+			message: '#^Function get_orders not found\.$#'
+			identifier: function.notFound
+			count: 3
+			path: src/Misc/ContentExport.php
+
+		-
+			message: '#^Function offers_get_products invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Misc/ContentExport.php
+
+		-
+			message: '#^Instantiated class MicroweberPackages\\Utils\\Misc\\Import not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Misc/ContentExport.php
+
+		-
+			message: '#^Class MicroweberPackages\\Utils\\ThirdPartyLibs\\PHPImageMagician\\PhpPsdReader does not have a constructor and must be instantiated without any parameters\.$#'
+			identifier: new.noConstructor
+			count: 1
+			path: src/ThirdPartyLibs/PHPImageMagician/PhpPsdReader.php
+
+		-
+			message: '#^Call to function unset\(\) contains undefined variable \$v_header_list\.$#'
+			identifier: unset.variable
+			count: 1
+			path: src/ThirdPartyLibs/PclZip.php
+
+		-
+			message: '#^Function PclError not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/ThirdPartyLibs/PclZip.php
+
+		-
+			message: '#^Function PclErrorCode not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/ThirdPartyLibs/PclZip.php
+
+		-
+			message: '#^Function PclErrorReset not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/ThirdPartyLibs/PclZip.php
+
+		-
+			message: '#^Function PclErrorString not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/ThirdPartyLibs/PclZip.php
+
+		-
+			message: '#^Offset ''comment'' does not exist on array\{\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/ThirdPartyLibs/PclZip.php
+
+		-
+			message: '#^Offset ''entries'' does not exist on array\{\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/ThirdPartyLibs/PclZip.php
+
+		-
+			message: '#^Offset ''offset'' does not exist on array\{\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/ThirdPartyLibs/PclZip.php
+
+		-
+			message: '#^Offset ''size'' does not exist on array\{\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/ThirdPartyLibs/PclZip.php
+
+		-
+			message: '#^Undefined variable\: \$v_file$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/ThirdPartyLibs/PclZip.php

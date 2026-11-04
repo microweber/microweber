@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Return type \(void\) of method MicroweberPackages\\FrontendAssetsLibs\\MicroweberFrontendAssetsLibsServiceProvider\:\:register\(\) should be compatible with return type \(\$this\(MicroweberPackages\\Package\\MicroweberPackageServiceProvider\)\) of method MicroweberPackages\\Package\\MicroweberPackageServiceProvider\:\:register\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: src/MicroweberFrontendAssetsLibsServiceProvider.php

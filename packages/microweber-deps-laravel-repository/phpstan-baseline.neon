@@ -1,0 +1,109 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Interface Torann\\LaravelRepository\\Contracts\\Repository has @implements tag, but can not implement any interface, must extend from it\.$#'
+			identifier: generics.noParent
+			count: 1
+			path: src/Contracts/Repository.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$attribute with type mixed is not subtype of native type string\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: src/Contracts/Repository.php
+
+		-
+			message: '#^PHPDoc tag @return with type mixed is not subtype of native type Illuminate\\Database\\Eloquent\\Builder\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: src/Contracts/Scope.php
+
+		-
+			message: '#^Cannot unset offset array on array\.$#'
+			identifier: unset.offset
+			count: 1
+			path: src/Repository.php
+
+		-
+			message: '#^Invalid array key type array\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: src/Repository.php
+
+		-
+			message: '#^Method Torann\\LaravelRepository\\Repository\:\:findAllBy\(\) should return array\<static\(Torann\\LaravelRepository\\Repository\)\>\|Illuminate\\Database\\Eloquent\\Collection but returns Illuminate\\Support\\Collection\<int, stdClass\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repository.php
+
+		-
+			message: '#^Variable \$scope in PHPDoc tag @var does not exist\.$#'
+			identifier: varTag.variableNotFound
+			count: 2
+			path: src/Repository.php
+
+		-
+			message: '#^Call to an undefined method Torann\\LaravelRepository\\Contracts\\Repository\:\:addJoin\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Scopes/OrderBy.php
+
+		-
+			message: '#^Call to an undefined method Torann\\LaravelRepository\\Contracts\\Repository\:\:addOrderByJoin\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Scopes/OrderBy.php
+
+		-
+			message: '#^Call to an undefined method Torann\\LaravelRepository\\Contracts\\Repository\:\:appendTableName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Scopes/OrderBy.php
+
+		-
+			message: '#^Method Torann\\LaravelRepository\\Scopes\\OrderBy\:\:apply\(\) should return Illuminate\\Database\\Eloquent\\Builder but returns Illuminate\\Database\\Query\\Builder\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Scopes/OrderBy.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Scopes/Scope.php
+
+		-
+			message: '#^Call to an undefined method Torann\\LaravelRepository\\Contracts\\Repository\:\:addJoin\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Scopes/Search.php
+
+		-
+			message: '#^Call to an undefined method Torann\\LaravelRepository\\Contracts\\Repository\:\:addSearchJoin\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Scopes/Search.php
+
+		-
+			message: '#^Call to an undefined method Torann\\LaravelRepository\\Contracts\\Repository\:\:createSearchClause\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Scopes/Search.php
+
+		-
+			message: '#^Call to an undefined method Torann\\LaravelRepository\\Contracts\\Repository\:\:createSearchRangeClause\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Scopes/Search.php
+
+		-
+			message: '#^Call to an undefined method Torann\\LaravelRepository\\Contracts\\Repository\:\:getSearchable\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Scopes/Search.php
+
+		-
+			message: '#^Constructor of class Torann\\LaravelRepository\\Scopes\\Search has an unused parameter \$options\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: src/Scopes/Search.php

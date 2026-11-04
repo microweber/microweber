@@ -1,0 +1,85 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$billing_cycle\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$domains\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$due_on\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$local_key\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$local_key_hash\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$product_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$reg_on\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$registered_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$service_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:find\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\SystemLicenses\\Models\\SystemLicense\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/SystemLicensesManager.php
+
+		-
+			message: '#^Variable \$licenses in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/SystemLicensesManager.php

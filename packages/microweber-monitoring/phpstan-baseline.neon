@@ -1,0 +1,67 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Monitoring\\Models\\ErrorTracking\:\:count\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Console/Commands/CleanupErrorTracking.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Monitoring\\Models\\ErrorTracking\:\:critical\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Console/Commands/CleanupErrorTracking.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Monitoring\\Models\\ErrorTracking\:\:unresolved\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Console/Commands/CleanupErrorTracking.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Monitoring\\Models\\ErrorTracking\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/Console/Commands/CleanupErrorTracking.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Monitoring\\Models\\ErrorTracking\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Console/Commands/ExportErrorReport.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Monitoring\\Models\\ErrorTracking\:\:unresolved\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Filament/Resources/ErrorTrackingResource.php
+
+		-
+			message: '#^Method MicroweberPackages\\Monitoring\\Filament\\Resources\\ErrorTrackingResource\:\:getPages\(\) should return array\<string, Filament\\Resources\\Pages\\PageRegistration\> but returns array\<string, string\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Filament/Resources/ErrorTrackingResource.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Monitoring\\Models\\ErrorTracking\:\:unresolved\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Filament/Widgets/ErrorStatsWidget.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Monitoring\\Models\\ErrorTracking\:\:whereDate\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Filament/Widgets/ErrorStatsWidget.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:id\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Models/ErrorTracking.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Auth\\Factory\:\:id\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Services/ErrorTrackingService.php

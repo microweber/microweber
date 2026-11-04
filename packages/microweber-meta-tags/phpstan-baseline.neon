@@ -1,0 +1,97 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Function public_asset not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Entities/AdminFilamentCssTag.php
+
+		-
+			message: '#^Function public_asset not found\.$#'
+			identifier: function.notFound
+			count: 8
+			path: src/Entities/AdminFilamentJsLibsScriptTag.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Entities/AdminFilamentJsScriptTag.php
+
+		-
+			message: '#^Function public_asset not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/Entities/AdminFilamentJsScriptTag.php
+
+		-
+			message: '#^Constant DS not found\.$#'
+			identifier: constant.notFound
+			count: 1
+			path: src/Entities/AdminWebAppManifestTags.php
+
+		-
+			message: '#^Constant MW_VERSION not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: src/Entities/AdminWebAppManifestTags.php
+
+		-
+			message: '#^Function admin_url not found\.$#'
+			identifier: function.notFound
+			count: 2
+			path: src/Entities/AdminWebAppManifestTags.php
+
+		-
+			message: '#^Function mw_is_multisite not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Entities/AdminWebAppManifestTags.php
+
+		-
+			message: '#^Function userfiles_path not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Entities/AdminWebAppManifestTags.php
+
+		-
+			message: '#^Function userfiles_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Entities/AdminWebAppManifestTags.php
+
+		-
+			message: '#^Function public_asset not found\.$#'
+			identifier: function.notFound
+			count: 4
+			path: src/Entities/ApijsScriptTag.php
+
+		-
+			message: '#^Function in_live_edit not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Entities/CustomCssHeadTags.php
+
+		-
+			message: '#^Function in_live_edit not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Entities/CustomFontsCssHeadTags.php
+
+		-
+			message: '#^Function public_asset not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/Entities/LivewireHeadTags.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/TemplateMetaTagsSeoTagsTest.php
+
+		-
+			message: '#^Function templates_dir not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/tests/TemplateMetaTagsSeoTagsTest.php

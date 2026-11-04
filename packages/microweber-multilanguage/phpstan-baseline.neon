@@ -1,0 +1,751 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\MwEditor\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/Deprecated/MwEditor.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\MwEditor\:\:\$value\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/Deprecated/MwEditor.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\MwEditor\:\:escape\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/Deprecated/MwEditor.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\MwEditor\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/FormElements/Deprecated/MwEditor.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\MwEditor\:\:id\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/Deprecated/MwEditor.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\Text\:\:\$append\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/Deprecated/Text.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\Text\:\:\$currentLanguage\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/Deprecated/Text.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\Text\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/Deprecated/Text.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\Text\:\:\$prepend\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/Deprecated/Text.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\Text\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/FormElements/Deprecated/Text.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\TextArea\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/Deprecated/TextArea.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\TextArea\:\:\$value\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/Deprecated/TextArea.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\TextArea\:\:escape\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/Deprecated/TextArea.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\TextArea\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/FormElements/Deprecated/TextArea.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\Deprecated\\TextArea\:\:id\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/Deprecated/TextArea.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\FileOption\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/FileOption.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\FileOption\:\:\$optionGroup\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/FileOption.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\FileOption\:\:\$optionKey\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/FileOption.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\FileOption\:\:id\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/FileOption.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\FileOption\:\:renderAttributes\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/FileOption.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\MwEditor\:\:\$currentLanguage\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/FormElements/MwEditor.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\MwEditor\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/MwEditor.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\MwEditor\:\:\$readValueFromField\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/MwEditor.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\MwEditor\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/FormElements/MwEditor.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\MwEditor\:\:renderAttributes\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/MwEditor.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\MwModuleSettings\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/MwModuleSettings.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\MwModuleSettings\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/FormElements/MwModuleSettings.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/FormElements/MwModuleSettings.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Text\:\:\$currentLanguage\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/FormElements/Text.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Text\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/Text.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\Text\:\:\$readValueFromField\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/Text.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\Text\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/Text.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\Text\:\:getAttributes\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/Text.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\TextArea\:\:\$currentLanguage\.$#'
+			identifier: property.notFound
+			count: 5
+			path: src/FormElements/TextArea.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\TextArea\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/TextArea.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\TextArea\:\:\$readValueFromField\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/TextArea.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\TextArea\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/TextArea.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\TextArea\:\:getAttributes\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/TextArea.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\TextAreaOption\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/FormElements/TextAreaOption.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\TextAreaOption\:\:id\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/TextAreaOption.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\TextAreaOption\:\:renderAttributes\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/TextAreaOption.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\FormElements\\TextOption\:\:\$model\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/FormElements/TextOption.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\TextOption\:\:lang\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/TextOption.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\TextOption\:\:renderAttributes\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/TextOption.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\FormElements\\TextOption\:\:setValue\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FormElements/TextOption.php
+
+		-
+			message: '#^Anonymous function has an unused use \$translationFieldName\.$#'
+			identifier: closure.unusedUse
+			count: 2
+			path: src/Forms/Actions/TranslateFieldAction.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:\$field_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/MultilanguageEventListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:\$locale\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/MultilanguageEventListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:\$rel_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/MultilanguageEventListener.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:\$rel_type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Listeners/MultilanguageEventListener.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Listeners/MultilanguageEventListener.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Multilanguage\\Models\\MultilanguageSupportedLocales\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/MultilanguageApi.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Translation\\Models\\TranslationText\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/MultilanguageApi.php
+
+		-
+			message: '#^Call to static method forget\(\) on an unknown class Cookie\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/MultilanguageApi.php
+
+		-
+			message: '#^Call to static method queue\(\) on an unknown class Cookie\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/MultilanguageApi.php
+
+		-
+			message: '#^Function _e not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/MultilanguageApi.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\MultilanguageFilamentPlugin\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/MultilanguageFilamentPlugin.php
+
+		-
+			message: '#^Call to an undefined method MicroweberPackages\\Multilanguage\\MultilanguageFilamentPlugin\:\:name\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/MultilanguageFilamentPlugin.php
+
+		-
+			message: '#^Function current_lang not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/MultilanguageFilamentPlugin.php
+
+		-
+			message: '#^Function current_lang not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/MultilanguageLinksGenerator.php
+
+		-
+			message: '#^Variable \$link might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/MultilanguageLinksGenerator.php
+
+		-
+			message: '#^Variable \$multilangUrlsMapId might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/MultilanguageLinksGenerator.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$category_manager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/MultilanguagePermalinkManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\App\\LaravelApplication\:\:\$category_repository\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/MultilanguagePermalinkManager.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Category\\Models\\Category\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/MultilanguagePermalinkManager.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Content\\Models\\Content\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: src/MultilanguagePermalinkManager.php
+
+		-
+			message: '#^Access to offset ''Illuminate\\\\Events\\\\Dispatcher'' on an unknown class MicroweberPackages\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/MultilanguageServiceProvider.php
+
+		-
+			message: '#^Call to method bind\(\) on an unknown class MicroweberPackages\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/MultilanguageServiceProvider.php
+
+		-
+			message: '#^Call to method make\(\) on an unknown class MicroweberPackages\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/MultilanguageServiceProvider.php
+
+		-
+			message: '#^Call to method resolved\(\) on an unknown class MicroweberPackages\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/MultilanguageServiceProvider.php
+
+		-
+			message: '#^Call to method singleton\(\) on an unknown class MicroweberPackages\\Application\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/MultilanguageServiceProvider.php
+
+		-
+			message: '#^Call to method terminating\(\) on an unknown class MicroweberPackages\\Application\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/MultilanguageServiceProvider.php
+
+		-
+			message: '#^PHPDoc type MicroweberPackages\\Application of property MicroweberPackages\\Multilanguage\\MultilanguageServiceProvider\:\:\$app is not covariant with PHPDoc type Illuminate\\Contracts\\Foundation\\Application of overridden property Illuminate\\Support\\ServiceProvider\:\:\$app\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: src/MultilanguageServiceProvider.php
+
+		-
+			message: '#^Property MicroweberPackages\\Multilanguage\\MultilanguageServiceProvider\:\:\$app has unknown class MicroweberPackages\\Application as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/MultilanguageServiceProvider.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 4
+			path: src/Observers/MultilanguageObserver.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$multilanguage\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Observers/MultilanguageObserver.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$multilanguage_translations\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Observers/MultilanguageObserver.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$option_key\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Observers/MultilanguageObserver.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$translatable\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Observers/MultilanguageObserver.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:create\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Observers/MultilanguageObserver.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/Observers/MultilanguageObserver.php
+
+		-
+			message: '#^Anonymous function has an unused use \$params\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: src/TranslateManager.php
+
+		-
+			message: '#^Anonymous function has an unused use \$providerInstance\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: src/TranslateManager.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/TranslateManager.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\View\\Components\\FormElements\\InputText\:\:\$currentLanguage\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/View/Components/FormElements/InputText.php
+
+		-
+			message: '#^Method MicroweberPackages\\Multilanguage\\View\\Components\\FormElements\\InputText\:\:render\(\) should return Illuminate\\View\\View\|string but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/View/Components/FormElements/InputText.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\View\\Components\\FormElements\\InputTextarea\:\:\$currentLanguage\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/View/Components/FormElements/InputTextarea.php
+
+		-
+			message: '#^Method MicroweberPackages\\Multilanguage\\View\\Components\\FormElements\\InputTextarea\:\:render\(\) should return Illuminate\\View\\View\|string but returns Illuminate\\Contracts\\View\\View\.$#'
+			identifier: return.type
+			count: 1
+			path: src/View/Components/FormElements/InputTextarea.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\Models\\MultilanguageSupportedLocales\:\:\$is_active\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/helpers/multilanguage_functions.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\Models\\MultilanguageSupportedLocales\:\:\$language\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/helpers/multilanguage_functions.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\Models\\MultilanguageSupportedLocales\:\:\$locale\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/helpers/multilanguage_functions.php
+
+		-
+			message: '#^Access to an undefined property MicroweberPackages\\Multilanguage\\Models\\MultilanguageSupportedLocales\:\:\$position\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/helpers/multilanguage_functions.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Multilanguage\\Models\\MultilanguageSupportedLocales\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/helpers/multilanguage_functions.php
+
+		-
+			message: '#^Call to static method queue\(\) on an unknown class Cookie\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/helpers/multilanguage_functions.php
+
+		-
+			message: '#^Function get_flag_icon not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/helpers/multilanguage_functions.php
+
+		-
+			message: '#^Function get_flag_icon_url not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: src/helpers/multilanguage_functions.php
+
+		-
+			message: '#^Variable \$getLanguages in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/helpers/multilanguage_functions.php
+
+		-
+			message: '#^Variable \$ipInfo might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/helpers/multilanguage_functions.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/tests/AdminLiveEditTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Content\\Models\\Content\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/tests/AdminLiveEditTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Page\\Models\\Page\:\:whereId\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/tests/AdminLiveEditTest.php
+
+		-
+			message: '#^Offset 0 does not exist on Illuminate\\Testing\\AssertableJsonString\.$#'
+			identifier: offsetAccess.notFound
+			count: 4
+			path: src/tests/AdminLiveEditTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/MultilanguageCategoryApiTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:truncate\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguageCategoryApiTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguageCategoryApiTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Category\\Models\\Category\:\:truncate\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguageCategoryApiTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Category\\Models\\Category\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguageCategoryApiTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/MultilanguageCategoryTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguageCategoryTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Category\\Models\\Category\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/tests/MultilanguageCategoryTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/MultilanguageContentTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguageContentTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguageContentTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Content\\Models\\Content\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/tests/MultilanguageContentTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguageLiveEditTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Page\\Models\\Page\:\:whereId\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguageLiveEditTest.php
+
+		-
+			message: '#^Offset 0 does not exist on Illuminate\\Testing\\AssertableJsonString\.$#'
+			identifier: offsetAccess.notFound
+			count: 3
+			path: src/tests/MultilanguageLiveEditTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Multilanguage\\Models\\MultilanguageTranslations\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: src/tests/MultilanguageModuleOptionTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\Option\\Models\\ModuleOption\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/tests/MultilanguageModuleOptionTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/MultilanguagePostTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguagePostTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Post\\Models\\Post\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/tests/MultilanguagePostTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Testing\\TestResponse\:\:getData\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/tests/MultilanguageProductTest.php
+
+		-
+			message: '#^Call to an undefined static method MicroweberPackages\\User\\Models\\User\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/tests/MultilanguageProductTest.php
+
+		-
+			message: '#^Call to an undefined static method Modules\\Product\\Models\\Product\:\:where\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 4
+			path: src/tests/MultilanguageProductTest.php
