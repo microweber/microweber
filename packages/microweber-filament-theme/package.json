@@ -19,6 +19,9 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {},
+  "overrides": {
+    "postcss-selector-parser": ">=6.1.5"
+  },
   "allowScripts": {
     "@parcel/watcher": true
   }
