@@ -111,3 +111,12 @@ composer analyse
 # or from monorepo root:
 composer analyse -- packages/microweber-notification/src
 ```
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Bozhidar Slaveykov
+- Peter Ivanov
+- Nikolay Rachkov
+- Petko Yovchevski

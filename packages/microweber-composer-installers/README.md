@@ -288,3 +288,11 @@ author to wipe out entire folders without the user's consent. That user would
 then come here to yell at us.
 
 Anyone still wanting this capability should consider requiring <https://github.com/oomphinc/composer-installers-extender>.
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Kyle Robinson Young
+- Peter Ivanov
+- Bozhidar Slaveykov

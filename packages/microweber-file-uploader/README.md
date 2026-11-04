@@ -85,3 +85,10 @@ composer test
 ## License
 
 MIT
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

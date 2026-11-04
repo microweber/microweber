@@ -14,9 +14,12 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Bozhidar",
-            "email": "bobi@microweber.com",
-            "role": "Developer"
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
         }
     ],
     "require": {

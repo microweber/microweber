@@ -9,3 +9,10 @@ This package is included as part of Microweber and is auto-loaded via Composer.
 ## Usage
 
 All helper functions are globally available once the package is loaded. They extend Laravel's built-in helpers with Microweber-specific utilities.
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

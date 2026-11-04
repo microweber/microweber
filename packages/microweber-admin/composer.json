@@ -6,8 +6,20 @@
     "homepage": "https://microweber.com",
     "authors": [
         {
-            "name": "Microweber",
-            "email": "info@microweber.com"
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        },
+        {
+            "name": "Nikolay Rachkov",
+            "email": "rachkuw@gmail.com"
+        },
+        {
+            "name": "Alexander Raikov",
+            "email": "raikov@ymail.com"
         }
     ],
     "require": {

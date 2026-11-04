@@ -92,3 +92,12 @@ The package provides optional API routes (prefix: `/api/translations`):
 ## License
 
 MIT
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Bozhidar Slaveykov
+- Peter Ivanov
+- phausleitner
+- Nikolay Rachkov

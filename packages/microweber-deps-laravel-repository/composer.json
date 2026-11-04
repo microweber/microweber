@@ -12,6 +12,18 @@
         "illuminate/cache": "^10.0|^11.0|^12.0|^13.0"
     },
     "autoload": {
-        "psr-4": { "Torann\\LaravelRepository\\": "src/" }
-    }
+        "psr-4": {
+            "Torann\\LaravelRepository\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+    ]
 }

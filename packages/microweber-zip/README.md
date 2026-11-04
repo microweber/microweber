@@ -94,3 +94,10 @@ From the CMS root:
 php artisan test --filter=Zip
 composer analyse -- packages/microweber-zip/src
 ```
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

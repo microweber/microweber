@@ -75,3 +75,10 @@ $panel->plugin(MinifierPlugin::make());
 ## License
 
 MIT (package). JavaScript minifier derived from [JShrink](https://github.com/tedious/JShrink) (BSD-3-Clause). See `LICENSE-JSHRINK`.
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

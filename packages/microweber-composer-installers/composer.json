@@ -83,15 +83,26 @@
     "authors": [
         {
             "name": "Kyle Robinson Young",
-            "email": "kyle@dontkry.com",
-            "homepage": "https://github.com/shama"
+            "email": "kyle@dontkry.com"
+        },
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
         }
     ],
     "autoload": {
-        "psr-4": { "Composer\\Installers\\": "src/Composer/Installers" }
+        "psr-4": {
+            "Composer\\Installers\\": "src/Composer/Installers"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "Composer\\Installers\\Test\\": "tests/Composer/Installers/Test" }
+        "psr-4": {
+            "Composer\\Installers\\Test\\": "tests/Composer/Installers/Test"
+        }
     },
     "extra": {
         "class": "Composer\\Installers\\Plugin",

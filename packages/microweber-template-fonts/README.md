@@ -65,3 +65,10 @@ composer analyse
 php artisan test --filter=TemplateFonts
 composer analyse -- packages/microweber-template-fonts/src
 ```
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

@@ -57,3 +57,11 @@ See `config/microweber-queue.php` for chunk size, process limits, and Filament n
 composer test
 composer analyse   # PHPStan level 9
 ```
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov
+- Petko Yovchevski

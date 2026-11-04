@@ -244,10 +244,13 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
-## Credits
+## Authors
 
-- [Sam Maosa](https://github.com/coolsam726)
-- [All Contributors](../../contributors)
+Part of [Microweber](https://microweber.com), built by:
+
+- Sam Maosa — Developer
+- Peter Ivanov
+- Bozhidar Slaveykov
 
 ## License
 

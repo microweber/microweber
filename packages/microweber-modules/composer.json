@@ -18,6 +18,14 @@
             "name": "Sam Maosa",
             "email": "maosa.sam@gmail.com",
             "role": "Developer"
+        },
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
         }
     ],
     "require": {

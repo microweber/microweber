@@ -69,3 +69,10 @@ composer analyse
 ```
 
 HTTP inspection routes (`class-loader/*`) are registered only in the testing environment.
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

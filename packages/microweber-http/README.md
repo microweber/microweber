@@ -54,3 +54,10 @@ UrlFetchGuard::assertSafe($userSuppliedUrl);
 ## License
 
 MIT
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

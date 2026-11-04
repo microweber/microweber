@@ -58,3 +58,10 @@ Facade class: `MicroweberPackages\EnvWriter\Facades\EnvWriter`
 - Handles booleans, integers, nulls, and strings
 - Read/parse `.env` files into associative arrays
 - No Laravel dependency for core functionality
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

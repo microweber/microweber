@@ -51,3 +51,10 @@ $this->app->singleton(LicenseValidatorInterface::class, MyValidator::class);
 ```bash
 composer test
 ```
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

@@ -21,5 +21,15 @@
     },
     "replace": {
         "microweber/dusk": "*"
-    }
+    },
+    "authors": [
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+    ]
 }

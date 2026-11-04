@@ -52,3 +52,11 @@ composer test
 ```bash
 composer analyse
 ```
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov
+- Nikolay Rachkov

@@ -59,3 +59,10 @@ composer analyse
 ## Databases
 
 Package tests exercise SQLite, MySQL (`root`/`root`) and PostgreSQL (`postgres`/`postgres`) via `MW_TEST_DB_DRIVER`.
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

@@ -31,3 +31,10 @@ $installer->run();
 
 The legacy `\MicroweberPackages\Install\DbInstaller` is kept as a `@deprecated`
 back-compat subclass of this class.
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

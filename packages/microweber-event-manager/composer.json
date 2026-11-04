@@ -18,12 +18,8 @@
     },
     "authors": [
         {
-            "name": "Microweber",
-            "email": "info@microweber.com"
-        },
-        {
-            "name": "Bozhidar Slaveykov",
-            "email": "bobi@microweber.com"
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
         }
     ],
     "minimum-stability": "dev",

@@ -95,3 +95,10 @@ The package is filesystem-oriented. Settings may optionally use Microweber `get_
 ## License
 
 MIT
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

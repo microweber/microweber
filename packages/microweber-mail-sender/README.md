@@ -83,3 +83,10 @@ composer analyse -- packages/microweber-mail-sender/src
 # package-local:
 cd packages/microweber-mail-sender && composer analyse
 ```
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

@@ -126,3 +126,10 @@ cd packages/microweber-package-manager-client && composer analyse
 ```
 
 Level **9** (max).
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

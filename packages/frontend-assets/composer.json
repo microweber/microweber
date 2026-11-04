@@ -27,5 +27,15 @@
     "require": {
         "microweber-packages/microweber-package": "*",
         "spatie/laravel-package-tools": "^1.16"
-    }
+    },
+    "authors": [
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+    ]
 }

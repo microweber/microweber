@@ -51,3 +51,9 @@ composer analyse -- packages/microweber-ai-tools/src
 ## License
 
 MIT
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov

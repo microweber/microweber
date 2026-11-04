@@ -68,10 +68,12 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
-## Credits
+## Authors
 
-- [Bozhidar](https://github.com/bobimicroweber)
-- [All Contributors](../../contributors)
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov
 
 ## License
 

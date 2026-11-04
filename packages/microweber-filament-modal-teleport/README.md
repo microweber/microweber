@@ -56,3 +56,10 @@ The plugin registers a `PanelsRenderHook::BODY_END` hook (in `register()`, so it
 ## License
 
 MIT
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

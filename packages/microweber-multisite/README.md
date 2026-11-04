@@ -129,3 +129,10 @@ cd packages/microweber-multisite && composer install && composer test
 # or from the project root:
 php vendor/bin/phpunit packages/microweber-multisite/tests
 ```
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

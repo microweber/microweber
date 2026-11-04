@@ -72,3 +72,10 @@ No CMS services are required.
 composer test
 composer analyse
 ```
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Bozhidar Slaveykov
+- Peter Ivanov

@@ -31,3 +31,10 @@ Facade class: `MicroweberPackages\Format\Facades\Format`
 ## License
 
 MIT
+
+## Authors
+
+Part of [Microweber](https://microweber.com), built by:
+
+- Peter Ivanov
+- Bozhidar Slaveykov

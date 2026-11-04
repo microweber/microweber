@@ -11,7 +11,21 @@
         "illuminate/support": "^11.0|^12.0|^13.0"
     },
     "autoload": {
-        "psr-4": { "Arcanedev\\Support\\": "src/" },
-        "files": ["helpers.php"]
-    }
+        "psr-4": {
+            "Arcanedev\\Support\\": "src/"
+        },
+        "files": [
+            "helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        },
+        {
+            "name": "Bozhidar Slaveykov",
+            "email": "bobi@microweber.com"
+        }
+    ]
 }
