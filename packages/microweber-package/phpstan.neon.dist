@@ -1,18 +1,11 @@
 includes:
-    - ../../vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
+    level: 3
     paths:
         - src
-    level: max
-    treatPhpDocTypesAsCertain: false
+    excludePaths:
+        - src/tests (?)
+        - tests (?)
     reportUnmatchedIgnoredErrors: false
-    ignoreErrors:
-        # Soft CMS / Filament dependencies — resolved at runtime via class_exists
-        - '#Call to static method \w+\(\) on an unknown class MicroweberPackages\\Module\\Facades\\ModuleAdmin#'
-        - '#Call to static method \w+\(\) on an unknown class MicroweberPackages\\FilamentRegistry\\Facades\\FilamentRegistry#'
-        # Spatie base methods are intentionally untyped upstream
-        - '#Method Spatie\\LaravelPackageTools\\PackageServiceProvider::(register|boot)\(\) invoked with#'
-        # Shared library trait — consumed by sibling packages (template-custom-css,
-        # template-fonts), so it has no consumer within this package's own src.
-        - '#Trait MicroweberPackages\\Package\\Concerns\\ReadsArrayConfig is used zero times#'

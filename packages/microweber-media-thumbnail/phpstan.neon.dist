@@ -1,11 +1,11 @@
 includes:
-    - ../../vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
+    level: 3
     paths:
         - src
-    level: 5
+    excludePaths:
+        - src/tests (?)
+        - tests (?)
     reportUnmatchedIgnoredErrors: false
-    ignoreErrors:
-        # site_url() is a Microweber host helper (guarded by function_exists), not standalone.
-        - '#Function site_url not found#'

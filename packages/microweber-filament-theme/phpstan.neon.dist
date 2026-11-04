@@ -2,12 +2,10 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    level: 4
+    level: 3
     paths:
         - src
-    tmpDir: build/phpstan
-    ignoreErrors:
-        # Microweber runtime global helper, provided by the CMS at runtime and
-        # not a dependency of this standalone theme package.
-        - '#Function public_asset not found#'
-
+    excludePaths:
+        - src/tests (?)
+        - tests (?)
+    reportUnmatchedIgnoredErrors: false

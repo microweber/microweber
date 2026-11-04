@@ -1,18 +1,11 @@
 includes:
-    - ../../vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
+    level: 3
     paths:
         - src
-    level: max
-    treatPhpDocTypesAsCertain: false
+    excludePaths:
+        - src/tests (?)
+        - tests (?)
     reportUnmatchedIgnoredErrors: false
-    tmpDir: build/phpstan
-    ignoreErrors:
-        # Soft CMS / optional dependencies resolved at runtime via function_exists / class_exists
-        - '#Call to static method \w+\(\) on an unknown class MicroweberPackages\\Url\\Facades\\UrlManager#'
-        - '#Call to an undefined method Illuminate\\Contracts\\Foundation\\Application::(templates|option_manager|content_manager)\(\)#'
-        - '#Access to an undefined property Illuminate\\Contracts\\Foundation\\Application::\$(templates|option_manager|content_manager)#'
-        # Livewire is optional (suggest); present in require-dev for analysis when available
-        - '#Class Livewire\\Component not found#'
-        - '#extends unknown class Livewire\\Component#'

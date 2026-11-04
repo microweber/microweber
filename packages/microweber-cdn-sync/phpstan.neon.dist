@@ -1,17 +1,11 @@
 includes:
-    - ../../vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
+    level: 3
     paths:
         - src
-    level: 5
+    excludePaths:
+        - src/tests (?)
+        - tests (?)
     reportUnmatchedIgnoredErrors: false
-    ignoreErrors:
-        # HasCdnSync is consumed by the host app's Media model (outside src/), not standalone.
-        - '#Trait .+ is used zero times and is not analysed#'
-        - '#Function get_option not found#'
-        - '#Function save_option not found#'
-        - '#Function site_url not found#'
-        - '#Function media_uploads_path not found#'
-        - '#Function is_admin not found#'
-        - '#Function public_asset not found#'

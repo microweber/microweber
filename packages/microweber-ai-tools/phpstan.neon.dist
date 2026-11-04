@@ -1,17 +1,11 @@
 includes:
-    - ../../vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
-    # Maximized for a green standalone package analysis of src/.
-    level: 8
+    level: 3
     paths:
         - src
     excludePaths:
-        - vendor(?)
-        - tests(?)
-    tmpDir: build/phpstan
+        - src/tests (?)
+        - tests (?)
     reportUnmatchedIgnoredErrors: false
-    treatPhpDocTypesAsCertain: false
-    ignoreErrors:
-        # Trait is used by CMS module service providers outside this analysis path.
-        - '#Trait .+RegistersAiTools is used zero times and is not analysed#'

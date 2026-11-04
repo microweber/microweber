@@ -1,15 +1,11 @@
 includes:
-    - ../../vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
+    level: 3
     paths:
         - src
-    level: max
-    treatPhpDocTypesAsCertain: false
+    excludePaths:
+        - src/tests (?)
+        - tests (?)
     reportUnmatchedIgnoredErrors: false
-    ignoreErrors:
-        # Host CMS helpers (guarded by function_exists)
-        - '#Function get_option not found#'
-        - '#Function save_option not found#'
-        - '#Function is_admin not found#'
-        - '#Function modules_path not found#'

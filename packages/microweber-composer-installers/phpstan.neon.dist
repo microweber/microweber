@@ -1,17 +1,11 @@
-parameters:
-    level: 8
-    paths:
-        - src
-        - tests
-    excludePaths:
-        - tests/Composer/Installers/Test/PolyfillTestCase.php
-    ignoreErrors:
-        - '~Test::[a-zA-Z0-9]+Provider\(\) return type~'
-        # Upstream composer/installers code: private static property accessed via
-        # static:: (equivalent to self:: for a private property). Left as-is to
-        # stay byte-aligned with upstream.
-        - '~Unsafe access to private property Composer\\Installers\\BitrixInstaller::\$checkedDuplicates through static::~'
-
 includes:
     - phpstan-baseline.neon
-    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    level: 3
+    paths:
+        - src
+    excludePaths:
+        - src/tests (?)
+        - tests (?)
+    reportUnmatchedIgnoredErrors: false

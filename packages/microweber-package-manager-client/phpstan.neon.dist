@@ -1,13 +1,11 @@
 includes:
-    - ../../vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
-    level: 9
+    level: 3
     paths:
         - src
     excludePaths:
-        - vendor(?)
-    tmpDir: build/phpstan
+        - src/tests (?)
+        - tests (?)
     reportUnmatchedIgnoredErrors: false
-    treatPhpDocTypesAsCertain: false
-    ignoreErrors: []

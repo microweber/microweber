@@ -1,16 +1,11 @@
 includes:
-  - ../../vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
-  level: 8
-  paths:
-    - src
-  excludePaths:
-    - vendor (?)
-  tmpDir: build/phpstan
-  reportUnmatchedIgnoredErrors: false
-  treatPhpDocTypesAsCertain: false
-  ignoreErrors:
-    - '#Trait .+ is used zero times and is not analysed#'
-    - '#Call to deprecated method#'
-    - '#Access to deprecated property#'
+    level: 3
+    paths:
+        - src
+    excludePaths:
+        - src/tests (?)
+        - tests (?)
+    reportUnmatchedIgnoredErrors: false

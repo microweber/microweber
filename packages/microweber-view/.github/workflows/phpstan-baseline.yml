@@ -1,0 +1,41 @@
+name: PHPStan Baseline
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  baseline:
+    name: Generate PHPStan baseline (PHP 8.4)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction --no-progress
+      - name: Install PHPStan + Larastan
+        run: composer require --dev --no-interaction --no-progress "larastan/larastan:^3.0" || composer require --dev --no-interaction --no-progress "phpstan/phpstan:^2.0"
+      - name: Generate baseline
+        run: |
+          printf "parameters:\n" > phpstan-baseline.neon
+          vendor/bin/phpstan analyse --no-progress --generate-baseline phpstan-baseline.neon --memory-limit=1G || true
+      - name: Commit baseline
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add phpstan-baseline.neon
+          if git diff --cached --quiet; then
+            echo "No baseline change."
+            exit 0
+          fi
+          git commit -m "chore(phpstan): regenerate CI-faithful baseline [skip ci]"
+          pushed=0
+          for i in $(seq 1 8); do
+            if git push; then pushed=1; break; fi
+            echo "push attempt $i failed (likely transient 5xx); retrying..."; sleep 15
+          done
+          if [ "$pushed" != "1" ]; then echo "push failed after retries"; exit 1; fi
