@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MicroweberPackages\TemplateCustomCss;
 
 use MicroweberPackages\TemplateCustomCss\Contracts\OptionStoreInterface;
+use MicroweberPackages\TemplateCustomCss\Contracts\SnapshotStoreInterface;
 use MicroweberPackages\TemplateCustomCss\Services\CssUrlRewriter;
 use MicroweberPackages\TemplateCustomCss\Services\CssValidator;
 use MicroweberPackages\TemplateCustomCss\Services\CustomCssManager;
@@ -13,6 +14,8 @@ use MicroweberPackages\TemplateCustomCss\Services\RegisteredCssFileHandler;
 use MicroweberPackages\TemplateCustomCss\Services\TemplateCustomCssManager;
 use MicroweberPackages\TemplateCustomCss\Support\ArrayOptionStore;
 use MicroweberPackages\TemplateCustomCss\Support\CmsOptionStore;
+use MicroweberPackages\TemplateCustomCss\Support\DbSnapshotStore;
+use MicroweberPackages\TemplateCustomCss\Support\NullSnapshotStore;
 use MicroweberPackages\Package\MicroweberPackageServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 
@@ -56,12 +59,30 @@ class TemplateCustomCssServiceProvider extends MicroweberPackageServiceProvider
             return new CssUrlRewriter($userfilesUrl, $siteUrl);
         });
 
+        // Undo history for Live-Edit CSS/JS. DB-backed in the CMS (keeps up to
+        // 1000 snapshots per template+type so the user can step back); a no-op
+        // store when no database is available (standalone use).
+        $this->app->singleton(SnapshotStoreInterface::class, function () {
+            try {
+                if (class_exists(\Illuminate\Support\Facades\DB::class) && \Illuminate\Support\Facades\DB::connection()->getPdo()) {
+                    $max = (int) (config('template-custom-css.undo_history_limit', 1000) ?: 1000);
+
+                    return new DbSnapshotStore($max);
+                }
+            } catch (\Throwable $e) {
+                // fall through to the null store
+            }
+
+            return new NullSnapshotStore();
+        });
+
         $this->app->singleton(LiveEditCssManager::class, function ($app) {
             return new LiveEditCssManager(
                 $this->resolveRuntimeConfig(),
                 $app->make(OptionStoreInterface::class),
                 $app->make(CssValidator::class),
                 $app->make(CssUrlRewriter::class),
+                $app->make(SnapshotStoreInterface::class),
             );
         });
 
@@ -116,6 +137,7 @@ class TemplateCustomCssServiceProvider extends MicroweberPackageServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'template-custom-css');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([

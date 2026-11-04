@@ -8,6 +8,7 @@ namespace MicroweberPackages\TemplateCustomCss\Services;
 use MicroweberPackages\Package\Concerns\ReadsArrayConfig;
 use MicroweberPackages\TemplateCustomCss\Contracts\CssFileHandlerInterface;
 use MicroweberPackages\TemplateCustomCss\Contracts\OptionStoreInterface;
+use MicroweberPackages\TemplateCustomCss\Contracts\SnapshotStoreInterface;
 use MicroweberPackages\TemplateCustomCss\Support\PathHelper;
 
 /**
@@ -33,7 +34,65 @@ class LiveEditCssManager implements CssFileHandlerInterface
         protected OptionStoreInterface $optionStore,
         protected CssValidator $validator,
         protected CssUrlRewriter $urlRewriter,
+        protected ?SnapshotStoreInterface $snapshots = null,
     ) {
+    }
+
+    /** When true, a save does not record an undo snapshot (used by undo itself). */
+    protected bool $suppressSnapshot = false;
+
+    /**
+     * Record the current (pre-save) content as an undo snapshot, unless undo
+     * history is off, suppressed, or the content is unchanged. Best-effort.
+     */
+    protected function snapshotBeforeSave(string $template, string $type, string $current, string $next): void
+    {
+        if ($this->snapshots === null || $this->suppressSnapshot) {
+            return;
+        }
+        if ($current === '' || $current === $next) {
+            return;
+        }
+        $this->snapshots->snapshot($template, $type, $current);
+    }
+
+    /**
+     * Undo the most recent Live-Edit change for a type ('css'|'js'): restore the
+     * previous content from the snapshot history and return it, or null if there
+     * is nothing to undo.
+     */
+    public function undoLiveEdit(string $type, ?string $template = null): ?string
+    {
+        if ($this->snapshots === null) {
+            return null;
+        }
+        $template = $this->normalizeTemplateName($template);
+        $prev = $this->snapshots->undo($template, $type);
+        if ($prev === null) {
+            return null;
+        }
+        $this->suppressSnapshot = true;
+        try {
+            if ($type === 'js') {
+                $this->saveLiveEditJsContent($prev, $template);
+            } else {
+                $this->saveLiveEditCssContent($prev, $template);
+            }
+        } finally {
+            $this->suppressSnapshot = false;
+        }
+
+        return $prev;
+    }
+
+    /** How many undo steps are available for a type ('css'|'js'). */
+    public function undoCount(string $type, ?string $template = null): int
+    {
+        if ($this->snapshots === null) {
+            return 0;
+        }
+
+        return $this->snapshots->count($this->normalizeTemplateName($template), $type);
     }
 
     public function setConfigValue(string $key, mixed $value): void
@@ -190,6 +249,9 @@ class LiveEditCssManager implements CssFileHandlerInterface
                 $css = $this->urlRewriter->forStorage($css);
             }
         }
+
+        // Save the current CSS as an undo snapshot before we overwrite it.
+        $this->snapshotBeforeSave($template, 'css', $this->getContent($template), $css);
 
         $optionKey = $this->configString('live_edit_option_key', 'template_css');
         $groupPrefix = $this->configString('live_edit_option_group_prefix', 'template_');
@@ -690,6 +752,9 @@ class LiveEditCssManager implements CssFileHandlerInterface
         $js = $jsCont ?? '';
 
         $path = $this->resolveJsWritePath($template);
+
+        // Save the current JS as an undo snapshot before we overwrite it.
+        $this->snapshotBeforeSave($template, 'js', $this->getLiveEditJsContent($template), $js);
 
         $optionKey = $this->fileTypeString('live_edit_js', 'option_key', 'template_js');
         $groupPrefix = $this->fileTypeString('live_edit_js', 'option_group_prefix', 'template_');

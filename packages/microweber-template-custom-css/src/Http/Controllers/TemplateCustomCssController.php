@@ -114,6 +114,48 @@ class TemplateCustomCssController extends Controller
     }
 
     /**
+     * POST api/current_template_undo_custom_style
+     *
+     * Undo the most recent Live-Edit CSS or JS change (type=css|js) by restoring
+     * the previous content from the snapshot history (kept per template, up to
+     * the configured limit — default 1000). Returns the restored content so the
+     * editor can re-apply it, plus how many further undo steps remain.
+     */
+    public function undoLiveEditStyle(Request $request): SymfonyResponse
+    {
+        if (!$this->isAdmin()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $typeRaw = $request->input('type', 'css');
+        $type = ($typeRaw === 'js') ? 'js' : 'css';
+
+        $templateRaw = $request->input('active_site_template', $request->input('template'));
+        $template = (is_string($templateRaw) && $templateRaw !== '') ? $templateRaw : null;
+
+        try {
+            $restored = $this->manager->liveEdit()->undoLiveEdit($type, $template);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Unable to undo: ' . $e->getMessage()], 400);
+        }
+
+        if ($restored === null) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Nothing to undo.',
+                'remaining' => 0,
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'type' => $type,
+            'content' => $restored,
+            'remaining' => $this->manager->liveEdit()->undoCount($type, $template),
+        ]);
+    }
+
+    /**
      * POST api/layouts/template_remove_custom_css
      */
     public function removeCustomCss(Request $request): SymfonyResponse

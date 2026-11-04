@@ -158,6 +158,9 @@ return [
     'route_name_prefix' => '',
     'save_live_edit_route' => 'current_template_save_custom_css',
     'save_live_edit_js_route' => 'current_template_save_custom_js',
+    'undo_live_edit_route' => 'current_template_undo_custom_style',
+    // How many Live-Edit CSS/JS change snapshots to keep per template+type for undo.
+    'undo_history_limit' => 1000,
     'remove_css_route' => 'layouts/template_remove_custom_css',
     'print_custom_css_route' => 'template/print_custom_css',
     'save_custom_css_route' => 'template/save_custom_css',

@@ -63,6 +63,13 @@ Route::post(
 )->name('template_remove_custom_css')
     ->middleware($mutatingMiddleware);
 
+$undoStyleName = (string) config('template-custom-css.undo_live_edit_route', 'current_template_undo_custom_style');
+Route::post(
+    'api/' . ltrim($undoStyleName, '/'),
+    [TemplateCustomCssController::class, 'undoLiveEditStyle']
+)->name('current_template_undo_custom_style')
+    ->middleware($mutatingMiddleware);
+
 Route::post(
     'api/' . ltrim((string) config('template-custom-css.save_custom_css_route', 'template/save_custom_css'), '/'),
     [TemplateCustomCssController::class, 'saveCustomCss']
