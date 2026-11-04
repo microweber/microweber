@@ -23,7 +23,8 @@
         "microweber-packages/microweber-repository": "*",
         "microweber-packages/microweber-http": "*",
         "microweber-packages/microweber-form-builder": "*",
-        "microweber-packages/microweber-event-manager": "*"
+        "microweber-packages/microweber-event-manager": "*",
+        "microweber-packages/microweber-app": "*"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",

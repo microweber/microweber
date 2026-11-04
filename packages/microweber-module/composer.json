@@ -26,7 +26,8 @@
         "microweber-packages/microweber-system-licenses": "*",
         "microweber-packages/microweber-format": "*",
         "microweber-packages/microweber-multilanguage": "*",
-        "microweber-packages/microweber-zip": "*"
+        "microweber-packages/microweber-zip": "*",
+        "microweber-packages/microweber-app": "*"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",

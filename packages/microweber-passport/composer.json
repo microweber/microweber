@@ -18,7 +18,8 @@
         "laravel/passport": "^12.0|^13.0",
         "phpseclib/phpseclib": "^3.0",
         "microweber-packages/microweber-package": "*",
-        "spatie/laravel-package-tools": "^1.16"
+        "spatie/laravel-package-tools": "^1.16",
+        "filament/filament": "~5.10"
     },
     "require-dev": {
         "orchestra/testbench": "^9.0|^10.0",

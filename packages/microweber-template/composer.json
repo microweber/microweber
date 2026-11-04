@@ -32,7 +32,8 @@
         "microweber-packages/microweber-laravel-modules": "*",
         "microweber-packages/microweber-laravel-templates": "*",
         "microweber-packages/microweber-template-fonts": "*",
-        "microweber-packages/microweber-option": "*"
+        "microweber-packages/microweber-option": "*",
+        "microweber-packages/microweber-app": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0|^11.0|^12.0"

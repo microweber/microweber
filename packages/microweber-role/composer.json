@@ -18,7 +18,8 @@
         "illuminate/support": "^11.0|^13.0",
         "microweber-packages/microweber-config-merge": "*",
         "microweber-packages/microweber-filament-registry": "*",
-        "microweber-packages/microweber-admin": "*"
+        "microweber-packages/microweber-admin": "*",
+        "spatie/laravel-permission": "^6.16"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",

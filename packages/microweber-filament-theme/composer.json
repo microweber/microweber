@@ -22,7 +22,8 @@
     "require": {
         "php": "^8.1",
         "microweber-packages/microweber-package": "*",
-        "spatie/laravel-package-tools": "^1.16"
+        "spatie/laravel-package-tools": "^1.16",
+        "filament/filament": "~5.10"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",

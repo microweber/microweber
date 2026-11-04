@@ -26,7 +26,8 @@
         "microweber-packages/microweber-admin": "*",
         "microweber-packages/microweber-url": "*",
         "microweber-packages/microweber-install": "*",
-        "microweber-packages/microweber-multilanguage": "*"
+        "microweber-packages/microweber-multilanguage": "*",
+        "microweber-packages/microweber-app": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0|^11.0|^12.0"

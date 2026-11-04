@@ -25,7 +25,8 @@
         "microweber-packages/microweber-zip": "*",
         "microweber-packages/microweber-system-licenses": "*",
         "microweber-packages/microweber-package": "*",
-        "spatie/laravel-package-tools": "^1.16"
+        "spatie/laravel-package-tools": "^1.16",
+        "composer/composer": "^2.9.3"
     },
     "require-dev": {
         "larastan/larastan": "^3.0",

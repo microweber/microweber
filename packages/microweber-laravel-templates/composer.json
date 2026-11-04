@@ -16,7 +16,8 @@
         "microweber-packages/microweber-laravel-modules": "*",
         "microweber-packages/microweber-taggable-file-cache": "*",
         "microweber-packages/microweber-config-merge": "*",
-        "microweber-packages/microweber-package": "*"
+        "microweber-packages/microweber-package": "*",
+        "nwidart/laravel-modules": "^11.1"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
