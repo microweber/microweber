@@ -6,7 +6,7 @@ use Filament\Forms\Components\Concerns;
 use Filament\Forms\Components\Contracts;
 use Filament\Forms\Components\Field;
 
-class MwRichEditor extends Field implements Contracts\CanBeLengthConstrained, Contracts\HasFileAttachments
+class MwRichEditor extends Field implements Contracts\CanBeLengthConstrained
 {
     use Concerns\CanBeLengthConstrained;
     use Concerns\HasFileAttachments;

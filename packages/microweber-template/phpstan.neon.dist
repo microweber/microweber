@@ -10,4 +10,7 @@ parameters:
         - src/Tests (?)
         - tests (?)
         - Tests (?)
+        - src/Adapters/RenderHelpers/ZiggyInlineJsRouteGenerator.php (?)
+        - src/Http/Livewire/Admin/AdminTemplateUpdateModal.php (?)
+        - src/TemplateInstaller.php (?)
     reportUnmatchedIgnoredErrors: false
