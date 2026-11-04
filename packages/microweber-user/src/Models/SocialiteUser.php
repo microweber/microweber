@@ -1,12 +1,13 @@
 <?php
 namespace MicroweberPackages\User\Models;
 
-use DutchCodingCompany\FilamentSocialite\Models\Contracts\FilamentSocialiteUser as FilamentSocialiteUserContract;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Socialite\AbstractUser;
-use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 
-class SocialiteUser extends AbstractUser  implements FilamentSocialiteUserContract
+/**
+ * Lightweight Socialite user DTO (OAuth profile data), used by the
+ * social-login flow. It is NOT the filament-socialite pivot model, so it
+ * does not implement FilamentSocialiteUser.
+ */
+class SocialiteUser extends AbstractUser
 {
-
 }

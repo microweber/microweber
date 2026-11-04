@@ -42,5 +42,10 @@
     "prefer-stable": true,
     "replace": {
         "microweber-packages/laravel-modules": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "wikimedia/composer-merge-plugin": false
+        }
     }
 }
