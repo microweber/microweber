@@ -591,3 +591,9 @@ a:not([class]) { color: #0d6efd; text-decoration: underline; }
 .square-50::after { content: ""; display: block; padding-bottom: 50%; }
 .square .content { padding: 0 20px; }
 
+/* ---- header logo sizing -----------------------------------------------------
+   Ported header layouts tag the logo image with .mw-big-header-logo for a
+   sensible header height (Big-only class; defined here so Plain renders the
+   logo at a header-appropriate size instead of its natural pixel size). */
+.mw-big-header-logo { max-height: 44px; width: auto; }
+
