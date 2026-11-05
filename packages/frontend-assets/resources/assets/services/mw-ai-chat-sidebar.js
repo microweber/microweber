@@ -22,8 +22,9 @@
 import { MwAiConversation } from "../components/mw-ai-conversation.js";
 
 const SIDEBAR_CSS = `
+:root{ --mw-ai-sidebar-width:420px; }
 .mw-ai-chat-sidebar{
-    position:fixed; top:0; right:0; height:100vh; width:420px; max-width:100vw;
+    position:fixed; top:0; right:0; height:100vh; width:var(--mw-ai-sidebar-width); max-width:100vw;
     background:#fff; color:#182433; z-index:2147483000;
     box-shadow:-8px 0 40px rgba(24,36,51,.14);
     transform:translateX(100%); transition:transform .28s cubic-bezier(0.22,1,0.36,1);
@@ -47,14 +48,45 @@ html.dark .mw-ai-chat-sidebar-head{ border-bottom-color:#ffffff12; }
 html.dark .mw-ai-chat-sidebar-close:hover{ background:#ffffff14; }
 .mw-ai-chat-sidebar-body{ flex:1 1 auto; min-height:0; padding:12px 14px; display:flex; }
 .mw-ai-chat-sidebar-body > .mw-ai-conv{ flex:1 1 auto; }
+
+/* Backdrop: NO dimming/blocking on desktop — the sidebar docks beside a
+   resized canvas, so the site stays fully visible, scrollable and editable in
+   real time. A click-catcher backdrop only appears on narrow viewports where
+   the drawer goes full-width. */
 .mw-ai-chat-backdrop{
     position:fixed; inset:0; background:rgba(24,36,51,.28); z-index:2147482999;
     opacity:0; pointer-events:none; transition:opacity .2s ease;
 }
-.mw-ai-chat-backdrop.mw-ai-chat-open{ opacity:1; pointer-events:auto; }
-@media (max-width:640px){ .mw-ai-chat-sidebar{ width:100vw; } }
+@media (max-width:640px){
+    .mw-ai-chat-sidebar{ width:100vw; }
+    .mw-ai-chat-backdrop.mw-ai-chat-open{ opacity:1; pointer-events:auto; }
+}
+
+/* Push & resize the host surface so the drawer reflows the layout instead of
+   overlaying it (desktop only). */
+@media (min-width:641px){
+    /* Live-Edit: the canvas lives in a fixed holder inside a flex page shell;
+       shrink the shell and pull the fixed canvas holder left of the drawer
+       (60px keeps the right tool rail visible between canvas and drawer). */
+    html.mw-ai-chat-sidebar-visible .mw-live-edit-page{
+        width:calc(100% - var(--mw-ai-sidebar-width)) !important;
+        transition:width .28s cubic-bezier(0.22,1,0.36,1);
+    }
+    html.mw-ai-chat-sidebar-visible #live-edit-frame-holder{
+        width:auto !important;
+        right:calc(var(--mw-ai-sidebar-width) + 60px) !important;
+        transition:right .28s cubic-bezier(0.22,1,0.36,1);
+    }
+    /* Other Filament surfaces (admin dashboard, settings, …): reserve space on
+       the main layout so nothing hides under the drawer. */
+    html.mw-ai-chat-sidebar-visible .fi-layout:not(.mw-live-edit-page){
+        padding-inline-end:var(--mw-ai-sidebar-width);
+        transition:padding .28s cubic-bezier(0.22,1,0.36,1);
+    }
+}
 @media (prefers-reduced-motion: reduce){
     .mw-ai-chat-sidebar{ transition:none; }
+    .mw-live-edit-page, #live-edit-frame-holder, .fi-layout{ transition:none !important; }
 }
 `;
 
@@ -185,11 +217,19 @@ class MwAiChatSidebar {
     }
 }
 
-const mwAiChatSidebar = new MwAiChatSidebar();
-
-if (typeof window !== "undefined") {
-    window.mw = window.mw || {};
-    window.mw.aiChat = mwAiChatSidebar;
+// Singleton across bundles: the admin panel injects this service as a standalone
+// IIFE while the Live-Edit app imports it as a module — in the Live-Edit page
+// BOTH run in the same window. Reuse any instance already registered so we don't
+// mount two drawers / double-wire the open events.
+let mwAiChatSidebar;
+if (typeof window !== "undefined" && window.mw && window.mw.aiChat && typeof window.mw.aiChat.open === "function") {
+    mwAiChatSidebar = window.mw.aiChat;
+} else {
+    mwAiChatSidebar = new MwAiChatSidebar();
+    if (typeof window !== "undefined") {
+        window.mw = window.mw || {};
+        window.mw.aiChat = mwAiChatSidebar;
+    }
 }
 
 export { MwAiChatSidebar };

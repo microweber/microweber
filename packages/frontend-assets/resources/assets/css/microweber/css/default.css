@@ -4914,6 +4914,10 @@ html[dir="rtl"] .mw-text-start {
     margin-top: var(--space-sm, 8px);
     background-color: var(--ese-accent, #182433);
     color: #ffffff !important;
+    /* -webkit-text-fill-color is INHERITED and overrides `color` for the painted
+       glyphs; a page's custom live_edit.css link styling can inherit a dark fill
+       onto this canvas affordance (dark-on-dark). Pin it white on the element. */
+    -webkit-text-fill-color: #ffffff !important;
     border-radius: var(--radius-sm, 6px);
     font-size: var(--font-control, 13px);
     font-weight: 500;
@@ -4924,6 +4928,7 @@ html[dir="rtl"] .mw-text-start {
 .mw-canvas-empty-state__cta:focus-visible {
     background-color: var(--ese-accent, #182433);
     color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
     text-decoration: none;
     outline: none;
 }

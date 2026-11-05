@@ -6,170 +6,123 @@
     */
 @endphp
 
-<nav class="navbar module-multilanguage lang-dropdown">
-    <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle btn btn-outline-secondary btn-sm d-flex align-items-center justify-content-center lang-flag-btn modern-lang-btn"
-               href="#"
-               id="dropdownMenuButton"
-               role="button"
-               data-bs-toggle="dropdown"
-               aria-expanded="false"
-            >
-                @if($current_language['display_icon'])
-                    <img src="{{ $current_language['display_icon'] }}" alt="{{ $current_language['display_name'] }}"
-                         class="lang-flag">
-                @else
-                    <span
-                        class="mw-flag-icon mw-flag-icon-{{ get_flag_icon($current_language['locale']) }} lang-flag"></span>
-                @endif
-            </a>
+{{--
+    Language switcher — matches the Currency switcher's token-driven skin so the
+    two sit together cohesively in a storefront header. Keeps Bootstrap dropdown
+    mechanics (data-bs-toggle + .dropdown-menu) because every mw-framework
+    template ships the Bootstrap behaviour JS (mw-framework.js); styling is
+    self-contained and driven by --mw-* tokens with neutral fallbacks, so it
+    renders on any framework template (Plain / Base / Big).
+--}}
+<div class="mw-lang-switcher module-multilanguage">
+    <button
+        class="mw-lang-switcher__toggle"
+        type="button"
+        id="dropdownMenuButton"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        aria-haspopup="true"
+    >
+        @if($current_language['display_icon'])
+            <img src="{{ $current_language['display_icon'] }}" alt="{{ $current_language['display_name'] }}" class="mw-lang-switcher__flag">
+        @else
+            <span class="mw-flag-icon mw-flag-icon-{{ get_flag_icon($current_language['locale']) }} mw-lang-switcher__flag"></span>
+        @endif
+        <span class="mw-lang-switcher__current">{{ $current_language['display_name'] ?: strtoupper(substr($current_language['locale'], 0, 2)) }}</span>
+        <svg class="mw-lang-switcher__caret" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+    </button>
 
-            <ul class="dropdown-menu dropdown-menu-end p-2 modern-lang-dropdown" aria-labelledby="dropdownMenuButton">
-                @if(!empty($supported_languages))
-                    @foreach($supported_languages as $language)
-                        @if($language['is_active'])
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center lang-flag-link modern-lang-link p-2 @if($language['locale'] == $current_language['locale']) active @endif"
-                                   href="?localeRedirect={{ $language['locale'] }}"
-                                   title="{{ $language['display_name'] ?: $language['language'] }}">
-                                    @if($language['display_icon'])
-                                        <img src="{{ $language['display_icon'] }}" alt="{{ $language['display_name'] }}"
-                                             class="lang-flag">
-                                    @else
-                                        <span
-                                            class="mw-flag-icon mw-flag-icon-{{ get_flag_icon($language['locale']) }} lang-flag"></span>
-                                    @endif
-                                    <span class="ms-2">{{ $language['display_name'] ?: $language['language'] }}</span>
-                                    @if($language['locale'] == $current_language['locale'])
-                                        <svg class="ms-auto" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <polyline points="20,6 9,17 4,12"></polyline>
-                                        </svg>
-                                    @endif
-                                </a>
-                            </li>
+    <div class="mw-lang-switcher__menu dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+        <div class="mw-lang-switcher__label">{{ _e('Select Language', true) }}</div>
+        @if(!empty($supported_languages))
+            @foreach($supported_languages as $language)
+                @if($language['is_active'])
+                    <a class="mw-lang-switcher__item {{ $language['locale'] == $current_language['locale'] ? 'is-active' : '' }}"
+                       href="?localeRedirect={{ $language['locale'] }}"
+                       title="{{ $language['display_name'] ?: $language['language'] }}">
+                        @if($language['display_icon'])
+                            <img src="{{ $language['display_icon'] }}" alt="{{ $language['display_name'] }}" class="mw-lang-switcher__item-flag">
+                        @else
+                            <span class="mw-flag-icon mw-flag-icon-{{ get_flag_icon($language['locale']) }} mw-lang-switcher__item-flag"></span>
                         @endif
-                    @endforeach
+                        <span class="mw-lang-switcher__item-name">{{ $language['display_name'] ?: $language['language'] }}</span>
+                        @if($language['locale'] == $current_language['locale'])
+                            <svg class="mw-lang-switcher__check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                        @endif
+                    </a>
                 @endif
-            </ul>
-        </li>
-    </ul>
-</nav>
+            @endforeach
+        @endif
+    </div>
+</div>
 
 <style>
-    .module-multilanguage {
-        .dropdown-menu{
-            border: none;
-            background: var(--bs-light, #f8f9fa);
-            min-width: 150px !important;
-            width: 100%;
-            max-width: none;
-            position: absolute !important; /* Make dropdown absolute */
-            left: 0 !important;
-            top: 100% !important;
-            z-index: 1050;
+    /* Self-contained skin, mirrors .mw-currency-switcher so the two match. */
+    .mw-lang-switcher { position: relative; display: inline-block; font-size: 14px; line-height: 1.4; }
+    .mw-lang-switcher__toggle {
+        display: inline-flex; align-items: center; gap: 8px;
+        min-height: 44px; padding: 8px 14px;
+        background: var(--mw-surface, #fff);
+        color: var(--mw-text-color, #1f2933);
+        border: 1px solid var(--mw-border-color, #d2d6dc);
+        border-radius: var(--mw-border-radius, 8px);
+        cursor: pointer; font: inherit;
+        transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+    .mw-lang-switcher__toggle:hover { background: var(--mw-surface-hover, #f6f7f9); }
+    .mw-lang-switcher__toggle:focus-visible {
+        outline: none;
+        border-color: var(--mw-primary-color, #0d6efd);
+        box-shadow: 0 0 0 3px var(--mw-primary-color-soft, rgba(13,110,253,.25));
+    }
+    .mw-lang-switcher__flag { width: 22px; height: 16px; border-radius: 4px; object-fit: cover; }
+    .mw-lang-switcher__current { font-weight: 600; }
+    .mw-lang-switcher__caret { opacity: .6; transition: transform .15s ease; }
+    .mw-lang-switcher__toggle[aria-expanded="true"] .mw-lang-switcher__caret { transform: rotate(180deg); opacity: 1; }
 
-            ul > li > a:hover span:after, .mw-menu-skin-com ul > li.active span {
-                content: unset !important
-            }
-        }
+    /* Keep Bootstrap's .dropdown-menu show/hide + positioning, override its look. */
+    .mw-lang-switcher .mw-lang-switcher__menu.dropdown-menu {
+        min-width: 224px; margin-top: 6px; padding: 6px;
+        background: var(--mw-surface, #fff);
+        border: 1px solid var(--mw-border-color, #e5e7eb);
+        border-radius: var(--mw-border-radius, 8px);
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,.18), 0 4px 10px -4px rgba(0,0,0,.1);
     }
-
-    .modern-lang-btn {
-        border-radius: 12px;
-        padding: 6px 14px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        transition: box-shadow 0.2s, transform 0.2s;
-        min-width: 44px;
-        min-height: 44px;
-        font-weight: 500;
-        gap: 6px;
-        border: none;
-        width: 100%; /* button matches dropdown width */
-        box-sizing: border-box;
+    .mw-lang-switcher__label {
+        padding: 8px 12px 6px; font-size: 11px; font-weight: 700;
+        letter-spacing: .06em; text-transform: uppercase;
+        color: var(--mw-text-muted, #6b7280);
     }
-    .modern-lang-btn:hover, .modern-lang-btn:focus {
-        box-shadow: 0 4px 16px rgba(0,0,0,0.10);
-        transform: translateY(-1px) scale(1.03);
-        border: none; /* ensure no border on hover/focus */
+    .mw-lang-switcher__item {
+        display: flex; align-items: center; gap: 12px; width: 100%;
+        min-height: 44px; padding: 8px 12px; text-decoration: none;
+        border-left: 3px solid transparent; border-radius: 6px;
+        color: var(--mw-text-color, #1f2933);
+        transition: background .12s ease;
     }
-    .modern-lang-btn .lang-flag {
-        width: 22px;
-        height: 16px;
-        border-radius: 6px;
-        object-fit: cover;
-        margin-right: 2px;
-    }
-    .chevron-icon {
-        vertical-align: middle;
-        transition: transform 0.2s;
-        opacity: 0.7;
-    }
-    .modern-lang-btn[aria-expanded="true"] .chevron-icon {
-        transform: rotate(180deg);
-        opacity: 1;
-    }
-    .modern-lang-dropdown {
-        border-radius: 12px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.10);
-        padding: 8px 0;
-        animation: fadeInLangDropdown 0.18s;
-        border: none;
-        min-width: 100% !important;
-        width: 100%;
-        max-width: none;
-        box-sizing: border-box;
-        position: static !important; /* Prevent double positioning */
-    }
-    @keyframes fadeInLangDropdown {
-        from { opacity: 0; transform: translateY(-8px) scale(0.98);}
-        to { opacity: 1; transform: translateY(0) scale(1);}
-    }
-    .modern-lang-link {
-        border-radius: 8px;
-        transition: background 0.18s, color 0.18s, transform 0.18s;
-        font-size: 15px;
-        font-weight: 500;
-        gap: 8px;
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        border: none; /* removed border */
-    }
-    .modern-lang-link .lang-flag {
-        width: 20px;
-        height: 14px;
-        border-radius: 4px;
-        object-fit: cover;
-    }
-    .modern-lang-link:hover, .modern-lang-link.active {
-        background: var(--bs-light, #f8f9fa);
-        color: var(--mw-primary-color, inherit);
-        transform: scale(1.03);
-        border: none; /* ensure no border on hover/active */
-    }
-    .modern-lang-link.active {
+    .mw-lang-switcher__item:hover { background: var(--mw-surface-hover, #f6f7f9); color: var(--mw-text-color, #1f2933); }
+    .mw-lang-switcher__item.is-active {
+        background: var(--mw-primary-color-soft, rgba(13,110,253,.08));
+        border-left-color: var(--mw-primary-color, #0d6efd);
         font-weight: 600;
-        border-left: 3px solid var(--mw-primary-color, #0d6efd);
     }
+    .mw-lang-switcher__item-flag { width: 20px; height: 14px; border-radius: 3px; object-fit: cover; }
+    .mw-lang-switcher__item-name { flex: 1 1 auto; }
+    .mw-lang-switcher__check { color: var(--mw-primary-color, #0d6efd); margin-left: auto; }
+
     @media (max-width: 576px) {
-        .modern-lang-btn {
-            padding: 4px 8px;
-            font-size: 14px;
-        }
-        .modern-lang-dropdown {
-            min-width: 100px !important;
-        }
-        .modern-lang-link {
-            font-size: 14px;
-            min-height: 44px;
-        }
+        .mw-lang-switcher__toggle { padding: 6px 10px; }
+        .mw-lang-switcher__current { display: none; } /* flag-only on phones */
     }
 </style>
 
 <script>
-    mw.lib.require('flag_icons')
-    // Ensure Bootstrap dropdown works if not already initialized
+    mw.lib.require('flag_icons');
     document.addEventListener('DOMContentLoaded', function () {
         var dropdownBtn = document.getElementById('dropdownMenuButton');
         if (dropdownBtn && typeof bootstrap !== 'undefined') {

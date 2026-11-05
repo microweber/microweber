@@ -52,8 +52,16 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
         FilamentView::registerRenderHook(
             PanelsRenderHook::BODY_END,
             function (): HtmlString {
-                $mwAi = asset('modules/ai/js/mw-ai.js');
-                $sidebar = asset('vendor/microweber-packages/frontend-assets/build/ai-chat-sidebar.js');
+                // Cache-bust with the built file's mtime so a rebuilt bundle is
+                // never served stale from the browser cache (these assets carry
+                // no content hash in their filename).
+                $ver = function (string $rel): string {
+                    $path = public_path($rel);
+                    $url = asset($rel);
+                    return is_file($path) ? ($url . '?v=' . filemtime($path)) : $url;
+                };
+                $mwAi = $ver('modules/ai/js/mw-ai.js');
+                $sidebar = $ver('vendor/microweber-packages/frontend-assets/build/ai-chat-sidebar.js');
                 $title = json_encode('AI assistant');
                 $html = <<<HTML
 <script src="{$mwAi}"></script>
