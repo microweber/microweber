@@ -14,9 +14,15 @@
 
     {!! meta_tags_head() !!}
 
-    {{-- Plain template: ONLY the minimal structural CSS (grid + utils + reset).
-         Everything visual (colours, fonts, components) comes from the AI agent's
-         global custom CSS / Live-Edit edits. --}}
+    {{-- SHARED Microweber CSS framework (vendored Bootstrap 5 + mw-utilities,
+         mw-layouts, mw-shop, nav/header/footer — all token-driven via --mw-*).
+         This is the one shared file every template can include to get the full
+         utility + e-commerce class set; loaded FIRST so plain.css below (and the
+         design-vars/live_edit layers) still override Plain's curated look. --}}
+    <link rel="stylesheet" href="{{ asset('packages/microweber-css-framework-bootstrap/css/mw-framework.css') }}">
+
+    {{-- Plain template's own minimal structural layer + readable baseline,
+         loaded AFTER the shared framework so its curated overrides win. --}}
     <link rel="stylesheet" href="{{ asset('templates/plain/css/plain.css') }}">
 
     {{-- Design tokens (--mw-* custom properties), NEUTRAL by default: so modules
