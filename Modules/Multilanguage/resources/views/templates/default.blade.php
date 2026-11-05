@@ -19,10 +19,8 @@
         class="mw-lang-switcher__toggle"
         type="button"
         id="dropdownMenuButton"
-        role="button"
-        data-bs-toggle="dropdown"
         aria-expanded="false"
-        aria-haspopup="true"
+        aria-haspopup="listbox"
     >
         @if($current_language['display_icon'])
             <img src="{{ $current_language['display_icon'] }}" alt="{{ $current_language['display_name'] }}" class="mw-lang-switcher__flag">
@@ -35,7 +33,7 @@
         </svg>
     </button>
 
-    <div class="mw-lang-switcher__menu dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+    <div class="mw-lang-switcher__menu" role="listbox" aria-labelledby="dropdownMenuButton">
         <div class="mw-lang-switcher__label">{{ _e('Select Language', true) }}</div>
         @if(!empty($supported_languages))
             @foreach($supported_languages as $language)
@@ -85,14 +83,17 @@
     .mw-lang-switcher__caret { opacity: .6; transition: transform .15s ease; }
     .mw-lang-switcher__toggle[aria-expanded="true"] .mw-lang-switcher__caret { transform: rotate(180deg); opacity: 1; }
 
-    /* Keep Bootstrap's .dropdown-menu show/hide + positioning, override its look. */
-    .mw-lang-switcher .mw-lang-switcher__menu.dropdown-menu {
-        min-width: 224px; margin-top: 6px; padding: 6px;
+    /* Self-contained dropdown (no Bootstrap dependency): hidden until .show. */
+    .mw-lang-switcher__menu {
+        display: none;
+        position: absolute; right: 0; top: calc(100% + 6px);
+        min-width: 224px; z-index: 1050; padding: 6px;
         background: var(--mw-surface, #fff);
         border: 1px solid var(--mw-border-color, #e5e7eb);
         border-radius: var(--mw-border-radius, 8px);
         box-shadow: 0 10px 25px -5px rgba(0,0,0,.18), 0 4px 10px -4px rgba(0,0,0,.1);
     }
+    .mw-lang-switcher__menu.show { display: block; }
     .mw-lang-switcher__label {
         padding: 8px 12px 6px; font-size: 11px; font-weight: 700;
         letter-spacing: .06em; text-transform: uppercase;
@@ -122,11 +123,45 @@
 </style>
 
 <script>
-    mw.lib.require('flag_icons');
-    document.addEventListener('DOMContentLoaded', function () {
-        var dropdownBtn = document.getElementById('dropdownMenuButton');
-        if (dropdownBtn && typeof bootstrap !== 'undefined') {
-            new bootstrap.Dropdown(dropdownBtn);
+    (function () {
+        try { if (window.mw && mw.lib && mw.lib.require) { mw.lib.require('flag_icons'); } } catch (e) {}
+
+        // Self-contained toggle — no Bootstrap dropdown dependency, so the
+        // switcher works on any template (Plain/Base/Big) and never throws when
+        // Bootstrap's JS isn't present or the markup isn't its expected shape.
+        if (window.__mwLangSwitcherWired) { return; }
+        window.__mwLangSwitcherWired = true;
+
+        function closeAll(except) {
+            document.querySelectorAll('.mw-lang-switcher__menu.show').forEach(function (m) {
+                if (m !== except) {
+                    m.classList.remove('show');
+                    var t = m.parentElement && m.parentElement.querySelector('.mw-lang-switcher__toggle');
+                    if (t) { t.setAttribute('aria-expanded', 'false'); }
+                }
+            });
         }
-    });
+
+        document.addEventListener('click', function (e) {
+            var toggle = e.target.closest ? e.target.closest('.mw-lang-switcher__toggle') : null;
+            if (toggle) {
+                e.preventDefault();
+                var menu = toggle.parentElement.querySelector('.mw-lang-switcher__menu');
+                if (!menu) { return; }
+                var willShow = !menu.classList.contains('show');
+                closeAll(willShow ? menu : null);
+                menu.classList.toggle('show', willShow);
+                toggle.setAttribute('aria-expanded', willShow ? 'true' : 'false');
+                return;
+            }
+            // click outside any switcher → close
+            if (!(e.target.closest && e.target.closest('.mw-lang-switcher'))) {
+                closeAll(null);
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') { closeAll(null); }
+        });
+    })();
 </script>
