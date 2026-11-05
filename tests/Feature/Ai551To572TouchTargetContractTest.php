@@ -16,7 +16,7 @@ use Tests\TestCase;
  *   AI-499  Page     .mw-more  "Read More" links  ~36px high
  *   AI-551  CookieNotice  .close-button / .accept-all-button / .cookie-policy-link  <44px
  *   AI-553  Currency  toggle button (py-2) ~38px high
- *   AI-556  Multilanguage  .modern-lang-btn / .modern-lang-link  inline CSS 36→32px mobile
+ *   AI-556  Multilanguage  .mw-lang-switcher__toggle / __item  inline CSS, 44px target
  *   AI-564  LayoutContent  .btn call-to-action links  no floor
  *   AI-565  Btn module  .btn-sm can be ~32px
  *   AI-572  Sharer  icon <a> wrappers around SVGs  ~24px
@@ -139,22 +139,23 @@ class Ai551To572TouchTargetContractTest extends TestCase
     #[Test]
     public function ai556_multilanguage_modern_lang_btn_is_44px(): void
     {
-        // Only check the inline style block (not external content), so look for
-        // both the property and that it's ≥44 rather than the old 36.
+        // The switcher was restyled to the shared token system; the trigger pill
+        // carries the 44px touch target (was .modern-lang-btn).
         $this->assertMatchesRegularExpression(
-            '/\.modern-lang-btn\s*\{[^}]*min-height\s*:\s*44px/s',
+            '/\.mw-lang-switcher__toggle\s*\{[^}]*min-height\s*:\s*44px/s',
             $this->multiTmpl,
-            'AI-556: Multilanguage template must set min-height:44px on .modern-lang-btn'
+            'AI-556: Multilanguage template must set min-height:44px on .mw-lang-switcher__toggle'
         );
     }
 
     #[Test]
     public function ai556_multilanguage_modern_lang_link_is_44px_desktop(): void
     {
+        // Menu rows carry the 44px touch target (was .modern-lang-link).
         $this->assertMatchesRegularExpression(
-            '/\.modern-lang-link\s*\{[^}]*min-height\s*:\s*44px/s',
+            '/\.mw-lang-switcher__item\s*\{[^}]*min-height\s*:\s*44px/s',
             $this->multiTmpl,
-            'AI-556: Multilanguage template must set min-height:44px on .modern-lang-link (desktop)'
+            'AI-556: Multilanguage template must set min-height:44px on .mw-lang-switcher__item (desktop)'
         );
     }
 
