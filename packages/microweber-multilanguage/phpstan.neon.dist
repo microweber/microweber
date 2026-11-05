@@ -10,4 +10,5 @@ parameters:
         - src/Tests (?)
         - tests (?)
         - Tests (?)
+        - src/FormElements (?)
     reportUnmatchedIgnoredErrors: false

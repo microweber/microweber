@@ -26,7 +26,8 @@
         "microweber-packages/microweber-laravel-templates": "*",
         "microweber-packages/microweber-filament-registry": "*",
         "microweber-packages/microweber-filament": "*",
-        "nwidart/laravel-modules": "^11.1"
+        "nwidart/laravel-modules": "^11.1",
+        "calebporzio/sushi": "^2.5"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",

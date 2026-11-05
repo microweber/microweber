@@ -10,4 +10,6 @@ parameters:
         - src/Tests (?)
         - tests (?)
         - Tests (?)
+        - src/Utils/ParserProcessor.php (?)
+        - src/Utils/ParserEditFieldsTrait.php (?)
     reportUnmatchedIgnoredErrors: false

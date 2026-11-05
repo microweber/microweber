@@ -10,4 +10,5 @@ parameters:
         - src/Tests (?)
         - tests (?)
         - Tests (?)
+        - src/Models/ModelFilters (?)
     reportUnmatchedIgnoredErrors: false

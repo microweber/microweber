@@ -45,7 +45,8 @@
         "microweber-packages/microweber-disposable-email-checker": "*",
         "microweber-packages/microweber-role": "*",
         "microweber-packages/microweber-core": "*",
-        "dutchcodingcompany/filament-socialite": "^3.0"
+        "dutchcodingcompany/filament-socialite": "^3.0",
+        "spatie/laravel-permission": "^6.16"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
