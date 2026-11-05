@@ -3,7 +3,7 @@
 namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages;
 
 use Filament\Pages\Page;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Illuminate\Contracts\View\View;
 
 /**
@@ -15,7 +15,7 @@ use Illuminate\Contracts\View\View;
  */
 class VisualEditorPage extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-paint-brush';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-paint-brush';
     protected static string | null $navigationLabel = 'Visual Editor';
     protected static ?string $slug = 'visual-editor';
     protected static ?int $navigationSort = 20;
@@ -39,9 +39,9 @@ class VisualEditorPage extends Page
         ];
     }
 
-    public function getMaxContentWidth(): MaxWidth
+    public function getMaxContentWidth(): Width|string|null
     {
-        return MaxWidth::Full;
+        return Width::Full;
     }
 
     public static function shouldRegisterNavigation(): bool

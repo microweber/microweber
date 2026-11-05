@@ -11,4 +11,5 @@ parameters:
         - tests (?)
         - Tests (?)
         - src/FormElements (?)
+        - src/MultilanguageFormElementBuilder.php (?)
     reportUnmatchedIgnoredErrors: false
