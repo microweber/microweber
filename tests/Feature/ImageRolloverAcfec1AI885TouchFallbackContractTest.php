@@ -16,6 +16,13 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
 {
     private string $template;
 
+    /**
+     * The touch-fallback CSS was moved out of the blade's inline <style> into the
+     * module's external stylesheet (served once per page via mw_asset_once); the
+     * JS tap-toggle stays inline. CSS contracts now assert against this file.
+     */
+    private string $css;
+
     private static function projectRoot(): string
     {
         return dirname(__DIR__, 2);
@@ -28,13 +35,27 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
         $this->template = (string) file_get_contents(
             self::projectRoot() . '/Modules/ImageRollover/resources/views/templates/default.blade.php'
         );
+        $this->css = (string) file_get_contents(
+            self::projectRoot() . '/Modules/ImageRollover/resources/assets/css/default.css'
+        );
+    }
+
+    public function test_blade_links_external_touch_css(): void
+    {
+        // Pin the wiring: the blade must emit the external stylesheet (guarded by
+        // mw_asset_once) so the CSS contracts below actually reach the page.
+        $this->assertStringContainsString(
+            "asset('modules/image_rollover/css/default.css')",
+            $this->template,
+            'AI-885: blade must <link> the external ImageRollover stylesheet that now holds the touch-fallback CSS'
+        );
     }
 
     public function test_hover_none_media_query_present(): void
     {
         $this->assertStringContainsString(
             '@media (hover: none)',
-            $this->template,
+            $this->css,
             'AI-885: must have @media (hover: none) fallback for touch devices'
         );
     }
@@ -43,7 +64,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertMatchesRegularExpression(
             '/@media\s*\(hover:\s*none\)\s*\{[^}]*\.mw-rollover\s*\{[^}]*cursor:\s*pointer/s',
-            $this->template,
+            $this->css,
             'AI-885: touch devices must show pointer cursor on rollover container'
         );
     }
@@ -52,7 +73,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertMatchesRegularExpression(
             '/@media\s*\(hover:\s*none\)\s*\{[\s\S]*?\.mw-rollover-overlay\s*\{[^}]*opacity:\s*0\.12/s',
-            $this->template,
+            $this->css,
             'AI-885: touch devices must show a subtle preview of the overlay image'
         );
     }
@@ -61,7 +82,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertMatchesRegularExpression(
             '/\.mw-rollover\.mw-rollover-active\s+\.mw-rollover-overlay\s*\{[^}]*opacity:\s*1/s',
-            $this->template,
+            $this->css,
             'AI-885: .mw-rollover-active must reveal overlay at full opacity'
         );
     }
@@ -70,7 +91,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertStringContainsString(
             'prefers-reduced-motion: reduce',
-            $this->template,
+            $this->css,
             'AI-885: must include prefers-reduced-motion guard'
         );
     }
@@ -160,7 +181,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertStringContainsString(
             '-webkit-tap-highlight-color: transparent',
-            $this->template,
+            $this->css,
             'AI-885: tap highlight must be suppressed on touch devices'
         );
     }
