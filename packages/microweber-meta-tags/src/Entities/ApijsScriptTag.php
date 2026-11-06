@@ -29,47 +29,10 @@ class ApijsScriptTag implements TagInterface, \Stringable
 
         $append_html .= '<script  src="' . $apijs_combined_loaded_new . '"  id="mw-js-core-scripts"></script>' . "\r\n";
 
-        // Vanilla CSRF fetch interceptor — works regardless of jQuery presence.
-        // Reads CSRF token from <meta name="csrf-token"> and adds it to every same-origin fetch.
-        $append_html .= '<script id="mw-js-csrf-vanilla" type="text/javascript">' . "\r\n";
-        $append_html .= '(function () {' . "\r\n";
-        $append_html .= '    if (typeof window === "undefined" || !window.fetch) return;' . "\r\n";
-        $append_html .= '    if (window.__mwCsrfFetchWrapped) return;' . "\r\n";
-        $append_html .= '    window.__mwCsrfFetchWrapped = true;' . "\r\n";
-        $append_html .= '    var originalFetch = window.fetch.bind(window);' . "\r\n";
-        $append_html .= '    window.fetch = function (input, init) {' . "\r\n";
-        $append_html .= '        init = init || {};' . "\r\n";
-        $append_html .= '        var sameOrigin = true;' . "\r\n";
-        $append_html .= '        try {' . "\r\n";
-        $append_html .= '            var u = typeof input === "string" ? input : (input && input.url);' . "\r\n";
-        $append_html .= '            if (u && /^https?:\\/\\//i.test(u)) {' . "\r\n";
-        $append_html .= '                var parsed = new URL(u, window.location.href);' . "\r\n";
-        $append_html .= '                sameOrigin = parsed.origin === window.location.origin;' . "\r\n";
-        $append_html .= '            }' . "\r\n";
-        $append_html .= '        } catch (e) {}' . "\r\n";
-        $append_html .= '        if (sameOrigin) {' . "\r\n";
-        $append_html .= '            var tokenEl = document.querySelector(\'meta[name="csrf-token"]\');' . "\r\n";
-        $append_html .= '            var token = tokenEl ? tokenEl.getAttribute("content") : null;' . "\r\n";
-        $append_html .= '            if (token) {' . "\r\n";
-        $append_html .= '                var headers = new Headers(init.headers || {});' . "\r\n";
-        $append_html .= '                if (!headers.has("X-CSRF-TOKEN")) headers.set("X-CSRF-TOKEN", token);' . "\r\n";
-        $append_html .= '                init.headers = headers;' . "\r\n";
-        $append_html .= '            }' . "\r\n";
-        $append_html .= '        }' . "\r\n";
-        $append_html .= '        return originalFetch(input, init);' . "\r\n";
-        $append_html .= '    };' . "\r\n";
-        $append_html .= '})();' . "\r\n";
-        $append_html .= '</script>' . "\r\n";
-
-        // Legacy jQuery $.ajaxSetup CSRF shim — guarded so it only runs if jQuery is loaded.
-        $append_html .= '<script id="mw-js-csrf-jquery-guarded" type="text/javascript">' . "\r\n";
-        $append_html .= '(function () {' . "\r\n";
-        $append_html .= '    if (typeof window.jQuery === "undefined") return;' . "\r\n";
-        $append_html .= '    var token = (document.querySelector(\'meta[name="csrf-token"]\') || {}).content;' . "\r\n";
-        $append_html .= '    if (!token) return;' . "\r\n";
-        $append_html .= '    window.jQuery.ajaxSetup({ headers: { "X-CSRF-TOKEN": token } });' . "\r\n";
-        $append_html .= '})();' . "\r\n";
-        $append_html .= '</script>' . "\r\n";
+        // CSRF interceptors (vanilla fetch wrapper + guarded jQuery $.ajaxSetup
+        // shim) used to be inlined here as two <script> blocks. They now ship in
+        // the shared frontend bundle (frontend.js → widgets/csrf.js, imported
+        // first) so they load once instead of being re-inlined on every page.
 
         return $append_html;
     }

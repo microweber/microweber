@@ -1,3 +1,5 @@
+import "../widgets/csrf.js";
+
 import "./core.js";
 import "../core/@core.js";
 import "../core/modules.js";
