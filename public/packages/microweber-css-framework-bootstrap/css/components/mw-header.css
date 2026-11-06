@@ -110,4 +110,19 @@
     height: 22px;
     line-height: 1;
     vertical-align: middle;
+    /* Follow the link colour so all action icons share one colour. The account/
+       cart SVGs already use fill:currentColor; the search MDI glyph otherwise
+       picks up a dark .mdi colour rule, so pin it to inherit (overriding that). */
+    color: inherit !important;
+    fill: currentColor;
+}
+
+/* The MDI glyph is painted by its ::before pseudo, which a template's custom CSS
+   can colour independently (e.g. a red accent) — so the magnifier rendered a
+   different colour than the account SVG. Pin the glyph to the element colour. */
+.btn-search .mdi::before,
+.btn-member .mdi::before,
+.btn-shopping-cart .mdi::before {
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor !important;
 }
