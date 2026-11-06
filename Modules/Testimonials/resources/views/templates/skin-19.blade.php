@@ -22,74 +22,14 @@ $limit = 40;
     });
 </script>
 
-<style>
-    #{{ $params['id'] }} .slick-dots {
-        position: relative;
-        bottom: 0px;
-    }
-    .ziza-slick-testimonials .slick-slider .slick-dots li.slick-active button {
-        background-color: #2639ED!important;
-    }
+@if (mw_asset_once('testimonials-skin-19'))
+    {{-- Skin CSS moved to Modules/Testimonials/resources/assets/css/skin-19.css (served from
+         public/modules/testimonials/css/skin-19.css); #id scope -> .mw-testimonials-skin-19. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/testimonials/css/skin-19.css') }}">
+@endif
 
-    .ziza-slick-testimonials .slick-slider .slick-dots li button {
-        background-color: #E7F0FC!important;
-        height: 20px;
-        width: 20px;
-    }
-
-    .ziza-slick-testimonials .slick-list {
-        overflow: hidden;
-    }
-
-    @media screen and (min-width: 992px) {
-        #{{ $params['id'] }} .slick-arrow.slick-prev {
-            left: -60px;
-        }
-
-        #{{ $params['id'] }} .slick-arrow.slick-next {
-            right: -60px;
-        }
-    }
-
-    .mw-ziza-testimonials-item-eclipse {
-        position: absolute;
-        bottom: 30px;
-        left: -20px;
-        z-index: 0;
-        height: 60px;
-        width: 120px;
-        overflow: hidden;
-        transform: rotate(48deg);
-    }
-
-    .mw-ziza-testimonials-item-eclipse div {
-        position: absolute;
-        height: 120px;
-        width: 120px;
-        bottom: 0;
-        left: 0;
-        border: 8.8px solid #FF007A;
-        border-radius: 100px;
-        z-index: 1;
-    }
-
-    .mw-ziza-testimonials-item-dots {
-        position: absolute;
-        top: -49px;
-        right: -40px;
-    }
-
-    .ziza-testimonials-image {
-        width: 450px;
-        height: 450px;
-        z-index: 1;
-        position: relative;
-        border-radius: 250px 0 250px 250px;
-        left: 20px;
-    }
-</style>
-
-<div class="slick-arrows-1 ziza-slick-testimonials mt-5">
+<div class="slick-arrows-1 mw-testimonials-skin-19 ziza-slick-testimonials mt-5">
     <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": true, "arrows": false}'>
         @if($testimonials->isEmpty())
             <p class="mw-pictures-clean">No testimonials added to the module. Please add your testimonials to see the content..</p>

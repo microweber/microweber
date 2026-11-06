@@ -12,30 +12,12 @@
 
 <div>
 
-    <style>
-       .mw-testimonials-module-default-skin img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            margin: 0 auto;
-            display: flex;
-        }
-
-        #testimonials-{{ $params['id'] }} {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-
-        }
-        #testimonials-{{ $params['id'] }} .card{
-            width: calc(33.333% - 15px);
-        }
-        @media (max-width: 768px) {
-            #testimonials-{{ $params['id'] }} .card{
-                width: 100%;
-            }
-        }
-    </style>
+    @if (mw_asset_once('testimonials-default'))
+    {{-- Skin CSS moved to Modules/Testimonials/resources/assets/css/default.css (served from
+         public/modules/testimonials/css/default.css); #id scope -> .mw-testimonials-module-default-skin. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/testimonials/css/default.css') }}">
+@endif
 
     <div class="mw-testimonials-module-default-skin" id="testimonials-{{ $params['id'] }}">
         @if($testimonials->isEmpty())

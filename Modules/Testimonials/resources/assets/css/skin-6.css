@@ -1,0 +1,20 @@
+/* testimonials skin-6.css — extracted from the inline <style> in skin-6.blade.php;
+   per-instance #id scope replaced by the static class .mw-testimonials-skin-6 (added to the skin
+   root) so it loads once per page instead of re-inlining for every instance. */
+    .mw-testimonials-skin-6 .slick-dots {
+        position: relative;
+    }
+
+    @media screen and (min-width: 992px) {
+        .mw-testimonials-skin-6 .slick-arrow.slick-prev {
+            left: -60px;
+        }
+
+        .mw-testimonials-skin-6 .slick-arrow.slick-next {
+            right: -60px;
+        }
+    }
+
+    .mw-testimonials-skin-6 .slick-list {
+        overflow: hidden;
+    }

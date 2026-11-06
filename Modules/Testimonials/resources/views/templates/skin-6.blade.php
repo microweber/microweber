@@ -38,27 +38,14 @@ $limit = 40;
     });
 </script>
 
-<style>
-    #{{ $params['id'] }} .slick-dots {
-        position: relative;
-    }
+@if (mw_asset_once('testimonials-skin-6'))
+    {{-- Skin CSS moved to Modules/Testimonials/resources/assets/css/skin-6.css (served from
+         public/modules/testimonials/css/skin-6.css); #id scope -> .mw-testimonials-skin-6. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/testimonials/css/skin-6.css') }}">
+@endif
 
-    @media screen and (min-width: 992px) {
-        #{{ $params['id'] }} .slick-arrow.slick-prev {
-            left: -60px;
-        }
-
-        #{{ $params['id'] }} .slick-arrow.slick-next {
-            right: -60px;
-        }
-    }
-
-    #{{ $params['id'] }} .slick-list {
-        overflow: hidden;
-    }
-</style>
-
-<div class="slick-arrows-1">
+<div class="slick-arrows-1 mw-testimonials-skin-6">
     <div class="slickslider" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "dots": true, "arrows": false}'>
         @if($testimonials->isEmpty())
             <p class="mw-pictures-clean">No testimonials added to the module. Please add your testimonials to see the content..</p>

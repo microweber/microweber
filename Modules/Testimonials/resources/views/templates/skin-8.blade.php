@@ -38,35 +38,14 @@ $limit = 40;
     });
 </script>
 
-<style>
-    #{{ $params['id'] }} .slick-track {
-        display: flex !important;
-    }
+@if (mw_asset_once('testimonials-skin-8'))
+    {{-- Skin CSS moved to Modules/Testimonials/resources/assets/css/skin-8.css (served from
+         public/modules/testimonials/css/skin-8.css); #id scope -> .mw-testimonials-skin-8. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/testimonials/css/skin-8.css') }}">
+@endif
 
-    #{{ $params['id'] }} .slick-slide {
-        height: inherit !important;
-    }
-
-    #{{ $params['id'] }} .list-inline {
-        margin: 0;
-    }
-
-    #{{ $params['id'] }} .list-inline li {
-        margin: 0 3px;
-    }
-
-    @media screen and (min-width: 992px) {
-        #{{ $params['id'] }} .slick-arrow.slick-prev {
-            left: -60px;
-        }
-
-        #{{ $params['id'] }} .slick-arrow.slick-next {
-            right: -60px;
-        }
-    }
-</style>
-
-<div class="slick-arrows-1">
+<div class="slick-arrows-1 mw-testimonials-skin-8">
     <div class="slickslider" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "dots": false, "arrows": true}'>
         @if($testimonials->isEmpty())
             <p class="mw-pictures-clean">No testimonials added to the module. Please add your testimonials to see the content..</p>

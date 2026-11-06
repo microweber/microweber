@@ -32,19 +32,14 @@ if (!window.SliderV2) {
     });
 </script>
 
-<style>
-    .slider_v2-default.swiper .swiper-pagination-bullet {
-        background-color: #000;
-    }
+@if (mw_asset_once('testimonials-skin-14'))
+    {{-- Skin CSS moved to Modules/Testimonials/resources/assets/css/skin-14.css (served from
+         public/modules/testimonials/css/skin-14.css); #id scope -> .mw-testimonials-skin-14. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/testimonials/css/skin-14.css') }}">
+@endif
 
-    @media screen and (min-width: 768px) {
-        #{{ $params['id'] }} .avatar-holder {
-            margin-left: -40% !important;
-        }
-    }
-</style>
-
-<div id="js-testimonials-slider-{{ $params['id'] }}" class="slider_v2-default swiper">
+<div id="js-testimonials-slider-{{ $params['id'] }}" class="slider_v2-default mw-testimonials-skin-14 swiper">
     <div class="swiper-wrapper pb-4">
         @if($testimonials->isEmpty())
             <p class="mw-pictures-clean">No testimonials added to the module. Please add your testimonials to see the content..</p>

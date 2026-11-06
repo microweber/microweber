@@ -1,0 +1,28 @@
+/* testimonials skin-7.css — extracted from the inline <style> in skin-7.blade.php;
+   per-instance #id scope replaced by the static class .mw-testimonials-skin-7 (added to the skin
+   root) so it loads once per page instead of re-inlining for every instance. */
+    .mw-testimonials-skin-7 .slick-track {
+        display: flex !important;
+    }
+
+    .mw-testimonials-skin-7 .slick-slide {
+        height: inherit !important;
+    }
+
+    .mw-testimonials-skin-7 .list-inline {
+        margin: 0;
+    }
+
+    .mw-testimonials-skin-7 .list-inline li {
+        margin: 0 3px;
+    }
+
+    @media screen and (min-width: 992px) {
+        .mw-testimonials-skin-7 .slick-arrow.slick-prev {
+            left: -60px;
+        }
+
+        .mw-testimonials-skin-7 .slick-arrow.slick-next {
+            right: -60px;
+        }
+    }

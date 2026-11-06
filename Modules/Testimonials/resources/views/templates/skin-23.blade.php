@@ -10,24 +10,14 @@ description: Testimonials using x-testimonial-card component
 */
 @endphp
 
-<style>
-    #testimonials-{{ $params['id'] }} {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-    #testimonials-{{ $params['id'] }} > .col {
-        flex: 1 1 calc(33.333% - 20px);
-        min-width: 280px;
-    }
-    @@media (max-width: 768px) {
-        #testimonials-{{ $params['id'] }} > .col {
-            flex: 1 1 100%;
-        }
-    }
-</style>
+@if (mw_asset_once('testimonials-skin-23'))
+    {{-- Skin CSS moved to Modules/Testimonials/resources/assets/css/skin-23.css (served from
+         public/modules/testimonials/css/skin-23.css); #id scope -> .mw-testimonials-skin-23. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/testimonials/css/skin-23.css') }}">
+@endif
 
-<div id="testimonials-{{ $params['id'] }}">
+<div id="testimonials-{{ $params['id'] }}" class="mw-testimonials-skin-23">
     @if($testimonials->isEmpty())
         <p class="mw-pictures-clean">No testimonials added to the module. Please add your testimonials to see the content.</p>
     @else

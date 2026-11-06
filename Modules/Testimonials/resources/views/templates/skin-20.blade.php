@@ -22,53 +22,14 @@ $rand = uniqid();
 $limit = 40;
 @endphp
 
-<style>
-    #{{ $params['id'] }} .slick-track {
-        display: flex !important;
-    }
+@if (mw_asset_once('testimonials-skin-20'))
+    {{-- Skin CSS moved to Modules/Testimonials/resources/assets/css/skin-20.css (served from
+         public/modules/testimonials/css/skin-20.css); #id scope -> .mw-testimonials-skin-20. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/testimonials/css/skin-20.css') }}">
+@endif
 
-    #{{ $params['id'] }} .slick-dots {
-        position: relative;
-        bottom: -30px;
-    }
-
-    @media screen and (min-width: 768px) {
-        #{{ $params['id'] }} .avatar-holder {
-            margin-left: -40% !important;
-        }
-    }
-
-    #{{ $params['id'] }} .slick-slide {
-        height: inherit !important;
-        margin: 0 15px;
-    }
-
-    @media screen and (min-width: 1000px) {
-        #{{ $params['id'] }} .slick-arrow.slick-prev {
-            bottom: -104px;
-            top: unset;
-            left: 72px !important;
-        }
-
-        #{{ $params['id'] }} .slick-arrow.slick-next {
-            bottom: -104px;
-            top: unset;
-            left: 70px;
-        }
-    }
-
-    #{{ $params['id'] }} .slick-arrows-1 .slick-arrow:before {
-        margin-bottom: 2px!important;
-        opacity: 1;
-    }
-
-    #{{ $params['id'] }} .action-blog-quote {
-        right: -13px;
-        top: 211px;
-    }
-</style>
-
-<div class="slick-arrows-1">
+<div class="slick-arrows-1 mw-testimonials-skin-20">
     <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
         @if($testimonials->isEmpty())
             <p class="mw-pictures-clean">No testimonials added to the module. Please add your testimonials to see the content..</p>

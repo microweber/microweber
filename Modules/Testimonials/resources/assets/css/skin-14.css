@@ -1,0 +1,12 @@
+/* testimonials skin-14.css — extracted from the inline <style> in skin-14.blade.php;
+   per-instance #id scope replaced by the static class .mw-testimonials-skin-14 (added to the skin
+   root) so it loads once per page instead of re-inlining for every instance. */
+    .slider_v2-default.swiper .swiper-pagination-bullet {
+        background-color: #000;
+    }
+
+    @media screen and (min-width: 768px) {
+        .mw-testimonials-skin-14 .avatar-holder {
+            margin-left: -40% !important;
+        }
+    }

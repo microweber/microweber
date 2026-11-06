@@ -22,26 +22,14 @@ $limit = 40;
     });
 </script>
 
-<style>
-    #{{ $params['id'] }} .slick-track {
-        display: flex !important;
-    }
+@if (mw_asset_once('testimonials-skin-12'))
+    {{-- Skin CSS moved to Modules/Testimonials/resources/assets/css/skin-12.css (served from
+         public/modules/testimonials/css/skin-12.css); #id scope -> .mw-testimonials-skin-12. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/testimonials/css/skin-12.css') }}">
+@endif
 
-    #{{ $params['id'] }} .slick-dots {
-        position: relative;
-        bottom: -30px;
-    }
-
-    #{{ $params['id'] }} .slick-slide {
-        height: inherit !important;
-    }
-
-    #{{ $params['id'] }} .slick-list {
-        overflow: hidden;
-    }
-</style>
-
-<div class="slick-arrows-1">
+<div class="slick-arrows-1 mw-testimonials-skin-12">
     <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
         @if($testimonials->isEmpty())
             <p class="mw-pictures-clean">No testimonials added to the module. Please add your testimonials to see the content..</p>

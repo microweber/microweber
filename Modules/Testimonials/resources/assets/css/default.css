@@ -1,0 +1,26 @@
+/* testimonials default.css — extracted from the inline <style> in default.blade.php;
+   per-instance #id scope replaced by the static class .mw-testimonials-module-default-skin (added to the skin
+   root) so it loads once per page instead of re-inlining for every instance. */
+       .mw-testimonials-module-default-skin img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .mw-testimonials-module-default-skin {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+
+        }
+        .mw-testimonials-module-default-skin .card{
+            width: calc(33.333% - 15px);
+        }
+        @media (max-width: 768px) {
+            .mw-testimonials-module-default-skin .card{
+                width: 100%;
+            }
+        }
+    

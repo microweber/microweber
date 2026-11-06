@@ -1,0 +1,17 @@
+/* testimonials skin-23.css — extracted from the inline <style> in skin-23.blade.php;
+   per-instance #id scope replaced by the static class .mw-testimonials-skin-23 (added to the skin
+   root) so it loads once per page instead of re-inlining for every instance. */
+    .mw-testimonials-skin-23 {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .mw-testimonials-skin-23 > .col {
+        flex: 1 1 calc(33.333% - 20px);
+        min-width: 280px;
+    }
+    @@media (max-width: 768px) {
+        .mw-testimonials-skin-23 > .col {
+            flex: 1 1 100%;
+        }
+    }
