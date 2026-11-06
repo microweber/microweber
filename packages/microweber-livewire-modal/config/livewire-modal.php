@@ -23,9 +23,14 @@ return [
     | When true, the modal Livewire component injects its CSS and JS into
     | the page. Set to false if you bundle them yourself.
     |
+    | Microweber bundles them: the CSS now lives in the shared frontend-assets
+    | default.css and the JS in frontend.js (widgets/livewire-modal.js) — both
+    | loaded on EVERY template via the global head/footer meta-tag hooks. So we
+    | keep these false to avoid re-inlining ~525 lines on every modal render.
+    |
     */
-    'include_css' => true,
-    'include_js' => true,
+    'include_css' => false,
+    'include_js' => false,
 
     /*
     |--------------------------------------------------------------------------

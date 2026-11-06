@@ -5208,3 +5208,142 @@ html[dir="rtl"] .mw-rtl-flip {
 @media (min-width: 992px) {
     .mw-visibility-hide-desktop { display: none !important; }
 }
+
+/* =============================================================================
+   Generic Livewire modal (packages/microweber-livewire-modal) — moved out of the
+   inline partials/styles.blade.php into this shared, all-template CSS so it is not
+   re-inlined per modal render. Paired with widgets/livewire-modal.js in frontend.js.
+   ============================================================================= */
+    .js-modal-livewire.mw-livewire-modal {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .js-modal-livewire.mw-livewire-modal.active {
+        display: block;
+    }
+
+    .js-modal-livewire.mw-livewire-modal[data-mw-modal-no-backdrop="1"] {
+        background-color: transparent;
+    }
+
+    .js-modal-livewire-content.mw-livewire-modal-content {
+        margin: auto;
+        background-color: #fff;
+        width: 100%;
+        overflow: auto;
+        position: relative;
+        border-radius: 8px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    @media only screen and (min-width: 600px) {
+        .js-modal-livewire.mw-livewire-modal {
+            padding-top: 100px;
+        }
+
+        .js-modal-livewire-content.mw-livewire-modal-content {
+            max-width: 480px;
+            max-height: calc(100vh - 100px);
+        }
+    }
+
+    @media only screen and (min-width: 768px) {
+        .js-modal-livewire.mw-livewire-modal {
+            padding-top: 8%;
+        }
+
+        .js-modal-livewire-content.mw-livewire-modal-content {
+            max-height: calc(100vh - 100px);
+            overflow: auto;
+        }
+    }
+
+    .mw-modal-close-x {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 44px;
+        height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        background: transparent;
+        color: #475569;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+        border-radius: 6px;
+        z-index: 2;
+        padding: 0;
+    }
+
+    .mw-modal-close-x:hover {
+        background: rgba(0, 0, 0, 0.06);
+        color: #0f172a;
+    }
+
+    .mw-modal-close-x:focus-visible {
+        outline: 2px solid var(--ese-accent, #182433);
+        outline-offset: 2px;
+        background: var(--ese-accent-soft, rgba(24,36,51,0.1));
+    }
+
+    /* Bare / mw.dialog skins — chrome comes from mw.dialog, not this overlay. */
+    .js-modal-livewire.mw-livewire-modal-bare,
+    .js-modal-livewire.mw-livewire-modal-mw-dialog {
+        position: static;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        background-color: transparent;
+        padding: 0;
+    }
+
+    .js-modal-livewire.mw-livewire-modal-bare .mw-livewire-modal-content,
+    .js-modal-livewire.mw-livewire-modal-mw-dialog .mw-livewire-modal-content {
+        margin: 0;
+        box-shadow: none;
+        background: transparent;
+        border-radius: 0;
+        max-width: none;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .js-modal-livewire.mw-livewire-modal-mw-dialog.mw-dialog-fallback,
+    .js-modal-livewire.mw-livewire-modal-bare.mw-dialog-fallback {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 8%;
+    }
+
+    .js-modal-livewire.mw-livewire-modal-mw-dialog.mw-dialog-fallback .mw-livewire-modal-content,
+    .js-modal-livewire.mw-livewire-modal-bare.mw-dialog-fallback .mw-livewire-modal-content {
+        margin: auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+        max-width: 800px;
+        max-height: calc(100vh - 100px);
+        overflow: auto;
+        padding: 16px;
+    }
+
+    html.dark .js-modal-livewire.mw-livewire-modal-mw-dialog.mw-dialog-fallback .mw-livewire-modal-content,
+    html.dark .js-modal-livewire.mw-livewire-modal-bare.mw-dialog-fallback .mw-livewire-modal-content {
+        background-color: #1f2937;
+        color: #f3f4f6;
+    }
