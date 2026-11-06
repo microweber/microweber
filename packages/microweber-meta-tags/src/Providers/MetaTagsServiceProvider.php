@@ -121,6 +121,20 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'live_edit_js_footer_tags',
                 new \MicroweberPackages\MetaTags\Entities\LiveEditJsFooterTags()
             );
+            // Per-PAGE custom JS — deferred footer <script>, published page only.
+            $package->addTag(
+                'page_custom_js_footer_tags',
+                new \MicroweberPackages\MetaTags\Entities\PageCustomJsFooterTags()
+            );
+            // Per-PAGE custom CSS — the global live_edit.css is injected at the END
+            // of <body> to win the cascade, so the per-page override is a FOOTER
+            // stylesheet registered LAST: it is the final CSS on the page and so
+            // overrides both the template defaults and the global live_edit layer
+            // for this content id.
+            $package->addTag(
+                'page_custom_css_footer_tags',
+                new \MicroweberPackages\MetaTags\Entities\PageCustomCssFooterTags()
+            );
             $package->addTag(
                 'custom_fonts_css_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\CustomFontsCssHeadTags()

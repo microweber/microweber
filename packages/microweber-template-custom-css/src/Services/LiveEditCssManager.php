@@ -824,4 +824,171 @@ class LiveEditCssManager implements CssFileHandlerInterface
             // mirror is best-effort; local file remains the source of truth
         }
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Per-page (content-id) custom CSS / JS — the page-scoped sibling of the
+    // global, per-template live_edit.{css,js}. Stored at
+    //   {css_base_path}/pages/live_edit_{contentId}.{css,js}
+    // mirrored to the remote disk (S3) and served from the CDN URL exactly like
+    // the global file. Loaded AFTER the global live_edit file (see
+    // PageCustomCssHeadTags / PageCustomJsFooterTags) so a single page can
+    // override the site-wide design for its own content id. Deliberately simple
+    // (no option store / snapshots / multisite filename): a page's layer is a
+    // plain file keyed by its content id.
+    // ─────────────────────────────────────────────────────────────────────────
+
+    protected function pagesFolder(): string
+    {
+        $base = $this->cssBasePath();
+        $folder = rtrim($base, "/\\") . PathHelper::ds() . 'pages' . PathHelper::ds();
+
+        return PathHelper::normalize($folder, true);
+    }
+
+    public function getPageCssFilename(int $contentId): string
+    {
+        return 'live_edit_' . (int) $contentId . '.css';
+    }
+
+    public function getPageJsFilename(int $contentId): string
+    {
+        return 'live_edit_' . (int) $contentId . '.js';
+    }
+
+    public function getPageCssPath(int $contentId, bool $checkExists = true): string|false
+    {
+        $path = PathHelper::normalize($this->pagesFolder() . $this->getPageCssFilename($contentId), false);
+        if ($checkExists) {
+            return is_file($path) ? $path : false;
+        }
+
+        return $path;
+    }
+
+    public function getPageJsPath(int $contentId, bool $checkExists = true): string|false
+    {
+        $path = PathHelper::normalize($this->pagesFolder() . $this->getPageJsFilename($contentId), false);
+        if ($checkExists) {
+            return is_file($path) ? $path : false;
+        }
+
+        return $path;
+    }
+
+    /** Disk-relative path of a per-page file within the remote (S3) disk. */
+    protected function remotePageRelPath(string $filename): ?string
+    {
+        $base = $this->configString('css_base_relpath', '');
+        if ($base === '') {
+            return null;
+        }
+
+        return trim($base, '/') . '/pages/' . $filename;
+    }
+
+    protected function pageCssUrlFor(int $contentId, string $filename): ?string
+    {
+        $path = PathHelper::normalize($this->pagesFolder() . $filename, false);
+        if (!is_file($path)) {
+            return null;
+        }
+        // Empty layer → no tag (keeps the head/footer clean).
+        if (trim((string) file_get_contents($path)) === '') {
+            return null;
+        }
+
+        $mtime = filemtime($path);
+        $disk = $this->remoteDisk();
+        $rel = $disk ? $this->remotePageRelPath($filename) : null;
+        if ($disk !== null && $rel !== null) {
+            try {
+                return \Illuminate\Support\Facades\Storage::disk($disk)->url($rel) . '?version=' . $mtime;
+            } catch (\Throwable) {
+                // fall through to the local URL
+            }
+        }
+
+        return rtrim($this->cssBaseUrl(), '/') . '/pages/' . $filename . '?version=' . $mtime;
+    }
+
+    /** Public URL for a page's custom CSS (null when missing or empty). */
+    public function getPageCssUrl(int $contentId): ?string
+    {
+        return $this->pageCssUrlFor($contentId, $this->getPageCssFilename($contentId));
+    }
+
+    /** Public URL for a page's custom JS (null when missing or empty). */
+    public function getPageJsUrl(int $contentId): ?string
+    {
+        return $this->pageCssUrlFor($contentId, $this->getPageJsFilename($contentId));
+    }
+
+    public function getPageCssContent(int $contentId): string
+    {
+        $path = $this->getPageCssPath($contentId, true);
+
+        return $path !== false ? (string) file_get_contents($path) : '';
+    }
+
+    public function getPageJsContent(int $contentId): string
+    {
+        $path = $this->getPageJsPath($contentId, true);
+
+        return $path !== false ? (string) file_get_contents($path) : '';
+    }
+
+    /** Write a page's custom CSS (validated + url-rewritten) and mirror to S3. */
+    public function savePageCssContent(int $contentId, ?string $cssCont): string
+    {
+        $css = $cssCont ?? '';
+        if ($css !== '') {
+            if ($this->configBool('validate_on_save', true)) {
+                $this->validator->assertValid($css);
+            }
+            $css = $this->urlRewriter->forStorage($css);
+        }
+
+        $folder = $this->pagesFolder();
+        if (!is_dir($folder)) {
+            @mkdir($folder, 0775, true);
+        }
+        $filename = $this->getPageCssFilename($contentId);
+        $path = PathHelper::normalize($folder . $filename, false);
+        file_put_contents($path, $css);
+        $this->mirrorPageToRemoteDisk($filename, $css);
+
+        return $path;
+    }
+
+    /** Write a page's custom JS and mirror to S3. */
+    public function savePageJsContent(int $contentId, ?string $jsCont): string
+    {
+        $js = $jsCont ?? '';
+
+        $folder = $this->pagesFolder();
+        if (!is_dir($folder)) {
+            @mkdir($folder, 0775, true);
+        }
+        $filename = $this->getPageJsFilename($contentId);
+        $path = PathHelper::normalize($folder . $filename, false);
+        file_put_contents($path, $js);
+        $this->mirrorPageToRemoteDisk($filename, $js);
+
+        return $path;
+    }
+
+    protected function mirrorPageToRemoteDisk(string $filename, string $content): void
+    {
+        $disk = $this->remoteDisk();
+        $rel = $disk ? $this->remotePageRelPath($filename) : null;
+        if ($disk === null || $rel === null) {
+            return;
+        }
+
+        try {
+            \Illuminate\Support\Facades\Storage::disk($disk)->put($rel, $content, ['visibility' => 'public']);
+        } catch (\Throwable) {
+            // mirror is best-effort; local file remains the source of truth
+        }
+    }
 }
