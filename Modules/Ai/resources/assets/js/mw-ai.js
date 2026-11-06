@@ -523,6 +523,46 @@ function MwAi() {
             doc.head.appendChild(el); // move/keep last
         },
 
+        // ── Per-PAGE custom CSS/JS (apply_page_css / apply_page_js) ───────────
+        // The content-id current page being edited in Live Edit, or 0.
+        currentPageContentId() {
+            try {
+                const led = mw.top().app.canvas.getLiveEditData();
+                return (led && led.content && led.content.id) ? led.content.id : 0;
+            } catch (e) { return 0; }
+        },
+
+        // Preview the page-scoped CSS in the canvas in a SEPARATE style block, kept
+        // AFTER #mw-ai-global-css so (like on the published page) the page layer
+        // overrides the global one. Returns the full merged page CSS.
+        injectPageCss(css) {
+            const doc = this.canvasDocument();
+            let el = doc.getElementById('mw-ai-page-css');
+            if (!el) { el = doc.createElement('style'); el.id = 'mw-ai-page-css'; }
+            el.textContent = this.mergeGlobalCss(el.textContent || '', css);
+            doc.head.appendChild(el); // keep last → wins over #mw-ai-global-css
+            return el.textContent;
+        },
+
+        // Persist the full per-page CSS/JS immediately (overwrite semantics) via the
+        // template-custom-css endpoints — no Live-Edit SAVE needed.
+        savePageCssToServer(fullCss) {
+            const id = this.currentPageContentId();
+            if (!id) { return; }
+            const ajax = { url: mw.settings.site_url + 'api/page_save_custom_css', type: 'POST', data: { content_id: id, css: fullCss } };
+            const csrf = $('meta[name="csrf-token"]');
+            if (csrf.length) { ajax.headers = { 'X-CSRF-TOKEN': csrf.attr('content') }; }
+            try { $.ajax(ajax); } catch (e) {}
+        },
+        savePageJsToServer(fullJs) {
+            const id = this.currentPageContentId();
+            if (!id) { return; }
+            const ajax = { url: mw.settings.site_url + 'api/page_save_custom_js', type: 'POST', data: { content_id: id, js: fullJs } };
+            const csrf = $('meta[name="csrf-token"]');
+            if (csrf.length) { ajax.headers = { 'X-CSRF-TOKEN': csrf.attr('content') }; }
+            try { $.ajax(ajax); } catch (e) {}
+        },
+
         // Split CSS into top-level blocks, respecting brace nesting so @media / at-
         // rules keep their nested content. Returns [{type:'rule', selector, body} |
         // {type:'at', text}].
@@ -889,6 +929,31 @@ function MwAi() {
                 api.persistGlobalCss();
                 api.markDesignDirty();
                 return { ok: true, message: 'applied global css' };
+            },
+
+            // Per-PAGE CSS: like apply_css but scoped to the CURRENT page by content
+            // id. Previews in the canvas (a block kept after the global one so it
+            // wins) and persists immediately to the page-scoped file — no SAVE needed.
+            apply_page_css: function(args, api) {
+                const css = (args && args.css) ? String(args.css) : '';
+                if (!css.trim()) { return { ok: false, message: 'empty css' }; }
+                const id = api.currentPageContentId();
+                if (!id) { return { ok: false, message: 'No current page content id — open a page in Live Edit first.' }; }
+                const full = api.injectPageCss(api.forceImportant(api.tokenizeDesignCss(css)));
+                api.savePageCssToServer(full);
+                return { ok: true, message: 'applied + saved CSS for THIS page only (content ' + id + ')' };
+            },
+
+            // Per-PAGE JS: scoped to the current page by content id. Overwrite
+            // semantics (the model sends the full script). Runs on the published
+            // page only, so nothing executes in the editor.
+            apply_page_js: function(args, api) {
+                const js = (args && args.js) ? String(args.js) : '';
+                if (!js.trim()) { return { ok: false, message: 'empty js' }; }
+                const id = api.currentPageContentId();
+                if (!id) { return { ok: false, message: 'No current page content id — open a page in Live Edit first.' }; }
+                api.savePageJsToServer(js);
+                return { ok: true, message: 'saved JS for THIS page only (content ' + id + '); runs on the published page' };
             },
 
             // Set (override) one or more template CSS custom properties globally,
