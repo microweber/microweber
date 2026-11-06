@@ -91,6 +91,13 @@ class MultilanguageServiceProvider extends BaseModuleServiceProvider
             $supportedLanguages = get_supported_languages();
             if (!empty($supportedLanguages)) {
 
+                    // Language-switcher skin + self-contained toggle behaviour.
+                    // Shipped by this module (resources/assets/css|js/lang-switcher.*),
+                    // injected ONCE into the page <head> instead of inline per render,
+                    // so it loads on any template and only when languages exist.
+                    template_head('<link rel="stylesheet" id="mw-lang-switcher-css" href="' . asset('modules/multilanguage/css/lang-switcher.css') . '">');
+                    template_head('<script id="mw-lang-switcher-js" defer src="' . asset('modules/multilanguage/js/lang-switcher.js') . '"></script>');
+
                     template_head(function () use ($supportedLanguages) {
 
                         /**
