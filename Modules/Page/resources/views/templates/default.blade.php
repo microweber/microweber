@@ -12,44 +12,12 @@ description: Default - 3 Columns
 
 @endphp
 
-<style>
-    #pages-{{ $params['id'] }} .thumbnail-image-holder {
-        position: relative;
-        overflow: hidden;
-        height: 300px;
-    }
-
-    #pages-{{ $params['id'] }} .thumbnail-image-holder .thumbnail {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-        min-width: calc(100% + 2px);
-        min-height: 100%;
-    }
-
-    #pages-{{ $params['id'] }} .mw-pages-title a {
-        color: var(--mw-heading-color);
-        text-decoration: none;
-    }
-
-    #pages-{{ $params['id'] }} .page-bottom-holder {
-        padding: 25px;
-        padding-top: 20px;
-    }
-
-    #pages-{{ $params['id'] }} .module-pages-template-columns-3 .page-holder {
-        background: var(--background);
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        margin: 20px 0;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        text-align: left;
-    }
-
-    #pages-{{ $params['id'] }} .page-list-image {
-        width: 240px;
-    }
-</style>
+@if (mw_asset_once('page-default'))
+    {{-- Skin CSS moved to Modules/Page/resources/assets/css/default.css (served from
+         public/modules/page/css/default.css); #id scope -> .mw-pages-default. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/page/css/default.css') }}">
+@endif
 
 @php
     $columns = get_option('columns', $params['id']);
@@ -64,7 +32,7 @@ description: Default - 3 Columns
     $count = 0;
 @endphp
 
-<div class="row module-pages-template-columns-3" id="pages-{{ $params['id'] }}">
+<div class="row module-pages-template-columns-3 mw-pages-default" id="pages-{{ $params['id'] }}">
     <div class="col-lg-12 mx-auto">
         <div class="row">
             @if (empty($data))

@@ -27,52 +27,14 @@
 
 @endphp
 
-<style>
-    #posts-{{ $params['id'] }} .thumbnail-image-holder {
-        position: relative;
-        overflow: hidden;
-        height: 300px;
-    }
+@if (mw_asset_once('content-posts-default'))
+    {{-- Skin CSS moved to Modules/Content/resources/assets/css/posts-default.css (served from
+         public/modules/content/css/posts-default.css); #id scope -> .mw-posts-default. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/content/css/posts-default.css') }}">
+@endif
 
-    #posts-{{ $params['id'] }} .thumbnail-image-holder .thumbnail{
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-        min-width: calc(100% + 2px);
-        min-height: 100%;
-    }
-    #posts-{{ $params['id'] }} .mw-products-title{
-        a {
-
-            color: var(--mw-heading-color);
-            text-decoration: none;
-        }
-    }
-
-    #posts-{{ $params['id'] }} .post-bottom-holder {
-
-        padding: 25px;
-        padding-top: 20px;
-    }
-
-    #posts-{{ $params['id'] }} .big-news .post-holder h3 a{
-        text-decoration: none;
-    }
-    #posts-{{ $params['id'] }} .big-news .post-holder {
-        background: var(--background);
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        margin: 20px 0;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        text-align: left;
-    }
-
-    #posts-{{ $params['id'] }} .post-list-image{
-        width: 240px;
-    }
-</style>
-
-<div class="row" id="posts-{{ $params['id'] }}">
+<div class="row mw-posts-default" id="posts-{{ $params['id'] }}">
     <div class="col-lg-12 mx-auto">
         <div class="row big-news">
             @if(empty($data))

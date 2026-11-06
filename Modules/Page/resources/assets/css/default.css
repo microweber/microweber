@@ -1,0 +1,39 @@
+/* page default.css — extracted from the inline <style> in default.blade.php;
+   per-instance #id scope replaced by the static class .mw-pages-default (added to the skin
+   root) so it loads once per page instead of re-inlining for every instance. */
+    .mw-pages-default .thumbnail-image-holder {
+        position: relative;
+        overflow: hidden;
+        height: 300px;
+    }
+
+    .mw-pages-default .thumbnail-image-holder .thumbnail {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        min-width: calc(100% + 2px);
+        min-height: 100%;
+    }
+
+    .mw-pages-default .mw-pages-title a {
+        color: var(--mw-heading-color);
+        text-decoration: none;
+    }
+
+    .mw-pages-default .page-bottom-holder {
+        padding: 25px;
+        padding-top: 20px;
+    }
+
+    .mw-pages-default .module-pages-template-columns-3 .page-holder {
+        background: var(--background);
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        margin: 20px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+    .mw-pages-default .page-list-image {
+        width: 240px;
+    }

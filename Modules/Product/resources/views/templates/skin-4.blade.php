@@ -12,17 +12,14 @@
 
 @include('modules.product::templates.slick_options')
 
-<style>
-    #{{ $params['id'] }} .slick-arrows-1 .slick-prev {
-        margin-left: -70px
-    }
+@if (mw_asset_once('product-skin-4'))
+    {{-- Skin CSS moved to Modules/Product/resources/assets/css/skin-4.css (served from
+         public/modules/product/css/skin-4.css); #id scope -> .mw-product-skin-4. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/product/css/skin-4.css') }}">
+@endif
 
-    #{{ $params['id'] }} .slick-arrows-1 .slick-next {
-        margin-right: -70px
-    }
-</style>
-
-<div class="slick-arrows-1">
+<div class="slick-arrows-1 mw-product-skin-4">
        @if(empty($data))
        <p class="mw-pictures-clean">No products added. Please add products to the module.</p>
    @else

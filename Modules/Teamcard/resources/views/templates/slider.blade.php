@@ -25,13 +25,14 @@ if (!window.SliderV2) {
     });
 </script>
 
-<style>
-    #js-teamcard-slider-{{ $params['id'] }}{
-        max-height: 500px;
-    }
-</style>
+@if (mw_asset_once('teamcard-slider'))
+    {{-- Skin CSS moved to Modules/Teamcard/resources/assets/css/slider.css (served from
+         public/modules/teamcard/css/slider.css); #id scope -> .mw-teamcard-slider. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/teamcard/css/slider.css') }}">
+@endif
 
-<div id="js-teamcard-slider-{{ $params['id'] }}" class="slider_v2-default swiper">
+<div id="js-teamcard-slider-{{ $params['id'] }}" class="slider_v2-default swiper mw-teamcard-slider">
     <div class="swiper-wrapper">
         @if ($teamcard->count() > 0)
             @foreach($teamcard as $i => $member)

@@ -27,68 +27,14 @@
 
 @endphp
 
-<style>
-    #posts-{{ $params['id'] }} .thumbnail-image-holder {
-        position: relative;
-        overflow: hidden;
-        height: 300px;
-    }
+@if (mw_asset_once('content-posts-skin-1'))
+    {{-- Skin CSS moved to Modules/Content/resources/assets/css/posts-skin-1.css (served from
+         public/modules/content/css/posts-skin-1.css); #id scope -> .mw-posts-skin-1. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/content/css/posts-skin-1.css') }}">
+@endif
 
-    #posts-{{ $params['id'] }} .thumbnail-image-holder .thumbnail{
-        object-fit: contain;
-        width: 100%;
-        height: 100%;
-        min-width: calc(100% + 2px);
-        min-height: 100%;
-    }
-    #posts-{{ $params['id'] }} .mw-products-title{
-
-        a {
-
-            color: var(--mw-heading-color);
-            text-decoration: none;
-        }
-    }
-
-    #posts-{{ $params['id'] }} .post-bottom-holder {
-
-        padding: 25px;
-        padding-top: 20px;
-    }
-
-    #posts-{{ $params['id'] }} .big-news .post-holder h3 a{
-        text-decoration: none;
-    }
-    #posts-{{ $params['id'] }} .big-news .post-holder {
-        background: var(--background);
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        margin: 20px 0;
-        text-align: left;
-    }
-
-    #posts-{{ $params['id'] }} .post-list-image{
-        width: 240px;
-    }
-
-   #posts-{{ $params['id'] }} .post-holder.mw-content-skin-1 {
-        margin-bottom: 10px;
-        padding: 20px;
-        overflow: hidden;
-    }
-
-   #posts-{{ $params['id'] }} .post-holder.mw-content-skin-1 h3,
-   #posts-{{ $params['id'] }} .post-holder.mw-content-skin-1 p {
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
-
-   #posts-{{ $params['id'] }} .post-holder.mw-content-skin-1:hover {
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        transition: .3s;
-    }
-</style>
-
-<div class="row" id="posts-{{ $params['id'] }}">
+<div class="row mw-posts-skin-1" id="posts-{{ $params['id'] }}">
     <div class="col-lg-12 mx-auto">
         <div class="row big-news">
             @if(empty($data))

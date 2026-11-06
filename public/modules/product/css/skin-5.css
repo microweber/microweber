@@ -1,0 +1,16 @@
+/* product skin-5.css — extracted from the inline <style> in skin-5.blade.php;
+   per-instance #id scope replaced by the static class .mw-product-skin-5 (added to the skin
+   root) so it loads once per page instead of re-inlining for every instance. */
+    .mw-product-skin-5 .slick-prev {
+        top: 33%;
+    }
+
+    .mw-product-skin-5 .slick-next {
+        top: 33%;
+    }
+
+    @media (max-width: 950px) {
+        .slick-arrows-1 .slick-next, .slick-arrows-1 .slick-prev {
+            display: none !important;
+        }
+    }
