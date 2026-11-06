@@ -39,6 +39,14 @@ class SwarmPlannerAgent extends BaseAgent
      */
     public function plan(string $brief): SwarmPlanOutput
     {
+        // NeuronAI v4 structured()/chat() require a bound thread id. The planner
+        // is a one-shot with no persisted history, so if the caller did not bind
+        // an AgentChat, use an ephemeral in-memory thread (messageStore() falls
+        // back to InMemoryMessageStore when no AgentChat is set).
+        if (!$this->getThreadId()) {
+            $this->setThreadId('swarm-planner-' . \uniqid('', true));
+        }
+
         /** @var SwarmPlanOutput $result */
         $result = $this->structured(
             new UserMessage($this->buildPlanningPrompt($brief)),
