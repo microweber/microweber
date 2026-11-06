@@ -369,6 +369,8 @@
             "MicroweberPackages\\ClassLoader\\Tests\\": "packages/microweber-class-loader/tests/",
             "MicroweberPackages\\TemplateFonts\\Tests\\": "packages/microweber-template-fonts/tests/",
             "MicroweberPackages\\TemplateCustomCss\\Tests\\": "packages/microweber-template-custom-css/tests/",
+            "MicroweberPackages\\LaravelModules\\Tests\\": "packages/microweber-laravel-modules/tests/",
+            "MicroweberPackages\\LaravelTemplates\\Tests\\": "packages/microweber-laravel-templates/tests/",
             "MicroweberPackages\\Queue\\Tests\\": "packages/microweber-queue/tests/",
             "MicroweberPackages\\PackageManagerClient\\Tests\\": "packages/microweber-package-manager-client/tests/",
             "MicroweberPackages\\Notification\\Tests\\": "packages/microweber-notification/tests/",
