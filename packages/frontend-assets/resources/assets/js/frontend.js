@@ -12,6 +12,7 @@ import "../core/reload-module.js";
 
 import "../widgets/hamburger.js";
 import "../widgets/livewire-modal.js";
+import "../widgets/module-skins-init.js";
 import "../tools/element.js";
 import "../tools/spinner.js";
 import "../tools/storage.js";

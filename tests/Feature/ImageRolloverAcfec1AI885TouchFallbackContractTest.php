@@ -23,6 +23,13 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
      */
     private string $css;
 
+    /**
+     * The rollover init JS (sizing + touch tap/keyboard toggle + a11y attrs) moved
+     * out of the blade's inline <script> into the shared frontend bundle, run once
+     * and re-run on moduleLoaded. JS contracts now assert against that source.
+     */
+    private string $js;
+
     private static function projectRoot(): string
     {
         return dirname(__DIR__, 2);
@@ -37,6 +44,9 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
         );
         $this->css = (string) file_get_contents(
             self::projectRoot() . '/Modules/ImageRollover/resources/assets/css/default.css'
+        );
+        $this->js = (string) file_get_contents(
+            self::projectRoot() . '/packages/frontend-assets/resources/assets/widgets/module-skins-init.js'
         );
     }
 
@@ -100,7 +110,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertStringContainsString(
             "window.matchMedia('(hover: none)').matches",
-            $this->template,
+            $this->js,
             'AI-885: JS must detect touch devices via matchMedia hover:none'
         );
     }
@@ -109,7 +119,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertStringContainsString(
             "container.classList.toggle('mw-rollover-active')",
-            $this->template,
+            $this->js,
             'AI-885: JS must toggle mw-rollover-active class on tap'
         );
     }
@@ -118,7 +128,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertStringContainsString(
             "setAttribute('role', 'button')",
-            $this->template,
+            $this->js,
             'AI-885: JS must add role=button on touch devices for a11y'
         );
     }
@@ -127,7 +137,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertStringContainsString(
             "setAttribute('aria-label', 'Tap to toggle image')",
-            $this->template,
+            $this->js,
             'AI-885: JS must add aria-label on touch devices'
         );
     }
@@ -136,7 +146,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertStringContainsString(
             "setAttribute('tabindex', '0')",
-            $this->template,
+            $this->js,
             'AI-885: JS must add tabindex=0 on touch devices for keyboard focus'
         );
     }
@@ -145,7 +155,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertStringContainsString(
             "e.key === 'Enter'",
-            $this->template,
+            $this->js,
             'AI-885: JS keydown handler must respond to Enter key'
         );
     }
@@ -154,7 +164,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertStringContainsString(
             "e.key === ' '",
-            $this->template,
+            $this->js,
             'AI-885: JS keydown handler must respond to Space key'
         );
     }
@@ -163,7 +173,7 @@ class ImageRolloverAcfec1AI885TouchFallbackContractTest extends TestCase
     {
         $this->assertStringContainsString(
             'e.preventDefault()',
-            $this->template,
+            $this->js,
             'AI-885: keydown handler must call preventDefault to suppress scroll on Space'
         );
     }

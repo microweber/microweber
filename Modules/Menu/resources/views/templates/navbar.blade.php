@@ -85,31 +85,14 @@ if ($mt && is_string($mt)) {
         }
     </style>
 
-    <script>
-        Array.from(document.querySelectorAll('.navbar-submenu-overflow')).forEach(node => {
-            node.classList.remove('navbar-submenu-overflow');
-            Array.from(node.querySelectorAll('li')).forEach(li => {
-                li.addEventListener('mouseenter', function(e) {
-                    var ul = this.querySelector('ul');
-                    if(ul && !ul._ready && ul !== node) {
-                        if(ul.offsetWidth + mw.element(ul).offset().offsetLeft > innerWidth) {
-                            ul.style.left = 'auto';
-                            ul.style.right = '100%';
-                        }
-                        setTimeout(() => {
-                                ul._ready = true;
-                                if(ul.offsetWidth + mw.element(ul).offset().offsetLeft > innerWidth) {
-                                    ul.style.left = 'auto';
-                                    ul.style.right = '100%';
-                                }
-                        }, 10)
-                    }
-
-                });
-            })
-
-        });
-    </script>
+    {{--
+        The submenu-overflow positioning JS moved to the shared frontend bundle
+        (packages/frontend-assets/resources/assets/widgets/module-skins-init.js,
+        imported by frontend.js). It runs idempotently on ready and re-runs on
+        `moduleLoaded`; the `.navbar-submenu-overflow` marker class is the guard
+        (removed once a menu is processed), so it stays safe across Live-Edit
+        reloads without re-emitting this script on every menu instance.
+    --}}
 @else
     @if(is_live_edit())
         <div class="mw-canvas-empty-state" data-mw-content-type="menu">

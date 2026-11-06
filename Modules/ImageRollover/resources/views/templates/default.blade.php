@@ -33,41 +33,12 @@
     @endif
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var rolloverImages = document.querySelectorAll('.mw-rollover');
-
-        rolloverImages.forEach(function (container) {
-            var overlay = container.querySelector('.mw-rollover-overlay');
-            if (overlay) {
-                var defaultImage = container.querySelector('.mw-rollover-default_image');
-                var rolloverImage = overlay.querySelector('img');
-
-                if (defaultImage && rolloverImage) {
-                    rolloverImage.style.width = defaultImage.offsetWidth + 'px';
-                    rolloverImage.style.height = defaultImage.offsetHeight + 'px';
-                }
-            }
-        });
-
-        if (window.matchMedia('(hover: none)').matches) {
-            rolloverImages.forEach(function (container) {
-                var overlay = container.querySelector('.mw-rollover-overlay');
-                if (overlay) {
-                    container.setAttribute('role', 'button');
-                    container.setAttribute('aria-label', 'Tap to toggle image');
-                    container.setAttribute('tabindex', '0');
-                    container.addEventListener('click', function () {
-                        container.classList.toggle('mw-rollover-active');
-                    });
-                    container.addEventListener('keydown', function (e) {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            container.classList.toggle('mw-rollover-active');
-                        }
-                    });
-                }
-            });
-        }
-    });
-</script>
+{{--
+    The rollover init JS (overlay sizing + touch tap/keyboard toggle + a11y attrs)
+    moved to the shared frontend bundle: packages/frontend-assets/resources/assets/
+    widgets/module-skins-init.js (imported by frontend.js). It runs idempotently on
+    ready and re-runs on `moduleLoaded`, so a rollover dropped in Live Edit now
+    initialises too — the old inline DOMContentLoaded handler never fired for
+    modules added after initial page load. The tap-toggle is a single delegated
+    listener, so it covers every instance without per-element binding.
+--}}
