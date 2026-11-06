@@ -29,7 +29,7 @@
         "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
         "microweber-packages/microweber-searchable": "*",
         "whitecube/lingua": "^1.1",
-        "symfony/intl": "^6.0|^7.0",
+        "symfony/intl": "^6.0|^7.0|^8.0",
         "microweber-packages/microweber-database": "*",
         "microweber-packages/microweber-repository": "*"
     },
