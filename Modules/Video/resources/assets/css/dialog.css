@@ -1,0 +1,19 @@
+/* video dialog.css — extracted from the inline <style> in dialog.blade.php;
+   per-instance #id scope replaced by the static class .mw-video-dialog-play (added to the skin
+   root) so it loads once per page instead of re-inlining for every instance. */
+    .mw-video-dialog-play{
+        font-size: 0;
+    }
+    .mw-video-dialog-play:after{
+        content: "\eb86";
+        font-family: 'icomoon-solid';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        font-size: 100px;
+        color: var(--mw-primary-color);
+    }

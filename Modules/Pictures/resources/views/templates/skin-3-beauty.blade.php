@@ -4,21 +4,12 @@ name: Skin-3 beauty
 description: Skin-3 beauty
 --}}
 
-<style>
-    #{{ $params['id'] ?? '' }} .gallery-holder .col-holder {
-        padding-right: 4px;
-        padding-left: 4px;
-    }
-
-    #{{ $params['id'] ?? '' }} .gallery-holder .row {
-        margin-right: -4px;
-        margin-left: -4px;
-    }
-
-    #{{ $params['id'] ?? '' }} .gallery-holder .item {
-        margin-bottom: 8px;
-    }
-</style>
+@if (mw_asset_once('pictures-skin-3-beauty'))
+    {{-- Skin CSS moved to Modules/Pictures/resources/assets/css/skin-3-beauty.css (served from
+         public/modules/pictures/css/skin-3-beauty.css); #id scope -> .mw-pictures-skin-3-beauty. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/pictures/css/skin-3-beauty.css') }}">
+@endif
 
 @if(isset($data))
     @php
@@ -32,7 +23,7 @@ description: Skin-3 beauty
             return ['image' => $item['filename'] ?? '', 'description' => $item['title'] ?? ''];
         }, $data ?? [])));
     @endphp
-    <div class="gallery-holder">
+    <div class="gallery-holder mw-pictures-skin-3-beauty">
         <div class="row">
             <div class="col-holder col-md-6">
                 @if(empty($data))

@@ -1,0 +1,42 @@
+.mw-module-images.slider .rotator-index-control.rotator-index-control-mode-numbers {
+    text-align: center;
+}
+
+.mw-module-images.slider .rotator-index-control .rotator-paging-item {
+    width: 13px;
+    height: 13px;
+    border: 1px solid #262626;
+    -webkit-border-radius: 13px;
+    -moz-border-radius: 13px;
+    border-radius: 13px;
+    color: transparent;
+    text-shadow: none;
+    font-size: 0;
+}
+
+.mw-module-images.slider .rotator-index-control .rotator-paging-item.active {
+    background: #262626;
+}
+
+.mw-module-images.slider .mw-rotator-template-slider .rotator-next {
+    background-image: url('../img/inner_next.png');
+}
+
+.mw-module-images.slider .mw-rotator-template-slider .rotator-prev {
+    background-image: url('../img/inner_prev.png');
+}
+
+body .mw-module-images.slider .mw-gallery-item {
+    visibility: hidden;
+    position: absolute;
+}
+
+body .mw-module-images.slider .mw-gallery-item:first-child,
+body.loaded .mw-module-images.slider .mw-gallery-item {
+    visibility: visible;
+    position: relative;
+}
+
+body .mw-module-images.slider .mw-rotator-ctrls {
+    margin-top: 10px;
+}

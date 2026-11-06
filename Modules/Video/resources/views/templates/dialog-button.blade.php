@@ -30,11 +30,12 @@ description: Opens video in a popup
     });
 </script>
 
-<style>
-    #video-dialog-button-{{ $params['id'] ?? '' }}{
-        font-size: 0;
-    }
-</style>
+@if (mw_asset_once('video-dialog-button'))
+    {{-- Skin CSS moved to Modules/Video/resources/assets/css/dialog-button.css (served from
+         public/modules/video/css/dialog-button.css); #id scope -> .mw-video-dialog-button-play. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/video/css/dialog-button.css') }}">
+@endif
 
 <template id="video-dialog-template-{{ $params['id'] ?? '' }}" style="display: none">{!! $code ?? '' !!}</template>
-<span id="video-dialog-button-{{ $params['id'] ?? '' }}"> <module type="btn" button_style="btn-primary" button_text="Play Video"/></span>
+<span id="video-dialog-button-{{ $params['id'] ?? '' }}" class="mw-video-dialog-button-play"> <module type="btn" button_style="btn-primary" button_text="Play Video"/></span>

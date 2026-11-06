@@ -31,25 +31,13 @@ description: Opens video in a popup
     });
 </script>
 
-<style>
-    #video-dialog-button-{{ $params['id'] ?? '' }}{
-        font-size: 0;
-    }
-    #video-dialog-button-{{ $params['id'] ?? '' }}:after{
-        content: "\eb86";
-        font-family: 'icomoon-solid';
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        font-size: 100px;
-        color: var(--mw-primary-color);
-    }
-</style>
+@if (mw_asset_once('video-dialog'))
+    {{-- Skin CSS moved to Modules/Video/resources/assets/css/dialog.css (served from
+         public/modules/video/css/dialog.css); #id scope -> .mw-video-dialog-play. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/video/css/dialog.css') }}">
+@endif
 <div class="video-dialog-container">
 <template id="video-dialog-template-{{ $params['id'] ?? '' }}" style="display: none">{!! $code ?? '' !!}</template>
-<span id="video-dialog-button-{{ $params['id'] ?? '' }}"></span>
+<span id="video-dialog-button-{{ $params['id'] ?? '' }}" class="mw-video-dialog-play"></span>
 </div>

@@ -1,0 +1,16 @@
+/* pictures skin-12.css — extracted from the inline <style> in skin-12.blade.php;
+   per-instance #id scope replaced by the static class .mw-pictures-skin-12 (added to the skin
+   root) so it loads once per page instead of re-inlining for every instance. */
+    .mw-pictures-skin-12 .col-holder {
+        padding-right: 4px;
+        padding-left: 4px;
+    }
+
+    .mw-pictures-skin-12 .row {
+        margin-right: -4px;
+        margin-left: -4px;
+    }
+
+    .mw-pictures-skin-12 .item {
+        margin-bottom: 8px;
+    }

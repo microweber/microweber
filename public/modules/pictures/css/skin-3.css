@@ -1,0 +1,7 @@
+/* pictures skin-3.css — extracted from the inline <style> in skin-3.blade.php;
+   per-instance #id scope replaced by the static class .mw-pictures-skin-3 (added to the skin
+   root) so it loads once per page instead of re-inlining for every instance. */
+    .mw-pictures-skin-3 .slick-track {
+        display: flex;
+        gap: 0.6rem;
+    }

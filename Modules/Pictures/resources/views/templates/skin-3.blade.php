@@ -65,12 +65,12 @@ description: Skin-3
     })()
 </script>
 
-<style>
-    #{{ $params['id'] ?? '' }} .slick-track {
-        display: flex;
-        gap: 0.6rem;
-    }
-</style>
+@if (mw_asset_once('pictures-skin-3'))
+    {{-- Skin CSS moved to Modules/Pictures/resources/assets/css/skin-3.css (served from
+         public/modules/pictures/css/skin-3.css); #id scope -> .mw-pictures-skin-3. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/pictures/css/skin-3.css') }}">
+@endif
 
 @if(isset($data))
     @php
@@ -82,7 +82,7 @@ description: Skin-3
         }
     @endphp
 
-    <div class="slick-arrows-1">
+    <div class="slick-arrows-1 mw-pictures-skin-3">
         <div class="slick-gallery">
             @if(empty($data))
 

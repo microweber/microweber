@@ -4,21 +4,12 @@ name: Skin-12
 description: Skin-12
 --}}
 
-<style>
-    #{{ $params['id'] ?? '' }} .gallery-holder .col-holder {
-        padding-right: 4px;
-        padding-left: 4px;
-    }
-
-    #{{ $params['id'] ?? '' }} .gallery-holder .row {
-        margin-right: -4px;
-        margin-left: -4px;
-    }
-
-    #{{ $params['id'] ?? '' }} .gallery-holder .item {
-        margin-bottom: 8px;
-    }
-</style>
+@if (mw_asset_once('pictures-skin-12'))
+    {{-- Skin CSS moved to Modules/Pictures/resources/assets/css/skin-12.css (served from
+         public/modules/pictures/css/skin-12.css); #id scope -> .mw-pictures-skin-12. Emitted once per
+         page via mw_asset_once instead of re-inlining for every instance. --}}
+    <link rel="stylesheet" href="{{ asset('modules/pictures/css/skin-12.css') }}">
+@endif
 
 @if(isset($data))
     @php
@@ -32,7 +23,7 @@ description: Skin-12
             return ['image' => $item['filename'] ?? '', 'description' => $item['title'] ?? ''];
         }, $data ?? [])));
     @endphp
-    <div class="gallery-holder">
+    <div class="gallery-holder mw-pictures-skin-12">
         <div class="row">
             @php $count = -1; @endphp
 
