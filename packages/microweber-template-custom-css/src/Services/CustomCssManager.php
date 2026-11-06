@@ -165,6 +165,10 @@ class CustomCssManager implements CssFileHandlerInterface
                     @file_put_contents($cacheFile, $content);
                 }
             }
+            // Mirror the compiled cache to the remote userfiles disk (S3/CDN) so
+            // the <link> can be served from the CDN like live_edit.css, instead
+            // of the local /storage domain. Best-effort; local is source of truth.
+            $this->mirrorCacheToRemote(basename($cacheFile), $content);
         }
 
         return $content;
@@ -192,13 +196,80 @@ class CustomCssManager implements CssFileHandlerInterface
 
         if ($this->shouldCompileAssets()) {
             $cacheFile = $this->cacheFilename($content);
+            $basename = basename($cacheFile);
+
+            // Prefer the CDN copy on a remote userfiles disk (S3). The filename
+            // carries the content hash, so the URL self-busts on every edit.
+            $remoteUrl = $this->remoteCacheUrl($basename, $content);
+            if ($remoteUrl !== null) {
+                return $remoteUrl;
+            }
+
             if (is_file($cacheFile)) {
                 $mtime = filemtime($cacheFile);
-                $url = rtrim($this->cacheUrl(), '/') . '/' . basename($cacheFile) . '?ver=' . $mtime;
+                $url = rtrim($this->cacheUrl(), '/') . '/' . $basename . '?ver=' . $mtime;
             }
         }
 
         return $url;
+    }
+
+    /**
+     * Relative path of the compiled cache file on the userfiles disk (e.g.
+     * "userfiles/cache/custom_css.<hash>.css"), or null when userfiles are local.
+     */
+    protected function remoteCacheRel(string $basename): ?string
+    {
+        if (!function_exists('userfiles_disk_is_remote') || !userfiles_disk_is_remote()) {
+            return null;
+        }
+
+        return userfiles_base_relpath('cache') . '/' . $basename;
+    }
+
+    /**
+     * Mirror the compiled cache file to the remote userfiles disk (S3/CDN) if it
+     * is not already there. Best-effort — a CDN failure must never break render.
+     */
+    protected function mirrorCacheToRemote(string $basename, string $content): void
+    {
+        $rel = $this->remoteCacheRel($basename);
+        if ($rel === null) {
+            return;
+        }
+
+        try {
+            $disk = \Illuminate\Support\Facades\Storage::disk(userfiles_disk());
+            if (!$disk->exists($rel)) {
+                $disk->put($rel, $content, ['visibility' => 'public']);
+            }
+        } catch (\Throwable) {
+            // best-effort; the local cache file remains the source of truth
+        }
+    }
+
+    /**
+     * CDN URL of the compiled cache on the remote userfiles disk, or null when
+     * userfiles are local-backed. Ensures the object exists first (first request
+     * after a cache clear) so the <link> never points at a missing CDN object.
+     */
+    protected function remoteCacheUrl(string $basename, string $content): ?string
+    {
+        $rel = $this->remoteCacheRel($basename);
+        if ($rel === null) {
+            return null;
+        }
+
+        try {
+            $disk = \Illuminate\Support\Facades\Storage::disk(userfiles_disk());
+            if (!$disk->exists($rel)) {
+                $disk->put($rel, $content, ['visibility' => 'public']);
+            }
+
+            return $disk->url($rel);
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     public function clearCache(): void
@@ -215,6 +286,23 @@ class CustomCssManager implements CssFileHandlerInterface
                         @unlink($file);
                     }
                 }
+            }
+        }
+
+        // Also drop the mirrored copies from the remote userfiles disk (S3/CDN)
+        // so a cleared cache doesn't leave orphaned custom_css*.css objects behind.
+        if (function_exists('userfiles_disk_is_remote') && userfiles_disk_is_remote()) {
+            try {
+                $disk = \Illuminate\Support\Facades\Storage::disk(userfiles_disk());
+                $dir = userfiles_base_relpath('cache');
+                foreach ($disk->files($dir) as $remoteFile) {
+                    $name = basename($remoteFile);
+                    if (str_starts_with($name, 'custom_css') && str_ends_with($name, '.css')) {
+                        $disk->delete($remoteFile);
+                    }
+                }
+            } catch (\Throwable) {
+                // best-effort; orphaned objects are never served (content-hashed names)
             }
         }
     }
