@@ -30,6 +30,11 @@ class TemplateCustomCssServiceProvider extends MicroweberPackageServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/template-custom-css.php', 'template-custom-css');
 
+        // Register Filament pages in the REGISTER phase so they land in the
+        // FilamentRegistry BEFORE the admin panel (assembled during boot) reads
+        // it to build its routes — this provider boots after the panel.
+        $this->registerFilamentPages();
+
         $this->app->singleton(OptionStoreInterface::class, function () {
             if (function_exists('get_option') && function_exists('save_option')) {
                 return new CmsOptionStore();
@@ -148,6 +153,25 @@ class TemplateCustomCssServiceProvider extends MicroweberPackageServiceProvider
                 __DIR__ . '/../resources/views' => resource_path('views/vendor/template-custom-css'),
             ], 'template-custom-css-views');
         }
+    }
+
+    /**
+     * Register this package's Filament admin pages with the CMS panel.
+     *
+     * The admin panel discovers only app-level pages, so package pages must be
+     * handed to the FilamentRegistry explicitly (the same path microweber-user
+     * and microweber-passport use). Guarded on the registry class so the package
+     * stays usable in a plain Laravel app with no CMS panel.
+     */
+    protected function registerFilamentPages(): void
+    {
+        $registry = \MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry::class;
+        if (!class_exists($registry)) {
+            return;
+        }
+
+        $registry::registerPage(\MicroweberPackages\TemplateCustomCss\Filament\Pages\TemplateCustomCssSettings::class);
+        $registry::registerPage(\MicroweberPackages\TemplateCustomCss\Filament\Pages\PageCustomCssSettings::class);
     }
 
     /**
