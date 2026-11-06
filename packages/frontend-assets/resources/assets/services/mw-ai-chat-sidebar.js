@@ -20,6 +20,11 @@
  */
 
 import { MwAiConversation } from "../components/mw-ai-conversation.js";
+// Swarm mode: the client lane-router (window.mw.aiSwarm) + the build board
+// (window.mwAiSwarmBoard). Imported here so both the admin sidebar bundle and the
+// Live-Edit app get them wherever the AI box mounts.
+import "./mw-ai-swarm.js";
+import "../components/mw-ai-swarm-board.js";
 
 const SIDEBAR_CSS = `
 :root{ --mw-ai-sidebar-width:420px; }

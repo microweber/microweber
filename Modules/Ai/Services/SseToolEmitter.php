@@ -28,6 +28,26 @@ class SseToolEmitter implements ObserverInterface
     /** @var list<array{tool:string,args:array}> */
     protected array $calls = [];
 
+    /**
+     * Optional per-tool-call callback — invoked once per tool call with the
+     * recorded ['tool'=>…,'args'=>…(,'agent_id'=>…)] array. Swarm mode uses it to
+     * stream per-lane `lane` status:"building" progress with a running count.
+     */
+    protected ?\Closure $onToolCall;
+
+    /**
+     * Optional lane / agent id. When set, every auto-emitted `tool` frame carries
+     * `agent_id` so the client can route it to the right swarm lane. When null the
+     * key is omitted — the single-agent path stays byte-for-byte unchanged.
+     */
+    protected ?string $agentId;
+
+    public function __construct(?\Closure $onToolCall = null, ?string $agentId = null)
+    {
+        $this->onToolCall = $onToolCall;
+        $this->agentId = $agentId;
+    }
+
     public function onEvent(string $event, object $source, mixed $data = null, ?string $branchId = null): void
     {
         if (!$data instanceof ToolCalled) {
@@ -39,7 +59,14 @@ class SseToolEmitter implements ObserverInterface
             'tool' => $tool->getName(),
             'args' => \method_exists($tool, 'getInputs') ? $tool->getInputs() : [],
         ];
+        if ($this->agentId !== null) {
+            $call['agent_id'] = $this->agentId;
+        }
         $this->calls[] = $call;
+
+        if ($this->onToolCall !== null) {
+            ($this->onToolCall)($call);
+        }
 
         $this->emit('tool', $call);
     }

@@ -37,6 +37,9 @@ html.dark .mw-ai-conv{ color:#e8eaed; }
 .mw-ai-conv-iconbtn:hover{ background:#18243310; }
 html.dark .mw-ai-conv-iconbtn:hover{ background:#ffffff14; }
 .mw-ai-conv-iconbtn svg{ width:18px; height:18px; opacity:.72; }
+.mw-ai-conv-swarm-btn.is-active{ background:#0d6efd; color:#fff; }
+.mw-ai-conv-swarm-btn.is-active svg{ opacity:1; fill:currentColor; }
+.mw-ai-conv-swarm-btn.is-active:hover{ background:#0b5ed7; }
 
 .mw-ai-conv-thread{
     flex:1 1 auto; overflow-y:auto; padding:4px 2px; display:flex; flex-direction:column; gap:18px;
@@ -288,6 +291,7 @@ export class MwAiConversation extends MicroweberBaseClass {
             <div class="mw-ai-conv-head">
                 <div class="mw-ai-conv-title">${this.icon("magic") || this.icon("edit") || ""}<span>${mw.lang("AI Assistant")}</span></div>
                 <div class="mw-ai-conv-head-actions">
+                    <button type="button" class="mw-ai-conv-iconbtn mw-ai-conv-swarm-btn" title="${mw.lang("Swarm mode — many agents build the site in parallel")}" aria-label="${mw.lang("Toggle swarm mode")}" aria-pressed="false">${this.icon("users") || this.icon("group") || "⚡"}</button>
                     <button type="button" class="mw-ai-conv-iconbtn mw-ai-conv-history-btn" title="${mw.lang("History")}" aria-label="${mw.lang("History")}">${this.icon("history") || this.icon("list") || "☰"}</button>
                     <button type="button" class="mw-ai-conv-iconbtn mw-ai-conv-new-btn" title="${mw.lang("New chat")}" aria-label="${mw.lang("New chat")}">${this.icon("plus") || "+"}</button>
                 </div>
@@ -325,6 +329,8 @@ export class MwAiConversation extends MicroweberBaseClass {
         this.attachments = el.querySelector(".mw-ai-conv-attachments");
         this.attachBtn = el.querySelector(".mw-ai-conv-attach-btn");
         this.fileInput = el.querySelector(".mw-ai-conv-file");
+        this.swarmBtn = el.querySelector(".mw-ai-conv-swarm-btn");
+        this._swarmMode = false;
         this.pendingImages = [];
 
         // Floating "scroll to latest" arrow: shown when the user scrolls up.
@@ -367,6 +373,9 @@ export class MwAiConversation extends MicroweberBaseClass {
             }
         });
 
+        if (this.swarmBtn) {
+            this.swarmBtn.addEventListener("click", () => this.toggleSwarm());
+        }
         this.root.querySelector(".mw-ai-conv-new-btn").addEventListener("click", () => this.newChat());
         this.root.querySelector(".mw-ai-conv-history-btn").addEventListener("click", () => this.openHistory());
         this.root.querySelector(".mw-ai-conv-history-close").addEventListener("click", () => this.closeHistory());
@@ -822,6 +831,78 @@ export class MwAiConversation extends MicroweberBaseClass {
         return true;
     }
 
+    // Toggle swarm mode (many agents build in parallel). Reflected on the header
+    // button via aria-pressed + an `is-active` class.
+    toggleSwarm() {
+        this._swarmMode = !this._swarmMode;
+        if (this.swarmBtn) {
+            this.swarmBtn.setAttribute("aria-pressed", this._swarmMode ? "true" : "false");
+            this.swarmBtn.classList.toggle("is-active", this._swarmMode);
+        }
+        if (this.input) {
+            this.input.setAttribute("placeholder", this._swarmMode
+                ? mw.lang("Describe the whole site — the swarm will build every page…")
+                : mw.lang("Ask AI, or paste a design…"));
+        }
+    }
+
+    // Swarm turn: drive window.mw.aiSwarm (planner -> per-lane workers over one SSE)
+    // and render the build board; the router performs ONE save after all lanes done.
+    async _sendSwarm(text, ui) {
+        const self = this;
+        const { turn, editsWrap, typing } = ui;
+        const board = window.mwAiSwarmBoard || null;
+        if (board) {
+            try { board.mount(editsWrap); } catch (e) {}
+        }
+        try {
+            const summary = await mw.aiSwarm.start({
+                message: text,
+                contextBundle: {
+                    chat_id: this.chatId || undefined,
+                    content_id: this.settings.contentId || undefined,
+                    screenshot: ui.screenshot,
+                    reference_images: ui.refImages,
+                    agent_type: ui.agentType,
+                },
+                onPlan(plan) {
+                    if (plan && plan.chat_id) { self._rememberChat(plan.chat_id); }
+                    if (board) { try { board.setPlan(plan); } catch (e) {} }
+                },
+                onLane(agentId, status, built, total, meta) {
+                    if (board) {
+                        try { board.updateLane(agentId, { status: status, built: built, total: total, title: meta && meta.title, url: meta && meta.url }); } catch (e) {}
+                    }
+                },
+                onTool(agentId, edit) {
+                    self._dirty = true;
+                    if (board) { try { board.tool(agentId, edit); } catch (e) {} }
+                },
+                onDone(sum) {
+                    if (board) { try { board.finish(sum); } catch (e) {} }
+                },
+                onError(msg) {
+                    self.addEdit(editsWrap, { tool: "error" }, { ok: false, message: msg });
+                },
+            });
+            typing.remove();
+            const n = (summary && summary.lanes) ? summary.lanes.length : 0;
+            const bubble = document.createElement("div");
+            bubble.className = "mw-ai-conv-msg-bubble mw-ai-md";
+            bubble.innerHTML = this.renderMarkdown(n
+                ? (mw.lang("Swarm build complete — ") + n + " " + mw.lang("page(s) built."))
+                : mw.lang("Done."));
+            turn.appendChild(bubble);
+            this.scrollDown();
+            self._dirty = false;
+        } catch (e) {
+            try { typing.remove(); } catch (_e) {}
+            self.addEdit(editsWrap, { tool: "error" }, { ok: false, message: String((e && e.message) || e) });
+        } finally {
+            this.setPending(false);
+        }
+    }
+
     async send(text) {
         // Consume any pasted/attached reference images for this turn.
         const refImages = this.pendingImages.slice();
@@ -858,6 +939,13 @@ export class MwAiConversation extends MicroweberBaseClass {
         // surface such as the admin panel sidebar).
         const screenshot = (this.settings.canvas !== false) ? await this.captureScreenshot() : null;
         const agentType = this.settings.agentType || "liveedit";
+
+        // Swarm mode: route the whole build through the coordinator (planner +
+        // per-lane workers) and render the multi-agent build board instead of the
+        // single-agent tool stream. Falls back to the normal path if unavailable.
+        if (this._swarmMode && window.mw && mw.aiSwarm) {
+            return this._sendSwarm((text || mw.lang("Build this site.")), { turn, editsWrap, typing, refImages, screenshot, agentType });
+        }
 
         try {
             const done = await MwAi().agentChatStream(

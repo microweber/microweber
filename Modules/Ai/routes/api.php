@@ -59,7 +59,14 @@ Route::middleware(['admin'])->group(function () {
     // browser as they happen so frontend tools apply edits on the live canvas.
     Route::post('api/ai/agent-chat-stream', [Modules\Ai\Http\Controllers\AiController::class, 'agentChatStream'])
         ->name('api.ai.agent-chat-stream');
-    
+
+    // Swarm mode (Server-Sent Events): a planner decomposes the brief into page
+    // lanes, locks the global design system, then runs a LiveEdit worker per lane.
+    // Every tool frame is tagged with its lane agent_id; the single-agent stream
+    // above is unchanged.
+    Route::post('api/ai/agent-swarm-stream', [Modules\Ai\Http\Controllers\SwarmController::class, 'agentSwarmStream'])
+        ->name('api.ai.agent-swarm-stream');
+
     Route::get('api/ai/chat-history/{chatId}', [Modules\Ai\Http\Controllers\AiController::class, 'getChatHistory'])
         ->name('api.ai.chat-history');
     
