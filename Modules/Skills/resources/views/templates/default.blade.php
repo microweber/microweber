@@ -13,33 +13,15 @@
 
 <div class="mw-module-skills-list">
     <div class="skillst">
-        <script>
-            //Skill
-            $(document).ready(function () {
-
-                if (window.matchMedia
-                    && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                    $('.skillbar').each(function () {
-                        var percent = $(this).attr('data-percent');
-                        $(this).find('.count-bar').css('width', percent);
-                        $(this).find('.count').html('<span>' + percent + '</span>');
-                    });
-                    return;
-                }
-                $(window).on('load scroll resize', function () {
-                    $('.skillbar').each(function () {
-                        if (mw.tools.inview(this)) {
-                            $(this).find('.count-bar').animate({
-                                width: $(this).attr('data-percent')
-                            }, 3000);
-                        }
-                        var percent = $(this).attr('data-percent');
-                        $(this).find('.count').html('<span>' + percent + '</span>');
-                    });
-                });
-            });
-        </script>
-
+        {{--
+            Removed a dead inline <script> here: it ran $('.skillbar').each(...) /
+            $('.count-bar') animation, but this template's markup uses Bootstrap
+            `.progress` / `.progress-bar` with the width set inline (style="width: X%")
+            and animated via the CSS transition above — there is no `.skillbar` or
+            `.count-bar` anywhere (grep-confirmed module-wide), so the loop iterated
+            over nothing. Dropping it removes dead JS re-emitted on every Skills
+            instance with zero behaviour change.
+        --}}
         @if(!empty($skills))
             @foreach ($skills as $skill)
 
