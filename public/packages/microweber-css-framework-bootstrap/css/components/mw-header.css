@@ -126,3 +126,30 @@
     color: inherit !important;
     -webkit-text-fill-color: currentColor !important;
 }
+
+/* Even spacing + vertical centring for the header action items. Some of these
+   list items ship `ps-md-3` (16px left padding) and some don't, so the icons sat
+   at uneven gaps; and the MDI search link renders taller (line-height) than the
+   SVG links, so its icon sat a few px lower. Normalize: drop the per-item left
+   padding (the row's flex `gap` owns the spacing) and make each link a centred
+   inline-flex box with line-height 1, so all action icons share one baseline. */
+.btn-search,
+.btn-member,
+.btn-shopping-cart {
+    padding-left: 0 !important;
+    display: flex;
+    align-items: center;
+}
+.btn-search > a,
+.btn-search > .nav-link,
+.btn-member > a,
+.btn-member > .nav-link,
+.btn-shopping-cart > a,
+.btn-shopping-cart > .nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding-top: 0;
+    padding-bottom: 0;
+}
