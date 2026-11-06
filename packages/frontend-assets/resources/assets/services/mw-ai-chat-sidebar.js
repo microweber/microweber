@@ -70,28 +70,30 @@ html.dark .mw-ai-chat-sidebar-close:hover{ background:#ffffff14; }
 /* Push & resize the host surface so the drawer reflows the layout instead of
    overlaying it (desktop only). */
 @media (min-width:641px){
-    /* Live-Edit: the canvas lives in a fixed holder inside a flex page shell;
-       shrink the shell and pull the fixed canvas holder left of the drawer
-       (60px keeps the right tool rail visible between canvas and drawer). */
-    html.mw-ai-chat-sidebar-visible .mw-live-edit-page{
-        width:calc(100% - var(--mw-ai-sidebar-width)) !important;
-        transition:width .28s cubic-bezier(0.22,1,0.36,1);
+    /* LIVE EDIT: the drawer docks INSIDE the canvas region — exactly like the
+       in-canvas template-settings panel. The page (and its toolbar: ADD / SAVE /
+       PREVIEW) stays FULL WIDTH so the toolbar is never squashed and SAVE is
+       never hidden; the drawer starts BELOW the toolbar (--mw-ai-le-top, measured
+       on open) and only the canvas holder shrinks to the drawer's left. */
+    html.mw-ai-chat-sidebar-visible.mw-ai-chat-liveedit .mw-ai-chat-sidebar{
+        top:var(--mw-ai-le-top, 60px) !important;
+        height:calc(100vh - var(--mw-ai-le-top, 60px)) !important;
     }
-    html.mw-ai-chat-sidebar-visible #live-edit-frame-holder{
+    html.mw-ai-chat-sidebar-visible.mw-ai-chat-liveedit #live-edit-frame-holder{
         width:auto !important;
-        right:calc(var(--mw-ai-sidebar-width) + 60px) !important;
+        right:var(--mw-ai-sidebar-width) !important;
         transition:right .28s cubic-bezier(0.22,1,0.36,1);
     }
-    /* Other Filament surfaces (admin dashboard, settings, …): reserve space on
-       the main layout so nothing hides under the drawer. */
-    html.mw-ai-chat-sidebar-visible .fi-layout:not(.mw-live-edit-page){
+    /* ADMIN (non-Live-Edit Filament surfaces: dashboard, settings, …): the drawer
+       is full height and the whole body is pushed so nothing hides under it. */
+    html.mw-ai-chat-sidebar-visible:not(.mw-ai-chat-liveedit) .fi-layout{
         padding-inline-end:var(--mw-ai-sidebar-width);
         transition:padding .28s cubic-bezier(0.22,1,0.36,1);
     }
 }
 @media (prefers-reduced-motion: reduce){
     .mw-ai-chat-sidebar{ transition:none; }
-    .mw-live-edit-page, #live-edit-frame-holder, .fi-layout{ transition:none !important; }
+    #live-edit-frame-holder, .fi-layout{ transition:none !important; }
 }
 `;
 
@@ -196,6 +198,21 @@ class MwAiChatSidebar {
         this.backdrop.classList.add("mw-ai-chat-open");
         this.drawer.classList.add("mw-ai-chat-open");
         document.documentElement.classList.add("mw-ai-chat-sidebar-visible");
+        // On the Live-Edit surface, dock the drawer BELOW the page toolbar and
+        // inside the canvas region (so ADD/SAVE/PREVIEW stay full-width); on admin
+        // it stays full-height and pushes the whole body. Detect by the Live-Edit
+        // page + canvas holder, and measure the toolbar height (holder top).
+        try {
+            var leHolder = document.getElementById("live-edit-frame-holder");
+            var lePage = document.querySelector(".mw-live-edit-page");
+            if (leHolder && lePage) {
+                var top = Math.max(0, Math.round(leHolder.getBoundingClientRect().top));
+                document.documentElement.style.setProperty("--mw-ai-le-top", top + "px");
+                document.documentElement.classList.add("mw-ai-chat-liveedit");
+            } else {
+                document.documentElement.classList.remove("mw-ai-chat-liveedit");
+            }
+        } catch (e) {}
         this.isOpen = true;
         try { this.conversation && this.conversation.input && this.conversation.input.focus(); } catch (e) {}
         try { window.dispatchEvent(new CustomEvent("mw:ai-chat:opened", { detail: this.current })); } catch (e) {}
@@ -209,6 +226,7 @@ class MwAiChatSidebar {
             this.backdrop.classList.remove("mw-ai-chat-open");
         }
         document.documentElement.classList.remove("mw-ai-chat-sidebar-visible");
+        document.documentElement.classList.remove("mw-ai-chat-liveedit");
         this.isOpen = false;
         try { window.dispatchEvent(new CustomEvent("mw:ai-chat:closed")); } catch (e) {}
     }
