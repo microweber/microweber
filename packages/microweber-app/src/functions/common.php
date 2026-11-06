@@ -374,3 +374,38 @@ function get_asset($path = null) {
     }
     return file_get_contents($path);
 }
+
+if (!function_exists('mw_asset_once')) {
+    /**
+     * Request-scoped "emit once" guard for per-presence module/skin assets.
+     *
+     * Module skins render in the parser post-pass (after <head> is already a
+     * string), so template_head() from a skin blade can't reach the head, and
+     * Blade @once flushes between the separate top-level render() calls the
+     * parser makes for each <module>. This tracks emitted keys on the request
+     * container so a skin can emit its <link>/<script> exactly once per page
+     * even when several instances of that skin are on the page:
+     *
+     *   @if (mw_asset_once('tabs-skin-1'))
+     *       <link rel="stylesheet" href="{{ asset('modules/tabs/css/skin-1.css') }}">
+     *   @endif
+     *
+     * Returns true the first time a key is seen in the current request, false
+     * afterwards. Backed by the container (not a function static) so it resets
+     * per request, including under Octane/long-running workers.
+     */
+    function mw_asset_once(string $key): bool
+    {
+        $bind = 'mw.asset_once.' . $key;
+        try {
+            if (app()->bound($bind)) {
+                return false;
+            }
+            app()->instance($bind, true);
+        } catch (\Throwable $e) {
+            // Container unavailable (booted too early) — emit rather than suppress.
+            return true;
+        }
+        return true;
+    }
+}

@@ -1,0 +1,16 @@
+/* tabs flower-tabs.css — extracted from the inline <style> in flower-tabs.blade.php
+   so it loads once per page (cacheable) instead of being re-emitted per
+   module instance. Guarded by mw_asset_once('tabs-flower') in the blade. */
+    .flower-tabs-button {
+        border-radius: 100px 0 100px 100px!important;
+        background-color: #FED1DC;
+        color: #FF2359;
+        padding: 30px 65px;
+        margin: 0 20px;
+        border-color: #FED1DC!important;
+    }
+
+    .flower-tabs-button.active {
+        background-color: #FF2359;
+        color: #ffffff;
+    }

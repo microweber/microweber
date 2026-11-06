@@ -1,0 +1,104 @@
+/* breadcrumb skin-4.css — extracted from the inline <style> in skin-4.blade.php
+   so it loads once per page (cacheable) instead of being re-emitted per
+   module instance. Guarded by mw_asset_once('breadcrumb-skin-4') in the blade. */
+   .mw-big2-breadcrumb-skin-4 {
+        text-align: center;
+        padding: 20px;
+
+        ul {
+            list-style: none;
+            display: inline-table;
+            li {
+                display: inline;
+                a {
+                    display: block;
+                    float: left;
+                    height: 81px;
+                    background: #F3F5FA;
+
+                    text-align: center;
+                    padding: 30px 20px 0 60px;
+                    position: relative;
+                    margin: 0 10px 0 0;
+
+                    font-size: 20px;
+                    text-decoration: none;
+                    color: var(--mw-heading-color);
+
+                    &:after {
+                        content: "";
+                        border-top: 40px solid transparent;
+                        border-bottom: 40px solid transparent;
+                        border-left: 40px solid #F3F5FA;
+                        position: absolute;
+                        right: -40px;
+                        top: 0;
+                        z-index: 1;
+                    }
+                    &:before {
+                        content: "";
+                        border-top: 40px solid transparent;
+                        border-bottom: 40px solid transparent;
+                        border-left: 40px solid #fff;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                    }
+
+                    i {
+                        font-size: 24px;
+                    }
+                }
+            }
+        }
+
+       ul li:first-child a {
+           border-top-left-radius: 10px; border-bottom-left-radius: 10px;
+       }
+       ul li:first-child a:before {
+           display: none;
+       }
+
+       ul li:last-child a {
+           padding-right: 40px;
+           border-top-right-radius: 10px; border-bottom-right-radius: 10px;
+       }
+       ul li:last-child a:after {
+           display: none;
+       }
+
+       ul li a:hover, ul li a.active {
+           background: var(--mw-primary-color);
+           color:#fff;
+       }
+       ul li a:hover:after, ul li a.active:after {
+           border-left-color: var(--mw-primary-color);
+           color:#fff;
+       }
+
+       @media all and (max-width: 768px) {
+           ul li a {
+               height: 50px;
+               padding: 12px 10px 0 30px;
+               font-size: 14px;
+               &:after {
+                   border-top: 25px solid transparent;
+                   border-bottom: 25px solid transparent;
+                   border-left: 25px solid #F3F5FA;
+                   right: -25px;
+               }
+               &:before {
+                   border-top: 25px solid transparent;
+                   border-bottom: 25px solid transparent;
+                   border-left: 25px solid #fff;
+               }
+           }
+           ul li:last-child a {
+               padding-right: 20px;
+           }
+           ul li a:hover:after, ul li a.active:after {
+               border-left-color: var(--mw-primary-color);
+           }
+       }
+
+    }

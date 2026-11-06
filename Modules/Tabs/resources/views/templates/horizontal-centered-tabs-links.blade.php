@@ -30,57 +30,12 @@
     });
 </script>
 
-<style>
-    .mw-module-tabs-skin-horizontal-links {
-        position: sticky;
-        top: 0;
-        z-index: 9;
-        backdrop-filter: saturate(180%) blur(20px);
-    }
-
-    .mw-module-tabs-skin-horizontal-links ul > li > a {
-        color: var(--mw-heading-color);
-        display: inline-block;
-        line-height: 50px;
-        position: relative;
-        transition: .3s;
-    }
-
-    .mw-module-tabs-skin-horizontal-links ul {
-        list-style: none;
-    }
-
-    .mw-module-tabs-skin-horizontal-links ul > li {
-        position: relative;
-    }
-
-    .mw-module-tabs-skin-horizontal-links ul > li > a span:after {
-        position: absolute;
-        content: '';
-        bottom: 10px;
-        left: 0;
-        height: 2px;
-        width: 70%;
-        background-color: var(--mw-primary-color);
-        transition: .5s;
-        opacity: 0;
-    }
-
-    .mw-module-tabs-skin-horizontal-links ul > li > a:hover, .mw-module-tabs-skin-horizontal-links ul > li a.active {
-        color: var(--mw-primary-color);
-        opacity: .8;
-    }
-
-    .mw-module-tabs-skin-horizontal-links ul > li > a:hover span:after, .mw-module-tabs-skin-horizontal-links ul > li a.active span:after {
-        width: 100%;
-        opacity: 1;
-    }
-
-    .mw-module-tabs-skin-horizontal-links ul > li > a {
-        font-size: var(--mw-paragraph-size);
-        font-weight: var(--mw-font-weight);
-    }
-</style>
+@if (mw_asset_once('tabs-horizontal-centered'))
+    {{-- Skin CSS moved to Modules/Tabs/resources/assets/css/horizontal-centered-tabs-links.css (served from
+         public/modules/tabs/css/horizontal-centered-tabs-links.css) and emitted once per page via mw_asset_once
+         instead of being re-inlined for every instance of this skin. --}}
+    <link rel="stylesheet" href="{{ asset('modules/tabs/css/horizontal-centered-tabs-links.css') }}">
+@endif
 
 <div id="mw-tabs-module-{{ $params['id'] }}" class="row mw-tabs-box-wrapper mw-module-tabs-skin-horizontal-links">
     <div class="mw-ui-btn-nav merry-navs-btn-pricing mw-ui-btn-nav-tabs d-flex justify-content-center flex-wrap mx-auto mt-5 gap-2">

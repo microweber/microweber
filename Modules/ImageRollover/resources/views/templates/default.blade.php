@@ -1,61 +1,9 @@
-<style>
-    .mw-rollover {
-        position: relative;
-        text-align: center;
-        margin: 0 auto;
-        max-width: 100%;
-    }
-
-    .mw-rollover-default_image {
-        max-width: 100%;
-    }
-
-    .mw-rollover-overlay {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 100%;
-        width: 100%;
-        opacity: 0;
-        transition: .3s ease;
-        text-align: center;
-    }
-
-    .mw-rollover-overlay:hover {
-        cursor: pointer;
-    }
-
-    .mw-rollover:hover .mw-rollover-overlay {
-        opacity: 1;
-    }
-
-    .mw-rollover-overlay img {
-        max-width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    @media (hover: none) {
-        .mw-rollover {
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .mw-rollover-overlay {
-            opacity: 0.12;
-        }
-        .mw-rollover.mw-rollover-active .mw-rollover-overlay {
-            opacity: 1;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .mw-rollover-overlay {
-            transition: none;
-        }
-    }
-</style>
+@if (mw_asset_once('imagerollover-default'))
+    {{-- Skin CSS moved to Modules/ImageRollover/resources/assets/css/default.css (served from
+         public/modules/image_rollover/css/default.css) and emitted once per page via mw_asset_once
+         instead of being re-inlined for every instance of this skin. --}}
+    <link rel="stylesheet" href="{{ asset('modules/image_rollover/css/default.css') }}">
+@endif
 
 @php
     $moduleId = $params['id'];

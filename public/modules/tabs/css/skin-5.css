@@ -1,0 +1,21 @@
+/* tabs skin-5.css — extracted from the inline <style> in skin-5.blade.php
+   so it loads once per page (cacheable) instead of being re-emitted per
+   module instance. Guarded by mw_asset_once('tabs-skin-5') in the blade. */
+    .merry-tabs-button {
+        background-color: #ffffff!important;
+        border-color: #ffffff!important;
+        color: #181E4E!important;
+        padding: 20px 45px!important;
+        margin: 0 20px;
+    }
+
+    .merry-navs-btn-pricing {
+        border: 1px solid #181E4E;
+        padding:  10px 0;
+    }
+
+    .merry-tabs-button.active, .merry-tabs-button:hover {
+        background-color: #181E4E!important;
+        border-color: #181E4E!important;
+        color: #ffffff!important;
+    }

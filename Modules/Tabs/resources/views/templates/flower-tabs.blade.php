@@ -10,21 +10,12 @@
     */
 @endphp
 
-<style>
-    .flower-tabs-button {
-        border-radius: 100px 0 100px 100px!important;
-        background-color: #FED1DC;
-        color: #FF2359;
-        padding: 30px 65px;
-        margin: 0 20px;
-        border-color: #FED1DC!important;
-    }
-
-    .flower-tabs-button.active {
-        background-color: #FF2359;
-        color: #ffffff;
-    }
-</style>
+@if (mw_asset_once('tabs-flower'))
+    {{-- Skin CSS moved to Modules/Tabs/resources/assets/css/flower-tabs.css (served from
+         public/modules/tabs/css/flower-tabs.css) and emitted once per page via mw_asset_once
+         instead of being re-inlined for every instance of this skin. --}}
+    <link rel="stylesheet" href="{{ asset('modules/tabs/css/flower-tabs.css') }}">
+@endif
 
 @php
     if ($tabs == false) {

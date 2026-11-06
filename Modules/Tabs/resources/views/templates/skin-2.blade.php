@@ -39,79 +39,12 @@
     });
 </script>
 
-<style>
-    .nav-tabs {
-        border-bottom: 0;
-    }
-
-    .nav-tabs .nav-link,
-    .nav-tabs .nav-link span {
-        display: block;
-        text-align: left;
-    }
-
-    .nav-tabs .nav-link span {
-        display: block;
-    }
-
-    .nav-tabs .nav-link small {
-        display: block;
-        font-size: 18px;
-        font-weight: normal;
-    }
-
-    .nav-tabs .nav-link {
-        background-color: #fff;
-        border-radius: 0;
-        border: 0;
-        border-left: 3px solid #ececec;
-        padding: 20px 30px;
-        transition: all 0.3s;
-    }
-
-    .nav-tabs .nav-link:first-child {
-        border-left-color: transparent;
-    }
-
-    .nav-tabs .nav-item.show .nav-link,
-    .nav-tabs .nav-link.active,
-    .nav-tabs .nav-link:focus,
-    .nav-tabs .nav-link:hover {
-        border-left-color: var(--mw-primary-color);
-        box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
-    }
-
-    .nav-tabs .nav-link.active h4,
-    .nav-tabs .nav-link:focus h4,
-    .nav-tabs .nav-link:hover h4 {
-        color: var(--mw-primary-color);
-    }
-
-    .schedule-image {
-        border-radius: 20px;
-    }
-
-    .mw-ui-btn-nav-tabs {
-        float: unset;
-    }
-
-    .speakers-text {
-        font-size: 14px;
-        opacity: .6;
-    }
-
-    .avatar-image {
-        border: 2px solid #fff;
-        border-radius: 100px;
-        width: 50px !important;
-        height: 50px !important;
-        object-fit: cover;
-    }
-
-    .avatar-group {
-        align-items: center;
-    }
-</style>
+@if (mw_asset_once('tabs-skin-2'))
+    {{-- Skin CSS moved to Modules/Tabs/resources/assets/css/skin-2.css (served from
+         public/modules/tabs/css/skin-2.css) and emitted once per page via mw_asset_once
+         instead of being re-inlined for every instance of this skin. --}}
+    <link rel="stylesheet" href="{{ asset('modules/tabs/css/skin-2.css') }}">
+@endif
 
 <div id="mw-tabs-module-{{ $params['id'] }}">
     <nav>

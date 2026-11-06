@@ -13,63 +13,12 @@
 ?>
 @include('modules.breadcrumb::partials.breadcrumb_params')
 
-<style>
-    ul.mw-big2-breadcrumb-skin-3 {
-        list-style: none;
-        display: flex;
-        padding: 0;
-        margin: 0;
-
-        li {
-            display: inline-flex;
-        }
-
-        .breadcrumbs__item {
-            background: #fff;
-            color: #333;
-            outline: none;
-            padding: 0.75em 0.75em 0.75em 1.25em;
-            position: relative;
-            text-decoration: none;
-            transition: background 0.2s linear;
-            display: inline-block;
-        }
-
-        .breadcrumbs__item:hover:after,
-        .breadcrumbs__item:hover, .breadcrumbs__item.active {
-            background: var(--mw-primary-color);
-            color: #fff;
-        }
-
-        .breadcrumbs__item:focus:after,
-        .breadcrumbs__item:focus,
-        .breadcrumbs__item.active:focus {
-            background: var(--mw-primary-color);
-            color: #fff;
-        }
-
-        .breadcrumbs__item:before {
-            background: var(--mw-primary-color);
-            bottom: 0;
-            clip-path: polygon(50% 50%, -50% -50%, 0 100%);
-            content: "";
-            left: 100%;
-            position: absolute;
-            top: 0;
-            transition: background 0.2s linear;
-            width: 1em;
-            z-index: 1;
-        }
-
-        li:last-child .breadcrumbs__item {
-            border-right: none;
-        }
-
-        .breadcrumbs__item.active {
-            background: var(--mw-primary-color);
-        }
-    }
-</style>
+@if (mw_asset_once('breadcrumb-skin-3'))
+    {{-- Skin CSS moved to Modules/Breadcrumb/resources/assets/css/skin-3.css (served from
+         public/modules/breadcrumb/css/skin-3.css) and emitted once per page via mw_asset_once
+         instead of being re-inlined for every instance of this skin. --}}
+    <link rel="stylesheet" href="{{ asset('modules/breadcrumb/css/skin-3.css') }}">
+@endif
 
 
 <ul class="mw-big2-breadcrumb-skin-3 breadcrumbs">

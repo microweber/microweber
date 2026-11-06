@@ -10,26 +10,12 @@
     */
 @endphp
 
-<style>
-    .merry-tabs-button {
-        background-color: #ffffff!important;
-        border-color: #ffffff!important;
-        color: #181E4E!important;
-        padding: 20px 45px!important;
-        margin: 0 20px;
-    }
-
-    .merry-navs-btn-pricing {
-        border: 1px solid #181E4E;
-        padding:  10px 0;
-    }
-
-    .merry-tabs-button.active, .merry-tabs-button:hover {
-        background-color: #181E4E!important;
-        border-color: #181E4E!important;
-        color: #ffffff!important;
-    }
-</style>
+@if (mw_asset_once('tabs-skin-5'))
+    {{-- Skin CSS moved to Modules/Tabs/resources/assets/css/skin-5.css (served from
+         public/modules/tabs/css/skin-5.css) and emitted once per page via mw_asset_once
+         instead of being re-inlined for every instance of this skin. --}}
+    <link rel="stylesheet" href="{{ asset('modules/tabs/css/skin-5.css') }}">
+@endif
 
 @php
     if (!isset($tabs) || empty($tabs)) {
