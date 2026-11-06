@@ -1,0 +1,137 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature;
+
+use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
+
+/**
+ * Contract test for Swarm Mode Phase 2 — TRUE PARALLEL lanes.
+ *
+ * Phase 1 ran the lanes sequentially in one SSE request. Phase 2 adds
+ * process-level parallelism: a JSON PLAN endpoint runs the planner once and
+ * stores the full plan server-side, then the frontend fans the lanes out as
+ * CONCURRENT requests to a single-lane SSE endpoint — each its own php process
+ * with its own canvas-context binding, so concurrent lanes cannot clobber each
+ * other. The sequential combined stream stays for back-compat.
+ *
+ * Source assertions are PRESENCE checks, so the selector-self-match guard does
+ * not apply.
+ */
+class SwarmModePhase2ContractTest extends TestCase
+{
+    private function read(string $rel): string
+    {
+        return (string) file_get_contents(base_path($rel));
+    }
+
+    // ── Routes ────────────────────────────────────────────────────────────────
+
+    #[Test]
+    public function plan_route_is_registered(): void
+    {
+        $route = Route::getRoutes()->getByName('api.ai.agent-swarm-plan');
+        $this->assertNotNull($route, 'POST api/ai/agent-swarm-plan must be registered.');
+        $this->assertContains('POST', $route->methods());
+        $this->assertSame('api/ai/agent-swarm-plan', $route->uri());
+        $this->assertStringContainsString('agentSwarmPlan', $route->getActionName());
+    }
+
+    #[Test]
+    public function lane_stream_route_is_registered(): void
+    {
+        $route = Route::getRoutes()->getByName('api.ai.agent-swarm-lane-stream');
+        $this->assertNotNull($route, 'POST api/ai/agent-swarm-lane-stream must be registered.');
+        $this->assertContains('POST', $route->methods());
+        $this->assertSame('api/ai/agent-swarm-lane-stream', $route->uri());
+        $this->assertStringContainsString('agentSwarmLaneStream', $route->getActionName());
+    }
+
+    #[Test]
+    public function sequential_combined_stream_is_kept_for_back_compat(): void
+    {
+        $this->assertNotNull(
+            Route::getRoutes()->getByName('api.ai.agent-swarm-stream'),
+            'The Phase 1 sequential stream must remain for back-compat.'
+        );
+    }
+
+    // ── Controller: plan caching, single-lane runner, shared runLane ──────────
+
+    #[Test]
+    public function controller_declares_the_phase2_methods(): void
+    {
+        foreach (['agentSwarmPlan', 'agentSwarmLaneStream', 'runLane'] as $m) {
+            $this->assertTrue(
+                method_exists(\Modules\Ai\Http\Controllers\SwarmController::class, $m),
+                "SwarmController must declare {$m}()."
+            );
+        }
+    }
+
+    #[Test]
+    public function plan_endpoint_caches_the_full_plan_server_side(): void
+    {
+        $src = $this->read('Modules/Ai/Http/Controllers/SwarmController.php');
+        // Full plan (with worker prompts) is stored server-side under a plan id…
+        $this->assertStringContainsString("Cache::put('swarm:plan:'", $src);
+        // …and the lane stream looks it up by that id (prompts never ship to the client).
+        $this->assertStringContainsString("Cache::get('swarm:plan:'", $src);
+        // The JSON response hands the client only public lane meta + coordinator frames.
+        $this->assertStringContainsString("'plan_id'", $src);
+        $this->assertStringContainsString("'coordinator'", $src);
+    }
+
+    #[Test]
+    public function both_paths_share_one_runLane_so_the_wire_contract_is_identical(): void
+    {
+        $src = $this->read('Modules/Ai/Http/Controllers/SwarmController.php');
+        // The combined stream and the single-lane stream both delegate to runLane().
+        $this->assertGreaterThanOrEqual(
+            2,
+            substr_count($src, '$this->runLane('),
+            'Both the combined and single-lane paths must call the shared runLane().'
+        );
+        // runLane binds the per-lane canvas context (isolation point).
+        $this->assertStringContainsString("app()->instance('mw.ai.liveedit.context'", $src);
+    }
+
+    #[Test]
+    public function lane_stream_resolves_the_lane_by_plan_id_and_agent_id(): void
+    {
+        $src = $this->read('Modules/Ai/Http/Controllers/SwarmController.php');
+        $this->assertStringContainsString("'plan_id' => 'required", $src);
+        $this->assertStringContainsString("'agent_id' => 'required", $src);
+    }
+
+    // ── Frontend: plan-once then concurrent lane fan-out ──────────────────────
+
+    #[Test]
+    public function frontend_prefers_parallel_fan_out_with_sequential_fallback(): void
+    {
+        $src = $this->read('packages/frontend-assets/resources/assets/services/mw-ai-swarm.js');
+        // Plan once, then fan out.
+        $this->assertStringContainsString('agent-swarm-plan', $src);
+        $this->assertStringContainsString('agent-swarm-lane-stream', $src);
+        // Concurrency: lanes opened together.
+        $this->assertStringContainsString('Promise.all', $src);
+        // Phase 2 helpers present.
+        foreach (['_plan', '_fanOut', '_laneRequest', '_pumpStream'] as $fn) {
+            $this->assertStringContainsString($fn, $src, "Swarm service must define {$fn}().");
+        }
+        // Sequential path retained as the fallback.
+        $this->assertStringContainsString('_startSequential', $src);
+    }
+
+    #[Test]
+    public function frontend_fan_out_still_does_one_save_and_reuses_applyEdit(): void
+    {
+        $src = $this->read('packages/frontend-assets/resources/assets/services/mw-ai-swarm.js');
+        $this->assertStringContainsString('saveCanvasAsync', $src, 'Parallel run must still fire ONE save at the end.');
+        $this->assertStringContainsString('applyEdit', $src, 'Lanes must reuse MwAi applyEdit, not duplicate tool logic.');
+        $this->assertStringContainsString('flushModuleReloads', $src);
+    }
+}

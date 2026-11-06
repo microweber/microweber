@@ -6,6 +6,7 @@ namespace Modules\Ai\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Models\AgentChatMessage;
@@ -123,8 +124,6 @@ class SwarmController extends Controller
             $sse = new SseToolEmitter();
 
             try {
-                $agentFactory = app(AgentFactory::class);
-
                 // (2) PLAN: run the planner once, emit exactly ONE plan frame. The
                 // plan frame exposes a `summary` per lane (never the raw worker
                 // prompt) plus the design tokens the coordinator is about to lock.
@@ -179,115 +178,25 @@ class SwarmController extends Controller
                 // The final `done` frame aggregates every lane's outcome.
                 $doneLanes = [];
 
-                // (4) Run each lane IN ORDER. PHASE 1 is sequential; every frame is
-                // still lane-tagged so the wire contract matches the parallel version.
+                // (4) Run each lane IN ORDER. This combined endpoint is the
+                // SEQUENTIAL path (kept for back-compat); the parallel path runs
+                // the same runLane() once per process via agentSwarmLaneStream.
                 foreach ($lanes as $index => $lane) {
-                    $laneAgentId = $lane['agent_id'];
-                    $isOpenPage = ($index === $openLaneIndex);
-
-                    $sse->emit('lane', [
-                        'agent_id' => $laneAgentId,
-                        'status' => 'started',
-                        'built' => 0,
-                        'total' => $totalLanes,
-                        'title' => $lane['title'],
-                        'url' => $lane['url'],
-                    ]);
-
-                    try {
-                        // Rebind the canvas context to THIS lane's page. Only the
-                        // currently-open page gets the real live DOM (add_section runs
-                        // live); off-canvas lanes get an empty DOM and build their page
-                        // through create_content + CRUD. (Phase 2 parallelism will give
-                        // each AsyncBranch its own isolated context instead of this
-                        // sequential rebind.)
-                        app()->instance('mw.ai.liveedit.context', [
-                            'dom' => $isOpenPage ? $canvasHtml : '',
-                            'edit_fields' => [],
-                            'computed_styles' => [],
+                    $doneLanes[] = $this->runLane(
+                        $sse,
+                        $lane,
+                        $plan,
+                        $index === $openLaneIndex,
+                        $openContentId,
+                        $canvasHtml,
+                        [
+                            'total_lanes' => $totalLanes,
                             'css_vars' => $cssVars,
-                            'selected_element' => $isOpenPage ? $selectedElement : [],
-                            'selected_layout' => $isOpenPage ? $selectedLayout : [],
-                        ]);
-
-                        // PER-LANE AgentChat thread, unique title per lane, so each
-                        // worker keeps its own isolated memory/history end to end.
-                        $laneChat = $agentFactory->createOrGetChat(
-                            agentType: 'liveedit',
-                            title: $lane['thread_title'],
-                            userId: $userId
-                        );
-
-                        $worker = $agentFactory->agentWithChat($laneChat);
-
-                        // Lane-tagged emitter: auto tool frames carry this lane's
-                        // agent_id, and the onToolCall callback streams `building`
-                        // progress with a running built count.
-                        $laneBuilt = 0;
-                        $onToolCall = function (array $call = []) use (&$laneBuilt, $sse, $laneAgentId, $totalLanes) {
-                            $laneBuilt++;
-                            $sse->emit('lane', [
-                                'agent_id' => $laneAgentId,
-                                'status' => 'building',
-                                'built' => $laneBuilt,
-                                'total' => $totalLanes,
-                            ]);
-                        };
-                        $laneEmitter = new SseToolEmitter($onToolCall, $laneAgentId);
-                        $worker->observe($laneEmitter);
-
-                        // Seed the lane thread with its brief for traceability.
-                        AgentChatMessage::create([
-                            'chat_id' => $laneChat->id,
-                            'role' => 'user',
-                            'content' => $lane['prompt'],
-                            'metadata' => [
-                                'user_id' => $userId,
-                                'swarm' => true,
-                                'lane_agent_id' => $laneAgentId,
-                                'timestamp' => now()->toISOString(),
-                            ],
-                        ]);
-
-                        $worker->chat(new UserMessage(
-                            $this->buildLanePrompt($lane, $plan, $isOpenPage, $openContentId, $canvasHtml)
-                        ))->getMessage();
-
-                        // `built` = tool calls this worker actually applied. Prefer the
-                        // live callback count; fall back to the emitter's record.
-                        $built = $laneBuilt > 0 ? $laneBuilt : count($laneEmitter->all());
-
-                        $sse->emit('lane', [
-                            'agent_id' => $laneAgentId,
-                            'status' => 'done',
-                            'built' => $built,
-                            'total' => $totalLanes,
-                            'title' => $lane['title'],
-                            'url' => $lane['url'],
-                        ]);
-
-                        $doneLanes[] = [
-                            'agent_id' => $laneAgentId,
-                            'status' => 'done',
-                            'built' => $built,
-                            'url' => $lane['url'],
-                        ];
-                    } catch (\Throwable $laneError) {
-                        $sse->emit('lane', [
-                            'agent_id' => $laneAgentId,
-                            'status' => 'error',
-                            'built' => 0,
-                            'total' => $totalLanes,
-                            'title' => $lane['title'],
-                            'url' => $lane['url'],
-                        ]);
-                        $doneLanes[] = [
-                            'agent_id' => $laneAgentId,
-                            'status' => 'error',
-                            'built' => 0,
-                            'url' => $lane['url'],
-                        ];
-                    }
+                            'selected_element' => $selectedElement,
+                            'selected_layout' => $selectedLayout,
+                        ],
+                        $userId
+                    );
                 }
 
                 // (5) ONE final done frame — the frontend fires a single
@@ -299,6 +208,318 @@ class SwarmController extends Controller
         }, 200, $this->sseHeaders());
 
         return $response;
+    }
+
+    /**
+     * PHASE 2 — PLAN endpoint (JSON). Run the planner ONCE and hand the frontend
+     * everything it needs to fan the lanes out as CONCURRENT requests:
+     *   { plan_id, lanes:[{agent_id,title,url,order,summary}],
+     *     design:{tokens}, coordinator:[{tool,args}, …] }
+     *
+     * The FULL plan (worker prompts + per-lane thread titles) is kept SERVER-SIDE
+     * in the cache under plan_id (never shipped to the client); each lane request
+     * (agentSwarmLaneStream) looks it up by plan_id + agent_id. The coordinator
+     * frames are the two global design applications the frontend plays once, up
+     * front, before the lane streams start — same payloads the sequential stream
+     * emits as agent_id:"coordinator" tool frames.
+     */
+    public function agentSwarmPlan(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'message' => 'required|string|max:4000',
+            'content_id' => 'sometimes|integer',
+            'open_url' => 'sometimes|string|max:2000',
+            'canvas_html' => 'sometimes|string',
+            'css_vars' => 'sometimes|array',
+            'selected_element' => 'sometimes|array',
+            'selected_layout' => 'sometimes|array',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->toArray()], 422);
+        }
+
+        $message = (string) $request->input('message');
+        $openContentId = (int) $request->input('content_id', 0);
+        $openUrl = (string) $request->input('open_url', '');
+        $canvasHtml = (string) $request->input('canvas_html', '');
+        $cssVars = (array) $request->input('css_vars', []);
+
+        // Let the planner's read tools see the page the user currently has open.
+        app()->instance('mw.ai.liveedit.context', [
+            'dom' => $canvasHtml,
+            'edit_fields' => [],
+            'computed_styles' => [],
+            'css_vars' => $cssVars,
+            'selected_element' => (array) $request->input('selected_element', []),
+            'selected_layout' => (array) $request->input('selected_layout', []),
+        ]);
+
+        $plan = $this->runPlanner($message, [
+            'content_id' => $openContentId,
+            'open_url' => $openUrl,
+            'canvas_html' => $canvasHtml,
+            'css_vars' => $cssVars,
+        ]);
+
+        $planId = 'swarm_plan_' . substr((string) Str::uuid(), 0, 12);
+        // Keep the full plan (with prompts) server-side for the lane requests.
+        Cache::put('swarm:plan:' . $planId, [
+            'plan' => $plan,
+            'brief' => $message,
+            'open_url' => $openUrl,
+            'open_content_id' => $openContentId,
+            'user_id' => auth()->id(),
+        ], now()->addMinutes(15));
+
+        $tokens = $plan['design']['tokens'];
+        $coordinator = [];
+        if (!empty($tokens)) {
+            $coordinator[] = ['tool' => 'set_css_var', 'args' => ['vars' => $tokens]];
+            $coordinator[] = ['tool' => 'apply_css', 'args' => ['css' => $this->buildGlobalCss($tokens)]];
+        }
+
+        return response()->json([
+            'plan_id' => $planId,
+            'lanes' => array_map(static fn (array $lane) => [
+                'agent_id' => $lane['agent_id'],
+                'title' => $lane['title'],
+                'url' => $lane['url'],
+                'order' => $lane['order'],
+                'summary' => $lane['summary'],
+            ], $plan['lanes']),
+            'design' => ['tokens' => $tokens],
+            'coordinator' => $coordinator,
+        ]);
+    }
+
+    /**
+     * PHASE 2 — single-LANE SSE stream. One worker, one page, one request — so
+     * each lane runs in its OWN php process with its OWN mw.ai.liveedit.context
+     * binding: concurrent lanes cannot clobber each other's canvas context (the
+     * structural isolation Phase 2 needs; no shared in-process state to race on).
+     *
+     * Takes plan_id + agent_id (resolved against the server-side plan) plus THIS
+     * lane's live canvas context, and emits the lane-tagged started/building/
+     * tool/done frames for that one lane. The frontend opens N of these at once
+     * (Promise.all) and fires a single saveCanvasAsync() after they all close.
+     */
+    public function agentSwarmLaneStream(Request $request): StreamedResponse
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'plan_id' => 'required|string|max:64',
+            'agent_id' => 'required|string|max:64',
+            'content_id' => 'sometimes|integer',
+            'open_url' => 'sometimes|string|max:2000',
+            'canvas_html' => 'sometimes|string',
+            'css_vars' => 'sometimes|array',
+            'selected_element' => 'sometimes|array',
+            'selected_layout' => 'sometimes|array',
+            'is_open_page' => 'sometimes|boolean',
+        ]);
+        if ($validator->fails()) {
+            return new StreamedResponse(function () use ($validator) {
+                (new SseToolEmitter())->emit('error', ['message' => $validator->errors()->toArray()]);
+            }, 422, $this->sseHeaders());
+        }
+
+        $planId = (string) $request->input('plan_id');
+        $agentId = (string) $request->input('agent_id');
+        $openContentId = (int) $request->input('content_id', 0);
+        $openUrl = (string) $request->input('open_url', '');
+        $canvasHtml = (string) $request->input('canvas_html', '');
+        $cssVars = (array) $request->input('css_vars', []);
+        $selectedElement = (array) $request->input('selected_element', []);
+        $selectedLayout = (array) $request->input('selected_layout', []);
+        $isOpenPageReq = $request->has('is_open_page') ? (bool) $request->boolean('is_open_page') : null;
+        $userId = auth()->id();
+
+        return new StreamedResponse(function () use (
+            $planId, $agentId, $openContentId, $openUrl, $canvasHtml,
+            $cssVars, $selectedElement, $selectedLayout, $isOpenPageReq, $userId
+        ) {
+            $sse = new SseToolEmitter();
+
+            try {
+                $cached = Cache::get('swarm:plan:' . $planId);
+                if (!is_array($cached) || empty($cached['plan']['lanes'])) {
+                    $sse->emit('error', ['message' => 'Swarm plan expired or not found — re-run the plan.']);
+
+                    return;
+                }
+
+                $plan = $cached['plan'];
+                $lanes = $plan['lanes'];
+                $totalLanes = count($lanes);
+
+                // Find this lane in the plan by its agent_id, keeping its index so
+                // we can tell whether it is the page the user has open.
+                $laneIndex = null;
+                foreach ($lanes as $i => $candidate) {
+                    if ((string) $candidate['agent_id'] === $agentId) {
+                        $laneIndex = $i;
+                        break;
+                    }
+                }
+                if ($laneIndex === null) {
+                    $sse->emit('error', ['message' => 'Unknown lane: ' . $agentId]);
+
+                    return;
+                }
+
+                $lane = $lanes[$laneIndex];
+                $openLaneIndex = $this->resolveOpenLaneIndex($lanes, $openUrl, $openContentId);
+                $isOpenPage = $isOpenPageReq ?? ($laneIndex === $openLaneIndex);
+
+                $this->runLane(
+                    $sse,
+                    $lane,
+                    $plan,
+                    $isOpenPage,
+                    $openContentId,
+                    $canvasHtml,
+                    [
+                        'total_lanes' => $totalLanes,
+                        'css_vars' => $cssVars,
+                        'selected_element' => $selectedElement,
+                        'selected_layout' => $selectedLayout,
+                    ],
+                    $userId
+                );
+            } catch (\Throwable $e) {
+                $sse->emit('error', ['message' => 'Swarm lane error: ' . $e->getMessage()]);
+            }
+        }, 200, $this->sseHeaders());
+    }
+
+    /**
+     * Run ONE lane end to end: bind its canvas context, spin up a dedicated
+     * LiveEdit worker on its own AgentChat thread, stream the lane-tagged
+     * started/building/tool/done frames, and return the lane's done record.
+     *
+     * Shared by the sequential combined stream and the Phase-2 per-process lane
+     * stream — the only difference between the two is WHERE the context binding
+     * lives (same process, rebound per lane vs. a fresh process per lane).
+     *
+     * @param array<string, mixed> $lane
+     * @param array<string, mixed> $plan
+     * @param array{total_lanes?:int,css_vars?:array,selected_element?:array,selected_layout?:array} $ctx
+     * @return array<string, mixed> the lane's entry for the final `done` frame
+     */
+    protected function runLane(
+        SseToolEmitter $sse,
+        array $lane,
+        array $plan,
+        bool $isOpenPage,
+        int $openContentId,
+        string $canvasHtml,
+        array $ctx,
+        ?int $userId
+    ): array {
+        $laneAgentId = (string) $lane['agent_id'];
+        $totalLanes = (int) ($ctx['total_lanes'] ?? 1);
+
+        $sse->emit('lane', [
+            'agent_id' => $laneAgentId,
+            'status' => 'started',
+            'built' => 0,
+            'total' => $totalLanes,
+            'title' => $lane['title'],
+            'url' => $lane['url'],
+        ]);
+
+        try {
+            // Bind the canvas context for THIS lane. In the per-process (parallel)
+            // path this binding is private to the process, so concurrent lanes do
+            // not share — and cannot clobber — it. Only the open page gets the real
+            // live DOM (add_section runs live); off-canvas lanes get an empty DOM
+            // and build their page through create_content + CRUD.
+            app()->instance('mw.ai.liveedit.context', [
+                'dom' => $isOpenPage ? $canvasHtml : '',
+                'edit_fields' => [],
+                'computed_styles' => [],
+                'css_vars' => $ctx['css_vars'] ?? [],
+                'selected_element' => $isOpenPage ? ($ctx['selected_element'] ?? []) : [],
+                'selected_layout' => $isOpenPage ? ($ctx['selected_layout'] ?? []) : [],
+            ]);
+
+            $agentFactory = app(AgentFactory::class);
+
+            // PER-LANE AgentChat thread, unique title per lane, so each worker
+            // keeps its own isolated memory/history end to end.
+            $laneChat = $agentFactory->createOrGetChat(
+                agentType: 'liveedit',
+                title: $lane['thread_title'],
+                userId: $userId
+            );
+
+            $worker = $agentFactory->agentWithChat($laneChat);
+
+            // Lane-tagged emitter: auto tool frames carry this lane's agent_id,
+            // and the onToolCall callback streams `building` progress.
+            $laneBuilt = 0;
+            $onToolCall = function (array $call = []) use (&$laneBuilt, $sse, $laneAgentId, $totalLanes) {
+                $laneBuilt++;
+                $sse->emit('lane', [
+                    'agent_id' => $laneAgentId,
+                    'status' => 'building',
+                    'built' => $laneBuilt,
+                    'total' => $totalLanes,
+                ]);
+            };
+            $laneEmitter = new SseToolEmitter($onToolCall, $laneAgentId);
+            $worker->observe($laneEmitter);
+
+            // Seed the lane thread with its brief for traceability.
+            AgentChatMessage::create([
+                'chat_id' => $laneChat->id,
+                'role' => 'user',
+                'content' => $lane['prompt'],
+                'metadata' => [
+                    'user_id' => $userId,
+                    'swarm' => true,
+                    'lane_agent_id' => $laneAgentId,
+                    'timestamp' => now()->toISOString(),
+                ],
+            ]);
+
+            $worker->chat(new UserMessage(
+                $this->buildLanePrompt($lane, $plan, $isOpenPage, $openContentId, $canvasHtml)
+            ))->getMessage();
+
+            $built = $laneBuilt > 0 ? $laneBuilt : count($laneEmitter->all());
+
+            $sse->emit('lane', [
+                'agent_id' => $laneAgentId,
+                'status' => 'done',
+                'built' => $built,
+                'total' => $totalLanes,
+                'title' => $lane['title'],
+                'url' => $lane['url'],
+            ]);
+
+            return [
+                'agent_id' => $laneAgentId,
+                'status' => 'done',
+                'built' => $built,
+                'url' => $lane['url'],
+            ];
+        } catch (\Throwable $laneError) {
+            $sse->emit('lane', [
+                'agent_id' => $laneAgentId,
+                'status' => 'error',
+                'built' => 0,
+                'total' => $totalLanes,
+                'title' => $lane['title'],
+                'url' => $lane['url'],
+            ]);
+
+            return [
+                'agent_id' => $laneAgentId,
+                'status' => 'error',
+                'built' => 0,
+                'url' => $lane['url'],
+            ];
+        }
     }
 
     /**

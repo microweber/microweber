@@ -67,6 +67,17 @@ Route::middleware(['admin'])->group(function () {
     Route::post('api/ai/agent-swarm-stream', [Modules\Ai\Http\Controllers\SwarmController::class, 'agentSwarmStream'])
         ->name('api.ai.agent-swarm-stream');
 
+    // Swarm PHASE 2 — true parallel lanes via process-level concurrency. The
+    // frontend plans ONCE (agent-swarm-plan, JSON) then fans the lanes out as
+    // CONCURRENT requests to agent-swarm-lane-stream (SSE, one worker each). Each
+    // lane runs in its own php process with its own canvas-context binding, so
+    // concurrent lanes cannot clobber each other. The sequential combined stream
+    // above stays for back-compat.
+    Route::post('api/ai/agent-swarm-plan', [Modules\Ai\Http\Controllers\SwarmController::class, 'agentSwarmPlan'])
+        ->name('api.ai.agent-swarm-plan');
+    Route::post('api/ai/agent-swarm-lane-stream', [Modules\Ai\Http\Controllers\SwarmController::class, 'agentSwarmLaneStream'])
+        ->name('api.ai.agent-swarm-lane-stream');
+
     Route::get('api/ai/chat-history/{chatId}', [Modules\Ai\Http\Controllers\AiController::class, 'getChatHistory'])
         ->name('api.ai.chat-history');
     

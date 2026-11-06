@@ -88,8 +88,28 @@ class MwAiSwarm {
         this._coordApi = null;
     }
 
+    // JSON + CSRF headers for an SSE POST (shared by every swarm request).
+    _headers(accept) {
+        const headers = { "Content-Type": "application/json", "Accept": accept || "text/event-stream" };
+        try {
+            const csrf = document.querySelector('meta[name="csrf-token"]');
+            if (csrf && csrf.getAttribute("content")) { headers["X-CSRF-TOKEN"] = csrf.getAttribute("content"); }
+        } catch (e) {}
+        return headers;
+    }
+
+    _siteUrl() {
+        return (window.mw && mw.settings && mw.settings.site_url) ? mw.settings.site_url : "";
+    }
+
     /**
      * Open the swarm SSE stream and route frames to lanes.
+     *
+     * PHASE 2: this prefers TRUE PARALLEL lanes — it plans once
+     * (api/ai/agent-swarm-plan) then fans the lanes out as CONCURRENT requests
+     * (api/ai/agent-swarm-lane-stream), one php process each, so lanes build at
+     * the same time. It falls back to the sequential combined stream ONLY when
+     * planning itself fails, so lanes can never double-build.
      *
      * @param {Object}   opts
      * @param {string}   opts.message        The user's build brief.
@@ -103,6 +123,191 @@ class MwAiSwarm {
      * @returns {Promise<Object>} the `done` summary ({lanes:[...]}), or {lanes:[]}.
      */
     async start(opts = {}) {
+        let plan;
+        try {
+            plan = await this._plan(opts);
+        } catch (e) {
+            // Planning failed before any lane ran → safe to fall back to the
+            // sequential combined stream (no lane has started building).
+            return this._startSequential(opts);
+        }
+        return this._fanOut(plan, opts);
+    }
+
+    /**
+     * PHASE 2 — plan once (JSON). Returns {plan_id, lanes, design, coordinator}.
+     * Throws on any failure so start() can fall back to the sequential stream.
+     */
+    async _plan(opts = {}) {
+        const body = Object.assign({ message: opts.message }, opts.contextBundle || {});
+        const res = await fetch(this._siteUrl() + "api/ai/agent-swarm-plan", {
+            method: "POST",
+            headers: this._headers("application/json"),
+            body: JSON.stringify(body),
+            credentials: "same-origin",
+        });
+        if (!res.ok) { throw new Error("swarm plan failed (" + res.status + ")"); }
+        const data = await res.json();
+        if (!data || !data.plan_id || !Array.isArray(data.lanes) || data.lanes.length === 0) {
+            throw new Error("swarm plan returned no lanes");
+        }
+        return data;
+    }
+
+    /**
+     * PHASE 2 — apply the coordinator design once, then fan the lanes out as
+     * CONCURRENT lane streams; after they all close, flush each lane's reloads
+     * and fire ONE save. Summary is aggregated from each lane's last frame.
+     */
+    async _fanOut(plan, opts = {}) {
+        const self = this;
+        const onPlan = opts.onPlan;
+        const onLane = opts.onLane;
+        const onTool = opts.onTool;
+        const onDone = opts.onDone;
+        const onError = opts.onError;
+
+        this._reset();
+        this._running = true;
+
+        try {
+            if (onPlan) { onPlan({ lanes: plan.lanes, design: plan.design }); }
+
+            // Coordinator locks the global design system FIRST (set_css_var +
+            // one apply_css), exactly as the sequential stream does — but here the
+            // frontend plays the two frames from the plan response up front.
+            (plan.coordinator || []).forEach(function (frame) {
+                const edit = Object.assign({ agent_id: "coordinator" }, frame);
+                let result;
+                try { result = self._lane("coordinator").api.applyEdit(edit); } catch (e) { result = { ok: false, message: String(e && e.message || e) }; }
+                if (onTool) { onTool("coordinator", Object.assign({}, edit, { result: result })); }
+            });
+
+            const siteUrl = this._siteUrl();
+            const headers = this._headers("text/event-stream");
+
+            // One SSE request per lane, all opened concurrently. Each lane runs in
+            // its own php process with its own canvas context — no shared state.
+            await Promise.all((plan.lanes || []).map(function (laneMeta) {
+                const body = Object.assign(
+                    { plan_id: plan.plan_id, agent_id: laneMeta.agent_id },
+                    opts.contextBundle || {}
+                );
+                return self._laneRequest(siteUrl, headers, body, { onLane: onLane, onTool: onTool, onError: onError });
+            }));
+
+            // Every lane closed → flush per-lane module-reload queues and fire the
+            // single whole-run save (never per lane). Build the done summary from
+            // each lane's last frame.
+            const laneSummary = [];
+            Object.keys(self._lanes).forEach(function (k) {
+                if (k === "coordinator" || k === DEFAULT_LANE) { return; }
+                try { self._lanes[k].api.flushModuleReloads(); } catch (e) {}
+                const m = self._lanes[k].meta || {};
+                laneSummary.push({
+                    agent_id: (typeof m.agent_id !== "undefined") ? m.agent_id : k,
+                    status: m.status || "done",
+                    built: m.built || 0,
+                    url: m.url,
+                });
+            });
+            try { self._coord().saveCanvasAsync(); } catch (e) {}
+
+            const summary = { lanes: laneSummary };
+            if (onDone) { onDone(summary); }
+            return summary;
+        } finally {
+            this._running = false;
+        }
+    }
+
+    /** Open ONE lane's SSE stream and route its frames (no plan/done frames). */
+    async _laneRequest(siteUrl, headers, body, cbs) {
+        const self = this;
+        let res;
+        try {
+            res = await fetch(siteUrl + "api/ai/agent-swarm-lane-stream", {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(body),
+                credentials: "same-origin",
+            });
+        } catch (e) {
+            if (cbs.onError) { cbs.onError("lane " + body.agent_id + " failed (" + String(e && e.message || e) + ")"); }
+            return;
+        }
+        if (!res.ok || !res.body) {
+            if (cbs.onError) { cbs.onError("lane " + body.agent_id + " failed (" + res.status + ")"); }
+            return;
+        }
+        await this._pumpStream(res, self._laneDispatch(cbs));
+    }
+
+    /** Dispatch for a single-lane stream: tool / lane / error frames only. */
+    _laneDispatch(cbs) {
+        const self = this;
+        return function (eventName, dataStr) {
+            let data = {};
+            try { data = dataStr ? JSON.parse(dataStr) : {}; } catch (e) { data = { raw: dataStr }; }
+
+            if (eventName === "tool") {
+                const lane = self._lane(data.agent_id);
+                let result;
+                try { result = lane.api.applyEdit(data); } catch (e) { result = { ok: false, message: String(e && e.message || e) }; }
+                if (cbs.onTool) {
+                    cbs.onTool((data.agent_id === 0 || data.agent_id) ? data.agent_id : null, Object.assign({}, data, { result: result }));
+                }
+            } else if (eventName === "lane") {
+                const lane = self._lane(data.agent_id);
+                lane.meta = data;
+                if (cbs.onLane) {
+                    cbs.onLane(
+                        (data.agent_id === 0 || data.agent_id) ? data.agent_id : null,
+                        data.status,
+                        (typeof data.built !== "undefined") ? data.built : null,
+                        (typeof data.total !== "undefined") ? data.total : null,
+                        data
+                    );
+                }
+            } else if (eventName === "error") {
+                if (cbs.onError) { cbs.onError(data.message || "error"); }
+            }
+        };
+    }
+
+    /** Shared SSE frame parser: read a response body, dispatch each frame. */
+    async _pumpStream(res, dispatch) {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        for (;;) {
+            const chunk = await reader.read();
+            if (chunk.done) { break; }
+            buffer += decoder.decode(chunk.value, { stream: true });
+
+            let sep;
+            while ((sep = buffer.indexOf("\n\n")) !== -1) {
+                const frame = buffer.slice(0, sep);
+                buffer = buffer.slice(sep + 2);
+                let eventName = "message";
+                const dataLines = [];
+                frame.split("\n").forEach(function (line) {
+                    if (line.indexOf("event:") === 0) {
+                        eventName = line.slice(6).trim();
+                    } else if (line.indexOf("data:") === 0) {
+                        dataLines.push(line.slice(5).trim());
+                    }
+                });
+                dispatch(eventName, dataLines.join("\n"));
+            }
+        }
+    }
+
+    /**
+     * SEQUENTIAL combined stream (back-compat / fallback): one request streams
+     * every lane in order. Used when planning for the parallel path fails.
+     */
+    async _startSequential(opts = {}) {
         const self = this;
         const message = opts.message;
         const contextBundle = opts.contextBundle || {};
