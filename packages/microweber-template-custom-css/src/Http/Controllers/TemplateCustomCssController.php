@@ -114,6 +114,105 @@ class TemplateCustomCssController extends Controller
     }
 
     /**
+     * POST api/page_save_custom_css
+     *
+     * Save per-PAGE custom CSS keyed by content_id — the page-scoped sibling of
+     * saveLiveEditCss. Overwrite semantics (the editor sends the full CSS),
+     * validated + mirrored to the remote disk; served as the final stylesheet on
+     * that page so it overrides the global live_edit layer.
+     */
+    public function savePageCss(Request $request): SymfonyResponse
+    {
+        if (!$this->isAdmin()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $contentId = (int) $request->input('content_id', 0);
+        if ($contentId <= 0) {
+            return response()->json(['error' => 'content_id is required'], 422);
+        }
+
+        $cssRaw = $request->input('css', $request->input('css_file_content', ''));
+        $css = is_string($cssRaw) ? $cssRaw : '';
+
+        try {
+            $saved = $this->manager->liveEdit()->savePageCssContent($contentId, $css);
+        } catch (InvalidCssException $e) {
+            return response()->json([
+                'error' => (config('app.debug') ? $e->getMessage() : 'An unexpected error occurred.'),
+                'errors' => $e->getErrors(),
+            ], 422);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Unable to save CSS: ' . $e->getMessage()], 400);
+        }
+
+        return response()->json([
+            'success' => true,
+            'content_id' => $contentId,
+            'path' => $saved,
+            'url' => $this->manager->liveEdit()->getPageCssUrl($contentId),
+        ]);
+    }
+
+    /**
+     * POST api/page_save_custom_js
+     *
+     * Save per-PAGE custom JS keyed by content_id — the page-scoped sibling of
+     * saveLiveEditJs. Overwrite semantics, mirrored to the remote disk; served
+     * deferred in the page footer (published page only). No validation.
+     */
+    public function savePageJs(Request $request): SymfonyResponse
+    {
+        if (!$this->isAdmin()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $contentId = (int) $request->input('content_id', 0);
+        if ($contentId <= 0) {
+            return response()->json(['error' => 'content_id is required'], 422);
+        }
+
+        $jsRaw = $request->input('js', $request->input('js_file_content', ''));
+        $js = is_string($jsRaw) ? $jsRaw : '';
+
+        try {
+            $saved = $this->manager->liveEdit()->savePageJsContent($contentId, $js);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Unable to save JS: ' . $e->getMessage()], 400);
+        }
+
+        return response()->json([
+            'success' => true,
+            'content_id' => $contentId,
+            'path' => $saved,
+            'url' => $this->manager->liveEdit()->getPageJsUrl($contentId),
+        ]);
+    }
+
+    /**
+     * GET|POST api/page_get_custom_style
+     *
+     * Read a page's current per-content-id custom CSS + JS (for the editor).
+     */
+    public function getPageCustomStyle(Request $request): SymfonyResponse
+    {
+        if (!$this->isAdmin()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $contentId = (int) ($request->input('content_id') ?? $request->query('content_id', 0));
+        $le = $this->manager->liveEdit();
+
+        return response()->json([
+            'content_id' => $contentId,
+            'css' => $le->getPageCssContent($contentId),
+            'js' => $le->getPageJsContent($contentId),
+            'css_url' => $le->getPageCssUrl($contentId),
+            'js_url' => $le->getPageJsUrl($contentId),
+        ]);
+    }
+
+    /**
      * POST api/current_template_undo_custom_style
      *
      * Undo the most recent Live-Edit CSS or JS change (type=css|js) by restoring

@@ -82,6 +82,27 @@ Route::post(
 )->name('api.template.validate_css')
     ->middleware($adminMiddleware);
 
+// Per-PAGE custom CSS/JS (keyed by content_id) — the page-scoped siblings of the
+// live-edit CSS/JS editor routes above.
+Route::post(
+    'api/page_save_custom_css',
+    [TemplateCustomCssController::class, 'savePageCss']
+)->name('api.page.save_custom_css')
+    ->middleware($mutatingMiddleware);
+
+Route::post(
+    'api/page_save_custom_js',
+    [TemplateCustomCssController::class, 'savePageJs']
+)->name('api.page.save_custom_js')
+    ->middleware($mutatingMiddleware);
+
+Route::match(
+    ['get', 'post'],
+    'api/page_get_custom_style',
+    [TemplateCustomCssController::class, 'getPageCustomStyle']
+)->name('api.page.get_custom_style')
+    ->middleware($adminMiddleware);
+
 Route::get(
     'api/template/live_edit_css_url',
     [TemplateCustomCssController::class, 'liveEditCssUrl']
