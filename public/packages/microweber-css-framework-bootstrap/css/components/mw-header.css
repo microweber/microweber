@@ -92,3 +92,22 @@
     padding: 5px;
     outline: 0 !important;
 }
+
+/* Header action icons (search / account / cart) — uniform size.
+   The search uses an MDI font glyph tagged `.mdi-20px` (a NON-standard size the
+   MDI font CSS doesn't ship, so it falls back to ~16px), while account/cart are
+   inline SVGs sized 24 and 28 in markup — three different sizes in one toolbar.
+   Normalize them to one size regardless of icon system. CSS width/height on an
+   <svg> overrides its width/height attributes, so the 24/28 SVGs follow too. */
+.btn-search .mdi,
+.btn-search .nav-link .mdi,
+.btn-member svg,
+.btn-member .nav-link svg,
+.btn-shopping-cart svg,
+.btn-shopping-cart .nav-link svg {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    line-height: 1;
+    vertical-align: middle;
+}
