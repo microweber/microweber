@@ -63,9 +63,24 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
                 $mwAi = $ver('modules/ai/js/mw-ai.js');
                 $sidebar = $ver('vendor/microweber-packages/frontend-assets/build/ai-chat-sidebar.js');
                 $title = json_encode('AI assistant');
-                $html = <<<HTML
+
+                // The sidebar scripts load on every admin page (the chat service +
+                // streaming client). The floating trigger is the admin's AI entry
+                // point — but in LIVE EDIT the right-rail AI (chat) button is the
+                // SINGLE entry point, so we omit the floating bubble there to avoid
+                // a double button (the Live-Edit app imports the same sidebar
+                // service itself, so the chat still works). task-2026-11-07.
+                $scripts = <<<HTML
 <script src="{$mwAi}"></script>
 <script src="{$sidebar}"></script>
+HTML;
+
+                $isLiveEdit = str_contains((string) request()->path(), 'live-edit');
+                if ($isLiveEdit) {
+                    return new HtmlString($scripts);
+                }
+
+                $button = <<<HTML
 <button type="button" id="mw-admin-ai-chat-trigger" aria-label="AI assistant" title="AI assistant"
     style="position:fixed;right:20px;bottom:20px;z-index:2147482000;width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;background:#182433;color:#fff;box-shadow:0 6px 24px rgba(24,36,51,.28);display:flex;align-items:center;justify-content:center;">
     <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -81,7 +96,7 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
 </script>
 HTML;
 
-                return new HtmlString($html);
+                return new HtmlString($scripts . $button);
             },
         );
 

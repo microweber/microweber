@@ -42,7 +42,41 @@ html.dark .mw-ai-chat-sidebar{ background:#1c2027; color:#e8eaed; border-left-co
     padding:12px 14px; border-bottom:1px solid #18243312; flex:0 0 auto;
 }
 html.dark .mw-ai-chat-sidebar-head{ border-bottom-color:#ffffff12; }
-.mw-ai-chat-sidebar-title{ font-weight:600; font-size:13px; letter-spacing:-.01em; }
+.mw-ai-chat-sidebar-title{ font-weight:600; font-size:13px; letter-spacing:-.01em; flex:0 0 auto; }
+.mw-ai-chat-sidebar-head-spacer{ flex:1 1 auto; }
+
+/* Header "mode" dropdown — AI Chat (primary) vs Quick edit (the classic field
+   editor). Only shown in a Live-Edit/canvas context; hidden on admin surfaces. */
+.mw-ai-chat-sidebar-modes{ position:relative; flex:0 0 auto; }
+.mw-ai-chat-sidebar.is-admin .mw-ai-chat-sidebar-modes{ display:none; }
+.mw-ai-chat-sidebar-modes-toggle{
+    display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 10px;
+    border:1px solid #18243320; border-radius:8px; background:transparent; color:inherit;
+    font:inherit; font-size:12px; font-weight:600; cursor:pointer;
+    transition:background-color .15s ease,border-color .15s ease;
+}
+.mw-ai-chat-sidebar-modes-toggle:hover{ background:#18243310; }
+html.dark .mw-ai-chat-sidebar-modes-toggle{ border-color:#ffffff22; }
+html.dark .mw-ai-chat-sidebar-modes-toggle:hover{ background:#ffffff14; }
+.mw-ai-chat-sidebar-modes-toggle svg{ width:12px; height:12px; opacity:.7; transition:transform .18s ease; }
+.mw-ai-chat-sidebar-modes[data-open="1"] .mw-ai-chat-sidebar-modes-toggle svg{ transform:rotate(180deg); }
+.mw-ai-chat-sidebar-modes-menu{
+    position:absolute; right:0; top:calc(100% + 6px); min-width:168px; z-index:5; padding:6px;
+    background:#fff; color:#182433; border:1px solid #18243316; border-radius:10px;
+    box-shadow:0 12px 32px rgba(24,36,51,.18); display:none;
+}
+html.dark .mw-ai-chat-sidebar-modes-menu{ background:#23272f; color:#e8eaed; border-color:#ffffff1a; }
+.mw-ai-chat-sidebar-modes[data-open="1"] .mw-ai-chat-sidebar-modes-menu{ display:block; }
+.mw-ai-chat-sidebar-modes-item{
+    display:flex; align-items:center; gap:8px; width:100%; min-height:38px; padding:8px 10px;
+    border:none; border-radius:7px; background:transparent; color:inherit; font:inherit; font-size:13px;
+    text-align:left; cursor:pointer; transition:background-color .12s ease;
+}
+.mw-ai-chat-sidebar-modes-item:hover{ background:#18243310; }
+html.dark .mw-ai-chat-sidebar-modes-item:hover{ background:#ffffff12; }
+.mw-ai-chat-sidebar-modes-item[aria-current="true"]{ color:rgb(var(--primary-600, 13 110 253)); font-weight:600; }
+.mw-ai-chat-sidebar-modes-item .tick{ margin-left:auto; opacity:0; }
+.mw-ai-chat-sidebar-modes-item[aria-current="true"] .tick{ opacity:1; }
 .mw-ai-chat-sidebar-close{
     width:34px; height:34px; min-width:34px; border:none; border-radius:9px; cursor:pointer;
     background:transparent; color:inherit; font-size:18px; line-height:1;
@@ -148,6 +182,17 @@ class MwAiChatSidebar {
         this.drawer.innerHTML =
             '<div class="mw-ai-chat-sidebar-head">' +
             '  <div class="mw-ai-chat-sidebar-title"></div>' +
+            '  <div class="mw-ai-chat-sidebar-head-spacer"></div>' +
+            '  <div class="mw-ai-chat-sidebar-modes">' +
+            '    <button type="button" class="mw-ai-chat-sidebar-modes-toggle" aria-haspopup="true" aria-expanded="false">' +
+            '      <span class="mw-ai-chat-sidebar-modes-label">' + this._lang("AI Chat") + "</span>" +
+            '      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+            "    </button>" +
+            '    <div class="mw-ai-chat-sidebar-modes-menu" role="menu">' +
+            '      <button type="button" class="mw-ai-chat-sidebar-modes-item" role="menuitem" data-mode="chat" aria-current="true">' + this._lang("AI Chat") + '<span class="tick" aria-hidden="true">✓</span></button>' +
+            '      <button type="button" class="mw-ai-chat-sidebar-modes-item" role="menuitem" data-mode="fields">' + this._lang("Quick edit") + '<span class="tick" aria-hidden="true">✓</span></button>' +
+            "    </div>" +
+            "  </div>" +
             '  <button type="button" class="mw-ai-chat-sidebar-close" aria-label="' + this._lang("Close") + '">✕</button>' +
             "</div>" +
             '<div class="mw-ai-chat-sidebar-body"></div>';
@@ -155,6 +200,28 @@ class MwAiChatSidebar {
         this.titleEl = this.drawer.querySelector(".mw-ai-chat-sidebar-title");
         this.body = this.drawer.querySelector(".mw-ai-chat-sidebar-body");
         this.drawer.querySelector(".mw-ai-chat-sidebar-close").addEventListener("click", () => this.close());
+
+        // Header mode dropdown: AI Chat (primary) vs Quick edit (classic field
+        // editor). Opening Quick edit closes the chat and opens the Live-Edit
+        // field panel; the dropdown is hidden on admin (non-canvas) surfaces.
+        this.modes = this.drawer.querySelector(".mw-ai-chat-sidebar-modes");
+        const modesToggle = this.drawer.querySelector(".mw-ai-chat-sidebar-modes-toggle");
+        if (this.modes && modesToggle) {
+            const closeMenu = () => { this.modes.removeAttribute("data-open"); modesToggle.setAttribute("aria-expanded", "false"); };
+            modesToggle.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (this.modes.getAttribute("data-open") === "1") { closeMenu(); }
+                else { this.modes.setAttribute("data-open", "1"); modesToggle.setAttribute("aria-expanded", "true"); }
+            });
+            this.modes.querySelectorAll(".mw-ai-chat-sidebar-modes-item").forEach((item) => {
+                item.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    closeMenu();
+                    if (item.dataset.mode === "fields") { this._openQuickEdit(); }
+                });
+            });
+            document.addEventListener("click", (e) => { if (this.modes && !this.modes.contains(e.target)) { closeMenu(); } });
+        }
 
         document.body.appendChild(this.backdrop);
         document.body.appendChild(this.drawer);
@@ -187,6 +254,17 @@ class MwAiChatSidebar {
         this.body.appendChild(this.conversation.root);
     }
 
+    // Switch to the classic field editor ("Quick edit"): close the chat and open
+    // the Live-Edit quick-edit panel. No-op on surfaces without liveEditWidgets.
+    _openQuickEdit() {
+        try {
+            var le = null;
+            try { le = window.mw && mw.top && mw.top().app && mw.top().app.liveEditWidgets; } catch (e) {}
+            this.close();
+            if (le && typeof le.openQuickEditComponent === "function") { le.openQuickEditComponent(); }
+        } catch (e) {}
+    }
+
     open(opts = {}) {
         this._ensureDrawer();
         this._mountConversation(opts);
@@ -194,6 +272,13 @@ class MwAiChatSidebar {
         if (this.titleEl) {
             this.titleEl.textContent = opts.title || this._lang("AI assistant");
         }
+        // The "Quick edit" mode only exists on the Live-Edit canvas; hide the
+        // mode dropdown on admin (non-canvas) surfaces.
+        try {
+            var agentType = opts.agentType || this.current.agentType || "general";
+            var isCanvas = (typeof opts.canvas === "boolean") ? opts.canvas : (agentType === "liveedit");
+            this.drawer.classList.toggle("is-admin", !isCanvas);
+        } catch (e) {}
         // Backdrop only on narrow viewports; on wide screens the sidebar docks.
         this.backdrop.classList.add("mw-ai-chat-open");
         this.drawer.classList.add("mw-ai-chat-open");

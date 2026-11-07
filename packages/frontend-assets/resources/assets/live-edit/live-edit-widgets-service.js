@@ -299,36 +299,16 @@ export class LiveEditWidgetsService extends BaseComponent{
         // quick-edit box keeps the classic field editor; its "AI Chat" tab opens
         // that shared sidebar for the Live-Edit agent (with canvas edits), so
         // there is ONE chat surface across Live Edit and the admin.
-        const openAiSidebar = () => {
-            try {
-                window.dispatchEvent(new CustomEvent('mw:ai-chat:open', { detail: {
-                    agentType: 'liveedit', contentId: _contentId, canvas: true, title: mw.lang('AI Assistant'),
-                } }));
-            } catch (e) {}
-        };
-
-        const modeBar = ElementManager(`
-            <div class="mw-ai-quick-modes flex gap-2 mb-3">
-                <button type="button" class="btn active" data-mode="fields">${mw.lang('Edit fields')}</button>
-                <button type="button" class="btn" data-mode="chat">${mw.lang('AI Chat')}</button>
-            </div>
-        `).get(0);
-
+        // task-2026-11-07 — this panel is now FIELDS-ONLY ("Quick edit"). The AI
+        // chat is the primary surface opened by the right-rail button (the single
+        // AI entry point, docked sidebar); this field editor is reached from the
+        // "Quick edit" item in that sidebar's header dropdown. The old
+        // Edit-fields/AI-Chat mode bar is therefore removed. (_contentId is kept
+        // above for callers/back-compat.)
+        void _contentId;
         const fieldsView = document.createElement('div');
         fieldsView.appendChild(tabs);
         fieldsView.appendChild(this.quickEditComponent.editor());
-
-        modeBar.addEventListener('click', (e) => {
-            const btn = e.target.closest('button[data-mode]');
-            if (!btn) { return; }
-            // "AI Chat" opens the shared sidebar rather than embedding a chat here.
-            if (btn.dataset.mode === 'chat') { openAiSidebar(); return; }
-            modeBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            fieldsView.style.display = '';
-        });
-
-        box.boxContent.appendChild(modeBar);
         box.boxContent.appendChild(fieldsView);
 
         box.show();
