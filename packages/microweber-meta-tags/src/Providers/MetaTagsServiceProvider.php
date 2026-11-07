@@ -31,6 +31,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'title_head_tags',
                 'core_css',
                 'core',
+                'motion_libs',
                 'livewire',
                 'custom_user_css',
                 'custom_user_meta_tags',
@@ -65,6 +66,14 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->addTag(
                 'system_default_css_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\SystemDefaultCssHeadTags()
+            );
+        });
+        // GSAP + ScrollTrigger on the public frontend (motion design for templates
+        // + the AI agents). Deferred, opt-out via the load_motion_libs option.
+        PackageManager::create('motion_libs', function (Package $package) {
+            $package->addTag(
+                'motion_libs_head_tags',
+                new \MicroweberPackages\MetaTags\Entities\MotionLibsHeadTags()
             );
         });
         PackageManager::create('core', function (Package $package) {

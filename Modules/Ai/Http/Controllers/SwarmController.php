@@ -12,6 +12,7 @@ use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Models\AgentChatMessage;
 use Modules\Ai\Services\AgentFactory;
 use Modules\Ai\Services\SseToolEmitter;
+use Modules\Ai\Support\LibrariesHint;
 use NeuronAI\Chat\Messages\UserMessage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -57,6 +58,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 class SwarmController extends Controller
 {
+    use LibrariesHint;
+
     /**
      * Agent-swarm streaming build over Server-Sent Events ("swarm mode").
      *
@@ -102,6 +105,7 @@ class SwarmController extends Controller
         $cssVars = (array) $request->input('css_vars', []);
         $selectedElement = (array) $request->input('selected_element', []);
         $selectedLayout = (array) $request->input('selected_layout', []);
+        $libraries = (array) $request->input('libraries', []);
 
         // (1) Bind the live canvas context so the read tools (get_dom, get_css_vars,
         // get_selected_element, …) see the real page the user currently has open.
@@ -114,10 +118,11 @@ class SwarmController extends Controller
             'css_vars' => $cssVars,
             'selected_element' => $selectedElement,
             'selected_layout' => $selectedLayout,
+            'libraries' => $libraries,
         ]);
 
         $response = new StreamedResponse(function () use (
-            $userId, $message, $openContentId, $openUrl, $canvasHtml, $cssVars, $selectedElement, $selectedLayout
+            $userId, $message, $openContentId, $openUrl, $canvasHtml, $cssVars, $selectedElement, $selectedLayout, $libraries
         ) {
             // Plain writer for the controller-authored frames (plan / lane / done /
             // coordinator tool / error). emit() json-encodes + flushes whatever I pass.
@@ -197,6 +202,7 @@ class SwarmController extends Controller
                             'css_vars' => $cssVars,
                             'selected_element' => $selectedElement,
                             'selected_layout' => $selectedLayout,
+                            'libraries' => $libraries,
                         ],
                         $userId
                     );
@@ -337,12 +343,13 @@ class SwarmController extends Controller
         $cssVars = (array) $request->input('css_vars', []);
         $selectedElement = (array) $request->input('selected_element', []);
         $selectedLayout = (array) $request->input('selected_layout', []);
+        $libraries = (array) $request->input('libraries', []);
         $isOpenPageReq = $request->has('is_open_page') ? (bool) $request->boolean('is_open_page') : null;
         $userId = auth()->id();
 
         return new StreamedResponse(function () use (
             $planId, $agentId, $openContentId, $openUrl, $canvasHtml,
-            $cssVars, $selectedElement, $selectedLayout, $isOpenPageReq, $userId
+            $cssVars, $selectedElement, $selectedLayout, $isOpenPageReq, $userId, $libraries
         ) {
             $sse = new SseToolEmitter();
 
@@ -389,6 +396,7 @@ class SwarmController extends Controller
                         'css_vars' => $cssVars,
                         'selected_element' => $selectedElement,
                         'selected_layout' => $selectedLayout,
+                        'libraries' => $libraries,
                     ],
                     $userId
                 );
@@ -489,9 +497,14 @@ class SwarmController extends Controller
                 ],
             ]);
 
-            $worker->chat(new UserMessage(
-                $this->buildLanePrompt($lane, $plan, $isOpenPage, $openContentId, $canvasHtml)
-            ))->getMessage();
+            $lanePrompt = $this->buildLanePrompt($lane, $plan, $isOpenPage, $openContentId, $canvasHtml);
+            // Tell the lane worker which JS libraries are loaded on the page so it
+            // can drive motion with gsap/ScrollTrigger (see LibrariesHint).
+            $libHint = $this->formatLibrariesHint((array) ($ctx['libraries'] ?? []));
+            if ($libHint !== '') {
+                $lanePrompt .= "\n\n" . $libHint;
+            }
+            $worker->chat(new UserMessage($lanePrompt))->getMessage();
 
             $built = $laneBuilt > 0 ? $laneBuilt : count($laneEmitter->all());
 

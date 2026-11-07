@@ -916,6 +916,9 @@ export class MwAiConversation extends MicroweberBaseClass {
                     screenshot: ui.screenshot,
                     reference_images: ui.refImages,
                     agent_type: ui.agentType,
+                    // Which JS libraries are loaded (gsap, ScrollTrigger, jQuery, …)
+                    // so every lane worker can drive motion with them.
+                    libraries: (function () { try { return MwAi().collectLibraries(); } catch (e) { return undefined; } })(),
                 },
                 onPlan(plan) {
                     if (plan && plan.chat_id) { self._rememberChat(plan.chat_id); }

@@ -421,6 +421,44 @@ function MwAi() {
             return out;
         },
 
+        // Detect which JS libraries are actually LOADED on the page (globals the
+        // published page exposes), so the model drives motion/behaviour with them
+        // (gsap/ScrollTrigger for motion, jQuery, Swiper, …) instead of guessing.
+        // Checks the canvas window first (where the published page runs), then the
+        // top window, and de-dupes by name.
+        collectLibraries() {
+            const found = [];
+            const add = function (name, obj, ver) {
+                if (obj) { found.push(ver ? { name: name, version: String(ver).slice(0, 16) } : { name: name }); }
+            };
+            const probe = function (w) {
+                if (!w) { return; }
+                try {
+                    add('jQuery', w.jQuery || w.$, w.jQuery && w.jQuery.fn && w.jQuery.fn.jquery);
+                    add('gsap', w.gsap, w.gsap && w.gsap.version);
+                    add('ScrollTrigger', w.ScrollTrigger || (w.gsap && w.gsap.plugins && w.gsap.plugins.ScrollTrigger), w.ScrollTrigger && w.ScrollTrigger.version);
+                    add('Swiper', w.Swiper, w.Swiper && w.Swiper.version);
+                    add('bootstrap', w.bootstrap, w.bootstrap && w.bootstrap.Tooltip && w.bootstrap.Tooltip.VERSION);
+                    add('Alpine', w.Alpine, w.Alpine && w.Alpine.version);
+                    add('THREE', w.THREE, w.THREE && w.THREE.REVISION);
+                    add('lottie', w.lottie || w.bodymovin);
+                    add('anime', w.anime);
+                    add('Splide', w.Splide);
+                    add('AOS', w.AOS);
+                } catch (e) {}
+            };
+            try {
+                const doc = this.canvasDocument();
+                const cwin = (doc && doc.defaultView) || null;
+                probe(cwin);
+                if (cwin !== window) { probe(window); }
+            } catch (e) { probe(window); }
+            const seen = {};
+            const dedup = [];
+            found.forEach(function (l) { if (!seen[l.name]) { seen[l.name] = 1; dedup.push(l); } });
+            return dedup;
+        },
+
         // Capture the element/layout the user has currently SELECTED in Live Edit,
         // so phrases like "change THIS to red" resolve to a real target. Assigns a
         // stable id if the selected node has none and returns a selector + a small
@@ -1525,6 +1563,12 @@ function MwAi() {
             try {
                 const cvars = self.collectCssVars();
                 if (cvars && Object.keys(cvars).length) { body.css_vars = cvars; }
+            } catch (e) {}
+            // Which JS libraries are loaded on the page (gsap, ScrollTrigger,
+            // jQuery, …) so the model uses them in apply_js (get_loaded_libraries).
+            try {
+                const libs = self.collectLibraries();
+                if (libs && libs.length) { body.libraries = libs; }
             } catch (e) {}
             // The element/layout the user has selected in the editor, so "this"/"that"
             // resolves (get_selected_element / get_selected_layout).

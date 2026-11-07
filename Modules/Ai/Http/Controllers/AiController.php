@@ -9,10 +9,13 @@ use Modules\Ai\Facades\AiImages;
 use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Models\AgentChatMessage;
 use Modules\Ai\Services\AgentFactory;
+use Modules\Ai\Support\LibrariesHint;
 use NeuronAI\Chat\Messages\UserMessage;
 
 class AiController extends Controller
 {
+    use LibrariesHint;
+
     public function generateImage(Request $request)
     {
         $rules = [
@@ -413,6 +416,9 @@ class AiController extends Controller
         $cssVars = (array) $request->input('css_vars', []);
         $selectedElement = (array) $request->input('selected_element', []);
         $selectedLayout = (array) $request->input('selected_layout', []);
+        // JS libraries detected as loaded on the live page (gsap, ScrollTrigger,
+        // jQuery, …) so the model can use them in apply_js instead of guessing.
+        $libraries = (array) $request->input('libraries', []);
 
         // Bind the live canvas context for this request so the read tools
         // (get_dom, get_edit_fields, get_computed_styles, get_css_vars,
@@ -425,6 +431,7 @@ class AiController extends Controller
             'css_vars' => $cssVars,
             'selected_element' => $selectedElement,
             'selected_layout' => $selectedLayout,
+            'libraries' => $libraries,
         ]);
 
         $response = new \Symfony\Component\HttpFoundation\StreamedResponse(function () use (
@@ -517,6 +524,14 @@ class AiController extends Controller
                     $canvasContext = $this->summarizeCanvas($canvasHtml);
                     if ($canvasContext !== '') {
                         $preamble .= "\n\n[Current page canvas markup]\n" . $canvasContext;
+                    }
+
+                    // Tell the model which JS libraries are actually loaded on the
+                    // page so it can drive motion with them (gsap/ScrollTrigger)
+                    // instead of a library that isn't there.
+                    $libHint = $this->formatLibrariesHint($libraries);
+                    if ($libHint !== '') {
+                        $preamble .= "\n\n" . $libHint;
                     }
 
                     // Reference design: the user pasted/attached screenshot(s) of a
