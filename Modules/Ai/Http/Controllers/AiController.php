@@ -435,7 +435,7 @@ class AiController extends Controller
         ]);
 
         $response = new \Symfony\Component\HttpFoundation\StreamedResponse(function () use (
-            $userId, $message, $agentType, $chatId, $chatTitle, $contentId, $canvasHtml, $screenshot, $referenceImages, $lastModule, $request
+            $userId, $message, $agentType, $chatId, $chatTitle, $contentId, $canvasHtml, $screenshot, $referenceImages, $lastModule, $libraries, $request
         ) {
             $emitter = new \Modules\Ai\Services\SseToolEmitter();
 
