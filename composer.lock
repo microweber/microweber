@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8fdc7d073a650f5058fc19c19212d9e3",
+    "content-hash": "55261c1472e64ed02b453b4da3db08d9",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -3303,16 +3303,16 @@
         },
         {
             "name": "filament/actions",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/actions.git",
-                "reference": "35a082b09d60b0910c2f6b43032a42936ba10483"
+                "reference": "78573062b252312a99706ce99dccd3aaef518200"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/actions/zipball/35a082b09d60b0910c2f6b43032a42936ba10483",
-                "reference": "35a082b09d60b0910c2f6b43032a42936ba10483",
+                "url": "https://api.github.com/repos/filamentphp/actions/zipball/78573062b252312a99706ce99dccd3aaef518200",
+                "reference": "78573062b252312a99706ce99dccd3aaef518200",
                 "shasum": ""
             },
             "require": {
@@ -3348,20 +3348,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-10-26T16:30:14+00:00"
+            "time": "2026-11-03T11:21:50+00:00"
         },
         {
             "name": "filament/filament",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/panels.git",
-                "reference": "fa538cd75c888133e497541d74768aaf430f90be"
+                "reference": "63f8ac0b512b0e06da44bc610673b9f84e267752"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/panels/zipball/fa538cd75c888133e497541d74768aaf430f90be",
-                "reference": "fa538cd75c888133e497541d74768aaf430f90be",
+                "url": "https://api.github.com/repos/filamentphp/panels/zipball/63f8ac0b512b0e06da44bc610673b9f84e267752",
+                "reference": "63f8ac0b512b0e06da44bc610673b9f84e267752",
                 "shasum": ""
             },
             "require": {
@@ -3406,20 +3406,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-10-26T16:29:24+00:00"
+            "time": "2026-11-03T11:55:55+00:00"
         },
         {
             "name": "filament/forms",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/forms.git",
-                "reference": "9516ec5608e21e1136f17a25e535f30b94615ced"
+                "reference": "9c603736bdea867a5f48bfb93da29dfb282de2ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/forms/zipball/9516ec5608e21e1136f17a25e535f30b94615ced",
-                "reference": "9516ec5608e21e1136f17a25e535f30b94615ced",
+                "url": "https://api.github.com/repos/filamentphp/forms/zipball/9c603736bdea867a5f48bfb93da29dfb282de2ee",
+                "reference": "9c603736bdea867a5f48bfb93da29dfb282de2ee",
                 "shasum": ""
             },
             "require": {
@@ -3459,20 +3459,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-10-26T16:30:02+00:00"
+            "time": "2026-11-03T11:21:13+00:00"
         },
         {
             "name": "filament/infolists",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/infolists.git",
-                "reference": "3bcf42cf09d08ee2172d00bd3a2565cc4ae74ce2"
+                "reference": "946efcdbf4a276368f4f1c7e38d5e3db40b6eaa2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/infolists/zipball/3bcf42cf09d08ee2172d00bd3a2565cc4ae74ce2",
-                "reference": "3bcf42cf09d08ee2172d00bd3a2565cc4ae74ce2",
+                "url": "https://api.github.com/repos/filamentphp/infolists/zipball/946efcdbf4a276368f4f1c7e38d5e3db40b6eaa2",
+                "reference": "946efcdbf4a276368f4f1c7e38d5e3db40b6eaa2",
                 "shasum": ""
             },
             "require": {
@@ -3504,20 +3504,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-10-26T16:17:20+00:00"
+            "time": "2026-11-03T11:21:28+00:00"
         },
         {
             "name": "filament/notifications",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/notifications.git",
-                "reference": "4f0e598feb7dd2809b249f1a69c2fb15b5a11d28"
+                "reference": "b588fcad50c48a3b73c6c9c25afe5972ba4e0081"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/notifications/zipball/4f0e598feb7dd2809b249f1a69c2fb15b5a11d28",
-                "reference": "4f0e598feb7dd2809b249f1a69c2fb15b5a11d28",
+                "url": "https://api.github.com/repos/filamentphp/notifications/zipball/b588fcad50c48a3b73c6c9c25afe5972ba4e0081",
+                "reference": "b588fcad50c48a3b73c6c9c25afe5972ba4e0081",
                 "shasum": ""
             },
             "require": {
@@ -3551,20 +3551,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-10-26T16:22:53+00:00"
+            "time": "2026-11-03T11:23:00+00:00"
         },
         {
             "name": "filament/query-builder",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/query-builder.git",
-                "reference": "f6b34ae663109a01198f316971ac20102b5762f5"
+                "reference": "b91faec4042f8808447172280b955852550e016d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/query-builder/zipball/f6b34ae663109a01198f316971ac20102b5762f5",
-                "reference": "f6b34ae663109a01198f316971ac20102b5762f5",
+                "url": "https://api.github.com/repos/filamentphp/query-builder/zipball/b91faec4042f8808447172280b955852550e016d",
+                "reference": "b91faec4042f8808447172280b955852550e016d",
                 "shasum": ""
             },
             "require": {
@@ -3597,20 +3597,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-10-20T18:27:08+00:00"
+            "time": "2026-11-03T11:21:54+00:00"
         },
         {
             "name": "filament/schemas",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/schemas.git",
-                "reference": "d01d80aa2eb67508f31e33cfb4188e0257c24385"
+                "reference": "0a48e762e6b16c4b4daa9583dfac1238e606793b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/schemas/zipball/d01d80aa2eb67508f31e33cfb4188e0257c24385",
-                "reference": "d01d80aa2eb67508f31e33cfb4188e0257c24385",
+                "url": "https://api.github.com/repos/filamentphp/schemas/zipball/0a48e762e6b16c4b4daa9583dfac1238e606793b",
+                "reference": "0a48e762e6b16c4b4daa9583dfac1238e606793b",
                 "shasum": ""
             },
             "require": {
@@ -3642,20 +3642,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-10-26T16:15:13+00:00"
+            "time": "2026-11-03T11:55:23+00:00"
         },
         {
             "name": "filament/support",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/support.git",
-                "reference": "f4057deedf4d29e12bbccb1fff3146046497a5d8"
+                "reference": "bc56814c9c68d0337814a3d3c470fa06cc9e1a04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/support/zipball/f4057deedf4d29e12bbccb1fff3146046497a5d8",
-                "reference": "f4057deedf4d29e12bbccb1fff3146046497a5d8",
+                "url": "https://api.github.com/repos/filamentphp/support/zipball/bc56814c9c68d0337814a3d3c470fa06cc9e1a04",
+                "reference": "bc56814c9c68d0337814a3d3c470fa06cc9e1a04",
                 "shasum": ""
             },
             "require": {
@@ -3702,20 +3702,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-10-26T16:36:54+00:00"
+            "time": "2026-11-03T11:55:41+00:00"
         },
         {
             "name": "filament/tables",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/tables.git",
-                "reference": "d196e432e173f0d0d8c737cb87a2995552124dfc"
+                "reference": "288a2aecf945720d87b8adf2388fd50f78e68fde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/tables/zipball/d196e432e173f0d0d8c737cb87a2995552124dfc",
-                "reference": "d196e432e173f0d0d8c737cb87a2995552124dfc",
+                "url": "https://api.github.com/repos/filamentphp/tables/zipball/288a2aecf945720d87b8adf2388fd50f78e68fde",
+                "reference": "288a2aecf945720d87b8adf2388fd50f78e68fde",
                 "shasum": ""
             },
             "require": {
@@ -3748,20 +3748,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-10-26T16:30:37+00:00"
+            "time": "2026-11-03T11:55:29+00:00"
         },
         {
             "name": "filament/widgets",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/widgets.git",
-                "reference": "4cfc070e73a23b16e51a536b283f88a4cee009b9"
+                "reference": "d2c16665657914da468c837aed18531537b9dd58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/widgets/zipball/4cfc070e73a23b16e51a536b283f88a4cee009b9",
-                "reference": "4cfc070e73a23b16e51a536b283f88a4cee009b9",
+                "url": "https://api.github.com/repos/filamentphp/widgets/zipball/d2c16665657914da468c837aed18531537b9dd58",
+                "reference": "d2c16665657914da468c837aed18531537b9dd58",
                 "shasum": ""
             },
             "require": {
@@ -3792,7 +3792,7 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-10-26T16:36:37+00:00"
+            "time": "2026-11-03T11:22:06+00:00"
         },
         {
             "name": "filp/whoops",
@@ -6201,16 +6201,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v13.39.0",
+            "version": "v13.40.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d52c3b3129e4c8e213c97cdc68f94b0b7d27f181"
+                "reference": "1449bf241017087fbd38c118ecaabef3f6797fdc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d52c3b3129e4c8e213c97cdc68f94b0b7d27f181",
-                "reference": "d52c3b3129e4c8e213c97cdc68f94b0b7d27f181",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/1449bf241017087fbd38c118ecaabef3f6797fdc",
+                "reference": "1449bf241017087fbd38c118ecaabef3f6797fdc",
                 "shasum": ""
             },
             "require": {
@@ -6428,7 +6428,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-10-27T14:04:39+00:00"
+            "time": "2026-11-03T15:07:18+00:00"
         },
         {
             "name": "laravel/passkeys",
@@ -7864,21 +7864,21 @@
         },
         {
             "name": "league/uri",
-            "version": "7.9.1",
+            "version": "7.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri.git",
-                "reference": "40403f5c3141457a61f7f1aba6706e8fa4a0ece5"
+                "reference": "be89e2382e37acdef232259071ade5180821397b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri/zipball/40403f5c3141457a61f7f1aba6706e8fa4a0ece5",
-                "reference": "40403f5c3141457a61f7f1aba6706e8fa4a0ece5",
+                "url": "https://api.github.com/repos/thephpleague/uri/zipball/be89e2382e37acdef232259071ade5180821397b",
+                "reference": "be89e2382e37acdef232259071ade5180821397b",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "league/uri-interfaces": "^7.9.1",
+                "league/uri-interfaces": "^7.10.0",
                 "php": "^8.1",
                 "psr/http-factory": "^1"
             },
@@ -7951,7 +7951,7 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri/tree/7.9.1"
+                "source": "https://github.com/thephpleague/uri/tree/7.10.0"
             },
             "funding": [
                 {
@@ -7959,24 +7959,24 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-27T07:14:23+00:00"
+            "time": "2026-11-04T12:45:07+00:00"
         },
         {
             "name": "league/uri-components",
-            "version": "7.9.1",
+            "version": "7.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri-components.git",
-                "reference": "d831eb3ca07f43b771d7208e13421761efcdf724"
+                "reference": "2a790e66948d3504a2f2cd42b80d4b8874601540"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri-components/zipball/d831eb3ca07f43b771d7208e13421761efcdf724",
-                "reference": "d831eb3ca07f43b771d7208e13421761efcdf724",
+                "url": "https://api.github.com/repos/thephpleague/uri-components/zipball/2a790e66948d3504a2f2cd42b80d4b8874601540",
+                "reference": "2a790e66948d3504a2f2cd42b80d4b8874601540",
                 "shasum": ""
             },
             "require": {
-                "league/uri": "^7.9.1",
+                "league/uri": "^7.10.0",
                 "php": "^8.1"
             },
             "suggest": {
@@ -7984,12 +7984,13 @@
                 "ext-fileinfo": "to create Data URI from file contennts",
                 "ext-gmp": "to improve IPV4 host parsing",
                 "ext-intl": "to handle IDN host with the best performance",
-                "ext-mbstring": "to use the sorting algorithm of URLSearchParams",
+                "ext-mbstring": "to use the sorting algorithm for Query parameter",
                 "jeremykendall/php-domain-parser": "to further parse the URI host and resolve its Public Suffix and Top Level Domain",
                 "league/uri-polyfill": "to backport the PHP URI extension for older versions of PHP",
                 "php-64bit": "to improve IPV4 host parsing",
                 "rowbot/url": "to handle URLs using the WHATWG URL Living Standard specification",
-                "symfony/polyfill-intl-idn": "to handle IDN host via the Symfony polyfill if ext-intl is not present"
+                "symfony/polyfill-intl-idn": "to handle IDN host via the Symfony polyfill if ext-intl is not present",
+                "symfony/polyfill-mbstring": "to handle query sorting if ext-mbstring is not present"
             },
             "type": "library",
             "extra": {
@@ -8035,7 +8036,7 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri-components/tree/7.9.1"
+                "source": "https://github.com/thephpleague/uri-components/tree/7.10.0"
             },
             "funding": [
                 {
@@ -8043,20 +8044,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-27T07:14:23+00:00"
+            "time": "2026-11-04T12:45:07+00:00"
         },
         {
             "name": "league/uri-interfaces",
-            "version": "7.9.1",
+            "version": "7.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri-interfaces.git",
-                "reference": "994300a79e17f179112dc259f8df0c4de982f736"
+                "reference": "ea66240cff4ae9a56ce85d577a04d038b771e51c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/994300a79e17f179112dc259f8df0c4de982f736",
-                "reference": "994300a79e17f179112dc259f8df0c4de982f736",
+                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/ea66240cff4ae9a56ce85d577a04d038b771e51c",
+                "reference": "ea66240cff4ae9a56ce85d577a04d038b771e51c",
                 "shasum": ""
             },
             "require": {
@@ -8119,7 +8120,7 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.9.1"
+                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.10.0"
             },
             "funding": [
                 {
@@ -8127,7 +8128,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-27T07:14:23+00:00"
+            "time": "2026-11-04T12:45:07+00:00"
         },
         {
             "name": "livewire/livewire",
@@ -9226,7 +9227,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets",
-                "reference": "d15606a2468220e6574515fd583f0e8f6cedf293"
+                "reference": "2dc59ac1a0447cbe632f3b01c70255adeb81a10b"
             },
             "require": {
                 "microweber-packages/microweber-package": "*",
@@ -9246,6 +9247,16 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
             "description": "Microweber CMS - Frontend Assets",
             "keywords": [
                 "laravel",
@@ -9264,7 +9275,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets-libs",
-                "reference": "c2c972201e690b0665d62ee83f7ec9e08211af47"
+                "reference": "144e662feeab4aac36635a155fbbc5780f416d4b"
             },
             "require": {
                 "microweber-packages/microweber-package": "*",
@@ -9282,13 +9293,18 @@
                     "MicroweberPackages\\FrontendAssetsLibs\\Tests\\": "tests/"
                 }
             },
-            "scripts": {
-                "post-autoload-dump": [
-                    "@php ./vendor/bin/testbench package:discover --ansi"
-                ]
-            },
             "license": [
                 "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
             ],
             "description": "Library for frontend assets",
             "keywords": [
@@ -9307,11 +9323,15 @@
             "dist": {
                 "type": "path",
                 "url": "packages/laravel-helper-functions",
-                "reference": "4b7c61c2e8c857fc445038d7cc184f013b9a88c6"
+                "reference": "e8cb2e28a052457af4533ff5af445fe01d55657b"
             },
             "require": {
                 "microweber-packages/microweber-package": "*",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -9322,6 +9342,11 @@
                     "src/helpers.php"
                 ]
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\LaravelHelperFunctions\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -9329,6 +9354,10 @@
                 {
                     "name": "Peter Ivanov",
                     "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Helper functions for Microweber",
@@ -9343,7 +9372,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-activity-log",
-                "reference": "6a0d3d2c36342b9dd47c57f13ff61b67aade9a8c"
+                "reference": "3886e08cbe8e2b0f5d59f7d480e3886619b393f1"
             },
             "require": {
                 "illuminate/support": "^11.0|^13.0",
@@ -9352,10 +9381,19 @@
             "replace": {
                 "microweber-packages/activity-log": "*"
             },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
+            },
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "MicroweberPackages\\ActivityLog\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\ActivityLog\\Tests\\": "tests/"
                 }
             },
             "license": [
@@ -9363,8 +9401,8 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -9380,16 +9418,32 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-admin",
-                "reference": "a094cb284a0ea073e79c58526742874b96ba9bbe"
+                "reference": "b116fc16c0f9740ec0d4af6b3dc9ebc1d7521666"
             },
             "require": {
                 "filament/filament": "~5.6",
                 "laravel/framework": "^11.0|^13.0",
                 "livewire/livewire": "^4.2",
+                "microweber-packages/microweber-filament": "*",
+                "microweber-packages/microweber-filament-modal-teleport": "*",
+                "microweber-packages/microweber-filament-registry": "*",
+                "microweber-packages/microweber-filament-theme": "*",
+                "microweber-packages/microweber-install": "*",
+                "microweber-packages/microweber-live-edit": "*",
+                "microweber-packages/microweber-livewire-modal": "*",
+                "microweber-packages/microweber-multilanguage": "*",
+                "microweber-packages/microweber-option": "*",
+                "microweber-packages/microweber-template": "*",
+                "microweber-packages/microweber-url": "*",
+                "microweber-packages/microweber-user": "*",
+                "microweber-packages/microweber-view": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/admin": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -9397,13 +9451,30 @@
                     "MicroweberPackages\\Admin\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Admin\\StandaloneTests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
+                },
+                {
+                    "name": "Alexander Raikov",
+                    "email": "raikov@ymail.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -9419,7 +9490,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-ai-tools",
-                "reference": "b742d851c0de684dc0e599c4c4a4df51903e2963"
+                "reference": "d79e6b77d33898b5219703e9aad3493861066db5"
             },
             "require": {
                 "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
@@ -9434,7 +9505,7 @@
                 "microweber-packages/ai-tools": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
@@ -9467,8 +9538,8 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 }
             ],
             "description": "Standalone Laravel AI tool-calling framework with a tool registry, base tools, and external service tools",
@@ -9487,7 +9558,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-blade-cache",
-                "reference": "1186fad34db24fe9a0645aee0bccac98f40a54ea"
+                "reference": "2b0885caee19099029f35c8e2f0a03910600ef4a"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
@@ -9520,8 +9591,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Blade @cache / @endcache directive for Laravel. Cache expensive Blade fragments with tags and expiration.",
@@ -9540,7 +9615,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-cdn-sync",
-                "reference": "70513fe04d7101e54bbd84eea8c5b7fe1aea40f4"
+                "reference": "9547c94c8981326d9bf2b78cd5dfc80d6d911715"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
@@ -9558,7 +9633,7 @@
                 "filament/filament": "~5.0",
                 "larastan/larastan": "^3.9",
                 "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "suggest": {
@@ -9588,8 +9663,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone CDN sync package for Laravel. Syncs any Eloquent model's files to S3-compatible storage via a polymorphic sync log.",
@@ -9608,7 +9687,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-class-loader",
-                "reference": "7917e2dad32d276f606a24c14dcd6034f41e687d"
+                "reference": "8ee98277acfadcaa41b4991dee2c2b353571e25b"
             },
             "require": {
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
@@ -9623,7 +9702,7 @@
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -9653,8 +9732,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone instance-based class loader for Laravel. Directory and PSR-4 namespace autoloading with path deduplication. Reusable in any Laravel app.",
@@ -9673,7 +9756,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-composer-installers",
-                "reference": "07972ab9bf7898db09b128fba555609b2de7cf54"
+                "reference": "22773502014f16113cc741fced2aff3e3f1ecf2e"
             },
             "require": {
                 "composer-plugin-api": "^1.0 || ^2.0",
@@ -9722,8 +9805,15 @@
             "authors": [
                 {
                     "name": "Kyle Robinson Young",
-                    "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama"
+                    "email": "kyle@dontkry.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Microweber fork of composer/installers (adds the microweber-module / microweber-template install paths). Replaces composer/installers.",
@@ -9812,7 +9902,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-config",
-                "reference": "fb3c3b3b1548aab162e202bd09a271cbdb6a752c"
+                "reference": "d1d8965941c6f91e70616f7a1efa6e8a09952c1a"
             },
             "require": {
                 "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
@@ -9825,7 +9915,7 @@
                 "microweber-packages/config": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -9853,10 +9943,6 @@
                     "email": "peter@microweber.com"
                 },
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
                     "name": "Bozhidar Slaveykov",
                     "email": "bobi@microweber.com"
                 }
@@ -9877,15 +9963,24 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-console",
-                "reference": "b456769a9ec1d95827e53cc4319d42a788fae34b"
+                "reference": "28ab459151785d57c4a3b28ef08e90a7c41ed08b"
             },
             "require": {
                 "illuminate/console": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
+                "microweber-packages/microweber-db-installer": "*",
+                "microweber-packages/microweber-install": "*",
+                "microweber-packages/microweber-laravel-modules": "*",
+                "microweber-packages/microweber-laravel-templates": "*",
+                "microweber-packages/microweber-system-licenses": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/console": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -9893,13 +9988,22 @@
                     "MicroweberPackages\\Console\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Console\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -9915,7 +10019,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-core",
-                "reference": "aaa259dbf0b31bcabfc458e4c3281d457b659212"
+                "reference": "74c605e1d9db81b4f6ffb759dfca44946cb09620"
             },
             "require": {
                 "laravel/framework": "^11.0|^13.0",
@@ -9942,8 +10046,16 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -9959,7 +10071,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-css-framework-bootstrap",
-                "reference": "66c8651792f4f84db629326739440ead22189d14"
+                "reference": "f72c772ceebfd14dec8ae72b22b325ffc01d723e"
             },
             "require": {
                 "microweber-packages/microweber-package": "*",
@@ -9979,8 +10091,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Shared Microweber CSS framework based on Bootstrap with semantic --mw- CSS variables",
@@ -9995,7 +10111,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-database",
-                "reference": "243c1a7cb5d19acbfdbed365d38b5e30c96b1c3b"
+                "reference": "fd6137c940df0c44b1898b6edd4a4b68cbc74381"
             },
             "require": {
                 "graham-campbell/markdown": "^15.0|^16.0",
@@ -10003,8 +10119,13 @@
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/events": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-event-manager": "*",
+                "microweber-packages/microweber-format": "*",
+                "microweber-packages/microweber-multilanguage": "*",
                 "microweber-packages/microweber-package": "*",
                 "microweber-packages/microweber-repository": "*",
+                "microweber-packages/microweber-url": "*",
+                "microweber-packages/microweber-user": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
             },
@@ -10012,7 +10133,7 @@
                 "microweber-packages/database": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "suggest": {
@@ -10042,12 +10163,16 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 },
                 {
                     "name": "Bozhidar Slaveykov",
                     "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Petko Yovchevski",
+                    "email": "petko@microweber.com"
                 }
             ],
             "description": "Reusable Laravel database manager package with caching, CRUD helpers, query filtering, model traits and utilities",
@@ -10066,7 +10191,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-db-export",
-                "reference": "af0a29252778b897ff3b5a196c9c33850f0b32bf"
+                "reference": "4b608221ef428bc99376f4822116cc30fd0af5be"
             },
             "require": {
                 "halaxa/json-machine": "^1.0",
@@ -10082,7 +10207,7 @@
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -10109,8 +10234,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Database export, import, and cross-connection migration for Laravel. Supports SQLite, MySQL, and PostgreSQL with chunked transfers, auto-increment preservation, index detection, and JSON streaming.",
@@ -10129,11 +10258,12 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-db-installer",
-                "reference": "feefc2df4f32920cf7d5015895bae3e21f0ede11"
+                "reference": "f811ff49b2afd56e10fd05fe845b54c9cbbe9aa9"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-database": "*",
                 "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
@@ -10142,7 +10272,7 @@
                 "microweber-packages/db-installer": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -10166,8 +10296,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Microweber database installer — orchestrates system schema creation, migration and seeding using the db-migrator (custom migrator) and the database table builder.",
@@ -10186,7 +10320,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-db-migrator",
-                "reference": "1461ce3a8ba76854638e799cf056c1fd86f24aad"
+                "reference": "6de065380b4ef0de786371b3da51f0c777b92b05"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
@@ -10200,7 +10334,7 @@
                 "microweber-packages/db-migrator": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -10224,8 +10358,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel database migrator and schema builder. Provides a custom migrator, table builder, and schema installer that can be reused across any Laravel application.",
@@ -10244,7 +10382,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-deps-arcanedev-php-html",
-                "reference": "0cc5246a128f9f6b11ca931059965677948ce39c"
+                "reference": "b61af0e793f32302de0548f69de8460df54cc6f4"
             },
             "require": {
                 "illuminate/support": "^11.0|^12.0|^13.0",
@@ -10262,6 +10400,16 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
             "description": "Arcanedev PHP-Html — Microweber fork with Laravel 13 support. Replaces arcanedev/php-html.",
             "transport-options": {
                 "symlink": true,
@@ -10274,7 +10422,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-deps-arcanedev-support",
-                "reference": "c6379daaa70cc9c3f1f376a13be3b04471d9b9ec"
+                "reference": "e6357062db3afc4bc9fdb2c1db4899aba19d558e"
             },
             "require": {
                 "illuminate/contracts": "^11.0|^12.0|^13.0",
@@ -10296,6 +10444,16 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
             "description": "Arcanedev Support — Microweber fork with Laravel 13 support. Replaces arcanedev/support.",
             "transport-options": {
                 "symlink": true,
@@ -10308,7 +10466,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-deps-laravel-repository",
-                "reference": "beed4b0f62f42bd829b99128f812568864aecbfa"
+                "reference": "3849af875ac2de1a8a6b4d5991d519816122c24c"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
@@ -10328,6 +10486,16 @@
             "license": [
                 "BSD-2-Clause"
             ],
+            "authors": [
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                }
+            ],
             "description": "Base repository implementation for Laravel — Microweber fork with Laravel 13 support. Replaces torann/laravel-repository.",
             "transport-options": {
                 "symlink": true,
@@ -10340,7 +10508,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-env-writer",
-                "reference": "cfc5490c123c183061e5dee5e7eada310dbef98a"
+                "reference": "69b1b5956249d182cd2716fe4ce8f9708c6e1044"
             },
             "require": {
                 "microweber-packages/microweber-package": "*",
@@ -10351,7 +10519,7 @@
                 "microweber-packages/env-writer": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -10379,8 +10547,8 @@
                     "email": "peter@microweber.com"
                 },
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "A standalone .env file writer for Laravel. Reads, updates and appends key-value pairs while preserving comments and preventing duplicate keys.",
@@ -10399,7 +10567,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-event-manager",
-                "reference": "4d10a4aaf6368bfc9c8b80d7fa1132d8d4ff309e"
+                "reference": "c271fe7679234322c907967f1a731d94de3fbc1b"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
@@ -10412,7 +10580,7 @@
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -10442,12 +10610,8 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 }
             ],
             "description": "Standalone event manager package for Laravel. Provides a simple event binding and triggering system that can be used in any Laravel application.",
@@ -10466,9 +10630,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament",
-                "reference": "06054762f2568c0c627c6e7175719a1ecf7d2bc3"
+                "reference": "5f23150d0f76f9450ae2718aff646619ebd2db35"
             },
             "require": {
+                "dutchcodingcompany/filament-socialite": "^3.0",
                 "filament/filament": "~5.6",
                 "illuminate/auth": "^11.0|^13.0",
                 "illuminate/contracts": "^11.0|^13.0",
@@ -10477,10 +10642,19 @@
                 "illuminate/http": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
                 "livewire/livewire": "^4.2",
+                "microweber-packages/microweber-admin": "*",
+                "microweber-packages/microweber-filament-theme": "*",
+                "microweber-packages/microweber-meta-tags": "*",
+                "microweber-packages/microweber-multilanguage": "*",
+                "microweber-packages/microweber-social-login": "*",
+                "microweber-packages/microweber-user": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/filament": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -10488,13 +10662,30 @@
                     "MicroweberPackages\\Filament\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Filament\\StandaloneTests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
+                },
+                {
+                    "name": "Alexander Raikov",
+                    "email": "raikov@ymail.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -10510,12 +10701,17 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "894d650c12935d15782e5adf2933080e4c86f092"
+                "reference": "53a8b37e71c2fb4a508aa4868d817bc60af1ab60"
             },
             "require": {
+                "filament/filament": "~5.10",
                 "microweber-packages/microweber-package": "*",
                 "php": "^8.1",
                 "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -10533,9 +10729,12 @@
             ],
             "authors": [
                 {
-                    "name": "Bozhidar",
-                    "email": "bobi@microweber.com",
-                    "role": "Developer"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Microweber CMS - Filament admin panel theme",
@@ -10560,13 +10759,14 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filesystem",
-                "reference": "09a70ad8442d28e5c2ef3332a5abf5c5b913b818"
+                "reference": "dad56191e9cd5e5e6866f6ea42c0399bbed4ded4"
             },
             "require": {
                 "enshrined/svg-sanitize": "^0.22|^1.0",
                 "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-file-uploader": "*",
                 "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
@@ -10575,7 +10775,7 @@
                 "microweber-packages/filesystem": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -10602,8 +10802,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel filesystem service: file utilities, path normalization, directory operations, extension validation, and SVG sanitization",
@@ -10622,15 +10826,21 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-form-builder",
-                "reference": "07233ed7f4633caf1470c05704a75afe3e8ceabe"
+                "reference": "59b08efd117383e783895346fa2b9f1f073e57ea"
             },
             "require": {
                 "filament/filament": "~5.6",
                 "illuminate/support": "^11.0|^13.0",
+                "microweber-packages/microweber-filament": "*",
+                "microweber-packages/microweber-multilanguage": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/form-builder": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -10648,8 +10858,16 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Alexander Raikov",
+                    "email": "raikov@ymail.com"
                 }
             ],
             "description": "Microweber Form Builder – field-type registry and form-definition engine.",
@@ -10665,7 +10883,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-format",
-                "reference": "6f90d8d4cc75e81340b1158fbfb5f53026d97e0a"
+                "reference": "6bb12d0fdde4fb7bb714138f90aed5d0b46fe810"
             },
             "require": {
                 "hashids/hashids": "^5.0|^4.0",
@@ -10680,7 +10898,7 @@
                 "microweber-packages/format": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -10704,8 +10922,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Reusable Laravel formatting & utility package – dates, strings, arrays, encoding, XSS/HTML cleaning helpers. Accessible via app()->format facade.",
@@ -10723,17 +10945,22 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-frontend",
-                "reference": "dd69f15441d857c56b350b5f71656fed7b9b9963"
+                "reference": "2d9814fdab7d2f50efcdb72f12ac38bd8678b9f8"
             },
             "require": {
                 "illuminate/http": "^11.0|^13.0",
                 "illuminate/routing": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
                 "livewire/livewire": "^4.2",
+                "microweber-packages/microweber-app": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/frontend": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -10741,13 +10968,18 @@
                     "MicroweberPackages\\Frontend\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Frontend\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -10763,7 +10995,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-http",
-                "reference": "68a7ee93c3b6ebbeb390a246d10ce92aaa256328"
+                "reference": "dbef7882d4c90dcc0c9c00c7335881d827285473"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.0",
@@ -10777,7 +11009,7 @@
                 "microweber-packages/http": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -10801,8 +11033,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel HTTP client package with Guzzle/cURL adapters, SSL enforcement, SSRF guard and URL fetch guard",
@@ -10821,7 +11057,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-image-optimization",
-                "reference": "b8a03cb63fe37182653c26d011d38001e25268f8"
+                "reference": "417c05c80f2db2226decf35a711a39c931be0f47"
             },
             "require": {
                 "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
@@ -10841,7 +11077,7 @@
                 "larastan/larastan": "^3.9",
                 "laravel/dusk": "^8.0|^9.0",
                 "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "suggest": {
@@ -10877,8 +11113,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel package for image optimization: WebP conversion, lazy loading, responsive images, and cache management. Reusable in any Laravel app.",
@@ -10897,14 +11137,26 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-install",
-                "reference": "f7276441b3e95c8a094229d379800d9222a3e8ea"
+                "reference": "2f3d04df4926fc5eb5bc377c5aaab29201ec0ac3"
             },
             "require": {
                 "laravel/framework": "^11.0|^13.0",
+                "microweber-packages/microweber-database": "*",
+                "microweber-packages/microweber-env-writer": "*",
+                "microweber-packages/microweber-http": "*",
+                "microweber-packages/microweber-option": "*",
+                "microweber-packages/microweber-package-manager-client": "*",
+                "microweber-packages/microweber-system-licenses": "*",
+                "microweber-packages/microweber-user": "*",
+                "microweber-packages/microweber-view": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/install": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -10912,13 +11164,34 @@
                     "MicroweberPackages\\Install\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Install\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
+                },
+                {
+                    "name": "Petko Yovchevski",
+                    "email": "petko@microweber.com"
+                },
+                {
+                    "name": "Alexander Raikov",
+                    "email": "raikov@ymail.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -10934,16 +11207,29 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-laravel-modules",
-                "reference": "06ff50f870d32745f5b133d5950e3c34a421dc4d"
+                "reference": "50e7401d6e2aaa6cb2db96d29a8d13f9b6f70620"
             },
             "require": {
+                "calebporzio/sushi": "^2.5",
                 "filament/filament": "~5.6",
                 "laravel/framework": "^11.0|^13.0",
                 "livewire/livewire": "^4.2",
+                "microweber-packages/microweber-class-loader": "*",
+                "microweber-packages/microweber-config-merge": "*",
+                "microweber-packages/microweber-filament": "*",
+                "microweber-packages/microweber-filament-registry": "*",
+                "microweber-packages/microweber-laravel-templates": "*",
+                "microweber-packages/microweber-package": "*",
+                "microweber-packages/microweber-taggable-file-cache": "*",
+                "nwidart/laravel-modules": "^11.1",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/laravel-modules": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -10951,13 +11237,22 @@
                     "MicroweberPackages\\LaravelModules\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\LaravelModules\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -10973,14 +11268,23 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-laravel-templates",
-                "reference": "d05442af06307297f041a115a8e8b9799569d840"
+                "reference": "f1fa234d4dc578c58b23e7e26932639117f0796d"
             },
             "require": {
                 "laravel/framework": "^11.0|^13.0",
+                "microweber-packages/microweber-config-merge": "*",
+                "microweber-packages/microweber-laravel-modules": "*",
+                "microweber-packages/microweber-package": "*",
+                "microweber-packages/microweber-taggable-file-cache": "*",
+                "nwidart/laravel-modules": "^11.1",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/laravel-templates": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -10988,13 +11292,18 @@
                     "MicroweberPackages\\LaravelTemplates\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\LaravelTemplates\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -11010,16 +11319,33 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-live-edit",
-                "reference": "a01c96d1634b28b70d09c0937c74566e3dc6190e"
+                "reference": "2c33b2a201e0ae89d550331b2305924df8e4ae5c"
             },
             "require": {
+                "calebporzio/sushi": "^2.5",
                 "filament/filament": "~5.6",
                 "laravel/framework": "^11.0|^13.0",
                 "livewire/livewire": "^4.2",
+                "microweber-packages/microweber-admin": "*",
+                "microweber-packages/microweber-app": "*",
+                "microweber-packages/microweber-filament": "*",
+                "microweber-packages/microweber-filament-registry": "*",
+                "microweber-packages/microweber-install": "*",
+                "microweber-packages/microweber-livewire-modal": "*",
+                "microweber-packages/microweber-module": "*",
+                "microweber-packages/microweber-multilanguage": "*",
+                "microweber-packages/microweber-option": "*",
+                "microweber-packages/microweber-package": "*",
+                "microweber-packages/microweber-template": "*",
+                "microweber-packages/microweber-url": "*",
+                "microweber-packages/microweber-user": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/live-edit": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -11027,13 +11353,30 @@
                     "MicroweberPackages\\LiveEdit\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\LiveEdit\\StandaloneTests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Alexander Raikov",
+                    "email": "raikov@ymail.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -11049,17 +11392,22 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-livewire",
-                "reference": "169d631a28c1944538f1cf460013c6ead14e83c9"
+                "reference": "9905b1201b30044ee731af65c0a32d7af2321524"
             },
             "require": {
                 "filament/filament": "~5.6",
                 "illuminate/database": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
                 "livewire/livewire": "^4.2",
+                "microweber-packages/microweber-user": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/livewire": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -11067,13 +11415,26 @@
                     "MicroweberPackages\\Livewire\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Livewire\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -11089,7 +11450,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-livewire-modal",
-                "reference": "dcb70dc3e2387731bb2da433828552defa3d6c24"
+                "reference": "053fcfd036aa9d4a39a025b2ab7725bee732861a"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
@@ -11103,7 +11464,7 @@
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
@@ -11131,8 +11492,8 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 },
                 {
                     "name": "Bozhidar Slaveykov",
@@ -11162,7 +11523,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-mail-sender",
-                "reference": "a99c17a171242149c223bfd39a07b41a653554fb"
+                "reference": "82d0ee1352016b952a9150ec386d59f744fb9be3"
             },
             "require": {
                 "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
@@ -11182,7 +11543,7 @@
                 "filament/filament": "~5.0",
                 "larastan/larastan": "^3.0",
                 "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "suggest": {
@@ -11215,8 +11576,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel package for sending email via configurable transports (SMTP, PHP mail, Gmail, cPanel, Plesk). Reusable in any Laravel app. Extracted from Microweber CMS MailSender.",
@@ -11235,7 +11600,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-media-pixum",
-                "reference": "04784150fda8d5be97597817d40de5fa26790f99"
+                "reference": "5fbf6ab7fc73279d814d9dbf0470b17c29495c03"
             },
             "require": {
                 "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
@@ -11253,7 +11618,7 @@
                 "larastan/larastan": "^3.9",
                 "laravel/dusk": "^8.0|^9.0",
                 "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -11283,8 +11648,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel package for generating and serving placeholder (pixum) images. No exit() calls — fully testable.",
@@ -11299,7 +11668,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-media-thumbnail",
-                "reference": "4a3b167e1f9015a5549e4ad6ec6fae2764c88faf"
+                "reference": "f07898014763f7661a88c4c8d6dd6fcd2981219b"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
@@ -11320,7 +11689,7 @@
             "require-dev": {
                 "larastan/larastan": "^3.9",
                 "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -11347,8 +11716,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel package for media thumbnail caching and generation. Provides the MediaThumbnail model, migration, repository, and thumbnail-serving routes.",
@@ -11363,14 +11736,21 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-meta-tags",
-                "reference": "491f04cbe77c5e1a7a05e7b26ccef05c30685745"
+                "reference": "c7f2d14081f4dd39b185f9803a81633b62e43294"
             },
             "require": {
+                "butschster/meta-tags": "^3.2",
                 "illuminate/support": "^11.0|^13.0",
+                "microweber-packages/microweber-template": "*",
+                "microweber-packages/microweber-user": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/meta-tags": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -11378,13 +11758,22 @@
                     "MicroweberPackages\\MetaTags\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\MetaTags\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Alexander Raikov",
+                    "email": "raikov@ymail.com"
                 }
             ],
             "description": "Microweber CMS – head/footer meta-tag rendering (head tags, scripts, SEO).",
@@ -11400,15 +11789,20 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-microweber-ui",
-                "reference": "e175d188c84c09054d924ff620fc2ab02a54a8de"
+                "reference": "a2e5d5525fb00b264126049cba33c89a0f621341"
             },
             "require": {
                 "illuminate/support": "^11.0|^13.0",
                 "illuminate/view": "^11.0|^13.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/microweber-ui": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -11416,13 +11810,30 @@
                     "MicroweberPackages\\MicroweberUI\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\MicroweberUI\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
+                },
+                {
+                    "name": "Alexander Raikov",
+                    "email": "raikov@ymail.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -11438,7 +11849,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-minifier",
-                "reference": "cbd912d91f5af9b8487c75fd9e7500cbbc727f31"
+                "reference": "daf94e87f98294314a3ff73375a789e4b89403c3"
             },
             "require": {
                 "illuminate/filesystem": "^10.0|^11.0|^12.0|^13.0",
@@ -11457,7 +11868,7 @@
                 "larastan/larastan": "^3.0",
                 "laravel/dusk": "^8.0|^9.0",
                 "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "suggest": {
@@ -11490,8 +11901,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel package for JS and CSS minification. Reusable in any Laravel app. Based on fixed JShrink for JavaScript.",
@@ -11510,16 +11925,33 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-module",
-                "reference": "87bbd94ba094afaaa9dfe298ddad79e250f57f60"
+                "reference": "5d65637670d81a6ffa27dbdb51d9ea508b4805bb"
             },
             "require": {
                 "filament/filament": "~5.6",
                 "laravel/framework": "^11.0|^13.0",
                 "livewire/livewire": "^4.2",
+                "microweber-packages/microweber-admin": "*",
+                "microweber-packages/microweber-app": "*",
+                "microweber-packages/microweber-config-merge": "*",
+                "microweber-packages/microweber-database": "*",
+                "microweber-packages/microweber-filament-registry": "*",
+                "microweber-packages/microweber-format": "*",
+                "microweber-packages/microweber-laravel-modules": "*",
+                "microweber-packages/microweber-multilanguage": "*",
+                "microweber-packages/microweber-repository": "*",
+                "microweber-packages/microweber-system-licenses": "*",
+                "microweber-packages/microweber-url": "*",
+                "microweber-packages/microweber-user": "*",
+                "microweber-packages/microweber-zip": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/module": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -11527,13 +11959,30 @@
                     "MicroweberPackages\\Module\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Module\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
+                },
+                {
+                    "name": "Petko Yovchevski",
+                    "email": "petko@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -11549,7 +11998,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-module-registry",
-                "reference": "d02173e4c4f677fd8b38a6a6eaae67638bf94bd3"
+                "reference": "3d9dac2506ec1a232b8d5468334de98180bfe5cd"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
@@ -11564,7 +12013,7 @@
             "require-dev": {
                 "larastan/larastan": "^3.0",
                 "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
@@ -11597,10 +12046,6 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
                     "name": "Peter Ivanov",
                     "email": "peter@microweber.com"
                 },
@@ -11625,9 +12070,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-modules",
-                "reference": "ecbc89f1ee1d7ba6b207c4086cb0b613752273da"
+                "reference": "de0014e6bb01348edaf3c7e7cadef3443fac08ec"
             },
             "require": {
+                "filament/filament": "~5.10",
                 "microweber-packages/microweber-package": "*",
                 "spatie/laravel-package-tools": "^1.16"
             },
@@ -11635,6 +12081,10 @@
                 "coolsam/modules": "*",
                 "microweber-deps/filament-modules": "*",
                 "savannabits/filament-modules": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -11649,11 +12099,6 @@
                 }
             },
             "scripts": {
-                "post-autoload-dump": [
-                    "@clear",
-                    "@prepare",
-                    "@php ./vendor/bin/testbench package:discover --ansi"
-                ],
                 "analyse": [
                     "vendor/bin/phpstan analyse"
                 ],
@@ -11665,20 +12110,6 @@
                 ],
                 "format": [
                     "vendor/bin/pint"
-                ],
-                "clear": [
-                    "@php vendor/bin/testbench package:purge-skeleton --ansi"
-                ],
-                "prepare": [
-                    "@php vendor/bin/testbench package:discover --ansi"
-                ],
-                "build": [
-                    "@php vendor/bin/testbench workbench:build --ansi"
-                ],
-                "serve": [
-                    "Composer\\Config::disableProcessTimeout",
-                    "@build",
-                    "@php vendor/bin/testbench serve"
                 ],
                 "lint": [
                     "@php vendor/bin/pint",
@@ -11693,6 +12124,14 @@
                     "name": "Sam Maosa",
                     "email": "maosa.sam@gmail.com",
                     "role": "Developer"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Microweber Filament modules integration (supersedes coolsam/savannabits filament-modules). Organize Filament code into modules using nwidart/laravel-modules.",
@@ -11718,17 +12157,22 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-monitoring",
-                "reference": "9cb5d8b4814356d62f123d4833976b4e3c05c1d7"
+                "reference": "4a1a26c0cca801a7115d94c6ecb78e9c3431d820"
             },
             "require": {
                 "filament/filament": "~5.6",
                 "illuminate/console": "^11.0|^13.0",
                 "illuminate/database": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
+                "microweber-packages/microweber-filament-registry": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/monitoring": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -11736,13 +12180,18 @@
                     "MicroweberPackages\\Monitoring\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Monitoring\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -11758,15 +12207,30 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-multilanguage",
-                "reference": "23c7c1452c07cca9e39098ec26a74d0020e6fba9"
+                "reference": "b8d034909cfa1326489cf04f8be08b62e85fd178"
             },
             "require": {
                 "filament/filament": "~5.6",
                 "laravel/framework": "^11.0|^13.0",
+                "microweber-packages/microweber-app": "*",
+                "microweber-packages/microweber-database": "*",
+                "microweber-packages/microweber-event-manager": "*",
+                "microweber-packages/microweber-filament": "*",
+                "microweber-packages/microweber-form-builder": "*",
+                "microweber-packages/microweber-http": "*",
+                "microweber-packages/microweber-option": "*",
+                "microweber-packages/microweber-repository": "*",
+                "microweber-packages/microweber-translation": "*",
+                "microweber-packages/microweber-url": "*",
+                "microweber-packages/microweber-user": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/multilanguage": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -11774,13 +12238,30 @@
                     "MicroweberPackages\\Multilanguage\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Multilanguage\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Alexander Raikov",
+                    "email": "raikov@ymail.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -11796,7 +12277,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-multisite",
-                "reference": "8d0e6cf086104e0a4f14663aa2f2b5448dc1a748"
+                "reference": "b13d337949b81352f7dced7243e8872d5742b02e"
             },
             "require": {
                 "microweber-packages/microweber-env-writer": "*",
@@ -11808,7 +12289,7 @@
                 "microweber-packages/multisite": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -11846,8 +12327,8 @@
                     "email": "peter@microweber.com"
                 },
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Per-domain multisite isolation for Laravel/Microweber: resolves a site from the Host header (config/<domain>/microweber.php marker) and gives each site its own database, cache, session and media/userfiles tree on one shared codebase.",
@@ -11866,7 +12347,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-notification",
-                "reference": "8fc7be609d2dbf1489d66ed3e79a7a6be085d257"
+                "reference": "ff850041b1fdfa072620ceabd4143b9b579d85ac"
             },
             "require": {
                 "illuminate/auth": "^10.0|^11.0|^12.0|^13.0",
@@ -11883,6 +12364,7 @@
                 "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
                 "microweber-packages/microweber-mail-sender": "*",
                 "microweber-packages/microweber-package": "*",
+                "microweber-packages/microweber-url": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16",
                 "tucker-eric/eloquentfilter": "^3.0"
@@ -11893,7 +12375,7 @@
             "require-dev": {
                 "larastan/larastan": "^3.0",
                 "laravel/dusk": "^8.0|^9.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "suggest": {
@@ -11926,8 +12408,20 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
+                },
+                {
+                    "name": "Petko Yovchevski",
+                    "email": "petko@microweber.com"
                 }
             ],
             "description": "Standalone Laravel package for database notifications, mail channel delivery, admin notification management, and mail logs. Extracted from Microweber CMS so it can be reused in any Laravel application.",
@@ -11946,14 +12440,25 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-option",
-                "reference": "dfb36e860c4ee8fc1ecd4066da3c58e60d0e2832"
+                "reference": "0a43c51cfc1d0190f684d459a2f807c3c2d9c071"
             },
             "require": {
                 "laravel/framework": "^11.0|^13.0",
+                "microweber-packages/microweber-core": "*",
+                "microweber-packages/microweber-database": "*",
+                "microweber-packages/microweber-event-manager": "*",
+                "microweber-packages/microweber-multilanguage": "*",
+                "microweber-packages/microweber-repository": "*",
+                "microweber-packages/microweber-searchable": "*",
+                "microweber-packages/microweber-url": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/option": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -11961,13 +12466,26 @@
                     "MicroweberPackages\\Option\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Option\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Petko Yovchevski",
+                    "email": "petko@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -11983,7 +12501,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-package",
-                "reference": "64814f260fcbf5ce09e2c002c9983b50f9bb15a8"
+                "reference": "57e1df8f83c71b6c48248d858030f70a941c8b09"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
@@ -11995,7 +12513,7 @@
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
@@ -12027,8 +12545,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 }
             ],
             "description": "Standalone Microweber package loader based on spatie/laravel-package-tools. Provides an abstract service provider and optional CMS module registration helpers for use inside the CMS or any Laravel app.",
@@ -12047,9 +12569,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-package-manager-client",
-                "reference": "ea0844c32fbf5d4c4ff17368ef6182294a1a44fd"
+                "reference": "09da61a47ac8f8f44003bb2327e1c71c0532fc67"
             },
             "require": {
+                "composer/composer": "^2.9.3",
                 "composer/semver": "^3.0",
                 "ext-curl": "*",
                 "ext-json": "*",
@@ -12068,7 +12591,7 @@
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -12095,8 +12618,8 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 },
                 {
                     "name": "Bozhidar Slaveykov",
@@ -12119,9 +12642,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-passport",
-                "reference": "b5f8265e3e736583e796364f825c6dd2655efec3"
+                "reference": "ebeb357d1b6244810eace7ccfdf7fa0c6d288b07"
             },
             "require": {
+                "filament/filament": "~5.10",
                 "illuminate/database": "^11.0|^12.0|^13.0",
                 "illuminate/routing": "^11.0|^12.0|^13.0",
                 "illuminate/support": "^11.0|^12.0|^13.0",
@@ -12154,8 +12678,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Microweber Passport – OAuth2 API token management built on Laravel Passport. Usable standalone in any Laravel app or inside Microweber CMS.",
@@ -12171,7 +12699,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-phpquery",
-                "reference": "d23bd70880e985da40810802abbcea6f11e85085"
+                "reference": "e15ca04ace56a211fa4f34b366527ecfb06bb4d4"
             },
             "require": {
                 "ext-dom": "*",
@@ -12207,8 +12735,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Dev Team",
-                    "email": "support@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "PHPQuery - server-side CSS3 selector driven DOM API based on jQuery. Standalone Laravel package.",
@@ -12223,7 +12755,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-queue",
-                "reference": "61e8826ea79e2686fbe078216c12f69a7057b02a"
+                "reference": "04b2443ead9e557201f15d11ea86d5ed8d86211b"
             },
             "require": {
                 "illuminate/bus": "^10.0|^11.0|^12.0|^13.0",
@@ -12247,7 +12779,7 @@
                 "larastan/larastan": "^3.0",
                 "laravel/dusk": "^8.0|^9.0",
                 "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "suggest": {
@@ -12280,8 +12812,16 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Petko Yovchevski",
+                    "email": "petko@microweber.com"
                 }
             ],
             "description": "Standalone Laravel package for queue management: process pending jobs, Filament admin for jobs/failed jobs, and chunked Bus dispatch so large workloads (e.g. newsletter bulk sends) stay under job timeout limits.",
@@ -12300,7 +12840,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-repository",
-                "reference": "b48d182a440e3aa0f6d89c3d821438e84feff4d0"
+                "reference": "98aab17b899e2f2676b1d769a54685681ba1e85c"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
@@ -12308,7 +12848,9 @@
                 "illuminate/events": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "microweber-packages/laravel-helper-functions": "*",
+                "microweber-packages/microweber-database": "*",
                 "microweber-packages/microweber-deps-laravel-repository": "*",
+                "microweber-packages/microweber-event-manager": "*",
                 "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16"
@@ -12317,7 +12859,7 @@
                 "microweber-packages/repository": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -12341,8 +12883,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Reusable Laravel repository pattern package with caching, query filtering and model observers",
@@ -12357,17 +12903,25 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-role",
-                "reference": "7598261213c27317a05586e26f38ca2a9fcd794a"
+                "reference": "abebfd175fc20c702a573ff9db0721367555335a"
             },
             "require": {
                 "filament/filament": "~5.6",
                 "illuminate/database": "^11.0|^13.0",
                 "illuminate/http": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
-                "php": "^8.3"
+                "microweber-packages/microweber-admin": "*",
+                "microweber-packages/microweber-config-merge": "*",
+                "microweber-packages/microweber-filament-registry": "*",
+                "php": "^8.3",
+                "spatie/laravel-permission": "^6.16"
             },
             "replace": {
                 "microweber-packages/role": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -12375,13 +12929,30 @@
                     "MicroweberPackages\\Role\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Role\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Petko Yovchevski",
+                    "email": "petko@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -12397,7 +12968,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-searchable",
-                "reference": "d0a96a05d013682884f861a9259a884098c01d6a"
+                "reference": "4d47d57d9d47ad1fd42f8d2dd91f22ed2ea8d9ad"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
@@ -12410,7 +12981,7 @@
                 "microweber-packages/searchable": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -12434,8 +13005,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "A framework-agnostic Laravel trait that adds searchable field definitions to Eloquent models. Works on all SQL engines.",
@@ -12450,7 +13025,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-security",
-                "reference": "06027470753db4493263e1b434f514450074142c"
+                "reference": "80e664c63d1b107b00eb8d22c6bd7077597024db"
             },
             "require": {
                 "ezyang/htmlpurifier": "^4.18",
@@ -12458,7 +13033,7 @@
                 "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16",
-                "symfony/html-sanitizer": "^7.0",
+                "symfony/html-sanitizer": "^7.0|^8.0",
                 "voku/anti-xss": "^4.1"
             },
             "replace": {
@@ -12466,7 +13041,7 @@
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -12493,8 +13068,8 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 },
                 {
                     "name": "Bozhidar Slaveykov",
@@ -12517,7 +13092,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-svg-icons",
-                "reference": "0c941dd164dbf96a86eba88db1bc3542952fea50"
+                "reference": "f76fefa1985baf60ec85c7f2b9f8f1a1cab32376"
             },
             "require": {
                 "blade-ui-kit/blade-icons": "^1.6",
@@ -12550,8 +13125,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Microweber SVG Icons – Blade-Icons-compatible icon set for the Microweber CMS admin panel, modules, and templates.",
@@ -12570,7 +13149,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-system-licenses",
-                "reference": "b49b739cb28a779a951e0423f7521085f1ada5fb"
+                "reference": "4edd5a04427fbeafb2d9fc8bb31664318540253e"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
@@ -12585,7 +13164,7 @@
                 "microweber-packages/system-licenses": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -12612,8 +13191,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone license management package for Laravel. Manages system_licenses table, license validation, consumption and caching.",
@@ -12632,7 +13215,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-taggable-file-cache",
-                "reference": "e0c1506cd45a8bbede29a8e3d4045aca569e9fce"
+                "reference": "64a55782cb54bc5466f32063dd91234ad43053b0"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
@@ -12666,8 +13249,8 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 },
                 {
                     "name": "Bozhidar Slaveykov",
@@ -12690,16 +13273,38 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-template",
-                "reference": "f639bc6b7d58624826369002c6aff0380efc5b58"
+                "reference": "b71fd24db945f8c63df91e4b7c54a2f3b2a749a2"
             },
             "require": {
                 "illuminate/http": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
                 "livewire/livewire": "^4.2",
+                "microweber-packages/microweber-admin": "*",
+                "microweber-packages/microweber-app": "*",
+                "microweber-packages/microweber-config": "*",
+                "microweber-packages/microweber-core": "*",
+                "microweber-packages/microweber-db-installer": "*",
+                "microweber-packages/microweber-event-manager": "*",
+                "microweber-packages/microweber-format": "*",
+                "microweber-packages/microweber-install": "*",
+                "microweber-packages/microweber-laravel-modules": "*",
+                "microweber-packages/microweber-laravel-templates": "*",
+                "microweber-packages/microweber-meta-tags": "*",
+                "microweber-packages/microweber-minifier": "*",
+                "microweber-packages/microweber-option": "*",
+                "microweber-packages/microweber-template-custom-css": "*",
+                "microweber-packages/microweber-template-fonts": "*",
+                "microweber-packages/microweber-url": "*",
+                "microweber-packages/microweber-user": "*",
+                "microweber-packages/microweber-view": "*",
+                "microweber-packages/microweber-zip": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/template": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -12707,13 +13312,34 @@
                     "MicroweberPackages\\Template\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Template\\StandaloneTests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
+                },
+                {
+                    "name": "Alexander Raikov",
+                    "email": "raikov@ymail.com"
+                },
+                {
+                    "name": "Petko Yovchevski",
+                    "email": "petko@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -12729,7 +13355,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-template-custom-css",
-                "reference": "6a4330d09c66895e3a2fada427c2051f79e510e5"
+                "reference": "168696684e153c6b3315324159a3c23960728f1f"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
@@ -12738,6 +13364,7 @@
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "microweber-packages/microweber-package": "*",
+                "microweber-packages/microweber-url": "*",
                 "php": "^8.1",
                 "sabberworm/php-css-parser": "^8.4|^9.0",
                 "spatie/laravel-package-tools": "^1.16"
@@ -12750,7 +13377,7 @@
                 "larastan/larastan": "^3.9",
                 "laravel/dusk": "^8.0|^9.0",
                 "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "suggest": {
@@ -12783,8 +13410,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel package for template CSS management: live-edit CSS, user custom CSS, multi-file registry, CSS validation, URL rewriting, and Filament admin. Reusable in any Laravel app.",
@@ -12803,7 +13434,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-template-fonts",
-                "reference": "84250b07a04158194544620af9ca2fca0e6b1c1c"
+                "reference": "bca9a863091e5d8213daea37a1e7ed313a9fa2d1"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.0",
@@ -12826,7 +13457,7 @@
                 "larastan/larastan": "^3.9",
                 "laravel/dusk": "^8.0|^9.0",
                 "livewire/livewire": "^3.0|^4.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "suggest": {
@@ -12860,8 +13491,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel package for template font management: Google Fonts, system fonts, custom TTF/WOFF uploads, CSS generation, and Filament admin. Reusable in any Laravel app.",
@@ -12880,7 +13515,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-thumbnailer",
-                "reference": "5bf9fb24389f976e39d725d376d8fbe8754c24e9"
+                "reference": "f302a102c5e306740107a07360b9240a10bf069b"
             },
             "require": {
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
@@ -12894,7 +13529,7 @@
                 "microweber-packages/thumbnailer": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -12916,8 +13551,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Team",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel package for image thumbnail generation",
@@ -12932,23 +13571,25 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-translation",
-                "reference": "a05a4af0a24ee9eb7e041e75f214821f887313b9"
+                "reference": "551cde24fc754a983065d63ec5b6ceef5d9d02ce"
             },
             "require": {
                 "illuminate/cache": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/translation": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-database": "*",
+                "microweber-packages/microweber-repository": "*",
                 "microweber-packages/microweber-searchable": "*",
                 "php": "^8.2",
-                "symfony/intl": "^6.0|^7.0",
+                "symfony/intl": "^6.0|^7.0|^8.0",
                 "whitecube/lingua": "^1.1"
             },
             "replace": {
                 "microweber-packages/translation": "*"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -12972,8 +13613,20 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "phausleitner",
+                    "email": "108931257+phausleitner@users.noreply.github.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
                 }
             ],
             "description": "Standalone Laravel package for managing translations with database storage, import/export, and locale helpers",
@@ -12992,15 +13645,20 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-update",
-                "reference": "337b0f54b9d8a2a888ac80cc8ae48bf3f4486afb"
+                "reference": "d352921cb8730489de09745f4d34b2c139034d77"
             },
             "require": {
                 "illuminate/database": "^11.0|^13.0",
                 "illuminate/support": "^11.0|^13.0",
+                "microweber-packages/microweber-package": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/update": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -13008,13 +13666,18 @@
                     "MicroweberPackages\\Update\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Update\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -13030,7 +13693,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-url",
-                "reference": "23ab0ea729c6c5321a334e4d081d868470269972"
+                "reference": "44e2a8af1ba6630c3cd7e3d84b137dd0ad8a1b55"
             },
             "require": {
                 "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
@@ -13044,7 +13707,7 @@
             },
             "require-dev": {
                 "larastan/larastan": "^3.9",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -13074,8 +13737,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber Dev Team",
-                    "email": "support@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "URL management package for Microweber - can be used standalone with any Laravel application",
@@ -13090,18 +13757,40 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-user",
-                "reference": "45e0fd87a836d583dbcfd55fe47e9ed689da0e8d"
+                "reference": "33e3afead6d209171e74aef3775b434a02aed7f4"
             },
             "require": {
+                "dutchcodingcompany/filament-socialite": "^3.0",
                 "filament/filament": "~5.6",
                 "laravel/framework": "^11.0|^13.0",
                 "laravel/sanctum": "^4.0",
                 "laravel/socialite": "^5.18",
                 "livewire/livewire": "^4.2",
-                "php": "^8.3"
+                "microweber-packages/microweber-admin": "*",
+                "microweber-packages/microweber-core": "*",
+                "microweber-packages/microweber-database": "*",
+                "microweber-packages/microweber-disposable-email-checker": "*",
+                "microweber-packages/microweber-event-manager": "*",
+                "microweber-packages/microweber-filament-registry": "*",
+                "microweber-packages/microweber-format": "*",
+                "microweber-packages/microweber-fortify": "*",
+                "microweber-packages/microweber-http": "*",
+                "microweber-packages/microweber-notification": "*",
+                "microweber-packages/microweber-option": "*",
+                "microweber-packages/microweber-passport": "*",
+                "microweber-packages/microweber-role": "*",
+                "microweber-packages/microweber-searchable": "*",
+                "microweber-packages/microweber-social-login": "*",
+                "microweber-packages/microweber-url": "*",
+                "php": "^8.3",
+                "spatie/laravel-permission": "^6.16"
             },
             "replace": {
                 "microweber-packages/user": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -13109,13 +13798,30 @@
                     "MicroweberPackages\\User\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\User\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Nikolay Rachkov",
+                    "email": "rachkuw@gmail.com"
+                },
+                {
+                    "name": "Petko Yovchevski",
+                    "email": "petko@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -13131,13 +13837,18 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-utils",
-                "reference": "92ea3db2738a559bfc19b6e860d82c118e9db424"
+                "reference": "3f4dc692794daff00233b9704f2eb580dc4305f6"
             },
             "require": {
+                "microweber-packages/microweber-thumbnailer": "*",
                 "php": "^8.3"
             },
             "replace": {
                 "microweber-packages/utils": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^10.0|^11.0|^12.0"
             },
             "type": "library",
             "autoload": {
@@ -13145,13 +13856,26 @@
                     "MicroweberPackages\\Utils\\": "src/"
                 }
             },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\Utils\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
+                },
+                {
+                    "name": "Petko Yovchevski",
+                    "email": "petko@microweber.com"
                 }
             ],
             "description": "Microweber CMS.",
@@ -13167,15 +13891,16 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-view",
-                "reference": "3033724aa5c46d93e0672d1a082723f695d0f7cd"
+                "reference": "b44fce50491ed6d3eec18326be4b72a6978e8e61"
             },
             "require": {
                 "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "illuminate/view": "^10.0|^11.0|^12.0|^13.0",
+                "microweber-packages/microweber-format": "*",
                 "microweber-packages/microweber-package": "*",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16",
-                "symfony/http-foundation": "^6.0|^7.0",
+                "symfony/http-foundation": "^6.0|^7.0|^8.0",
                 "twig/twig": "^3.0"
             },
             "replace": {
@@ -13214,8 +13939,8 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
                 },
                 {
                     "name": "Bozhidar Slaveykov",
@@ -13238,7 +13963,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-zip",
-                "reference": "5739c2f41a114f266d6e802d65e8c0139fed665b"
+                "reference": "27bfce472c2e56c8eee1f777720513a22c26cd34"
             },
             "require": {
                 "ext-zip": "*",
@@ -13252,7 +13977,7 @@
             },
             "require-dev": {
                 "larastan/larastan": "^3.0",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "type": "library",
@@ -13279,8 +14004,12 @@
             ],
             "authors": [
                 {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
+                    "name": "Peter Ivanov",
+                    "email": "peter@microweber.com"
+                },
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com"
                 }
             ],
             "description": "Standalone Laravel zip package: create and extract ZIP archives with zip-bomb protection, path traversal guards, and optional file-allowance checks",
@@ -14303,31 +15032,31 @@
         },
         {
             "name": "nunomaduro/termwind",
-            "version": "v2.4.0",
+            "version": "v2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/termwind.git",
-                "reference": "712a31b768f5daea284c2169a7d227031001b9a8"
+                "reference": "9b85ae4d802403bfc004ea633ce542bc262ee5c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/termwind/zipball/712a31b768f5daea284c2169a7d227031001b9a8",
-                "reference": "712a31b768f5daea284c2169a7d227031001b9a8",
+                "url": "https://api.github.com/repos/nunomaduro/termwind/zipball/9b85ae4d802403bfc004ea633ce542bc262ee5c3",
+                "reference": "9b85ae4d802403bfc004ea633ce542bc262ee5c3",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "php": "^8.2",
-                "symfony/console": "^7.4.4 || ^8.0.4"
+                "symfony/console": "^7.4.23 || ^8.1.11"
             },
             "require-dev": {
-                "illuminate/console": "^11.47.0",
-                "laravel/pint": "^1.27.1",
-                "mockery/mockery": "^1.6.12",
-                "pestphp/pest": "^2.36.0 || ^3.8.4 || ^4.3.2",
-                "phpstan/phpstan": "^1.12.32",
+                "illuminate/console": "^11.51 || ^12.70 || ^13.40",
+                "laravel/pint": "^1.30.4",
+                "mockery/mockery": "^1.6.15",
+                "pestphp/pest": "^2.36.1 || ^3.8.7 || ^4.7.8 || ^5.3.5",
+                "phpstan/phpstan": "^1.12.34",
                 "phpstan/phpstan-strict-rules": "^1.6.2",
-                "symfony/var-dumper": "^7.3.5 || ^8.0.4",
+                "symfony/var-dumper": "^7.4.22 || ^8.1.10",
                 "thecodingmachine/phpstan-strict-rules": "^1.0.0"
             },
             "type": "library",
@@ -14370,7 +15099,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nunomaduro/termwind/issues",
-                "source": "https://github.com/nunomaduro/termwind/tree/v2.4.0"
+                "source": "https://github.com/nunomaduro/termwind/tree/v2.4.1"
             },
             "funding": [
                 {
@@ -14386,7 +15115,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-16T23:10:27+00:00"
+            "time": "2026-11-07T03:57:16+00:00"
         },
         {
             "name": "nwidart/laravel-modules",
@@ -15169,16 +15898,16 @@
         },
         {
             "name": "paragonie/constant_time_encoding",
-            "version": "v3.1.3",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/constant_time_encoding.git",
-                "reference": "d5b01a39b3415c2cd581d3bd3a3575c1ebbd8e77"
+                "reference": "5efef6e6cb43e088ccab7d0c1e2f2ab25b9e8b54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/d5b01a39b3415c2cd581d3bd3a3575c1ebbd8e77",
-                "reference": "d5b01a39b3415c2cd581d3bd3a3575c1ebbd8e77",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/5efef6e6cb43e088ccab7d0c1e2f2ab25b9e8b54",
+                "reference": "5efef6e6cb43e088ccab7d0c1e2f2ab25b9e8b54",
                 "shasum": ""
             },
             "require": {
@@ -15234,7 +15963,7 @@
                 "issues": "https://github.com/paragonie/constant_time_encoding/issues",
                 "source": "https://github.com/paragonie/constant_time_encoding"
             },
-            "time": "2025-09-24T15:06:41+00:00"
+            "time": "2026-11-06T20:31:19+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -20277,16 +21006,16 @@
         },
         {
             "name": "symfony/config",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "4a0e7dd1645b9213c71bf8bac205b7cdc30ce0ec"
+                "reference": "8a6f757bf803464bc8451e1fafc3699588e29c48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/4a0e7dd1645b9213c71bf8bac205b7cdc30ce0ec",
-                "reference": "4a0e7dd1645b9213c71bf8bac205b7cdc30ce0ec",
+                "url": "https://api.github.com/repos/symfony/config/zipball/8a6f757bf803464bc8451e1fafc3699588e29c48",
+                "reference": "8a6f757bf803464bc8451e1fafc3699588e29c48",
                 "shasum": ""
             },
             "require": {
@@ -20331,7 +21060,7 @@
             "description": "Helps you find, load, combine, autofill and validate configuration values of any kind",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/config/tree/v8.1.10"
+                "source": "https://github.com/symfony/config/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -20351,20 +21080,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-25T14:40:25+00:00"
+            "time": "2026-11-04T08:39:20+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "5b6d9b127ec27bc6db59bf65e2e37b6fe5b00083"
+                "reference": "5a315b092b81f3e920e9daea1a2ae4c66ed298b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/5b6d9b127ec27bc6db59bf65e2e37b6fe5b00083",
-                "reference": "5b6d9b127ec27bc6db59bf65e2e37b6fe5b00083",
+                "url": "https://api.github.com/repos/symfony/console/zipball/5a315b092b81f3e920e9daea1a2ae4c66ed298b9",
+                "reference": "5a315b092b81f3e920e9daea1a2ae4c66ed298b9",
                 "shasum": ""
             },
             "require": {
@@ -20431,7 +21160,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v8.1.10"
+                "source": "https://github.com/symfony/console/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -20451,7 +21180,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-28T11:16:19+00:00"
+            "time": "2026-11-04T07:07:11+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -20524,16 +21253,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "9b34cad844bcbc878a05056e3ffac5377e0e140a"
+                "reference": "d678f8d0527ed592593901da3ba2e2c17f7d51c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/9b34cad844bcbc878a05056e3ffac5377e0e140a",
-                "reference": "9b34cad844bcbc878a05056e3ffac5377e0e140a",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/d678f8d0527ed592593901da3ba2e2c17f7d51c1",
+                "reference": "d678f8d0527ed592593901da3ba2e2c17f7d51c1",
                 "shasum": ""
             },
             "require": {
@@ -20581,7 +21310,7 @@
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/v8.1.10"
+                "source": "https://github.com/symfony/dependency-injection/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -20601,20 +21330,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-28T11:09:29+00:00"
+            "time": "2026-11-01T19:30:44+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.7.1",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "f3202fa1b5097b0af062dc978b32ecf63404e31d"
+                "reference": "feb1edf4e546af3b85c5caebe8359a20db230ca3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/f3202fa1b5097b0af062dc978b32ecf63404e31d",
-                "reference": "f3202fa1b5097b0af062dc978b32ecf63404e31d",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/feb1edf4e546af3b85c5caebe8359a20db230ca3",
+                "reference": "feb1edf4e546af3b85c5caebe8359a20db230ca3",
                 "shasum": ""
             },
             "require": {
@@ -20627,7 +21356,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.7-dev"
+                    "dev-main": "3.8-dev"
                 }
             },
             "autoload": {
@@ -20652,7 +21381,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.7.1"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.8.1"
             },
             "funding": [
                 {
@@ -20672,7 +21401,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-05T06:23:12+00:00"
+            "time": "2026-09-16T14:15:10+00:00"
         },
         {
             "name": "symfony/error-handler",
@@ -20843,16 +21572,16 @@
         },
         {
             "name": "symfony/event-dispatcher-contracts",
-            "version": "v3.7.1",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher-contracts.git",
-                "reference": "c7de7a00ffb67842132da02ea92988a39ccd9f4e"
+                "reference": "658e29751424da3ef4758c60f769e59d1b2981eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/c7de7a00ffb67842132da02ea92988a39ccd9f4e",
-                "reference": "c7de7a00ffb67842132da02ea92988a39ccd9f4e",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/658e29751424da3ef4758c60f769e59d1b2981eb",
+                "reference": "658e29751424da3ef4758c60f769e59d1b2981eb",
                 "shasum": ""
             },
             "require": {
@@ -20866,7 +21595,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.7-dev"
+                    "dev-main": "3.8-dev"
                 }
             },
             "autoload": {
@@ -20899,7 +21628,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/v3.7.1"
+                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/v3.8.1"
             },
             "funding": [
                 {
@@ -20919,20 +21648,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-05T06:23:12+00:00"
+            "time": "2026-09-16T14:15:10+00:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v8.1.9",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "43d109c803d22c00bb820ed45df250b6a8792ca2"
+                "reference": "58f57b6a33e3495f7f41e01258f1ae5ef76cccd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/43d109c803d22c00bb820ed45df250b6a8792ca2",
-                "reference": "43d109c803d22c00bb820ed45df250b6a8792ca2",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/58f57b6a33e3495f7f41e01258f1ae5ef76cccd2",
+                "reference": "58f57b6a33e3495f7f41e01258f1ae5ef76cccd2",
                 "shasum": ""
             },
             "require": {
@@ -20970,7 +21699,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v8.1.9"
+                "source": "https://github.com/symfony/filesystem/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -20990,20 +21719,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-06T20:05:50+00:00"
+            "time": "2026-11-04T08:39:20+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "2f4c0f26106520d82e1b71759d2fb8d32d8b7a43"
+                "reference": "a2902e479ba5691d20d51d100a715ea19ad2c837"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/2f4c0f26106520d82e1b71759d2fb8d32d8b7a43",
-                "reference": "2f4c0f26106520d82e1b71759d2fb8d32d8b7a43",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/a2902e479ba5691d20d51d100a715ea19ad2c837",
+                "reference": "a2902e479ba5691d20d51d100a715ea19ad2c837",
                 "shasum": ""
             },
             "require": {
@@ -21038,7 +21767,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v8.1.10"
+                "source": "https://github.com/symfony/finder/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -21058,28 +21787,26 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-19T17:00:07+00:00"
+            "time": "2026-11-02T10:58:30+00:00"
         },
         {
             "name": "symfony/html-sanitizer",
-            "version": "v7.4.22",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/html-sanitizer.git",
-                "reference": "bd9f00cfe1ad0ccd5c871edd850d906a7a464b28"
+                "reference": "1ecf13d98b75f5d8a2dcc1ffecde7184d29506ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/html-sanitizer/zipball/bd9f00cfe1ad0ccd5c871edd850d906a7a464b28",
-                "reference": "bd9f00cfe1ad0ccd5c871edd850d906a7a464b28",
+                "url": "https://api.github.com/repos/symfony/html-sanitizer/zipball/1ecf13d98b75f5d8a2dcc1ffecde7184d29506ef",
+                "reference": "1ecf13d98b75f5d8a2dcc1ffecde7184d29506ef",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "league/uri": "^6.5|^7.0",
-                "masterminds/html5": "^2.7.2",
-                "php": ">=8.2",
-                "symfony/deprecation-contracts": "^2.5|^3"
+                "php": ">=8.4.1"
             },
             "type": "library",
             "autoload": {
@@ -21112,7 +21839,7 @@
                 "sanitizer"
             ],
             "support": {
-                "source": "https://github.com/symfony/html-sanitizer/tree/v7.4.22"
+                "source": "https://github.com/symfony/html-sanitizer/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -21132,20 +21859,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-20T19:25:08+00:00"
+            "time": "2026-11-04T08:39:20+00:00"
         },
         {
             "name": "symfony/http-client",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "1f6bd9bb0dddbbb1b88823e26c6d05fc3ba89219"
+                "reference": "1758b323ba9c5e88b42602b9c2cb27b640de4d36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/1f6bd9bb0dddbbb1b88823e26c6d05fc3ba89219",
-                "reference": "1f6bd9bb0dddbbb1b88823e26c6d05fc3ba89219",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/1758b323ba9c5e88b42602b9c2cb27b640de4d36",
+                "reference": "1758b323ba9c5e88b42602b9c2cb27b640de4d36",
                 "shasum": ""
             },
             "require": {
@@ -21209,7 +21936,7 @@
                 "http"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v8.1.10"
+                "source": "https://github.com/symfony/http-client/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -21229,20 +21956,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-26T21:55:04+00:00"
+            "time": "2026-11-04T08:39:20+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
-            "version": "v3.7.3",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client-contracts.git",
-                "reference": "35be0019e2c2c9fba80f9dc033290a5240f7b44f"
+                "reference": "f9f94260f787446c6fd430b2ae1969fe41ae1ba8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/35be0019e2c2c9fba80f9dc033290a5240f7b44f",
-                "reference": "35be0019e2c2c9fba80f9dc033290a5240f7b44f",
+                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/f9f94260f787446c6fd430b2ae1969fe41ae1ba8",
+                "reference": "f9f94260f787446c6fd430b2ae1969fe41ae1ba8",
                 "shasum": ""
             },
             "require": {
@@ -21255,7 +21982,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.7-dev"
+                    "dev-main": "3.8-dev"
                 }
             },
             "autoload": {
@@ -21291,7 +22018,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client-contracts/tree/v3.7.3"
+                "source": "https://github.com/symfony/http-client-contracts/tree/v3.8.1"
             },
             "funding": [
                 {
@@ -21311,41 +22038,40 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-04T08:41:16+00:00"
+            "time": "2026-10-04T15:04:25+00:00"
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v7.4.22",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "63eda1d0c4de229d6b3e825709e49dd5c149699a"
+                "reference": "30fa3efe6e736b0d06f5331cc6abe813582c0a26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/63eda1d0c4de229d6b3e825709e49dd5c149699a",
-                "reference": "63eda1d0c4de229d6b3e825709e49dd5c149699a",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/30fa3efe6e736b0d06f5331cc6abe813582c0a26",
+                "reference": "30fa3efe6e736b0d06f5331cc6abe813582c0a26",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.2",
+                "php": ">=8.4.1",
                 "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-mbstring": "^1.1"
             },
             "conflict": {
-                "doctrine/dbal": "<3.6",
-                "symfony/cache": "<6.4.12|>=7.0,<7.1.5"
+                "doctrine/dbal": "<4.3"
             },
             "require-dev": {
-                "doctrine/dbal": "^3.6|^4",
+                "doctrine/dbal": "^4.3",
                 "predis/predis": "^1.1|^2.0",
-                "symfony/cache": "^6.4.12|^7.1.5|^8.0",
-                "symfony/clock": "^6.4|^7.0|^8.0",
-                "symfony/dependency-injection": "^6.4|^7.0|^8.0",
-                "symfony/expression-language": "^6.4|^7.0|^8.0",
-                "symfony/http-kernel": "^6.4|^7.0|^8.0",
-                "symfony/mime": "^6.4|^7.0|^8.0",
-                "symfony/rate-limiter": "^6.4|^7.0|^8.0"
+                "symfony/cache": "^7.4|^8.0",
+                "symfony/clock": "^7.4|^8.0",
+                "symfony/dependency-injection": "^7.4|^8.0",
+                "symfony/expression-language": "^7.4|^8.0",
+                "symfony/http-kernel": "^7.4|^8.0",
+                "symfony/mime": "^7.4|^8.0",
+                "symfony/rate-limiter": "^7.4|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -21373,7 +22099,7 @@
             "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-foundation/tree/v7.4.22"
+                "source": "https://github.com/symfony/http-foundation/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -21393,20 +22119,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-27T13:26:03+00:00"
+            "time": "2026-11-04T08:39:20+00:00"
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "924974dbdcdf4cc40d7bb2c65ae83bb6dc67cff1"
+                "reference": "460658504e26a2794aa614b4fbe6cf9bac2076fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/924974dbdcdf4cc40d7bb2c65ae83bb6dc67cff1",
-                "reference": "924974dbdcdf4cc40d7bb2c65ae83bb6dc67cff1",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/460658504e26a2794aa614b4fbe6cf9bac2076fe",
+                "reference": "460658504e26a2794aa614b4fbe6cf9bac2076fe",
                 "shasum": ""
             },
             "require": {
@@ -21483,7 +22209,7 @@
             "description": "Provides a structured process for converting a Request into a Response",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-kernel/tree/v8.1.10"
+                "source": "https://github.com/symfony/http-kernel/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -21503,32 +22229,31 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-28T18:22:19+00:00"
+            "time": "2026-11-04T11:29:46+00:00"
         },
         {
             "name": "symfony/intl",
-            "version": "v7.4.22",
+            "version": "v8.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "cbd18d56041c88d76b86fd22c2a88af974aba20f"
+                "reference": "19c82580068e56d126b3ef4e26c0fe9aa5b71ff7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/cbd18d56041c88d76b86fd22c2a88af974aba20f",
-                "reference": "cbd18d56041c88d76b86fd22c2a88af974aba20f",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/19c82580068e56d126b3ef4e26c0fe9aa5b71ff7",
+                "reference": "19c82580068e56d126b3ef4e26c0fe9aa5b71ff7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.2",
-                "symfony/deprecation-contracts": "^2.5|^3"
+                "php": ">=8.4.1"
             },
             "conflict": {
-                "symfony/string": "<7.1"
+                "symfony/string": "<7.4"
             },
             "require-dev": {
-                "symfony/filesystem": "^6.4|^7.0|^8.0",
-                "symfony/var-exporter": "^6.4|^7.0|^8.0"
+                "symfony/filesystem": "^7.4|^8.0",
+                "symfony/var-exporter": "^7.4|^8.0"
             },
             "type": "library",
             "autoload": {
@@ -21573,7 +22298,7 @@
                 "localization"
             ],
             "support": {
-                "source": "https://github.com/symfony/intl/tree/v7.4.22"
+                "source": "https://github.com/symfony/intl/tree/v8.1.10"
             },
             "funding": [
                 {
@@ -21593,7 +22318,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-27T13:52:57+00:00"
+            "time": "2026-10-27T13:53:09+00:00"
         },
         {
             "name": "symfony/mailer",
@@ -23295,16 +24020,16 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
-                "reference": "38ce2d539230c1d0e3c42198289c4bae5e931727"
+                "reference": "d080c2afa37114d46e4f950ed8593667f01f7cab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/38ce2d539230c1d0e3c42198289c4bae5e931727",
-                "reference": "38ce2d539230c1d0e3c42198289c4bae5e931727",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/d080c2afa37114d46e4f950ed8593667f01f7cab",
+                "reference": "d080c2afa37114d46e4f950ed8593667f01f7cab",
                 "shasum": ""
             },
             "require": {
@@ -23352,7 +24077,7 @@
                 "reflection"
             ],
             "support": {
-                "source": "https://github.com/symfony/property-access/tree/v8.1.10"
+                "source": "https://github.com/symfony/property-access/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -23372,20 +24097,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-26T21:55:04+00:00"
+            "time": "2026-11-01T19:30:44+00:00"
         },
         {
             "name": "symfony/property-info",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-info.git",
-                "reference": "cb5bfc9fbc9da75fdb1b8860a29d9c4fefb2b924"
+                "reference": "b5afa379a5b54f15a594c1d45ceaa19969d38a16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-info/zipball/cb5bfc9fbc9da75fdb1b8860a29d9c4fefb2b924",
-                "reference": "cb5bfc9fbc9da75fdb1b8860a29d9c4fefb2b924",
+                "url": "https://api.github.com/repos/symfony/property-info/zipball/b5afa379a5b54f15a594c1d45ceaa19969d38a16",
+                "reference": "b5afa379a5b54f15a594c1d45ceaa19969d38a16",
                 "shasum": ""
             },
             "require": {
@@ -23438,7 +24163,7 @@
                 "validator"
             ],
             "support": {
-                "source": "https://github.com/symfony/property-info/tree/v8.1.10"
+                "source": "https://github.com/symfony/property-info/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -23458,7 +24183,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-25T14:40:25+00:00"
+            "time": "2026-11-02T10:58:30+00:00"
         },
         {
             "name": "symfony/psr-http-message-bridge",
@@ -23549,16 +24274,16 @@
         },
         {
             "name": "symfony/routing",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "41b32d2c5d907abe2c3ffaa7a112dd7492353822"
+                "reference": "f3fefc6cad3748d538be970ca81b71f06d7aa8b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/41b32d2c5d907abe2c3ffaa7a112dd7492353822",
-                "reference": "41b32d2c5d907abe2c3ffaa7a112dd7492353822",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/f3fefc6cad3748d538be970ca81b71f06d7aa8b3",
+                "reference": "f3fefc6cad3748d538be970ca81b71f06d7aa8b3",
                 "shasum": ""
             },
             "require": {
@@ -23605,7 +24330,7 @@
                 "url"
             ],
             "support": {
-                "source": "https://github.com/symfony/routing/tree/v8.1.10"
+                "source": "https://github.com/symfony/routing/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -23625,20 +24350,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-26T21:55:04+00:00"
+            "time": "2026-11-04T08:39:20+00:00"
         },
         {
             "name": "symfony/serializer",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "b9b8831cd84a5304e43f2bb92cb0e88290ba2082"
+                "reference": "05624c94507c3acf065b6486bb626f0d741af459"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/b9b8831cd84a5304e43f2bb92cb0e88290ba2082",
-                "reference": "b9b8831cd84a5304e43f2bb92cb0e88290ba2082",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/05624c94507c3acf065b6486bb626f0d741af459",
+                "reference": "05624c94507c3acf065b6486bb626f0d741af459",
                 "shasum": ""
             },
             "require": {
@@ -23704,7 +24429,7 @@
             "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/serializer/tree/v8.1.10"
+                "source": "https://github.com/symfony/serializer/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -23724,20 +24449,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-25T14:40:25+00:00"
+            "time": "2026-11-04T08:39:20+00:00"
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v3.7.3",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "15e6a07ec2a2c75ceb1b21dd98105ee8456d2257"
+                "reference": "052852a96fd5e5ebdb617dba22031e41a3300fb5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/15e6a07ec2a2c75ceb1b21dd98105ee8456d2257",
-                "reference": "15e6a07ec2a2c75ceb1b21dd98105ee8456d2257",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/052852a96fd5e5ebdb617dba22031e41a3300fb5",
+                "reference": "052852a96fd5e5ebdb617dba22031e41a3300fb5",
                 "shasum": ""
             },
             "require": {
@@ -23755,7 +24480,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.7-dev"
+                    "dev-main": "3.8-dev"
                 }
             },
             "autoload": {
@@ -23791,7 +24516,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/service-contracts/tree/v3.7.3"
+                "source": "https://github.com/symfony/service-contracts/tree/v3.8.1"
             },
             "funding": [
                 {
@@ -23811,7 +24536,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-27T15:39:01+00:00"
+            "time": "2026-10-20T17:38:25+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -23971,16 +24696,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "8fbbb32f4bbbece5079acb01ab648fd20583fc93"
+                "reference": "d065adf56e5508293e80d7c140b0a9e043b63e9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/8fbbb32f4bbbece5079acb01ab648fd20583fc93",
-                "reference": "8fbbb32f4bbbece5079acb01ab648fd20583fc93",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/d065adf56e5508293e80d7c140b0a9e043b63e9c",
+                "reference": "d065adf56e5508293e80d7c140b0a9e043b63e9c",
                 "shasum": ""
             },
             "require": {
@@ -24040,7 +24765,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v8.1.10"
+                "source": "https://github.com/symfony/translation/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -24060,20 +24785,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-25T14:40:25+00:00"
+            "time": "2026-11-01T22:27:46+00:00"
         },
         {
             "name": "symfony/translation-contracts",
-            "version": "v3.7.1",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation-contracts.git",
-                "reference": "ccb206b98faccc511ebae8e5fad50f2dc0b30621"
+                "reference": "0a3ae917402632fcba2aeddae9c98332f3d7dd05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/ccb206b98faccc511ebae8e5fad50f2dc0b30621",
-                "reference": "ccb206b98faccc511ebae8e5fad50f2dc0b30621",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/0a3ae917402632fcba2aeddae9c98332f3d7dd05",
+                "reference": "0a3ae917402632fcba2aeddae9c98332f3d7dd05",
                 "shasum": ""
             },
             "require": {
@@ -24086,7 +24811,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.7-dev"
+                    "dev-main": "3.8-dev"
                 }
             },
             "autoload": {
@@ -24122,7 +24847,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/translation-contracts/tree/v3.7.1"
+                "source": "https://github.com/symfony/translation-contracts/tree/v3.8.1"
             },
             "funding": [
                 {
@@ -24142,20 +24867,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-05T06:23:12+00:00"
+            "time": "2026-10-03T08:17:19+00:00"
         },
         {
             "name": "symfony/type-info",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/type-info.git",
-                "reference": "2083d4516f9041b8ac550d9029afb08fcf09d0ad"
+                "reference": "9fd1414061c4bbf953bcfc183b133cbfa0a73c73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/type-info/zipball/2083d4516f9041b8ac550d9029afb08fcf09d0ad",
-                "reference": "2083d4516f9041b8ac550d9029afb08fcf09d0ad",
+                "url": "https://api.github.com/repos/symfony/type-info/zipball/9fd1414061c4bbf953bcfc183b133cbfa0a73c73",
+                "reference": "9fd1414061c4bbf953bcfc183b133cbfa0a73c73",
                 "shasum": ""
             },
             "require": {
@@ -24204,7 +24929,7 @@
                 "type"
             ],
             "support": {
-                "source": "https://github.com/symfony/type-info/tree/v8.1.10"
+                "source": "https://github.com/symfony/type-info/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -24224,7 +24949,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-25T14:40:25+00:00"
+            "time": "2026-11-02T10:58:30+00:00"
         },
         {
             "name": "symfony/uid",
@@ -24476,16 +25201,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "9de4ff9874dd18b738b9f248398c3e36ef15a1d2"
+                "reference": "e8266f55160f674f290a5f567cb55e11e21f921b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/9de4ff9874dd18b738b9f248398c3e36ef15a1d2",
-                "reference": "9de4ff9874dd18b738b9f248398c3e36ef15a1d2",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/e8266f55160f674f290a5f567cb55e11e21f921b",
+                "reference": "e8266f55160f674f290a5f567cb55e11e21f921b",
                 "shasum": ""
             },
             "require": {
@@ -24528,7 +25253,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v8.1.10"
+                "source": "https://github.com/symfony/yaml/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -24548,7 +25273,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-18T14:56:39+00:00"
+            "time": "2026-11-04T08:39:20+00:00"
         },
         {
             "name": "tapp/filament-timezone-field",
@@ -29773,16 +30498,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v8.1.10",
+            "version": "v8.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "385f37a95296a9d4bc0204c9c49ee4765d4fe989"
+                "reference": "60b6bfd51e671219b1ab9066b94c617d1760d7cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/385f37a95296a9d4bc0204c9c49ee4765d4fe989",
-                "reference": "385f37a95296a9d4bc0204c9c49ee4765d4fe989",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/60b6bfd51e671219b1ab9066b94c617d1760d7cf",
+                "reference": "60b6bfd51e671219b1ab9066b94c617d1760d7cf",
                 "shasum": ""
             },
             "require": {
@@ -29848,7 +30573,7 @@
                 "psr6"
             ],
             "support": {
-                "source": "https://github.com/symfony/cache/tree/v8.1.10"
+                "source": "https://github.com/symfony/cache/tree/v8.1.11"
             },
             "funding": [
                 {
@@ -29868,20 +30593,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-28T10:55:21+00:00"
+            "time": "2026-11-01T22:27:46+00:00"
         },
         {
             "name": "symfony/cache-contracts",
-            "version": "v3.7.1",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache-contracts.git",
-                "reference": "9789738bc19af1106dc54d6afba9a0b467516cf2"
+                "reference": "af26a91232085b7edd4e04be62f75e7c25159ece"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/9789738bc19af1106dc54d6afba9a0b467516cf2",
-                "reference": "9789738bc19af1106dc54d6afba9a0b467516cf2",
+                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/af26a91232085b7edd4e04be62f75e7c25159ece",
+                "reference": "af26a91232085b7edd4e04be62f75e7c25159ece",
                 "shasum": ""
             },
             "require": {
@@ -29895,7 +30620,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.7-dev"
+                    "dev-main": "3.8-dev"
                 }
             },
             "autoload": {
@@ -29928,7 +30653,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/cache-contracts/tree/v3.7.1"
+                "source": "https://github.com/symfony/cache-contracts/tree/v3.8.1"
             },
             "funding": [
                 {
@@ -29948,7 +30673,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-05T06:23:12+00:00"
+            "time": "2026-09-26T07:05:14+00:00"
         },
         {
             "name": "symfony/polyfill-php83",

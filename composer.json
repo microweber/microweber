@@ -222,6 +222,16 @@
         "nunomaduro/phpinsights": "^2.0",
         "orchestra/testbench": "^11.0"
     },
+    "replace": {
+        "microweber-packages/microweber-app": "*",
+        "microweber-packages/microweber-config-merge": "*",
+        "microweber-packages/microweber-disposable-email-checker": "*",
+        "microweber-packages/microweber-filament-modal-teleport": "*",
+        "microweber-packages/microweber-filament-registry": "*",
+        "microweber-packages/microweber-file-uploader": "*",
+        "microweber-packages/microweber-fortify": "*",
+        "microweber-packages/microweber-social-login": "*"
+    },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
