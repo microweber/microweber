@@ -140,6 +140,9 @@ class SwarmController extends Controller
                 $tokens = $plan['design']['tokens'];
                 $totalLanes = count($lanes);
 
+                // Set the shared site header's brand up front (before lanes run).
+                $this->lockHeaderBrand($plan);
+
                 $sse->emit('plan', [
                     'lanes' => array_map(static function (array $lane) {
                         return [
@@ -260,6 +263,10 @@ class SwarmController extends Controller
             'canvas_html' => $canvasHtml,
             'css_vars' => $cssVars,
         ]);
+
+        // Set the shared site header's brand up front — the plan call is the
+        // single "once" step in the parallel path, so this runs exactly once.
+        $this->lockHeaderBrand($plan);
 
         $planId = 'swarm_plan_' . substr((string) Str::uuid(), 0, 12);
         // Keep the full plan (with prompts) server-side for the lane requests.
@@ -588,6 +595,7 @@ class SwarmController extends Controller
 
         $tokens = $this->normalizeTokens((array) ($design['tokens'] ?? []));
         $designSummary = trim((string) ($design['summary'] ?? ''));
+        $brand = trim((string) ($design['brand'] ?? ''));
 
         $runId = substr((string) Str::uuid(), 0, 8);
         $lanes = [];
@@ -634,9 +642,58 @@ class SwarmController extends Controller
         usort($lanes, static fn ($a, $b) => $a['order'] <=> $b['order']);
 
         return [
-            'design' => ['tokens' => $tokens, 'summary' => $designSummary],
+            'design' => ['tokens' => $tokens, 'summary' => $designSummary, 'brand' => $brand],
             'lanes' => $lanes,
         ];
+    }
+
+    /**
+     * Lock the shared site header BEFORE any lane runs: set the site title to the
+     * brand the planner named, so the one global template header (logo + nav that
+     * every page shares) carries this build's brand instead of whatever a previous
+     * build left in the `website_title` option. The header's COLOURS are handled
+     * separately — buildGlobalCss() binds the header/logo/nav to the design tokens,
+     * so the shared header is re-styled on every build and never keeps the old
+     * template/build palette. No-op when the planner named no brand.
+     */
+    protected function lockHeaderBrand(array $plan): void
+    {
+        $brand = trim((string) ($plan['design']['brand'] ?? ''));
+        if ($brand === '') {
+            return;
+        }
+
+        try {
+            if (!function_exists('save_option')) {
+                return;
+            }
+
+            // The site title (used in <title>, some templates' header fallback).
+            save_option([
+                'option_key' => 'website_title',
+                'option_value' => $brand,
+                'option_group' => 'website',
+            ]);
+
+            // The Logo module renders its OWN per-instance text option, NOT
+            // website_title — option_key 'text' under a group that is the logo
+            // module's id (e.g. "header-logo-header-layout",
+            // "footer-logo-footer-layout"). A previous build's brand lives there,
+            // so update every logo-module text option to this build's brand.
+            $logoTextGroups = \Illuminate\Support\Facades\DB::table('options')
+                ->where('option_key', 'text')
+                ->where('option_group', 'like', '%logo%')
+                ->pluck('option_group');
+            foreach ($logoTextGroups as $group) {
+                save_option([
+                    'option_key' => 'text',
+                    'option_value' => $brand,
+                    'option_group' => (string) $group,
+                ]);
+            }
+        } catch (\Throwable $e) {
+            // Non-fatal: a failed brand set must never abort the build.
+        }
     }
 
     /**
@@ -682,7 +739,56 @@ class SwarmController extends Controller
             . "h1, h2, h3, h4, h5, h6 { color: var(--mw-heading-color, inherit); }\n"
             . "a { color: var(--mw-link-color, inherit); }\n";
 
-        return $root . $base;
+        // SHARED GLOBAL HEADER / NAV — the template's header (logo + menu) is one
+        // piece of chrome shared by every page that no single page lane owns, so
+        // the coordinator re-styles it here, once, bound to the design tokens. The
+        // global live_edit.css ACCUMULATES across builds, so without this a new
+        // build inherits the previous build's header colours (the "header is the
+        // old style" bug). !important is deliberate: it overrides the colours an
+        // earlier build left in this same file. Brand TEXT is set separately via
+        // lockHeaderBrand() (the website_title option the logo module renders).
+        //
+        // Two layers, because templates split into two camps:
+        //  (1) TOKEN-DRIVEN headers (Plain/Big/…) read their own header/footer
+        //      chrome tokens (--mw-*header*, --mw-footer-*). A previous build's
+        //      stale values for these persist (set_css_var merges per-token), so
+        //      we re-derive them from THIS build's main palette.
+        //  (2) CLASS-DRIVEN headers — a generic selector pass for templates whose
+        //      header isn't token-driven.
+        $derivedTokens = ":root {\n"
+            . "  --mw-header-background-color: var(--mw-background-color) !important;\n"
+            . "  --mw-header-link-color: var(--mw-heading-color) !important;\n"
+            . "  --mw-header-link-hover-color: var(--mw-link-color) !important;\n"
+            . "  --mw-top-header-background-color: var(--mw-background-color) !important;\n"
+            . "  --mw-top-header-link-color: var(--mw-body-color) !important;\n"
+            . "  --mw-top-header-link-hover-color: var(--mw-link-color) !important;\n"
+            . "  --mw-top-header-button-background-color: var(--mw-primary-color, var(--mw-btn-background-color)) !important;\n"
+            . "  --mw-top-header-button-text-color: var(--mw-btn-text-color) !important;\n"
+            . "  --mw-footer-background-color: var(--mw-section-background-color, var(--mw-background-color)) !important;\n"
+            . "  --mw-footer-link-color: var(--mw-link-color) !important;\n"
+            . "  --mw-footer-text-color: var(--mw-paragraph-color, var(--mw-body-color)) !important;\n"
+            . "}\n";
+
+        // Real Microweber header hooks (what the rendered header actually uses:
+        // #mw-header-background bar, #header-logo-header-layout .logo-text, the
+        // .menu_element_link nav links, the .mw-lang-switcher, the header icons)
+        // — these must match prior builds' own selectors to outrank them, and
+        // since this build's apply_css lands LAST in the accumulating file, equal
+        // specificity means this build wins. Plus a generic fallback pass for
+        // templates whose header isn't built on these exact ids.
+        $header = "#mw-header-background, #mw-header-background.header-background { background: var(--mw-background-color) !important; }\n"
+            . ".top-header-background, .templates-top-header-menu .top-header-background.header-top { background: var(--mw-background-color) !important; }\n"
+            . "#header-logo-header-layout .logo-text, .logo-text { color: var(--mw-heading-color) !important; font-family: var(--mw-heading-font-family, inherit) !important; }\n"
+            . "#mw-header-background .navbar-nav .nav-link, #mw-header-background .menu_element_link, .menu_element_link { color: var(--mw-body-color) !important; }\n"
+            . "#mw-header-background .menu_element_link:hover, #mw-header-background .navbar-nav .nav-link:hover { color: var(--mw-link-color) !important; }\n"
+            . ".btn-search .nav-link, .btn-member .nav-link, .btn-shopping-cart .nav-link { color: var(--mw-link-color) !important; }\n"
+            . ".mw-lang-switcher__toggle, .mw-lang-switcher__current { color: var(--mw-body-color) !important; }\n"
+            // Generic fallback for non-id-based template headers.
+            . "header, .mw-template-header, .nav-wrapper, .menu-wrapper, .module-menu { background-color: var(--mw-background-color, transparent) !important; }\n"
+            . ".module-logo, .module-logo a, .nav-logo a, .navbar-brand { color: var(--mw-heading-color, inherit) !important; }\n"
+            . ".module-menu a, .menu-items a, nav a.nav-link, .mw-nav a { color: var(--mw-link-color, var(--mw-body-color, inherit)) !important; }\n";
+
+        return $root . $base . $derivedTokens . $header;
     }
 
     /**

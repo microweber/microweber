@@ -26,4 +26,10 @@ class SwarmDesignOutput
         required: true
     )]
     public string $summary;
+
+    #[SchemaProperty(
+        description: 'The brand / site name shown in the GLOBAL site-header logo, e.g. "SOFT CLUB". Extract it from the brief (the name the site is for). The coordinator sets this as the site title BEFORE any lane runs, so the shared template header stops showing a previous build\'s brand. Leave empty only if the brief truly names no brand.',
+        required: false
+    )]
+    public ?string $brand = null;
 }

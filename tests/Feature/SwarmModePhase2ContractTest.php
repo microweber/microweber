@@ -134,4 +134,49 @@ class SwarmModePhase2ContractTest extends TestCase
         $this->assertStringContainsString('applyEdit', $src, 'Lanes must reuse MwAi applyEdit, not duplicate tool logic.');
         $this->assertStringContainsString('flushModuleReloads', $src);
     }
+
+    // ── Shared header: brand set + header re-styled on every build ─────────────
+
+    #[Test]
+    public function planner_output_carries_a_brand_for_the_shared_header(): void
+    {
+        // The design DTO exposes a brand the coordinator sets as the site title.
+        $design = $this->read('Modules/Ai/Agents/Output/SwarmDesignOutput.php');
+        $this->assertStringContainsString('$brand', $design, 'SwarmDesignOutput must carry a brand for the header logo.');
+
+        // The planner is told to produce design.brand.
+        $planner = $this->read('Modules/Ai/Agents/SwarmPlannerAgent.php');
+        $this->assertStringContainsString('design.brand', $planner, 'The planner must be instructed to return design.brand.');
+    }
+
+    #[Test]
+    public function coordinator_locks_the_header_brand_before_lanes_run(): void
+    {
+        $src = $this->read('Modules/Ai/Http/Controllers/SwarmController.php');
+        // The method exists and sets the site title option (what the logo renders).
+        $this->assertTrue(
+            method_exists(\Modules\Ai\Http\Controllers\SwarmController::class, 'lockHeaderBrand'),
+            'SwarmController must declare lockHeaderBrand().'
+        );
+        $this->assertStringContainsString("'website_title'", $src, 'The brand must be written to the website_title option.');
+        // The logo module renders its own per-instance text option (group is the
+        // logo module id), not website_title — the brand must update those too.
+        $this->assertStringContainsString("'%logo%'", $src, 'The brand must also update the logo module text option(s).');
+        // Both the sequential stream and the parallel plan endpoint lock it.
+        $this->assertGreaterThanOrEqual(
+            2,
+            substr_count($src, '$this->lockHeaderBrand('),
+            'Both the sequential stream and the plan endpoint must lock the header brand.'
+        );
+    }
+
+    #[Test]
+    public function global_css_restyles_the_shared_header_to_the_design(): void
+    {
+        $src = $this->read('Modules/Ai/Http/Controllers/SwarmController.php');
+        // buildGlobalCss must bind the shared header/logo/nav to the tokens so a
+        // new build overrides the header colours a previous build accumulated.
+        $this->assertStringContainsString('.module-logo', $src, 'Global CSS must re-style the shared header logo.');
+        $this->assertStringContainsString('.module-menu a', $src, 'Global CSS must re-style the shared header nav links.');
+    }
 }
