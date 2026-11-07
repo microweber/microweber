@@ -155,7 +155,12 @@ html.mw-setup-wizard-document .back-to-edit{
             <div style="display: none;" aria-hidden="true">
                 <ContentSearchNav></ContentSearchNav>
             </div>
-            <ToolbarMulilanguageSelector></ToolbarMulilanguageSelector>
+            <!-- task-2026-11-07 — the language selector was moved OUT of this
+                 centred slot (it sat flush against PageChip with no spacing).
+                 It now lives in the right-hand group next to ResolutionSwitch,
+                 which already carries `gap-2` — fixes both "no spacing between
+                 the two dropdowns" and "put the language dropdown by the
+                 resolution select" in one move. -->
         </div>
 
         <div class="toolbar-col justify-content-center align-items-center ">
@@ -181,6 +186,10 @@ html.mw-setup-wizard-document .back-to-edit{
                 <div class="d-flex align-items-center flex-nowrap gap-2">
                     <ResolutionSwitch></ResolutionSwitch>
 
+                    <!-- task-2026-11-07 — language selector relocated here from
+                         the centred slot, next to the resolution select. The
+                         wrapping row's `gap-2` gives it breathing room. -->
+                    <ToolbarMulilanguageSelector></ToolbarMulilanguageSelector>
 
                     <ToolbarToolsDropdown></ToolbarToolsDropdown>
 
