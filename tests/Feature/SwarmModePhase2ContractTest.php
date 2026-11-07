@@ -179,4 +179,15 @@ class SwarmModePhase2ContractTest extends TestCase
         $this->assertStringContainsString('.module-logo', $src, 'Global CSS must re-style the shared header logo.');
         $this->assertStringContainsString('.module-menu a', $src, 'Global CSS must re-style the shared header nav links.');
     }
+
+    #[Test]
+    public function global_css_makes_the_language_switcher_inherit_the_palette(): void
+    {
+        $src = $this->read('Modules/Ai/Http/Controllers/SwarmController.php');
+        // The switcher reads its own surface/text tokens — map them to the palette.
+        $this->assertStringContainsString('--mw-surface', $src, 'Global CSS must map the switcher surface token to the palette.');
+        $this->assertStringContainsString('--mw-text-color', $src, 'Global CSS must map the switcher text token to the palette.');
+        // The active language item must be overridden off a prior build's colour.
+        $this->assertStringContainsString('mw-lang-switcher__item.is-active', $src, 'Global CSS must re-colour the active language item.');
+    }
 }

@@ -767,6 +767,15 @@ class SwarmController extends Controller
             . "  --mw-footer-background-color: var(--mw-section-background-color, var(--mw-background-color)) !important;\n"
             . "  --mw-footer-link-color: var(--mw-link-color) !important;\n"
             . "  --mw-footer-text-color: var(--mw-paragraph-color, var(--mw-body-color)) !important;\n"
+            // The language/currency switcher modules read their OWN surface/text
+            // tokens (--mw-surface, --mw-text-color, --mw-text-muted) which the
+            // design system doesn't name — map them to the palette so the switcher
+            // inherits the template (dark surface + light text) instead of its
+            // light-theme fallback (white pill + dark text).
+            . "  --mw-surface: var(--mw-section-background-color, var(--mw-background-color)) !important;\n"
+            . "  --mw-surface-hover: var(--mw-section-background-color, var(--mw-background-color)) !important;\n"
+            . "  --mw-text-color: var(--mw-body-color) !important;\n"
+            . "  --mw-text-muted: var(--mw-paragraph-color, var(--mw-body-color)) !important;\n"
             . "}\n";
 
         // Real Microweber header hooks (what the rendered header actually uses:
@@ -783,6 +792,14 @@ class SwarmController extends Controller
             . "#mw-header-background .menu_element_link:hover, #mw-header-background .navbar-nav .nav-link:hover { color: var(--mw-link-color) !important; }\n"
             . ".btn-search .nav-link, .btn-member .nav-link, .btn-shopping-cart .nav-link { color: var(--mw-link-color) !important; }\n"
             . ".mw-lang-switcher__toggle, .mw-lang-switcher__current { color: var(--mw-body-color) !important; }\n"
+            // Language-switcher dropdown items live as <a> inside the header, so a
+            // prior build's `#header-layout .nav-item a { color:#d4af37 !important }`
+            // bleeds gold onto them and the ACTIVE language. Match that id-level
+            // specificity so this build's palette wins (active = the accent colour).
+            . "#mw-header-background .mw-lang-switcher__menu, #header-layout .mw-lang-switcher__menu { background: var(--mw-section-background-color, var(--mw-background-color)) !important; }\n"
+            . "#mw-header-background a.mw-lang-switcher__item, #header-layout a.mw-lang-switcher__item { color: var(--mw-body-color) !important; }\n"
+            . "#mw-header-background a.mw-lang-switcher__item.is-active, #header-layout a.mw-lang-switcher__item.is-active, #mw-header-background a.mw-lang-switcher__item.is-active .mw-lang-switcher__item-name { color: var(--mw-primary-color, var(--mw-link-color)) !important; }\n"
+            . "#mw-header-background .mw-lang-switcher__check, #header-layout .mw-lang-switcher__check { color: var(--mw-primary-color, var(--mw-link-color)) !important; }\n"
             // Generic fallback for non-id-based template headers.
             . "header, .mw-template-header, .nav-wrapper, .menu-wrapper, .module-menu { background-color: var(--mw-background-color, transparent) !important; }\n"
             . ".module-logo, .module-logo a, .nav-logo a, .navbar-brand { color: var(--mw-heading-color, inherit) !important; }\n"
