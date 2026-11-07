@@ -115,12 +115,21 @@ class CreateContentTool extends BaseTool
             'parent' => 0,
         ];
 
-        if (!empty($content)) {
+        // The template's content module renders the `content` field, and on a
+        // Page/Post `content_body` mirrors it. A tool call that supplies only ONE
+        // of them (the swarm's off-canvas lanes pass only `content_body`) would
+        // leave the rendered `content` field empty, so the page shows the default
+        // "My title" placeholder instead of the built HTML. Mirror whichever was
+        // given into BOTH fields so the page actually renders its content.
+        if (!empty($content) && !empty($content_body)) {
             $contentData['content'] = $content;
-        }
-
-        if (!empty($content_body)) {
             $contentData['content_body'] = $content_body;
+        } else {
+            $html = !empty($content) ? $content : (!empty($content_body) ? $content_body : null);
+            if (!empty($html)) {
+                $contentData['content'] = $html;
+                $contentData['content_body'] = $html;
+            }
         }
 
         $contentData['created_by'] = \user_id();
