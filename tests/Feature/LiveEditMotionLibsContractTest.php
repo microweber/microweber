@@ -33,6 +33,18 @@ class LiveEditMotionLibsContractTest extends TestCase
     }
 
     #[Test]
+    public function motion_kit_ships_attribute_driven_reveal_and_parallax(): void
+    {
+        $html = (new MotionLibsHeadTags())->toHtml();
+        // The data-attribute motion engine: reveals + parallax + one rAF loop.
+        $this->assertStringContainsString('data-mw-reveal', $html);
+        $this->assertStringContainsString('data-mw-parallax', $html);
+        $this->assertStringContainsString('IntersectionObserver', $html, 'Reveals use IntersectionObserver (reliable one-shot enter).');
+        $this->assertStringContainsString('requestAnimationFrame', $html, 'Continuous motion runs on one rAF loop.');
+        $this->assertStringContainsString('mwMotionKit', $html, 'The kit must re-scan dynamically-inserted sections.');
+    }
+
+    #[Test]
     public function motion_libs_are_registered_on_the_frontend_package(): void
     {
         $provider = $this->read('packages/microweber-meta-tags/src/Providers/MetaTagsServiceProvider.php');
@@ -74,5 +86,8 @@ class LiveEditMotionLibsContractTest extends TestCase
         $this->assertStringContainsString('requestAnimationFrame', $agent);
         $this->assertStringContainsString('ScrollTrigger', $agent);
         $this->assertStringContainsString('Loaded JS libraries', $agent, 'The agent must be told to use only loaded libraries.');
+        // The reliable attribute-driven path (the motion kit).
+        $this->assertStringContainsString('data-mw-reveal', $agent, 'The agent must know the motion-kit reveal attribute.');
+        $this->assertStringContainsString('data-mw-parallax', $agent, 'The agent must know the motion-kit parallax attribute.');
     }
 }
