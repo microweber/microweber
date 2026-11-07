@@ -106,6 +106,12 @@ class AddMenuItemTool extends BaseTool
 
             $item = Menu::create($data);
 
+            // Clear the menu cache so the header/footer re-renders with the new
+            // item (otherwise the stale cached menu keeps showing).
+            foreach (['menus', 'menus/global'] as $cacheGroup) {
+                try { app()->cache_manager->delete($cacheGroup); } catch (\Throwable $e) {}
+            }
+
             return "OK — added \"{$title}\" to the {$groupLabel} navigation menu (item #{$item->id}).";
         } catch (\Throwable $e) {
             return $this->handleError('Could not add the menu item: ' . $e->getMessage());

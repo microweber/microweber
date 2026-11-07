@@ -196,6 +196,23 @@ class MwAiSwarm {
                 return self._laneRequest(siteUrl, headers, body, { onLane: onLane, onTool: onTool, onError: onError });
             }));
 
+            // NAVIGATION subagent — after every page lane closes, wire the built
+            // pages into the header menu (one deterministic server call). Shown on
+            // the board as a "Navigation" lane.
+            try {
+                if (onLane) { onLane("nav", "started", 0, 1, { title: "Navigation", url: "", agent_id: "nav" }); }
+                const navRes = await fetch(siteUrl + "api/ai/agent-swarm-nav", {
+                    method: "POST",
+                    headers: self._headers("application/json"),
+                    body: JSON.stringify({ plan_id: plan.plan_id }),
+                    credentials: "same-origin",
+                });
+                let navData = {};
+                try { navData = await navRes.json(); } catch (e) {}
+                const nav = (navData && navData.nav) || {};
+                if (onLane) { onLane("nav", nav.status || "done", nav.built || 0, 1, { title: "Navigation", url: "", agent_id: "nav" }); }
+            } catch (e) { if (onLane) { onLane("nav", "error", 0, 1, { title: "Navigation", url: "", agent_id: "nav" }); } }
+
             // Every lane closed → flush per-lane module-reload queues and fire the
             // single whole-run save (never per lane). Build the done summary from
             // each lane's last frame.

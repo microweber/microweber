@@ -484,8 +484,29 @@ class MwAiSwarmBoard {
     }
 
     /* ── public: updateLane ─────────────────────────────────────────────── */
+    // Lazily add a lane card for a synthetic agent (e.g. the "nav" navigation
+    // subagent) that wasn't part of the planner's page lanes, so it still shows
+    // on the board when its first frame arrives.
+    _lazyLane(agentId, data) {
+        if (this.byId[agentId]) { return this.byId[agentId]; }
+        const i = this.lanes.length;
+        const ident = SWARM_AGENTS[i % SWARM_AGENTS.length];
+        const vm = {
+            agentId: agentId, name: (data && data.title) ? data.title : ident.name, color: ident.color,
+            index: i, title: (data && data.title) ? data.title : agentId, url: (data && data.url) || "",
+            summary: "", status: "queued", built: 0, total: 0, el: null,
+        };
+        this.lanes.push(vm);
+        this.byId[agentId] = vm;
+        this._el.lanes.appendChild(this._buildLaneEl(vm));
+        this._el.cluster.appendChild(this._buildAvatar(vm));
+        this._renderHeaderCounts();
+        return vm;
+    }
+
     updateLane(agentId, data) {
-        const vm = this._resolveLane(agentId);
+        let vm = this._resolveLane(agentId);
+        if (!vm && agentId != null && !this.finished) { vm = this._lazyLane(String(agentId), data || {}); }
         if (!vm || !vm.el) { return this; }
         data = data || {};
         if (data.status) { vm.status = String(data.status); }

@@ -210,6 +210,9 @@ class SwarmController extends Controller
                     );
                 }
 
+                // (4b) NAVIGATION — wire the built pages into the header menu.
+                $doneLanes[] = $this->buildNavigation($plan, $sse, $openContentId);
+
                 // (5) ONE final done frame — the frontend fires a single
                 // saveCanvasAsync() off this, never per lane.
                 $sse->emit('done', ['lanes' => $doneLanes]);
@@ -411,6 +414,32 @@ class SwarmController extends Controller
     }
 
     /**
+     * PHASE 2 — NAVIGATION endpoint (JSON). The frontend calls this ONCE after all
+     * lane streams close, to wire the built pages into the header menu. Reads the
+     * plan from the cache by plan_id and runs the deterministic buildNavigation().
+     */
+    public function agentSwarmNav(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'plan_id' => 'required|string|max:64',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->toArray()], 422);
+        }
+
+        $cached = Cache::get('swarm:plan:' . (string) $request->input('plan_id'));
+        if (!is_array($cached) || empty($cached['plan']['lanes'])) {
+            return response()->json(['nav' => ['status' => 'skipped', 'built' => 0]]);
+        }
+
+        // No SSE emitter here — this is a JSON endpoint; buildNavigation returns
+        // the record which the frontend uses to update its board.
+        $record = $this->buildNavigation($cached['plan'], null, (int) ($cached['open_content_id'] ?? 0));
+
+        return response()->json(['nav' => $record]);
+    }
+
+    /**
      * Run ONE lane end to end: bind its canvas context, spin up a dedicated
      * LiveEdit worker on its own AgentChat thread, stream the lane-tagged
      * started/building/tool/done frames, and return the lane's done record.
@@ -546,6 +575,104 @@ class SwarmController extends Controller
                 'built' => 0,
                 'url' => $lane['url'],
             ];
+        }
+    }
+
+    /**
+     * NAVIGATION subagent — runs AFTER the page lanes and wires the built pages
+     * into the header menu. Deterministic (not model-driven) so it is reliable:
+     * it resolves each planned page by url/title to its content id, then REBUILDS
+     * the header_menu fresh (dropping the items accumulated by earlier builds) with
+     * one item per page, in reading order, and clears the menu cache so the header
+     * re-renders. Emits a lane-tagged frame (agent_id "nav") for the swarm board.
+     *
+     * @param array<string, mixed> $plan
+     * @return array<string, mixed> the nav lane's done record
+     */
+    protected function buildNavigation(array $plan, ?SseToolEmitter $sse = null, int $openContentId = 0): array
+    {
+        if ($sse) { $sse->emit('lane', ['agent_id' => 'nav', 'status' => 'started', 'built' => 0, 'total' => 1, 'title' => 'Navigation', 'url' => '']); }
+        $built = 0;
+        try {
+            $lanes = (array) ($plan['lanes'] ?? []);
+            $pages = [];
+            // The home/open page FIRST, resolved by its real content id — the
+            // plan's home-lane url is a slug ("home") that usually does not match
+            // the page the build opened on (e.g. "nimbus-home"), so url lookup
+            // would miss it. Use its own lane title when we have it.
+            if ($openContentId > 0) {
+                $oc = \Modules\Content\Models\Content::find($openContentId);
+                if ($oc && (int) $oc->is_deleted === 0) {
+                    $homeTitle = trim((string) (($lanes[0]['title'] ?? '') ?: $oc->title));
+                    $pages[] = ['id' => (int) $oc->id, 'title' => $homeTitle !== '' ? $homeTitle : 'Home'];
+                }
+            }
+            foreach ($lanes as $lane) {
+                $lane = (array) $lane;
+                $url = trim((string) ($lane['url'] ?? ''), '/ ');
+                $title = trim((string) ($lane['title'] ?? ''));
+                $c = null;
+                if ($url !== '') {
+                    $c = \Modules\Content\Models\Content::where('url', $url)->where('is_deleted', 0)->orderBy('id', 'desc')->first();
+                }
+                if (!$c && $title !== '') {
+                    $c = \Modules\Content\Models\Content::where('title', $title)->where('is_deleted', 0)->orderBy('id', 'desc')->first();
+                }
+                if ($c) {
+                    $pages[] = ['id' => (int) $c->id, 'title' => $title !== '' ? $title : (string) $c->title];
+                }
+            }
+            // Dedup by content id, keep reading order.
+            $seen = [];
+            $ordered = [];
+            foreach ($pages as $p) {
+                if (!isset($seen[$p['id']])) {
+                    $seen[$p['id']] = 1;
+                    $ordered[] = $p;
+                }
+            }
+
+            if (!empty($ordered)) {
+                $group = \Modules\Menu\Models\Menu::whereNull('parent_id')->where('title', 'header_menu')->first();
+                if (!$group) {
+                    $group = \Modules\Menu\Models\Menu::create(['title' => 'header_menu']);
+                }
+                // Fresh navigation for THIS site: drop the accumulated items and add
+                // one link per built page (otherwise every build piles more items on).
+                \Modules\Menu\Models\Menu::where('parent_id', $group->id)->delete();
+                $pos = 0;
+                foreach ($ordered as $p) {
+                    $pos++;
+                    \Modules\Menu\Models\Menu::create([
+                        'parent_id' => $group->id,
+                        'title' => $p['title'],
+                        'content_id' => $p['id'],
+                        'item_type' => 'content',
+                        'position' => $pos,
+                        'is_active' => 1,
+                    ]);
+                    $built++;
+                }
+                // The header menu module caches its items — clear it so the new nav
+                // renders instead of the stale cached menu.
+                $this->clearMenuCache();
+            }
+
+            if ($sse) { $sse->emit('lane', ['agent_id' => 'nav', 'status' => 'done', 'built' => $built, 'total' => 1, 'title' => 'Navigation', 'url' => '']); }
+
+            return ['agent_id' => 'nav', 'status' => 'done', 'built' => $built, 'url' => ''];
+        } catch (\Throwable $e) {
+            if ($sse) { $sse->emit('lane', ['agent_id' => 'nav', 'status' => 'error', 'built' => 0, 'total' => 1, 'title' => 'Navigation', 'url' => '']); }
+
+            return ['agent_id' => 'nav', 'status' => 'error', 'built' => 0, 'url' => ''];
+        }
+    }
+
+    /** Clear the Microweber menu cache so a rebuilt menu renders. */
+    protected function clearMenuCache(): void
+    {
+        foreach (['menus', 'menus/global'] as $group) {
+            try { app()->cache_manager->delete($group); } catch (\Throwable $e) {}
         }
     }
 

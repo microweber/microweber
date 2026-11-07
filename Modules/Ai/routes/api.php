@@ -77,6 +77,10 @@ Route::middleware(['admin'])->group(function () {
         ->name('api.ai.agent-swarm-plan');
     Route::post('api/ai/agent-swarm-lane-stream', [Modules\Ai\Http\Controllers\SwarmController::class, 'agentSwarmLaneStream'])
         ->name('api.ai.agent-swarm-lane-stream');
+    // After the parallel lanes close, the frontend calls this once to wire the
+    // built pages into the header menu (the navigation subagent).
+    Route::post('api/ai/agent-swarm-nav', [Modules\Ai\Http\Controllers\SwarmController::class, 'agentSwarmNav'])
+        ->name('api.ai.agent-swarm-nav');
 
     Route::get('api/ai/chat-history/{chatId}', [Modules\Ai\Http\Controllers\AiController::class, 'getChatHistory'])
         ->name('api.ai.chat-history');

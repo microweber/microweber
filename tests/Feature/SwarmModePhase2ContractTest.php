@@ -181,6 +181,26 @@ class SwarmModePhase2ContractTest extends TestCase
     }
 
     #[Test]
+    public function navigation_subagent_wires_the_built_pages_into_the_menu(): void
+    {
+        // Route + endpoint for the post-lane navigation step.
+        $route = \Illuminate\Support\Facades\Route::getRoutes()->getByName('api.ai.agent-swarm-nav');
+        $this->assertNotNull($route, 'POST api/ai/agent-swarm-nav must be registered.');
+
+        $src = $this->read('Modules/Ai/Http/Controllers/SwarmController.php');
+        $this->assertTrue(method_exists(\Modules\Ai\Http\Controllers\SwarmController::class, 'agentSwarmNav'));
+        $this->assertTrue(method_exists(\Modules\Ai\Http\Controllers\SwarmController::class, 'buildNavigation'));
+        // It rebuilds the header menu fresh (drops the accumulated items) + clears
+        // the menu cache so the new nav renders.
+        $this->assertStringContainsString("'header_menu'", $src);
+        $this->assertStringContainsString('clearMenuCache', $src);
+
+        // The parallel frontend calls the nav endpoint after the lanes close.
+        $swarmJs = $this->read('packages/frontend-assets/resources/assets/services/mw-ai-swarm.js');
+        $this->assertStringContainsString('agent-swarm-nav', $swarmJs);
+    }
+
+    #[Test]
     public function global_css_makes_the_language_switcher_inherit_the_palette(): void
     {
         $src = $this->read('Modules/Ai/Http/Controllers/SwarmController.php');
