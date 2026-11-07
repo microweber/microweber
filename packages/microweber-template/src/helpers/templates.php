@@ -49,9 +49,11 @@ function template_name()
     return app()->template_manager->folder_name();
 }
 
-function template_config($templateName = false)
-{
-    return app()->template_manager->get_config($templateName);
+if (!function_exists('template_config')) {
+    function template_config($templateName = false)
+    {
+        return app()->template_manager->get_config($templateName);
+    }
 }
 
 function icon_html($icon)
