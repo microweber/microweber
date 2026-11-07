@@ -204,7 +204,13 @@ class MwAiSwarm {
                 const navRes = await fetch(siteUrl + "api/ai/agent-swarm-nav", {
                     method: "POST",
                     headers: self._headers("application/json"),
-                    body: JSON.stringify({ plan_id: plan.plan_id }),
+                    // Send the pages directly (title+url) so the nav does not depend
+                    // on the server-side plan cache, which page creation can evict.
+                    body: JSON.stringify({
+                        plan_id: plan.plan_id,
+                        lanes: (plan.lanes || []).map(function (l) { return { title: l.title, url: l.url, order: l.order }; }),
+                        content_id: (opts.contextBundle && opts.contextBundle.content_id) || undefined,
+                    }),
                     credentials: "same-origin",
                 });
                 let navData = {};

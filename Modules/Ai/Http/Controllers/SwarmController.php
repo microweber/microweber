@@ -421,20 +421,38 @@ class SwarmController extends Controller
     public function agentSwarmNav(Request $request): \Illuminate\Http\JsonResponse
     {
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
-            'plan_id' => 'required|string|max:64',
+            'plan_id' => 'sometimes|string|max:64',
+            'lanes' => 'sometimes|array',
+            'content_id' => 'sometimes|integer',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->toArray()], 422);
         }
 
-        $cached = Cache::get('swarm:plan:' . (string) $request->input('plan_id'));
-        if (!is_array($cached) || empty($cached['plan']['lanes'])) {
+        // Prefer the lanes the FRONTEND sends (page title+url) — robust, because
+        // creating pages during the build triggers content-save cache invalidation
+        // that can evict the server-side plan cache before this runs. Fall back to
+        // the cached plan only if the frontend did not pass lanes.
+        $lanes = (array) $request->input('lanes', []);
+        $openContentId = (int) $request->input('content_id', 0);
+        $plan = ['lanes' => $lanes];
+
+        if (empty($lanes)) {
+            $cached = Cache::get('swarm:plan:' . (string) $request->input('plan_id', ''));
+            if (is_array($cached) && !empty($cached['plan']['lanes'])) {
+                $plan = $cached['plan'];
+                if ($openContentId <= 0) {
+                    $openContentId = (int) ($cached['open_content_id'] ?? 0);
+                }
+            }
+        }
+
+        if (empty($plan['lanes'])) {
             return response()->json(['nav' => ['status' => 'skipped', 'built' => 0]]);
         }
 
-        // No SSE emitter here — this is a JSON endpoint; buildNavigation returns
-        // the record which the frontend uses to update its board.
-        $record = $this->buildNavigation($cached['plan'], null, (int) ($cached['open_content_id'] ?? 0));
+        // No SSE emitter here — JSON endpoint; buildNavigation returns the record.
+        $record = $this->buildNavigation($plan, null, $openContentId);
 
         return response()->json(['nav' => $record]);
     }
