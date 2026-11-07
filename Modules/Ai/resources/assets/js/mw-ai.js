@@ -140,7 +140,23 @@ function MwAi() {
             // Persist the AI global CSS immediately (don't wait on its debounce) so
             // the design survives even if the user refreshes right after saving.
             try { this.flushGlobalCss(); } catch (e) {}
+            // AI edits are AUTO-SAVED — the user asked the AI to change the page, so
+            // clear the "unsaved changes" flag on every relevant window so navigating
+            // away (or the next AI action) never trips the browser's beforeunload
+            // "Leave site? Changes may not be saved" dialog. task-2026-11-07.
+            try { this.clearUnsavedFlag(); } catch (e) {}
             return done;
+        },
+
+        // Clear mw.askusertostay on the canvas iframe + parent + top windows so the
+        // native beforeunload prompt doesn't fire after an AI auto-save.
+        clearUnsavedFlag() {
+            var wins = [];
+            try { var cwin = mw.top().app.canvas.getWindow && mw.top().app.canvas.getWindow(); if (cwin) { wins.push(cwin); } } catch (e) {}
+            try { wins.push(mw.top()); } catch (e) {}
+            try { if (typeof mw.parent === 'function') { wins.push(mw.parent()); } } catch (e) {}
+            try { wins.push(window); } catch (e) {}
+            wins.forEach(function (w) { try { if (w && w.mw) { w.mw.askusertostay = false; } } catch (e) {} });
         },
 
         // Awaitable save. Resolves once the content save round-trips (or a
@@ -1269,6 +1285,21 @@ function MwAi() {
                     const dup = Array.from(region.querySelectorAll('.mw-ai-built-section'))
                         .some(function (s) { return norm(s.textContent) === incomingText; });
                     if (dup) { return { ok: true, message: 'duplicate section skipped' }; }
+                }
+                // Stronger dedup: small models rebuild the WHOLE page several times
+                // with lightly reworded copy (e.g. four heroes all titled "SOFT CLUB"),
+                // which the full-text match above misses. Also skip when the section's
+                // PRIMARY HEADING (its first h1/h2/h3) already appears on a built
+                // section — a page has one hero, one benefits block, one FAQ, etc.
+                const headOf = function (container) {
+                    try { var h = container.querySelector('h1, h2, h3'); return h ? norm(h.textContent) : ''; } catch (e) { return ''; }
+                };
+                const probe = doc.createElement('div'); probe.innerHTML = html;
+                const incHead = headOf(probe);
+                if (incHead && incHead.length > 3) {
+                    const dupHead = Array.from(region.querySelectorAll('.mw-ai-built-section'))
+                        .some(function (s) { return headOf(s) === incHead; });
+                    if (dupHead) { return { ok: true, message: 'duplicate section (same heading) skipped' }; }
                 }
 
                 // Parse the AI HTML into its top-level block(s) and tag each as a
