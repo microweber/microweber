@@ -135,7 +135,17 @@ body.fi-panel-admin.dark .mw-ai-swarm,
     content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
     background:var(--lane); opacity:.9;
 }
-.mw-ai-swarm-lane-top{ display:flex; align-items:center; gap:8px; }
+.mw-ai-swarm-lane-top{ display:flex; align-items:center; gap:8px; cursor:pointer; user-select:none; }
+.mw-ai-swarm-lane-top:focus-visible{ outline:2px solid var(--lane); outline-offset:2px; border-radius:6px; }
+.mw-ai-swarm-chevron{ flex:0 0 auto; width:14px; height:14px; margin-left:2px; color:var(--mw-sw-muted); transition:transform .2s ease; }
+.mw-ai-swarm-chevron svg{ width:14px; height:14px; display:block; }
+/* Collapsed by default — only the top row + thin progress bar show; the live
+   status line and the section skeletons (the space hogs) are hidden until the
+   lane is expanded by click/Enter. */
+.mw-ai-swarm-lane.is-collapsed .mw-ai-swarm-chevron{ transform:rotate(-90deg); }
+.mw-ai-swarm-lane.is-collapsed .mw-ai-swarm-bar{ margin:9px 0 2px; }
+.mw-ai-swarm-lane.is-collapsed .mw-ai-swarm-status,
+.mw-ai-swarm-lane.is-collapsed .mw-ai-swarm-skels{ display:none; }
 .mw-ai-swarm-cursor{
     position:relative; display:inline-flex; align-items:center; gap:5px;
     padding:2px 8px 2px 4px; border-radius:999px; flex:0 0 auto;
@@ -228,6 +238,11 @@ body.fi-panel-admin.dark .mw-ai-swarm,
 const CURSOR_SVG =
     '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
     '<path fill="currentColor" d="M2 1.4 13.2 7.1a.7.7 0 0 1-.1 1.28l-4.33 1.3-1.72 4.2a.7.7 0 0 1-1.3-.06L2 1.4Z"/>' +
+    "</svg>";
+
+const CHEVRON_SVG =
+    '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">' +
+    '<path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>' +
     "</svg>";
 
 function escapeHtml(s) {
@@ -385,18 +400,22 @@ class MwAiSwarmBoard {
 
     _buildLaneEl(vm) {
         const lane = document.createElement("div");
-        lane.className = "mw-ai-swarm-lane";
+        // Collapsed by default so a 5-lane swarm doesn't fill the whole chat —
+        // only the top row + thin bar show; click/Enter the row to reveal the
+        // live status + section skeletons.
+        lane.className = "mw-ai-swarm-lane is-collapsed";
         lane.style.setProperty("--lane", vm.color);
         lane.setAttribute("data-status", "queued");
         lane.setAttribute("data-agent", vm.agentId);
         lane.setAttribute("aria-label", vm.name + " — " + vm.title);
         lane.innerHTML =
-            '<div class="mw-ai-swarm-lane-top">' +
+            '<div class="mw-ai-swarm-lane-top" role="button" tabindex="0" aria-expanded="false">' +
             '  <span class="mw-ai-swarm-cursor">' + CURSOR_SVG + "<span>" + escapeHtml(vm.name) + "</span></span>" +
             '  <span class="mw-ai-swarm-lane-title">' + escapeHtml(vm.title) +
                  (vm.url ? ' <span class="mw-ai-swarm-lane-url">' + escapeHtml(vm.url) + "</span>" : "") +
             "</span>" +
             '  <span class="mw-ai-swarm-badge"><span class="pct">0%</span></span>' +
+            '  <span class="mw-ai-swarm-chevron">' + CHEVRON_SVG + "</span>" +
             "</div>" +
             '<div class="mw-ai-swarm-bar"><i></i></div>' +
             '<div class="mw-ai-swarm-status"><span class="spin"></span><span class="txt">' +
@@ -404,11 +423,22 @@ class MwAiSwarmBoard {
             '<div class="mw-ai-swarm-skels"></div>';
         vm.el = {
             root:  lane,
+            top:   lane.querySelector(".mw-ai-swarm-lane-top"),
             bar:   lane.querySelector(".mw-ai-swarm-bar>i"),
             badge: lane.querySelector(".mw-ai-swarm-badge .pct"),
             status:lane.querySelector(".mw-ai-swarm-status .txt"),
             skels: lane.querySelector(".mw-ai-swarm-skels"),
         };
+
+        // Expand / collapse this lane (per-lane, independent).
+        const toggle = () => {
+            const collapsed = lane.classList.toggle("is-collapsed");
+            vm.el.top.setAttribute("aria-expanded", collapsed ? "false" : "true");
+        };
+        vm.el.top.addEventListener("click", toggle);
+        vm.el.top.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") { e.preventDefault(); toggle(); }
+        });
         // progressbar a11y
         const bar = lane.querySelector(".mw-ai-swarm-bar");
         bar.setAttribute("role", "progressbar");
