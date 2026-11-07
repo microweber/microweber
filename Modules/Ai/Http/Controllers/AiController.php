@@ -419,6 +419,16 @@ class AiController extends Controller
         // JS libraries detected as loaded on the live page (gsap, ScrollTrigger,
         // jQuery, …) so the model can use them in apply_js instead of guessing.
         $libraries = (array) $request->input('libraries', []);
+        // The template the open page uses, so create_content makes new pages on the
+        // SAME template (consistent design) instead of the site default.
+        $editingTemplate = '';
+        try {
+            if ($contentId > 0) {
+                $oc = \Modules\Content\Models\Content::find($contentId);
+                if ($oc && !empty($oc->active_site_template)) { $editingTemplate = (string) $oc->active_site_template; }
+            }
+            if ($editingTemplate === '' && function_exists('get_option')) { $editingTemplate = (string) get_option('current_template', 'template'); }
+        } catch (\Throwable $e) {}
 
         // Bind the live canvas context for this request so the read tools
         // (get_dom, get_edit_fields, get_computed_styles, get_css_vars,
@@ -432,6 +442,7 @@ class AiController extends Controller
             'selected_element' => $selectedElement,
             'selected_layout' => $selectedLayout,
             'libraries' => $libraries,
+            'editing_template' => $editingTemplate,
         ]);
 
         $response = new \Symfony\Component\HttpFoundation\StreamedResponse(function () use (

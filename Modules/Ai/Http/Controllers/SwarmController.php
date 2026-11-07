@@ -106,6 +106,7 @@ class SwarmController extends Controller
         $selectedElement = (array) $request->input('selected_element', []);
         $selectedLayout = (array) $request->input('selected_layout', []);
         $libraries = (array) $request->input('libraries', []);
+        $editingTemplate = $this->editingTemplate($openContentId);
 
         // (1) Bind the live canvas context so the read tools (get_dom, get_css_vars,
         // get_selected_element, …) see the real page the user currently has open.
@@ -122,7 +123,7 @@ class SwarmController extends Controller
         ]);
 
         $response = new StreamedResponse(function () use (
-            $userId, $message, $openContentId, $openUrl, $canvasHtml, $cssVars, $selectedElement, $selectedLayout, $libraries
+            $userId, $message, $openContentId, $openUrl, $canvasHtml, $cssVars, $selectedElement, $selectedLayout, $libraries, $editingTemplate
         ) {
             // Plain writer for the controller-authored frames (plan / lane / done /
             // coordinator tool / error). emit() json-encodes + flushes whatever I pass.
@@ -203,6 +204,7 @@ class SwarmController extends Controller
                             'selected_element' => $selectedElement,
                             'selected_layout' => $selectedLayout,
                             'libraries' => $libraries,
+                            'editing_template' => $editingTemplate,
                         ],
                         $userId
                     );
@@ -344,12 +346,13 @@ class SwarmController extends Controller
         $selectedElement = (array) $request->input('selected_element', []);
         $selectedLayout = (array) $request->input('selected_layout', []);
         $libraries = (array) $request->input('libraries', []);
+        $editingTemplate = $this->editingTemplate($openContentId);
         $isOpenPageReq = $request->has('is_open_page') ? (bool) $request->boolean('is_open_page') : null;
         $userId = auth()->id();
 
         return new StreamedResponse(function () use (
             $planId, $agentId, $openContentId, $openUrl, $canvasHtml,
-            $cssVars, $selectedElement, $selectedLayout, $isOpenPageReq, $userId, $libraries
+            $cssVars, $selectedElement, $selectedLayout, $isOpenPageReq, $userId, $libraries, $editingTemplate
         ) {
             $sse = new SseToolEmitter();
 
@@ -397,6 +400,7 @@ class SwarmController extends Controller
                         'selected_element' => $selectedElement,
                         'selected_layout' => $selectedLayout,
                         'libraries' => $libraries,
+                        'editing_template' => $editingTemplate,
                     ],
                     $userId
                 );
@@ -455,6 +459,9 @@ class SwarmController extends Controller
                 'css_vars' => $ctx['css_vars'] ?? [],
                 'selected_element' => $isOpenPage ? ($ctx['selected_element'] ?? []) : [],
                 'selected_layout' => $isOpenPage ? ($ctx['selected_layout'] ?? []) : [],
+                // So create_content in an off-canvas lane makes the new page on the
+                // SAME template as the page the build started on (consistent design).
+                'editing_template' => (string) ($ctx['editing_template'] ?? ''),
             ]);
 
             $agentFactory = app(AgentFactory::class);
@@ -555,6 +562,31 @@ class SwarmController extends Controller
             'X-Accel-Buffering' => 'no',
             'Connection' => 'keep-alive',
         ];
+    }
+
+    /**
+     * The template the build is happening on: the open page's own template, else
+     * the site default. Created (off-canvas) pages inherit this so the whole site
+     * stays on one template + design.
+     */
+    protected function editingTemplate(int $openContentId): string
+    {
+        try {
+            if ($openContentId > 0) {
+                $c = \Modules\Content\Models\Content::find($openContentId);
+                if ($c && !empty($c->active_site_template)) {
+                    return (string) $c->active_site_template;
+                }
+            }
+        } catch (\Throwable $e) {
+            // fall through to the site default
+        }
+
+        try {
+            return function_exists('get_option') ? (string) get_option('current_template', 'template') : '';
+        } catch (\Throwable $e) {
+            return '';
+        }
     }
 
     /**

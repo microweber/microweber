@@ -132,6 +132,24 @@ class CreateContentTool extends BaseTool
             }
         }
 
+        // Inherit the template of the page being EDITED, so a whole site built
+        // from one open page (the swarm's off-canvas lanes create pages this way)
+        // stays on ONE template. Without this a create_content page falls back to
+        // the SITE DEFAULT template, which may differ from the page the build
+        // started on — a different live_edit.css, so the new page loses the locked
+        // design (e.g. a dark hero page beside white default pages). task-2026-11-07.
+        try {
+            if (empty($contentData['active_site_template']) && app()->bound('mw.ai.liveedit.context')) {
+                $ctx = (array) app('mw.ai.liveedit.context');
+                $editingTemplate = trim((string) ($ctx['editing_template'] ?? ''));
+                if ($editingTemplate !== '') {
+                    $contentData['active_site_template'] = $editingTemplate;
+                }
+            }
+        } catch (\Throwable $e) {
+            // Non-fatal — page just uses the site default template.
+        }
+
         $contentData['created_by'] = \user_id();
 
         $newContent = Content::create($contentData);
