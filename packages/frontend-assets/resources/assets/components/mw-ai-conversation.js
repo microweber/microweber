@@ -70,6 +70,22 @@ html.dark .mw-ai-conv-msg.user .mw-ai-conv-msg-bubble{ background:#39424f; color
 html.dark .mw-ai-conv-queued{ background:#ffffff12; color:#e8eaed; border-color:#ffffff2e; }
 
 .mw-ai-conv-edits{ display:flex; flex-direction:column; gap:5px; }
+/* task-2026-11-07 — all the tool-call chips for one turn collapse under ONE
+   block: a summary pill ("N steps") that expands to the individual chips. */
+.mw-ai-conv-edits-group{ align-self:flex-start; max-width:100%; }
+.mw-ai-conv-edits-head{
+    display:inline-flex; align-items:center; gap:7px; align-self:flex-start;
+    padding:5px 11px; border-radius:999px; font-size:12px; font-weight:600;
+    background:#18243309; color:#182433; border:1px solid #18243314;
+    cursor:pointer; font-family:inherit; line-height:1.3; transition:background-color .15s ease;
+}
+.mw-ai-conv-edits-head:hover{ background:#18243312; }
+html.dark .mw-ai-conv-edits-head{ background:#ffffff0d; color:#dfe3e8; border-color:#ffffff1f; }
+html.dark .mw-ai-conv-edits-head:hover{ background:#ffffff16; }
+.mw-ai-conv-edits-ic{ font-size:12px; opacity:.85; }
+.mw-ai-conv-edits-caret{ margin-left:2px; font-size:10px; opacity:.6; }
+.mw-ai-conv-edits-list{ display:flex; flex-direction:column; gap:5px; }
+.mw-ai-conv-edits-group.is-collapsed .mw-ai-conv-edits-list{ display:none; }
 .mw-ai-conv-edit{
     display:inline-flex; align-items:center; gap:7px; align-self:flex-start;
     padding:5px 11px; border-radius:999px; font-size:12px; font-weight:500;
@@ -708,7 +724,34 @@ export class MwAiConversation extends MicroweberBaseClass {
         return parts.join("\n\n").trim();
     }
 
+    // Lazily turn the per-turn edits container into ONE collapsible block: a
+    // summary pill ("N steps") + a hidden list holding the individual tool chips.
+    // Returns the list the chips are appended to.
+    _ensureEditsGroup(container) {
+        let list = container.querySelector(":scope > .mw-ai-conv-edits-list");
+        if (list) { return list; }
+        container.classList.add("mw-ai-conv-edits-group", "is-collapsed");
+        const head = document.createElement("button");
+        head.type = "button";
+        head.className = "mw-ai-conv-edits-head";
+        head.innerHTML = '<span class="mw-ai-conv-edits-ic" aria-hidden="true">✦</span>'
+            + '<span class="mw-ai-conv-edits-summary"></span>'
+            + '<span class="mw-ai-conv-edits-caret" aria-hidden="true">▸</span>';
+        list = document.createElement("div");
+        list.className = "mw-ai-conv-edits-list";
+        container.appendChild(head);
+        container.appendChild(list);
+        head.addEventListener("click", () => {
+            const collapsed = container.classList.toggle("is-collapsed");
+            const caret = head.querySelector(".mw-ai-conv-edits-caret");
+            if (caret) { caret.textContent = collapsed ? "▸" : "▾"; }
+            if (!collapsed) { this.scrollDown(); }
+        });
+        return list;
+    }
+
     addEdit(container, edit, result) {
+        const list = this._ensureEditsGroup(container);
         const ok = !result || result.ok !== false;
         const wrap = document.createElement("div");
         wrap.className = "mw-ai-conv-editwrap";
@@ -739,7 +782,16 @@ export class MwAiConversation extends MicroweberBaseClass {
             chip.innerHTML += ` <code>${String(result.message)}</code>`;
         }
 
-        container.appendChild(wrap);
+        list.appendChild(wrap);
+        // Update the summary count, and surface errors by auto-expanding the block.
+        const n = list.children.length;
+        const summary = container.querySelector(":scope > .mw-ai-conv-edits-head .mw-ai-conv-edits-summary");
+        if (summary) { summary.textContent = n + " " + mw.lang(n === 1 ? "step" : "steps"); }
+        if (!ok) {
+            container.classList.remove("is-collapsed");
+            const caret = container.querySelector(":scope > .mw-ai-conv-edits-head .mw-ai-conv-edits-caret");
+            if (caret) { caret.textContent = "▾"; }
+        }
         this.scrollDown();
     }
 
