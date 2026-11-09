@@ -14,8 +14,13 @@ jobs:
           - microweber-filament-theme
     steps:
       - uses: actions/checkout@v4
-      - id: previous-tag
-        uses: 'WyriHaximus/github-action-get-previous-tag@master'
+      # Split the package subtree to its own repo's `filament` branch on every
+      # push. No tag step here: the repo currently carries no git tags, so
+      # WyriHaximus/github-action-get-previous-tag errored ("No fallback tag was
+      # provided and no tag was found") and failed the whole job. danharrin's
+      # action's `tag` input is optional (release-tag propagation only), so a
+      # branch split doesn't need it. Tagged releases, if wanted later, belong in
+      # a separate `on: push: tags` job.
       - name: Monorepo Split of ${{ matrix.package }}
         uses: danharrin/monorepo-split-github-action@v2.3.0
         env:
@@ -25,6 +30,5 @@ jobs:
           repository_organization: 'microweber-packages'
           repository_name: '${{ matrix.package }}'
           branch: filament
-          tag: ${{ steps.previous-tag.outputs.tag }}
           user_name: 'mw-bot'
           user_email: 'bot@microweber.com'
