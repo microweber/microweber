@@ -52,6 +52,15 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
         FilamentView::registerRenderHook(
             PanelsRenderHook::BODY_END,
             function (): HtmlString {
+                // Admins only. This hook fires on EVERY panel page — including the
+                // unauthenticated /admin login screen — so without this guard the
+                // AI chat bubble (and the chat/streaming scripts) render for logged
+                // -out visitors. The edit endpoints are already admin-gated (they
+                // 401), but a logged-out user must not even see the AI entry point.
+                if (!self::viewerIsAdmin()) {
+                    return new HtmlString('');
+                }
+
                 // Cache-bust with the built file's mtime so a rebuilt bundle is
                 // never served stale from the browser cache (these assets carry
                 // no content hash in their filename).
@@ -263,5 +272,24 @@ HTML
             __DIR__ . '/../resources/views/filament-infolists',
             'filament-infolists'
         );
+    }
+
+    /**
+     * True only when the current viewer is an authenticated admin. Used to gate
+     * the AI chat entry point so it never renders on the logged-out admin login
+     * screen (or for a non-admin session). Best-effort / never throws.
+     */
+    protected static function viewerIsAdmin(): bool
+    {
+        try {
+            if (function_exists('is_admin')) {
+                return (bool) is_admin();
+            }
+            $user = auth()->user();
+
+            return $user !== null && (int) ($user->is_admin ?? 0) === 1;
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 }
