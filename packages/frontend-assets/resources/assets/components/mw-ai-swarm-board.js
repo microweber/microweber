@@ -17,10 +17,10 @@
  * Header: "N agents · M tasks in flight". On completion the board collapses to
  * "This site was built by N agents."
  *
- * Each lane is labelled after a famous computer scientist (Ada, Grace, Alan,
- * Edsger, Donald, Linus, Guido, Bjarne …) assigned deterministically by lane
- * order, each with its own token colour. agent_id is threaded end to end: the
- * router addresses every update by the agent_id handed out in the plan.
+ * Each lane is labelled by its ROLE — the page it builds (Home, Products,
+ * Navigation …) — with a token colour cycled deterministically by lane order.
+ * agent_id is threaded end to end: the router addresses every update by the
+ * agent_id handed out in the plan.
  *
  * ── Window API (what the router / integrator calls) ────────────────────────
  *   window.mwAiSwarmBoard = {
@@ -364,12 +364,16 @@ class MwAiSwarmBoard {
         lanes.forEach((planLane, i) => {
             const ident = SWARM_AGENTS[i % SWARM_AGENTS.length];
             const agentId = (planLane && (planLane.agent_id != null)) ? String(planLane.agent_id) : ("lane-" + i);
+            const title = (planLane && planLane.title) || (this._lang("Page") + " " + (i + 1));
             const vm = {
                 agentId: agentId,
-                name: ident.name,
+                // Name the lane by its ROLE — the page it builds — not a generic
+                // persona (Ada / Grace / …). The colour still cycles per lane for
+                // visual variety. (The nav subagent names itself "Navigation".)
+                name: title,
                 color: ident.color,
                 index: i,
-                title: (planLane && planLane.title) || (this._lang("Page") + " " + (i + 1)),
+                title: title,
                 url: (planLane && planLane.url) || "",
                 summary: (planLane && planLane.summary) || "",
                 status: "queued",
@@ -393,8 +397,8 @@ class MwAiSwarmBoard {
         const a = document.createElement("span");
         a.className = "ava";
         a.style.background = vm.color;
-        a.textContent = vm.name.charAt(0);
-        a.title = vm.name + " · " + vm.title;
+        a.textContent = (vm.title || vm.name || "?").charAt(0).toUpperCase();
+        a.title = vm.title + (vm.url ? " · " + vm.url : "");
         return a;
     }
 
@@ -410,7 +414,9 @@ class MwAiSwarmBoard {
         lane.setAttribute("aria-label", vm.name + " — " + vm.title);
         lane.innerHTML =
             '<div class="mw-ai-swarm-lane-top" role="button" tabindex="0" aria-expanded="false">' +
-            '  <span class="mw-ai-swarm-cursor">' + CURSOR_SVG + "<span>" + escapeHtml(vm.name) + "</span></span>" +
+            // Cursor icon only — the lane is named by its role in the title span
+            // below, so the old persona chip text would just duplicate it.
+            '  <span class="mw-ai-swarm-cursor">' + CURSOR_SVG + "</span>" +
             '  <span class="mw-ai-swarm-lane-title">' + escapeHtml(vm.title) +
                  (vm.url ? ' <span class="mw-ai-swarm-lane-url">' + escapeHtml(vm.url) + "</span>" : "") +
             "</span>" +
