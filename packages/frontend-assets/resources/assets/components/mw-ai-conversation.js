@@ -923,18 +923,23 @@ export class MwAiConversation extends MicroweberBaseClass {
                 onPlan(plan) {
                     if (plan && plan.chat_id) { self._rememberChat(plan.chat_id); }
                     if (board) { try { board.setPlan(plan); } catch (e) {} }
+                    // Follow the growing board (respects a user who scrolled up).
+                    self.scrollDown();
                 },
                 onLane(agentId, status, built, total, meta) {
                     if (board) {
                         try { board.updateLane(agentId, { status: status, built: built, total: total, title: meta && meta.title, url: meta && meta.url }); } catch (e) {}
                     }
+                    self.scrollDown();
                 },
                 onTool(agentId, edit) {
                     self._dirty = true;
                     if (board) { try { board.tool(agentId, edit); } catch (e) {} }
+                    self.scrollDown();
                 },
                 onDone(sum) {
                     if (board) { try { board.finish(sum); } catch (e) {} }
+                    self.scrollDown();
                 },
                 onError(msg) {
                     self.addEdit(editsWrap, { tool: "error" }, { ok: false, message: msg });
