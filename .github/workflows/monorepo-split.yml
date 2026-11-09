@@ -112,6 +112,8 @@ jobs:
           package_directory: 'packages/${{ matrix.package }}'
           repository_organization: 'microweber-packages'
           repository_name: '${{ matrix.package }}'
-          branch: filament
+          # Mirror the branch being pushed (e.g. filament-5), not a hardcoded one,
+          # so each package repo gets a branch matching the monorepo source branch.
+          branch: ${{ github.ref_name }}
           user_name: 'mw-bot'
           user_email: 'bot@microweber.com'
