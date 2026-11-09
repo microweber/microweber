@@ -4,23 +4,106 @@ on:
   push:
 #    tags: '*'
 
+# Split every package under packages/* to its own repo in the microweber-packages
+# org (repo name = the package directory name), on the `filament` branch, on every
+# push. fail-fast:false so one package's failure doesn't cancel the rest.
 jobs:
   split-monorepo:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      max-parallel: 20
       matrix:
         package:
+          - frontend-assets
+          - frontend-assets-libs
+          - laravel-helper-functions
+          - microweber-activity-log
+          - microweber-admin
+          - microweber-ai-tools
+          - microweber-app
+          - microweber-app-bootstrap-cache
+          - microweber-blade-cache
+          - microweber-cdn-sync
+          - microweber-class-loader
+          - microweber-composer-installers
+          - microweber-config
+          - microweber-config-merge
+          - microweber-console
+          - microweber-content-field
+          - microweber-core
+          - microweber-css-framework-bootstrap
+          - microweber-database
+          - microweber-db-export
+          - microweber-db-installer
+          - microweber-db-migrator
+          - microweber-deps-arcanedev-php-html
+          - microweber-deps-arcanedev-support
+          - microweber-deps-laravel-repository
+          - microweber-disposable-email-checker
+          - microweber-dusk
+          - microweber-env-writer
+          - microweber-event-manager
+          - microweber-filament
+          - microweber-filament-modal-teleport
+          - microweber-filament-registry
           - microweber-filament-theme
+          - microweber-filesystem
+          - microweber-file-uploader
+          - microweber-format
+          - microweber-form-builder
+          - microweber-fortify
+          - microweber-frontend
+          - microweber-http
+          - microweber-image-optimization
+          - microweber-install
+          - microweber-laravel-modules
+          - microweber-laravel-modules-filament
+          - microweber-laravel-templates
+          - microweber-live-edit
+          - microweber-livewire
+          - microweber-livewire-modal
+          - microweber-mail-sender
+          - microweber-media-pixum
+          - microweber-media-thumbnail
+          - microweber-meta-tags
+          - microweber-microweber-ui
+          - microweber-minifier
+          - microweber-module
+          - microweber-module-registry
+          - microweber-modules
+          - microweber-monitoring
+          - microweber-multilanguage
+          - microweber-multisite
+          - microweber-notification
+          - microweber-option
+          - microweber-package
+          - microweber-package-manager-client
+          - microweber-pagination
+          - microweber-passport
+          - microweber-phpquery
+          - microweber-queue
+          - microweber-repository
+          - microweber-role
+          - microweber-searchable
+          - microweber-security
+          - microweber-social-login
+          - microweber-svg-icons
+          - microweber-system-licenses
+          - microweber-taggable-file-cache
+          - microweber-template
+          - microweber-template-custom-css
+          - microweber-template-fonts
+          - microweber-thumbnailer
+          - microweber-translation
+          - microweber-update
+          - microweber-url
+          - microweber-user
+          - microweber-utils
+          - microweber-view
+          - microweber-zip
     steps:
       - uses: actions/checkout@v4
-      # Split the package subtree to its own repo's `filament` branch on every
-      # push. No tag step here: the repo currently carries no git tags, so
-      # WyriHaximus/github-action-get-previous-tag errored ("No fallback tag was
-      # provided and no tag was found") and failed the whole job. danharrin's
-      # action's `tag` input is optional (release-tag propagation only), so a
-      # branch split doesn't need it. Tagged releases, if wanted later, belong in
-      # a separate `on: push: tags` job.
       - name: Monorepo Split of ${{ matrix.package }}
         uses: danharrin/monorepo-split-github-action@v2.3.0
         env:
