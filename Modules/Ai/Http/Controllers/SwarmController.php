@@ -1032,6 +1032,11 @@ class SwarmController extends Controller
                 array_keys($tokens),
                 array_values($tokens)
             )) . ']';
+            // The shared body/paragraph token is tuned for the PAGE background. On
+            // a dark-themed page it is light — so any light/white card you add
+            // would get near-invisible light text if it just inherits. Force the
+            // worker to set surface-local text colours on every block it tints.
+            $preamble .= "\n\n[CONTRAST — the body/paragraph tokens above are tuned for the PAGE background. Any card, panel, callout or section you give a DIFFERENT background MUST set its OWN text colours to contrast with THAT background (light surface -> dark text #182433 / muted #4b5563; dark surface -> light text #ffffff / muted #cbd5e1) — never leave a card with only a background and text inheriting the page token. No white/light-grey text on a white card, no dark text on a dark card. Aim >= 4.5:1.]";
         }
 
         if ($isOpenPage) {
