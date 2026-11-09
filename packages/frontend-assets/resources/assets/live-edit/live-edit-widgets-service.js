@@ -148,7 +148,7 @@ export class LiveEditWidgetsService extends BaseComponent{
 
     #zIndex(target) {
         const treeBox = mw.top().app.domTree?.box?.box;
-        const adminBox = mw.top().doc.querySelector('aside.fi-sidebar');
+        const adminBox = mw.top().doc.querySelector('.fi-main-sidebar');
         [treeBox, adminBox].forEach(box => {
             // adminBox (aside.fi-sidebar) is absent in preview / setup-wizard mode,
             // and the tree box may not be mounted yet — skip any missing box so
@@ -339,8 +339,21 @@ export class LiveEditWidgetsService extends BaseComponent{
 
     openAdminSidebar() {
         this.closeAll();
+        // The Filament nav sidebar is `.fi-main-sidebar` (a <div> since Filament
+        // v5 — it used to be <aside class="fi-sidebar">, which is why the old
+        // selector matched nothing and the Admin button silently did nothing).
+        // It is still absent in preview / setup-wizard mode — fall back to simply
+        // navigating to the admin URL so the button always does something.
+        const adminSidebarEl = mw.top().doc.querySelector('.fi-main-sidebar');
+        if (!adminSidebarEl) {
+            this.status.adminSidebarOpened = false;
+            try {
+                const base = (window.mw && mw.settings && mw.settings.admin_url) || '/admin/';
+                mw.top().location.href = base;
+            } catch (e) { /* no-op */ }
+            return this;
+        }
         this.status.adminSidebarOpened = true;
-        const adminSidebarEl = mw.top().doc.querySelector('aside.fi-sidebar');
         adminSidebarEl.classList.add('active')
         // task-2026-09-24 — pin the admin nav as a LEFT drawer below the toolbar.
         // NO transform / NO transition: Filament's base `transition:all` animated
@@ -374,7 +387,7 @@ export class LiveEditWidgetsService extends BaseComponent{
         // (which left a black gap on the left). The Layers panel keeps its left
         // shift because it only sets `mw-live-edit-sidebar-start`.
         mw.top().doc.documentElement.classList.add( 'mw-live-edit-sidebar-start', 'mw-live-edit-admin-open');
-        this.#zIndex(mw.top().doc.querySelector('aside.fi-sidebar'));
+        this.#zIndex(mw.top().doc.querySelector('.fi-main-sidebar'));
         // Flip Filament's Alpine sidebar store to "open" so the sidebar renders
         // EXPANDED: item labels show (x-show="$store.sidebar.isOpen") AND grouped
         // nav (Website / Shop) renders as labelled headers with their sub-items
@@ -455,7 +468,7 @@ export class LiveEditWidgetsService extends BaseComponent{
             return this;
         }
         this.status.adminSidebarOpened = false;
-        const sb = mw.top().doc.querySelector('aside.fi-sidebar');
+        const sb = mw.top().doc.querySelector('.fi-main-sidebar');
         // task-2026-09-24 — instant teardown (no slide). Hide first (.active
         // removed), then clear the drawer inline styles; with no transition there's
         // no fly-out and no "collapses to an icon strip in the middle" flash.

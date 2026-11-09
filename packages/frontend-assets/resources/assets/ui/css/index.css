@@ -1449,7 +1449,10 @@ html.mw-live-edit-sidebar-start:not(.mw-live-edit-admin-open) #live-edit-frame-h
 }
 
 #mw-live-edit-domtree-box,
-aside.fi-sidebar {
+.fi-main-sidebar {
+    /* Filament v5 renders the nav sidebar as <div class="fi-main-sidebar">
+       (was <aside class="fi-sidebar">). Match the new element so the live-edit
+       admin drawer keeps the standard sidebar width. */
     width: var(--sidebar-start-size);
 }
 
