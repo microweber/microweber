@@ -16,6 +16,17 @@ class CheckoutPage extends Page
         return '';
     }
 
+    /**
+     * No breadcrumbs on the checkout. getBreadcrumb() only blanks THIS page's
+     * label, which still left a bare "/" separator rendering on its own row
+     * above the "Checkout" heading (the header "fell on 2 rows"). Returning an
+     * empty set removes the breadcrumb row entirely, leaving a single clean title.
+     */
+    public function getBreadcrumbs(): array
+    {
+        return [];
+    }
+
     public function getTitle(): string
     {
         return 'Checkout';

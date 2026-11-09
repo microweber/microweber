@@ -52,12 +52,12 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
         FilamentView::registerRenderHook(
             PanelsRenderHook::BODY_END,
             function (): HtmlString {
-                // Admins only. This hook fires on EVERY panel page — including the
-                // unauthenticated /admin login screen — so without this guard the
-                // AI chat bubble (and the chat/streaming scripts) render for logged
-                // -out visitors. The edit endpoints are already admin-gated (they
-                // 401), but a logged-out user must not even see the AI entry point.
-                if (!self::viewerIsAdmin()) {
+                // Admin PANEL only, admins only. This hook fires on EVERY panel's
+                // pages (admin, checkout, profile, vendor) and even the logged-out
+                // /admin login screen. The AI chat belongs to the admin panel, so
+                // render it only there AND only for an authenticated admin — never
+                // on the storefront checkout/profile/vendor panels.
+                if (!self::isAdminPanel() || !self::viewerIsAdmin()) {
                     return new HtmlString('');
                 }
 
@@ -279,6 +279,21 @@ HTML
      * the AI chat entry point so it never renders on the logged-out admin login
      * screen (or for a non-admin session). Best-effort / never throws.
      */
+    /**
+     * True only while rendering inside the admin panel — so the AI chat entry
+     * point never appears on the storefront checkout / profile / vendor panels.
+     */
+    protected static function isAdminPanel(): bool
+    {
+        try {
+            $panel = \Filament\Facades\Filament::getCurrentPanel();
+
+            return $panel !== null && $panel->getId() === 'admin';
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
     protected static function viewerIsAdmin(): bool
     {
         try {
