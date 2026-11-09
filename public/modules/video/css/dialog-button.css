@@ -1,6 +1,0 @@
-/* video dialog-button.css — extracted from the inline <style> in dialog-button.blade.php;
-   per-instance #id scope replaced by the static class .mw-video-dialog-button-play (added to the skin
-   root) so it loads once per page instead of re-inlining for every instance. */
-    .mw-video-dialog-button-play{
-        font-size: 0;
-    }
