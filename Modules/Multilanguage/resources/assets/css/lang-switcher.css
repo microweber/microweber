@@ -9,14 +9,36 @@
 .mw-lang-switcher__toggle {
     display: inline-flex; align-items: center; gap: 8px;
     min-height: 44px; padding: 8px 14px;
-    background: var(--mw-surface, #fff);
-    color: var(--mw-text-color, #1f2933);
-    border: 1px solid var(--mw-border-color, #d2d6dc);
+    /* The switcher lives in the HEADER, so it must read on the header, not the
+       page body. Default to a transparent pill that blends with the header and
+       takes the header's own link colour for its text — so it is never dark-on-
+       dark (the classic bug: --mw-surface resolves to a dark page background and
+       the text inherits a dark page/body colour, giving a black pill with black
+       text on a dark header). The !important beats a page-global header/button
+       colour override (e.g. an AI-themed page that forces #1a1a1a on every link).
+       Templates can still skin it via --mw-lang-switcher-bg / -color / -border. */
+    background: var(--mw-lang-switcher-bg, transparent);
     border-radius: var(--mw-border-radius, 8px);
     cursor: pointer; font: inherit;
     transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
-.mw-lang-switcher__toggle:hover { background: var(--mw-surface-hover, #f6f7f9); }
+/* COLOUR IS AUTHORITATIVE — the compound `.mw-lang-switcher .mw-lang-switcher__*`
+   selector (specificity 0,2,0) deliberately OUTRANKS any single-class override
+   the AI / swarm may write into the global live_edit.css (e.g.
+   `.mw-lang-switcher__toggle{color:var(--mw-body-color)!important}`, which paints
+   the switcher with the PAGE body colour and so turns it dark-on-dark on a dark
+   header). The switcher takes the header's own link colour — which the template
+   already made readable on the header — so it is correct on any template without
+   trusting page-body tokens. Skinnable via --mw-lang-switcher-color. */
+.mw-lang-switcher .mw-lang-switcher__toggle,
+.mw-lang-switcher .mw-lang-switcher__current,
+.mw-lang-switcher .mw-lang-switcher__caret {
+    color: var(--mw-lang-switcher-color, var(--mw-header-link-color, var(--mw-text-color, #1f2933))) !important;
+}
+.mw-lang-switcher .mw-lang-switcher__toggle {
+    border: 1px solid var(--mw-lang-switcher-border, color-mix(in srgb, currentColor 28%, transparent));
+}
+.mw-lang-switcher .mw-lang-switcher__toggle:hover { background: var(--mw-lang-switcher-hover, color-mix(in srgb, currentColor 12%, transparent)); }
 .mw-lang-switcher__toggle:focus-visible {
     outline: none;
     border-color: var(--mw-primary-color, #0d6efd);
@@ -38,19 +60,29 @@
     box-shadow: 0 10px 25px -5px rgba(0,0,0,.18), 0 4px 10px -4px rgba(0,0,0,.1);
 }
 .mw-lang-switcher__menu.show { display: block; }
-.mw-lang-switcher__label {
+/* The open menu floats over the page, so it carries its OWN theme-surface +
+   theme-text PAIR and pins the text with !important — a page-global colour
+   override (an AI re-skin) otherwise forces the item text to the page body
+   colour and breaks the menu's internal contrast (e.g. dark text on the dark
+   theme-surface). Keeping surface + text from the same theme tokens stays
+   internally readable on light and dark templates alike. */
+.mw-lang-switcher .mw-lang-switcher__label {
     padding: 8px 12px 6px; font-size: 11px; font-weight: 700;
     letter-spacing: .06em; text-transform: uppercase;
-    color: var(--mw-text-muted, #6b7280);
+    color: var(--mw-text-muted, #6b7280) !important;
 }
 .mw-lang-switcher__item {
     display: flex; align-items: center; gap: 12px; width: 100%;
     min-height: 44px; padding: 8px 12px; text-decoration: none;
     border-left: 3px solid transparent; border-radius: 6px;
-    color: var(--mw-text-color, #1f2933);
     transition: background .12s ease;
 }
-.mw-lang-switcher__item:hover { background: var(--mw-surface-hover, #f6f7f9); color: var(--mw-text-color, #1f2933); }
+/* Same authoritative (0,2,0) colour for the menu items — the open menu carries
+   its theme-surface + theme-text PAIR so it stays internally readable even when
+   a global override forces a page-body colour. */
+.mw-lang-switcher .mw-lang-switcher__item,
+.mw-lang-switcher .mw-lang-switcher__item:hover { color: var(--mw-text-color, #1f2933) !important; }
+.mw-lang-switcher__item:hover { background: var(--mw-surface-hover, color-mix(in srgb, currentColor 10%, transparent)); }
 .mw-lang-switcher__item.is-active {
     background: var(--mw-primary-color-soft, rgba(13,110,253,.08));
     border-left-color: var(--mw-primary-color, #0d6efd);
