@@ -23,7 +23,12 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv
-        coverage: xdebug
+        # No xdebug: it ~doubles memory + runtime and, with the whole suite in one
+        # process, was a prime driver of the OOM. run-tests.sh (below) runs each
+        # suite in its own process instead, which is how this project avoids the
+        # ~6 MB/test PHP memory leak. Coverage, if wanted, belongs in a separate
+        # lightweight job over the Unit/Feature suites only.
+        coverage: none
     - name: Get composer cache directory
       id: composer-cache
       run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
@@ -68,17 +73,14 @@ jobs:
 
     - name: List all artisan commands
       run: php artisan list
-    - name: Run PHPUnit Tests with Coverage
-      run: vendor/bin/phpunit --configuration phpunit.xml --coverage-clover clover.xml 
-    - name: Upload coverage to Codecov
-      if: always()
-      uses: codecov/codecov-action@v5
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        files: clover.xml
-        flags: ci-tests
-        name: php-${{ matrix.php-versions }}
-        fail_ci_if_error: false
+    # Run each suite in its OWN php process (run-tests.sh). The old
+    # `vendor/bin/phpunit --configuration phpunit.xml` ran all ~11.8k tests in a
+    # single process with xdebug coverage, which OOM'd (PHP leaks ~6 MB/test) and
+    # took ~5h before failing; the per-process runner is exactly what this repo
+    # ships to avoid that. It exits non-zero if any suite fails, so real failures
+    # still fail the job.
+    - name: Run PHPUnit suites (per-process, OOM-safe)
+      run: bash run-tests.sh
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v4
