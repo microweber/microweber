@@ -201,6 +201,19 @@ class SwarmModePhase2ContractTest extends TestCase
     }
 
     #[Test]
+    public function lane_prompt_drives_a_thorough_phased_build(): void
+    {
+        $src = $this->read('Modules/Ai/Http/Controllers/SwarmController.php');
+        // Each lane builds the page in scoped phases (structure, content, effects,
+        // QA) so pages are thorough and finished, not thin single-section stubs.
+        $this->assertStringContainsString('BUILD THOROUGHLY IN PHASES', $src);
+        $this->assertStringContainsString('STRUCTURE', $src);
+        $this->assertStringContainsString('EFFECTS', $src);
+        $this->assertStringContainsString('QA', $src);
+        $this->assertStringContainsString('data-mw-reveal on EVERY section', $src);
+    }
+
+    #[Test]
     public function live_agent_cursors_are_wired_into_the_swarm(): void
     {
         // The cursor overlay component exists and exposes its lifecycle API.

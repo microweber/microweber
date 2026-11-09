@@ -1046,6 +1046,25 @@ class SwarmController extends Controller
             }
         }
 
+        // WORK THE PAGE IN SCOPED PHASES — don't stop at a thin first draft. One
+        // lane, several roles done in order, so each page is thorough and finished:
+        //  1) STRUCTURE — lay out ALL the sections the brief calls for (hero,
+        //     then every supporting section: features/benefits, how-it-works,
+        //     proof/stats, gallery/cards, a strong closing CTA). A real page is
+        //     typically 5-8 sections, never 1-2.
+        //  2) CONTENT — write specific, real copy for every section (headings +
+        //     body + button labels); no lorem ipsum, no "coming soon" stubs.
+        //  3) EFFECTS — give EVERY section data-mw-reveal (rows of cards get
+        //     data-mw-reveal-stagger; hero/background decoration gets
+        //     data-mw-parallax) so the page is alive on scroll.
+        //  4) QA — re-read what you built (get_dom / your own HTML) and FIX: any
+        //     low-contrast or unreadable text (see CONTRAST above), any empty or
+        //     placeholder block, any section missing its reveal, anything
+        //     off the shared design system. Do NOT delete sections to "redo" —
+        //     restyle/rewrite in place. You are done only when the page is
+        //     complete, readable and consistent, not after the first section.
+        $preamble .= "\n\n[BUILD THOROUGHLY IN PHASES on THIS page: (1) STRUCTURE — all the sections the brief implies (a real page is ~5-8 sections: hero + supporting sections + a closing CTA), not a thin 1-2 section stub; (2) CONTENT — specific real copy everywhere, no lorem/placeholder; (3) EFFECTS — data-mw-reveal on EVERY section (rows get data-mw-reveal-stagger, hero/decoration get data-mw-parallax); (4) QA — re-read your own build and FIX contrast/readability, empty or placeholder blocks, missing reveals, and anything off the design system (restyle in place, never delete to redo). Finish the page completely before you stop.]";
+
         return $preamble . "\n\n" . $lane['prompt'];
     }
 
