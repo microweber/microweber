@@ -1,6 +1,7 @@
 <div class="d-flex justify-content-between flex-wrap mt-3">
 
     <div class="col-12 col-lg-3">
+        @include('modules.shop::livewire.shop._filter-styles')
         @if(!empty($availableCategories) && !$filterSettings['disable_categories_filtering'])
             @include('modules.shop::livewire.shop.filters.categories.index')
         @endif
