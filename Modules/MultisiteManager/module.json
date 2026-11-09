@@ -1,0 +1,11 @@
+{
+    "name": "MultisiteManager",
+    "alias": "multisite_manager",
+    "description": "Admin UI to manage tenant subsites of a Microweber multisite install. Identifies the main website via env and lets a super-admin create, configure and remove per-domain subsites (config marker + .env.<domain> + database + install). Gated behind the MW_MULTISITE_ENABLE_TENNANT_MANAGMENT env flag.",
+    "keywords": ["multisite", "tenant", "tenancy", "subsite", "domain", "multi-site"],
+    "priority": 0,
+    "providers": [
+        "Modules\\MultisiteManager\\Providers\\MultisiteManagerServiceProvider"
+    ],
+    "files": []
+}

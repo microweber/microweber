@@ -1,0 +1,27 @@
+{
+    "name": "microweber-modules/multisite-manager",
+    "description": "Filament admin UI to manage env-based tenant subsites for a Microweber multisite install.",
+    "type": "microweber-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "microweber-packages/microweber-multisite": "*",
+        "microweber-packages/microweber-env-writer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\MultisiteManager\\": ""
+        }
+    },
+    "extra": {
+        "microweber": {
+            "type": "module"
+        }
+    }
+}
