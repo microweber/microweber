@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between flex-wrap mt-3">
 
-    <div class="col-12 col-lg-3">
+    <div class="col-12 col-lg-3 mw-shop-filter-col">
         @include('modules.shop::livewire.shop._filter-styles')
         @if(!empty($availableCategories) && !$filterSettings['disable_categories_filtering'])
             @include('modules.shop::livewire.shop.filters.categories.index')
@@ -22,7 +22,7 @@
             @include('modules.shop::livewire.shop.filters.tags.index')
         @endif
     </div>
-    <div class="col-12 col-lg-9">
+    <div class="col-12 col-lg-9 mw-shop-products-col">
         @include('modules.shop::livewire.shop.filters.top.index')
 
         {{-- aria-live="polite" announces grid updates to screen readers when filters

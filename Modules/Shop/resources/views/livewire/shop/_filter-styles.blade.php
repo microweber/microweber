@@ -94,5 +94,14 @@
 .mw-shop-filter-price-range .noUi-handle:after {
     display: none !important;
 }
+/* Gutter between the filter sidebar and the products — the two columns sum to
+   100% (col-lg-3 + col-lg-9) with justify-content-between, so nothing separated
+   them and the grid butted right against the filter. Inset each column's content
+   on desktop (box-sizing:border-box, so no overflow). Applied here rather than a
+   Bootstrap gap utility so it holds on templates that don't load those. */
+@media (min-width: 992px) {
+    .mw-shop-filter-col { padding-right: 1.25rem; }
+    .mw-shop-products-col { padding-left: 1.75rem; }
+}
 </style>
 </div>
