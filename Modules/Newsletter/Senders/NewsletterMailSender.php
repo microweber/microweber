@@ -229,10 +229,16 @@ class NewsletterMailSender
     public function getParsedTemplate()
     {
 
+        $rawTemplateText = (string) ($this->getTemplate()['text'] ?? '');
         $templateText = NewsletterPlaceholderSyntax::normalizeTwigVariables(
-            $this->getTemplate()['text'],
+            $rawTemplateText,
             ['name', 'first_name', 'last_name', 'email', 'site_url', 'unsubscribe', 'unsubscribe_url']
         );
+        // Never let normalisation blank a non-empty template (defensive — keeps
+        // the body if the placeholder pass returns empty in some environment).
+        if (trim($templateText) === '' && trim($rawTemplateText) !== '') {
+            $templateText = $rawTemplateText;
+        }
 
         $firstName = '';
         $lastName = '';
