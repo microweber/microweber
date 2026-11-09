@@ -70,8 +70,8 @@ class Shop328124AI862SidebarTabletGridContractTest extends TestCase
     public function default_template_carries_new_lg_breakpoint_filter_sidebar(): void
     {
         $source = $this->read('Modules/Shop/resources/views/livewire/shop/default.blade.php');
-        $this->assertStringContainsString('<div class="col-12 col-lg-3">', $source, 'default.blade.php filter sidebar MUST be `col-12 col-lg-3` (Option A2 — stack at md, sidebar at lg+).');
-        $this->assertStringContainsString('<div class="col-12 col-lg-9">', $source, 'default.blade.php product grid MUST be `col-12 col-lg-9` (matches sidebar breakpoint, sums to 12 at lg+).');
+        $this->assertStringContainsString('<div class="col-12 col-lg-3 mw-shop-filter-col">', $source, 'default.blade.php filter sidebar MUST be `col-12 col-lg-3` (Option A2 — stack at md, sidebar at lg+).');
+        $this->assertStringContainsString('<div class="col-12 col-lg-9 mw-shop-products-col">', $source, 'default.blade.php product grid MUST be `col-12 col-lg-9` (matches sidebar breakpoint, sums to 12 at lg+).');
     }
 
     #[Test]
@@ -96,8 +96,8 @@ class Shop328124AI862SidebarTabletGridContractTest extends TestCase
     public function skin_1_template_carries_new_lg_breakpoint_filter_sidebar(): void
     {
         $source = $this->read('Modules/Shop/resources/views/livewire/shop/skin-1.blade.php');
-        $this->assertStringContainsString('<div class="col-12 col-lg-3">', $source, 'skin-1.blade.php filter sidebar MUST be `col-12 col-lg-3` (sibling-skin parity with default.blade.php).');
-        $this->assertStringContainsString('<div class="col-12 col-lg-9">', $source, 'skin-1.blade.php product grid MUST be `col-12 col-lg-9`.');
+        $this->assertStringContainsString('<div class="col-12 col-lg-3 mw-shop-filter-col">', $source, 'skin-1.blade.php filter sidebar MUST be `col-12 col-lg-3` (sibling-skin parity with default.blade.php).');
+        $this->assertStringContainsString('<div class="col-12 col-lg-9 mw-shop-products-col">', $source, 'skin-1.blade.php product grid MUST be `col-12 col-lg-9`.');
     }
 
     #[Test]
@@ -205,8 +205,8 @@ class Shop328124AI862SidebarTabletGridContractTest extends TestCase
         // Exactly 1 `col-12 col-lg-3` (filter rail) + 1 `col-12 col-lg-9`
         // (grid pane) per template render — sums to 12. Anything else
         // = layout regression.
-        $rail = substr_count($source, '<div class="col-12 col-lg-3">');
-        $grid = substr_count($source, '<div class="col-12 col-lg-9">');
+        $rail = substr_count($source, '<div class="col-12 col-lg-3 mw-shop-filter-col">');
+        $grid = substr_count($source, '<div class="col-12 col-lg-9 mw-shop-products-col">');
         $this->assertSame(1, $rail, sprintf('%s must carry exactly 1 col-lg-3 filter rail.', basename($path)));
         $this->assertSame(1, $grid, sprintf('%s must carry exactly 1 col-lg-9 grid pane.', basename($path)));
         $this->assertSame(12, 3 + 9, 'Self-documenting math invariant: 3 + 9 = 12 (full Bootstrap row, no dead-space).');

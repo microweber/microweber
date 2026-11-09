@@ -24,7 +24,7 @@
                                         <span class="fi-badge rounded-md bg-gray-100 px-1.5 py-0.5 text-xs font-medium text-gray-600 ring-1 ring-gray-500/10 dark:bg-white/10 dark:text-gray-300">Subsite</span>
                                     @endif
                                 </div>
-                                <a href="{{ $site['app_url'] }}" target="_blank" rel="noopener"
+                                <a href="{{ $site['app_url'] }}" target="_blank" rel="noopener noreferrer"
                                    class="text-xs text-primary-600 hover:underline dark:text-primary-400">{{ $site['app_url'] }}</a>
                             </td>
                             <td class="px-4 py-3 text-gray-700 dark:text-gray-300">

@@ -38,10 +38,15 @@ class Ai551To572TouchTargetContractTest extends TestCase
     private const PUBLIC_TOUCH_CSS = 'Templates/Bootstrap/resources/assets/css/public-touch.css';
     private const COOKIE_CSS       = 'Modules/CookieNotice/resources/assets/css/cookie-notice.css';
     private const MULTI_TMPL       = 'Modules/Multilanguage/resources/views/templates/default.blade.php';
+    // The switcher skin (incl. the 44px touch targets) now lives in its own CSS,
+    // which the template inlines verbatim — so the touch-target rules are asserted
+    // against that file rather than the blade that embeds it.
+    private const MULTI_CSS        = 'Modules/Multilanguage/resources/assets/css/lang-switcher.css';
 
     private string $publicTouch;
     private string $cookieCss;
     private string $multiTmpl;
+    private string $multiCss;
 
     protected function setUp(): void
     {
@@ -49,6 +54,7 @@ class Ai551To572TouchTargetContractTest extends TestCase
         $this->publicTouch = file_get_contents(base_path(self::PUBLIC_TOUCH_CSS));
         $this->cookieCss   = file_get_contents(base_path(self::COOKIE_CSS));
         $this->multiTmpl   = file_get_contents(base_path(self::MULTI_TMPL));
+        $this->multiCss    = file_get_contents(base_path(self::MULTI_CSS));
     }
 
     // -----------------------------------------------------------------------
@@ -143,7 +149,7 @@ class Ai551To572TouchTargetContractTest extends TestCase
         // carries the 44px touch target (was .modern-lang-btn).
         $this->assertMatchesRegularExpression(
             '/\.mw-lang-switcher__toggle\s*\{[^}]*min-height\s*:\s*44px/s',
-            $this->multiTmpl,
+            $this->multiCss,
             'AI-556: Multilanguage template must set min-height:44px on .mw-lang-switcher__toggle'
         );
     }
@@ -154,7 +160,7 @@ class Ai551To572TouchTargetContractTest extends TestCase
         // Menu rows carry the 44px touch target (was .modern-lang-link).
         $this->assertMatchesRegularExpression(
             '/\.mw-lang-switcher__item\s*\{[^}]*min-height\s*:\s*44px/s',
-            $this->multiTmpl,
+            $this->multiCss,
             'AI-556: Multilanguage template must set min-height:44px on .mw-lang-switcher__item (desktop)'
         );
     }
