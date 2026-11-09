@@ -310,10 +310,25 @@ class NewsletterMailSender
             $parsedEmail .= $trackingPixel;
         }
 
-        $parsedEmail = mb_convert_encoding($parsedEmail, 'HTML-ENTITIES', 'UTF-8');
+        // Rewrite click-links through the HMAC-signed tracking redirect — but ONLY
+        // when the body actually contains <a> links. The DOMDocument round-trip
+        // below drops bare top-level text (LIBXML_HTML_NOIMPLIED gives no implied
+        // <body> to hold it), which in some libxml builds silently emptied a
+        // plain-text / link-less body and sent an email with only the tracking
+        // pixel. Skipping the round-trip when there is nothing to sign preserves
+        // the body. (Also drop the removed-in-PHP-8.2 mb_convert_encoding(
+        // 'HTML-ENTITIES') hack — UTF-8 is handled via the XML prolog below.)
+        if (stripos($parsedEmail, '<a ') === false) {
+            return $parsedEmail;
+        }
 
+        // Wrap in a container so top-level text is never discarded, and declare
+        // UTF-8 the modern way (the old mb_convert_encoding hack is gone).
         $dom = new \DOMDocument();
-        $dom->loadHTML($parsedEmail, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOENT);
+        @$dom->loadHTML(
+            '<?xml encoding="UTF-8" ?><div data-mw-newsletter-body>' . $parsedEmail . '</div>',
+            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOENT
+        );
         foreach ($dom->getElementsByTagName('a') as $link) {
 
             // AI-57 / TICKET-QQ (cycle-64 2026-05-08): HMAC-sign every
@@ -340,7 +355,17 @@ class NewsletterMailSender
             $link->setAttribute('href', $redirectLink);
 
         }
-        $parsedEmail = $dom->saveHtml();
+
+        // Serialize the INNER content of the wrapper (not the wrapper div itself),
+        // so the output is the email body with the links rewritten.
+        $wrapper = $dom->documentElement;
+        if ($wrapper !== null) {
+            $inner = '';
+            foreach ($wrapper->childNodes as $child) {
+                $inner .= $dom->saveHTML($child);
+            }
+            $parsedEmail = $inner;
+        }
 
         return $parsedEmail;
 
