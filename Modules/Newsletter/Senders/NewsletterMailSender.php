@@ -260,23 +260,40 @@ class NewsletterMailSender
             $lastName = $name;
         }
 
-        $twig = new \MicroweberPackages\View\TwigView();
+        $unsubscribeUrl = route('modules.newsletter.unsubscribe') . '?email=' . $email;
+        $vars = [
+            'name' => $name,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'email' => $email,
+            'site_url' => $siteUrl,
+            'unsubscribe' => $unsubscribeUrl,
+            'unsubscribe_url' => $unsubscribeUrl,
+        ];
 
+        $twig = new \MicroweberPackages\View\TwigView();
         $twigSettings = [
             'autoescape' => false
         ];
-        $parsedEmail = $twig->render($templateText,
-            [
-                'name' => $name,
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'email' => $email,
-                'site_url' => $siteUrl,
-                'unsubscribe' => route('modules.newsletter.unsubscribe') . '?email=' . $email,
-                'unsubscribe_url' => route('modules.newsletter.unsubscribe') . '?email=' . $email,
-            ],
-            $twigSettings
-        );
+        try {
+            $parsedEmail = $twig->render($templateText, $vars, $twigSettings);
+        } catch (\Throwable $e) {
+            $parsedEmail = '';
+        }
+
+        // Resilience: if Twig yields an EMPTY body for a NON-empty template (seen
+        // in some environments where the Twig render silently produces nothing),
+        // the email content would be dropped and only the tracking pixel would
+        // send. Fall back to a direct placeholder substitution so the body is
+        // never lost. Normalised placeholders are the spaced `{{ var }}` form.
+        if (trim($parsedEmail) === '' && trim($templateText) !== '') {
+            $map = [];
+            foreach ($vars as $key => $value) {
+                $map['{{ ' . $key . ' }}'] = (string) $value;
+                $map['{{' . $key . '}}'] = (string) $value;
+            }
+            $parsedEmail = strtr($templateText, $map);
+        }
         $pixelUrl = route('modules.newsletter.pixel') . '?email=' . $email . '&campaign_id=' . $this->campaign['id'];
         $trackingPixel = '<img src="' . $pixelUrl . '" style="display:none;">';
 
