@@ -907,6 +907,8 @@ export class MwAiConversation extends MicroweberBaseClass {
         if (board) {
             try { board.mount(editsWrap); } catch (e) {}
         }
+        // Live per-agent cursors on the canvas (best-effort; no-op off-canvas).
+        const cursors = window.mwAiSwarmCursors || null;
         try {
             const summary = await mw.aiSwarm.start({
                 message: text,
@@ -923,6 +925,7 @@ export class MwAiConversation extends MicroweberBaseClass {
                 onPlan(plan) {
                     if (plan && plan.chat_id) { self._rememberChat(plan.chat_id); }
                     if (board) { try { board.setPlan(plan); } catch (e) {} }
+                    if (cursors) { try { cursors.start(plan); } catch (e) {} }
                     // Follow the growing board (respects a user who scrolled up).
                     self.scrollDown();
                 },
@@ -930,15 +933,18 @@ export class MwAiConversation extends MicroweberBaseClass {
                     if (board) {
                         try { board.updateLane(agentId, { status: status, built: built, total: total, title: meta && meta.title, url: meta && meta.url }); } catch (e) {}
                     }
+                    if (cursors && (status === "done" || status === "error")) { try { cursors.finishLane(agentId); } catch (e) {} }
                     self.scrollDown();
                 },
                 onTool(agentId, edit) {
                     self._dirty = true;
                     if (board) { try { board.tool(agentId, edit); } catch (e) {} }
+                    if (cursors) { try { cursors.tool(agentId, edit); } catch (e) {} }
                     self.scrollDown();
                 },
                 onDone(sum) {
                     if (board) { try { board.finish(sum); } catch (e) {} }
+                    if (cursors) { try { cursors.finishAll(); } catch (e) {} }
                     self.scrollDown();
                 },
                 onError(msg) {

@@ -25,6 +25,8 @@ import { MwAiConversation } from "../components/mw-ai-conversation.js";
 // Live-Edit app get them wherever the AI box mounts.
 import "./mw-ai-swarm.js";
 import "../components/mw-ai-swarm-board.js";
+// Live per-agent cursors on the canvas (window.mwAiSwarmCursors).
+import "../components/mw-ai-swarm-cursors.js";
 
 const SIDEBAR_CSS = `
 :root{ --mw-ai-sidebar-width:420px; }

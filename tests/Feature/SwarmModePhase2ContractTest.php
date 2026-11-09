@@ -201,6 +201,27 @@ class SwarmModePhase2ContractTest extends TestCase
     }
 
     #[Test]
+    public function live_agent_cursors_are_wired_into_the_swarm(): void
+    {
+        // The cursor overlay component exists and exposes its lifecycle API.
+        $cursors = $this->read('packages/frontend-assets/resources/assets/components/mw-ai-swarm-cursors.js');
+        foreach (['start', 'tool', 'finishLane', 'finishAll'] as $m) {
+            $this->assertStringContainsString($m, $cursors, "Cursor manager must expose {$m}().");
+        }
+        $this->assertStringContainsString('mwAiSwarmCursors', $cursors, 'Cursor manager must register a window singleton.');
+
+        // It is imported wherever the board is, so both bundles get it.
+        $sidebar = $this->read('packages/frontend-assets/resources/assets/services/mw-ai-chat-sidebar.js');
+        $this->assertStringContainsString('mw-ai-swarm-cursors.js', $sidebar);
+
+        // The swarm turn drives the cursors alongside the board.
+        $conv = $this->read('packages/frontend-assets/resources/assets/components/mw-ai-conversation.js');
+        $this->assertStringContainsString('cursors.start(plan)', $conv, 'Cursors must start when the plan lands.');
+        $this->assertStringContainsString('cursors.tool(agentId, edit)', $conv, 'Cursors must hop on each tool frame.');
+        $this->assertStringContainsString('cursors.finishAll()', $conv);
+    }
+
+    #[Test]
     public function global_css_makes_the_language_switcher_inherit_the_palette(): void
     {
         $src = $this->read('Modules/Ai/Http/Controllers/SwarmController.php');
