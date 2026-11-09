@@ -133,7 +133,12 @@ JS;
 
     public function getPlacement(): string
     {
-        return Meta::PLACEMENT_HEAD;
+        // Load at body-end (footer), not in <head>: the libs are deferred either
+        // way, but keeping them out of the head avoids any head-render cost and
+        // matches where the other frontend runtime scripts load. The inline kit
+        // guards every GSAP call with gsapOk() at runtime and re-scans on
+        // mutation, so loading after the DOM is fine.
+        return Meta::PLACEMENT_FOOTER;
     }
 
     public function __toString(): string

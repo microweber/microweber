@@ -21,10 +21,11 @@ class LiveEditMotionLibsContractTest extends TestCase
     }
 
     #[Test]
-    public function gsap_head_entity_renders_gsap_and_scrolltrigger_in_the_head(): void
+    public function gsap_entity_renders_gsap_and_scrolltrigger_in_the_footer(): void
     {
         $e = new MotionLibsHeadTags();
-        $this->assertSame('head', $e->getPlacement());
+        // Loaded at body-end (footer), not the head — deferred + runtime-guarded.
+        $this->assertSame('footer', $e->getPlacement());
         $html = $e->toHtml();
         $this->assertStringContainsString('gsap/3.13.0/gsap.min.js', $html);
         $this->assertStringContainsString('ScrollTrigger.min.js', $html);
