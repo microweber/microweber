@@ -193,6 +193,37 @@ export class LiveEditWidgetsService extends BaseComponent{
 
     #mode = 'page';
 
+    // task-2026-11-09 — style the Quick-edit panel (its segmented mode control +
+    // scope tabs). Injected once into the TOP document (the control box lives
+    // there). Tokens fall back to literals so it renders on any template.
+    #injectQuickEditStyles() {
+        try {
+            const doc = mw.top().doc;
+            if (doc.getElementById('mw-qe-styles')) { return; }
+            const s = doc.createElement('style');
+            s.id = 'mw-qe-styles';
+            s.textContent = `
+.mw-qe-panel { padding: 2px 2px 4px; }
+.mw-qe-modebar { display:flex; gap:4px; padding:4px; margin:0 0 14px; background:var(--mw-bg-page,#eef1f5); border-radius:10px; }
+.mw-qe-mode { flex:1 1 0; display:inline-flex; align-items:center; justify-content:center; gap:7px; height:36px; padding:0 10px; border:none; border-radius:8px; background:transparent; color:var(--mw-text-muted,#5a6b7b); font-size:13px; font-weight:600; line-height:1; cursor:pointer; transition:background .15s ease,color .15s ease,box-shadow .15s ease; }
+.mw-qe-mode:hover { color:var(--mw-text-primary,#182433); }
+.mw-qe-mode.is-active { background:#fff; color:var(--mw-text-primary,#182433); box-shadow:0 1px 3px rgba(24,36,51,.14); }
+.mw-qe-mode svg { opacity:.85; flex:0 0 auto; }
+.dark .mw-qe-modebar { background:rgba(255,255,255,.07); }
+.dark .mw-qe-mode { color:#aeb6c2; }
+.dark .mw-qe-mode:hover { color:#e8eaed; }
+.dark .mw-qe-mode.is-active { background:#2a323c; color:#e8eaed; box-shadow:none; }
+/* scope tabs (Active layout / Whole page) — segmented pill to match */
+.mw-qe-panel > .flex.gap-4 { gap:6px !important; padding:4px; background:var(--mw-bg-page,#eef1f5); border-radius:9px; }
+.mw-qe-panel > .flex.gap-4 .btn { flex:1 1 0; min-height:34px; border:none; border-radius:7px; background:transparent; color:var(--mw-text-muted,#5a6b7b); font-size:12.5px; font-weight:600; box-shadow:none; }
+.mw-qe-panel > .flex.gap-4 .btn.active { background:#fff; color:var(--mw-text-primary,#182433); box-shadow:0 1px 3px rgba(24,36,51,.12); }
+.dark .mw-qe-panel > .flex.gap-4 { background:rgba(255,255,255,.07); }
+.dark .mw-qe-panel > .flex.gap-4 .btn.active { background:#2a323c; color:#e8eaed; box-shadow:none; }
+`;
+            doc.head.appendChild(s);
+        } catch (e) { /* styling is best-effort */ }
+    }
+
     openQuickEditComponent() {
         const isWholePage = mw.top().app.liveEditWidgets.quickEditComponent.settings.root === mw.top().app.canvas.getDocument().body;
 
@@ -307,6 +338,38 @@ export class LiveEditWidgetsService extends BaseComponent{
         // above for callers/back-compat.)
         void _contentId;
         const fieldsView = document.createElement('div');
+        fieldsView.classList.add('mw-qe-panel');
+
+        // task-2026-11-09 — the Quick-edit panel had NO way back to the AI chat
+        // (the sidebar's AI Chat/Quick edit mode dropdown lives on the chat
+        // surface, which this panel replaced), so a user who picked "Quick edit"
+        // was stuck here. Add a segmented mode control at the top mirroring that
+        // dropdown: "AI Chat" switches back (closes this panel + opens the chat),
+        // "Quick edit" is the current surface. Also gives the panel a styled head.
+        this.#injectQuickEditStyles();
+        const modeBar = ElementManager(`
+            <div class="mw-qe-modebar" role="tablist" aria-label="${mw.lang('Editing mode')}">
+                <button type="button" class="mw-qe-mode" role="tab" data-mw-qe-mode="ai-chat">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span>${mw.lang('AI Chat')}</span>
+                </button>
+                <button type="button" class="mw-qe-mode is-active" role="tab" aria-selected="true" data-mw-qe-mode="fields">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                    <span>${mw.lang('Quick edit')}</span>
+                </button>
+            </div>
+        `).get(0);
+        modeBar.querySelector('[data-mw-qe-mode="ai-chat"]').addEventListener('click', () => {
+            // Close this panel and hand back to the docked AI chat (canvas-coupled).
+            try { this.closeQuickEditComponent(); } catch (e) {}
+            try {
+                window.dispatchEvent(new CustomEvent('mw:ai-chat:open', {
+                    detail: { agentType: 'liveedit', canvas: true, title: mw.lang('AI assistant') },
+                }));
+            } catch (e) {}
+        });
+        fieldsView.appendChild(modeBar);
+
         fieldsView.appendChild(tabs);
         fieldsView.appendChild(this.quickEditComponent.editor());
         box.boxContent.appendChild(fieldsView);
