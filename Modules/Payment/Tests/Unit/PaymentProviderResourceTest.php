@@ -18,7 +18,14 @@ class PaymentProviderResourceTest extends TestCase
 
 
     public function it_payment_provider_resource_paypal(): void {
-        PaymentProvider::where('name', 'Paypal')->delete();
+        // Clear any conflicting paypal provider first — the provider <select>
+        // excludes a driver whose title matches an existing provider's name, so a
+        // leftover from a sibling test drops "paypal" from the options. Match the
+        // driver key and the title's case variants.
+        PaymentProvider::where('provider', 'paypal')
+            ->orWhere('name', 'Paypal')
+            ->orWhere('name', 'PayPal')
+            ->delete();
         // Test form rendering
         Livewire::test(CreatePaymentProvider::class)
             ->assertFormFieldExists('name')
