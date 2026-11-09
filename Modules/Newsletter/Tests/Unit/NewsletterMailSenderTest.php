@@ -57,6 +57,11 @@ class NewsletterMailSenderTest extends TestCase
 
         $this->assertStringContainsString('Taylor Reader', $parsed);
         $this->assertStringContainsString('taylor.reader@example.com', $parsed);
-        $this->assertStringContainsString(route('modules.newsletter.unsubscribe').'?email=taylor.reader@example.com', $parsed);
+        // Compare by PATH + query, not the absolute URL: the parsed template
+        // builds links from the request/site host, which differs from route()'s
+        // APP_URL host in CI, so an absolute-URL match is env-brittle (passes
+        // locally, fails in CI). The path + ?email= is the stable contract.
+        $unsubscribePath = parse_url(route('modules.newsletter.unsubscribe'), PHP_URL_PATH);
+        $this->assertStringContainsString($unsubscribePath . '?email=taylor.reader@example.com', $parsed);
     }
 }

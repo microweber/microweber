@@ -51,7 +51,15 @@ class PaymentProviderResourceTest extends TestCase
 
 
     public function it_payment_provider_resource_stripe(): void {
-        PaymentProvider::where('name', 'Stripe Provider')->delete();
+        // The provider <select> only offers drivers NOT already set up (it excludes
+        // a driver whose title matches an existing provider's name). A leftover
+        // Stripe provider from a sibling test therefore drops "stripe" from the
+        // options and fails validation. Clear any conflicting stripe provider —
+        // by driver key AND by the driver title — before testing.
+        PaymentProvider::where('provider', 'stripe')
+            ->orWhere('name', 'Stripe')
+            ->orWhere('name', 'Stripe Provider')
+            ->delete();
         // Test form rendering
         Livewire::test(CreatePaymentProvider::class)
             ->assertFormFieldExists('name')

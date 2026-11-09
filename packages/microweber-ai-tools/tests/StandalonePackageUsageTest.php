@@ -38,7 +38,7 @@ class StandalonePackageUsageTest extends TestCase
             $composer['extra']['laravel'] ?? [],
             'Standalone MW packages must not use extra.laravel.providers (Core loads them)'
         );
-        $this->assertSame('microweber-packages/ai-tools', $composer['name']);
+        $this->assertSame('microweber-packages/microweber-ai-tools', $composer['name']);
     }
 
     #[Test]

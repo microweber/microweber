@@ -42,7 +42,7 @@ class StandaloneLaravelAppTest extends TestCase
         $this->assertFileExists($composer);
         $data = json_decode((string) file_get_contents($composer), true);
         $this->assertIsArray($data);
-        $this->assertSame('microweber-packages/class-loader', $data['name'] ?? null);
+        $this->assertSame('microweber-packages/microweber-class-loader', $data['name'] ?? null);
         // No auto-discovery — CoreServiceProvider / host app registers it.
         $this->assertNull($data['extra']['laravel']['providers'] ?? null);
     }

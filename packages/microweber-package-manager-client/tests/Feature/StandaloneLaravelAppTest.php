@@ -44,7 +44,7 @@ class StandaloneLaravelAppTest extends TestCase
         $this->assertFileExists($composer);
         $data = json_decode((string) file_get_contents($composer), true);
         $this->assertIsArray($data);
-        $this->assertSame('microweber-packages/package-manager-client', $data['name'] ?? null);
+        $this->assertSame('microweber-packages/microweber-package-manager-client', $data['name'] ?? null);
         // No extra.laravel.providers: non-core packages must NOT auto-discover
         // (enforced by microweber-core's test_no_package_has_auto_discovery_except_core);
         // the provider is registered explicitly by MicroweberServiceProvider.

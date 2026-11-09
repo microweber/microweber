@@ -31,13 +31,17 @@ class ModuleManagerCharacterizationTest extends TestCase
     #[Test]
     public function dir_path_and_locate_resolve_the_module_folder(): void
     {
-        $expected = normalize_path(base_path('Modules/Content/'), true);
-        $norm = fn ($p) => normalize_path($p, true);
+        // Compare the RESOLVED directory: in a standalone/testbench layout the
+        // module base can carry `vendor/composer/../..` segments that point at the
+        // same folder but that normalize_path() does not collapse. realpath()
+        // resolves them, so the assertion checks the real target, not its spelling.
+        $expected = realpath(base_path('Modules/Content'));
+        $real = fn ($p) => realpath(rtrim((string) $p, '/\\'));
 
-        $this->assertSame($expected, $norm($this->mm()->dir('content')));
-        $this->assertSame($expected, $norm($this->mm()->path('content')));
+        $this->assertSame($expected, $real($this->mm()->dir('content')));
+        $this->assertSame($expected, $real($this->mm()->path('content')));
         // locate() historically did view fallback; now delegates to dir().
-        $this->assertSame($expected, $norm($this->mm()->locate('content')));
+        $this->assertSame($expected, $real($this->mm()->locate('content')));
     }
 
     #[Test]

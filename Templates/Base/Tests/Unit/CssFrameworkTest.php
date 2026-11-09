@@ -347,7 +347,7 @@ class CssFrameworkTest extends TestCase
 
         $json = json_decode(file_get_contents($jsonPath), true);
         $this->assertNotNull($json);
-        $this->assertEquals('microweber/css-framework-bootstrap', $json['name']);
+        $this->assertEquals('microweber-packages/microweber-css-framework-bootstrap', $json['name']);
     }
 
     /**
