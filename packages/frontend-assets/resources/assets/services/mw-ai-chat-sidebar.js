@@ -112,6 +112,16 @@ html.dark .mw-ai-chat-sidebar-close:hover{ background:#ffffff14; }
     html.mw-ai-chat-sidebar-visible.mw-ai-chat-liveedit .mw-ai-chat-sidebar{
         top:var(--mw-ai-le-top, 60px) !important;
         height:calc(100vh - var(--mw-ai-le-top, 60px)) !important;
+        /* Dock BELOW the toolbar's stacking context (the toolbar bar is a
+           z-index:999 stacking context, so its own dropdowns — resolution,
+           language, ⋮ overflow, page chip — are capped at that level). The
+           modal z-index:2147483000 above would otherwise clip those menus
+           behind the docked chat. Here the drawer lives in its own right-hand
+           column below the toolbar (top:60px), so a lower z still sits above the
+           canvas (z:auto) while letting the toolbar menus open over it. Only the
+           desktop LIVE-EDIT dock is lowered; the narrow-viewport modal + admin
+           push mode keep the high z-index from the base rule above. */
+        z-index:990 !important;
     }
     html.mw-ai-chat-sidebar-visible.mw-ai-chat-liveedit #live-edit-frame-holder{
         width:auto !important;
