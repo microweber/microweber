@@ -14,7 +14,28 @@
     <head> by MultilanguageServiceProvider when multilanguage is active — so they
     load once per page instead of inline per render, on any template.
 --}}
+@php
+    // Self-contained skin: carry the switcher CSS WITH the module so it is styled
+    // on EVERY template, not only where the header flushes the template_head()
+    // <link> (it loaded on Plain but was missing on Big2, leaving the switcher
+    // unstyled: static menu, transparent panel, black-on-black label). Read once
+    // per request (static cache) and inline it. Harmless if the external <link>
+    // also loads — identical rules. Falls back to the asset URL if the file is
+    // absent.
+    static $__mwLangSwitcherCss = null;
+    if ($__mwLangSwitcherCss === null) {
+        $__mwLangSwitcherCssPath = public_path('modules/multilanguage/css/lang-switcher.css');
+        $__mwLangSwitcherCss = is_file($__mwLangSwitcherCssPath)
+            ? (string) file_get_contents($__mwLangSwitcherCssPath)
+            : '';
+    }
+@endphp
 <div class="mw-lang-switcher module-multilanguage">
+    @if($__mwLangSwitcherCss !== '')
+        <style>{!! $__mwLangSwitcherCss !!}</style>
+    @else
+        <link rel="stylesheet" href="{{ asset('modules/multilanguage/css/lang-switcher.css') }}">
+    @endif
     <button
         class="mw-lang-switcher__toggle"
         type="button"

@@ -9,7 +9,28 @@ Bootstrap-framework templates (Plain/Base/Big) as well as Tailwind surfaces.
 */
 @endphp
 
+@php
+    // Self-contained skin: carry the switcher CSS WITH the component so it is
+    // styled on EVERY template, not only where the header happens to flush the
+    // template_head() <link> (it loads on Plain but was missing on Big2, leaving
+    // the switcher unstyled: static menu, transparent panel, black-on-black
+    // label). Read once per request (static cache) and inline it inside the
+    // single Livewire root. Harmless if the external <link> also loads — the
+    // rules are identical. Falls back to the asset URL when the file is absent.
+    static $__mwLangSwitcherCss = null;
+    if ($__mwLangSwitcherCss === null) {
+        $__mwLangSwitcherCssPath = public_path('modules/multilanguage/css/lang-switcher.css');
+        $__mwLangSwitcherCss = is_file($__mwLangSwitcherCssPath)
+            ? (string) file_get_contents($__mwLangSwitcherCssPath)
+            : '';
+    }
+@endphp
 <div class="mw-lang-switcher" x-data="{ open: @entangle('isOpen') }">
+    @if($__mwLangSwitcherCss !== '')
+        <style>{!! $__mwLangSwitcherCss !!}</style>
+    @else
+        <link rel="stylesheet" href="{{ asset('modules/multilanguage/css/lang-switcher.css') }}">
+    @endif
     <button
         type="button"
         class="mw-lang-switcher__toggle"
