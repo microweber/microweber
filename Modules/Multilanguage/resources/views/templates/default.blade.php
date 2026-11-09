@@ -29,12 +29,29 @@
             ? (string) file_get_contents($__mwLangSwitcherCssPath)
             : '';
     }
+    // The toggle's open/close is driven by lang-switcher.js (delegated click),
+    // also injected via template_head() and therefore ALSO missing on templates
+    // that don't flush it (Big2, Office, …) — so the dropdown wouldn't open at
+    // all there. Inline it too; the script self-guards (window.__mwLangSwitcherWired)
+    // so it wires exactly once even if the external copy also loads.
+    static $__mwLangSwitcherJs = null;
+    if ($__mwLangSwitcherJs === null) {
+        $__mwLangSwitcherJsPath = public_path('modules/multilanguage/js/lang-switcher.js');
+        $__mwLangSwitcherJs = is_file($__mwLangSwitcherJsPath)
+            ? (string) file_get_contents($__mwLangSwitcherJsPath)
+            : '';
+    }
 @endphp
 <div class="mw-lang-switcher module-multilanguage">
     @if($__mwLangSwitcherCss !== '')
         <style>{!! $__mwLangSwitcherCss !!}</style>
     @else
         <link rel="stylesheet" href="{{ asset('modules/multilanguage/css/lang-switcher.css') }}">
+    @endif
+    @if($__mwLangSwitcherJs !== '')
+        <script>{!! $__mwLangSwitcherJs !!}</script>
+    @else
+        <script defer src="{{ asset('modules/multilanguage/js/lang-switcher.js') }}"></script>
     @endif
     <button
         class="mw-lang-switcher__toggle"
