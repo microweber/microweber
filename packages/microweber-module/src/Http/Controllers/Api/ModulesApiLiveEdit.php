@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Module\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use MicroweberPackages\App\Http\Controllers\Controller;
 
 class ModulesApiLiveEdit extends Controller
@@ -758,6 +759,27 @@ class ModulesApiLiveEdit extends Controller
         $requestedTemplate = $request->get('active_site_template');
         $templateAdapter = app()->template_manager->templateAdapter;
         $originalTemplate = $templateAdapter->getTemplateFolderName();
+        $effectiveTemplate = ($requestedTemplate !== null && $requestedTemplate !== '') ? $requestedTemplate : $originalTemplate;
+
+        // PERF: a layout preview is a deterministic, non-interactive thumbnail —
+        // same (skin, template) always renders the same HTML — yet each one was a
+        // fresh full render: load_module('layouts') + parser->process() (0.7–2.5s
+        // as the parser renders every nested module live) + the full site head.
+        // The Insert Layout picker opens dozens (Plain ships 127 layouts, none
+        // with screenshots), lazy-mounting an iframe per card and re-rendering on
+        // every scroll-back / reopen. Cache the finished HTML, keyed by the layout
+        // file's mtime so an edited layout re-renders automatically; fall back to a
+        // short TTL when the file can't be resolved. Turns a 1–3s render into a
+        // sub-millisecond cache read on every repeat view. Cleared by the normal
+        // `cache:clear`. (Previews show layout STRUCTURE, not live content, so
+        // content edits needn't bust them.)
+        $mtime = $this->resolveLayoutFileMtime($template, $effectiveTemplate);
+        $cacheKey = 'mw_layout_preview:' . md5($template . '|' . $effectiveTemplate) . ':' . ($mtime ?: 'nofile');
+        $cachedHtml = Cache::get($cacheKey);
+        if (is_string($cachedHtml) && $cachedHtml !== '') {
+            return response($cachedHtml)->header('Content-Type', 'text/html')->setEtag(md5($cachedHtml));
+        }
+
         $switchedTemplate = false;
         if ($requestedTemplate && $requestedTemplate !== $originalTemplate) {
             $candidate = templates_dir() . $requestedTemplate . DS;
@@ -816,12 +838,56 @@ class ModulesApiLiveEdit extends Controller
 </body>
 </html>';
 
+            // Cache the finished preview. A resolvable mtime keys the entry to the
+            // layout file, so it is effectively permanent until the file changes
+            // (30 days); when the file can't be resolved, a short TTL keeps a stale
+            // preview from lingering.
+            Cache::put($cacheKey, $html, $mtime ? now()->addDays(30) : now()->addMinutes(30));
+
             return response($html)->header('Content-Type', 'text/html')->setEtag(md5($html));
         } finally {
             if ($switchedTemplate) {
                 $templateAdapter->templateFolderName = $originalTemplate;
             }
         }
+    }
+
+    /**
+     * Best-effort mtime of the blade file backing a layout skin, used to key the
+     * preview cache so an edited layout re-renders without a manual cache clear.
+     * Returns null when the file can't be resolved (the caller then uses a TTL).
+     *
+     * The template folder name is sanitised to a safe slug before touching the
+     * filesystem so a hostile active_site_template (e.g. "../../etc") can never
+     * probe outside the Templates directory.
+     */
+    private function resolveLayoutFileMtime(string $template, string $activeTemplate): ?int
+    {
+        // Skin path is a module template like "ecommerce/skin-1" — allow only the
+        // folder/skin characters the scanner produces.
+        if (!preg_match('#^[A-Za-z0-9/_-]+$#', $template)) {
+            return null;
+        }
+        $safeTemplate = preg_replace('#[^A-Za-z0-9_-]#', '', (string) $activeTemplate);
+        if ($safeTemplate === '') {
+            return null;
+        }
+
+        $rel = 'resources/views/modules/layouts/templates/' . $template . '.blade.php';
+        $max = null;
+        // The folder name is case-sensitive on Linux; try the given casing and the
+        // ucfirst form (templates ship as "Plain", options often store "plain").
+        foreach ([$safeTemplate, ucfirst(strtolower($safeTemplate))] as $folder) {
+            $path = base_path('Templates/' . $folder . '/' . $rel);
+            if (is_file($path)) {
+                $m = @filemtime($path);
+                if ($m !== false && ($max === null || $m > $max)) {
+                    $max = $m;
+                }
+            }
+        }
+
+        return $max;
     }
 
     /**
