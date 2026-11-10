@@ -219,6 +219,21 @@ class MwAiSwarm {
                 if (onLane) { onLane("nav", nav.status || "done", nav.built || 0, 1, { title: "Navigation", url: "", agent_id: "nav" }); }
             } catch (e) { if (onLane) { onLane("nav", "error", 0, 1, { title: "Navigation", url: "", agent_id: "nav" }); } }
 
+            // QA REVIEWERS — two dedicated agents run AFTER the pages + nav: one
+            // hunts colours that blend (white-on-white text, an icon the same
+            // colour as its bar, a button label lost on its button); the other
+            // hunts spacing mismatches (cramped logo, uneven card gaps,
+            // inconsistent section padding). Each reads the LIVE open page and
+            // fixes its own defect class in place, so they run against the final
+            // built page — and concurrently with each other (contrast only touches
+            // colour, spacing only touches spacing, so they never collide).
+            await Promise.all([
+                self._qaRequest(siteUrl, headers, Object.assign({ focus: "contrast" }, opts.contextBundle || {}),
+                    { title: "Contrast QA", agent_id: "qa-contrast" }, { onLane: onLane, onTool: onTool, onError: onError }),
+                self._qaRequest(siteUrl, headers, Object.assign({ focus: "spacing" }, opts.contextBundle || {}),
+                    { title: "Spacing QA", agent_id: "qa-spacing" }, { onLane: onLane, onTool: onTool, onError: onError }),
+            ]);
+
             // Every lane closed → flush per-lane module-reload queues and fire the
             // single whole-run save (never per lane). Build the done summary from
             // each lane's last frame.
@@ -266,12 +281,49 @@ class MwAiSwarm {
         await this._pumpStream(res, self._laneDispatch(cbs));
     }
 
+    /**
+     * Open ONE QA reviewer's SSE stream (focus = contrast | spacing) and route
+     * its frames. Same transport/dispatch as a page lane, but every frame already
+     * carries the reviewer's agent_id (qa-contrast / qa-spacing) from the backend
+     * emitter, so the board shows each reviewer as its own agent. A QA failure is
+     * non-fatal — it must never abort the save after a successful build.
+     */
+    async _qaRequest(siteUrl, headers, body, meta, cbs) {
+        const self = this;
+        // Show the reviewer on the board immediately (started), so it appears even
+        // if its stream is slow to open.
+        if (cbs.onLane) { cbs.onLane(meta.agent_id, "started", 0, 1, { title: meta.title, url: "", agent_id: meta.agent_id }); }
+        let res;
+        try {
+            res = await fetch(siteUrl + "api/ai/agent-swarm-qa-stream", {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(body),
+                credentials: "same-origin",
+            });
+        } catch (e) {
+            if (cbs.onLane) { cbs.onLane(meta.agent_id, "error", 0, 1, { title: meta.title, url: "", agent_id: meta.agent_id }); }
+            return;
+        }
+        if (!res.ok || !res.body) {
+            if (cbs.onLane) { cbs.onLane(meta.agent_id, "error", 0, 1, { title: meta.title, url: "", agent_id: meta.agent_id }); }
+            return;
+        }
+        // Default any un-tagged frame to this reviewer's agent_id (defensive).
+        await this._pumpStream(res, self._laneDispatch(cbs, meta.agent_id));
+    }
+
     /** Dispatch for a single-lane stream: tool / lane / error frames only. */
-    _laneDispatch(cbs) {
+    _laneDispatch(cbs, fallbackAgentId) {
         const self = this;
         return function (eventName, dataStr) {
             let data = {};
             try { data = dataStr ? JSON.parse(dataStr) : {}; } catch (e) { data = { raw: dataStr }; }
+            // A single-lane stream (page lane or QA reviewer) knows its own
+            // agent_id, so an un-tagged frame falls back to it rather than the
+            // default lane — keeps every frame addressed to the right board card.
+            const hasId = (data.agent_id === 0 || !!data.agent_id);
+            if (!hasId && fallbackAgentId) { data.agent_id = fallbackAgentId; }
 
             if (eventName === "tool") {
                 const lane = self._lane(data.agent_id);

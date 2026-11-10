@@ -82,6 +82,12 @@ Route::middleware(['admin'])->group(function () {
     Route::post('api/ai/agent-swarm-nav', [Modules\Ai\Http\Controllers\SwarmController::class, 'agentSwarmNav'])
         ->name('api.ai.agent-swarm-nav');
 
+    // Swarm QA reviewers — after the page lanes + nav, the frontend opens one of
+    // these per focus (contrast | spacing): dedicated agents that read the live
+    // open page and fix colour-blending / spacing-mismatch defects in place.
+    Route::post('api/ai/agent-swarm-qa-stream', [Modules\Ai\Http\Controllers\SwarmController::class, 'agentSwarmQaStream'])
+        ->name('api.ai.agent-swarm-qa-stream');
+
     Route::get('api/ai/chat-history/{chatId}', [Modules\Ai\Http\Controllers\AiController::class, 'getChatHistory'])
         ->name('api.ai.chat-history');
     

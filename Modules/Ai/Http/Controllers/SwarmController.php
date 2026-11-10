@@ -213,6 +213,20 @@ class SwarmController extends Controller
                 // (4b) NAVIGATION — wire the built pages into the header menu.
                 $doneLanes[] = $this->buildNavigation($plan, $sse, $openContentId);
 
+                // (4c) QA REVIEWERS — two dedicated agents sweep the OPEN page for
+                // colour-blending and spacing defects and fix them in place, after
+                // every page lane (and the nav) has run. Parallel path runs these as
+                // their own SSE streams; here (sequential) they run in order.
+                foreach ($this->qaReviewers() as $reviewer) {
+                    $doneLanes[] = $this->runQaLane($sse, $reviewer, $openContentId, $canvasHtml, [
+                        'css_vars' => $cssVars,
+                        'selected_element' => $selectedElement,
+                        'selected_layout' => $selectedLayout,
+                        'libraries' => $libraries,
+                        'editing_template' => $editingTemplate,
+                    ], $userId);
+                }
+
                 // (5) ONE final done frame — the frontend fires a single
                 // saveCanvasAsync() off this, never per lane.
                 $sse->emit('done', ['lanes' => $doneLanes]);
@@ -455,6 +469,235 @@ class SwarmController extends Controller
         $record = $this->buildNavigation($plan, null, $openContentId);
 
         return response()->json(['nav' => $record]);
+    }
+
+    /**
+     * The two QA reviewers that run as their OWN swarm agents AFTER every page
+     * lane has built: a CONTRAST reviewer (colours that blend — white-on-white
+     * text, an icon the same colour as its bar, a button label that disappears
+     * on its button) and a SPACING reviewer (cramped logos, uneven card gaps,
+     * inconsistent section padding, touching elements). Keyed by `focus`.
+     *
+     * @return array<string, array{agent_id:string,title:string,role:string}>
+     */
+    protected function qaReviewers(): array
+    {
+        return [
+            'contrast' => ['agent_id' => 'qa-contrast', 'title' => 'Contrast QA', 'role' => 'contrast'],
+            'spacing' => ['agent_id' => 'qa-spacing', 'title' => 'Spacing QA', 'role' => 'spacing'],
+        ];
+    }
+
+    /**
+     * PHASE 2 — QA reviewer SSE stream. After the page lanes close the frontend
+     * opens one of these per reviewer (`focus` = contrast | spacing), each in its
+     * OWN php process with its OWN canvas-context binding, exactly like a page
+     * lane. The reviewer runs a LiveEdit worker that READS the live page
+     * (get_dom / get_css_vars) and FIXES only its own class of defect in place
+     * (apply_css) — never deleting, never touching layout/copy (contrast) or
+     * colour/copy (spacing). Emits lane-tagged started/building/tool/done frames
+     * under its reviewer agent_id so the swarm board shows it as its own agent.
+     */
+    public function agentSwarmQaStream(Request $request): StreamedResponse
+    {
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'focus' => 'required|string|in:contrast,spacing',
+            'content_id' => 'sometimes|integer',
+            'open_url' => 'sometimes|string|max:2000',
+            'canvas_html' => 'sometimes|string',
+            'css_vars' => 'sometimes|array',
+            'selected_element' => 'sometimes|array',
+            'selected_layout' => 'sometimes|array',
+        ]);
+        if ($validator->fails()) {
+            return new StreamedResponse(function () use ($validator) {
+                (new SseToolEmitter())->emit('error', ['message' => $validator->errors()->toArray()]);
+            }, 422, $this->sseHeaders());
+        }
+
+        $focus = (string) $request->input('focus');
+        $openContentId = (int) $request->input('content_id', 0);
+        $openUrl = (string) $request->input('open_url', '');
+        $canvasHtml = (string) $request->input('canvas_html', '');
+        $cssVars = (array) $request->input('css_vars', []);
+        $selectedElement = (array) $request->input('selected_element', []);
+        $selectedLayout = (array) $request->input('selected_layout', []);
+        $libraries = (array) $request->input('libraries', []);
+        $editingTemplate = $this->editingTemplate($openContentId);
+        $userId = auth()->id();
+
+        return new StreamedResponse(function () use (
+            $focus, $openContentId, $openUrl, $canvasHtml, $cssVars,
+            $selectedElement, $selectedLayout, $libraries, $editingTemplate, $userId
+        ) {
+            $sse = new SseToolEmitter();
+            try {
+                $reviewers = $this->qaReviewers();
+                if (!isset($reviewers[$focus])) {
+                    $sse->emit('error', ['message' => 'Unknown QA focus: ' . $focus]);
+
+                    return;
+                }
+                $this->runQaLane($sse, $reviewers[$focus], $openContentId, $canvasHtml, [
+                    'css_vars' => $cssVars,
+                    'selected_element' => $selectedElement,
+                    'selected_layout' => $selectedLayout,
+                    'libraries' => $libraries,
+                    'editing_template' => $editingTemplate,
+                ], $userId);
+            } catch (\Throwable $e) {
+                $sse->emit('error', ['message' => 'Swarm QA error: ' . $e->getMessage()]);
+            }
+        }, 200, $this->sseHeaders());
+    }
+
+    /**
+     * Run ONE QA reviewer end to end against the OPEN canvas page: bind the live
+     * canvas context, spin up a LiveEdit worker on its own AgentChat thread, and
+     * stream the reviewer-tagged started/building/tool/done frames. Mirrors
+     * runLane() but with a review-and-fix prompt and a fixed reviewer identity
+     * (no page to build — it edits the page the user is watching, in place).
+     *
+     * @param array{agent_id:string,title:string,role:string} $reviewer
+     * @param array{css_vars?:array,selected_element?:array,selected_layout?:array,libraries?:array,editing_template?:string} $ctx
+     */
+    protected function runQaLane(
+        SseToolEmitter $sse,
+        array $reviewer,
+        int $openContentId,
+        string $canvasHtml,
+        array $ctx,
+        ?int $userId
+    ): array {
+        $agentId = (string) $reviewer['agent_id'];
+        $title = (string) $reviewer['title'];
+
+        $sse->emit('lane', [
+            'agent_id' => $agentId,
+            'status' => 'started',
+            'built' => 0,
+            'total' => 1,
+            'title' => $title,
+            'url' => '',
+        ]);
+
+        try {
+            // The QA reviewer always works the LIVE open page (the one the user is
+            // watching), so it gets the real DOM + the live selection context.
+            app()->instance('mw.ai.liveedit.context', [
+                'dom' => $canvasHtml,
+                'edit_fields' => [],
+                'computed_styles' => [],
+                'css_vars' => $ctx['css_vars'] ?? [],
+                'selected_element' => $ctx['selected_element'] ?? [],
+                'selected_layout' => $ctx['selected_layout'] ?? [],
+                'editing_template' => (string) ($ctx['editing_template'] ?? ''),
+            ]);
+
+            $agentFactory = app(AgentFactory::class);
+            $runId = substr((string) Str::uuid(), 0, 8);
+            $qaChat = $agentFactory->createOrGetChat(
+                agentType: 'liveedit',
+                title: "Swarm[{$runId}] QA · {$title}",
+                userId: $userId
+            );
+            $worker = $agentFactory->agentWithChat($qaChat);
+
+            $built = 0;
+            $onToolCall = function (array $call = []) use (&$built, $sse, $agentId) {
+                $built++;
+                $sse->emit('lane', [
+                    'agent_id' => $agentId,
+                    'status' => 'building',
+                    'built' => $built,
+                    'total' => 1,
+                ]);
+            };
+            $qaEmitter = new SseToolEmitter($onToolCall, $agentId);
+            $worker->observe($qaEmitter);
+
+            $prompt = $this->buildQaPrompt($reviewer, $openContentId, $canvasHtml);
+            $libHint = $this->formatLibrariesHint((array) ($ctx['libraries'] ?? []));
+            if ($libHint !== '') {
+                $prompt .= "\n\n" . $libHint;
+            }
+
+            AgentChatMessage::create([
+                'chat_id' => $qaChat->id,
+                'role' => 'user',
+                'content' => $prompt,
+                'metadata' => [
+                    'user_id' => $userId,
+                    'swarm' => true,
+                    'swarm_qa' => $reviewer['role'],
+                    'lane_agent_id' => $agentId,
+                    'timestamp' => now()->toISOString(),
+                ],
+            ]);
+
+            $worker->chat(new UserMessage($prompt))->getMessage();
+
+            $fixed = $built > 0 ? $built : count($qaEmitter->all());
+            $sse->emit('lane', [
+                'agent_id' => $agentId,
+                'status' => 'done',
+                'built' => $fixed,
+                'total' => max(1, $fixed),
+                'title' => $title,
+                'url' => '',
+            ]);
+
+            return ['agent_id' => $agentId, 'status' => 'done', 'built' => $fixed, 'url' => ''];
+        } catch (\Throwable $e) {
+            $sse->emit('lane', [
+                'agent_id' => $agentId,
+                'status' => 'error',
+                'built' => 0,
+                'total' => 1,
+                'title' => $title,
+                'url' => '',
+            ]);
+
+            return ['agent_id' => $agentId, 'status' => 'error', 'built' => 0, 'url' => ''];
+        }
+    }
+
+    /**
+     * Build the focused review-and-fix prompt for a QA reviewer. One tight job per
+     * reviewer: contrast OR spacing, fix in place, never delete, stay off the
+     * other reviewer's concern so the two never fight over the same declarations.
+     *
+     * @param array{agent_id:string,title:string,role:string} $reviewer
+     */
+    protected function buildQaPrompt(array $reviewer, int $openContentId, string $canvasHtml): string
+    {
+        $head = '[Swarm QA reviewer — you are the "' . $reviewer['title'] . '" agent. The page the user is watching is OPEN LIVE on the canvas'
+            . ($openContentId > 0 ? ' (content_id=' . $openContentId . ')' : '')
+            . '. First call get_dom (and get_css_vars) to read the REAL current page, then fix ONLY your own class of defect, in place, with apply_css. Never delete, move, duplicate, or restructure anything; never rewrite copy. Touch nothing that is already fine.]';
+
+        if ($reviewer['role'] === 'contrast') {
+            $job = "\n\n[YOUR JOB — COLOUR CONTRAST / BLENDING. Find every place where a foreground colour blends into what is behind it and make it readable:\n"
+                . "• text or a heading the same (or near-same) colour as its background — white/light text on a white/light surface, dark text on a dark surface;\n"
+                . "• HEADER/NAV ICONS that match the bar behind them — search / account / cart / hamburger / the close (×) button — a white × on a cream/white bar, a dark icon on a dark bar;\n"
+                . "• a BUTTON whose label is the same colour as the button fill (the label disappears);\n"
+                . "• a LINK indistinguishable from the body text around it;\n"
+                . "• a CARD/CALLOUT/SECTION given a different background whose text still inherits the page colour.\n"
+                . "FIX each with apply_css by setting the FOREGROUND for THAT surface: light surface -> text #182433, muted #4b5563; dark surface -> text #ffffff, muted #cbd5e1; keep brand accents where they are used for emphasis but make sure they read. Target >= 4.5:1 for text, >= 3:1 for large text / icons / UI. Change ONLY colour — never spacing, layout or copy. After your fixes, re-read and confirm nothing still blends.]";
+        } else {
+            $job = "\n\n[YOUR JOB — SPACING / ALIGNMENT. Find every spacing mismatch and make the rhythm consistent:\n"
+                . "• a LOGO / brand / heading crammed against an edge or not vertically centred in its bar (give it a consistent gutter + centre it);\n"
+                . "• inconsistent SECTION PADDING between sections (normalise to one scale — e.g. a clamp-based vertical padding so every section breathes the same);\n"
+                . "• uneven GAPS between cards / grid items (use a single gap value);\n"
+                . "• elements that TOUCH or are cramped with no breathing room from the one above/below;\n"
+                . "• MISALIGNED columns or items that should share a baseline;\n"
+                . "• buttons / pills with too little internal padding.\n"
+                . "FIX each with apply_css using consistent values (prefer the design tokens / a shared scale over one-off pixels). Change ONLY spacing, alignment and internal padding — never colour, never copy, never delete. Keep every change subtle and consistent with the existing design.]";
+        }
+
+        $canvasContext = $this->summarizeCanvas($canvasHtml);
+        $ctx = $canvasContext !== '' ? "\n\n[Current page canvas markup]\n" . $canvasContext : '';
+
+        return $head . $job . $ctx;
     }
 
     /**
