@@ -127,6 +127,32 @@ Use `skin: 'mw-dialog'` (or `bare`) when an external wrapper should provide chro
 
 If `mw.dialog` is missing, the skin falls back to a simple centered overlay.
 
+## Configuration
+
+`config/livewire-modal.php` key options (publish with `--tag=livewire-modal-config`):
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `skin` | `default` | Active skin (`default`, `mw-dialog`, `bare`) |
+| `include_css` / `include_js` | `false` | Whether the package injects its own CSS/JS |
+| `base_z_index` / `z_index_step` | `1100` / `10` | Stacking for nested modals |
+| `component_defaults.modal_max_width` | `2xl` | Default max width |
+| `component_defaults.show_backdrop` | `true` | Show backdrop |
+| `component_defaults.close_on_click_away` | `true` | Close on backdrop click |
+| `component_defaults.close_on_escape` | `true` | Close on Escape |
+| `component_defaults.show_close_button` | `true` | Show the X button |
+| `component_defaults.destroy_on_close` | `true` | Tear down the component on close |
+| `component_defaults.draggable` / `autosize` / `auto_scroll` | `true` | `mw-dialog` behaviours |
+
+Each default is overridable per component with a `public static function` override (see above) or per open via `modalAttributes`.
+
+## Key classes
+
+- `MicroweberPackages\LivewireModal\ModalComponent` — base class your modal components extend (`openModal()`, `closeModal()`, `forceClose()`, static option overrides).
+- `MicroweberPackages\LivewireModal\Modal` — the modal host/stack component (`openModal()`, `closeModal()`, `destroyComponent()`).
+- `MicroweberPackages\LivewireModal\Contracts\ModalComponent` — the modal component contract.
+- `MicroweberPackages\LivewireModal\LivewireModalServiceProvider` — registration + config/view publishing.
+
 ## Testing
 
 ```bash

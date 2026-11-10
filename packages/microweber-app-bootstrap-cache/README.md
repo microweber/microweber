@@ -56,7 +56,19 @@ use MicroweberPackages\AppBootstrapCache\VersionedBootstrapCacheHelper;
 $helper = new VersionedBootstrapCacheHelper('11.54.0', '2.0.0');
 $helper->getVersionPrefix();  // "11_54_0_2_0_0"
 $helper->getCacheFileName('services');  // "cache_11_54_0_2_0_0_services.php"
+$helper->getCachePath('config');        // absolute bootstrap/cache path
 ```
+
+## Real consumer
+
+Microweber's own `MicroweberPackages\App\LaravelApplication` (in `microweber-app`) `use`s the `HasVersionedBootstrapCache` trait with `const APP_VERSION = '…'`, so every Microweber boot reads/writes versioned bootstrap cache files automatically.
+
+The trait also exposes two boot-time helpers used there: `ensureBootstrapCacheDirectoryExists()` (create `bootstrap/cache` after `setBasePath()`) and `registerDefaultFacadeAliases()` (seed Laravel's default facade aliases, which Laravel 11 no longer ships).
+
+## Key classes
+
+- `MicroweberPackages\AppBootstrapCache\HasVersionedBootstrapCache` — trait for an `Application` subclass; overrides `getCached*Path()`.
+- `MicroweberPackages\AppBootstrapCache\VersionedBootstrapCacheHelper` — standalone path builder when you have no custom `Application` subclass.
 
 ## License
 

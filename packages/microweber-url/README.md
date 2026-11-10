@@ -8,16 +8,30 @@ A reusable Laravel package for URL management, slug generation, URL security val
 composer require microweber-packages/microweber-url
 ```
 
-The package uses Laravel auto-discovery, so the service provider will be registered automatically.
+Inside the Microweber monorepo the provider is registered by the core
+`MicroweberPackages\App\Providers\MicroweberServiceProvider`. In a standalone
+Laravel app register it manually:
+
+```php
+MicroweberPackages\Url\Providers\UrlServiceProvider::class,
+```
+
+The provider binds `UrlManagerService::class` as a singleton, which the
+`UrlManager` facade resolves. The `src/helpers.php` global helpers are loaded
+via Composer's `files` autoload.
 
 ## Usage
 
-### UrlManager
+### UrlManager (facade)
 
 ```php
-use MicroweberPackages\Url\UrlManager;
+use MicroweberPackages\Url\Facades\UrlManager;
 
-$urlManager = Url::getFacadeRoot();
+// Call methods statically through the facade...
+$url = UrlManager::site_url('path/to/page');
+
+// ...or grab the underlying MicroweberPackages\Url\UrlManagerService instance
+$urlManager = UrlManager::getFacadeRoot();
 
 // Get site URL
 $url = $urlManager->site_url('path/to/page');
@@ -69,6 +83,25 @@ $safe = UrlSecurity::isSafeRemoteUrl('javascript:alert(1)'); // false
 // Sanitize URL for CSS url() context
 $cssUrl = UrlSecurity::safeCssUrl($userUrl);
 ```
+
+### Global helpers (`src/helpers.php`)
+
+```php
+// Resolve the UrlManagerService instance
+$urlManager = mw_url_manager();
+
+// Security helpers (thin wrappers over UrlSecurity)
+$safe = mw_is_safe_remote_url('https://example.com/a.jpg'); // bool
+$css  = safe_css_url($userUrl);                              // string
+```
+
+## Key classes
+
+- `MicroweberPackages\Url\UrlManagerService` — the URL manager (site URL, slugs, segments, placeholder replacement).
+- `MicroweberPackages\Url\Facades\UrlManager` — facade for `UrlManagerService`.
+- `MicroweberPackages\Url\UrlSecurity` — remote-URL / CSS-URL safety checks.
+- `MicroweberPackages\Url\URLify` — transliteration / slug filtering.
+- `MicroweberPackages\Url\Providers\UrlServiceProvider` — package registration.
 
 ## Testing
 

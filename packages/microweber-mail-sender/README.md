@@ -49,6 +49,22 @@ $sender->setEmailTo('user@example.com')
     ->send();
 ```
 
+### Global helpers
+
+Loaded via Composer's `files` autoload (`src/helpers.php`):
+
+```php
+mail_sender(): MailSenderService;          // resolve the service instance
+mail_sender_send(                          // one-shot send
+    string $to,
+    string $subject,
+    string $message,
+    string|false $from = false,
+    string|false $fromName = false
+): bool;
+mail_sender_stats(): array;                // delivery statistics
+```
+
 ## Config
 
 See `config/mail-sender.php`. Key options:
@@ -66,6 +82,15 @@ See `config/mail-sender.php`. Key options:
 ```php
 $panel->plugin(\MicroweberPackages\MailSender\Filament\MailSenderPlugin::make());
 ```
+
+## Key classes
+
+- `MicroweberPackages\MailSender\Facades\MailSender` — facade for the service.
+- `MicroweberPackages\MailSender\Services\MailSenderService` — the sender (`setEmailTo()`, `setEmailSubject()`, `send()`, `execSend()`, `test()`, `selfTest()`, `getStatistics()`).
+- `MicroweberPackages\MailSender\Services\MailConfigApplier` — applies the configured transport on boot.
+- `MicroweberPackages\MailSender\Contracts\MailSenderContract` — the service contract.
+- `MicroweberPackages\MailSender\MailSenderServiceProvider` — registration + config/view publishing.
+- `MicroweberPackages\MailSender\Filament\MailSenderPlugin` / `Filament\Pages\MailSenderSettings` — admin settings page.
 
 ## Tests
 

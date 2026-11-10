@@ -40,6 +40,14 @@ return [
 
 ## Usage
 
+Use the `MediaThumbnail` facade or resolve the repository from the container — both proxy the same `MediaThumbnailRepository`:
+
+```php
+use MicroweberPackages\MediaThumbnail\Facades\MediaThumbnail;
+
+MediaThumbnail::findByFilename('tn-my-image-123');
+```
+
 ```php
 use MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository;
 
@@ -64,6 +72,23 @@ $repo->removeByFilename('tn-my-image-123');
 // Prune old entries
 $repo->pruneOlderThan(now()->subDays(90));
 ```
+
+## Routes
+
+| Method | Route | Name |
+|--------|-------|------|
+| GET | `thumbnail_img` | `media-thumbnail.thumbnail` |
+| GET | `api/media-thumbnail/generate/{uuid}` | `media-thumbnail.generate` |
+
+(The `pixum_img` placeholder route comes from the required `microweber-media-pixum` package.)
+
+## Key classes
+
+- `MicroweberPackages\MediaThumbnail\Facades\MediaThumbnail` — facade for the repository.
+- `MicroweberPackages\MediaThumbnail\Repositories\MediaThumbnailRepository` — caching layer (`findByFilename()`, `findByUuid()`, `store()`, `removeByFilename()`, `pruneOlderThan()`).
+- `MicroweberPackages\MediaThumbnail\Models\MediaThumbnail` — the `media_thumbnails` Eloquent model.
+- `MicroweberPackages\MediaThumbnail\Http\Controllers\ThumbnailController` — serves `thumbnail_img` / `generateByUuid`.
+- `MicroweberPackages\MediaThumbnail\MediaThumbnailServiceProvider` — registration + route/config/migration publishing.
 
 ## Testing
 

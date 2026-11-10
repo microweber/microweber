@@ -38,6 +38,12 @@ Both were implemented and **rejected after in-browser verification**:
 
 ## Installation
 
+```bash
+composer require microweber-packages/microweber-filament-modal-teleport
+```
+
+The service provider is auto-discovered (it loads the `mw-modal-teleport::` views). Then add the plugin to each panel:
+
 ```php
 // In your Filament PanelProvider:
 use MicroweberPackages\FilamentModalTeleport\ModalTeleportPlugin;
@@ -45,7 +51,18 @@ use MicroweberPackages\FilamentModalTeleport\ModalTeleportPlugin;
 $panel->plugin(ModalTeleportPlugin::make());
 ```
 
-The plugin registers a `PanelsRenderHook::BODY_END` hook (in `register()`, so it is flushed to Filament's render-hook registry before the page renders) that injects the JS automatically.
+The plugin registers a `PanelsRenderHook::BODY_END` hook (in `register()`, so it is flushed to Filament's render-hook registry before the page renders) that injects the JS automatically. The plugin id is `mw-modal-teleport`.
+
+Optionally publish the companion CSS (`modal-stacking-context-fix.css`) to `public/vendor/mw-modal-teleport/css`:
+
+```bash
+php artisan vendor:publish --tag=mw-modal-teleport-assets
+```
+
+## Key classes
+
+- `MicroweberPackages\FilamentModalTeleport\ModalTeleportPlugin` — the Filament `Plugin`
+- `MicroweberPackages\FilamentModalTeleport\ModalTeleportServiceProvider` — loads views, publishes assets
 
 ## Supported scenarios
 

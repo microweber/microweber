@@ -44,8 +44,19 @@ $writer->save(['KEY' => 'value'], '/path/to/.env');
 $values = $writer->read('/path/to/.env');
 ```
 
-Service class: `MicroweberPackages\EnvWriter\EnvWriterService`  
-Facade class: `MicroweberPackages\EnvWriter\Facades\EnvWriter`
+### Full API
+
+```php
+EnvWriter::save(array $values, string $envFilePath): bool   // update/append/dedupe
+EnvWriter::read(string $envFilePath): array                 // parse into key => value
+EnvWriter::formatValue(mixed $value): string                // quote/escape one value
+```
+
+## Key classes
+
+- `MicroweberPackages\EnvWriter\EnvWriterService` — service (bound as a singleton)
+- `MicroweberPackages\EnvWriter\Facades\EnvWriter` — facade
+- `MicroweberPackages\EnvWriter\EnvWriterServiceProvider` — registers the singleton
 
 ## Features
 

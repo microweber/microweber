@@ -61,6 +61,46 @@ FilamentRegistry::setDefaultScope(MyPanelProvider::class);
 FilamentRegistry::registerResource(UserResource::class); // uses MyPanelProvider scope
 ```
 
+### Register a module's settings page (real Microweber pattern)
+
+Each module registers its Filament settings page from its own service provider, and
+the admin panel provider reads them all back:
+
+```php
+// Modules/Blog/Providers/BlogServiceProvider.php
+FilamentRegistry::registerPage(BlogSettings::class);
+```
+
+### Global-search entries
+
+Register static deep-links (settings pages, admin URLs) that should surface in
+Filament's global search when keywords match:
+
+```php
+FilamentRegistry::registerGlobalSearchEntry(
+    'Comments Settings',
+    '/admin/settings/comments',
+    ['comments', 'moderation', 'spam', 'comment approval'], // keywords (lowercased)
+    'Settings',                                             // group heading
+    ['Section' => 'Website Settings'],                      // detail pairs
+);
+
+$entries = FilamentRegistry::getGlobalSearchEntries('admin');
+```
+
+### Inspecting the registry
+
+```php
+FilamentRegistry::all(MyPanelProvider::class);  // ['resources'=>[], 'pages'=>[], 'widgets'=>[], 'plugins'=>[], 'clusters'=>[]]
+FilamentRegistry::flush();                       // clear everything (useful in tests)
+```
+
+## Key classes
+
+- `MicroweberPackages\FilamentRegistry\FilamentRegistryManager` — the registry (singleton)
+- `MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry` — facade
+- `MicroweberPackages\FilamentRegistry\GlobalSearch\MicroweberGlobalSearchProvider` — feeds registered entries into Filament global search
+
 ## Testing
 
 ```bash

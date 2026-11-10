@@ -7,10 +7,11 @@ application.
 ## Features
 
 - **MicroweberMigrator** – a resilient migrator that wraps Laravel's `Migrator`,
-  auto-creates the `migrations` table, and never throws on duplicate-migration
-  errors (so re-running against a partially-migrated database is safe).
+  auto-creates the `migrations` table before every `run()`/`runUp()`, and never
+  throws on a failing migration — it logs the error (and `Log::error`s it) and
+  continues, so re-running against a partially-migrated database is safe.
 
-The service provider binds it to the container as `mw_migrator`.
+`DbMigratorServiceProvider` singleton-binds it to the container as `mw_migrator`.
 
 > The database installer orchestration lives in
 > [`microweber-packages/microweber-db-installer`](https://github.com/microweber-packages/microweber-db-installer), and the
@@ -24,7 +25,8 @@ The service provider binds it to the container as `mw_migrator`.
 composer require microweber-packages/microweber-db-migrator
 ```
 
-The package auto-discovers its service provider. If you need to register manually:
+`DbMigratorServiceProvider` is registered through Microweber's package loader. To
+wire it up manually in a plain Laravel app:
 
 ```php
 // config/app.php
@@ -38,7 +40,17 @@ The package auto-discovers its service provider. If you need to register manuall
 ```php
 // Resolve the migrator (bound as `mw_migrator`) and run migrations:
 app('mw_migrator')->run(app('migrator')->paths());
+
+// Optional: attach a logger object exposing ->log($text)
+app('mw_migrator')->logger = $myLogger;
 ```
+
+## Key classes
+
+- Migrator: `MicroweberPackages\DbMigrator\MicroweberMigrator` (extends `Illuminate\Database\Migrations\Migrator`)
+- Provider: `MicroweberPackages\DbMigrator\DbMigratorServiceProvider`
+
+Container binding: `mw_migrator`.
 
 ## License
 

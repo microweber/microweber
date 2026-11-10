@@ -8,6 +8,8 @@ A standalone Laravel package that adds searchable field definitions to Eloquent 
 composer require microweber-packages/microweber-searchable
 ```
 
+The package is pure model glue — its `SearchableServiceProvider` registers nothing at runtime; the only public API is the `HasSearchableTrait` you add to your models. Inside Microweber the provider is registered automatically by the framework's package discovery; in a standalone app you can register it manually, but the trait works without it.
+
 ## Usage
 
 Add the `HasSearchableTrait` to your Eloquent model and define which fields are searchable:
@@ -61,6 +63,11 @@ $user->isSearchableField('password'); // false
 | `scopeSearch($query, $keyword, $fields)` | LIKE search scope |
 | `scopeSearchExact($query, $field, $value)` | Exact match scope |
 | `isSearchableField($field)` | Check if a field is in the searchable list |
+
+## Key classes
+
+- `MicroweberPackages\Searchable\HasSearchableTrait`
+- `MicroweberPackages\Searchable\SearchableServiceProvider`
 
 ## License
 

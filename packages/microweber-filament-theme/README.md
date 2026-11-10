@@ -1,54 +1,85 @@
-# Microweber CMS - Filament admin panel theme
+# Microweber Filament Theme
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/microweber-packages/microweber-filament-theme.svg?style=flat-square)](https://packagist.org/packages/microweber-packages/microweber-filament-theme)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/microweber-packages/microweber-filament-theme/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/microweber-packages/microweber-filament-theme/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/microweber-packages/microweber-filament-theme/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/microweber-packages/microweber-filament-theme/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/microweber-packages/microweber-filament-theme.svg?style=flat-square)](https://packagist.org/packages/microweber-packages/microweber-filament-theme)
+The CSS/JS theme and color/icon configuration for Microweber's **Filament v5** admin panels (`admin`, `checkout`, `profile`, `vendor`). Built on Tailwind v4 with a bespoke `build.cjs` pipeline (~28k lines of CSS across ~156 source files). It is both a composer package (the PHP `Plugin` + provider) and an asset bundle you must build.
 
+> See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the full "where do I edit X?" map before changing any CSS.
 
+## What it registers
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+- Registers the panel **font** (`DM Sans`), the Microweber **color palette** (`Palette::colors()` — Bootstrap blue `#0d6efd` primary, gray, secondary), and the `microweber-filament-theme` theme.
+- Registers the compiled **CSS/JS assets** via `FilamentAsset` (`Theme::make(...)` + several `Js::make(...)` bundles incl. the media browser and tree components).
+- Configures Filament **color shades** (badges, notification icons) and a large **icon** override map (`getIcons()`).
+- Adds accessibility **render hooks**: a "Skip to main content" link (`BODY_START`) and a `#main-content` anchor (`CONTENT_START`).
 
 ## Installation
-
-You can install the package via composer:
 
 ```bash
 composer require microweber-packages/microweber-filament-theme
 ```
 
-You can publish and run the migrations with:
+The service provider is auto-discovered. It publishes the built assets to
+`public/vendor/microweber-packages/microweber-filament-theme` and calls
+`MicroweberFilamentTheme::configure()` on boot.
+
+Publish the compiled assets:
 
 ```bash
-php artisan vendor:publish --tag="microweber-filament-theme-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="microweber-filament-theme-config"
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="microweber-filament-theme-views"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
+php artisan vendor:publish --tag=public
 ```
 
 ## Usage
 
+The theme is applied as a Filament plugin from your panel provider:
+
 ```php
-$microweberFilamentTheme = new MicroweberPackages\MicroweberFilamentTheme();
-echo $microweberFilamentTheme->echoPhrase('Hello, MicroweberPackages!');
+use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel->plugin(new MicroweberFilamentTheme());
+    // plugin id: 'microweber-filament-theme'
+}
 ```
+
+`MicroweberFilamentTheme::register()` sets the font, colors and theme; `boot()`
+wires color shades, components, assets and the accessibility render hooks.
+
+### Programmatic helpers
+
+```php
+MicroweberFilamentTheme::getColors(); // Palette::colors() — Blue / Gray / Secondary shade maps
+MicroweberFilamentTheme::getIcons();  // the Filament icon override map
+Palette::Blue;                        // const shade map [50 => '...', ..., 950 => '...']
+```
+
+## Building the theme assets
+
+The dev server serves the **built** bundle, not the source — always rebuild after
+editing anything under `resources/assets/**`:
+
+```bash
+cd packages/microweber-filament-theme
+npm install
+npm run build        # node build.cjs — webpack (JS) + sass + @tailwindcss/postcss
+```
+
+The compiled bundle is `resources/dist/build/microweber-filament-theme.css`
+(also copied to `public/vendor/microweber-packages/microweber-filament-theme/build/`).
+`build.cjs` also runs `broadenPanelScope()` so the `admin` panel's styling is shared
+with the `profile` and `vendor` panels.
+
+Where to edit (see `ARCHITECTURE.md` for the full table):
+
+- Color / spacing / radius / font tokens → `resources/assets/css/tokens/*.css`
+- A Filament component (button, table, modal, …) → `resources/assets/css/filament/<area>/…`
+- General admin look → `resources/assets/css/microweber/general/NN-*.css` (split parts; do **not** edit the generated `general-styles.css`)
+- Mobile / touch → `resources/assets/css/microweber/mobile/NN-*.css` (do **not** edit the generated `mobile-touch.css`)
+
+## Key classes
+
+- `MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme` — the Filament `Plugin` (colors, assets, icons, render hooks)
+- `MicroweberPackages\MicroweberFilamentTheme\Palette` — the color palette (`Blue`, `Gray`, `Secondary`, `colors()`)
+- `MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentThemeServiceProvider` — publishes assets, calls `configure()`
 
 ## Testing
 
@@ -56,17 +87,9 @@ echo $microweberFilamentTheme->echoPhrase('Hello, MicroweberPackages!');
 composer test
 ```
 
-## Changelog
+## License
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+MIT
 
 ## Authors
 
@@ -74,7 +97,3 @@ Part of [Microweber](https://microweber.com), built by:
 
 - Peter Ivanov
 - Bozhidar Slaveykov
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

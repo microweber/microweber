@@ -13,6 +13,14 @@ Standalone Laravel package for creating and extracting ZIP archives with:
 composer require microweber-packages/microweber-zip
 ```
 
+Inside the Microweber monorepo the provider is registered by the core
+`MicroweberPackages\App\Providers\MicroweberServiceProvider`. In a standalone
+Laravel app, register it manually:
+
+```php
+MicroweberPackages\Zip\ZipServiceProvider::class,
+```
+
 When used as a path repository inside the Microweber monorepo:
 
 ```json
@@ -21,6 +29,13 @@ When used as a path repository inside the Microweber monorepo:
   "url": "packages/microweber-zip",
   "options": { "symlink": true }
 }
+```
+
+The provider registers `ZipBombGuard` (built from config) as a singleton and
+binds `Unzip` / `Zip`, so you can also resolve them from the container:
+
+```php
+$unzip = app(MicroweberPackages\Zip\Unzip::class); // already wired with the guard
 ```
 
 ## Usage
@@ -71,14 +86,28 @@ Publish config:
 php artisan vendor:publish --tag=zip-config
 ```
 
-Or set env vars:
+The published `config/zip.php` keys (each with an env override; set a numeric
+limit to `0` to disable that check):
 
-```
-ZIP_MAX_FILES=10000
-ZIP_MAX_TOTAL_UNCOMPRESSED=1073741824
-ZIP_MAX_SINGLE_FILE=536870912
-ZIP_MAX_COMPRESSION_RATIO=100
-```
+| Config key | Env | Default |
+| --- | --- | --- |
+| `max_files` | `ZIP_MAX_FILES` | `100000` |
+| `max_total_uncompressed_bytes` | `ZIP_MAX_TOTAL_UNCOMPRESSED` | `1073741824` (1 GiB) |
+| `max_single_file_uncompressed_bytes` | `ZIP_MAX_SINGLE_FILE` | `536870912` (512 MiB) |
+| `max_compression_ratio` | `ZIP_MAX_COMPRESSION_RATIO` | `100.0` |
+| `max_path_length` | `ZIP_MAX_PATH_LENGTH` | `512` |
+| `skip_directories` | — | `['__MACOSX', '.DS_Store']` |
+| `apply_chmod` | — | `0755` |
+
+## Key classes
+
+- `MicroweberPackages\Zip\Unzip` — high-level extractor (`extract()`, `allow()`, `native_unzip()`, error/debug accessors).
+- `MicroweberPackages\Zip\ZipArchiveExtractor` — lower-level `ZipArchive` wrapper (`extractTo()`, `setAllowedFilesCheck()`, `listEntries()`).
+- `MicroweberPackages\Zip\Zip` — archive builder (`addFile()`, `addDirectoryContent()`, `saveTo()`, `getZipData()`).
+- `MicroweberPackages\Zip\Support\ZipBombGuard` — enforces the limits above.
+- `MicroweberPackages\Zip\Support\SafePath` — path-traversal guards.
+- `MicroweberPackages\Zip\Contracts\FileAllowanceCheckerInterface`, `Contracts\ZipLoggerInterface` — pluggable extension allow-list and logger.
+- Exceptions: `ZipException`, `ZipBombException`, `UnsafePathException`, `InvalidArchiveException`.
 
 ## Testing
 
@@ -101,3 +130,7 @@ Part of [Microweber](https://microweber.com), built by:
 
 - Peter Ivanov
 - Bozhidar Slaveykov
+
+## License
+
+MIT

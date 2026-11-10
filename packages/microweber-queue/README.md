@@ -41,15 +41,51 @@ ChunkedDispatcher::dispatch(
 );
 ```
 
-Or with the helper:
+Or with the helper (composer `files` autoload, always available):
 
 ```php
 chunked_dispatch($subscriberIds, fn (array $ids) => new SendEmailToSubscriber($ids, $campaignId), 100);
 ```
 
-## Config
+`dispatch()` returns the `Illuminate\Bus\Batch` (or `null`). Related service methods: `dispatchJobs($jobs, $batchSize)` to batch an already-built list of jobs, and `chunkCount($itemCount, $chunkSize)` to count the chunks without dispatching.
 
-See `config/microweber-queue.php` for chunk size, process limits, and Filament navigation.
+## Processing pending jobs
+
+Drain reserved/pending rows from the `jobs` table (safe unserialize guarded by the `allowed_job_classes` / `allowed_job_class_prefixes` config):
+
+```php
+use MicroweberPackages\Queue\Services\QueueProcessor;
+
+$processed = app(QueueProcessor::class)->process(limit: 10); // number of jobs run
+
+// Helper equivalent:
+$processed = process_pending_queue(10);
+```
+
+The package also exposes `ProcessQueueController` (HTTP endpoint) and fires a `ProcessQueueEvent` handled by `ProcessQueueListener` for event-driven draining.
+
+## Configuration
+
+Config file: `config/microweber-queue.php`.
+
+| Key | Env | Default | Purpose |
+|-----|-----|---------|---------|
+| `chunk_size` | `MICROWEBER_QUEUE_CHUNK_SIZE` | `100` | Default chunk size for Bus dispatch |
+| `process_max_attempts` | `MICROWEBER_QUEUE_PROCESS_MAX_ATTEMPTS` | `10` | Max attempts when processing reserved jobs |
+| `process_limit` | `MICROWEBER_QUEUE_PROCESS_LIMIT` | `10` | Pending jobs reserved per controller run |
+| `default_queue` | `MICROWEBER_QUEUE_DEFAULT` | `default` | Queue used when none is given |
+| `allowed_job_classes` | — | Laravel internals | Exact classes allowed for unserialize |
+| `allowed_job_class_prefixes` | — | `App\Jobs\`, `Modules\`, `MicroweberPackages\` | FQCN prefixes allowed for unserialize |
+| `filament.enabled` | — | `true` | Register the Filament resources |
+| `filament.navigation_group` | — | `System Settings` | Admin nav group |
+
+## Key classes
+
+- `MicroweberPackages\Queue\Services\ChunkedDispatcherService` — `dispatch()`, `dispatchJobs()`, `chunkCount()`
+- `MicroweberPackages\Queue\Facades\ChunkedDispatcher`
+- `MicroweberPackages\Queue\Services\QueueProcessor` — `process()`, `runJob()`, `isClassAllowed()`
+- `MicroweberPackages\Queue\Filament\QueuePlugin` / `JobResource` / `FailedJobResource`
+- Helpers: `chunked_dispatch()`, `process_pending_queue()`
 
 ## Tests
 

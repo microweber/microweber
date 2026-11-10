@@ -20,6 +20,49 @@ Most frameworks these days natively work with Composer and will be
 installed to the default `vendor` directory. `composer/installers`
 is **not needed** to install packages with these frameworks.
 
+## Microweber fork
+
+This is the Microweber fork of `composer/installers` (it declares
+`"replace": { "composer/installers": "*" }`, so it stands in for the original).
+It adds two Microweber package types, handled by `MicroweberInstaller`:
+
+| Type | Installs to |
+| --- | --- |
+| `microweber-module` | `Modules/{$name}/` |
+| `microweber-template` | `Templates/{$name}/` |
+
+The install directory is derived from the package name: a trailing `-module` /
+`-template` suffix is stripped, dashes/underscores are converted to
+StudlyCase, and the result becomes the target directory. For example
+`microweber/shop-module` → `Modules/Shop/`, and
+`microweber/dream-template` → `Templates/Dream/`. A package may override this by
+setting a `target-dir` in its own `composer.json`.
+
+A module/template package opts in via its `type`:
+
+```json
+{
+    "name": "microweber/shop-module",
+    "type": "microweber-module"
+}
+```
+
+You can still force a custom path with the standard `installer-paths` extra
+(see **Custom Install Paths** below):
+
+```json
+{
+    "extra": {
+        "installer-paths": {
+            "Modules/Shop/": ["microweber/shop-module"]
+        }
+    }
+}
+```
+
+The rest of this document is the upstream `composer/installers` reference,
+covering every other supported framework and the shared configuration options.
+
 ## Alternative to custom installers with Composer 2.1+
 
 As of Composer 2.1, the `Composer\InstalledVersions` class has a

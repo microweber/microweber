@@ -40,6 +40,20 @@ $url = $service->getOptimizedUrl('/images/photo.jpg', 800, 600);
 // Lazy / responsive HTML
 echo $service->generateLazyImage('/images/photo.jpg', 'Alt text');
 echo $service->generateResponsiveImage('/images/photo.jpg', [320 => 320, 640 => 640], 'Alt');
+
+// Introspection / cache
+$service->isWebpSupported();   // GD/Imagick WebP capability
+$service->isWebpEnabled();     // config flag
+$service->clearWebpCache();    // returns number of files removed
+$service->getStatistics();     // cache file count / size, etc.
+```
+
+Or through the **ImageOptimization** facade (same `ImageOptimizationService` behind it):
+
+```php
+use MicroweberPackages\ImageOptimization\Facades\ImageOptimization;
+
+$url = ImageOptimization::getOptimizedUrl('/images/photo.jpg', 800, 600);
 ```
 
 ### Helper functions
@@ -78,6 +92,12 @@ image_optimization_stats();
 | POST | `/image-optimization/clear-cache` | `image-optimization.clear-cache` |
 | GET | `/api/image-optimization/convert` | `image-optimization.convert` |
 
+### Artisan command
+
+```bash
+php artisan image-optimization:clear-cache   # purge all generated WebP files
+```
+
 ### Filament admin
 
 Register the plugin on your panel:
@@ -87,6 +107,32 @@ use MicroweberPackages\ImageOptimization\Filament\ImageOptimizationPlugin;
 
 $panel->plugin(ImageOptimizationPlugin::make());
 ```
+
+## Configuration
+
+`config/image-optimization.php` (publish with `--tag=image-optimization-config`):
+
+| Key | Default | Env | Purpose |
+|-----|---------|-----|---------|
+| `webp_enabled` | `true` | `MW_WEBP_ENABLED` | Enable WebP conversion. |
+| `webp_quality` | `85` | `MW_WEBP_QUALITY` | WebP encode quality. |
+| `webp_cache` | `true` | `MW_WEBP_CACHE` | Cache generated WebP files. |
+| `webp_cache_ttl` | `604800` | `MW_WEBP_CACHE_TTL` | Cache lifetime (seconds). |
+| `auto_convert_uploads` | `false` | `MW_WEBP_AUTO_CONVERT` | Convert uploads to WebP automatically. |
+| `lazy_loading_enabled` | `true` | `MW_LAZY_LOADING_ENABLED` | Emit lazy-loading markup. |
+| `cache_path` | `cache/webp` | `IMAGE_OPTIMIZATION_CACHE_PATH` | Cache directory on the disk. |
+| `disk` | `public` | `IMAGE_OPTIMIZATION_DISK` | Filesystem disk for cached images. |
+| `driver` | auto | `IMAGE_OPTIMIZATION_DRIVER` | Intervention driver (`gd` / `imagick`). |
+| `supported_formats` | `jpg,jpeg,png,gif,bmp,tiff` | — | Source formats eligible for optimization. |
+
+## Key classes
+
+- `MicroweberPackages\ImageOptimization\Services\ImageOptimizationService` — all conversion/HTML/cache logic.
+- `MicroweberPackages\ImageOptimization\Facades\ImageOptimization` — facade → the service.
+- `MicroweberPackages\ImageOptimization\ImageOptimizationServiceProvider` — routes, Blade directives, helpers, command.
+- `MicroweberPackages\ImageOptimization\Console\Commands\ClearWebpCacheCommand` — `image-optimization:clear-cache`.
+- `MicroweberPackages\ImageOptimization\Http\Controllers\ImageOptimizationController` — WebP/stats/convert endpoints.
+- `MicroweberPackages\ImageOptimization\Filament\ImageOptimizationPlugin` / `...\Filament\Pages\ImageOptimizationSettings` — admin UI.
 
 ## Multi-database
 

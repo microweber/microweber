@@ -32,10 +32,14 @@ Path repository (monorepo):
 
 ## Standalone Laravel usage
 
+Resolve the service from the container (or use the `PackageManagerClient` facade — both point at `PackageManagerClientService`):
+
 ```php
 use MicroweberPackages\PackageManagerClient\PackageManagerClientService;
+use MicroweberPackages\PackageManagerClient\Facades\PackageManagerClient;
 
-$client = app(PackageManagerClient::class);
+$client = app(PackageManagerClientService::class);
+// Facade equivalent: PackageManagerClient::search([...]);
 
 // Point at your Satis / packages.json URL
 $client->setPackageServers(['http://127.0.0.1:9999/packages.json']);

@@ -38,6 +38,15 @@ class MyServiceProvider extends ServiceProvider
 - **Associative arrays**: Recursively merged; package values win at each level.
 - **Numeric arrays** and special keys (`middleware`, `register`): Concatenated via `array_merge` to preserve list-append semantics.
 - **Cached configuration**: Skipped entirely (respects `CachesConfiguration`).
+- **Missing file**: A missing `$path` is a no-op (graceful degradation), not a fatal `require` error.
+
+The trait overrides Laravel's `mergeConfigFrom()`, so existing service-provider code needs no other changes — just `use MergesConfigFromPackage;`.
+
+## Key classes
+
+- Trait: `MicroweberPackages\ConfigMerge\MergesConfigFromPackage`
+
+This package is a single reusable trait — it ships no service provider, facade or config, and registers nothing on its own; a consuming service provider opts in by using the trait.
 
 ## License
 

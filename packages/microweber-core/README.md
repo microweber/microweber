@@ -66,6 +66,28 @@ to use even if not all sub-packages are installed.
 5. Each registration is guarded by `class_exists()` so missing optional
    packages don't cause errors.
 
+The provider is also auto-discovered via its `extra.laravel.providers` key, so
+`composer require` alone wires it up; listing it first in `bootstrap/providers.php`
+only guarantees ordering.
+
+It also loads the package's own routes in `boot()` (`routes/web.php`, plus
+`routes/tests.php` under the `testing` environment).
+
+## Introspection
+
+The ordered list of internal providers is exposed for testing / debugging:
+
+```php
+app(\MicroweberPackages\Core\CoreServiceProvider::class)->getPackageProviders();
+// => ['MicroweberPackages\ClassLoader\ClassLoaderServiceProvider', … ]
+```
+
+## Key classes
+
+- Provider: `MicroweberPackages\Core\CoreServiceProvider` (`getPackageProviders()`)
+- Support: `MicroweberPackages\Core\Services\ServiceLoader`, `MicroweberPackages\Core\Repositories\BaseRepository`
+- Model lifecycle: `MicroweberPackages\Core\Concerns\FiresModelLifecycleEvents` + the `MicroweberPackages\Core\Events\*` event classes (`ModelWasCreated`, `ModelWasUpdated`, `ModelWasDeleted`, …)
+
 ## Testing
 
 ```bash

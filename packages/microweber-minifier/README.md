@@ -68,6 +68,28 @@ use MicroweberPackages\Minifier\Filament\MinifierPlugin;
 $panel->plugin(MinifierPlugin::make());
 ```
 
+## Configuration
+
+`config/minifier.php` (publish with `--tag=minifier-config`):
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `enabled` | `false` | Master on/off (`MW_MINIFIER_ENABLED`) |
+| `minify_js` / `minify_css` | `true` | Per-type toggles |
+| `js.flaggedComments` | `false` | Keep `/*! … */` flagged comments |
+| `css.remove_comments` | `true` | Strip CSS comments |
+| `css.shorten_zeros` | `true` | Collapse `0px` → `0` |
+| `middleware` | `['admin']` | Middleware for the HTTP routes |
+
+## Key classes
+
+- `MicroweberPackages\Minifier\Facades\Minifier` — facade (`minifyJs()`, `minifyCss()`, `isEnabled()`, `getStatistics()`, `selfTest()`).
+- `MicroweberPackages\Minifier\Services\MinifierService` — orchestrator used by the facade/helpers.
+- `MicroweberPackages\Minifier\Services\JsMinify` / `CssMinify` — per-type services (`minify()`, `minifyOrFail()`).
+- `MicroweberPackages\Minifier\Minifiers\JsMinifier` / `CssMinifier` — the low-level engines.
+- `MicroweberPackages\Minifier\MinifierServiceProvider` — registration + route/config loading.
+- `MicroweberPackages\Minifier\Filament\MinifierPlugin` / `Filament\Pages\MinifierSettings` — admin settings page.
+
 ## CMS integration
 
 `AssetOptimizationService` in Microweber uses `js_minify()` / `css_minify()` from this package.

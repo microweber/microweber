@@ -8,7 +8,7 @@ Cache expensive Blade fragments with a simple `@cache` / `@endcache` directive.
 composer require microweber-packages/microweber-blade-cache
 ```
 
-The service provider is auto-discovered.
+`BladeCacheServiceProvider` is a Microweber package provider. In a full install it is registered by `microweber-core`'s `CoreServiceProvider`; in a standalone app register it manually (`config/app.php` or `bootstrap/providers.php`). On boot it merges the config, binds `BladeCacheService` as a singleton, and registers the `@cache` / `@endcache` directives via `CacheDirective::register()`.
 
 ## Usage
 
@@ -45,11 +45,20 @@ php artisan vendor:publish --tag=blade-cache-config
 ```php
 $service = app(\MicroweberPackages\BladeCache\BladeCacheService::class);
 
+$service->isEnabled();             // bool — respects config('blade-cache.enabled')
+$service->getDefaultTtl();         // int  — config('blade-cache.ttl')
 $service->put('key', '<html>', ['tag'], 600);
-$service->get('key', ['tag']);
+$service->get('key', ['tag']);     // ?string
 $service->forget('key', ['tag']);
-$service->flush(['tag']);
+$service->flush(['tag']);          // flush by tag (or all)
 ```
+
+## Key classes
+
+- `MicroweberPackages\BladeCache\BladeCacheService` — the singleton that reads/writes the cache.
+- `MicroweberPackages\BladeCache\CacheDirective` — registers the `@cache` / `@endcache` directives.
+- `MicroweberPackages\BladeCache\Facades\BladeCache` — facade over the service.
+- `MicroweberPackages\BladeCache\BladeCacheServiceProvider` — bindings, config, directive registration.
 
 ## License
 

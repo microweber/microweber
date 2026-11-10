@@ -53,7 +53,23 @@ Returns a PNG image with appropriate caching headers.
 
 ## Configuration
 
-See `config/media-pixum.php` for all options.
+`config/media-pixum.php` (publish with `--tag=media-pixum-config`):
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `cache_path` | `storage/app/public/pixum` | Where generated PNGs are cached |
+| `default_width` / `default_height` | `200` | Fallback dimensions |
+| `background_color` | `rgba(239,236,236,0)` | Placeholder fill (`r`,`g`,`b`,`a`) |
+| `max_width` / `max_height` | `4000` | Safety cap against abusive sizes |
+
+## Key classes
+
+- `MicroweberPackages\MediaPixum\Facades\Pixum` — facade (`generate()`, `url()`, `getCachePath()`).
+- `MicroweberPackages\MediaPixum\PixumGenerator` — generates/caches the placeholder image.
+- `MicroweberPackages\MediaPixum\Http\Controllers\PixumController` — serves `GET /pixum_img`.
+- `MicroweberPackages\MediaPixum\MediaPixumServiceProvider` — registration + route/config loading.
+
+Global helpers (`src/helpers.php`, Composer `files` autoload): `pixum($width, $height = false)` → URL, `pixum_path($width, $height = false)` → filesystem path.
 
 ## Testing
 

@@ -63,6 +63,22 @@ TemplateCustomCss::registerFileType(new \MicroweberPackages\TemplateCustomCss\Se
 ));
 ```
 
+### Global helpers
+
+Autoloaded from `src/helpers.php`:
+
+```php
+template_custom_css();        // TemplateCustomCssManager
+template_live_edit_css();     // LiveEditCssManager
+template_user_custom_css();   // CustomCssManager
+
+// Per-page (per content id) CSS / JS
+get_page_custom_css(42);
+save_page_custom_css(42, '.hero { color: red; }');
+get_page_custom_js(42);
+save_page_custom_js(42, 'console.log("page 42")');
+```
+
 ## Routes
 
 | Method | Path | Name |

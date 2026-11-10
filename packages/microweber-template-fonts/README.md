@@ -39,6 +39,17 @@ TemplateFonts::getFontsStylesheetCss();
 TemplateFonts::uploadCustomFont($uploadedFile, 'My Font');
 ```
 
+### Global helpers
+
+Autoloaded from `src/helpers.php`:
+
+```php
+template_fonts();                  // TemplateFontsManager
+template_fonts_enabled();          // array of enabled font families
+template_fonts_stylesheet_css();   // generated @import/@font-face CSS
+template_fonts_stylesheet_url();   // URL of the generated fonts stylesheet
+```
+
 ## Routes
 
 | Method | Path | Name |
