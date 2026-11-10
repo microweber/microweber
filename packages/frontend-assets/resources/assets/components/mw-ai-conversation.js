@@ -750,6 +750,28 @@ export class MwAiConversation extends MicroweberBaseClass {
         return list;
     }
 
+    // Render a reloaded chat's tool turns as ONE collapsed "N steps" group (the
+    // persisted history keeps no per-tool detail, so the rows are generic — the
+    // point is to fold the clutter, matching the live stream's grouping).
+    addHistoryToolGroup(count) {
+        if (!count || count < 1) { return; }
+        const container = document.createElement("div");
+        container.className = "mw-ai-conv-edits";
+        this.thread.appendChild(container);
+        const list = this._ensureEditsGroup(container);
+        for (let i = 0; i < count; i++) {
+            const wrap = document.createElement("div");
+            wrap.className = "mw-ai-conv-editwrap";
+            const chip = document.createElement("div");
+            chip.className = "mw-ai-conv-edit";
+            chip.innerHTML = (this.icon("check") || "✓") + "<span>" + mw.lang("Tool call") + "</span>";
+            wrap.appendChild(chip);
+            list.appendChild(wrap);
+        }
+        const summary = container.querySelector(":scope > .mw-ai-conv-edits-head .mw-ai-conv-edits-summary");
+        if (summary) { summary.textContent = count + " " + mw.lang(count === 1 ? "step" : "steps"); }
+    }
+
     addEdit(container, edit, result) {
         const list = this._ensureEditsGroup(container);
         const ok = !result || result.ok !== false;
@@ -1359,11 +1381,33 @@ export class MwAiConversation extends MicroweberBaseClass {
             this.pendingImages = [];
             this.renderAttachments();
             this.thread.innerHTML = "";
+            // Tool-call / tool-result turns are persisted as placeholder messages
+            // ("Tool call" / "Tool result", metadata.message_type). Rendering each
+            // as its own bubble floods a reloaded chat with empty rows — so FOLD a
+            // run of them into ONE collapsed "N steps" group (same affordance the
+            // live stream uses), keeping only the real user/assistant messages as
+            // bubbles. Internal swarm-lane briefs are hidden too.
+            let toolRun = 0;
+            const flushToolRun = () => {
+                if (toolRun > 0) { this.addHistoryToolGroup(toolRun); toolRun = 0; }
+            };
             messages.forEach((m) => {
+                const mt = m.metadata && m.metadata.message_type;
+                if (mt === "tool_call" || mt === "tool_result") {
+                    // Count tool CALLS as the step count (each call has one result).
+                    if (mt === "tool_call") { toolRun++; }
+                    return;
+                }
+                // Hide swarm-internal lane briefs (not something the user wrote).
+                const isSwarmBrief = m.role === "user" && typeof m.content === "string"
+                    && (m.content.indexOf("[Swarm lane") === 0 || (m.metadata && m.metadata.swarm));
+                if (isSwarmBrief) { return; }
+                flushToolRun();
                 if (m.role === "user" || m.role === "assistant") {
                     this.addMessage(m.role, m.content);
                 }
             });
+            flushToolRun();
             if (!messages.length) { this.renderEmpty(); }
             this.closeHistory();
             if (!opts.silent) { this.input.focus(); }

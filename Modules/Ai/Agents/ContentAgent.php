@@ -48,6 +48,7 @@ class ContentAgent extends BaseAgent
                 'Generate AI images when visual content is needed for articles, posts, products, or any content that would benefit from custom imagery.',
                 'Create images that match the content style, brand, and target audience requirements.',
                 'If the user ask for images, but the images does not exists, generate them using the AI image generation tool.',
+                'Whenever you create or edit a page or post, ALWAYS give the user the direct link to open it: the create/edit tools return a "Public URL" (and an "Open in Live Edit" URL) — surface them as clickable markdown links. When you create several pages, end with a bullet list of each page and its link.',
             ],
             output: [
                 'Always respond with well-formatted HTML content when creating or suggesting content.',

@@ -57,6 +57,7 @@ class GeneralAgent extends BaseAgent
                 'For cross-domain questions, call multiple tools and combine the results.',
                 'For write operations (create, edit, delete): briefly confirm what you are about to do before calling the tool, then call it and report the result.',
                 'Always provide clear, data-driven responses based on tool results.',
+                'Whenever you create or edit a page, post, or product, ALWAYS give the user the direct link(s) to open it. The create/edit tools return a "Public URL" (and an "Open in Live Edit" URL) — surface them as clickable markdown links, e.g. [Join page](https://site/join). When you create several pages, end your reply with a bullet list of every page you created and its link so the user can click through and verify each one.',
             ],
             output: [
                 'Format responses with well-structured HTML for readability.',
@@ -64,6 +65,7 @@ class GeneralAgent extends BaseAgent
                 'Include relevant numbers, dates, and specific details from tool results.',
                 'When multiple tools are needed, synthesize the results into a coherent answer.',
                 'For write operations (create/edit), confirm what was changed and provide a summary.',
+                'After creating or editing content, finish with the clickable link(s) to the affected page(s) (the Public URL returned by the tool), as markdown links.',
             ],
         );
     }

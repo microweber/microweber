@@ -162,8 +162,47 @@ class CreateContentTool extends BaseTool
             $this->attachMediaUrls($newContent->id, $media_urls_array);
         }
 
+        // Surface the live links so the model can hand them straight to the user:
+        // the public page URL and an "open in Live Edit" URL. Returned as plain
+        // text (the model echoes them as clickable links) AND rendered in the card.
+        $publicUrl = $this->resolvePublicUrl($newContent);
+        $editUrl = $publicUrl !== '' ? ($publicUrl . (str_contains($publicUrl, '?') ? '&' : '?') . 'editmode=y') : '';
+
+        $links = '';
+        if ($publicUrl !== '') {
+            $links = "\nPublic URL: {$publicUrl}";
+            if ($editUrl !== '') {
+                $links .= "\nOpen in Live Edit: {$editUrl}";
+            }
+            $links .= "\nGive the user these links as clickable markdown links so they can open the page.";
+        }
+
         return $this->handleSuccess("Content created successfully with ID: {$newContent->id}") .
-            $this->formatContentDetails($newContent);
+            $links .
+            $this->formatContentDetails($newContent, $publicUrl, $editUrl);
+    }
+
+    /**
+     * Absolute public URL for a created page. Prefers the request-aware site_url()
+     * (correct host under multisite); falls back to the config-based url() when
+     * no request host is available (e.g. a queued/CLI context).
+     */
+    protected function resolvePublicUrl($content): string
+    {
+        try {
+            $relative = \function_exists('content_link') ? (string) content_link($content->id) : (string) $content->url;
+            if ($relative === '') {
+                return '';
+            }
+            $url = \function_exists('site_url') ? (string) site_url($relative) : '';
+            if (!preg_match('#^https?://#i', $url)) {
+                $url = (string) url($relative);
+            }
+
+            return $url;
+        } catch (\Throwable $e) {
+            return '';
+        }
     }
 
     /**
@@ -189,8 +228,18 @@ class CreateContentTool extends BaseTool
         return $slug;
     }
 
-    protected function formatContentDetails($content): string
+    protected function formatContentDetails($content, string $publicUrl = '', string $editUrl = ''): string
     {
+        $linkRow = '';
+        if ($publicUrl !== '') {
+            $safe = htmlspecialchars($publicUrl);
+            $linkRow = '<p><strong>Link:</strong> <a href="' . $safe . '" target="_blank" rel="noopener">' . $safe . '</a>';
+            if ($editUrl !== '') {
+                $linkRow .= ' &middot; <a href="' . htmlspecialchars($editUrl) . '" target="_blank" rel="noopener">Edit in Live Edit</a>';
+            }
+            $linkRow .= '</p>';
+        }
+
         return '
         <div class="card mt-3">
             <div class="card-header">
@@ -209,6 +258,7 @@ class CreateContentTool extends BaseTool
                         <p><strong>Created:</strong> ' . $content->created_at->format('Y-m-d H:i:s') . '</p>
                     </div>
                 </div>
+                ' . $linkRow . '
             </div>
         </div>';
     }
