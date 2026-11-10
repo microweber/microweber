@@ -42,6 +42,27 @@ jobs:
       - name: Remove screenshot layout test
         run: |
           rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
+      # The thunder/apache-shiva-php-action pins the RETIRED Launchpad host
+      # (http://ppa.launchpad.net/ondrej/php/ubuntu), which Canonical shut down
+      # in 2024 and now 404s — so its `apt install libapache2-mod-php8.4` dies
+      # with "Unable to locate package" before a single test runs. Add the
+      # ondrej PPA ourselves the modern way: the `ppa:` shorthand resolves to
+      # the current ppa.launchpadcontent.net host AND imports the signing key.
+      # Pre-installing the module here means the action's own (broken) install
+      # finds it already present and no-ops. ppa:ondrej/php supplies both the
+      # Apache mod_php package and the PHP packages. Retry to ride out a flaky
+      # apt mirror.
+      - name: Add ondrej PHP PPA + Apache mod_php
+        run: |
+          sudo add-apt-repository -y ppa:ondrej/php
+          ok=0
+          for i in 1 2 3; do
+            if sudo apt-get update -y && sudo apt-get install -y libapache2-mod-php${{ matrix.php-versions }}; then
+              ok=1; break
+            fi
+            echo "apt attempt $i failed; retrying in 10s"; sleep 10
+          done
+          [ "$ok" = 1 ]
       - name: Setup Apache
         uses: thunder/apache-shiva-php-action@v1
         with:
