@@ -26,6 +26,10 @@ class BookingResource extends Resource
     protected static string | \UnitEnum | null $navigationGroup = 'Shop';
     protected static ?int $navigationSort = 7;
     protected static ?string $navigationLabel = 'Bookings';
+    // Nest Bookings under the Shop group's "More" hub (ShopMorePage) rather than
+    // listing it as a top-level Shop item — keeps the primary Shop nav to the
+    // high-frequency Products/Orders and tucks bookings into the More section.
+    protected static ?string $navigationParentItem = 'More';
     protected static ?string $modelLabel = 'booking';
     protected static ?string $pluralModelLabel = 'bookings';
 

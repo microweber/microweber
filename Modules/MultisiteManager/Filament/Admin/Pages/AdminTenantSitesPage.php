@@ -30,6 +30,10 @@ class AdminTenantSitesPage extends Page
 
     protected static ?int $navigationSort = 90;
 
+    // Nest Subsites under the "Settings" item rather than floating beside it in
+    // the (header-hidden) Settings group — it reads as part of the Settings section.
+    protected static ?string $navigationParentItem = 'Settings';
+
     protected static ?string $title = 'Subsites';
 
     protected static ?string $navigationLabel = 'Subsites';

@@ -74,38 +74,55 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
                 $title = json_encode('AI assistant');
 
                 // The sidebar scripts load on every admin page (the chat service +
-                // streaming client). The floating trigger is the admin's AI entry
-                // point — but in LIVE EDIT the right-rail AI (chat) button is the
-                // SINGLE entry point, so we omit the floating bubble there to avoid
-                // a double button (the Live-Edit app imports the same sidebar
-                // service itself, so the chat still works). task-2026-11-07.
+                // streaming client). The TOPBAR trigger button is rendered
+                // separately via the USER_MENU_BEFORE hook below so it sits in the
+                // topbar next to the notifications bell / avatar — no longer a
+                // floating bottom-right bubble. In LIVE EDIT the topbar is hidden
+                // (iframe) and the Live-Edit toolbar carries its own AI button, so
+                // only the scripts load here. task-2026-11-10.
                 $scripts = <<<HTML
 <script src="{$mwAi}"></script>
 <script src="{$sidebar}"></script>
 HTML;
 
-                $isLiveEdit = str_contains((string) request()->path(), 'live-edit');
-                if ($isLiveEdit) {
-                    return new HtmlString($scripts);
+                return new HtmlString($scripts);
+            },
+        );
+
+        // AI chat TRIGGER in the admin topbar — next to the notifications bell and
+        // the user avatar (USER_MENU_BEFORE). Moved here from a floating
+        // bottom-right bubble so the AI entry point lives in the topbar chrome.
+        // Admin panel + admins only, and never in the Live-Edit iframe (its
+        // toolbar carries its own AI button).
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::USER_MENU_BEFORE,
+            function (): HtmlString {
+                if (!self::isAdminPanel() || !self::viewerIsAdmin()) {
+                    return new HtmlString('');
+                }
+                if (str_contains((string) request()->path(), 'live-edit')) {
+                    return new HtmlString('');
                 }
 
-                $button = <<<HTML
-<button type="button" id="mw-admin-ai-chat-trigger" aria-label="AI assistant" title="AI assistant"
-    style="position:fixed;right:20px;bottom:20px;z-index:2147482000;width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;background:#182433;color:#fff;box-shadow:0 6px 24px rgba(24,36,51,.28);display:flex;align-items:center;justify-content:center;">
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                $title = json_encode('AI assistant');
+
+                return new HtmlString(<<<HTML
+<button type="button" id="mw-admin-ai-chat-trigger" class="fi-icon-btn mw-admin-ai-chat-topbar"
+    aria-label="AI assistant" title="AI assistant"
+    style="display:inline-flex;align-items:center;justify-content:center;width:2.25rem;height:2.25rem;border-radius:0.5rem;border:none;background:transparent;color:inherit;cursor:pointer;">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
 </button>
 <script>
 (function(){
     var btn = document.getElementById('mw-admin-ai-chat-trigger');
-    if (!btn) { return; }
+    if (!btn || btn.dataset.mwBound) { return; }
+    btn.dataset.mwBound = '1';
     btn.addEventListener('click', function(){
-        window.dispatchEvent(new CustomEvent('mw:ai-chat:open', { detail: { agentType: 'general', title: {$title}, canvas: false } }));
+        window.dispatchEvent(new CustomEvent('mw:ai-chat:toggle', { detail: { agentType: 'general', title: {$title}, canvas: false } }));
     });
 })();
 </script>
-HTML;
-
-                return new HtmlString($scripts . $button);
+HTML);
             },
         );
 

@@ -248,6 +248,39 @@ body.fi-panel-admin .admin-toolbar-live-edit .fi-btn svg {
     color: #182433 !important;
 }
 
+/* Live Edit CTA relocated to the TOP of the sidebar (above Dashboard), via the
+   SIDEBAR_NAV_START render hook. The button keeps its green treatment (the
+   .admin-toolbar-live-edit .fi-btn rules above still apply — the blade wrapper
+   carries that marker class); here we make it a full-width block at the top of
+   the nav with breathing room from the first nav item. */
+body.fi-panel-admin .mw-admin-sidebar-live-edit {
+    padding: 2px 12px 10px;
+    margin-bottom: 2px;
+}
+body.fi-panel-admin .mw-admin-sidebar-live-edit .admin-toolbar-live-edit {
+    display: flex;
+    width: 100%;
+}
+body.fi-panel-admin .mw-admin-sidebar-live-edit .fi-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 40px !important;
+}
+
+/* AI chat trigger in the topbar (USER_MENU_BEFORE), styled to match the
+   notifications bell icon button next to it. */
+body.fi-panel-admin .mw-admin-ai-chat-topbar:hover {
+    background: #18243310 !important;
+}
+html.dark body.fi-panel-admin .mw-admin-ai-chat-topbar:hover,
+body.fi-panel-admin.dark .mw-admin-ai-chat-topbar:hover {
+    background: #ffffff14 !important;
+}
+body.fi-panel-admin .mw-admin-ai-chat-topbar:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd) !important;
+    outline-offset: 2px !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
     body.fi-panel-admin .admin-toolbar-add .fi-btn,
     body.fi-panel-admin .admin-toolbar-live-edit .fi-btn {

@@ -193,7 +193,19 @@ html.mw-setup-wizard-document .back-to-edit{
 
                     <ToolbarToolsDropdown></ToolbarToolsDropdown>
 
-
+                    <!-- task-2026-11-10 — AI chat trigger in the Live Edit top
+                         bar (consistent with the admin topbar AI icon). Toggles
+                         the docked AI chat sidebar for the open page. -->
+                    <button
+                        type="button"
+                        id="mw-live-edit-ai-chat-button"
+                        class="btn-icon live-edit-toolbar-buttons mw-toolbar-icon-btn mw-le-ai-chat-trigger"
+                        aria-label="AI assistant"
+                        title="AI assistant"
+                        @click="openAiChat()"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </button>
 
 
 
@@ -424,6 +436,23 @@ export default {
 
                //  this.theme = mw.top().admin.theme.getTheme();
 
+        },
+
+        // task-2026-11-10 — AI chat button in the Live Edit TOP BAR (mirrors the
+        // admin topbar AI trigger). Toggles the docked AI chat sidebar for the
+        // open page; same event the right-rail AI button dispatches, so the chat
+        // surface and its state stay shared.
+        openAiChat() {
+            let contentId = 0;
+            try {
+                const led = mw.top().app.canvas.getLiveEditData();
+                contentId = (led && led.content && led.content.id) ? led.content.id : 0;
+            } catch (e) {}
+            try {
+                window.dispatchEvent(new CustomEvent('mw:ai-chat:toggle', { detail: {
+                    agentType: 'liveedit', contentId: contentId, canvas: true, title: mw.lang('AI Assistant'),
+                } }));
+            } catch (e) {}
         },
 
         // task-2026-09-24 — toolbar Admin button (moved from the right rail).

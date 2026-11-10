@@ -381,15 +381,23 @@ class FilamentAdminPanelProvider extends PanelProvider
                 . '</div>'
         );
 
-        // Live Edit stays in the right cluster (GLOBAL_SEARCH_AFTER); the
-                // follow-up — render +Add in the mobile drawer instead of hiding it
-                // 44px touch floor on mobile.)
+        // Quick-nav search stays in the right topbar cluster. The Live Edit CTA
+        // was MOVED out of here to the TOP OF THE SIDEBAR (above Dashboard) — see
+        // the SIDEBAR_NAV_START hook below — so it reads as the primary "go edit
+        // the site" action at the top of the nav rather than a topbar button.
         $panel->renderHook(
             name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
-            hook: fn(): string => '<div class="mw-admin-primary-actions">'
+            hook: fn(): string => view('admin::livewire.filament.search-quick-nav')->render()
+        );
+
+        // Live Edit CTA at the very top of the sidebar navigation, above the
+        // Dashboard item. Wrapped so the button spans the sidebar width as a
+        // prominent primary action (the view's own markup is unchanged).
+        $panel->renderHook(
+            name: PanelsRenderHook::SIDEBAR_NAV_START,
+            hook: fn(): string => '<div class="mw-admin-sidebar-live-edit">'
                 . view('admin::livewire.filament.top-navigation-go-live-edit')->render()
                 . '</div>'
-                . view('admin::livewire.filament.search-quick-nav')->render()
         );
 
                 // state into `localStorage.admin_sidebar_mode` so the designer-spec
