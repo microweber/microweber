@@ -65,36 +65,32 @@ class AdminChromeRelocationContractTest extends TestCase
     // ── 3: Live Edit CTA relocated to the sidebar top ─────────────────────────
 
     #[Test]
-    public function live_edit_cta_moves_to_the_sidebar_top(): void
+    public function live_edit_green_button_stays_in_the_topbar(): void
     {
         $src = $this->read('packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php');
-        // Registered at the top of the sidebar nav, wrapped for full-width.
-        $this->assertStringContainsString('PanelsRenderHook::SIDEBAR_NAV_START', $src);
-        $this->assertStringContainsString('mw-admin-sidebar-live-edit', $src);
-        $this->assertStringContainsString('top-navigation-go-live-edit', $src);
-
-        // The GLOBAL_SEARCH_AFTER topbar cluster no longer renders the Live Edit
-        // view — only the quick-nav search remains there. Assert the go-live-edit
-        // view is NOT rendered in the same expression as search-quick-nav.
+        // The green Live Edit button is rendered in the topbar cluster alongside
+        // the quick-nav search (its original home).
         $this->assertMatchesRegularExpression(
-            '/GLOBAL_SEARCH_AFTER,\s*hook:\s*fn\(\):\s*string\s*=>\s*view\(\'admin::livewire\.filament\.search-quick-nav\'\)->render\(\)\s*\);/s',
+            '/GLOBAL_SEARCH_AFTER,\s*hook:\s*fn\(\):\s*string\s*=>.*top-navigation-go-live-edit.*search-quick-nav/s',
             $src,
-            'GLOBAL_SEARCH_AFTER must render only the quick-nav search (Live Edit moved to the sidebar).'
+            'The Live Edit button must render in the GLOBAL_SEARCH_AFTER topbar cluster.'
         );
     }
 
     #[Test]
-    public function sidebar_live_edit_cta_has_full_width_styling(): void
+    public function sidebar_gets_an_additional_native_live_edit_nav_item(): void
     {
-        // The theme CSS is authored in per-concern parts (built into the bundle by
-        // build.cjs; the built bundle is gitignored, so we assert the source part).
-        $css = $this->read('packages/microweber-filament-theme/resources/assets/css/microweber/general/11-topbar-and-dashboard-1-topbar.css');
-        $this->assertStringContainsString('.mw-admin-sidebar-live-edit', $css);
+        $src = $this->read('packages/microweber-admin/src/Filament/FilamentAdminPanelProvider.php');
+        // An ADDITIONAL Live Edit entry, rendered as a NATIVE Filament
+        // NavigationItem (eye icon) so it matches the other sidebar items exactly
+        // — not a custom link, and not the green button.
         $this->assertMatchesRegularExpression(
-            '/\.mw-admin-sidebar-live-edit\s+\.fi-btn\s*\{[^}]*width:\s*100%/s',
-            $css,
-            'The sidebar Live Edit CTA must be full-width.'
+            "/NavigationItem::make\('Live Edit'\).*?editmode=y.*?->icon\('heroicon-o-eye'\).*?->sort\(-?\d+\)/s",
+            $src,
+            'The sidebar must register a native Live Edit NavigationItem with an eye icon.'
         );
+        // The old custom sidebar-link markup/hook is gone.
+        $this->assertStringNotContainsString('mw-admin-sidebar-live-edit-link', $src);
     }
 
     // ── 4: AI chat trigger to the topbar + Live Edit toolbar ──────────────────

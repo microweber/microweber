@@ -318,6 +318,14 @@ class FilamentAdminPanelProvider extends PanelProvider
 
             ])
             ->navigationItems([
+                // A native "Live Edit" sidebar nav item (eye icon), at the very top
+                // of the sidebar above Dashboard. The green Live Edit BUTTON stays
+                // in the topbar; this is the additional nav link, rendered as a
+                // normal Filament nav item so it matches the other items exactly.
+                NavigationItem::make('Live Edit')
+                    ->url(fn (): string => site_url('?editmode=y'))
+                    ->icon('heroicon-o-eye')
+                    ->sort(-100),
            /*     NavigationItem::make('E-mail Marketing')
                     ->url(admin_url('newsletter'))
                     ->group('Other')
@@ -381,24 +389,19 @@ class FilamentAdminPanelProvider extends PanelProvider
                 . '</div>'
         );
 
-        // Quick-nav search stays in the right topbar cluster. The Live Edit CTA
-        // was MOVED out of here to the TOP OF THE SIDEBAR (above Dashboard) — see
-        // the SIDEBAR_NAV_START hook below — so it reads as the primary "go edit
-        // the site" action at the top of the nav rather than a topbar button.
+        // The green Live Edit CTA stays in the right topbar cluster (where it has
+        // always been), alongside the quick-nav search.
         $panel->renderHook(
             name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
-            hook: fn(): string => view('admin::livewire.filament.search-quick-nav')->render()
-        );
-
-        // Live Edit CTA at the very top of the sidebar navigation, above the
-        // Dashboard item. Wrapped so the button spans the sidebar width as a
-        // prominent primary action (the view's own markup is unchanged).
-        $panel->renderHook(
-            name: PanelsRenderHook::SIDEBAR_NAV_START,
-            hook: fn(): string => '<div class="mw-admin-sidebar-live-edit">'
+            hook: fn(): string => '<div class="mw-admin-primary-actions">'
                 . view('admin::livewire.filament.top-navigation-go-live-edit')->render()
                 . '</div>'
+                . view('admin::livewire.filament.search-quick-nav')->render()
         );
+
+        // (The "Live Edit" sidebar nav item is a native Filament NavigationItem —
+        // see ->navigationItems() above — so it renders identically to the other
+        // sidebar items, with the standard icon size.)
 
                 // state into `localStorage.admin_sidebar_mode` so the designer-spec
         // key is present alongside Filament's native persistence.

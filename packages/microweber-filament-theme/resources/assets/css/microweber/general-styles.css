@@ -4211,25 +4211,6 @@ body.fi-panel-admin .admin-toolbar-live-edit .fi-btn svg {
     color: #182433 !important;
 }
 
-/* Live Edit CTA relocated to the TOP of the sidebar (above Dashboard), via the
-   SIDEBAR_NAV_START render hook. The button keeps its green treatment (the
-   .admin-toolbar-live-edit .fi-btn rules above still apply — the blade wrapper
-   carries that marker class); here we make it a full-width block at the top of
-   the nav with breathing room from the first nav item. */
-body.fi-panel-admin .mw-admin-sidebar-live-edit {
-    padding: 2px 12px 10px;
-    margin-bottom: 2px;
-}
-body.fi-panel-admin .mw-admin-sidebar-live-edit .admin-toolbar-live-edit {
-    display: flex;
-    width: 100%;
-}
-body.fi-panel-admin .mw-admin-sidebar-live-edit .fi-btn {
-    width: 100% !important;
-    justify-content: center !important;
-    min-height: 40px !important;
-}
-
 /* AI chat trigger in the topbar (USER_MENU_BEFORE), styled to match the
    notifications bell icon button next to it. */
 body.fi-panel-admin .mw-admin-ai-chat-topbar:hover {
