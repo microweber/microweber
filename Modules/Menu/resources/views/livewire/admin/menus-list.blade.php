@@ -68,6 +68,10 @@
                         $component = $this;
                         $params = array(
                           'menu_id' => $menu->id,
+                          // Render mega-menu children as editable admin rows
+                          // (drag handle + edit/delete) via the normal nested
+                          // recursion, not the frontend mega-menu skin grid.
+                          'admin_mode' => true,
                           'link' => function ($item) use ($component) {
                               return view('modules.menu::livewire.admin.menu-list-item', [
                                   'item' => $item,

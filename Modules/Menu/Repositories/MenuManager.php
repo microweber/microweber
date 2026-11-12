@@ -220,6 +220,16 @@ class MenuManager
         $orig_depth = $depth;
         $params_o = $menu_params;
 
+        // Admin menu editor mode: the Filament menu builder renders the tree
+        // through this same function but wants EVERY item (including mega-menu
+        // children, which are item_type='menu_item') rendered as an editable
+        // admin row — with drag handle + edit/delete — via the normal nested
+        // <ul> recursion and the supplied `link` closure. On the public site we
+        // instead render a mega-menu parent's children through the frontend
+        // mega-menu skin grid and suppress that recursion. This flag flips
+        // between the two so the admin builder isn't fed raw frontend markup.
+        $adminMode = is_array($params_o) && !empty($params_o['admin_mode']);
+
 //        if ($orig_depth == 0) {
 //            $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 //            if (!isset($no_cache) and ($cache_content) != false) {
@@ -757,7 +767,7 @@ class MenuManager
                 }
                 $to_print .= $menu_link;
 
-                if (isset($item['enable_mega_menu']) && $item['enable_mega_menu'] == 1) {
+                if (!$adminMode && isset($item['enable_mega_menu']) && $item['enable_mega_menu'] == 1) {
                     $megaMenuSkin = !empty($item['menu_item_template']) ? $item['menu_item_template'] : 'default';
                     $to_print .= '<div class="mega-menu-content mega-menu-skin-' . e($megaMenuSkin) . '">';
 
@@ -812,7 +822,7 @@ class MenuManager
                 // Mega-menu parents render their children through the mega-menu
                 // skin (as a styled grid) above, so suppress the default nested
                 // <ul> recursion here to avoid rendering the children twice.
-                $itemHasMegaMenu = (isset($item['enable_mega_menu']) && $item['enable_mega_menu'] == 1);
+                $itemHasMegaMenu = (!$adminMode && isset($item['enable_mega_menu']) && $item['enable_mega_menu'] == 1);
                 if ($itemHasMegaMenu == false && in_array($item['parent_id'], $passed_ids) == false) {
                     if ($maxdepth == false) {
                         if (isset($params) and is_array($params)) {
