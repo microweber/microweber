@@ -84,6 +84,45 @@ function icon_html($icon)
         return '<i class="icon ' . $icon . '"></i>';
     }
     if (str_starts_with($icon, 'fa-')) {
+        // The site ships Font Awesome 4.7. AI agents (and copy-pasted snippets)
+        // often use Font Awesome 5/6 icon names that don't exist in FA4 — those
+        // render as an empty box. Map the common renamed ones back to their FA4
+        // equivalent so the glyph shows. Unknown names pass through unchanged.
+        static $fa5to4 = [
+            'fa-chart-line' => 'fa-line-chart', 'fa-chart-bar' => 'fa-bar-chart',
+            'fa-chart-pie' => 'fa-pie-chart', 'fa-chart-area' => 'fa-area-chart',
+            'fa-shield-alt' => 'fa-shield', 'fa-shield-halved' => 'fa-shield',
+            'fa-tachometer-alt' => 'fa-tachometer', 'fa-gauge' => 'fa-tachometer',
+            'fa-gauge-high' => 'fa-tachometer', 'fa-sign-in-alt' => 'fa-sign-in',
+            'fa-sign-out-alt' => 'fa-sign-out', 'fa-right-from-bracket' => 'fa-sign-out',
+            'fa-arrow-right-from-bracket' => 'fa-sign-out',
+            'fa-external-link-alt' => 'fa-external-link', 'fa-up-right-from-square' => 'fa-external-link',
+            'fa-pencil-alt' => 'fa-pencil', 'fa-pen' => 'fa-pencil',
+            'fa-pen-to-square' => 'fa-pencil-square-o', 'fa-edit' => 'fa-pencil-square-o',
+            'fa-trash-alt' => 'fa-trash', 'fa-trash-can' => 'fa-trash',
+            'fa-phone-alt' => 'fa-phone', 'fa-phone-flip' => 'fa-phone',
+            'fa-magnifying-glass' => 'fa-search', 'fa-cart-shopping' => 'fa-shopping-cart',
+            'fa-bag-shopping' => 'fa-shopping-bag', 'fa-basket-shopping' => 'fa-shopping-basket',
+            'fa-xmark' => 'fa-times', 'fa-circle-xmark' => 'fa-times-circle',
+            'fa-circle-check' => 'fa-check-circle', 'fa-circle-info' => 'fa-info-circle',
+            'fa-circle-exclamation' => 'fa-exclamation-circle',
+            'fa-triangle-exclamation' => 'fa-exclamation-triangle',
+            'fa-house' => 'fa-home', 'fa-gear' => 'fa-cog', 'fa-gears' => 'fa-cogs',
+            'fa-screwdriver-wrench' => 'fa-wrench', 'fa-wand-magic' => 'fa-magic',
+            'fa-wand-magic-sparkles' => 'fa-magic', 'fa-person' => 'fa-user',
+            'fa-user-gear' => 'fa-user', 'fa-lock-open' => 'fa-unlock',
+            'fa-rotate' => 'fa-refresh', 'fa-arrows-rotate' => 'fa-refresh',
+            'fa-floppy-disk' => 'fa-floppy-o', 'fa-image' => 'fa-picture-o',
+            'fa-images' => 'fa-picture-o', 'fa-calendar-days' => 'fa-calendar',
+            'fa-clock' => 'fa-clock-o', 'fa-location-dot' => 'fa-map-marker',
+            'fa-map-location-dot' => 'fa-map-marker', 'fa-envelope-open-text' => 'fa-envelope',
+            'fa-paper-plane-top' => 'fa-paper-plane', 'fa-bolt-lightning' => 'fa-bolt',
+            'fa-circle-user' => 'fa-user-circle', 'fa-user-group' => 'fa-users',
+            'fa-people-group' => 'fa-users', 'fa-gauge-simple' => 'fa-tachometer',
+            'fa-link-slash' => 'fa-chain-broken', 'fa-ban' => 'fa-ban',
+            'fa-face-smile' => 'fa-smile-o', 'fa-star-half-stroke' => 'fa-star-half-o',
+        ];
+        $icon = $fa5to4[$icon] ?? $icon;
         return '<i class="fa ' . $icon . '"></i>';
     }
     if (str_starts_with($icon, 'glyphicon-')) {
