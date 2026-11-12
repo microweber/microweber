@@ -4,25 +4,44 @@
 
 type: layout
 
-name: Default
+name: Mega Menu — Grid
 
-description: Default Menu Item skin
+description: Two-column mega menu. Child items become entries (icon + title + description); grandchildren become tag chips.
 
 */
 
 ?>
 
-<style>
-    .mega-menu-item {
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        display:none;
-    }
-</style>
+<script>mw.moduleCSS("{{ asset('modules/menu/mega-menu.css') }}?v={{ @filemtime(public_path('modules/menu/mega-menu.css')) }}", true);
+(function(){ if (window.__mwMegaMenuJS) return; window.__mwMegaMenuJS = true; var s=document.createElement("script"); s.src="{{ asset('modules/menu/mega-menu.js') }}?v={{ @filemtime(public_path('modules/menu/mega-menu.js')) }}"; document.head.appendChild(s); })();</script>
 
+@php($items = $mega_menu_items ?? [])
 
-<div class="edit mega-menu-item" rel="{{$menu_item_id}}" field="mega_menu_item">
-    Here is your mega menu content..
-</div>
+@if(!empty($items))
+    <div class="mega-menu-panel">
+        <div class="mega-menu-grid">
+            @foreach($items as $entry)
+                <div class="mega-menu-entry">
+                    @if(!empty($entry['icon']))
+                        <span class="mega-menu-entry__icon">{!! icon_html($entry['icon']) !!}</span>
+                    @endif
+                    <div class="mega-menu-entry__body">
+                        <a class="mega-menu-entry__title" href="{{ $entry['url'] ?: '#' }}">{{ $entry['title'] }}</a>
+                        @if(!empty($entry['description']))
+                            <div class="mega-menu-entry__desc">{{ $entry['description'] }}</div>
+                        @endif
+                        @if(!empty($entry['children']))
+                            <div class="mega-menu-chips">
+                                @foreach($entry['children'] as $chip)
+                                    <a class="mega-menu-chip" href="{{ $chip['url'] ?: '#' }}">{{ $chip['title'] }}</a>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+@elseif(is_live_edit())
+    <div class="mega-menu-empty">{{ _e('Add child menu items to this item to fill the mega menu.', true) }}</div>
+@endif

@@ -8,6 +8,7 @@ use MicroweberPackages\Url\Facades\UrlManager;
 use MicroweberPackages\Database\Facades\DatabaseManager;
 use MicroweberPackages\Event\Facades\EventManager;
 use MicroweberPackages\Format\Facades\Format;
+use Modules\Menu\Models\Menu;
 
 /**
  * Content class is used to get and save content in the database.
@@ -757,22 +758,27 @@ class MenuManager
                 $to_print .= $menu_link;
 
                 if (isset($item['enable_mega_menu']) && $item['enable_mega_menu'] == 1) {
-                    $to_print .= '<div class="mega-menu-content">';
+                    $megaMenuSkin = !empty($item['menu_item_template']) ? $item['menu_item_template'] : 'default';
+                    $to_print .= '<div class="mega-menu-content mega-menu-skin-' . e($megaMenuSkin) . '">';
 
-                    $viewName = 'modules.menu::mega_menu_templates.menu_item.'.$item['menu_item_template'];
+                    $viewName = 'modules.menu::mega_menu_templates.menu_item.'.$megaMenuSkin;
                     $checkIfActiveSiteTemplate = app()->templates->find(template_name());
                     if ($checkIfActiveSiteTemplate) {
                         $siteTemplateLowerName = $checkIfActiveSiteTemplate->getLowerName();
-                        $siteTemplateNamespace = 'templates.' . $siteTemplateLowerName . '::modules.menu.mega_menu_templates.menu_item.' . $item['menu_item_template'];
+                        $siteTemplateNamespace = 'templates.' . $siteTemplateLowerName . '::modules.menu.mega_menu_templates.menu_item.' . $megaMenuSkin;
                         if (view()->exists($siteTemplateNamespace)) {
                             $viewName = $siteTemplateNamespace;
                         }
 
                     }
+                    if (!view()->exists($viewName)) {
+                        $viewName = 'modules.menu::mega_menu_templates.menu_item.default';
+                    }
 
                     $to_print .=  view($viewName, [
-                        'menu_item_id'=>$item['id'],
-                    ]);
+                        'menu_item_id' => $item['id'],
+                        'mega_menu_items' => $this->getMegaMenuChildren($item['id']),
+                    ])->render();
                     $to_print .= '</div>';
                 }
                 $ext_classes = '';
@@ -803,7 +809,11 @@ class MenuManager
 
 
                 // }
-                if (in_array($item['parent_id'], $passed_ids) == false) {
+                // Mega-menu parents render their children through the mega-menu
+                // skin (as a styled grid) above, so suppress the default nested
+                // <ul> recursion here to avoid rendering the children twice.
+                $itemHasMegaMenu = (isset($item['enable_mega_menu']) && $item['enable_mega_menu'] == 1);
+                if ($itemHasMegaMenu == false && in_array($item['parent_id'], $passed_ids) == false) {
                     if ($maxdepth == false) {
                         if (isset($params) and is_array($params)) {
 
@@ -977,6 +987,84 @@ class MenuManager
         } else {
             return false;
         }
+    }
+
+    /**
+     * Structured children for a mega-menu parent. Each child is resolved to a
+     * usable url/title (following content/category links) plus its icon,
+     * description and its own children (rendered as tag chips by the skins).
+     * This lets a mega menu be driven by the normal menu-item tree instead of
+     * a freeform editable region. $depth caps recursion at two levels
+     * (entries + chips).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getMegaMenuChildren($parentId, $depth = 0)
+    {
+        $parentId = intval($parentId);
+        if ($parentId < 1) {
+            return [];
+        }
+
+        $children = Menu::where('parent_id', $parentId)
+            ->where('item_type', 'menu_item')
+            ->orderBy('position', 'asc')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $out = [];
+        foreach ($children as $child) {
+            [$url, $title] = $this->resolveMenuItemLink($child);
+            if ($title === '' || $title === null) {
+                continue;
+            }
+            $out[] = [
+                'id' => $child->id,
+                'title' => $title,
+                'url' => $url,
+                'icon' => $child->icon,
+                'description' => $child->description,
+                'children' => ($depth < 1) ? $this->getMegaMenuChildren($child->id, $depth + 1) : [],
+            ];
+        }
+
+        return $out;
+    }
+
+    /**
+     * Resolve a menu item to [url, title], following a content/category link
+     * when the item has no explicit url/title of its own.
+     *
+     * @return array{0:string,1:string}
+     */
+    private function resolveMenuItemLink($item)
+    {
+        $title = $item->title;
+        $url = $item->url;
+
+        if (intval($item->content_id) > 0) {
+            $cont = $this->app->content_manager->get_by_id($item->content_id);
+            if (is_array($cont)) {
+                if ($title === '' || $title === null) {
+                    $title = $cont['title'] ?? $title;
+                }
+                if ($url === '' || $url === null) {
+                    $url = $this->app->content_manager->link($cont['id']);
+                }
+            }
+        } elseif (intval($item->categories_id) > 0) {
+            $cont = $this->app->category_manager->get_by_id($item->categories_id);
+            if (is_array($cont)) {
+                if ($title === '' || $title === null) {
+                    $title = $cont['title'] ?? $title;
+                }
+                if ($url === '' || $url === null) {
+                    $url = $this->app->category_manager->link($cont['id']);
+                }
+            }
+        }
+
+        return [(string) $url, (string) $title];
     }
 
     public function menu_delete($id = false)

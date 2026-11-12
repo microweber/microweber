@@ -542,15 +542,16 @@ class MenusList extends Component implements HasForms, HasActions
                 [
                     Checkbox::make('enable_mega_menu')
                         ->label('Enable Mega Menu')
+                        ->helperText('Show this item\'s child items as a styled mega-menu dropdown (icon + title + description; grandchildren become tag chips).')
                         ->live()
-                        ->hidden(true) //todo remove this when mega menu is ready
                         ->default(false),
 
                     Select::make('menu_item_template')
                         ->hidden(function (Get $get) {
-                            return $get('enable_mega_menu') === false;
+                            return ! $get('enable_mega_menu');
                         })
-                        ->label('Mega Menu Template')
+                        ->label('Mega Menu Skin')
+                        ->helperText('Choose how the mega-menu dropdown is laid out.')
                         ->options($menuTemplates)
                         ->default('default'),
                 ]
