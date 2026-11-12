@@ -235,6 +235,15 @@
                         </li>
 
                         <li role="none">
+                            <button type="button" role="menuitem" tabindex="-1" @click="resetThemeStyles">
+                                <svg fill="currentColor" height="18" viewBox="0 -960 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M480-80q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-440h80q0 117 81.5 198.5T480-160q117 0 198.5-81.5T760-440q0-117-81.5-198.5T480-720h-6l62 62-56 58-160-160 160-160 56 58-62 62h6q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-440q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-80Z"/>
+                                </svg>
+                                Reset theme styles
+                            </button>
+                        </li>
+
+                        <li role="none">
                             <button type="button" role="menuitem" tabindex="-1" @click="clearCache">
                                 <svg fill="currentColor" height="18" viewBox="0 -960 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M280-720v520-520Zm170 600H280q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v172q-17-5-39.5-8.5T680-560v-160H280v520h132q6 21 16 41.5t22 38.5Zm-90-160h40q0-63 20-103.5l20-40.5v-216h-80v360Zm160-230q17-11 38.5-22t41.5-16v-92h-80v130ZM680-80q-83 0-141.5-58.5T480-280q0-83 58.5-141.5T680-480q83 0 141.5 58.5T880-280q0 83-58.5 141.5T680-80Zm66-106 28-28-74-74v-112h-40v128l86 86Z"/>
@@ -883,6 +892,33 @@ export default {
                     location.reload();
                 });
             });
+        },
+
+        // Reset ALL theme styles for the current template — clears the Live-Edit
+        // custom CSS (the ESE / AI / Customize-Styles edits stored in live_edit.css)
+        // back to the template default. Works on every template, including blank-slate
+        // ones (e.g. Plain) that register no Design-panel selectors and so have no
+        // in-panel "Reset stylesheet settings" button. Destructive + global → confirm.
+        resetThemeStyles() {
+            this.hideToolsDropdown();
+            this.closeFilamentSlideOver();
+            const template = (window.mw && mw.settings && mw.settings.current_template) || '';
+            mw.confirm(
+                "Reset ALL theme styles for this website back to the template default? This clears every Live-Edit, Element-Style and AI style change. It cannot be undone.",
+                function () {
+                    mw.notification.warning("Resetting theme styles...");
+                    $.post(
+                        mw.settings.api_url + "layouts/template_remove_custom_css",
+                        template ? { template: template } : {},
+                        function () {
+                            mw.notification.success("Theme styles reset. Reloading...");
+                            location.reload();
+                        }
+                    ).fail(function () {
+                        mw.notification.error("Could not reset theme styles.");
+                    });
+                }
+            );
         },
 
         hideContentResetDialog() {
