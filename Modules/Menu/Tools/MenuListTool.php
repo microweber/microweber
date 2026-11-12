@@ -67,15 +67,23 @@ class MenuListTool extends BaseTool
                 $items = Menu::where('parent_id', $group->id)
                     ->orderBy('position')
                     ->limit($limit)
-                    ->get(['id', 'title', 'content_id', 'url', 'position', 'item_type'])
+                    ->get(['id', 'title', 'content_id', 'url', 'position', 'item_type', 'icon', 'description', 'enable_mega_menu', 'menu_item_template'])
                     ->map(function ($m) {
-                        return [
+                        $row = [
                             'id' => $m->id,
                             'title' => $m->title,
                             'links_to' => $m->content_id ? ('page #' . $m->content_id) : ($m->url ?: '(none)'),
                             'type' => $m->item_type,
                             'position' => $m->position,
                         ];
+                        if (!empty($m->icon)) { $row['icon'] = $m->icon; }
+                        if (!empty($m->description)) { $row['description'] = $m->description; }
+                        if (!empty($m->enable_mega_menu)) {
+                            $row['mega_menu'] = true;
+                            $row['mega_menu_skin'] = $m->menu_item_template ?: 'default';
+                            $row['child_count'] = Menu::where('parent_id', $m->id)->count();
+                        }
+                        return $row;
                     })->all();
 
                 $out[] = [

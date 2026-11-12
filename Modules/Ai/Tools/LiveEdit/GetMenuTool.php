@@ -45,18 +45,35 @@ class GetMenuTool extends BaseTool
                     $out[$short] = ['group_id' => null, 'items' => []];
                     continue;
                 }
+                $cols = ['id', 'title', 'content_id', 'url', 'position', 'icon', 'description', 'enable_mega_menu', 'menu_item_template'];
+
+                // Map one item, recursing into its children (mega-menu entries ->
+                // their chips) so the agent can see the full mega-menu structure.
+                $mapItem = function ($m) use (&$mapItem, $short, $cols) {
+                    $row = [
+                        'id' => $m->id,
+                        'title' => $m->title,
+                        'group' => $short,
+                        'links_to' => $m->content_id ? ('page #' . $m->content_id) : ($m->url ?: '(none)'),
+                        'position' => $m->position,
+                    ];
+                    if (!empty($m->icon)) { $row['icon'] = $m->icon; }
+                    if (!empty($m->description)) { $row['description'] = $m->description; }
+                    if (!empty($m->enable_mega_menu)) {
+                        $row['mega_menu'] = true;
+                        $row['mega_menu_skin'] = $m->menu_item_template ?: 'default';
+                    }
+                    $children = Menu::where('parent_id', $m->id)->orderBy('position')->get($cols);
+                    if ($children->isNotEmpty()) {
+                        $row['children'] = $children->map($mapItem)->all();
+                    }
+                    return $row;
+                };
+
                 $items = Menu::where('parent_id', $group->id)
                     ->orderBy('position')
-                    ->get(['id', 'title', 'content_id', 'url', 'position'])
-                    ->map(function ($m) use ($short) {
-                        return [
-                            'id' => $m->id,
-                            'title' => $m->title,
-                            'group' => $short,
-                            'links_to' => $m->content_id ? ('page #' . $m->content_id) : ($m->url ?: '(none)'),
-                            'position' => $m->position,
-                        ];
-                    })->all();
+                    ->get($cols)
+                    ->map($mapItem)->all();
                 $out[$short] = ['group_id' => $group->id, 'items' => $items];
             }
 

@@ -61,6 +61,31 @@ class AddMenuItemTool extends BaseTool
                     . 'or a full http URL). Ignored if content_id is given.',
                 required: false,
             ),
+            new ToolProperty(
+                name: 'parent_id',
+                type: PropertyType::INTEGER,
+                description: 'Add this item UNDER an existing menu item (a submenu / '
+                    . 'mega-menu entry) instead of at the top level. Pass the id of a '
+                    . 'top-level item that has enable_mega_menu on to add one of its '
+                    . 'mega-menu entries; pass an entry\'s id to add a tag chip under '
+                    . 'it. Omit for a normal top-level link. "group" is ignored when '
+                    . 'parent_id is set.',
+                required: false,
+            ),
+            new ToolProperty(
+                name: 'icon',
+                type: PropertyType::STRING,
+                description: 'Icon shown before the label (Font Awesome 4 token, e.g. '
+                    . '"fa-shield", "fa-cloud") — used for mega-menu entry icons.',
+                required: false,
+            ),
+            new ToolProperty(
+                name: 'description',
+                type: PropertyType::STRING,
+                description: 'Short description shown under the title in a mega-menu '
+                    . 'entry.',
+                required: false,
+            ),
         ];
     }
 
@@ -74,24 +99,38 @@ class AddMenuItemTool extends BaseTool
             return $this->handleError('Provide a title and a content_id or url.');
         }
 
-        // Resolve the target group: "footer" -> footer_menu, anything else -> header.
-        $groupArg = strtolower(trim((string) ($args['group'] ?? 'header')));
-        $groupTitle = str_contains($groupArg, 'footer') ? 'footer_menu' : 'header_menu';
-        $groupLabel = $groupTitle === 'footer_menu' ? 'footer' : 'header';
+        $parentId = (int) ($args['parent_id'] ?? 0);
 
         try {
-            // The navigation group row (parent of the top-level items). Resolve it,
-            // creating it if somehow absent.
-            $group = Menu::whereNull('parent_id')->where('title', $groupTitle)->first();
-            if (!$group) {
-                $group = Menu::create(['title' => $groupTitle]);
+            // Nested add (mega-menu entry / chip / submenu): parent is an existing
+            // menu item. Otherwise add at the top level under a navigation group.
+            if ($parentId > 0) {
+                $parentItem = Menu::whereNotNull('parent_id')->find($parentId);
+                if (!$parentItem) {
+                    return $this->handleError("No parent menu item #{$parentId} was found (use get_menu to find ids).");
+                }
+                $parentRowId = $parentItem->id;
+                $groupLabel = 'submenu of #' . $parentId;
+            } else {
+                // Resolve the target group: "footer" -> footer_menu, else header.
+                $groupArg = strtolower(trim((string) ($args['group'] ?? 'header')));
+                $groupTitle = str_contains($groupArg, 'footer') ? 'footer_menu' : 'header_menu';
+                $groupLabel = $groupTitle === 'footer_menu' ? 'footer' : 'header';
+
+                // The navigation group row (parent of the top-level items). Resolve
+                // it, creating it if somehow absent.
+                $group = Menu::whereNull('parent_id')->where('title', $groupTitle)->first();
+                if (!$group) {
+                    $group = Menu::create(['title' => $groupTitle]);
+                }
+                $parentRowId = $group->id;
             }
 
-            // Next position at the end of the menu.
-            $maxPos = (int) Menu::where('parent_id', $group->id)->max('position');
+            // Next position at the end of the (sub)menu.
+            $maxPos = (int) Menu::where('parent_id', $parentRowId)->max('position');
 
             $data = [
-                'parent_id' => $group->id,
+                'parent_id' => $parentRowId,
                 'title' => $title !== '' ? $title : null,
                 'position' => $maxPos + 1,
                 'is_active' => 1,
@@ -103,6 +142,19 @@ class AddMenuItemTool extends BaseTool
                 $data['url'] = $url;
                 $data['item_type'] = 'url';
             }
+            // A nested item (submenu / mega-menu entry / chip) MUST be item_type
+            // "menu_item" — that is what the mega-menu renderer (getMegaMenuChildren)
+            // and the submenu renderer look for. The content_id/url above still hold
+            // its link; only the type differs from a top-level item.
+            if ($parentId > 0) {
+                $data['item_type'] = 'menu_item';
+            }
+            if (array_key_exists('icon', $args) && trim((string) $args['icon']) !== '') {
+                $data['icon'] = trim((string) $args['icon']);
+            }
+            if (array_key_exists('description', $args) && trim((string) $args['description']) !== '') {
+                $data['description'] = (string) $args['description'];
+            }
 
             $item = Menu::create($data);
 
@@ -112,7 +164,10 @@ class AddMenuItemTool extends BaseTool
                 try { app()->cache_manager->delete($cacheGroup); } catch (\Throwable $e) {}
             }
 
-            return "OK — added \"{$title}\" to the {$groupLabel} navigation menu (item #{$item->id}).";
+            $where = $parentId > 0
+                ? "as a child of menu item #{$parentId} (a mega-menu entry/chip)"
+                : "to the {$groupLabel} navigation menu";
+            return "OK — added \"{$title}\" {$where} (item #{$item->id}).";
         } catch (\Throwable $e) {
             return $this->handleError('Could not add the menu item: ' . $e->getMessage());
         }
