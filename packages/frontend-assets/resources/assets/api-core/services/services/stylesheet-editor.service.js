@@ -291,21 +291,34 @@ export class StylesheetEditor extends MicroweberBaseClass {
             this._temp.children[media].children[sel].attributes = {};
         }
 
-        // LE redesign (task-2026-09-11) — write Live-Edit per-element rules with
-        // !important so they beat template/user !important (e.g. the template's
-        // `h1,h2,h3{color:...!important}` that made ESE colour edits silently do
-        // nothing). Safe because every `sel` here is #id-scoped AND the rule is
-        // emitted INSIDE the resolution media query, so this stays per-element,
-        // responsive (per breakpoint), and re-editable — the next edit rewrites
-        // the same rule. Undo history still records the clean value (below).
+        // Escalate-only-if-needed (task-2026-11-12) — supersedes the old
+        // "force !important on every rule" behaviour. We write the Live-Edit
+        // per-element rule CLEAN first and, for base-media edits we can verify
+        // against the live canvas element, add !important ONLY when a competing
+        // template/theme rule (often itself !important) would otherwise outrank
+        // us. This keeps the emitted CSS clean for the common case (most props
+        // have nothing competing) and reserves !important for the elements that
+        // genuinely need it — rather than bleeding !important everywhere.
+        //
+        // Narrow-media (phone) edits can't be measured reliably at the current
+        // canvas width, so they keep the previous force-!important behaviour.
+        // Undo history still records the clean `val` (below) regardless.
+        // Gate the probe to interactive single edits (record === true). The bulk
+        // path (setPropertyForSelectorBulk → palette swatches) calls this with
+        // record = false and dozens of props at once; probing each would triple the
+        // stylesheet rebuilds, so bulk keeps the fast force-!important path.
+        const _isEmpty = (val === '' || val === '!important' || val === undefined || val === null);
+        const _alreadyImportant = !_isEmpty && /!important\s*$/i.test(String(val));
+        const _canEscalate = !_isEmpty && !_alreadyImportant && record === true && (media === '@media screen, print');
+
         let storeVal = val;
-        if (storeVal !== '' && storeVal !== '!important' && storeVal !== undefined
-            && storeVal !== null && !/!important\s*$/i.test(String(storeVal))) {
-            storeVal = String(storeVal) + ' !important';
+        if (!_isEmpty && !_alreadyImportant && !_canEscalate) {
+            // Phone/narrow-media (unmeasurable here): keep forcing !important.
+            storeVal = String(val) + ' !important';
         }
         this._temp.children[media].children[sel].attributes[prop] = storeVal;
 
-        if (val === '' || val === '!important' || val === undefined || val === null) {
+        if (_isEmpty) {
             const prop_val = '';
             this._temp.children[media].children[sel].attributes[prop] = prop_val;
             if (this._temp.children
@@ -326,6 +339,29 @@ export class StylesheetEditor extends MicroweberBaseClass {
         }
 
         this._cssTemp(this._temp);
+
+        // The clean rule is now live. Probe the element: write !important and see
+        // if it changes the computed value. If it does NOT (and we could measure),
+        // the clean rule was already winning → keep it clean. If it DOES, a
+        // competing rule was outranking the clean rule → keep !important.
+        if (_canEscalate) {
+            try {
+                const doc = mw.app.canvas && mw.app.canvas.getDocument && mw.app.canvas.getDocument();
+                const el = doc && doc.querySelector(sel);
+                if (el) {
+                    const cleanComputed = getComputedStyle(el).getPropertyValue(prop).trim();
+                    this._temp.children[media].children[sel].attributes[prop] = String(val) + ' !important';
+                    this._cssTemp(this._temp);
+                    const impComputed = getComputedStyle(el).getPropertyValue(prop).trim();
+                    if (cleanComputed !== '' && impComputed === cleanComputed) {
+                        // !important made no difference — the clean rule already won.
+                        this._temp.children[media].children[sel].attributes[prop] = String(val);
+                        this._cssTemp(this._temp);
+                    }
+                    // else: keep the !important variant (clean was being outranked).
+                }
+            } catch (e) {}
+        }
 
         if (record) {
             clearTimeout(this.recordTimeout[timeoutName]);
