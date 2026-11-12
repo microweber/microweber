@@ -709,7 +709,7 @@ function MwAi() {
         tokenizeDesignCss(css) {
             const MAPS = {
                 heading: { 'color': '--mw-heading-color', 'line-height': '--mw-line-height', 'letter-spacing': '--mw-letter-spacing', 'font-weight': '--mw-font-weight', 'text-transform': '--mw-text-transform', 'font-family': '--mw-heading-font-family' },
-                body: { 'color': '--mw-body-color', 'line-height': '--mw-line-height', 'letter-spacing': '--mw-letter-spacing', 'font-weight': '--mw-font-weight', 'text-transform': '--mw-text-transform', 'font-family': '--mw-body-font-family' },
+                body: { 'color': '--mw-body-color', 'background-color': '--mw-background-color', 'background': '--mw-background-color', 'line-height': '--mw-line-height', 'letter-spacing': '--mw-letter-spacing', 'font-weight': '--mw-font-weight', 'text-transform': '--mw-text-transform', 'font-family': '--mw-body-font-family' },
                 text: { 'color': '--mw-paragraph-color', 'line-height': '--mw-line-height', 'letter-spacing': '--mw-letter-spacing', 'font-weight': '--mw-font-weight', 'text-transform': '--mw-text-transform' },
                 link: { 'color': '--mw-link-color' },
                 linkHover: { 'color': '--mw-link-hover-color' },
@@ -742,6 +742,14 @@ function MwAi() {
                 }
                 return kind;
             };
+            // A plain solid colour (hex / rgb[a] / hsl[a] / named) — NOT a gradient,
+            // url(), or multi-layer `background` shorthand, which must stay literal.
+            const isSimpleColor = function (v) {
+                const s = String(v).trim();
+                if (/url\s*\(|gradient|,|\//i.test(s)) { return false; }
+                if (/\s/.test(s)) { return false; } // multiple tokens = shorthand, not a solid colour
+                return /^#[0-9a-f]{3,8}$|^rgba?\([^)]*\)$|^hsla?\([^)]*\)$|^[a-z]+$/i.test(s);
+            };
             const rewriteBody = function (body, map) {
                 return String(body).split(';').map(function (decl) {
                     const raw = decl;
@@ -752,7 +760,11 @@ function MwAi() {
                     let val = decl.slice(idx + 1).trim();
                     const token = map[prop];
                     if (!token || !val) { return raw; }
+                    if (prop.indexOf('--') === 0) { return raw; } // a token assignment we already emitted (idempotent)
                     if (/var\s*\(/i.test(val)) { return raw; } // already tokenised
+                    // `background` shorthand only tokenises a solid colour — a gradient /
+                    // image / multi-layer value stays a literal so we don't lose it.
+                    if (prop === 'background' && !isSimpleColor(val)) { return raw; }
                     // Lift a trailing !important OUTSIDE the var() — an !important
                     // inside a var() fallback is invalid CSS (would void the whole
                     // declaration). Matters when re-tokenising CSS that already ran
@@ -763,7 +775,15 @@ function MwAi() {
                     if (!val) { return raw; }
                     // Preserve the original leading whitespace/indent of the declaration.
                     const lead = decl.slice(0, decl.length - decl.trimStart().length);
-                    return lead + prop + ': var(' + token + ', ' + val + ')' + bang;
+                    // Emit TWO declarations:
+                    //  1. the design TOKEN (clean, no !important) — the theme's own
+                    //     token-consumer rules (which carry the template's !important)
+                    //     then apply it, so the edit LANDS even on token-driven themes
+                    //     (the "AI background does nothing" bug) with no !important of ours.
+                    //  2. a var()-backed literal fallback for templates that have NO
+                    //     consumer rule for this token — forceImportant later escalates
+                    //     only THIS one (the custom property is left clean, see below).
+                    return lead + token + ': ' + val + '; ' + lead + prop + ': var(' + token + ', ' + val + ')' + bang;
                 }).join(';');
             };
             const self = this;
@@ -790,7 +810,14 @@ function MwAi() {
                     const d = decl.trim();
                     if (!d) { return ''; }
                     if (/!important\s*$/i.test(d)) { return d; }
-                    if (d.indexOf(':') < 0) { return d; }
+                    const idx = d.indexOf(':');
+                    if (idx < 0) { return d; }
+                    // Leave CSS custom properties (design tokens) CLEAN — they feed the
+                    // theme's own token-consumer rules (which already carry the template's
+                    // !important), so they never need ours. Keeps the token channel
+                    // !important-free (the "stop spraying !important" goal) while normal
+                    // declarations still escalate to beat the template's literal rules.
+                    if (d.slice(0, idx).trim().indexOf('--') === 0) { return d; }
                     return d + ' !important';
                 }).filter(Boolean).join('; ');
             };

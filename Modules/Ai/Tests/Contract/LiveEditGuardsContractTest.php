@@ -184,7 +184,7 @@ final class LiveEditGuardsContractTest extends TestCase
         // kind detection + body rewrite) is longer than the 2.2k default bound.
         $tokStart = strpos($src, 'tokenizeDesignCss(css) {');
         $this->assertNotFalse($tokStart, 'tokenizeDesignCss(css) definition must exist.');
-        $tok = substr($src, $tokStart, 4000);
+        $tok = substr($src, $tokStart, 5200);
         foreach ([
             '--mw-heading-color', '--mw-body-color', '--mw-paragraph-color',
             '--mw-link-color', '--mw-line-height', '--mw-font-weight',
