@@ -1009,7 +1009,17 @@ function MwAi() {
                 api.injectGlobalCss(api.forceImportant(api.tokenizeDesignCss(css)));
                 api.persistGlobalCss();
                 api.markDesignDirty();
-                return { ok: true, message: 'applied global css' };
+                return { ok: true, message: 'Applied global CSS. VERIFY NOW: call '
+                    + 'get_computed_styles on the element(s) you just styled and '
+                    + 'confirm EACH property actually changed to the value you set. '
+                    + 'If a value did NOT change, another rule overlaps/outranks '
+                    + 'yours — escalate: raise specificity (prefix a real ancestor '
+                    + 'id/class the element has, or target the exact child that '
+                    + 'paints it), or set the matching theme token with set_css_var. '
+                    + '(This CSS is already emitted with !important, so when it still '
+                    + 'does not take, the cause is specificity/selector, not a missing '
+                    + '!important.) Do not report "done" until the computed style '
+                    + 'matches what you intended.' };
             },
 
             // Per-PAGE CSS: like apply_css but scoped to the CURRENT page by content
@@ -1022,7 +1032,12 @@ function MwAi() {
                 if (!id) { return { ok: false, message: 'No current page content id — open a page in Live Edit first.' }; }
                 const full = api.injectPageCss(api.forceImportant(api.tokenizeDesignCss(css)));
                 api.savePageCssToServer(full);
-                return { ok: true, message: 'applied + saved CSS for THIS page only (content ' + id + ')' };
+                return { ok: true, message: 'Applied + saved CSS for THIS page only '
+                    + '(content ' + id + '). VERIFY NOW: call get_computed_styles on '
+                    + 'the element(s) you styled and confirm each property changed. If '
+                    + 'not, another rule overlaps yours — raise specificity or target '
+                    + 'the exact painting element (the CSS already carries !important). '
+                    + 'Do not report "done" until the computed style matches.' };
             },
 
             // Per-PAGE JS: scoped to the current page by content id. Overwrite
