@@ -60,9 +60,26 @@
    */
 }
 
-.mw-menu-editor__selector .fi-btn.fi-color-gray {
-  width: 32px !important;
-  height: 32px !important;
+/*
+ * The three-dot ActionGroup trigger sits NEXT TO the menu <select>, which has
+ * a "Menu" label stacked above it — so the selector row is bottom-aligned
+ * (items-end) to line the trigger up with the select box, not the label. In
+ * Filament v5 an icon-only ActionGroup trigger renders as
+ * `button.fi-icon-btn.fi-size-sm` (NOT `.fi-btn.fi-color-gray` — that older
+ * selector silently stopped matching, leaving the trigger chrome-less AND 7px
+ * below the select's centre). Target the v5 class, give it a 38px square that
+ * matches the native select's height, and let the row's bottom-alignment centre
+ * it against the select box by construction. Keep the legacy selector too for
+ * any surface still on the old markup.
+ */
+.mw-menu-editor__selector .fi-btn.fi-color-gray,
+.mw-menu-editor__selector .fi-dropdown-trigger > .fi-icon-btn,
+.mw-menu-editor__selector .fi-dropdown-trigger > button.fi-ac-icon-btn-group {
+  width: 38px !important;
+  height: 38px !important;
+  /* .fi-ac-icon-btn-group ships a -6px margin to overlap grouped buttons; this
+     trigger stands alone, so that margin just floats it 6px above the select. */
+  margin: 0 !important;
   padding: 0 !important;
   border: 1px solid var(--mw-border-subtle) !important;
   border-radius: var(--mw-radius-sm) !important;
@@ -77,10 +94,23 @@
   }
 }
 
-/* Ensure the ActionGroup dropdown wrapper doesn't add extra vertical space */
-.mw-menu-editor__selector .fi-dropdown {
+/*
+ * The actions column holds only the three-dot trigger. Pin it to the native
+ * select's 38px height and make the dropdown → trigger → button chain fill that
+ * height, so the row's bottom-alignment (items-end, lining up with the select
+ * box below its "Menu" label) centres the button on the select by construction.
+ * Without this the dropdown wrapper collapses to the icon's ~26px and the 38px
+ * button overflows it, floating ~6px below the select's centre.
+ */
+.mw-menu-editor__selector-actions {
+  height: 38px !important;
+}
+
+.mw-menu-editor__selector-actions .fi-dropdown,
+.mw-menu-editor__selector-actions .fi-dropdown-trigger {
   display: inline-flex !important;
-  align-items: center !important;
+  align-items: stretch !important;
+  height: 100% !important;
 }
 
 .mw-menu-editor__tree {

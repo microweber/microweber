@@ -23,7 +23,7 @@
                 <div class="flex-1 min-w-[200px] max-w-sm">
                     {{ $this->form }}
                 </div>
-                <div class="flex gap-2 items-center" style="padding-bottom: 2px;">
+                <div class="flex gap-2 items-center mw-menu-editor__selector-actions">
                     {{ $this->menuActionsGroup() }}
                 </div>
             </div>
