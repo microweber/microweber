@@ -51,6 +51,7 @@ class Menu extends Model
         "url",
         "url_target",
         "size",
+        "icon",
         "default_image",
         "rollover_image",
         "enable_mega_menu",

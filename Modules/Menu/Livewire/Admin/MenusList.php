@@ -23,6 +23,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\Multilanguage\Filament\Resources\Concerns\TranslatableResource;
 use MicroweberPackages\Multilanguage\Forms\Actions\TranslateFieldAction;
@@ -439,6 +440,21 @@ class MenusList extends Component implements HasForms, HasActions
                      TranslateFieldAction::make('title')->label('')
                  )
                 ->maxLength(1255),
+
+            // Per-item icon (rendered before the label by icon_html() in
+            // menu_tree). Reuses the shared MwIconPicker + font-awesome set
+            // already used by the Btn module, so the stored value is a token
+            // like "fa-rocket" or raw <svg>/<i> markup.
+            MwIconPicker::make('icon')
+                ->label('Icon')
+                ->helperText('Optional icon shown before the menu label (e.g. a mega-menu entry).')
+                // Register icon sets so the picker dialog has something to show.
+                // Without at least one set the shared picker throws
+                // "Cannot read properties of undefined (reading '_value')".
+                // Font Awesome is the set whose webfont already loads on the
+                // public site, and its fa-* values render via icon_html().
+                ->iconSets(['fontAwesome'])
+                ->live(),
 
 
             Checkbox::make('advanced')

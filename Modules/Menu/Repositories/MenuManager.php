@@ -412,7 +412,7 @@ class MenuManager
 //        }
 
         if (!isset($link) or $link == false) {
-            $link = '<a itemprop="url" data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level} {a_class} {a_submenu_class}"  {target_attribute} href="{url}">{title}</a>';
+            $link = '<a itemprop="url" data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level} {a_class} {a_submenu_class}"  {target_attribute} href="{url}">{icon_html}{title}</a>';
         }
 
         $id_attr_str = '';
@@ -731,6 +731,29 @@ class MenuManager
                 $menu_link = str_replace('{a_submenu_class}', $class_for_li_submenu_a, $menu_link);
                 $menu_link = str_replace('{target_attribute}', $url_target_attr_string, $menu_link);
                 $menu_link = str_replace('{li_submenu_a_class}', $class_for_li_submenu_a, $menu_link);
+                // Per-item icon. icon_html() turns the stored token (fa-*, mdi-*,
+                // mw-*, glyphicon-*) or raw <svg>/<i>/<img> markup into HTML; empty
+                // when no icon is set. The token is {icon_html} (not {icon}) so the
+                // generic key-replace loop above — which would inject the raw token
+                // string — leaves it for us.
+                $icon_markup = '';
+                if (!empty($item['icon']) && function_exists('icon_html')) {
+                    $rendered_icon = icon_html($item['icon']);
+                    if ($rendered_icon !== '') {
+                        $icon_markup = '<span class="menu-item-icon">' . $rendered_icon . '</span>';
+                    }
+                }
+                if (strpos($menu_link, '{icon_html}') !== false) {
+                    // Template opts in explicitly via the token.
+                    $menu_link = str_replace('{icon_html}', $icon_markup, $menu_link);
+                } elseif ($icon_markup !== '') {
+                    // Template-supplied link markup (site templates, navbar skins)
+                    // has no token — inject the icon at the start of the first
+                    // anchor's inner HTML so icons render regardless of skin.
+                    $menu_link = preg_replace_callback('/<a\b[^>]*>/i', function ($m) use ($icon_markup) {
+                        return $m[0] . $icon_markup;
+                    }, $menu_link, 1);
+                }
                 $to_print .= $menu_link;
 
                 if (isset($item['enable_mega_menu']) && $item['enable_mega_menu'] == 1) {

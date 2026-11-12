@@ -121,3 +121,15 @@
 .nav-small > li:last-child:after{
   display: none;
 }
+
+/* Per-item menu icon (icons support): align the glyph with the label and
+   give it a small trailing gap. :empty guards the wrapper when no icon set. */
+.menu-item-icon{
+  display: inline-flex;
+  align-items: center;
+  margin-inline-end: .4em;
+  line-height: 1;
+}
+.menu-item-icon:empty{
+  display: none;
+}

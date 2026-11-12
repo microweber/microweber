@@ -19,22 +19,25 @@
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
         }"
 
+    {{-- Register icon sets on Alpine init, not DOMContentLoaded. These fields
+         are rendered inside Livewire-loaded modals/slideovers where
+         DOMContentLoaded has already fired (and morphdom skips inline
+         <script>), so the old handler never ran and the picker opened with an
+         empty set list — crashing on "Cannot read properties of undefined
+         (reading '_value')". x-init runs whenever Alpine initialises the
+         element, including DOM injected after page load. --}}
+    x-init="(() => {
+            if (!window.mw || !mw.iconLoader) { return; }
+            const sets = @js(array_values($getIconSets() ?: []));
+            if (!sets.length) { return; }
+            const loader = mw.iconLoader();
+            sets.forEach((s) => loader.addIconSet(s));
+        })()"
+
     x-cloak
 
     wire:ignore
 >
-    <script>
-        addEventListener('DOMContentLoaded', e => {
-            let iconLoader = mw.iconLoader();
-
-            @if(!empty($iconSets))
-                @foreach($iconSets as $iconSet)
-                    iconLoader.addIconSet('{{ $iconSet }}');
-                @endforeach
-            @endif
-
-        })
-    </script>
 
     <div class="">
         <x-filament::button
