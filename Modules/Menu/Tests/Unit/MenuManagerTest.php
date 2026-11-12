@@ -216,6 +216,61 @@ class MenuManagerTest extends TestCase
 
     #[Test]
 
+    public function it_renders_mega_menu_children_as_admin_rows_in_admin_mode(): void {
+        $menu = get_menus('single=1&title=' . $this->menu_title);
+
+        // A top-level mega-menu parent item.
+        $megaParentId = app()->menu_manager->menu_item_save([
+            'menu_id' => $menu['id'],
+            'title' => 'Mega Parent',
+            'url' => site_url() . 'mega-parent',
+            'enable_mega_menu' => 1,
+            'menu_item_template' => 'columns',
+        ]);
+        $this->assertGreaterThan(0, $megaParentId);
+
+        // A mega child — stored as item_type=menu_item under the parent.
+        $megaChildId = app()->menu_manager->menu_item_save([
+            'menu_id' => $megaParentId,
+            'parent_id' => $megaParentId,
+            'item_type' => 'menu_item',
+            'title' => 'Mega Child Link',
+            'url' => site_url() . 'mega-child',
+        ]);
+        $this->assertGreaterThan(0, $megaChildId);
+
+        // Mark every rendered item with a recognisable token so we can tell
+        // whether a child went through the admin link closure (admin rows) or
+        // the frontend mega-menu skin grid.
+        $linkClosure = function ($item) {
+            return '<a class="ADMIN_ROW" data-item-id="' . $item['id'] . '">'
+                . ($item['title'] ?? '') . '</a>';
+        };
+
+        // Public render: the mega child belongs in the frontend mega-menu grid,
+        // NOT as a nested admin row.
+        $frontendHtml = menu_tree([
+            'menu_id' => $menu['id'],
+            'link' => $linkClosure,
+        ]);
+        $this->assertStringContainsString('mega-menu-content', $frontendHtml,
+            'Frontend render must still emit the mega-menu skin grid.');
+
+        // Admin render: no frontend grid; the mega child is rendered through the
+        // link closure as an editable admin row.
+        $adminHtml = menu_tree([
+            'menu_id' => $menu['id'],
+            'admin_mode' => true,
+            'link' => $linkClosure,
+        ]);
+        $this->assertStringNotContainsString('mega-menu-content', $adminHtml,
+            'Admin builder must NOT emit the frontend mega-menu skin grid.');
+        $this->assertStringContainsString('data-item-id="' . $megaChildId . '"', $adminHtml,
+            'Mega child must render through the admin link closure (editable row).');
+    }
+
+    #[Test]
+
     public function it_menu_ids_arrtbute_on_model(): void {
         $newCleanPageId = save_content([
             'subtype' => 'static',
