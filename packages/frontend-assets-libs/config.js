@@ -59,7 +59,7 @@ const css = [
     {target: `slick`, path: `node_modules/slick-carousel/slick/slick.css`},
     {target: `slick`, path: `node_modules/slick-carousel/slick/slick-theme.css`},
     {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.css`},
-    {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/css/font-awesome.css`},
+    {target: `font-awesome`, path: `./resources/local-libs/font-awesome-6/css/font-awesome.css`},
     {target: `highlight-js`, path: `./resources/local-libs/highlight/styles/default.css`},
     {target: `codemirror`, path: `node_modules/codemirror/lib/codemirror.css`},
 
@@ -74,7 +74,7 @@ const css = [
 const assets = [
     {target: `jquery-ui`, path: `node_modules/jquery-ui/dist/themes/base/images`},
     {target: `material-icons`, path: `node_modules/material-icons/iconfont`},
-    {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/fonts`},
+    {target: `font-awesome`, path: `./resources/local-libs/font-awesome-6/webfonts`},
     {target: `mw-icons-mind`, path: `./resources/local-libs/mw-icons-mind`},
     {target: `slick`, path: `node_modules/slick-carousel/slick/ajax-loader.gif`},
     {target: `bxslider`, path: `node_modules/bxslider/dist/images`},
