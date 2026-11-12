@@ -194,3 +194,24 @@
     }
 }
 
+/* ================================================================
+ * Menu editor — three-dot "Menu actions" trigger touch floor.
+ *
+ * The ActionGroup trigger beside the menu <select> is sized to a 38px
+ * square so it lines up with the native select on DESKTOP (see
+ * admin/menu-editor.css). Filament v5 renders it as
+ * `button.fi-icon-btn.fi-ac-icon-btn-group`, which the general
+ * `.fi-btn.fi-color-*` touch floor above does NOT match — so on touch
+ * devices it would stay at 38px, under the WCAG 2.5.5 44px minimum.
+ * Floor just this trigger to 44×44 on coarse pointers (min-* beats the
+ * 38px `height`/`width`); the minor height gap vs the select on mobile
+ * is the correct trade — tap target wins over pixel alignment there.
+ * ================================================================ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    body.fi-panel-admin .mw-menu-editor__selector-actions .fi-icon-btn,
+    body.fi-panel-admin .mw-menu-editor__selector-actions .fi-ac-icon-btn-group {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+}
+
