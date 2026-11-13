@@ -551,6 +551,26 @@ class MicroweberTemplate
             }
         }
 
+        // PHP-less drop-in templates — e.g. an "export as template" ZIP a user
+        // uploads, which for safety contains NO .php files at all — declare their
+        // config as JSON instead. Read config/config.json (or a root config.json)
+        // off disk when no PHP config was found. PHP config always wins; this is a
+        // pure fallback, so existing templates are unaffected.
+        if (!isset($config) || !is_array($config)) {
+            foreach ([
+                $dir . 'config' . DIRECTORY_SEPARATOR . 'config.json',
+                $dir . 'config.json',
+            ] as $jsonConfigFile) {
+                if (is_file($jsonConfigFile)) {
+                    $decoded = json_decode((string) file_get_contents($jsonConfigFile), true);
+                    if (is_array($decoded) && $decoded !== []) {
+                        $config = $decoded;
+                        break;
+                    }
+                }
+            }
+        }
+
         if (isset($config)) {
 
             $config['dir_name'] = basename($dir);
@@ -744,6 +764,14 @@ class MicroweberTemplate
                     $render_file = $parent_template_view;
                 } elseif (is_file($laravel_template_view_clean)) {
                     $render_file = $laravel_template_view_clean;
+                } elseif ($parent_clean_view = $this->resolveParentTemplateViewFile($template_d, 'clean.blade.php')) {
+                    // PHP-less child (an uploaded "export as template" ships NO blade
+                    // views, only content + assets): inherit the parent's
+                    // clean.blade.php as the final fallback — the same view the
+                    // child's own clean would have supplied. Thin children that DO
+                    // ship clean.blade.php match the branch above, so this never
+                    // regresses them.
+                    $render_file = $parent_clean_view;
                 } elseif (is_file($render_use_default)) {
                     $render_file_temp = $this->getFallbackTemplateDir() . $page['layout_file'];
                     if (is_file($render_file_temp)) {
