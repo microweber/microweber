@@ -190,6 +190,7 @@ class ContentJsonInstaller
         $this->urlToId[$url] = $content->id;
         $this->installGallery($content, $item);
         $this->installModuleOptions($item);
+        $this->installModuleGalleries($item);
         $this->rememberMenuRequests($url, $item);
         $this->log[] = "{$content->content_type} '{$url}' -> #{$content->id}";
     }
@@ -232,6 +233,7 @@ class ContentJsonInstaller
         $this->urlToId[$url] = $product->id;
         $this->installGallery($product, $item);
         $this->installModuleOptions($item);
+        $this->installModuleGalleries($item);
         $this->rememberMenuRequests($url, $item);
         $this->log[] = "product '{$url}' -> #{$product->id}" . (isset($item['price']) ? " (price {$item['price']})" : '');
     }
@@ -422,6 +424,68 @@ class ContentJsonInstaller
         }
         if ($made > 0) {
             $this->log[] = "gallery '{$content->url}': {$made} image(s)";
+        }
+    }
+
+    /**
+     * Recreate free (module-instance) galleries — media rows keyed by
+     * (rel_type='module', rel_id=the module-instance id from the content HTML, stable
+     * across sites). Placeholders in filenames resolve to the materialised userfiles
+     * URL. Idempotent: existing rows for each module id are replaced.
+     */
+    protected function installModuleGalleries(array $item): void
+    {
+        $galleries = $item['module_galleries'] ?? [];
+        if (!is_array($galleries) || $galleries === []) {
+            return;
+        }
+        $mediaClass = '\\Modules\\Media\\Models\\Media';
+        if (!class_exists($mediaClass)) {
+            return;
+        }
+
+        $made = 0;
+        foreach ($galleries as $moduleId => $rows) {
+            if (!is_array($rows)) {
+                continue;
+            }
+            try {
+                $mediaClass::query()->where('rel_type', 'module')->where('rel_id', (string) $moduleId)->delete();
+            } catch (\Throwable) {
+            }
+            $position = 0;
+            foreach ($rows as $g) {
+                if (!is_array($g)) {
+                    continue;
+                }
+                $filename = (string) ($g['filename'] ?? '');
+                if ($filename === '') {
+                    continue;
+                }
+                $filename = $this->resolveMediaPlaceholders($filename);
+                try {
+                    $m = new $mediaClass();
+                    $m->rel_type = 'module';
+                    $m->rel_id = (string) $moduleId;
+                    $m->filename = $filename;
+                    $m->media_type = (string) ($g['media_type'] ?? 'picture');
+                    $m->position = (int) ($g['position'] ?? $position);
+                    if (isset($g['image_options'])) {
+                        $m->image_options = $g['image_options'];
+                    }
+                    if (isset($g['title'])) {
+                        $m->title = (string) $g['title'];
+                    }
+                    $m->save();
+                    $made++;
+                } catch (\Throwable $e) {
+                    $this->log[] = 'module gallery: row failed (' . $e->getMessage() . ')';
+                }
+                $position++;
+            }
+        }
+        if ($made > 0) {
+            $this->log[] = "module galleries: {$made} image(s)";
         }
     }
 

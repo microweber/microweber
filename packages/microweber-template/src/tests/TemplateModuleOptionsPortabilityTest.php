@@ -135,6 +135,52 @@ class TemplateModuleOptionsPortabilityTest extends TestCase
             ->install();
     }
 
+    #[Test]
+    public function a_free_module_instance_gallery_round_trips(): void
+    {
+        // A free (module-instance) gallery: media rows keyed by rel_type='module',
+        // rel_id = the module id, with a <module type="pictures" id="X"> in the HTML.
+        $galModuleId = 'pics' . substr(md5(uniqid()), 0, 10);
+        $rel = 'templates/' . $this->srcSlug . '/images/g1.png';
+        $abs = public_path($rel);
+        @mkdir(dirname($abs), 0755, true);
+        file_put_contents($abs, base64_decode(
+            'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+        ));
+
+        $page = Content::where('url', $this->pageUrl)->first();
+        $page->content = '<module type="pictures" id="' . $galModuleId . '"></module>';
+        $page->save();
+
+        \Modules\Media\Models\Media::create([
+            'rel_type' => 'module',
+            'rel_id' => $galModuleId,
+            'media_type' => 'picture',
+            'position' => 0,
+            'filename' => '/' . $rel,
+        ]);
+
+        try {
+            $info = $this->export();
+            $content = json_decode((string) file_get_contents($info['dir'] . '/content.json'), true);
+
+            $mg = $content['pages'][0]['module_galleries'][$galModuleId] ?? null;
+            $this->assertNotNull($mg, 'A free module-instance gallery must be exported.');
+            $this->assertStringContainsString(TemplateMediaBundler::PLACEHOLDER, $mg[0]['filename']);
+
+            // Wipe the source rows, then install and assert recreation under the same id.
+            \Modules\Media\Models\Media::where('rel_type', 'module')->where('rel_id', $galModuleId)->delete();
+            $this->installPageOnly($info);
+
+            $rows = \Modules\Media\Models\Media::where('rel_type', 'module')->where('rel_id', $galModuleId)->get();
+            $this->assertCount(1, $rows, 'The free gallery must be recreated under the same module id.');
+            $this->assertStringNotContainsString(TemplateMediaBundler::PLACEHOLDER, (string) $rows[0]->filename);
+            $this->assertStringContainsString('/templates/' . strtolower($this->dest) . '/', (string) $rows[0]->filename);
+        } finally {
+            \Modules\Media\Models\Media::where('rel_type', 'module')->where('rel_id', $galModuleId)->delete();
+        }
+    }
+
     private function rmrf(string $dir): void
     {
         if (!is_dir($dir)) {

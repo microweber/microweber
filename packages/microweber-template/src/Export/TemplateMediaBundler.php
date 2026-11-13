@@ -90,6 +90,23 @@ class TemplateMediaBundler
                     }
                     unset($g);
                 }
+                // Free (module-instance) gallery image URLs.
+                if (isset($item['module_galleries']) && is_array($item['module_galleries'])) {
+                    foreach ($item['module_galleries'] as &$rows) {
+                        if (is_array($rows)) {
+                            foreach ($rows as &$g) {
+                                if (is_array($g) && isset($g['filename']) && is_string($g['filename'])) {
+                                    $rewritten = $this->bundleUrl($g['filename']);
+                                    if ($rewritten !== null) {
+                                        $g['filename'] = $rewritten;
+                                    }
+                                }
+                            }
+                            unset($g);
+                        }
+                    }
+                    unset($rows);
+                }
                 // Media URLs inside module option values (e.g. background images).
                 if (isset($item['module_options']) && is_array($item['module_options'])) {
                     foreach ($item['module_options'] as &$mod) {

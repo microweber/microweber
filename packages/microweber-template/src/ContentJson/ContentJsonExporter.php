@@ -169,7 +169,74 @@ class ContentJsonExporter
         if ($moduleOptions !== []) {
             $item['module_options'] = $moduleOptions;
         }
+        $moduleGalleries = $this->exportModuleGalleries($item['html']);
+        if ($moduleGalleries !== []) {
+            $item['module_galleries'] = $moduleGalleries;
+        }
         return $item;
+    }
+
+    /**
+     * Export free (module-instance) galleries — Pictures module instances whose
+     * images are stored as media rows keyed by (rel_type='module', rel_id=module id)
+     * rather than attached to a content id. The module id is read from the verbatim
+     * `<module id="…">` tag and is stable across sites, so the installer recreates the
+     * rows under the same id. Image URLs are rewritten to portable placeholders by
+     * the exporter's media bundler.
+     *
+     * @return array<string, list<array<string,mixed>>>  moduleId => gallery rows
+     */
+    protected function exportModuleGalleries(string $html): array
+    {
+        $mediaClass = '\\Modules\\Media\\Models\\Media';
+        if ($html === '' || !class_exists($mediaClass)) {
+            return [];
+        }
+        if (!preg_match_all('#<module\b([^>]*)>#i', $html, $tags)) {
+            return [];
+        }
+
+        $out = [];
+        foreach ($tags[1] as $attrs) {
+            $id = $this->tagAttr($attrs, 'id');
+            if ($id === '' || isset($out[$id])) {
+                continue;
+            }
+            try {
+                $rows = $mediaClass::query()
+                    ->where('rel_type', 'module')
+                    ->where('rel_id', $id)
+                    ->orderBy('position')
+                    ->get();
+            } catch (\Throwable) {
+                continue;
+            }
+            $gallery = [];
+            foreach ($rows as $m) {
+                $filename = (string) $m->filename;
+                if ($filename === '') {
+                    continue;
+                }
+                $g = ['filename' => $filename];
+                if ($m->media_type) {
+                    $g['media_type'] = (string) $m->media_type;
+                }
+                if ($m->position !== null) {
+                    $g['position'] = (int) $m->position;
+                }
+                if (!empty($m->image_options)) {
+                    $g['image_options'] = $m->image_options;
+                }
+                if ($m->title) {
+                    $g['title'] = (string) $m->title;
+                }
+                $gallery[] = $g;
+            }
+            if ($gallery !== []) {
+                $out[$id] = $gallery;
+            }
+        }
+        return $out;
     }
 
     /**
