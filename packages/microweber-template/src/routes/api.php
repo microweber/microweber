@@ -43,6 +43,28 @@ Route::get('template-settings-sidebar', function () {
         // api/template/change
         Route::post('change', MicroweberPackages\Template\Http\Controllers\Api\TemplateApiController::class . '@change')->name('change');
 
+        // Export the CURRENT site as a reusable, PHP-less child template and stream
+        // the ZIP (used by the Live-Edit "Export as template" menu item). Admin-only.
+        Route::get('export-current', function (Request $request) {
+            $source = (string) (app()->option_manager->get('current_template', 'template') ?: 'Base');
+            try {
+                $info = (new \MicroweberPackages\Template\Export\TemplateExporter())
+                    ->setName($source . ' Copy')
+                    ->setSource($source)
+                    ->exportToZip();
+            } catch (\Throwable $e) {
+                return Response::make('Export failed: ' . $e->getMessage(), 500);
+            }
+            $zip = (string) ($info['zip'] ?? '');
+            $downloadName = ($info['name'] ?? 'template') . '.zip';
+            return \Illuminate\Support\Facades\Response::streamDownload(function () use ($zip) {
+                if ($zip !== '' && is_file($zip)) {
+                    readfile($zip);
+                    @unlink($zip);
+                }
+            }, $downloadName, ['Content-Type' => 'application/zip']);
+        })->name('export-current');
+
 
     });
 

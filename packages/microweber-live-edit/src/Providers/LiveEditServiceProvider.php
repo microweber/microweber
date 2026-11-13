@@ -181,6 +181,23 @@ class LiveEditServiceProvider extends MicroweberPackageServiceProvider
             ->getChild('Back to Admin')
             ->setExtra('orderNumber', 10);
 
+        // Export the current Live-Edit site as a reusable, uploadable template. The
+        // link streams a PHP-less template ZIP (download, so the page stays put).
+        // Upload/activate it from Admin → Settings → Template.
+        \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
+            ->addChild('Export as template', [
+                'attributes' => [
+                    'id' => 'js-live-edit-export-template-link',
+                    'href' => url('api/template/export-current'),
+                    'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="22" height="22" fill="currentColor"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>',
+                ],
+            ]);
+
+        \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
+            ->menuItems
+            ->getChild('Export as template')
+            ->setExtra('orderNumber', 9);
+
 /*        \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
             ->addChild('Template Settings', [
                 // 'uri' => admin_url(),
