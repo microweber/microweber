@@ -4,6 +4,7 @@ namespace MicroweberPackages\Template\ContentJson;
 
 use Modules\Content\Models\Content;
 use Modules\Menu\Models\Menu;
+use MicroweberPackages\TemplateFonts\Services\TemplateFontsManager;
 
 /**
  * Applies a flexible content.json payload (pages, posts, products and menus) to
@@ -26,7 +27,8 @@ use Modules\Menu\Models\Menu;
  *   }],
  *   "posts":    [ { same page shape, content_type defaults to "post",    "parent": "<blog-url>" } ],
  *   "products": [ { same page shape, content_type "product", "price": 9.99, "sku": "…", "qty": "nolimit" } ],
- *   "menus": { "header_menu": [ {"page":"home","title":"Home"}, {"url":"https://x","title":"Ext"} ], "footer_menu": [...] }
+ *   "menus": { "header_menu": [ {"page":"home","title":"Home"}, {"url":"https://x","title":"Ext"} ], "footer_menu": [...] },
+ *   "fonts": [ {"family":"Poppins","provider":"google"}, {"family":"Inter"} ]   // enabled on install
  * }
  */
 class ContentJsonInstaller
@@ -103,6 +105,7 @@ class ContentJsonInstaller
 
         $this->installMenus();
         $this->applyColorScheme();
+        $this->installFonts();
 
         if (function_exists('clearcache')) {
             clearcache();
@@ -336,6 +339,62 @@ class ContentJsonInstaller
             $this->log[] = "color scheme -> {$template} template_css option + live_edit.css (" . count($scheme) . ' vars)';
         } catch (\Throwable $e) {
             $this->log[] = 'color scheme save skipped: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * Enable the fonts the template shipped in content.json ("fonts": [{family,
+     * provider}, …]). The exporter freezes the picked-font families here; without
+     * this pass an installed/activated template would render with the design CSS's
+     * font var() fallbacks instead of the fonts the author actually chose. Enabling
+     * downloads (or, on S3, mirrors) the woff2 + font.css the same way the Live-Edit
+     * font picker does, so multisite/CDN deploys serve them correctly.
+     */
+    protected function installFonts(): void
+    {
+        $fonts = $this->data['fonts'] ?? [];
+        if (!is_array($fonts) || $fonts === []) {
+            return;
+        }
+
+        if (!class_exists(TemplateFontsManager::class) || !app()->bound(TemplateFontsManager::class)) {
+            $this->log[] = 'fonts: TemplateFontsManager unavailable, skipped ' . count($fonts) . ' font(s)';
+            return;
+        }
+
+        try {
+            $manager = app(TemplateFontsManager::class);
+        } catch (\Throwable $e) {
+            $this->log[] = 'fonts: could not resolve manager (' . $e->getMessage() . ')';
+            return;
+        }
+
+        $enabled = 0;
+        foreach ($fonts as $font) {
+            // Accept both {family, provider} objects and bare family strings.
+            if (is_string($font)) {
+                $font = ['family' => $font];
+            }
+            if (!is_array($font)) {
+                continue;
+            }
+            $family = trim((string) ($font['family'] ?? ''));
+            if ($family === '') {
+                continue;
+            }
+            $provider = trim((string) ($font['provider'] ?? 'google')) ?: 'google';
+            $category = isset($font['category']) ? (string) $font['category'] : null;
+            try {
+                if ($manager->enableFont($family, $provider, $category)) {
+                    $enabled++;
+                }
+            } catch (\Throwable $e) {
+                $this->log[] = "fonts: '{$family}' skipped ({$e->getMessage()})";
+            }
+        }
+
+        if ($enabled > 0) {
+            $this->log[] = "fonts: enabled {$enabled} of " . count($fonts) . ' font(s)';
         }
     }
 
