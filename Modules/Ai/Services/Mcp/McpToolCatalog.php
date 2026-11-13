@@ -16,6 +16,10 @@ use Modules\CustomFields\Tools\CustomFieldsListTool;
 use Modules\CustomFields\Tools\CustomFieldValuesTool;
 use Modules\ContentData\Tools\ContentDataTool;
 use Modules\Content\Tools\CreateContentTool;
+use Modules\Ai\Tools\LiveEdit\DisableFontTool;
+use Modules\Ai\Tools\LiveEdit\EnableFontTool;
+use Modules\Ai\Tools\LiveEdit\ListFontsTool;
+use Modules\Ai\Tools\LiveEdit\SearchFontsTool;
 use Modules\Faq\Tools\FaqListTool;
 use Modules\MailTemplate\Tools\MailTemplateListTool;
 use Modules\Menu\Tools\MenuListTool;
@@ -200,6 +204,26 @@ class McpToolCatalog
                 'tool' => FaqListTool::class,
                 'module' => 'faq',
                 'title' => 'List the site FAQ entries.',
+            ],
+            'fonts.search' => [
+                'tool' => SearchFontsTool::class,
+                'module' => 'fonts',
+                'title' => 'Search the site font catalog (Google + system fonts).',
+            ],
+            'fonts.list' => [
+                'tool' => ListFontsTool::class,
+                'module' => 'fonts',
+                'title' => 'List the fonts currently enabled on the site.',
+            ],
+            'fonts.enable' => [
+                'tool' => EnableFontTool::class,
+                'module' => 'fonts',
+                'title' => 'Enable (install) a font family on the site.',
+            ],
+            'fonts.disable' => [
+                'tool' => DisableFontTool::class,
+                'module' => 'fonts',
+                'title' => 'Disable (or remove) a font from the site.',
             ],
             'slider.list' => [
                 'tool' => SliderListTool::class,

@@ -1387,6 +1387,49 @@ function MwAi() {
             // result goes to the model; nothing for the canvas to apply.
             search_icons: function() { return { ok: true, message: 'icons searched' }; },
 
+            // Set the site design font: load the webfont into the canvas for an
+            // immediate preview, and set the design font-family CSS vars (global +
+            // persisted, via the same path as set_css_var). The backend set_font
+            // tool enables the font so it ships with the published site.
+            set_font: function(args, api) {
+                const family = (args && args.family) ? String(args.family).trim() : '';
+                if (!family) { return { ok: false, message: 'no font family' }; }
+                let scope = (args && args.scope) ? String(args.scope).toLowerCase() : 'all';
+                if (scope !== 'headings' && scope !== 'body') { scope = 'all'; }
+                let fallback = (args && args.fallback) ? String(args.fallback).trim().toLowerCase() : 'sans-serif';
+                if (!/^(sans-serif|serif|monospace|cursive|system-ui)$/.test(fallback)) { fallback = 'sans-serif'; }
+
+                // 1. Load the Google webfont into the canvas so the preview updates
+                //    immediately (the backend tool persists the enable).
+                try {
+                    const doc = api.canvasDocument();
+                    const id = 'mw-ai-font-' + family.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                    if (doc && !doc.getElementById(id)) {
+                        const link = doc.createElement('link');
+                        link.id = id;
+                        link.rel = 'stylesheet';
+                        link.href = 'https://fonts.googleapis.com/css2?family='
+                            + family.replace(/\s+/g, '+') + ':wght@300;400;500;600;700&display=swap';
+                        (doc.head || doc.documentElement).appendChild(link);
+                    }
+                } catch (e) {}
+
+                // 2. Apply as the design font variable(s), persisted globally.
+                const value = "'" + family.replace(/'/g, '') + "', " + fallback;
+                const vars = {};
+                if (scope === 'headings' || scope === 'all') { vars['--mw-heading-font-family'] = value; }
+                if (scope === 'body' || scope === 'all') { vars['--mw-body-font-family'] = value; }
+                const r = api.frontendTools.set_css_var({ vars: vars }, api);
+                return { ok: !!(r && r.ok), message: 'font "' + family + '" applied to ' + scope };
+            },
+
+            // These run server-side (search/list/enable/disable fonts via the font
+            // manager); nothing for the canvas to apply.
+            search_fonts: function() { return { ok: true, message: 'fonts searched' }; },
+            list_fonts: function() { return { ok: true, message: 'fonts listed' }; },
+            enable_font: function() { return { ok: true, message: 'font enabled' }; },
+            disable_font: function() { return { ok: true, message: 'font updated' }; },
+
             add_section: function(args, api) {
                 const html = (args && args.html) ? String(args.html) : '';
                 if (!html.trim()) { return { ok: false, message: 'no html' }; }

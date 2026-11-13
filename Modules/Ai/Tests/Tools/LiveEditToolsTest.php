@@ -688,4 +688,64 @@ class LiveEditToolsTest extends ToolTestCase
         $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER,
             (string) $tool->__invoke(selector: '.cta', icon: ''));
     }
+
+    #[Test]
+    public function search_fonts_finds_families_from_the_catalog(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\SearchFontsTool();
+
+        $poppins = (string) $tool->__invoke(query: 'poppins');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $poppins);
+        $this->assertStringContainsString('Poppins', $poppins);
+
+        // Prefix/substring ranking returns families; capped by limit.
+        $roboto = json_decode((string) $tool->__invoke(query: 'roboto', limit: 5), true);
+        $this->assertIsArray($roboto);
+        $this->assertNotEmpty($roboto['fonts']);
+        $this->assertLessThanOrEqual(5, count($roboto['fonts']));
+        $this->assertStringStartsWith('Robo', $roboto['fonts'][0]['family']);
+
+        // Empty query returns a sample + the real total catalog size.
+        $sample = json_decode((string) $tool->__invoke(query: ''), true);
+        $this->assertGreaterThan(500, $sample['total_available']);
+        $this->assertNotEmpty($sample['fonts']);
+    }
+
+    #[Test]
+    public function set_font_confirms_valid_call_and_rejects_missing_family(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\SetFontTool();
+
+        $ok = (string) $tool->__invoke(family: 'Poppins', scope: 'headings');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
+        $this->assertStringContainsString('Poppins', $ok);
+        $this->assertStringContainsString('headings', $ok);
+        $this->assertStringContainsString('Save', $ok);
+
+        // An unknown scope normalises to "all" rather than erroring.
+        $allScope = (string) $tool->__invoke(family: 'Poppins', scope: 'nonsense');
+        $this->assertStringContainsString('(all)', $allScope);
+
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER,
+            (string) $tool->__invoke(family: ''));
+    }
+
+    #[Test]
+    public function list_and_disable_font_tools_behave(): void
+    {
+        $list = (string) (new \Modules\Ai\Tools\LiveEdit\ListFontsTool())->__invoke();
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $list);
+        $decoded = json_decode($list, true);
+        $this->assertArrayHasKey('fonts', $decoded);
+        $this->assertIsArray($decoded['fonts']);
+
+        $disable = new \Modules\Ai\Tools\LiveEdit\DisableFontTool();
+        // Missing family errors.
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER,
+            (string) $disable->__invoke(family: ''));
+        // A disable of a non-enabled font is a clean "not found", not an error marker.
+        $res = json_decode((string) $disable->__invoke(family: 'ZzzNotARealFont ' . uniqid()), true);
+        $this->assertIsArray($res);
+        $this->assertArrayHasKey('success', $res);
+    }
 }
