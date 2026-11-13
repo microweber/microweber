@@ -165,7 +165,64 @@ class ContentJsonExporter
         if ($gallery !== []) {
             $item['gallery'] = $gallery;
         }
+        $moduleOptions = $this->exportModuleOptions($item['html']);
+        if ($moduleOptions !== []) {
+            $item['module_options'] = $moduleOptions;
+        }
         return $item;
+    }
+
+    /**
+     * Export the saved options of every module instance referenced in the content
+     * HTML — keyed by the module-instance id (the `<module id="…">` in the stored,
+     * verbatim HTML, which stays identical on the target site, so no id remap is
+     * needed). This makes module configuration portable (background images, slider
+     * settings, toggles, …) which is otherwise lost on export. Media URLs inside the
+     * option values are rewritten to portable placeholders by the exporter's bundler.
+     *
+     * @return array<string, array{type:string, options:array<string,mixed>}>
+     */
+    protected function exportModuleOptions(string $html): array
+    {
+        if ($html === '' || !function_exists('get_module_options')) {
+            return [];
+        }
+        if (!preg_match_all('#<module\b([^>]*)>#i', $html, $tags)) {
+            return [];
+        }
+
+        $out = [];
+        foreach ($tags[1] as $attrs) {
+            $id = $this->tagAttr($attrs, 'id');
+            if ($id === '' || isset($out[$id])) {
+                continue;
+            }
+            try {
+                $opts = get_module_options($id); // keyed by module-instance id
+            } catch (\Throwable) {
+                continue;
+            }
+            $kv = [];
+            foreach ((array) $opts as $o) {
+                if (is_array($o) && isset($o['option_key']) && is_string($o['option_key'])) {
+                    $kv[$o['option_key']] = $o['option_value'] ?? null;
+                }
+            }
+            if ($kv === []) {
+                continue;
+            }
+            $out[$id] = ['type' => $this->tagAttr($attrs, 'type'), 'options' => $kv];
+        }
+        return $out;
+    }
+
+    /** Read a single HTML attribute value out of a tag's attribute string. */
+    protected function tagAttr(string $attrs, string $name): string
+    {
+        if (preg_match('#\b' . preg_quote($name, '#') . '\s*=\s*["\']([^"\']*)["\']#i', $attrs, $m)) {
+            return $m[1];
+        }
+        return '';
     }
 
     /**

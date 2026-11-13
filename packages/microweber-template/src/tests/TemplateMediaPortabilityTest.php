@@ -30,6 +30,10 @@ class TemplateMediaPortabilityTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // Keep media on the LOCAL disk in tests — avoid hitting/polluting a real S3
+        // bucket (the testing env may select MEDIA_UPLOAD_DISK=s3).
+        config(['media.upload_disk' => 'public']);
+
         $this->srcSlug = 'mbsrc' . substr(md5(uniqid()), 0, 8);
         $this->outDir = sys_get_temp_dir() . '/mw-tpl-media-' . uniqid();
         $this->pageUrl = 'mb-home-' . uniqid();
@@ -116,10 +120,7 @@ class TemplateMediaPortabilityTest extends TestCase
     {
         $info = $this->export();
 
-        (new ContentJsonInstaller())
-            ->setTemplate($this->dest)
-            ->setFile($info['dir'] . '/content.json')   // also sets templateDir = export root
-            ->install();
+        $this->installPageOnly($info);
 
         $row = Content::where('active_site_template', $this->dest)
             ->where('content_type', 'page')
@@ -172,10 +173,7 @@ class TemplateMediaPortabilityTest extends TestCase
             'image_options must survive the round-trip.');
 
         // Install: a media row is recreated for the NEW content id with a resolved URL.
-        (new ContentJsonInstaller())
-            ->setTemplate($this->dest)
-            ->setFile($info['dir'] . '/content.json')
-            ->install();
+        $this->installPageOnly($info);
 
         $new = Content::where('active_site_template', $this->dest)->where('content_type', 'page')->first();
         $this->assertNotNull($new);
@@ -184,6 +182,21 @@ class TemplateMediaPortabilityTest extends TestCase
         $this->assertStringNotContainsString(TemplateMediaBundler::PLACEHOLDER, (string) $rows[0]->filename,
             'The recreated media filename must resolve the placeholder.');
         $this->assertStringContainsString('/templates/' . strtolower($this->dest) . '/', (string) $rows[0]->filename);
+    }
+
+    /**
+     * Install only the exported page(s) — not the site-wide menus (that global-menu
+     * path is unrelated to media portability and is slow against the shared test DB).
+     */
+    private function installPageOnly(array $info): void
+    {
+        $data = json_decode((string) file_get_contents($info['dir'] . '/content.json'), true);
+        unset($data['menus']);
+        (new ContentJsonInstaller())
+            ->setTemplate($this->dest)
+            ->setTemplateDir($info['dir'])
+            ->setData($data)
+            ->install();
     }
 
     private function rmrf(string $dir): void

@@ -90,6 +90,19 @@ class TemplateMediaBundler
                     }
                     unset($g);
                 }
+                // Media URLs inside module option values (e.g. background images).
+                if (isset($item['module_options']) && is_array($item['module_options'])) {
+                    foreach ($item['module_options'] as &$mod) {
+                        if (is_array($mod) && isset($mod['options']) && is_array($mod['options'])) {
+                            foreach ($mod['options'] as $k => $v) {
+                                if (is_string($v) && $v !== '') {
+                                    $mod['options'][$k] = $this->bundleString($v);
+                                }
+                            }
+                        }
+                    }
+                    unset($mod);
+                }
             }
             unset($item);
         }
@@ -118,6 +131,32 @@ class TemplateMediaBundler
             }
         }
         return $written;
+    }
+
+    /**
+     * Rewrite media URLs inside an arbitrary string value (a module-option value such
+     * as `data-background-image`), whether it's a bare URL or wrapped in `url(...)`.
+     * Non-media values (colors, `none`, toggles) are returned unchanged.
+     */
+    public function bundleString(string $value): string
+    {
+        $trimmed = trim($value);
+        if ($trimmed === '' || str_starts_with($trimmed, 'data:') || str_starts_with($trimmed, '{{')) {
+            return $value;
+        }
+        // The whole value is a single media URL.
+        if ($this->matchesMediaExt($trimmed) && !preg_match('#\s#', $trimmed)) {
+            $rewritten = $this->bundleUrl($trimmed);
+            if ($rewritten !== null) {
+                return $rewritten;
+            }
+            return $value;
+        }
+        // Embedded url(...) / attribute-style media URLs.
+        if (stripos($value, 'url(') !== false || preg_match('#\.(?:' . implode('|', self::MEDIA_EXT) . ')\b#i', $value)) {
+            return $this->rewriteHtml($value);
+        }
+        return $value;
     }
 
     /** @return array{bundled:int, skipped:int, files:int} */

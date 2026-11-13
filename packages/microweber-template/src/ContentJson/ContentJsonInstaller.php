@@ -189,6 +189,7 @@ class ContentJsonInstaller
 
         $this->urlToId[$url] = $content->id;
         $this->installGallery($content, $item);
+        $this->installModuleOptions($item);
         $this->rememberMenuRequests($url, $item);
         $this->log[] = "{$content->content_type} '{$url}' -> #{$content->id}";
     }
@@ -230,6 +231,7 @@ class ContentJsonInstaller
 
         $this->urlToId[$url] = $product->id;
         $this->installGallery($product, $item);
+        $this->installModuleOptions($item);
         $this->rememberMenuRequests($url, $item);
         $this->log[] = "product '{$url}' -> #{$product->id}" . (isset($item['price']) ? " (price {$item['price']})" : '');
     }
@@ -420,6 +422,42 @@ class ContentJsonInstaller
         }
         if ($made > 0) {
             $this->log[] = "gallery '{$content->url}': {$made} image(s)";
+        }
+    }
+
+    /**
+     * Recreate the module-instance options the template shipped (background images,
+     * slider/toggle settings, …), keyed by the module-instance id from the content
+     * HTML (stable across sites). Media placeholders in option values are resolved to
+     * the materialised userfiles URL. save_module_option upserts by (key, module id),
+     * so re-imports are idempotent.
+     */
+    protected function installModuleOptions(array $item): void
+    {
+        $mods = $item['module_options'] ?? [];
+        if (!is_array($mods) || $mods === [] || !function_exists('save_module_option')) {
+            return;
+        }
+        $count = 0;
+        foreach ($mods as $moduleId => $mod) {
+            if (!is_array($mod) || !isset($mod['options']) || !is_array($mod['options'])) {
+                continue;
+            }
+            $type = (string) ($mod['type'] ?? '');
+            foreach ($mod['options'] as $key => $value) {
+                if (is_string($value)) {
+                    $value = $this->resolveMediaPlaceholders($value);
+                }
+                try {
+                    save_module_option((string) $key, $value, (string) $moduleId, $type !== '' ? $type : false);
+                } catch (\Throwable $e) {
+                    $this->log[] = "module_option '{$key}' failed ({$e->getMessage()})";
+                }
+            }
+            $count++;
+        }
+        if ($count > 0) {
+            $this->log[] = "module options: {$count} module(s)";
         }
     }
 
