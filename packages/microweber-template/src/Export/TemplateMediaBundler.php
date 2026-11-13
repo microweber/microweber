@@ -120,6 +120,14 @@ class TemplateMediaBundler
                     }
                     unset($mod);
                 }
+                // Media URLs inside custom-field (content_data) values.
+                if (isset($item['content_data']) && is_array($item['content_data'])) {
+                    foreach ($item['content_data'] as $k => $v) {
+                        if (is_string($v) && $v !== '') {
+                            $item['content_data'][$k] = $this->bundleString($v);
+                        }
+                    }
+                }
             }
             unset($item);
         }

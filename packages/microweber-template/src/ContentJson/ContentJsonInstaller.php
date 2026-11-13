@@ -191,6 +191,7 @@ class ContentJsonInstaller
         $this->installGallery($content, $item);
         $this->installModuleOptions($item);
         $this->installModuleGalleries($item);
+        $this->installContentData($content, $item);
         $this->rememberMenuRequests($url, $item);
         $this->log[] = "{$content->content_type} '{$url}' -> #{$content->id}";
     }
@@ -234,6 +235,7 @@ class ContentJsonInstaller
         $this->installGallery($product, $item);
         $this->installModuleOptions($item);
         $this->installModuleGalleries($item);
+        $this->installContentData($product, $item);
         $this->rememberMenuRequests($url, $item);
         $this->log[] = "product '{$url}' -> #{$product->id}" . (isset($item['price']) ? " (price {$item['price']})" : '');
     }
@@ -424,6 +426,30 @@ class ContentJsonInstaller
         }
         if ($made > 0) {
             $this->log[] = "gallery '{$content->url}': {$made} image(s)";
+        }
+    }
+
+    /**
+     * Recreate a content item's custom fields / metadata (content_data) under the new
+     * content id via setContentData (the model's saved hook upserts the rows). Media
+     * placeholders in values resolve to the materialised userfiles URL. No-op when the
+     * item shipped no content_data.
+     */
+    protected function installContentData($content, array $item): void
+    {
+        $map = $item['content_data'] ?? [];
+        if (!is_array($map) || $map === [] || !is_object($content) || !method_exists($content, 'setContentData')) {
+            return;
+        }
+        $resolved = [];
+        foreach ($map as $field => $value) {
+            $resolved[$field] = is_string($value) ? $this->resolveMediaPlaceholders($value) : $value;
+        }
+        try {
+            $content->setContentData($resolved)->save();
+            $this->log[] = "content_data '{$content->url}': " . count($resolved) . ' field(s)';
+        } catch (\Throwable $e) {
+            $this->log[] = 'content_data failed (' . $e->getMessage() . ')';
         }
     }
 

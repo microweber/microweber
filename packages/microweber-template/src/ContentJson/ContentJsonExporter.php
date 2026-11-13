@@ -173,7 +173,32 @@ class ContentJsonExporter
         if ($moduleGalleries !== []) {
             $item['module_galleries'] = $moduleGalleries;
         }
+        $contentData = $this->exportContentData($row);
+        if ($contentData !== []) {
+            $item['content_data'] = $contentData;
+        }
         return $item;
+    }
+
+    /**
+     * Export a content item's custom fields / metadata (content_data rows, via
+     * setContentData/setCustomField). This carries single-image custom-field pickers
+     * (bundled as portable media by the exporter) and any other per-content options
+     * so they survive the round-trip. Keyed by field name.
+     *
+     * @return array<string,mixed>
+     */
+    protected function exportContentData($row): array
+    {
+        if (!is_object($row) || !method_exists($row, 'getContentData')) {
+            return [];
+        }
+        try {
+            $map = $row->getContentData();
+        } catch (\Throwable) {
+            return [];
+        }
+        return is_array($map) ? $map : [];
     }
 
     /**
