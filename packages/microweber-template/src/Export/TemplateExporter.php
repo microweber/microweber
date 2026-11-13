@@ -123,6 +123,15 @@ class TemplateExporter
             }
         }
         $content['fonts'] = $this->enabledFonts();
+
+        // Make inline media portable: rewrite site-local image/video URLs in the
+        // content to a {{TPL_MEDIA}}/<name> placeholder and copy the files into
+        // resources/assets/media/, so the template renders with its images on any
+        // site/disk (the installer materialises them into the target's userfiles).
+        $bundler = new TemplateMediaBundler();
+        $content = $bundler->process($content);
+        $mediaFiles = $bundler->writeInto($root);
+
         $this->write($root . '/content.json', $this->json($content));
 
         // 2. Frozen design: the Live-Edit global custom CSS becomes the child's
@@ -198,6 +207,7 @@ class TemplateExporter
             'products' => count($content['products'] ?? []),
             'fonts' => count($content['fonts'] ?? []),
             'css_bytes' => strlen($css),
+            'media_files' => $mediaFiles,
         ];
     }
 

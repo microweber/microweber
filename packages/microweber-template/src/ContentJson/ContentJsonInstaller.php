@@ -2,8 +2,10 @@
 
 namespace MicroweberPackages\Template\ContentJson;
 
+use Illuminate\Support\Facades\Storage;
 use Modules\Content\Models\Content;
 use Modules\Menu\Models\Menu;
+use MicroweberPackages\Template\Export\TemplateMediaBundler;
 use MicroweberPackages\TemplateFonts\Services\TemplateFontsManager;
 
 /**
@@ -35,9 +37,14 @@ class ContentJsonInstaller
 {
     protected array $data = [];
     protected ?string $template = null;
+    protected ?string $templateDir = null;   // dir holding content.json + resources/assets/media
     protected string $importType = 'full';   // full | delete | only_media
     protected string $language = 'en';
     protected $logger = null;
+
+    /** Resolved base URL for this template's materialised media (for {{TPL_MEDIA}}), or null. */
+    protected ?string $mediaBaseUrl = null;
+    protected bool $mediaResolved = false;
 
     /** url => created/updated content id, built during the content pass and used to wire menus. */
     protected array $urlToId = [];
@@ -50,10 +57,17 @@ class ContentJsonInstaller
         $raw = is_file($path) ? file_get_contents($path) : false;
         $json = $raw !== false ? json_decode($raw, true) : null;
         $this->data = is_array($json) ? $json : [];
+        // The template dir (holding resources/assets/media) is the content.json's dir.
+        if (is_file($path)) {
+            $this->templateDir = dirname($path);
+        }
         return $this;
     }
 
     public function setTemplate(?string $template): self { $this->template = $template; return $this; }
+
+    /** Explicitly set the template folder (holding resources/assets/media/). */
+    public function setTemplateDir(?string $dir): self { $this->templateDir = $dir ? rtrim($dir, '/\\') : null; return $this; }
     public function setImportType(string $type): self { $this->importType = $type; return $this; }
     public function setLanguage(?string $lang): self { if ($lang) { $this->language = $lang; } return $this; }
     public function setLogger($logger): self { $this->logger = $logger; return $this; }
@@ -124,10 +138,10 @@ class ContentJsonInstaller
     protected function resolveBody(array $item): string
     {
         if (isset($item['html']) && is_string($item['html'])) {
-            return $item['html'];
+            return $this->resolveMediaPlaceholders($item['html']);
         }
         if (isset($item['content']) && is_string($item['content'])) {
-            return $item['content'];
+            return $this->resolveMediaPlaceholders($item['content']);
         }
         if (!empty($item['sections']) && is_array($item['sections'])) {
             $data = $item['data'] ?? ($this->data['data'] ?? []);
@@ -396,6 +410,117 @@ class ContentJsonInstaller
         if ($enabled > 0) {
             $this->log[] = "fonts: enabled {$enabled} of " . count($fonts) . ' font(s)';
         }
+    }
+
+    /**
+     * Swap the {{TPL_MEDIA}} placeholder (written by {@see TemplateMediaBundler} on
+     * export) for the URL of this template's media once it is materialised into the
+     * target site's userfiles. If materialisation is unavailable the placeholder is
+     * left in place rather than producing a half-rewritten URL.
+     */
+    protected function resolveMediaPlaceholders(string $html): string
+    {
+        if (!str_contains($html, TemplateMediaBundler::PLACEHOLDER)) {
+            return $html;
+        }
+        $base = $this->mediaBaseUrl();
+        if ($base === null || $base === '') {
+            return $html;
+        }
+        return str_replace(TemplateMediaBundler::PLACEHOLDER, $base, $html);
+    }
+
+    /** Lazily materialise the template's bundled media and cache the base URL. */
+    protected function mediaBaseUrl(): ?string
+    {
+        if (!$this->mediaResolved) {
+            $this->mediaResolved = true;
+            $this->mediaBaseUrl = $this->materializeMedia();
+        }
+        return $this->mediaBaseUrl;
+    }
+
+    /**
+     * Copy the template's resources/assets/media/* into the target site's userfiles
+     * (S3-safe, per-site, idempotent) and return the base URL under which the files
+     * are served (so {{TPL_MEDIA}}/<name> resolves). Returns null when there is no
+     * bundled media or the userfiles disk API is unavailable.
+     */
+    protected function materializeMedia(): ?string
+    {
+        $dir = $this->bundledMediaDir();
+        if ($dir === null) {
+            return null;
+        }
+        $files = array_filter(glob($dir . '/*') ?: [], 'is_file');
+        if ($files === []) {
+            return null;
+        }
+        if (!function_exists('userfiles_disk')) {
+            return null;
+        }
+
+        $tpl = strtolower((string) ($this->template ?? (function_exists('template_name') ? template_name() : 'template')));
+        $tpl = preg_replace('/[^a-z0-9_-]+/', '', $tpl) ?: 'template';
+
+        // Disk-relative key prefix — per-site and S3-safe.
+        $rel = function_exists('media_base_path_relative')
+            ? media_base_path_relative()
+            : (function_exists('userfiles_base_relpath') ? rtrim(userfiles_base_relpath('media'), '/') . '/' : 'userfiles/media/');
+        $prefix = rtrim($rel, '/') . '/templates/' . $tpl . '/';
+
+        try {
+            $disk = Storage::disk(userfiles_disk());
+        } catch (\Throwable $e) {
+            $this->log[] = 'media: userfiles disk unavailable (' . $e->getMessage() . ')';
+            return null;
+        }
+
+        $written = 0;
+        foreach ($files as $file) {
+            $key = $prefix . basename($file);
+            try {
+                if (!$disk->exists($key)) {
+                    $disk->put($key, (string) file_get_contents($file));
+                }
+                $written++;
+            } catch (\Throwable $e) {
+                $this->log[] = 'media: failed ' . basename($file) . ' (' . $e->getMessage() . ')';
+            }
+        }
+
+        // Derive the folder URL the same way for local and remote disks.
+        $base = null;
+        try {
+            $probe = $disk->url($prefix . '__mw_p__');
+            $cut = strrpos($probe, '/');
+            if ($cut !== false) {
+                $base = substr($probe, 0, $cut);
+            }
+        } catch (\Throwable) {
+            $base = null;
+        }
+        if ($base === null && function_exists('media_base_url')) {
+            $base = rtrim((string) media_base_url(), '/') . '/templates/' . $tpl;
+        }
+
+        $this->log[] = "media: materialised {$written} file(s) -> " . (string) $base;
+        return $base ? rtrim($base, '/') : null;
+    }
+
+    /** Locate the template's bundled media dir (resources/assets/media). */
+    protected function bundledMediaDir(): ?string
+    {
+        if ($this->templateDir && is_dir($this->templateDir . '/resources/assets/media')) {
+            return $this->templateDir . '/resources/assets/media';
+        }
+        if ($this->template && function_exists('template_full_dir')) {
+            $cand = rtrim((string) template_full_dir($this->template), '/\\') . '/resources/assets/media';
+            if (is_dir($cand)) {
+                return $cand;
+            }
+        }
+        return null;
     }
 
     /** For import_type=delete: remove existing page/post/product content before importing. */
