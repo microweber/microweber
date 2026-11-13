@@ -28,6 +28,12 @@ class TemplateManagerServiceProvider extends ServiceProvider
     {
         Livewire::component('admin-template-update-modal', AdminTemplateUpdateModal::class);
         Livewire::component('live-edit-template-settings-sidebar', LiveEditTemplateSettingsSidebar::class);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \MicroweberPackages\Template\Commands\TemplateExportCommand::class,
+            ]);
+        }
     }
 
     public function register()
