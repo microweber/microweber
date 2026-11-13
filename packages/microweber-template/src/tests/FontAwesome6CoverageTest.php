@@ -97,4 +97,41 @@ class FontAwesome6CoverageTest extends TestCase
             'fa-circle-nodes', 'fa-bolt-lightning',
         ]);
     }
+
+    /**
+     * FA4 -> FA6 "mix". Of the 786 FA4.7 names, exactly two have no FA6 Free
+     * equivalent: the brand marks meanpath (removed outright) and tripadvisor
+     * (moved to FA Pro). Both are still offered by the icon picker, so their
+     * glyphs are ported from the original FA4 webfont — subset to a tiny
+     * supplemental 'Font Awesome 4 Compat' @font-face under their own family so
+     * the reused FA4 codepoints cannot collide with the main fonts. Pin the
+     * whole chain: the face, the subset webfont file, and each name mapping to
+     * its FA4 codepoint — so a bundle refresh that drops the mix fails here
+     * instead of silently shipping a tofu box.
+     */
+    #[Test]
+    public function fa4_only_glyphs_are_ported_via_the_compat_font(): void
+    {
+        $css = self::faCss();
+
+        $this->assertStringContainsString("font-family: 'Font Awesome 4 Compat'", $css,
+            'The FA4 compat @font-face must be present in the bundle.');
+        $this->assertMatchesRegularExpression('#src:\s*url\("\./fa-v4-extras\.woff2"\)#', $css,
+            'The compat face must reference the subset webfont ./fa-v4-extras.woff2.');
+
+        $font = dirname(__DIR__, 3)
+            . '/frontend-assets-libs/resources/local-libs/font-awesome-6/webfonts/fa-v4-extras.woff2';
+        $this->assertFileExists($font, 'The FA4 2-glyph subset webfont must ship with the bundle.');
+
+        // Each ported name resolves AND carries its original FA4 codepoint.
+        foreach (['fa-meanpath' => 'f20c', 'fa-tripadvisor' => 'f262'] as $name => $cp) {
+            $this->assertTrue(self::isCovered($css, $name),
+                "Ported icon '{$name}' must resolve in the bundle.");
+            $this->assertMatchesRegularExpression(
+                '#\.' . preg_quote($name, '#') . '[^{]*\{\s*--fa:\s*"\\\\' . $cp . '"#',
+                $css,
+                "Ported icon '{$name}' must map to its FA4 codepoint \\{$cp}."
+            );
+        }
+    }
 }

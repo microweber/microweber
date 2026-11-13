@@ -10107,3 +10107,41 @@ readers do not read off random characters that represent icons */
 .fa.fa-meetup {
   font-family: 'Font Awesome 6 Brands';
   font-weight: 400; }
+
+/* ================================================================
+ * FA4 -> FA6 "mix": glyphs FontAwesome dropped from the Free set.
+ *
+ * Of the 786 Font Awesome 4.7 icon names, FA6 Free + the bundled
+ * v4-shims / fa-v4compatibility font already render 784. The only two
+ * with no FA6 Free equivalent are the brand marks `meanpath` (a search
+ * engine defunct since 2015, removed outright) and `tripadvisor` (moved
+ * to FA Pro). Both are still offered by the icon picker, so without this
+ * block a user who picks either gets a tofu box.
+ *
+ * Port just those two glyphs from the original FA4.7 webfont, subset to
+ * a 776-byte supplemental font under its own family so their FA4
+ * codepoints (U+F20C, U+F262 — reused by other icons in FA6) cannot
+ * collide with the main fonts. Subset built with fontTools:
+ *   python3 -m fontTools.subset fontawesome-webfont.ttf \
+ *     --unicodes="U+F20C,U+F262" --flavor=woff2 \
+ *     --output-file=fa-v4-extras.woff2
+ * Follows FA6's own render model (icon sets --fa; .fa::before uses it).
+ * ================================================================ */
+@font-face {
+  font-family: 'Font Awesome 4 Compat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("./fa-v4-extras.woff2") format("woff2"),
+       url("./fa-v4-extras.ttf") format("truetype"); }
+
+.fa-meanpath, .fa-tripadvisor,
+.fa.fa-meanpath, .fa.fa-tripadvisor {
+  font-family: 'Font Awesome 4 Compat';
+  font-weight: 400; }
+
+.fa-meanpath, .fa.fa-meanpath {
+  --fa: "\f20c"; }
+
+.fa-tripadvisor, .fa.fa-tripadvisor {
+  --fa: "\f262"; }
