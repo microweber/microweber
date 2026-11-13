@@ -72,8 +72,23 @@ class TemplateMediaBundler
                 continue;
             }
             foreach ($content[$bucket] as &$item) {
-                if (is_array($item) && isset($item['html']) && is_string($item['html'])) {
+                if (!is_array($item)) {
+                    continue;
+                }
+                if (isset($item['html']) && is_string($item['html'])) {
                     $item['html'] = $this->rewriteHtml($item['html']);
+                }
+                // Attached gallery (Pictures module) image URLs.
+                if (isset($item['gallery']) && is_array($item['gallery'])) {
+                    foreach ($item['gallery'] as &$g) {
+                        if (is_array($g) && isset($g['filename']) && is_string($g['filename'])) {
+                            $rewritten = $this->bundleUrl($g['filename']);
+                            if ($rewritten !== null) {
+                                $g['filename'] = $rewritten;
+                            }
+                        }
+                    }
+                    unset($g);
                 }
             }
             unset($item);

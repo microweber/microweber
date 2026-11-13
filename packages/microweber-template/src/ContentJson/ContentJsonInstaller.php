@@ -188,6 +188,7 @@ class ContentJsonInstaller
         $content->save();
 
         $this->urlToId[$url] = $content->id;
+        $this->installGallery($content, $item);
         $this->rememberMenuRequests($url, $item);
         $this->log[] = "{$content->content_type} '{$url}' -> #{$content->id}";
     }
@@ -228,6 +229,7 @@ class ContentJsonInstaller
         $product->save();
 
         $this->urlToId[$url] = $product->id;
+        $this->installGallery($product, $item);
         $this->rememberMenuRequests($url, $item);
         $this->log[] = "product '{$url}' -> #{$product->id}" . (isset($item['price']) ? " (price {$item['price']})" : '');
     }
@@ -353,6 +355,71 @@ class ContentJsonInstaller
             $this->log[] = "color scheme -> {$template} template_css option + live_edit.css (" . count($scheme) . ' vars)';
         } catch (\Throwable $e) {
             $this->log[] = 'color scheme save skipped: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * Recreate a content item's attached gallery (Pictures module) — media table rows
+     * keyed by (rel_type = morph_name(Content), rel_id = the NEW content id). Filenames
+     * are resolved from the {{TPL_MEDIA}} placeholder (materialising the bundled files
+     * into the target userfiles). Idempotent: existing attached rows are replaced.
+     */
+    protected function installGallery($content, array $item): void
+    {
+        $gallery = $item['gallery'] ?? [];
+        if (!is_array($gallery) || $gallery === []) {
+            return;
+        }
+        $mediaClass = '\\Modules\\Media\\Models\\Media';
+        if (!class_exists($mediaClass) || !function_exists('morph_name')) {
+            $this->log[] = 'gallery: Media model unavailable, skipped';
+            return;
+        }
+        $relType = morph_name(Content::class);
+
+        try {
+            // Replace any existing attached gallery for idempotent re-imports.
+            $mediaClass::query()->where('rel_type', $relType)->where('rel_id', (int) $content->id)->delete();
+        } catch (\Throwable) {
+        }
+
+        $position = 0;
+        $made = 0;
+        foreach ($gallery as $g) {
+            if (!is_array($g)) {
+                continue;
+            }
+            $filename = (string) ($g['filename'] ?? '');
+            if ($filename === '') {
+                continue;
+            }
+            $filename = $this->resolveMediaPlaceholders($filename);
+
+            try {
+                $m = new $mediaClass();
+                $m->rel_type = $relType;
+                $m->rel_id = (int) $content->id;
+                $m->filename = $filename;
+                $m->media_type = (string) ($g['media_type'] ?? 'picture');
+                $m->position = (int) ($g['position'] ?? $position);
+                if (isset($g['image_options'])) {
+                    $m->image_options = $g['image_options'];
+                }
+                if (isset($g['title'])) {
+                    $m->title = (string) $g['title'];
+                }
+                if (isset($g['description'])) {
+                    $m->description = (string) $g['description'];
+                }
+                $m->save();
+                $made++;
+            } catch (\Throwable $e) {
+                $this->log[] = 'gallery: row failed (' . $e->getMessage() . ')';
+            }
+            $position++;
+        }
+        if ($made > 0) {
+            $this->log[] = "gallery '{$content->url}': {$made} image(s)";
         }
     }
 

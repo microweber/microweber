@@ -161,7 +161,65 @@ class ContentJsonExporter
             $item['description'] = $row->description;
         }
         $item['html'] = (string) ($row->content ?? '');
+        $gallery = $this->exportGallery($row);
+        if ($gallery !== []) {
+            $item['gallery'] = $gallery;
+        }
         return $item;
+    }
+
+    /**
+     * Export a content item's attached gallery (Pictures module) — rows in the media
+     * table keyed by (rel_type = morph_name(Content), rel_id = content id). Filenames
+     * are the site-local URLs; the exporter's media bundler rewrites them to portable
+     * placeholders and the installer recreates the rows against the new content id.
+     * Module-instance galleries (rel_type='module') are out of scope (their module id
+     * is embedded in the HTML and not remapped).
+     *
+     * @return list<array<string,mixed>>
+     */
+    protected function exportGallery($row): array
+    {
+        $mediaClass = '\\Modules\\Media\\Models\\Media';
+        if (!class_exists($mediaClass) || !function_exists('morph_name')) {
+            return [];
+        }
+        $relType = morph_name(Content::class);
+        try {
+            $rows = $mediaClass::query()
+                ->where('rel_type', $relType)
+                ->where('rel_id', (int) $row->id)
+                ->orderBy('position')
+                ->get();
+        } catch (\Throwable) {
+            return [];
+        }
+
+        $out = [];
+        foreach ($rows as $m) {
+            $filename = (string) $m->filename;
+            if ($filename === '') {
+                continue;
+            }
+            $g = ['filename' => $filename];
+            if ($m->media_type) {
+                $g['media_type'] = (string) $m->media_type;
+            }
+            if ($m->position !== null) {
+                $g['position'] = (int) $m->position;
+            }
+            if (!empty($m->image_options)) {
+                $g['image_options'] = $m->image_options; // cast to array
+            }
+            if ($m->title) {
+                $g['title'] = (string) $m->title;
+            }
+            if ($m->description) {
+                $g['description'] = (string) $m->description;
+            }
+            $out[] = $g;
+        }
+        return $out;
     }
 
     /** Export menus as { menu_title: [ {page|url, title}, … ] }. */

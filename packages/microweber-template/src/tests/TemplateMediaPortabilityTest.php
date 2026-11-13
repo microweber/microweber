@@ -6,6 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Modules\Content\Models\Content;
+use Modules\Media\Models\Media;
 use MicroweberPackages\Template\Export\TemplateExporter;
 use MicroweberPackages\Template\Export\TemplateMediaBundler;
 use MicroweberPackages\Template\ContentJson\ContentJsonInstaller;
@@ -55,6 +56,13 @@ class TemplateMediaPortabilityTest extends TestCase
 
     protected function tearDown(): void
     {
+        // Gallery media rows attached to the test pages.
+        try {
+            foreach (Content::withTrashed()->whereIn('active_site_template', [$this->src, $this->dest])->get(['id']) as $c) {
+                Media::where('rel_id', $c->id)->where('rel_type', morph_name(Content::class))->delete();
+            }
+        } catch (\Throwable) {
+        }
         Content::where('active_site_template', $this->src)->forceDelete();
         Content::where('active_site_template', $this->dest)->forceDelete();
         $this->rmrf(public_path('templates/' . $this->srcSlug));
@@ -130,6 +138,52 @@ class TemplateMediaPortabilityTest extends TestCase
         $prefix = rtrim(media_base_path_relative(), '/') . '/templates/' . strtolower($this->dest) . '/';
         $this->assertNotEmpty($disk->files(rtrim($prefix, '/')),
             'The media file must be materialised into the target userfiles.');
+    }
+
+    #[Test]
+    public function content_attached_gallery_round_trips_with_portable_media(): void
+    {
+        // A gallery image on disk + a media row attaching it to the source page.
+        $galRel = 'templates/' . $this->srcSlug . '/images/gallery1.png';
+        $galAbs = public_path($galRel);
+        @mkdir(dirname($galAbs), 0755, true);
+        file_put_contents($galAbs, base64_decode(
+            'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+        ));
+
+        $src = Content::where('url', $this->pageUrl)->first();
+        Media::create([
+            'rel_type' => morph_name(Content::class),
+            'rel_id' => $src->id,
+            'media_type' => 'picture',
+            'position' => 0,
+            'filename' => '/' . $galRel,
+            'image_options' => ['crop' => 'center'],
+        ]);
+
+        $info = $this->export();
+
+        // Export: the gallery is captured and its filename is a portable placeholder.
+        $content = json_decode((string) file_get_contents($info['dir'] . '/content.json'), true);
+        $gallery = $content['pages'][0]['gallery'] ?? [];
+        $this->assertNotEmpty($gallery, 'The attached gallery must be exported.');
+        $this->assertStringContainsString(TemplateMediaBundler::PLACEHOLDER, $gallery[0]['filename']);
+        $this->assertSame('center', $gallery[0]['image_options']['crop'] ?? null,
+            'image_options must survive the round-trip.');
+
+        // Install: a media row is recreated for the NEW content id with a resolved URL.
+        (new ContentJsonInstaller())
+            ->setTemplate($this->dest)
+            ->setFile($info['dir'] . '/content.json')
+            ->install();
+
+        $new = Content::where('active_site_template', $this->dest)->where('content_type', 'page')->first();
+        $this->assertNotNull($new);
+        $rows = Media::where('rel_type', morph_name(Content::class))->where('rel_id', $new->id)->get();
+        $this->assertCount(1, $rows, 'The gallery must be recreated against the new content id.');
+        $this->assertStringNotContainsString(TemplateMediaBundler::PLACEHOLDER, (string) $rows[0]->filename,
+            'The recreated media filename must resolve the placeholder.');
+        $this->assertStringContainsString('/templates/' . strtolower($this->dest) . '/', (string) $rows[0]->filename);
     }
 
     private function rmrf(string $dir): void
