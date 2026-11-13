@@ -45,6 +45,11 @@ class TemplateFontsServiceProvider extends MicroweberPackageServiceProvider
                 $config['disk'] = userfiles_disk();
                 if (function_exists('userfiles_base_relpath')) {
                     $config['css_cache_relpath'] = userfiles_base_relpath('cache');
+                    // Per-site disk-relative fonts folder, so a picked Google font's
+                    // binaries + font.css mirror to the bucket under this site's own
+                    // path (multisite-safe) and load from the CDN, not just the node
+                    // that ran the download.
+                    $config['fonts_relpath'] = userfiles_base_relpath('fonts');
                 }
                 if (function_exists('userfiles_disk_is_remote')) {
                     $config['disk_is_remote'] = userfiles_disk_is_remote();

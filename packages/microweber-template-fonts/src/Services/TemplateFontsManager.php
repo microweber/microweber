@@ -232,6 +232,17 @@ class TemplateFontsManager
             // Always persist the family; CSS can fall back to remote when download fails
             $cssPath = $result['css_path'] ?? null;
             $cssUrl = $result['css_url'] ?? null;
+
+            // When userfiles are remote-backed (S3), the downloader wrote the
+            // woff2 files + font.css to the LOCAL userfiles/fonts folder only.
+            // Mirror that folder to the bucket so the font loads on a CDN /
+            // multi-node / multisite deploy, and serve its CSS from there.
+            if ($cssPath !== null) {
+                $remoteCssUrl = $this->mirrorFontFilesToRemote($cssPath);
+                if ($remoteCssUrl !== null) {
+                    $cssUrl = $remoteCssUrl;
+                }
+            }
         }
 
         $existing = TemplateFont::query()
@@ -511,6 +522,55 @@ class TemplateFontsManager
             $storage->put($rel, $css, ['visibility' => 'public']);
 
             return $storage->url($rel);
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
+    /**
+     * Mirror a downloaded Google-font folder (its woff2 binaries + font.css) to
+     * the remote userfiles disk (S3). The GoogleFontDownloader writes only to the
+     * local userfiles/fonts folder, so on a CDN / multi-node / multisite install
+     * the compiled stylesheet would @import a font.css — and reference woff2
+     * files — that live on just one node and 404 everywhere else. This uploads
+     * the whole folder under the site's own per-site fonts_relpath (so sites
+     * never collide on the bucket) and returns the bucket URL of font.css, whose
+     * internal `./file.woff2` references then resolve to the mirrored siblings.
+     * Returns null when userfiles are local-only, unconfigured, or the mirror
+     * fails — leaving the local css_url untouched.
+     */
+    protected function mirrorFontFilesToRemote(string $localCssPath): ?string
+    {
+        if (!$this->configBool('disk_is_remote', false)) {
+            return null;
+        }
+        $disk = $this->configString('disk', '');
+        $relBase = $this->configString('fonts_relpath', '');
+        if ($disk === '' || $relBase === '' || !is_file($localCssPath)) {
+            return null;
+        }
+
+        $fontDir = dirname($localCssPath);
+        $slug = basename($fontDir);
+        $base = trim($relBase, '/') . '/' . $slug;
+
+        try {
+            $storage = \Illuminate\Support\Facades\Storage::disk($disk);
+            $cssRemoteUrl = null;
+
+            foreach (glob($fontDir . DIRECTORY_SEPARATOR . '*') ?: [] as $file) {
+                if (!is_file($file)) {
+                    continue;
+                }
+                $name = basename($file);
+                $rel = $base . '/' . $name;
+                $storage->put($rel, (string) file_get_contents($file), ['visibility' => 'public']);
+                if ($name === 'font.css') {
+                    $cssRemoteUrl = $storage->url($rel);
+                }
+            }
+
+            return $cssRemoteUrl;
         } catch (\Throwable) {
             return null;
         }

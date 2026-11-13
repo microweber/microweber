@@ -100,4 +100,128 @@ class TemplateFontsManagerS3MirrorTest extends TestCase
         $this->assertSame('/storage/cache/' . $filename, $url);
         $this->assertStringNotContainsString('bucket.example.test', $url);
     }
+
+    /**
+     * Build a throwaway downloaded-font folder (font.css + a woff2) and return
+     * the font.css path, the way GoogleFontDownloader leaves it on local disk.
+     */
+    private function makeLocalFontFolder(string $slug): string
+    {
+        $dir = $this->tempCachePath . DIRECTORY_SEPARATOR . $slug;
+        @mkdir($dir, 0755, true);
+        file_put_contents($dir . DIRECTORY_SEPARATOR . 'font.css',
+            "@font-face{font-family:'X';src:url(./x.woff2) format('woff2');}");
+        file_put_contents($dir . DIRECTORY_SEPARATOR . 'x.woff2', 'FAKEWOFF2');
+
+        return $dir . DIRECTORY_SEPARATOR . 'font.css';
+    }
+
+    private function callMirror(TemplateFontsManager $m, string $cssPath): ?string
+    {
+        $ref = new \ReflectionMethod($m, 'mirrorFontFilesToRemote');
+        $ref->setAccessible(true);
+
+        return $ref->invoke($m, $cssPath);
+    }
+
+    public function test_remote_disk_mirrors_downloaded_font_binaries_and_css_to_s3(): void
+    {
+        Storage::fake('s3', ['url' => 'https://bucket.example.test']);
+
+        $manager = $this->makeManager([
+            'disk' => 's3',
+            'disk_is_remote' => true,
+            'fonts_relpath' => 'userfiles/fonts',
+        ]);
+
+        $cssPath = $this->makeLocalFontFolder('roboto');
+        $remoteUrl = $this->callMirror($manager, $cssPath);
+
+        // BOTH the stylesheet AND the binary land in the bucket under the
+        // per-site fonts path — otherwise the CSS's ./x.woff2 ref would 404.
+        Storage::disk('s3')->assertExists('userfiles/fonts/roboto/font.css');
+        Storage::disk('s3')->assertExists('userfiles/fonts/roboto/x.woff2');
+        $this->assertSame('FAKEWOFF2', Storage::disk('s3')->get('userfiles/fonts/roboto/x.woff2'));
+
+        // It returns the bucket URL of font.css (so css_url points at S3).
+        $this->assertStringStartsWith('https://bucket.example.test', (string) $remoteUrl);
+        $this->assertStringContainsString('userfiles/fonts/roboto/font.css', (string) $remoteUrl);
+    }
+
+    public function test_font_files_are_not_mirrored_when_disk_is_local(): void
+    {
+        Storage::fake('s3', ['url' => 'https://bucket.example.test']);
+
+        $manager = $this->makeManager([
+            'disk' => 's3',
+            'disk_is_remote' => false,
+            'fonts_relpath' => 'userfiles/fonts',
+        ]);
+
+        $cssPath = $this->makeLocalFontFolder('roboto');
+        $remoteUrl = $this->callMirror($manager, $cssPath);
+
+        // Local-only install: nothing uploaded, css_url left untouched (null).
+        $this->assertNull($remoteUrl);
+        $this->assertSame([], Storage::disk('s3')->allFiles());
+    }
+
+    public function test_font_mirror_is_noop_without_fonts_relpath(): void
+    {
+        Storage::fake('s3', ['url' => 'https://bucket.example.test']);
+
+        // Remote disk but no per-site fonts relpath configured -> skip safely.
+        $manager = $this->makeManager([
+            'disk' => 's3',
+            'disk_is_remote' => true,
+            'fonts_relpath' => '',
+        ]);
+
+        $cssPath = $this->makeLocalFontFolder('roboto');
+        $this->assertNull($this->callMirror($manager, $cssPath));
+        $this->assertSame([], Storage::disk('s3')->allFiles());
+    }
+
+    /**
+     * Full flow: enabling a Google font on a remote install mirrors its folder
+     * to S3 and persists the bucket URL as the font's css_url, so the compiled
+     * stylesheet @imports the font from the CDN. A font folder is pre-seeded so
+     * provider->enable() hits its local-cache branch (no network download).
+     */
+    public function test_enable_font_on_remote_disk_persists_s3_css_url(): void
+    {
+        Storage::fake('s3', ['url' => 'https://bucket.example.test']);
+
+        $fontsPath = $this->tempCachePath . '/fonts';
+        $manager = $this->makeManager([
+            'download_google_fonts_locally' => true,
+            'fonts_path' => $fontsPath,
+            'fonts_url' => '/storage/fonts',
+            'disk' => 's3',
+            'disk_is_remote' => true,
+            'fonts_relpath' => 'userfiles/fonts',
+        ]);
+
+        if (!$manager->tableReady()) {
+            $this->markTestSkipped('template_fonts table not ready');
+        }
+
+        // Pre-seed the downloaded folder so enable() short-circuits to the local
+        // cache hit instead of fetching from Google.
+        @mkdir($fontsPath . '/roboto', 0755, true);
+        file_put_contents($fontsPath . '/roboto/font.css',
+            "@font-face{font-family:'Roboto';src:url(./r.woff2) format('woff2');}");
+        file_put_contents($fontsPath . '/roboto/r.woff2', 'FAKE');
+
+        $this->assertTrue($manager->enableFont('Roboto', 'google', 'sans-serif'));
+
+        // The binaries + css are on the bucket, and the DB row points at S3.
+        Storage::disk('s3')->assertExists('userfiles/fonts/roboto/font.css');
+        Storage::disk('s3')->assertExists('userfiles/fonts/roboto/r.woff2');
+        $this->assertDatabaseHas('template_fonts', [
+            'family' => 'Roboto',
+            'provider' => 'google',
+            'css_url' => 'https://bucket.example.test/userfiles/fonts/roboto/font.css',
+        ]);
+    }
 }
