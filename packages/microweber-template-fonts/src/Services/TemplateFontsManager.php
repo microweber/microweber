@@ -321,10 +321,63 @@ class TemplateFontsManager
             $query->where('provider', $provider);
         }
 
+        // Delete the font's files before dropping its row, so removing a font
+        // does not leave orphaned binaries behind locally OR in the bucket.
+        foreach ((clone $query)->get() as $font) {
+            $this->purgeFontFiles($font->css_path, (string) $font->family);
+        }
+
         $deleted = $query->delete();
         $this->clearCssCache();
 
         return $deleted > 0;
+    }
+
+    /**
+     * Delete a font's on-disk folder (its binaries + font.css), both locally and
+     * on the remote userfiles disk (S3) when remote-backed. Best-effort; a font
+     * folder that is already gone is not an error. The slug is taken from the
+     * stored css_path when present, else derived from the family the same way
+     * the providers do, so local and remote target the exact same folder.
+     */
+    protected function purgeFontFiles(?string $cssPath, string $family): void
+    {
+        $slug = '';
+        if ($cssPath !== null && $cssPath !== '') {
+            $slug = basename(dirname($cssPath));
+        }
+        if ($slug === '' || $slug === '.' || $slug === DIRECTORY_SEPARATOR) {
+            $slug = \Illuminate\Support\Str::slug($family);
+        }
+        if ($slug === '') {
+            return;
+        }
+
+        // Local userfiles/fonts/<slug>
+        $fontsPath = $this->configString('fonts_path', storage_path('app/public/fonts'));
+        $localDir = rtrim($fontsPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $slug;
+        if (is_dir($localDir)) {
+            foreach (glob($localDir . DIRECTORY_SEPARATOR . '*') ?: [] as $f) {
+                if (is_file($f)) {
+                    @unlink($f);
+                }
+            }
+            @rmdir($localDir);
+        }
+
+        // Remote (S3) <fonts_relpath>/<slug>
+        if ($this->configBool('disk_is_remote', false)) {
+            $disk = $this->configString('disk', '');
+            $relBase = $this->configString('fonts_relpath', '');
+            if ($disk !== '' && $relBase !== '') {
+                try {
+                    \Illuminate\Support\Facades\Storage::disk($disk)
+                        ->deleteDirectory(trim($relBase, '/') . '/' . $slug);
+                } catch (\Throwable) {
+                    // best-effort — a missing/already-cleaned folder is fine
+                }
+            }
+        }
     }
 
     /**
@@ -347,6 +400,18 @@ class TemplateFontsManager
             return ['success' => false, 'message' => 'Missing family name'];
         }
 
+        // Same as a picked Google font: the uploaded binary + generated font.css
+        // land in the LOCAL userfiles/fonts folder. On a remote (S3) install,
+        // mirror that folder to the bucket so the font loads on a CDN / other
+        // nodes / sibling multisite domains, and serve its CSS from there.
+        $cssUrl = $result['css_url'] ?? null;
+        if (($result['css_path'] ?? null) !== null) {
+            $remoteCssUrl = $this->mirrorFontFilesToRemote((string) $result['css_path']);
+            if ($remoteCssUrl !== null) {
+                $cssUrl = $remoteCssUrl;
+            }
+        }
+
         if (!$this->tableReady()) {
             $this->legacyAppendFont($familyName);
 
@@ -366,7 +431,7 @@ class TemplateFontsManager
                 'file_path' => $result['file_path'] ?? null,
                 'file_url' => $result['file_url'] ?? null,
                 'css_path' => $result['css_path'] ?? null,
-                'css_url' => $result['css_url'] ?? null,
+                'css_url' => $cssUrl,
                 'sort_order' => $maxSort + 1,
             ]
         );

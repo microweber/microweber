@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace MicroweberPackages\TemplateFonts\Tests\Unit;
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use MicroweberPackages\TemplateFonts\Models\TemplateFont;
 use MicroweberPackages\TemplateFonts\Services\TemplateFontsManager;
 use MicroweberPackages\TemplateFonts\Tests\TestCase;
 
@@ -223,5 +225,85 @@ class TemplateFontsManagerS3MirrorTest extends TestCase
             'provider' => 'google',
             'css_url' => 'https://bucket.example.test/userfiles/fonts/roboto/font.css',
         ]);
+    }
+
+    /**
+     * A CUSTOM uploaded font follows the identical mirror path: its binary +
+     * generated font.css land locally, then get mirrored to the bucket and the
+     * DB row's css_url points at S3.
+     */
+    public function test_upload_custom_font_on_remote_disk_mirrors_to_s3(): void
+    {
+        Storage::fake('s3', ['url' => 'https://bucket.example.test']);
+
+        $fontsPath = $this->tempCachePath . '/fonts';
+        $manager = $this->makeManager([
+            'fonts_path' => $fontsPath,
+            'fonts_url' => '/storage/fonts',
+            'disk' => 's3',
+            'disk_is_remote' => true,
+            'fonts_relpath' => 'userfiles/fonts',
+        ]);
+
+        if (!$manager->tableReady()) {
+            $this->markTestSkipped('template_fonts table not ready');
+        }
+
+        $file = UploadedFile::fake()->createWithContent('MyBrand.woff2', 'FAKEBINARY');
+        $res = $manager->uploadCustomFont($file, 'MyBrand');
+        $this->assertTrue($res['success'] ?? false, $res['message'] ?? '');
+
+        $slug = 'mybrand';
+        Storage::disk('s3')->assertExists("userfiles/fonts/{$slug}/font.css");
+        Storage::disk('s3')->assertExists("userfiles/fonts/{$slug}/{$slug}.woff2");
+        $this->assertDatabaseHas('template_fonts', [
+            'family' => 'MyBrand',
+            'provider' => 'custom',
+            'css_url' => "https://bucket.example.test/userfiles/fonts/{$slug}/font.css",
+        ]);
+    }
+
+    /**
+     * Removing a font deletes its folder both locally AND on the bucket, so no
+     * orphaned binaries are left behind on a remote install.
+     */
+    public function test_remove_font_purges_local_and_s3_copies(): void
+    {
+        Storage::fake('s3', ['url' => 'https://bucket.example.test']);
+
+        $fontsPath = $this->tempCachePath . '/fonts';
+        $manager = $this->makeManager([
+            'fonts_path' => $fontsPath,
+            'disk' => 's3',
+            'disk_is_remote' => true,
+            'fonts_relpath' => 'userfiles/fonts',
+        ]);
+
+        if (!$manager->tableReady()) {
+            $this->markTestSkipped('template_fonts table not ready');
+        }
+
+        // Seed a local folder + a bucket copy + the DB row, as an enabled font.
+        $cssPath = $this->makeLocalFontFolder('lato'); // under tempCachePath/lato
+        // Point the font's local dir at fonts_path/lato so purge targets it.
+        @mkdir($fontsPath . '/lato', 0755, true);
+        file_put_contents($fontsPath . '/lato/font.css', 'x');
+        file_put_contents($fontsPath . '/lato/l.woff2', 'x');
+        Storage::disk('s3')->put('userfiles/fonts/lato/font.css', 'x');
+        Storage::disk('s3')->put('userfiles/fonts/lato/l.woff2', 'x');
+
+        TemplateFont::query()->create([
+            'family' => 'Lato', 'provider' => 'google', 'is_enabled' => true,
+            'css_path' => $fontsPath . '/lato/font.css',
+            'css_url' => 'https://bucket.example.test/userfiles/fonts/lato/font.css',
+            'sort_order' => 1,
+        ]);
+
+        $this->assertTrue($manager->removeFont('Lato', 'google'));
+
+        // Local folder gone, bucket folder gone, row gone.
+        $this->assertDirectoryDoesNotExist($fontsPath . '/lato');
+        $this->assertSame([], Storage::disk('s3')->files('userfiles/fonts/lato'));
+        $this->assertDatabaseMissing('template_fonts', ['family' => 'Lato', 'provider' => 'google']);
     }
 }
