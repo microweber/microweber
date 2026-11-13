@@ -6,11 +6,17 @@ use Filament\Schemas\Components\Actions;
 use Filament\Actions\Action;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\FileUpload;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
+use MicroweberPackages\Template\Export\TemplateExporter;
+use MicroweberPackages\Template\Export\TemplateImporter;
 use MicroweberPackages\Template\Http\Controllers\Api\TemplateApiController;
 
 class AdminTemplatePage extends Page
@@ -170,7 +176,161 @@ Action::make('applyTemplate')
 
                     ]),
 
+                Section::make('Reusable templates')
+                    ->icon('heroicon-m-arrow-path-rounded-square')
+                    ->view('mw-filament::sections.section')
+                    ->description('Export the current site as a reusable template, or upload a template others exported. Exported/uploaded templates contain only content and assets — never PHP.')
+                    ->schema([
+                        Actions::make([
+                            $this->exportAsTemplateAction(),
+                            $this->uploadTemplateAction(),
+                        ])->fullWidth(),
+                    ]),
+
 
             ]);
+    }
+
+    /**
+     * Export the current Live-Edit site as a reusable, uploadable child template
+     * (design + content + fonts frozen to JSON + assets; no PHP) and stream the ZIP.
+     */
+    protected function exportAsTemplateAction(): Action
+    {
+        return Action::make('exportAsTemplate')
+            ->label('Export as template')
+            ->icon('heroicon-o-arrow-down-tray')
+            ->color('gray')
+            ->modalSubmitActionLabel('Export & download')
+            ->modalIcon('heroicon-o-arrow-down-tray')
+            ->modalHeading('Export this site as a template')
+            ->modalDescription('Packages the current site (design, pages, menus, fonts) into an uploadable template ZIP. The ZIP contains only content and assets — no PHP — so it is safe to share and re-upload.')
+            ->form([
+                TextInput::make('name')
+                    ->label('Template name')
+                    ->required()
+                    ->default(template_name() . ' Copy')
+                    ->helperText('A new template folder is created with this name.'),
+                Select::make('parent')
+                    ->label('Parent template')
+                    ->options($this->templateOptions())
+                    ->placeholder('Same as current template (recommended)')
+                    ->helperText('The exported template inherits its layout/views from this parent.'),
+                Toggle::make('fullSite')
+                    ->label('Include the whole site')
+                    ->helperText("On: export every page. Off: only the current template's pages.")
+                    ->default(false),
+                TextInput::make('author')
+                    ->label('Author')
+                    ->placeholder('Microweber'),
+            ])
+            ->action(function (array $data) {
+                try {
+                    $info = (new TemplateExporter())
+                        ->setName((string) $data['name'])
+                        ->setParent($data['parent'] ?? null)
+                        ->setFullSite((bool) ($data['fullSite'] ?? false))
+                        ->setAuthor($data['author'] ?? null)
+                        ->exportToZip();
+                } catch (\Throwable $e) {
+                    Notification::make()
+                        ->danger()
+                        ->title('Export failed')
+                        ->body($e->getMessage())
+                        ->send();
+                    return null;
+                }
+
+                $zip = (string) $info['zip'];
+                $downloadName = $info['name'] . '.zip';
+
+                return response()->streamDownload(function () use ($zip) {
+                    if (is_file($zip)) {
+                        readfile($zip);
+                        @unlink($zip);
+                    }
+                }, $downloadName, ['Content-Type' => 'application/zip']);
+            });
+    }
+
+    /**
+     * Upload a template ZIP produced by "Export as template". The importer refuses
+     * any archive containing PHP/executable files or unsafe paths (see
+     * {@see TemplateImporter}), so an upload can only add data + assets.
+     */
+    protected function uploadTemplateAction(): Action
+    {
+        return Action::make('uploadTemplate')
+            ->label('Upload template')
+            ->icon('heroicon-o-arrow-up-tray')
+            ->color('gray')
+            ->modalHeading('Upload a template')
+            ->modalDescription('Upload a template ZIP (data + assets only). PHP files and unsafe paths are rejected.')
+            ->modalSubmitActionLabel('Upload')
+            ->form([
+                // Store on the LOCAL disk (not the media disk, which may be S3) so the
+                // importer gets a real local path to read.
+                FileUpload::make('templateZip')
+                    ->label('Template ZIP')
+                    ->disk('local')
+                    ->directory('template-imports')
+                    ->visibility('private')
+                    ->preserveFilenames(false)
+                    ->acceptedFileTypes(['application/zip', 'application/x-zip-compressed', 'application/octet-stream', 'multipart/x-zip'])
+                    ->helperText('A template ZIP exported from this or another Microweber site.')
+                    ->required(),
+            ])
+            ->action(function (array $data) {
+                $stored = $data['templateZip'] ?? null;
+                if (is_array($stored)) {
+                    $stored = reset($stored);
+                }
+                if (!$stored || !Storage::disk('local')->exists($stored)) {
+                    Notification::make()->danger()->title('Uploaded file not found')->send();
+                    return;
+                }
+                $path = Storage::disk('local')->path($stored);
+
+                try {
+                    $info = (new TemplateImporter())->importZip($path);
+                } catch (\Throwable $e) {
+                    Notification::make()
+                        ->danger()
+                        ->title('Upload rejected')
+                        ->body($e->getMessage())
+                        ->send();
+                    return;
+                } finally {
+                    // The upload was only a transport; drop it either way.
+                    Storage::disk('local')->delete($stored);
+                }
+
+                // The new template dir is auto-discovered on the next scan.
+                if (function_exists('clearcache')) {
+                    try { clearcache(); } catch (\Throwable) {}
+                }
+
+                Notification::make()
+                    ->success()
+                    ->title('Template uploaded')
+                    ->body("\"{$info['name']}\" (child of {$info['parent_template']}) installed — {$info['files']} file(s). Select it above to apply it.")
+                    ->send();
+            });
+    }
+
+    /** Template names available as an export parent (core + extra templates). */
+    protected function templateOptions(): array
+    {
+        $dirs = array_merge(
+            glob(base_path('Templates/*'), GLOB_ONLYDIR) ?: [],
+            glob(base_path('ExtraTemplates/*'), GLOB_ONLYDIR) ?: []
+        );
+        $names = [];
+        foreach ($dirs as $d) {
+            $name = basename($d);
+            $names[$name] = $name;
+        }
+        ksort($names);
+        return $names;
     }
 }
