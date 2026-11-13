@@ -32,6 +32,7 @@ class TemplateManagerServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \MicroweberPackages\Template\Commands\TemplateExportCommand::class,
+                \MicroweberPackages\Template\Commands\TemplateImportCommand::class,
             ]);
         }
     }
