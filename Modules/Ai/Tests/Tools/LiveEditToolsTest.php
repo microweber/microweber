@@ -630,4 +630,62 @@ class LiveEditToolsTest extends ToolTestCase
             \MicroweberPackages\Option\Models\Option::where('option_group', $mid)->delete();
         }
     }
+
+    #[Test]
+    public function search_icons_finds_icons_from_the_picker_set(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\SearchIconsTool();
+
+        $rocket = (string) $tool->__invoke(query: 'rocket');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $rocket);
+        $this->assertStringContainsString('"rocket"', $rocket);
+
+        // The two FA4-only glyphs ported into the FA6 bundle must be searchable,
+        // so the model can actually offer them (they would otherwise be tofu).
+        $trip = (string) $tool->__invoke(query: 'tripadvisor');
+        $this->assertStringContainsString('"tripadvisor"', $trip);
+
+        // Ranking + prefix match: "cart" surfaces cart-* names.
+        $cart = json_decode((string) $tool->__invoke(query: 'cart', limit: 5), true);
+        $this->assertIsArray($cart);
+        $this->assertNotEmpty($cart['icons']);
+        $this->assertLessThanOrEqual(5, count($cart['icons']));
+        $this->assertStringStartsWith('cart', $cart['icons'][0]);
+
+        // A "fa-"/space-prefixed query is normalised before matching.
+        $prefixed = (string) $tool->__invoke(query: 'fa-star');
+        $this->assertStringContainsString('"star"', $prefixed);
+
+        // Empty query returns a usable sample + the real total.
+        $sample = json_decode((string) $tool->__invoke(query: ''), true);
+        $this->assertGreaterThan(1000, $sample['total_available']);
+        $this->assertNotEmpty($sample['icons']);
+    }
+
+    #[Test]
+    public function set_icon_confirms_valid_call_and_rejects_missing_args(): void
+    {
+        $tool = new \Modules\Ai\Tools\LiveEdit\SetIconTool();
+
+        // Valid: echoes the selector, the normalised glyph name, and the colour/size.
+        $ok = (string) $tool->__invoke(selector: '.cta i', icon: 'fa-rocket', color: '#0d6efd', size: '2x');
+        $this->assertStringNotContainsString(BaseTool::ERROR_OUTPUT_MARKER, $ok);
+        $this->assertStringContainsString('.cta i', $ok);
+        $this->assertStringContainsString('fa-rocket', $ok);   // "fa-fa-rocket" would mean bad normalisation
+        $this->assertStringContainsString('#0d6efd', $ok);
+        $this->assertStringContainsString('2x', $ok);
+        // Side-effect-free: it only emits the command for the frontend to apply.
+        $this->assertStringContainsString('Save', $ok);
+
+        // A bare name normalises the same way (no double fa- prefix).
+        $bare = (string) $tool->__invoke(selector: '#x', icon: 'rocket');
+        $this->assertStringContainsString('fa-rocket', $bare);
+        $this->assertStringNotContainsString('fa-fa-', $bare);
+
+        // Missing selector / icon both error.
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER,
+            (string) $tool->__invoke(selector: '', icon: 'rocket'));
+        $this->assertStringContainsString(BaseTool::ERROR_OUTPUT_MARKER,
+            (string) $tool->__invoke(selector: '.cta', icon: ''));
+    }
 }

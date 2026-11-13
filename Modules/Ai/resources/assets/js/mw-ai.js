@@ -1311,6 +1311,82 @@ function MwAi() {
                 return { ok: true, message: url.trim() ? ('linked ' + selector) : ('unlinked ' + selector) };
             },
 
+            // Set / change / recolour an element's Font Awesome icon. Swaps the
+            // glyph on an existing <i> matched by selector (or inserts one if the
+            // element has none), keeping FA size/style/utility classes, and
+            // optionally sets its colour and size. Mirrors how the visual icon
+            // picker edits an icon (base `fa` + a single fa-<glyph> class).
+            set_icon: function(args, api) {
+                const selector = (args && args.selector) ? String(args.selector) : '';
+                if (!selector) { return { ok: false, message: 'no selector' }; }
+                let name = (args && args.icon) ? String(args.icon) : '';
+                if (!name) { return { ok: false, message: 'no icon name' }; }
+                const doc = api.canvasDocument();
+                const host = doc.querySelector(selector);
+                if (!host) { return { ok: false, message: 'no element for ' + selector }; }
+
+                // "fa fa-rocket" / "fas fa-rocket" / "fa-rocket" / "rocket" -> "rocket"
+                name = name.trim().toLowerCase()
+                    .replace(/^fa[sbrl]?[\s-]+/, '').replace(/^fa-/, '').replace(/\s+/g, '-');
+                if (!name) { return { ok: false, message: 'empty icon name' }; }
+
+                // Locate the <i> to style: the host itself if it is an icon, else an
+                // existing FA icon inside it, else create one at the host's start.
+                const hostIsIcon = host.tagName === 'I'
+                    || /(^|\s)fa[sbrl]?(\s|$)/.test(host.className || '')
+                    || /(^|\s)fa-/.test(host.className || '');
+                let icon = hostIsIcon ? host
+                    : host.querySelector('i.fa, i.fas, i.fab, i.far, i[class*="fa-"], .fa, [class*="fa-"]');
+                let created = false;
+                if (!icon) {
+                    icon = doc.createElement('i');
+                    icon.className = 'fa';
+                    host.insertBefore(doc.createTextNode(' '), host.firstChild);
+                    host.insertBefore(icon, host.firstChild);
+                    created = true;
+                }
+
+                // Drop the existing glyph class(es) but keep FA base/size/style and
+                // any non-fa utility classes, then add the new fa-<glyph>.
+                const KEEP = /^fa-(2xs|xs|sm|lg|xl|2xl|[1-9]0?x|fw|spin|pulse|border|pull-left|pull-right|rotate-\d+|flip-\w+|stack\w*|inverse|solid|regular|brands|sharp|beat|fade|bounce|shake|beat-fade|spin-pulse)$/;
+                const kept = (icon.getAttribute('class') || '').split(/\s+/).filter(Boolean).filter(function (c) {
+                    if (c === 'fa' || c === 'fas' || c === 'far' || c === 'fab') { return true; }
+                    if (KEEP.test(c)) { return true; }
+                    return !/^fa-/.test(c); // keep non-glyph utility classes
+                });
+                if (!kept.some(function (c) { return c === 'fa' || c === 'fas' || c === 'far' || c === 'fab'; })) {
+                    kept.unshift('fa');
+                }
+                kept.push('fa-' + name);
+                icon.setAttribute('class', kept.join(' '));
+
+                // Colour: accept hex/rgb/named or a CSS variable ("--x" or "var(--x)").
+                const color = (args && typeof args.color !== 'undefined') ? String(args.color).trim() : '';
+                if (color) {
+                    icon.style.color = (color.indexOf('--') === 0) ? ('var(' + color + ')') : color;
+                }
+
+                // Size: FA keyword -> fa-<kw> class; CSS length -> inline font-size.
+                const size = (args && typeof args.size !== 'undefined') ? String(args.size).trim().toLowerCase() : '';
+                if (size) {
+                    if (/^(2xs|xs|sm|lg|xl|2xl|[1-9]0?x)$/.test(size)) {
+                        icon.setAttribute('class', icon.getAttribute('class').split(/\s+/)
+                            .filter(function (c) { return !/^fa-(2xs|xs|sm|lg|xl|2xl|[1-9]0?x)$/.test(c); }).join(' '));
+                        icon.classList.add('fa-' + size);
+                    } else if (/^[\d.]+(px|rem|em|%|pt)$/.test(size)) {
+                        icon.style.fontSize = size;
+                    }
+                }
+
+                try { mw.top().app.registerChangedState(icon); } catch (e) {}
+                try { mw.top().app.registerChangedState(host, true); } catch (e) {}
+                return { ok: true, message: (created ? 'added icon fa-' : 'set icon fa-') + name + ' on ' + selector };
+            },
+
+            // search_icons runs server-side (reads the picker's icon list) and its
+            // result goes to the model; nothing for the canvas to apply.
+            search_icons: function() { return { ok: true, message: 'icons searched' }; },
+
             add_section: function(args, api) {
                 const html = (args && args.html) ? String(args.html) : '';
                 if (!html.trim()) { return { ok: false, message: 'no html' }; }
