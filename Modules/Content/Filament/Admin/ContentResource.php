@@ -1234,6 +1234,31 @@ class ContentResource extends Resource
                         ->visible(function (Schemas\Components\Utilities\Get $get) {
                             return $get('content_type') == 'page';
                         }),
+                    // Alternative single-item renderings. A post/product keeps its
+                    // site template but can pick one of the template's registered
+                    // single-item skins (resources/views/single-skins/{type}/*) as
+                    // its layout_file; product.blade.php / post.blade.php dispatch to
+                    // the chosen skin. showTemplateSelect:false keeps the content's
+                    // template binding untouched — only the Layout list is exposed,
+                    // scoped to this content_type by MwSelectTemplateForPage.
+                    Tabs\Tab::make('Layout')
+                        ->icon('heroicon-o-rectangle-group')
+                        ->schema([
+                            Schemas\Components\Section::make('Select Layout')
+                                ->description('Choose how this item is displayed on its single page.')
+                                ->schema([
+                                    MwSelectTemplateForPage::make(
+                                        'active_site_template',
+                                        'layout_file',
+                                        withPreview: false,
+                                        showTemplateSelect: false)
+                                        ->columnSpanFull(),
+                                ])
+                                ->columnSpanFull(),
+                        ])
+                        ->visible(function (Schemas\Components\Utilities\Get $get) {
+                            return in_array($get('content_type'), ['product', 'post'], true);
+                        }),
                     Tabs\Tab::make('Product Details')
                         ->icon('heroicon-o-cube')
                         ->schema(

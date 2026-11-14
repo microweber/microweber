@@ -46,6 +46,13 @@ class MwSelectTemplateForPage
         // (now non-firing) afterStateUpdated hook. Full pages keep reactive.
         bool $reactive = true,
 
+        // Pages choose BOTH a template and a layout. Single post/product skins,
+        // on the other hand, are picked within the content's existing template,
+        // so their edit form passes false here to drop the Template <select>
+        // (and leave active_site_template untouched) and expose only the Layout
+        // list of that content type's skins.
+        bool $showTemplateSelect = true,
+
     ): Group
     {
         $activeSiteTemplateInputName = $activeSiteTemplateInputName ?? 'active_site_template';
@@ -148,6 +155,12 @@ class MwSelectTemplateForPage
                 $layoutOptions['site_template'] = $activeSiteTemplate;
                 $layoutOptions['no_cache'] = true;
                 $layoutOptions['no_folder_sort'] = true;
+                // Scope the list to this content's type so a single post/product
+                // only ever defaults to one of ITS skins (see LayoutsManager::scan).
+                $contentTypeFilter = $get('content_type');
+                if ($contentTypeFilter) {
+                    $layoutOptions['content_type'] = $contentTypeFilter;
+                }
 
                 $layouts = app()->layouts_manager->get_all($layoutOptions);
                 if (isset($layouts[0])) {
@@ -171,6 +184,13 @@ class MwSelectTemplateForPage
                 $layoutOptions['site_template'] = $activeSiteTemplate;
                 $layoutOptions['no_cache'] = true;
                 $layoutOptions['no_folder_sort'] = true;
+                // Scope the Layout options to this content's type: a page sees the
+                // template's page layouts (single post/product skins filtered out),
+                // a post/product sees only its own single-item skins.
+                $contentTypeFilter = $get('content_type');
+                if ($contentTypeFilter) {
+                    $layoutOptions['content_type'] = $contentTypeFilter;
+                }
 
                 $layouts = app()->layouts_manager->get_all($layoutOptions);
 
@@ -247,7 +267,9 @@ class MwSelectTemplateForPage
 
                 // the compact live-edit "Create page" modal can drop it (its render
         // cascade closes the modal). Template + Layout selects stay intact.
-        $schema = [$selectTemplateInput, $selectLayoutInputInput];
+        $schema = $showTemplateSelect
+            ? [$selectTemplateInput, $selectLayoutInputInput]
+            : [$selectLayoutInputInput];
         if ($withPreview) {
             $schema[] = $templatePreviewBlock;
         }

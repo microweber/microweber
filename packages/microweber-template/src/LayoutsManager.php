@@ -405,12 +405,20 @@ class LayoutsManager
                                 }
                             }
 
-                            if (isset($options['content_type']) && $options['content_type'] == 'post') {
-                                if (isset($to_return_temp['content_type']) && $to_return_temp['content_type'] !== 'post') {
+                            // Single-item (post / product) layout skins are tagged
+                            // `content_type: post|product`. When a caller asks for a
+                            // specific single-item type, show ONLY that type's skins;
+                            // otherwise (page / listing / default pickers) hide every
+                            // single-item skin so it never pollutes a page layout list.
+                            $wantContentType = isset($options['content_type']) ? (string) $options['content_type'] : '';
+                            $rowContentType = isset($to_return_temp['content_type']) ? (string) $to_return_temp['content_type'] : '';
+                            $singleItemTypes = ['post', 'product'];
+                            if (in_array($wantContentType, $singleItemTypes, true)) {
+                                if ($rowContentType !== $wantContentType) {
                                     continue;
                                 }
                             } else {
-                                if (isset($to_return_temp['content_type']) && $to_return_temp['content_type'] == 'post') {
+                                if (in_array($rowContentType, $singleItemTypes, true)) {
                                     continue;
                                 }
                             }
