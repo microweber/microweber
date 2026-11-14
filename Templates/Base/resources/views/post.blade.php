@@ -1,4 +1,15 @@
 <?php
+
+/*
+
+type: layout
+content_type: post
+name: Post - Classic
+position: 1
+description: The standard single-post layout. Default rendering.
+
+*/
+
 $post = get_content_by_id(content_id());
 $picture = get_picture(content_id());
 

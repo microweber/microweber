@@ -1,4 +1,15 @@
 <?php
+
+/*
+
+type: layout
+content_type: product
+name: Product - Classic
+position: 1
+description: The standard single-product layout. Default rendering.
+
+*/
+
 $content_data = content_data(content_id());
 $in_stock = true;
 if (isset($content_data['qty']) and $content_data['qty'] != 'nolimit' and intval($content_data['qty']) == 0) {

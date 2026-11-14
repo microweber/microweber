@@ -24,28 +24,40 @@ use Tests\TestCase;
  */
 class SingleItemLayoutSkinsTest extends TestCase
 {
-    private string $template = 'Big2';
+    /**
+     * Core templates that ship the single-item skins, with their blade
+     * master-layout namespace. Child (view-less) templates inherit these.
+     */
+    private const TEMPLATES = [
+        'Big2'      => 'big2',
+        'Base'      => 'base',
+        'Big'       => 'big',
+        'Bootstrap' => 'bootstrap',
+    ];
 
-    private string $viewsDir = '';
-
-    protected function setUp(): void
+    private function viewsDir(string $template): string
     {
-        parent::setUp();
-        $this->viewsDir = templates_dir() . $this->template . DS . 'resources' . DS . 'views' . DS;
+        return templates_dir() . $template . DS . 'resources' . DS . 'views' . DS;
     }
 
-    protected function assertPreConditions(): void
+    private function installedTemplates(): array
     {
-        parent::assertPreConditions();
-        if (!is_dir(templates_dir() . $this->template)) {
-            $this->markTestSkipped("Template {$this->template} not installed");
+        $out = [];
+        foreach (self::TEMPLATES as $name => $ns) {
+            if (is_dir(templates_dir() . $name)) {
+                $out[$name] = $ns;
+            }
         }
+        if (empty($out)) {
+            $this->markTestSkipped('No core template installed');
+        }
+        return $out;
     }
 
     /** layout_file values (DS-normalised) returned by get_all for a content_type. */
-    private function layoutFilesFor($contentType = null): array
+    private function layoutFilesFor(string $template, $contentType = null): array
     {
-        $options = ['site_template' => $this->template, 'no_cache' => true, 'no_folder_sort' => true];
+        $options = ['site_template' => $template, 'no_cache' => true, 'no_folder_sort' => true];
         if ($contentType !== null) {
             $options['content_type'] = $contentType;
         }
@@ -62,60 +74,57 @@ class SingleItemLayoutSkinsTest extends TestCase
     #[Test]
     public function the_product_picker_lists_exactly_the_product_skins(): void
     {
-        $files = $this->layoutFilesFor('product');
+        foreach (array_keys($this->installedTemplates()) as $template) {
+            $files = $this->layoutFilesFor($template, 'product');
 
-        $this->assertContains('product.blade.php', $files, 'Classic (the default blade) must be a selectable product skin.');
-        $this->assertContains('single-skins/product/materialbuildsafe.blade.php', $files);
-        $this->assertContains('single-skins/product/minimal.blade.php', $files);
+            $this->assertContains('product.blade.php', $files, "[$template] Classic must be a selectable product skin.");
+            $this->assertContains('single-skins/product/materialbuildsafe.blade.php', $files, "[$template]");
+            $this->assertContains('single-skins/product/minimal.blade.php', $files, "[$template]");
 
-        // No post skins or generic page layouts leak into the product list.
-        foreach ($files as $f) {
-            $this->assertStringNotContainsString('single-skins/post/', $f);
-            $this->assertNotContains($f, ['clean.blade.php', 'index.blade.php', 'blog.blade.php', 'shop.blade.php']);
+            // No post skins or generic page layouts leak into the product list.
+            foreach ($files as $f) {
+                $this->assertStringNotContainsString('single-skins/post/', $f, "[$template]");
+                $this->assertNotContains($f, ['clean.blade.php', 'index.blade.php', 'blog.blade.php', 'shop.blade.php'], "[$template]");
+            }
         }
     }
 
     #[Test]
     public function the_post_picker_lists_exactly_the_post_skins(): void
     {
-        $files = $this->layoutFilesFor('post');
+        foreach (array_keys($this->installedTemplates()) as $template) {
+            $files = $this->layoutFilesFor($template, 'post');
 
-        $this->assertContains('post.blade.php', $files, 'Classic (the default blade) must be a selectable post skin.');
-        $this->assertContains('single-skins/post/magazine.blade.php', $files);
-        $this->assertContains('single-skins/post/minimal.blade.php', $files);
+            $this->assertContains('post.blade.php', $files, "[$template] Classic must be a selectable post skin.");
+            $this->assertContains('single-skins/post/magazine.blade.php', $files, "[$template]");
+            $this->assertContains('single-skins/post/minimal.blade.php', $files, "[$template]");
 
-        foreach ($files as $f) {
-            $this->assertStringNotContainsString('single-skins/product/', $f);
+            foreach ($files as $f) {
+                $this->assertStringNotContainsString('single-skins/product/', $f, "[$template]");
+            }
         }
     }
 
     #[Test]
     public function the_page_picker_never_shows_a_single_item_skin(): void
     {
-        $files = $this->layoutFilesFor(null);
+        foreach (array_keys($this->installedTemplates()) as $template) {
+            $files = $this->layoutFilesFor($template, null);
 
-        $this->assertNotEmpty($files, 'The page/default picker must still list the generic layouts.');
-        $this->assertContains('clean.blade.php', $files);
-        foreach ($files as $f) {
-            $this->assertStringNotContainsString('single-skins/', $f,
-                'A single-item skin must never appear in the page/default layout picker.');
-            // product.blade.php / post.blade.php are content_type-tagged, so the
-            // page picker must drop them too.
-            $this->assertNotContains($f, ['product.blade.php', 'post.blade.php']);
+            $this->assertNotEmpty($files, "[$template] The page/default picker must still list the generic layouts.");
+            foreach ($files as $f) {
+                $this->assertStringNotContainsString('single-skins/', $f,
+                    "[$template] A single-item skin must never appear in the page/default layout picker.");
+                // product.blade.php / post.blade.php are content_type-tagged, so the
+                // page picker must drop them too.
+                $this->assertNotContains($f, ['product.blade.php', 'post.blade.php'], "[$template]");
+            }
         }
     }
 
     #[Test]
     public function the_resolver_renders_the_chosen_skin_and_falls_back_to_the_default(): void
     {
-        $base = [
-            'id' => 123456,
-            'content_type' => 'product',
-            'subtype' => 'product',
-            'active_site_template' => $this->template,
-            'parent' => 0,
-        ];
-
         $cases = [
             'single-skins/product/materialbuildsafe.blade.php' => 'materialbuildsafe.blade.php',
             'single-skins/product/minimal.blade.php' => 'minimal.blade.php',
@@ -123,13 +132,22 @@ class SingleItemLayoutSkinsTest extends TestCase
             'inherit' => 'product.blade.php', // inherit -> content_type default
         ];
 
-        foreach ($cases as $layoutFile => $expectedBasename) {
-            $page = $base;
-            $page['layout_file'] = $layoutFile;
-            $render = (string) app()->template_manager->get_layout($page);
-            $this->assertNotSame('', $render, 'Resolver returned no render file for layout_file=' . var_export($layoutFile, true));
-            $this->assertSame($expectedBasename, basename($render),
-                'layout_file=' . var_export($layoutFile, true) . ' must render ' . $expectedBasename);
+        foreach (array_keys($this->installedTemplates()) as $template) {
+            $base = [
+                'id' => 123456,
+                'content_type' => 'product',
+                'subtype' => 'product',
+                'active_site_template' => $template,
+                'parent' => 0,
+            ];
+            foreach ($cases as $layoutFile => $expectedBasename) {
+                $page = $base;
+                $page['layout_file'] = $layoutFile;
+                $render = (string) app()->template_manager->get_layout($page);
+                $this->assertNotSame('', $render, "[$template] no render file for layout_file=" . var_export($layoutFile, true));
+                $this->assertSame($expectedBasename, basename($render),
+                    "[$template] layout_file=" . var_export($layoutFile, true) . " must render {$expectedBasename}");
+            }
         }
     }
 
@@ -146,18 +164,20 @@ class SingleItemLayoutSkinsTest extends TestCase
             'post.blade.php' => 'post',
         ];
 
-        foreach ($skins as $rel => $type) {
-            $path = $this->viewsDir . str_replace('/', DS, $rel);
-            $this->assertFileExists($path, "Skin {$rel} must exist");
-            $src = (string) file_get_contents($path);
+        foreach ($this->installedTemplates() as $template => $ns) {
+            foreach ($skins as $rel => $type) {
+                $path = $this->viewsDir($template) . str_replace('/', DS, $rel);
+                $this->assertFileExists($path, "[$template] Skin {$rel} must exist");
+                $src = (string) file_get_contents($path);
 
-            $this->assertMatchesRegularExpression('/type:\s*layout/i', $src, "{$rel} must declare type: layout");
-            $this->assertMatchesRegularExpression('/content_type:\s*' . $type . '\b/i', $src,
-                "{$rel} must declare content_type: {$type}");
-            $this->assertStringContainsString("@extends('templates.big2::layouts.master')", $src,
-                "{$rel} must extend the master layout so it renders with site chrome");
-            $this->assertStringContainsString("@section('content')", $src, "{$rel} must open the content section");
-            $this->assertStringContainsString('@endsection', $src, "{$rel} must close the content section");
+                $this->assertMatchesRegularExpression('/type:\s*layout/i', $src, "[$template] {$rel} must declare type: layout");
+                $this->assertMatchesRegularExpression('/content_type:\s*' . $type . '\b/i', $src,
+                    "[$template] {$rel} must declare content_type: {$type}");
+                $this->assertStringContainsString("@extends('templates.{$ns}::layouts.master')", $src,
+                    "[$template] {$rel} must extend that template's master layout so it renders with site chrome");
+                $this->assertStringContainsString("@section('content')", $src, "[$template] {$rel} must open the content section");
+                $this->assertStringContainsString('@endsection', $src, "[$template] {$rel} must close the content section");
+            }
         }
     }
 }
