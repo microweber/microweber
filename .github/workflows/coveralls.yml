@@ -18,7 +18,7 @@ jobs:
         php-versions: ['8.2']
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v7
       with:
         ref: dev
 
@@ -32,7 +32,7 @@ jobs:
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
     - name: Cache composer dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v6
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         # Use composer.json for key, if composer.lock is not committed.
@@ -42,9 +42,9 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
     - name: Npm install
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v7
       with:
-        node-version: 16
+        node-version: 22
         cache: 'npm'
         cache-dependency-path: ./package-lock.json
     - run: npm install
@@ -77,16 +77,16 @@ jobs:
         php-versions: ['8.2']
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v7
       with:
         ref: dev
     - uses: ./.github/actions/setup-php
       with:
         php_version: ${{ matrix.php-versions }}
     - name: Npm install
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v7
       with:
-        node-version: 16
+        node-version: 22
         cache: 'npm'
         cache-dependency-path: ./package-lock.json
 #    - name: Copy vite config stub
@@ -137,25 +137,25 @@ jobs:
 
     - name: Upload Screenshots
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: screenshots
         path: tests/Browser/screenshots
     - name: Upload Console Logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: console
         path: tests/Browser/console
     - name: Upload Laravel Storage Logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: storage-logs
         path: storage/logs
     - name: Upload Laravel config
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: config
         path: config

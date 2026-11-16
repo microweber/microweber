@@ -15,7 +15,7 @@ jobs:
         php-versions: [ '8.2' ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
         env:
           DEBUG: true
           APP_ENV: "testing"
@@ -24,7 +24,7 @@ jobs:
           php_version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
       - name: Npm install
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
           node-version: 16
           cache: 'npm'
@@ -47,25 +47,25 @@ jobs:
           composer test:dusk
       - name: Upload Screenshots
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: screenshots
           path: tests/Browser/screenshots
       - name: Upload Console Logs
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: console
           path: tests/Browser/console
       - name: Upload Laravel Storage Logs
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: storage-logs
           path: storage/logs
       - name: Upload Laravel config
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: config
           path: config
