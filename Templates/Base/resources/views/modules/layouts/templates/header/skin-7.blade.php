@@ -15,6 +15,7 @@ categories: Header
     default-padding-top="pt-5"
     default-padding-bottom="pb-5"
     container-class="mw-layout-container no-element"
+    :use-container="false"
 >
     <module type="background" data-background-color="#00000060" data-background-image="{{ asset('templates/big/img/layouts/gallery-1-5.jpg') }}" id="background-layout--{{ $params['id'] ?? '' }}" />
         <div class="mw-layout-container py-4 container-fluid mw-header-section-mh-100vh d-flex align-items-center justify-content-center no-element edit " field="layout-header-skin-7-{{ $params['id'] ?? '' }}" rel="module">

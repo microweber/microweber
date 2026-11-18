@@ -145,13 +145,10 @@
 
     @if(empty($disable_header))
     <div class="navigation-holder">
+        {{-- The language switcher lives in the header menu layout skins (e.g.
+             menus/skin-9), NOT here — rendering it in master as well produced a
+             duplicate switcher on templates whose header skin already has one. --}}
         <module type="layouts" template="menus/skin-1" template-filter="menus" id="header-layout"/>
-        {{-- Frontend language switcher. The multilanguage module renders nothing
-             unless the site has 2+ active languages, so this is a safe no-op on
-             single-language sites. --}}
-        <div class="mw-header-language-switcher d-flex justify-content-end align-items-center px-3">
-            <module type="multilanguage" template="default"/>
-        </div>
     </div>
     @endif
 
