@@ -367,8 +367,297 @@
     </script>
 
     <style>
+        /* ------------------------------------------------------------------ *
+         * Microweber installer — standalone onboarding screen.
+         * Self-contained modern design, scoped to .installholder so it never
+         * leaks into the rest of the app. All markup hooks/field names are
+         * preserved; this only restyles. Brand primary = Bootstrap blue.
+         * ------------------------------------------------------------------ */
+        :root {
+            --mwi-primary: #0d6efd;
+            --mwi-primary-600: #0b5ed7;
+            --mwi-primary-700: #0a53be;
+            --mwi-primary-soft: rgba(13, 110, 253, .12);
+            --mwi-ink: #1f2a37;
+            --mwi-ink-soft: #4b5563;
+            --mwi-muted: #6b7280;
+            --mwi-line: #e6e9ef;
+            --mwi-field-border: #d5dbe3;
+            --mwi-bg: #eef1f6;
+            --mwi-card: #ffffff;
+            --mwi-radius: 14px;
+            --mwi-radius-sm: 10px;
+            --mwi-success: #16a34a;
+        }
+
+        body {
+            background: linear-gradient(180deg, #f3f5f9 0%, #e9edf3 100%) !important;
+            background-attachment: fixed;
+            color: var(--mwi-ink);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Layout -------------------------------------------------------------- */
+        .installholder {
+            width: 620px !important;
+            max-width: 100% !important;
+            margin: 48px auto 64px !important;
+            padding: 0 16px;
+        }
+
+        .installholder > .text-muted {
+            color: var(--mwi-muted) !important;
+            font-size: 12.5px;
+            letter-spacing: .02em;
+        }
+
+        .installholder .card {
+            border: 1px solid rgba(17, 24, 39, .06) !important;
+            border-radius: var(--mwi-radius) !important;
+            box-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 12px 32px -12px rgba(16, 24, 40, .18) !important;
+            overflow: hidden;
+            background: var(--mwi-card) !important;
+        }
+
+        .installholder .card-header {
+            background: #fff !important;
+            border-bottom: 1px solid var(--mwi-line) !important;
+            padding: 26px 32px 18px !important;
+        }
+
+        .installholder .card-header .my-3 { margin: 0 !important; }
+
+        #logo img { width: 210px !important; height: auto; }
+
+        .mw-install-subtitle {
+            margin: 14px 0 2px;
+            text-align: center;
+            color: var(--mwi-muted);
+            font-size: 14.5px;
+            font-weight: 500;
+        }
+
+        .installholder .card-body { padding: 10px 32px 32px !important; }
+
+        /* Section headings ---------------------------------------------------- */
+        .installholder h2,
+        .installholder .admin-setup h4 {
+            font-size: 19px !important;
+            font-weight: 700 !important;
+            color: var(--mwi-ink) !important;
+            letter-spacing: -.01em;
+            margin: 26px 0 4px !important;
+        }
+
+        .installholder h5.text-primary {
+            color: var(--mwi-ink) !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            margin: 6px 0 16px !important;
+        }
+
+        .installholder hr.thin {
+            border: 0 !important;
+            border-top: 1px solid var(--mwi-line) !important;
+            margin: 12px 0 20px !important;
+            opacity: 1;
+        }
+
+        /* Form fields --------------------------------------------------------- */
+        .installholder .form-group { margin-bottom: 18px; }
+
+        .installholder .form-label,
+        .installholder label.form-label,
+        .installholder b {
+            display: block;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            color: var(--mwi-ink) !important;
+            margin-bottom: 2px;
+        }
+
+        .installholder small.text-muted {
+            display: block;
+            color: var(--mwi-muted) !important;
+            font-size: 12.5px !important;
+            line-height: 1.5;
+            margin-bottom: 8px !important;
+        }
+
+        .installholder .form-control,
+        .installholder .form-select {
+            width: 100%;
+            min-height: 46px;
+            padding: 10px 14px !important;
+            font-size: 14.5px !important;
+            color: var(--mwi-ink) !important;
+            background-color: #fff !important;
+            border: 1px solid var(--mwi-field-border) !important;
+            border-radius: var(--mwi-radius-sm) !important;
+            box-shadow: none !important;
+            transition: border-color .15s ease, box-shadow .15s ease;
+            appearance: none;
+        }
+
+        .installholder .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px !important;
+        }
+
+        .installholder .form-control:hover,
+        .installholder .form-select:hover { border-color: #b9c2cf !important; }
+
+        .installholder .form-control:focus,
+        .installholder .form-select:focus {
+            border-color: var(--mwi-primary) !important;
+            box-shadow: 0 0 0 3px var(--mwi-primary-soft) !important;
+            outline: none !important;
+        }
+
+        .installholder .form-control::placeholder { color: #9aa3b2; }
+
+        /* Checkboxes ---------------------------------------------------------- */
+        .installholder .custom-checkbox { display: flex; align-items: center; gap: 10px; margin: 6px 0 !important; }
+
+        .installholder .form-check-input {
+            width: 20px; height: 20px; margin: 0 !important;
+            border: 1.5px solid var(--mwi-field-border); border-radius: 6px;
+            appearance: none; background: #fff; cursor: pointer; flex: none;
+            transition: background .15s ease, border-color .15s ease;
+            position: relative;
+        }
+        .installholder .form-check-input:checked {
+            background: var(--mwi-primary); border-color: var(--mwi-primary);
+        }
+        .installholder .form-check-input:checked::after {
+            content: ""; position: absolute; left: 6px; top: 2px;
+            width: 5px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .installholder .form-check-input:focus-visible {
+            outline: none; box-shadow: 0 0 0 3px var(--mwi-primary-soft);
+        }
+        .installholder .custom-control-label { font-size: 14px; color: var(--mwi-ink); cursor: pointer; margin: 0; }
+        .installholder .custom-control { padding-left: 0 !important; }
+
+        /* Template chooser ---------------------------------------------------- */
+        .installholder #install-row .row { align-items: center; margin: 0 -6px; }
+        .installholder #install-row .row > [class^="col"] { padding: 0 6px; }
+
+        .installholder .change-templ-btn.btn {
+            width: 46px; height: 46px; padding: 0 !important;
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: var(--mwi-radius-sm) !important;
+        }
+
+        #screenshot_preview { margin-top: 18px; }
+        #screenshot_preview:empty {
+            display: block; min-height: 150px; border: 1px dashed #cdd4df;
+            border-radius: 12px; background: #f7f9fc;
+            position: relative;
+        }
+        #screenshot_preview:empty::before {
+            content: "Template preview";
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            color: #9aa3b2; font-size: 13px; letter-spacing: .02em;
+        }
+        #theImg {
+            border-radius: 12px !important;
+            border: 1px solid var(--mwi-line) !important;
+            box-shadow: 0 10px 30px -14px rgba(16, 24, 40, .25) !important;
+            height: 260px !important;
+        }
+        /* Template has no screenshot yet — show a tidy placeholder, not a blank box. */
+        #theImg[data-src=""] {
+            height: 180px !important;
+            background: #f7f9fc !important;
+            border: 1px dashed #cdd4df !important;
+            box-shadow: none !important;
+            position: relative;
+        }
+        #theImg[data-src=""]::before {
+            content: "Template preview";
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            color: #9aa3b2; font-size: 13px; letter-spacing: .02em;
+        }
+
+        /* Buttons ------------------------------------------------------------- */
+        .installholder .btn {
+            font-weight: 600;
+            border-radius: var(--mwi-radius-sm) !important;
+            transition: background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .05s ease;
+        }
+        .installholder .btn-primary {
+            background: var(--mwi-primary) !important;
+            border-color: var(--mwi-primary) !important;
+            color: #fff !important;
+            box-shadow: 0 1px 2px rgba(13, 110, 253, .25);
+        }
+        .installholder .btn-primary:hover {
+            background: var(--mwi-primary-600) !important;
+            border-color: var(--mwi-primary-600) !important;
+        }
+        .installholder .btn-primary:active { transform: translateY(1px); }
+
+        .installholder #install-button {
+            width: 100%;
+            min-height: 52px;
+            font-size: 16px !important;
+            margin-top: 8px;
+            box-shadow: 0 6px 18px -6px rgba(13, 110, 253, .55);
+        }
+
+        .installholder .btn-outline-success {
+            color: var(--mwi-primary) !important;
+            border: 1px solid #d5dbe3 !important;
+            background: #fff !important;
+            font-weight: 600 !important;
+            font-size: 12.5px;
+            letter-spacing: .03em;
+            padding: 10px 16px !important;
+            width: 100%;
+        }
+        .installholder .btn-outline-success:hover {
+            border-color: var(--mwi-primary) !important;
+            background: var(--mwi-primary-soft) !important;
+        }
+
+        .installholder .btn-link {
+            color: var(--mwi-primary) !important;
+            font-weight: 600; text-decoration: none; font-size: 13.5px;
+        }
+        .installholder .btn-link:hover { text-decoration: underline; }
+
+        /* Login + advanced blocks --------------------------------------------- */
+        #admin-user { margin-top: 10px; }
+        .advanced-options-installation { margin-top: 10px; }
+
+        /* Progress + errors --------------------------------------------------- */
+        .installholder .progress {
+            height: 10px; border-radius: 999px; background: #e9edf3; overflow: hidden;
+        }
+        .installholder .progress-bar { background: var(--mwi-primary) !important; }
+        .installholder #mw_log.error,
+        .installholder ol.error {
+            background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c;
+            border-radius: var(--mwi-radius-sm); padding: 12px 16px;
+        }
+
+        /* Done screen --------------------------------------------------------- */
+        #mw-install-done .btn, .mw-install-holder .btn.btn-primary { margin: 6px 6px 0 0; }
+
         .mw-ui-btn:not(:active):not(:hover):not(.active):not([class*=active-]):focus {
             outline: 1px solid;
+        }
+
+        /* Responsive ---------------------------------------------------------- */
+        @media (max-width: 640px) {
+            .installholder { margin: 24px auto 40px !important; }
+            .installholder .card-header,
+            .installholder .card-body { padding-left: 20px !important; padding-right: 20px !important; }
         }
     </style>
 
@@ -390,6 +679,7 @@
                     <a href="http://microweber.com" target="_blank" id="logo"><img
                             src="<?php print asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg') ?>"
                             style="width: 250px"/></a>
+                    <p class="mw-install-subtitle"><?php _e('Let\'s set up your website'); ?></p>
                 <?php endif; ?>
             </div>
 
