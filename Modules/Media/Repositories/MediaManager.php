@@ -112,13 +112,10 @@ class MediaManager
         $files_utils = mw_filesystem();
 
 
-        ini_set('upload_max_filesize', '2500M');
-        // ini_set('memory_limit', '256M');
-        ini_set('max_execution_time', 0);
-        ini_set('post_max_size', '2500M');
-        ini_set('max_input_time', 9999999);
+        if (php_can_use_func('set_time_limit')) {
+            set_time_limit(0);
+        }
 
-        // ini_set("session.upload_progress.enabled", 1);
         if (isset($_SERVER['HTTP_REFERER'])) {
             $ref_str = md5($_SERVER['HTTP_REFERER']);
         } else {
@@ -942,12 +939,6 @@ class MediaManager
 
     public function thumbnail_img($params)
     {
-
-        if (php_can_use_func('ini_set')) {
-            ini_set('memory_limit', '-1');
-        }
-
-        // ini_set('memory_limit', '256M');
 
         extract($params);
 

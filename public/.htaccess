@@ -1,3 +1,21 @@
+# PCRE engine ceilings for the Apache mod_php SAPI (PHP-FPM/CGI use .user.ini).
+# Large Microweber/Livewire renders overflow the default 1M backtrack limit,
+# making preg_replace() return NULL and crash DOMDocument::loadHTML(""). Guarded
+# so servers without mod_php don't error on the directive. Previously set at
+# runtime in public/index.php; relocated here so no application code mutates php.ini.
+<IfModule mod_php.c>
+    php_value pcre.backtrack_limit 100000000
+    php_value pcre.recursion_limit 100000000
+</IfModule>
+<IfModule mod_php7.c>
+    php_value pcre.backtrack_limit 100000000
+    php_value pcre.recursion_limit 100000000
+</IfModule>
+<IfModule mod_php8.c>
+    php_value pcre.backtrack_limit 100000000
+    php_value pcre.recursion_limit 100000000
+</IfModule>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes

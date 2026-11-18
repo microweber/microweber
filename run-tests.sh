@@ -48,7 +48,7 @@ for suite in "${SUITES[@]}"; do
 
     if [ "$suite" = "Feature" ]; then
         # The Feature suite (~4000 tests) overflows the per-process 4GB
-        # memory_limit set in microweber-core's TestCase because of PHP's
+        # memory_limit set via phpunit.xml <php><ini> because of PHP's
         # ~6MB/test leak, so a single --testsuite=Feature run OOMs. Run its test
         # files in batches instead — each batch is its own PHP process with a
         # fresh 4GB budget. Same reasoning that split the Modules-* suites, but

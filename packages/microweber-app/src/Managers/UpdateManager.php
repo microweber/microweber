@@ -601,10 +601,6 @@ class UpdateManager
     private function _set_time_limit()
     {
         if (!ini_get('safe_mode')) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-                ini_set('set_time_limit', 600);
-                ini_set('memory_limit', '2548M');
-            }
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
                 set_time_limit(600);
             }

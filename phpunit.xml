@@ -511,5 +511,12 @@
     </source>
     <php>
         <env name="APP_ENV" value="testing" force="true"/>
+        <!-- Per-process memory/time budget for the test suite. Lives here (config,
+             applied by PHPUnit at bootstrap) instead of a runtime override in
+             TestCase, so no application/test code mutates php.ini. The ~6MB/test leak still
+             makes run-tests.sh isolate suites/batches per process; this is each
+             process's budget. -->
+        <ini name="memory_limit" value="4096M"/>
+        <ini name="max_execution_time" value="3000"/>
     </php>
 </phpunit>

@@ -67,8 +67,6 @@ class TakeFullpageScreenshot extends BaseComponent
             $screenshotPartsFiles[] = dirname(__DIR__) .DS. 'screenshots' . DS . $screenshotFilename.'.png';
         }
 
-        // Set memory limit
-        ini_set("memory_limit", "-1");
         set_time_limit(0);
 
         mergeScreenshotParts($screenshotPartsFiles,  dirname(__DIR__) .DS. 'screenshots' . DS . $screenshotName.'.png');

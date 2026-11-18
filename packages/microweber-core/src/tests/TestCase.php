@@ -71,8 +71,8 @@ abstract class TestCase extends OrchestraTestCase
 
     protected function setUp(): void
     {
-        ini_set('memory_limit', '4096M');
-        ini_set('max_execution_time', '3000');
+        // memory_limit / max_execution_time are set via phpunit.xml <php><ini>,
+        // not from code here (no runtime ini overrides in application code).
 
         // Orchestra's setUpTheTestEnvironment() is final — install after the app boots.
         $this->afterApplicationCreated(function () {

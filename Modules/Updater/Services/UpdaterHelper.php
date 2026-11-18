@@ -137,14 +137,11 @@ class UpdaterHelper
  */
 
 // Set error reporting
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
 
-if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-    ini_set("memory_limit", "512M");
-    ini_set("set_time_limit", 0);
+if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+    set_time_limit(0);
 }
 
 if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'date_default_timezone_set')) {
