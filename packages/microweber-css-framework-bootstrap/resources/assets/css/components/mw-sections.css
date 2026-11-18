@@ -1258,3 +1258,25 @@ body.Big a:not(.btn):not(.navbar-brand):not([class*="btn-"]),
 body.Base a:not(.btn):not(.navbar-brand):not([class*="btn-"]) {
     color: var(--mw-link-color, var(--mw-primary-color, #f4a261));
 }
+
+/* ---- Container-less layout rows (safety net) ----
+   Layout skins wrap their row in a `.container .mw-layout-container`, but some
+   saved/seed layout content stores a bare `.row` directly inside
+   `section.section` (the container wrapper was lost when the content was first
+   saved in Live Edit). Without a container, Bootstrap's negative row gutters
+   push the columns flush to the viewport edge. Give such a row the SAME
+   responsive max-width, centering and gutter as `.container`, so the content
+   keeps its margins. A `.row` placed inside a real `.container` is a child of
+   the container (not a direct child of the section), so it is never matched. */
+section.section > .row {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: calc(var(--bs-gutter-x, 1.5rem) * 0.5);
+    padding-right: calc(var(--bs-gutter-x, 1.5rem) * 0.5);
+}
+@media (min-width: 576px)  { section.section > .row { max-width: 540px; } }
+@media (min-width: 768px)  { section.section > .row { max-width: 720px; } }
+@media (min-width: 992px)  { section.section > .row { max-width: 960px; } }
+@media (min-width: 1200px) { section.section > .row { max-width: 1140px; } }
+@media (min-width: 1400px) { section.section > .row { max-width: 1320px; } }
