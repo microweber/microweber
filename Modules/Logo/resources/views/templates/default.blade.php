@@ -23,7 +23,11 @@
                 {{-- Rendered alongside the image when both are set; omitted entirely when
                      the user did not enter any text. --}}
                 <span class="logo-text {{ $hasLogoImage ? 'logo-text--with-image' : '' }}" style="color: {{ isset($text_color) ? $text_color : 'inherit' }}; font-family: {{ isset($font_family) ? $font_family : 'inherit' }}; font-size: {{ isset($font_size) ? $font_size : '30' }}px;">
-                    {{ $text }}
+                    {{-- Logo text may carry inline rich-text formatting (font-size, bold,
+                         mw-richtext-cssApplier spans), so render it as HTML rather than
+                         escaping it — escaping showed the raw <span> markup in the brand.
+                         The field is admin-configured (trusted). --}}
+                    {!! $text !!}
                 </span>
             @endif
         @endif
@@ -62,6 +66,13 @@
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+    /* Rich-editor logo text wraps its content in <p>; keep the brand on one
+       inline line instead of inheriting block paragraph margins. */
+    .logo-text p,
+    .logo-text > :only-child {
+        margin: 0;
+        display: inline;
     }
     /* Gap between the image and the text when a logo has both. */
     .logo-module .logo-text--with-image {

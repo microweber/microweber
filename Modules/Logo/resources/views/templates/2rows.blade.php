@@ -38,7 +38,9 @@
             <span class="module-logo-row-bottom">
                 <span class="module-logo-text"
                       style="color: {{ $text_color }}; font-family: {{ $font_family }}; font-size: {{ $font_size }}px;">
-                    {{ $text }}
+                    {{-- Logo text supports inline rich-text formatting; render as HTML
+                         (admin-configured, trusted). See default.blade.php. --}}
+                    {!! $text !!}
                 </span>
             </span>
         @endif

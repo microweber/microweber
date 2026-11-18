@@ -2,6 +2,7 @@
 
 namespace Modules\Logo\Filament;
 
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\Section;
@@ -48,10 +49,14 @@ class LogoModuleSettings extends LiveEditModuleSettings
 
                         Tabs\Tab::make('Text')
                             ->schema([
-                                TextInput::make('options.text')
+                                RichEditor::make('options.text')
                                     ->label('Logo text')
                                     ->placeholder('Brand name')
-                                    ->helperText('Shown when no logo image is set.')
+                                    ->helperText('Shown when no logo image is set. You can format it — bold, italic, colour, etc.')
+                                    // Inline-formatting toolbar; the brand is usually one short line.
+                                    ->toolbarButtons([
+                                        'bold', 'italic', 'underline', 'strike', 'link', 'undo', 'redo',
+                                    ])
                                     ->live()
                                     ->default(fn () => $this->getOption('text', '')),
 
