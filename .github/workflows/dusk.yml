@@ -58,8 +58,13 @@ jobs:
       - run: npm run build
       - name: List all artisan commands
         run: php artisan list
-      - name: Run PHPUnit
-        run: php artisan test
+      - name: Run PHPUnit suites (per-process, OOM-safe)
+        # `php artisan test` ran all ~11.8k tests in ONE php process, which hit
+        # the ~6MB/test leak and OOMed (~2GB RSS) — the thumbnailer then failed
+        # trying to set a memory_limit below current usage, and the exhausted
+        # process also polluted unrelated tests. run-tests.sh runs each suite in
+        # its own process (bounded budget), matching the main PHP Tests workflow.
+        run: bash run-tests.sh
       - name: Remove screenshot layout test
         run: |
           rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
