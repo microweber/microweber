@@ -11,10 +11,15 @@
     if ($check) {
         $opts = $check->image_options;
         $opts = app()->url_manager->replace_site_url_back($opts);
-        $cache_id_data_json = $opts;
-        $cache_id_data_json['cache_id'] = $check->rel_id;
+        if (!is_array($opts)) {
+            $opts = [];
+        }
 
-        $tn = mw()->media_manager->thumbnail_img($cache_id_data_json);
+        // The thumbnail path was stored by MediaManager::thumbnail(); it is still validated
+        // by thumbnail_img() to stay inside the thumbnails cache folder.
+        $tn = mw()->media_manager->thumbnail_img($opts, [
+            'cache_path_relative' => $opts['cache_path_relative'] ?? null,
+        ]);
         return $tn;
     }
 

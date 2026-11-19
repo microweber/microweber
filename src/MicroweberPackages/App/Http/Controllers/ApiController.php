@@ -258,16 +258,8 @@ class ApiController  extends FrontendController
                     $data = array_merge($_GET, $_POST);
                 }
 
-                static $loaded_classes = array();
-
-                //$try_class_n = src_
-                if (isset($loaded_classes[$try_class]) == false) {
-                    $res = new $try_class($data);
-                    $loaded_classes[$try_class] = $res;
-                } else {
-                    $res = $loaded_classes[$try_class];
-                }
-
+                // Bound hooks were registered on purpose (user/admin hooks are only loaded for
+                // logged-in users/admins), so they run without the exposed-list check.
                 if (isset($hooks[$api_function_full]) and !empty($hooks[$api_function_full])) {
                     foreach ($hooks[$api_function_full] as $hook) {
                         if (is_array($hook)) {
@@ -283,6 +275,23 @@ class ApiController  extends FrontendController
                     }
                 }
 
+                // A class being loaded does not make it callable. Only classes/methods that were
+                // registered with api_expose(), api_expose_user() or api_expose_admin() can be
+                // called, same as for module classes in the default branch below. This check has
+                // to run before the class is constructed, since constructors can have side effects.
+                if (!$this->isClassApiCallExposed($api_function_full, $api_exposed)) {
+                    return response('The api function is not defined in the allowed functions list', 403);
+                }
+
+                static $loaded_classes = array();
+
+                //$try_class_n = src_
+                if (isset($loaded_classes[$try_class]) == false) {
+                    $res = new $try_class($data);
+                    $loaded_classes[$try_class] = $res;
+                } else {
+                    $res = $loaded_classes[$try_class];
+                }
 
                 if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
                     if (method_exists($res, $try_class_func2)) {
@@ -320,37 +329,10 @@ class ApiController  extends FrontendController
                     $mod_api_class = sanitize_path($mod_api_class);
 
                     $try_class = str_replace('/', '\\', $mod_api_class);
-                    $try_class_full = str_replace('/', '\\', $api_function_full);
 
-                    $try_class_full2 = str_replace('\\', '/', $api_function_full);
-                    $mod_api_class_test = explode('/', $try_class_full2);
-                    $try_class_func_test = array_pop($mod_api_class_test);
-                    $mod_api_class_test_full = implode('/', $mod_api_class_test);
                     $mod_api_err = false;
                     if (!defined('MW_API_RAW')) {
-                        if (!in_array($try_class_full, $api_exposed, true) and !in_array($try_class_full2, $api_exposed, true) and !in_array($mod_api_class_test_full, $api_exposed, true)) {
-                            $mod_api_err = true;
-
-                            foreach ($api_exposed as $api_exposed_value) {
-                                if ($mod_api_err == true) {
-                                    if ($api_exposed_value == $try_class_full) {
-                                        $mod_api_err = false;
-                                    } elseif (strtolower('\\' . $api_exposed_value) == strtolower($try_class_full)) {
-                                        $mod_api_err = false;
-                                    } elseif ($api_exposed_value == $try_class_full2) {
-                                        $mod_api_err = false;
-                                    } else {
-                                        $convert_slashes = str_replace('\\', '/', $try_class_full);
-
-                                        if ($convert_slashes == $api_exposed_value) {
-                                            $mod_api_err = false;
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            $mod_api_err = false;
-                        }
+                        $mod_api_err = !$this->isClassApiCallExposed($api_function_full, $api_exposed);
                     }
 
                     if ($mod_class_api and $mod_api_err == false) {
@@ -544,6 +526,41 @@ class ApiController  extends FrontendController
 
     }
 
+
+    /**
+     * Checks whether a class-style API call such as "shop/shipping/gateways/country/shipping_to_country/save"
+     * was exposed. The call is allowed when the full "class/method" path, or the class path alone,
+     * is in $api_exposed (the api_expose() list, plus the user/admin lists for logged-in users/admins).
+     */
+    private function isClassApiCallExposed($api_function_full, $api_exposed)
+    {
+        if (!is_string($api_function_full) or $api_function_full === '' or !is_array($api_exposed)) {
+            return false;
+        }
+
+        $call_backslashes = str_replace('/', '\\', $api_function_full);
+        $call_slashes = str_replace('\\', '/', $api_function_full);
+
+        $class_segments = explode('/', $call_slashes);
+        array_pop($class_segments);
+        $class_slashes = implode('/', $class_segments);
+
+        foreach ($api_exposed as $exposed) {
+            if (!is_string($exposed) or $exposed === '') {
+                continue;
+            }
+
+            if ($exposed === $call_backslashes
+                or $exposed === $call_slashes
+                or ($class_slashes !== '' and $exposed === $class_slashes)
+                or strtolower('\\' . $exposed) === strtolower($call_backslashes)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private function _api_response($res)
     {

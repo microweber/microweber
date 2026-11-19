@@ -15,14 +15,14 @@ function newsletter_get_template($data) {
 
 }
 
-api_expose('newsletter_save_template');
+api_expose_admin('newsletter_save_template');
 function newsletter_save_template($data) {
     $table = 'newsletter_templates';
     $data['allow_html'] = true;
     return db_save($table, $data);
 }
 
-api_expose('newsletter_delete_template');
+api_expose_admin('newsletter_delete_template');
 function newsletter_delete_template($params) {
     if (isset($params['id'])) {
         $table = 'newsletter_templates';
@@ -31,7 +31,7 @@ function newsletter_delete_template($params) {
     }
 }
 
-api_expose('newsletter_get_templates');
+api_expose_admin('newsletter_get_templates');
 function newsletter_get_templates() {
 
     $getTemplates = \MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate::query();

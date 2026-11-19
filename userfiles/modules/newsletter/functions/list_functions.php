@@ -11,7 +11,7 @@ function newsletter_get_list($list_id) {
 	return db_get($table, $data);
 }
 
-api_expose('newsletter_get_lists');
+api_expose_admin('newsletter_get_lists');
 function newsletter_get_lists($params = array()) {
 	if (is_string($params)) {
 		$params = parse_params($params);
@@ -27,7 +27,7 @@ function newsletter_save_list($data) {
 	return db_save($table, $data);
 }
 
-api_expose('newsletter_delete_list');
+api_expose_admin('newsletter_delete_list');
 function newsletter_delete_list($params) {
 	if (isset($params['id'])) {
 

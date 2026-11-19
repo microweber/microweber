@@ -11,7 +11,7 @@ function newsletter_get_campaign($campaign_id) {
     return db_get($table, $data);
 }
 
-api_expose('newsletter_get_campaigns');
+api_expose_admin('newsletter_get_campaigns');
 function newsletter_get_campaigns() {
 
     $campaigns = DB::table("newsletter_campaigns")
@@ -46,13 +46,13 @@ function newsletter_get_campaigns() {
     return $readyCampaigns;
 }
 
-api_expose('newsletter_save_campaign');
+api_expose_admin('newsletter_save_campaign');
 function newsletter_save_campaign($data) {
     $table = "newsletter_campaigns";
     return db_save($table, $data);
 }
 
-api_expose('newsletter_delete_campaign');
+api_expose_admin('newsletter_delete_campaign');
 function newsletter_delete_campaign($params) {
     if (isset($params ['id'])) {
         $table = "newsletter_campaigns";
@@ -61,13 +61,13 @@ function newsletter_delete_campaign($params) {
     }
 }
 
-api_expose('newsletter_send_campaign');
+api_expose_admin('newsletter_send_campaign');
 function newsletter_send_campaign($params) {
 
 
 }
 
-api_expose('newsletter_finish_campaign');
+api_expose_admin('newsletter_finish_campaign');
 function newsletter_finish_campaign($campaign_id) {
 
 	$save = array();

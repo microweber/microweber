@@ -22,6 +22,11 @@ class MediaManager
 
     public $thumbnails_path_in_userfiles = 'cache/thumbnails';
 
+    /**
+     * Raster image types thumbnail_img() reads and writes (svg is handled separately).
+     */
+    private $thumbnail_raster_extensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'];
+
     public function __construct($app = null)
     {
         if (!is_object($this->app)) {
@@ -936,7 +941,17 @@ class MediaManager
 
     }
 
-    public function thumbnail_img($params)
+    /**
+     * Creates (or serves from cache) a thumbnail of a local image.
+     *
+     * thumbnail_img is a public API function, so $params can come straight from the request.
+     * Only src, width, height and crop are read from it. Where the thumbnail is written is never
+     * taken from $params. Trusted internal callers can pass these in $options:
+     *  - cache_path_relative: thumbnail file path relative to the userfiles folder. It must point
+     *    inside the thumbnails cache folder and have an image extension.
+     *  - return_cache_path: return the thumbnail's file path instead of outputting the image.
+     */
+    public function thumbnail_img($params, $options = [])
     {
 
         if (php_can_use_func('ini_set')) {
@@ -945,28 +960,20 @@ class MediaManager
 
         // ini_set('memory_limit', '256M');
 
-        extract($params);
-
-        if (!isset($width)) {
-            $width = 200;
-        } else {
-            $width = intval($width);
+        if (!is_array($params)) {
+            $params = [];
+        }
+        if (!is_array($options)) {
+            $options = [];
         }
 
-        if (!isset($height)) {
-            $height = null;
-        } else {
-            $height = intval($height);
-        }
+        $width = isset($params['width']) ? intval($params['width']) : 200;
+        $height = isset($params['height']) ? intval($params['height']) : null;
+        $crop = (isset($params['crop']) and is_scalar($params['crop'])) ? trim((string)$params['crop']) : null;
+        $src = (isset($params['src']) and is_string($params['src'])) ? $params['src'] : false;
+        $return_cache_path = !empty($options['return_cache_path']);
 
-        if (!isset($crop)) {
-            $crop = null;
-        } else {
-            $crop = trim($crop);
-        }
-
-
-        if (!isset($src) or $src == false) {
+        if (!$src) {
             return $this->pixum($width, $height);
         }
 
@@ -1016,7 +1023,13 @@ class MediaManager
                 }
             }
         }
-        $media_root = media_base_path();
+        // Only image files can be used as a source. The svg branch below copies the file as-is,
+        // so any other file type (configs, cache files, scripts) must never get that far.
+        $src_ext = strtolower(get_file_extension($src));
+        $src_is_svg = ($src_ext === 'svg');
+        if (!$src_is_svg and !in_array($src_ext, $this->thumbnail_raster_extensions, true)) {
+            return $this->pixum_img();
+        }
 
         $cd = $this->_thumbnails_path() . $width . DS;
 
@@ -1028,42 +1041,25 @@ class MediaManager
         if (!is_file($index_file)) {
             file_put_contents($index_file, 'Thumbnail directory is not allowed');
         }
-        if (!isset($ext)) {
-            $ext = strtolower(get_file_extension($src));
-        }
-        if ($ext == 'webp') {
-            if (!$this->_is_webp_supported()) {
-                $ext = strtolower(get_file_extension($src));
 
+        if (isset($options['cache_path_relative'])) {
+            $cache_path = $this->_thumbnail_cache_path($options['cache_path_relative'], $src_is_svg);
+            if (!$cache_path) {
+                return $this->pixum_img();
             }
+        } else {
+            $cache = $this->tn_cache_id([
+                    'src' => $params['src'],
+                    'width' => $width,
+                    'height' => $height,
+                    'crop' => $crop,
+                ]) . '.' . $src_ext;
+            $cache_path = $cd . sanitize_path($cache);
         }
-
-        // $cache = md5(serialize($params)) . '.' . $ext;
-        $cache = $this->tn_cache_id($params) . '.' . $ext;
-
-        $cache = sanitize_path($cache);
-
-        if (isset($cache_id)) {
-            $cache = sanitize_path($cache_id);
-
-            // $cache = url_title($cache_id);
-        }
-//        if(!isset($cache_path)){
-//            $cache_path = $cd . $cache;
-//        }
-        $cache_path = $cd . $cache;
-        if (isset($cache_path_relative)) {
-            $cache_path = normalize_path(userfiles_path() . $cache_path_relative, false);
-        }
-//        if (!file_exists($cache_path)) {
-//                if(!isset($cache_path)){
-//                $cache_path = $cd . $cache;
-//                }
-//        }
 
         if (file_exists($cache_path)) {
 
-            if (!isset($return_cache_path)) {
+            if (!$return_cache_path) {
 
                 //   if (!isset($return_cache_path) and isset($params['cache_id'])) {
                 //    delete_option($cache_id, 'media_tn_temp');
@@ -1088,49 +1084,38 @@ class MediaManager
             $src = $this->app->url_manager->clean_url_wrappers($src);
 
             if (file_exists($src)) {
-                if (($ext) == 'svg') {
+                $cache_path_dir = dirname($cache_path);
+                if (!is_dir($cache_path_dir)) {
+                    mkdir_recursive($cache_path_dir);
+                }
+
+                if ($src_is_svg) {
                     $res1 = file_get_contents($src);
                     $res1 = $this->svgScaleHack($res1, $width, $height);
                     file_put_contents($cache_path, $res1);
                 } else {
-                    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp' || $ext == 'webp') {
-
-                        if (!$height) {
-                            $height = $width;
-                        }
-                        $tn = new Thumbnailer($src);
-                        $thumbOptions = array('height' => $height, 'width' => $width);
-                        if ($crop) {
-                            $thumbOptions['crop'] = $crop;
-                        }
-
-                        $cache_path_dir = dirname($cache_path);
-                        if (!is_dir($cache_path_dir)) {
-                            mkdir_recursive($cache_path_dir);
-                        }
-                        $tn->createThumb($thumbOptions, $cache_path);
-
-//                        if (!isset($return_cache_path) and isset($params['cache_id'])) {
-//                       delete_option($params['cache_id'], 'media_tn_temp');
-//                        }
-
-
-                        if (!defined('MW_NO_OUTPUT_CACHE')) {
-                            define('MW_NO_OUTPUT_CACHE', true);
-                        }
-
-
-                        unset($tn);
-
-                    } else {
-                        return $this->pixum_img();
+                    if (!$height) {
+                        $height = $width;
                     }
+                    $tn = new Thumbnailer($src);
+                    $thumbOptions = array('height' => $height, 'width' => $width);
+                    if ($crop) {
+                        $thumbOptions['crop'] = $crop;
+                    }
+
+                    $tn->createThumb($thumbOptions, $cache_path);
+
+                    if (!defined('MW_NO_OUTPUT_CACHE')) {
+                        define('MW_NO_OUTPUT_CACHE', true);
+                    }
+
+                    unset($tn);
                 }
             }
         }
 
 
-        if (isset($return_cache_path) and $return_cache_path) {
+        if ($return_cache_path) {
             return $cache_path;
         }
 
@@ -1197,6 +1182,46 @@ class MediaManager
         if (function_exists('imagewebp') and $_SERVER and isset($_SERVER['HTTP_ACCEPT']) and is_string($_SERVER['HTTP_ACCEPT']) and strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false) {
             return true;
         }
+    }
+
+    /**
+     * Turns a thumbnail path relative to the userfiles folder into an absolute path. Returns false
+     * unless it points to an image file inside the thumbnails cache folder: plain folder and file
+     * names only (no "..", hidden files, drive letters or streams), an svg extension for svg
+     * sources and a raster image extension for the rest.
+     */
+    private function _thumbnail_cache_path($cache_path_relative, $svg)
+    {
+        if (!is_string($cache_path_relative) or $cache_path_relative === '') {
+            return false;
+        }
+
+        $segments = preg_split('#[\\\\/]+#', trim($cache_path_relative, '\\/'));
+        $file_name = array_pop($segments);
+
+        foreach ($segments as $segment) {
+            if (!preg_match('/^[\pL\pN_-]+$/u', $segment)) {
+                return false;
+            }
+        }
+
+        if (!is_string($file_name) or !preg_match('/^[\pL\pN_-]+\.([A-Za-z0-9]+)$/u', $file_name, $matches)) {
+            return false;
+        }
+
+        $allowed_extensions = $svg ? ['svg'] : $this->thumbnail_raster_extensions;
+        if (!in_array(strtolower($matches[1]), $allowed_extensions, true)) {
+            return false;
+        }
+
+        $segments[] = $file_name;
+        $cache_path = normalize_path(userfiles_path() . implode(DS, $segments), false);
+
+        if (!str_starts_with($cache_path, $this->_thumbnails_path())) {
+            return false;
+        }
+
+        return $cache_path;
     }
 
     private function _thumbnails_path()

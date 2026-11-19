@@ -43,8 +43,7 @@ class Unsplash
     		$tn_params = array();
     		$tn_params['width'] = $tn_size;
     		$tn_params['src'] = $filenameUrl;
-    		$tn_params['return_cache_path'] = true;
-    		$urlThumbnailFile = mw()->media_manager->thumbnail_img($tn_params);
+    		$urlThumbnailFile = mw()->media_manager->thumbnail_img($tn_params, ['return_cache_path' => true]);
 
 			if(copy($urlThumbnailFile,$filename_tn)){
 				$urlThumbnail = dir2url($filename_tn);

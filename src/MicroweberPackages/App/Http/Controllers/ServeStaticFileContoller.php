@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 
 class ServeStaticFileContoller extends Controller
 {
-    public $skip_ext = ['php', 'phtml', 'php7'];
+    public $skip_ext = ['php', 'phtml', 'php3', 'php4', 'php5', 'php7', 'php8', 'phps', 'pht', 'phar', 'inc'];
     public $inline_disposition = ['pdf', 'docx', 'doc', 'xls'];
 
     /**
@@ -19,13 +19,48 @@ class ServeStaticFileContoller extends Controller
      */
     public function serveFromUserfiles(Request $request)
     {
-        $path = $request->path;
-
-
-        $path = normalize_path(userfiles_path() . $path, false);
+        // Use the bound route parameter only. $request->path prefers a "path" value from the query
+        // string or body over the route parameter, which allowed reading any file (CVE-2026-65694).
+        $path = $this->resolveUserfilesPath($request->route('path'));
 
         return $this->sendResponse($path, $request);
 
+    }
+
+    /**
+     * Resolves a path relative to the userfiles folder. Returns null unless it resolves to a file
+     * inside the userfiles folder and contains no hidden files/folders ("..", ".env", ".htaccess").
+     */
+    private function resolveUserfilesPath($relative_path)
+    {
+        if (!is_string($relative_path) or $relative_path === '') {
+            return null;
+        }
+
+        // Null bytes, and ':' for Windows drive letters and NTFS streams (file.php::$DATA)
+        if (str_contains($relative_path, "\0") or str_contains($relative_path, ':')) {
+            return null;
+        }
+
+        foreach (preg_split('#[\\\\/]+#', $relative_path) as $segment) {
+            if ($segment !== '' and $segment[0] === '.') {
+                return null;
+            }
+        }
+
+        $base = realpath(userfiles_path());
+        $path = realpath(userfiles_path() . $relative_path);
+
+        if ($base === false or $path === false) {
+            return null;
+        }
+
+        $base = rtrim($base, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        if (!str_starts_with($path, $base)) {
+            return null;
+        }
+
+        return $path;
     }
 
     private function sendResponse($path, $request)

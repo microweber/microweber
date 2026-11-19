@@ -28,7 +28,7 @@ function newsletter_get_senders() {
     return [];
 }
 
-api_expose('newsletter_delete_sender');
+api_expose_admin('newsletter_delete_sender');
 function newsletter_delete_sender($params) {
 	if (isset($params['id'])) {
 		$table = 'newsletter_sender_accounts';
@@ -37,7 +37,7 @@ function newsletter_delete_sender($params) {
 	}
 }
 
-api_expose('newsletter_test_sender');
+api_expose_admin('newsletter_test_sender');
 function newsletter_test_sender($newSender) {
 	if (isset($newSender['id'])) {
 		$id = $newSender['id'];
