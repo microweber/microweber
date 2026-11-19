@@ -3,6 +3,23 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [2.0.21] - 2026-11-19
+- Security release
+- Requires PHP 8.4 or newer (PHP 8.4 and 8.5 are supported)
+- Fixed unauthenticated calls to any loaded class through `/api/<Class>/<method>`, for example saving options without logging in
+- Fixed unauthenticated file read and path-controlled file write via `thumbnail_img` (#1172)
+- Fixed unauthenticated path traversal and file read in `/userfiles/{path}` (CVE-2026-65694, #1181), reported by Bobur Abdugafforov (Mahadsec)
+- Newsletter template, campaign, list and sender API functions are now admin-only (#1173)
+- Updated dependencies with security fixes: Laravel 10.50.4, Livewire 2.12.8, dompdf 3.1.6, PhpSpreadsheet 3.10.8, svg-sanitize 1.1.1, Composer 2.10.3, Symfony Console and Filesystem 6.4.50, HTMLPurifier 4.19.1, league/commonmark
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.20...2.0.21 "")
+
+
+## [2.0.20] - 2025-08-14
+- Maintenance release
+- Fixed xss issues
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.19...2.0.20 "")
+
+
 ## [2.0.19] - 2025-02-19
 - Maintenance release
 - Fixed multilanguage save issue  
