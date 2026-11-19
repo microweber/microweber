@@ -251,6 +251,27 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        // Booting the app in setUp() pushes Laravel's error handler on top of PHPUnit's, and
+        // nothing removes it. PHPUnit then pops the wrong handler after the test and leaves its
+        // own handler active outside the test, which throws on the next PHP warning. In a test
+        // run with @runInSeparateProcess that kills the child process silently ("Test was run
+        // in child process and ended unexpectedly"). Remove handlers down to PHPUnit's own.
+        while (true) {
+            $handler = set_error_handler(null);
+            restore_error_handler();
+
+            if ($handler === null or $handler instanceof \PHPUnit\Runner\ErrorHandler) {
+                break;
+            }
+
+            restore_error_handler();
+        }
+    }
+
     protected function xxxtearDown(): void
     {
         //echo 'pre reduce memory usage: '.sprintf('%.2fM', memory_get_usage(true)/1024/1024);

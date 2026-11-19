@@ -182,10 +182,14 @@ class ShopComponent extends Component
         $productPrices = [];
         foreach ($allProducts as $product) {
 
-            $productPrices[] = $product->price;
+            // Prices are stored as free text; only numeric ones can be used for the price range,
+            // otherwise floor() below throws a TypeError and the whole shop listing fails.
+            if (is_numeric($product->price)) {
+                $productPrices[] = (float)$product->price;
+            }
 
-            if ($product->hasSpecialPrice()) {
-                $productPrices[] = $product->special_price;
+            if ($product->hasSpecialPrice() and is_numeric($product->special_price)) {
+                $productPrices[] = (float)$product->special_price;
             }
 
             if (!empty($product->customField)) {
