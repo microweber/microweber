@@ -466,51 +466,52 @@ class ApiController  extends FrontendController
                 if (function_exists($api_function)) {
                     $res = $api_function($data);
                 } elseif (class_exists($api_function, false)) {
-
+                    exit('Not allowed to call class ' . $api_function);
                     //
-                    $segs = app()->url_manager->segment();
-                    $mmethod = array_pop($segs);
-
-                    $class = new $api_function($this->app);
-
-                    if (method_exists($class, $mmethod)) {
-                        $res = $class->$mmethod($data);
-                    }
+//                    $segs = app()->url_manager->segment();
+//                    $mmethod = array_pop($segs);
+//
+//                    $class = new $api_function($this->app);
+//
+//                    if (method_exists($class, $mmethod)) {
+//                        $res = $class->$mmethod($data);
+//                    }
                 } else {
                     $api_function_full_2 = str_replace(array('..', '/'), array('', '\\'), $api_function_full_2);
                     $api_function_full_2 = __NAMESPACE__ . '\\' . $api_function_full_2;
 
                     if (class_exists($api_function_full_2, false)) {
-
+                        exit('Not allowed to call class ' . $api_function);
                         //
 
-                        $segs = app()->url_manager->segment();
-                        $mmethod = array_pop($segs);
-
-                        $class = new $api_function_full_2($this->app);
-
-                        if (method_exists($class, $mmethod)) {
-                            $res = $class->$mmethod($data);
-                        }
+//                        $segs = app()->url_manager->segment();
+//                        $mmethod = array_pop($segs);
+//
+//                        $class = new $api_function_full_2($this->app);
+//
+//                        if (method_exists($class, $mmethod)) {
+//                            $res = $class->$mmethod($data);
+//                        }
                     } elseif (isset($api_function_full)) {
-                        $api_function_full = str_replace('\\', '/', $api_function_full);
-
-                        $api_function_full1 = explode('/', $api_function_full);
-                        $mmethod = array_pop($api_function_full1);
-                        $mclass = array_pop($api_function_full1);
-
-                        if (class_exists($mclass, false)) {
-
-                            if (is_array($this->app)) {
-                                $class = new $mclass($this->app);
-                            } else {
-                                $class = new $mclass();
-                            }
-
-                            if (method_exists($class, $mmethod)) {
-                                $res = $class->$mmethod($data);
-                            }
-                        }
+                        exit('Not allowed to call class ' . $api_function_full);
+//                        $api_function_full = str_replace('\\', '/', $api_function_full);
+//
+//                        $api_function_full1 = explode('/', $api_function_full);
+//                        $mmethod = array_pop($api_function_full1);
+//                        $mclass = array_pop($api_function_full1);
+//
+//                        if (class_exists($mclass, false)) {
+//
+//                            if (is_array($this->app)) {
+//                                $class = new $mclass($this->app);
+//                            } else {
+//                                $class = new $mclass();
+//                            }
+//
+//                            if (method_exists($class, $mmethod)) {
+//                                $res = $class->$mmethod($data);
+//                            }
+//                        }
                     }
                 }
             }
