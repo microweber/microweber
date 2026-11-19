@@ -14,6 +14,11 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: ${{ github.repository }}
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, intl, bcmath, json, zlib, openssl, iconv, sodium
 
 
       - name: Get composer cache directory

@@ -341,7 +341,7 @@ class SpreadsheetHelper
                 // Cached column alpha
                 $colAlpha = self::num2alpha($posCol);
                 // Set value
-                $sheetObj->setCellValueByColumnAndRow($posCol, self::$_offsetRow, $value);
+                $sheetObj->setCellValue([$posCol, self::$_offsetRow], $value);
                 // Setting the column's width
                 if ($width) {
 
@@ -393,7 +393,7 @@ class SpreadsheetHelper
                 // Skip option
                 $posCol += $skip;
             } else {
-                $sheetObj->setCellValueByColumnAndRow($posCol, self::$_offsetRow, $cell);
+                $sheetObj->setCellValue([$posCol, self::$_offsetRow], $cell);
 
                 $posCol++;
             }
@@ -506,7 +506,7 @@ class SpreadsheetHelper
         // Fetch data from the sheet
         $data = [];
         for ($col = $startColumn + 1; $col <= $columns; ++$col) {
-            $cell = $worksheet->getCellByColumnAndRow($col, self::$_offsetRow);
+            $cell = $worksheet->getCell([$col, self::$_offsetRow]);
             $value = $cell->getCalculatedValue();
             // Timestamp option
             if ($options['timestamp'] && \PhpOffice\PhpSpreadsheet\Shared\Date::isDateTime($cell)) {

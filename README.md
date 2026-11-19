@@ -64,7 +64,7 @@ To run Microweber, you need the following components:
 
 - HTTP server
 - Database server
-- PHP >= 8.2
+- PHP >= 8.4
     - `lib-xml` with DOM support
     - `GD` PHP extension
     - `intl` PHP extension
@@ -84,7 +84,7 @@ To run Microweber, you need the following components:
 ### PHP installation command
 
 ```bash
-sudo apt install php8.2-{bcmath,bz2,curl,curl,dom,fileinfo,gd,intl,mbstring,mysql,opcache,sqlite3,xmlrpc,zip}
+sudo apt install php8.4-{bcmath,bz2,curl,curl,dom,fileinfo,gd,intl,mbstring,mysql,opcache,sqlite3,xmlrpc,zip}
 ```
 
 

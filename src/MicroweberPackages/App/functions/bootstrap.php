@@ -1,7 +1,7 @@
 <?php
 
-if (version_compare(phpversion(), '7.3.0', '<=')) {
-    exit('Error: You must have PHP version 7.3.0 or greater to run Microweber');
+if (version_compare(PHP_VERSION, '8.4.0', '<')) {
+    exit('Error: You must have PHP version 8.4 or greater to run Microweber');
 }
 if (!defined('T')) {
     $mtime = microtime();

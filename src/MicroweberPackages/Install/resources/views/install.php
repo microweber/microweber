@@ -368,9 +368,9 @@
                             $check_pass = true;
 
                             $server_check_errors = array();
-                            if (version_compare(phpversion(), '5.4.0', '<=')) {
+                            if (version_compare(PHP_VERSION, '8.4.0', '<')) {
                                 $check_pass = false;
-                                $server_check_errors['php_version'] = _e('You must run PHP 5.4 or greater', true);
+                                $server_check_errors['php_version'] = _e('You must run PHP 8.4 or greater', true);
                             }
 
                             if (function_exists('apache_get_modules')) {
