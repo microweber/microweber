@@ -596,15 +596,38 @@ class AiController extends Controller
                     $startedEmpty = mb_strlen(trim($this->summarizeCanvas($canvasHtml))) < 40;
                     for ($attempt = 0; $attempt < 3; $attempt++) {
                         $builtBefore = $this->countEmittedTool($emitter, 'add_section');
+                        // A complete landing page is about seven sections (hero →
+                        // tagline → benefits → how-it-works → proof → FAQ → final CTA).
+                        // Once that many exist the build is DONE — never nudge past it.
+                        // Nudging a finished page makes the model start over from the
+                        // hero and DUPLICATE the whole page (the "18 steps / two of
+                        // every section" bug). The rescue below is only for genuinely
+                        // short builds that stopped early.
+                        $fullPageReached = $builtBefore >= 7;
                         $buildExpected = $builtBefore > 0 || $startedEmpty;
-                        $saysMoreOrDone = preg_match(
-                            '/\b(now|next|let me|i\'?ll|i will|building|start(?:ing)? with|remaining|continue|then (?:i|the|add)|moving on|all (?:seven|\d+|the) sections|page is (?:built|complete|ready|now)|sections are (?:now )?(?:in place|complete|done))\b/i',
+                        // CONTINUATION — the reply narrates MORE work still to do, which
+                        // ends NeuronAI's tool loop mid-build. A plain completion summary
+                        // ("the page is built") is NOT continuation and must not, by
+                        // itself, trigger a nudge (that was the duplication trigger).
+                        $saysMore = preg_match(
+                            '/\b(now|next|let me|i\'?ll|i will|building|start(?:ing)? with|remaining|continue|then (?:i|the|add)|moving on)\b/i',
+                            $responseContent
+                        ) === 1;
+                        // A FALSE completion claim ("all seven sections are in place")
+                        // only matters while the real section count is still short — it
+                        // is paired with $tooFewForBuild below, never acted on alone.
+                        $falseDone = preg_match(
+                            '/\b(all (?:seven|\d+|the) sections|page is (?:built|complete|ready)|sections are (?:now )?(?:in place|complete|done))\b/i',
                             $responseContent
                         ) === 1;
                         // An empty-started build that produced too few sections is
                         // unfinished even if the model went silent.
                         $tooFewForBuild = $startedEmpty && $builtBefore < 5;
-                        if (!$buildExpected || (!$saysMoreOrDone && !$tooFewForBuild)) {
+                        // Nudge ONLY a short, unfinished build: never once a full page
+                        // exists, and only when the reply narrates more work, falsely
+                        // claims done while short, or the empty-start build is too thin.
+                        if ($fullPageReached || !$buildExpected
+                            || (!$saysMore && !($falseDone && $builtBefore < 7) && !$tooFewForBuild)) {
                             break;
                         }
                         $emitter->emit('continue', ['attempt' => $attempt + 1, 'built' => $builtBefore]);
