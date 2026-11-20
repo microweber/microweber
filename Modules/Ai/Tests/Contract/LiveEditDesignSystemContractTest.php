@@ -118,6 +118,18 @@ final class LiveEditDesignSystemContractTest extends TestCase
                 'SECTION LAYOUT',
                 'Every section must center its content in a max-width container and use 1fr grids so cards fill the width.',
             ],
+            'placeholder visuals are mock ui' => [
+                'PLACEHOLDER VISUALS ARE SUGGESTIVE MOCK UI',
+                'A visual placeholder must be a skeleton mock UI (chrome, rows, charts), never an empty coloured box.',
+            ],
+            'strong type hierarchy' => [
+                'COMMIT TO A STRONG TYPOGRAPHIC HIERARCHY',
+                'The hero headline must use a large responsive display size and step down clearly to section/body sizes.',
+            ],
+            'vary section rhythm' => [
+                'VARY THE SECTION RHYTHM',
+                'Feature/benefit sections must alternate two-column media+copy rows instead of stacking identical centered blocks.',
+            ],
             'avatars never empty' => [
                 'AVATARS ARE NEVER EMPTY CIRCLES',
                 'Testimonial/team avatars must show initials or a portrait, never a blank disc.',
