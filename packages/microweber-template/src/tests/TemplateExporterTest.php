@@ -90,6 +90,15 @@ class TemplateExporterTest extends TestCase
         $module = json_decode((string) file_get_contents($root . '/module.json'), true);
         $this->assertSame([], $module['providers'], 'A PHP-less template registers no providers.');
 
+        // Icon sets are carried into config.json so a PHP-less template keeps its
+        // icons (read back via TemplateIconFonts::getEnabledIconSets -> get_config
+        // -> config.json) instead of silently dropping to DEFAULT_ENABLED.
+        $this->assertArrayHasKey('icon_sets', $config,
+            'The exported config.json must declare icon_sets for the PHP-less template.');
+        $this->assertIsArray($config['icon_sets']);
+        $this->assertNotEmpty($config['icon_sets']);
+        $this->assertContainsOnly('string', $config['icon_sets']);
+
         // The Live-Edit design is frozen into css/base.css.
         $baseCss = (string) file_get_contents($root . '/resources/assets/css/base.css');
         $this->assertStringContainsString('letter-spacing:-.02em', $baseCss);

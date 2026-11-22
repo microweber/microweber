@@ -161,14 +161,26 @@ class TemplateExporter
 
         // 3. JSON-only manifests (no PHP).
         $alias = strtolower($this->name);
-        $this->write($root . '/config.json', $this->json([
+        $configJson = [
             'name' => $this->name,
             'parent_template' => $parent,
             'version' => '1.0.0',
             'author' => $this->author ?: 'Microweber',
             'created_at' => $today,
             'exported_from' => $source,
-        ]));
+        ];
+        // Carry the icon sets forward. A PHP-less exported template reads its
+        // `icon_sets` from config.json (see TemplateIconFonts::getEnabledIconSets
+        // → get_config, which falls back to config.json). Without this key the
+        // export would silently drop to DEFAULT_ENABLED and lose any custom set
+        // the source template declared. Resolve from the source template's own
+        // config first, then the adapter's resolved keys, so the output declares
+        // a concrete list and renders identical icons.
+        $iconSets = $this->resolveIconSets($source);
+        if ($iconSets !== []) {
+            $configJson['icon_sets'] = $iconSets;
+        }
+        $this->write($root . '/config.json', $this->json($configJson));
         $this->write($root . '/module.json', $this->json([
             'name' => $this->name,
             'alias' => $alias,
@@ -263,6 +275,38 @@ class TemplateExporter
         } catch (\Throwable) {
             return [];
         }
+    }
+
+    /**
+     * Resolve the icon sets to declare in the exported template's config.json,
+     * so a PHP-less child keeps the source template's icons rather than falling
+     * back to the hardcoded defaults. Prefer the source template's own
+     * `icon_sets` config value; otherwise use the adapter's currently-resolved
+     * set keys. Returns a plain list of set keys / inline defs, or [] to omit.
+     *
+     * @return array<int, string|array<string, mixed>>
+     */
+    private function resolveIconSets(string $source): array
+    {
+        try {
+            if (function_exists('app') && app()->bound('template_manager')) {
+                $config = app()->template_manager->get_config($source);
+                if (is_array($config) && !empty($config['icon_sets']) && is_array($config['icon_sets'])) {
+                    return array_values($config['icon_sets']);
+                }
+                $adapter = app()->template_manager->iconFontsAdapter ?? null;
+                if ($adapter && method_exists($adapter, 'getIconSetKeys')) {
+                    $keys = $adapter->getIconSetKeys();
+                    if (is_array($keys) && $keys !== []) {
+                        return array_values($keys);
+                    }
+                }
+            }
+        } catch (\Throwable) {
+            // Omit the key on any failure; the template still renders default icons.
+        }
+
+        return [];
     }
 
     private function copyScreenshot(string $source, string $root): void
