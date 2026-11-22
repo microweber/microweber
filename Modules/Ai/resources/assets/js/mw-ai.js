@@ -547,6 +547,22 @@ function MwAi() {
         // Sanitise AI-authored section HTML before it touches the canvas: no
         // scripts, styles, iframes, Microweber <module> tags, or inline event
         // handlers / javascript: URLs. Returns a safe HTML string.
+        // True (returns the offending scheme name) when a URL would execute as a
+        // script or carry markup on the published page. Normalises the way a
+        // browser does before dispatching a scheme — strips ALL leading/embedded
+        // control + whitespace chars (so java&#9;script: can't slip past a
+        // leading-only test) and lowercases — then blocks javascript:/vbscript:
+        // and data: (except an inline data:image/* on a src, which is legit).
+        isUnsafeUrl(val, isSrc) {
+            const s = String(val || '').replace(/[\u0000- ]+/g, '').toLowerCase();
+            if (/^(javascript|vbscript):/.test(s)) { return s.slice(0, s.indexOf(':')); }
+            if (/^data:/.test(s)) {
+                if (isSrc && /^data:image\//.test(s)) { return ''; }
+                return 'data';
+            }
+            return '';
+        },
+
         sanitizeSectionHtml(html) {
             const doc = this.canvasDocument();
             const tmp = doc.createElement('div');
@@ -557,7 +573,7 @@ function MwAi() {
                     const name = attr.name.toLowerCase();
                     const val = String(attr.value || '');
                     if (name.indexOf('on') === 0) { el.removeAttribute(attr.name); return; }
-                    if ((name === 'href' || name === 'src') && /^\s*javascript:/i.test(val)) {
+                    if ((name === 'href' || name === 'src') && this.isUnsafeUrl(val, name === 'src')) {
                         el.removeAttribute(attr.name);
                     }
                 });
@@ -1327,13 +1343,22 @@ function MwAi() {
                 if (el.tagName !== 'A') {
                     return { ok: false, message: 'no anchor at ' + selector + ' (set_link needs an <a>)' };
                 }
-                if (url.trim()) {
-                    el.setAttribute('href', url.trim());
+                const href = url.trim();
+                if (href) {
+                    // A javascript:/vbscript:/data: href persists on Save and runs
+                    // as a script when a visitor clicks the published link (stored
+                    // XSS). Refuse it — the model can be steered here by page text
+                    // it reads, so this is the authoritative guard, not advice.
+                    const bad = api.isUnsafeUrl(href, false);
+                    if (bad) {
+                        return { ok: false, message: 'Refused to set an unsafe "' + bad + ':" link — it would run as a script on the published page. Use an http(s):, mailto:, tel: or relative (/path) URL.' };
+                    }
+                    el.setAttribute('href', href);
                 } else {
                     el.removeAttribute('href');
                 }
                 try { mw.top().app.registerChangedState(el); } catch (e) {}
-                return { ok: true, message: url.trim() ? ('linked ' + selector) : ('unlinked ' + selector) };
+                return { ok: true, message: href ? ('linked ' + selector) : ('unlinked ' + selector) };
             },
 
             // Set / change / recolour an element's Font Awesome icon. Swaps the
