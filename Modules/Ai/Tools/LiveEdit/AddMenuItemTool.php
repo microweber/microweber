@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Ai\Tools\LiveEdit;
 
 use MicroweberPackages\AiTools\Base\BaseTool;
+use Modules\Ai\Tools\LiveEdit\Concerns\GuardsUrlScheme;
 use Modules\Menu\Models\Menu;
 use NeuronAI\Tools\PropertyType;
 use NeuronAI\Tools\ToolProperty;
@@ -19,6 +20,8 @@ use NeuronAI\Tools\ToolProperty;
  */
 class AddMenuItemTool extends BaseTool
 {
+    use GuardsUrlScheme;
+
     protected string $domain = 'liveedit';
 
     public function __construct(protected array $dependencies = [])
@@ -97,6 +100,12 @@ class AddMenuItemTool extends BaseTool
 
         if ($title === '' && $contentId <= 0 && $url === '') {
             return $this->handleError('Provide a title and a content_id or url.');
+        }
+
+        // A javascript:/vbscript:/data: href persists to the menu DB and runs as a
+        // script when a visitor clicks the published link (stored XSS). Refuse it.
+        if ($url !== '' && ($badScheme = $this->unsafeUrlScheme($url)) !== '') {
+            return $this->handleError("Refused an unsafe \"{$badScheme}:\" menu link — it would run as a script on the published page. Use an http(s):, mailto:, tel: or relative (/path) URL, or link to a page with content_id.");
         }
 
         $parentId = (int) ($args['parent_id'] ?? 0);
