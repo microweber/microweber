@@ -9,6 +9,7 @@ description: Skin 14
 @endphp
 
 @if(isset($data))
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
     <div class="new-skin-shop">
         <div class="shop-inner-gallery row">
             <div class="shop-inner-big-image position-relative ps-lg-0">

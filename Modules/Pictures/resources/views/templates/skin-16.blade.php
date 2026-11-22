@@ -46,6 +46,7 @@ description: Skin-16 for Logos
 </style>
 
 @if(isset($data))
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
     <div class="row text-center text-sm-start col-xl-10 mx-auto d-flex justify-content-center justify-content-lg-center pictures-16"
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)

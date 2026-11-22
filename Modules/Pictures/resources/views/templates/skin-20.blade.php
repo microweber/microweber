@@ -125,6 +125,7 @@ description: Pictures Skin 20 - Masonry
 </style>
 
 @if(isset($data))
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
     <div class="grid" id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp

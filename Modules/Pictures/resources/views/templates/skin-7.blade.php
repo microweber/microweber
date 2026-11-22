@@ -51,6 +51,7 @@ description: Pictures Skin 7 - Justify
 </script>
 
 @if(isset($data))
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
     <div class="module-posts-template-justified module-posts-template-justifiedfull"
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)

@@ -5,6 +5,7 @@ description: Skin-1
 --}}
 
 @if(isset($data))
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
     @php
         $rand = isset($id) && $id ? substr(md5((string)$id), 0, 13) : uniqid();
         $click_image_event = 'fullscreen';

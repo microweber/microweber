@@ -9,6 +9,7 @@ description: Skin 6
 @endphp
 
 @if(isset($data))
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
     <div class="shop-inner-gallery">
         @if(sizeof($data) > 1)
             <div class="shop-inner-gallery-thumbnails">

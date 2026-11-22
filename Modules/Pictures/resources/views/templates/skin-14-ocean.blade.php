@@ -22,6 +22,7 @@ description: Skin 14 - ocean
 @endphp
 
 @if(isset($data))
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
     <div class="new-skin-shop">
         <div class="shop-inner-gallery ocean-14 row">
             <div class="shop-inner-big-image position-relative ps-lg-0">

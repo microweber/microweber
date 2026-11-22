@@ -40,6 +40,7 @@ description: Skin for sliding Logos
 </style>
 
 @if(isset($data))
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
     @php $size = sizeof($data); @endphp
 
     <div class="lg-carousel" id="{{ $gallery_id }}" role="region">

@@ -12,6 +12,7 @@ description: Skin-3 beauty
 @endif
 
 @if(isset($data))
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/skin-3-beauty.css') }}");</script>
     @php
         $rand = isset($id) && $id ? substr(md5((string)$id), 0, 13) : uniqid();
         // ONCE outside any @foreach loop. Pre-fix the same

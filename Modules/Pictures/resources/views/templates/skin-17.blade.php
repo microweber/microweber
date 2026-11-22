@@ -76,6 +76,7 @@ description: Skin-17
 </style>
 
 @if(isset($data))
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
     <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center"
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
