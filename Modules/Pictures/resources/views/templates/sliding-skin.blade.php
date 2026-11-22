@@ -5,7 +5,7 @@ description: Skin for sliding Logos
 --}}
 
 @php
-    $rand = uniqid();
+    $rand = isset($id) && $id ? substr(md5((string)$id), 0, 13) : uniqid();
     $defaultImageWidth = '100'; // Default width in pixels
     $imageWidth = get_option('imageWidth', $params['id'] ?? null);
     if ($imageWidth == false) {

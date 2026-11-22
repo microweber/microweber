@@ -13,7 +13,7 @@ description: Skin-12
 
 @if(isset($data))
     @php
-        $rand = uniqid();
+        $rand = isset($id) && $id ? substr(md5((string)$id), 0, 13) : uniqid();
         // ONCE outside any @foreach loop. Pre-fix the same
         // base64+json_encode ran N times for an N-image gallery
         // because the encode call lived inside data-mw-gallery=

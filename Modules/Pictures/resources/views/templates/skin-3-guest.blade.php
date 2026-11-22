@@ -129,7 +129,7 @@ description: Skin-3-guest
 
 @if(isset($data))
     @php
-        $rand = uniqid();
+        $rand = isset($id) && $id ? substr(md5((string)$id), 0, 13) : uniqid();
         $nodeId = 'gallery' . $rand;
     @endphp
 

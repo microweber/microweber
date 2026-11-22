@@ -5,7 +5,7 @@ description: Skin-19
 --}}
 
 @php
-    $rand = uniqid();
+    $rand = isset($id) && $id ? substr(md5((string)$id), 0, 13) : uniqid();
 @endphp
 
 <script>

@@ -67,7 +67,7 @@ description: Skin-13
 
 @if(isset($data))
     @php
-        $rand = uniqid();
+        $rand = isset($id) && $id ? substr(md5((string)$id), 0, 13) : uniqid();
     @endphp
 
     <div class="slick-gallery-2-holder">

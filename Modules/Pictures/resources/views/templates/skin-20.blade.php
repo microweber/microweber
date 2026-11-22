@@ -5,7 +5,7 @@ description: Pictures Skin 20 - Masonry
 --}}
 
 @php
-    $rand = uniqid();
+    $rand = isset($id) && $id ? substr(md5((string)$id), 0, 13) : uniqid();
 @endphp
 
 <script>

@@ -41,7 +41,7 @@ description: Skin-4
 
 @if(isset($data))
     @php
-        $rand = uniqid();
+        $rand = isset($id) && $id ? substr(md5((string)$id), 0, 13) : uniqid();
         $click_image_event = 'fullscreen';
         $get_click_image_event = get_option('click_image_event', $params['id'] ?? null);
         if ($get_click_image_event != false) {

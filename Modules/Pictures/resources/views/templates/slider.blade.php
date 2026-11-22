@@ -6,7 +6,7 @@ description: Pictures slider
 
 @if(isset($data))
     @php
-        $id = "slider-" . uniqid();
+        $id = "slider-" . (isset($id) && $id ? substr(md5((string)$id), 0, 13) : uniqid());
     @endphp
 
     <div class="well mw-module-images slider">
