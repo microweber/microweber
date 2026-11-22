@@ -88,7 +88,19 @@ html.dark .mw-ai-chat-sidebar-modes-item:hover{ background:#ffffff12; }
 .mw-ai-chat-sidebar-close:hover{ background:#18243310; }
 html.dark .mw-ai-chat-sidebar-close:hover{ background:#ffffff14; }
 .mw-ai-chat-sidebar-body{ flex:1 1 auto; min-height:0; padding:12px 14px; display:flex; }
-.mw-ai-chat-sidebar-body > .mw-ai-conv{ flex:1 1 auto; }
+.mw-ai-chat-sidebar-body > .mw-ai-conv{ flex:1 1 auto; min-width:0; }
+/* Keep the conversation (header, thread, messages) INSIDE the docked sidebar
+   width. Flex items default to min-width:auto, so a wide/unbreakable piece of
+   message content (a long token, a pasted design, a get_dom/code dump) forces
+   the whole column to its min-content width and spills off the right edge of
+   the screen. Let the flex chain shrink and wrap/scroll its content instead. */
+.mw-ai-chat-sidebar .mw-ai-conv,
+.mw-ai-chat-sidebar .mw-ai-conv-head,
+.mw-ai-chat-sidebar .mw-ai-conv-thread,
+.mw-ai-chat-sidebar .mw-ai-conv-msg{ min-width:0; max-width:100%; }
+.mw-ai-chat-sidebar .mw-ai-conv-msg{ overflow-wrap:anywhere; word-break:break-word; }
+.mw-ai-chat-sidebar .mw-ai-conv-msg pre,
+.mw-ai-chat-sidebar .mw-ai-conv-msg code{ max-width:100%; overflow-x:auto; white-space:pre-wrap; word-break:break-word; }
 
 /* Backdrop: NO dimming/blocking on desktop — the sidebar docks beside a
    resized canvas, so the site stays fully visible, scrollable and editable in
