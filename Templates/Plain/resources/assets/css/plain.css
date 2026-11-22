@@ -361,3 +361,13 @@ a:not([class]) { color: #0d6efd; text-decoration: underline; }
    logo at a header-appropriate size instead of its natural pixel size). */
 .mw-big-header-logo { max-height: 44px; width: auto; }
 
+/* ---- storefront hero banner -------------------------------------------------
+   The hero sits on a dark banner, so its heading and copy must stay white.
+   A global `h1 { color: var(--mw-heading-color) !important }` can live in the
+   site's live_edit.css layer; the compound selector here outranks it on
+   specificity so the hero text is always readable on the dark background. */
+.mw-store-hero h1,
+.mw-store-hero .lead,
+.mw-store-hero p { color: #ffffff !important; }
+.mw-store-hero .badge { color: #111827 !important; }
+

@@ -5,10 +5,14 @@ namespace Modules\Currency\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use MicroweberPackages\FilamentRegistry\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use MicroweberPackages\ModuleRegistry\Facades\ModuleRegistry;
 use Modules\Currency\Filament\Admin\Resources\CurrencyResource;
 use Modules\Currency\Filament\Admin\Resources\ExchangeRateResource;
+use Modules\Currency\Livewire\CurrencySwitcher;
+use Modules\Currency\Microweber\CurrencyModule;
 use Modules\Currency\Services\CurrencyManager;
 use Modules\Currency\Services\CurrencyConversionService;
 use Modules\Currency\Http\Middleware\CurrencyMiddleware;
@@ -27,6 +31,15 @@ class CurrencyServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->registerMiddleware();
         $this->registerBladeDirectives();
+
+        // Register the currency switcher as a Livewire component so the
+        // `<module type="currency">` frontend template (and <livewire:currency-switcher />)
+        // can render it on storefront pages.
+        Livewire::component('currency-switcher', CurrencySwitcher::class);
+
+        // Register as a Microweber module so `<module type="currency">` renders
+        // the switcher on storefront pages and in the Live-Edit add-module picker.
+        ModuleRegistry::module(CurrencyModule::class);
     }
 
     /**
@@ -62,10 +75,16 @@ class CurrencyServiceProvider extends BaseModuleServiceProvider
      */
     public function registerViews(): void
     {
-        $this->loadViewsFrom(
-            module_path($this->moduleName, 'resources/views'),
-            $this->moduleNameLower
-        );
+        $viewPath = module_path($this->moduleName, 'resources/views');
+
+        // Legacy namespace kept for existing `currency::` references
+        // (e.g. the CurrencySwitcher component view).
+        $this->loadViewsFrom($viewPath, $this->moduleNameLower);
+
+        // Canonical `modules.currency::` namespace so the Microweber module
+        // loader can resolve the frontend template for `<module type="currency">`
+        // (every other module registers under this prefix).
+        $this->loadViewsFrom($viewPath, 'modules.' . $this->moduleNameLower);
     }
 
     /**
