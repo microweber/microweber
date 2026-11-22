@@ -21,15 +21,12 @@
 
 {{--        <link rel="stylesheet" href="{{ asset('templates/big/dist/build/app-rtl.css') }}">--}}
 {{--    @endif--}}
-    <script>
-
-        mw.iconLoader()
-            .addIconSet('iconsMindLine')
-            .addIconSet('iconsMindSolid')
-            .addIconSet('fontAwesome')
-            .addIconSet('materialDesignIcons');
-
-    </script>
+    {{-- Icon fonts load as a single cached CSS <link> emitted by meta_tags_head()
+         (IconFontsHeadTag, enabled via the `frontend` meta package), driven by the
+         `icon_sets` key in this template's config/config.php. The old
+         mw.iconLoader().addIconSet(...) block was removed: it fetched each set over
+         an uncached AJAX request on every page. The picker (admin / Live Edit) still
+         uses mw.iconLoader() to load its icon-name lists. --}}
 
     <?php // print get_template_stylesheet(); ?>
 

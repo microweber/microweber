@@ -32,6 +32,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'core_css',
                 'core',
                 'motion_libs',
+                'mw_icon_fonts_css',
                 'livewire',
                 'custom_user_css',
                 'custom_user_meta_tags',
