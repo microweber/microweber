@@ -99,9 +99,13 @@ class Pictures8cf71eAI814ScriptBlockHardeningContractTest extends TestCase
             "AI-814 Fix A: {$relativePath} MUST precompute \$mwGalleryGalleryJson via base64_encode(json_encode(array_map(...))) outside the @foreach loop."
         );
 
-        // The precompute MUST live in a @php ... @endphp block.
+        // The precompute MUST live in the same top @php block as the $rand
+        // seed. The $rand assignment form is incidental to this contract — it
+        // is a deterministic hash of the module id (substr(md5((string)$id),…)
+        // with a uniqid() fallback), not a bare uniqid(), so the anchor matches
+        // any `$rand = <expr>;` assignment rather than pinning the RHS.
         $this->assertMatchesRegularExpression(
-            '/@php\s+\$rand\s*=\s*uniqid\(\)\s*;[\s\S]+?\$mwGalleryGalleryJson\s*=[\s\S]+?@endphp/',
+            '/@php\s+\$rand\s*=\s*[^;]+;[\s\S]+?\$mwGalleryGalleryJson\s*=[\s\S]+?@endphp/',
             $exec,
             "AI-814 Fix A: {$relativePath} \$mwGalleryGalleryJson precompute MUST live in the same top @php block as \$rand (computes once per render)."
         );
