@@ -149,12 +149,27 @@ Route::group(
         }
 
         if (view()->exists('frontend.errors.404')) {
-            return response()
-                ->view('frontend.errors.404', [
-                    'extendsView' => $extendsView,
-                    'requestedUrl' => '/' . ltrim((string) $url, '/'),
-                ], 404)
+            // The master layout this view extends emits <module> tags (header
+            // menu, footer). response()->view() returns the raw Blade output,
+            // so without the module parser those tags leak into the 404 page
+            // as literal <module …/> markup. Render to a string, make sure the
+            // template constants the modules need are defined (this route is a
+            // Route::fallback — it can run before FrontendController defined
+            // them), then run the parser exactly as the normal page render does
+            // ($this->app->parser->process($l)).
+            $mw404Html = view('frontend.errors.404', [
+                'extendsView' => $extendsView,
+                'requestedUrl' => '/' . ltrim((string) $url, '/'),
+            ])->render();
+
+            if (!defined('ACTIVE_TEMPLATE_DIR')) {
+                app()->content_manager->define_constants();
+            }
+            $mw404Html = app()->parser->process($mw404Html);
+
+            return response($mw404Html, 404)
                 ->withHeaders([
+                    'Content-Type' => 'text/html; charset=UTF-8',
                     'X-Robots-Tag' => 'noindex, nofollow',
                     'X-Fallback-Message' => 'frontend-404',
                     'X-Powered-By' => 'Microweber',

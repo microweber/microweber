@@ -1027,6 +1027,15 @@ class FrontendController extends Controller
                             'extendsView' => $mwFallbackExtendsView,
                             'requestedUrl' => '/' . ltrim((string) request()->path(), '/'),
                         ])->render();
+                        // The master layout this view extends emits <module> tags
+                        // (header menu, footer). ->render() returns raw Blade
+                        // output, so without the module parser those tags leak
+                        // into the 404 page as literal <module …/> markup. Run the
+                        // parser exactly as the normal page render does further
+                        // below ($this->app->parser->process($l)); the template
+                        // constants the modules need are already defined by this
+                        // point in index().
+                        $mwFallbackRendered = $this->app->parser->process($mwFallbackRendered);
                         return response($mwFallbackRendered, 404)->withHeaders([
                             'Content-Type' => 'text/html; charset=UTF-8',
                             'X-Robots-Tag' => 'noindex, nofollow',
