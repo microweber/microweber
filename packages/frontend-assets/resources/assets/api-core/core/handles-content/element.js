@@ -306,6 +306,34 @@ export class ElementHandleContent {
             },
 
             {
+                // Links no longer navigate on a canvas click (so the user can edit
+                // them without leaving the editor) — this button is the one place a
+                // real click DOES open the link, in a new tab, so the user can still
+                // follow it while editing. Shown only when the element is a link.
+                title: 'Open link',
+                text: '',
+                icon: '<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/></svg>',
+
+                className: 'mw-handle-element-open-link-button',
+
+                action: (el) => {
+                    var a = (el && el.closest) ? el.closest('a[href]') : null;
+                    if (!a && el && el.tagName === 'A') { a = el; }
+                    if (!a && el && el.querySelector) { a = el.querySelector('a[href]'); }
+                    var href = a ? a.getAttribute('href') : '';
+                    if (href) {
+                        try { (window.top || window).open(href, '_blank', 'noopener,noreferrer'); }
+                        catch (e) { window.open(href, '_blank'); }
+                    }
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowLinkButton(target);
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
+
+            },
+
+            {
                 title: 'Unlink',
                 text: '',
                 icon: this.handleIcons.icon('unlink'),

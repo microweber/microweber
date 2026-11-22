@@ -289,6 +289,20 @@ export class ElementActions extends MicroweberBaseClass {
                 newUrl = data.url;
             }
 
+            // On Save this data-href becomes a live href, so a javascript:/
+            // vbscript:/data: link would run as a script when a visitor clicks the
+            // published link (stored XSS). Normalise leading/embedded whitespace
+            // the way a browser does, then block those schemes.
+            var _schemeProbe = String(newUrl).replace(/[\u0000- ]+/g, '').toLowerCase();
+            if (/^(javascript|vbscript|data):/.test(_schemeProbe)) {
+                try {
+                    mw.notification && mw.notification.error
+                        ? mw.notification.error(mw.lang('That link uses an unsafe scheme and was blocked. Use an http(s):, mailto:, tel: or page link.'))
+                        : (mw.notification && mw.notification.warning && mw.notification.warning(mw.lang('Unsafe link blocked.')));
+                } catch (e) { /* non-fatal */ }
+                return;
+            }
+
             console.log("", el);
 
             const target = el;
@@ -303,9 +317,12 @@ export class ElementActions extends MicroweberBaseClass {
 
 
 
-            el.removeAttribute('href');
-
-            el.setAttribute('data-href', newUrl);
+            // Set a real href (not the legacy data-href). Navigation inside the
+            // canvas is prevented by the editor's link click handler, so the link
+            // can carry its true href and no longer depends on a save-time
+            // data-href -> href swap to work on the published page.
+            el.removeAttribute('data-href');
+            el.setAttribute('href', newUrl);
             if (data.openInNewWindow) {
                 el.setAttribute('target', '_blank');
                 // OWASP A04 / OOYES_AUDITS A04: target=_blank without

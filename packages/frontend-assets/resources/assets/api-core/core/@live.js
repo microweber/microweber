@@ -1139,11 +1139,9 @@ export class LiveEdit {
                     }
                 } else {
                     title = this.lang("Text");
-                    const hasLink = target.closest("a[href]");
-                    if (hasLink) {
-                        hasLink.dataset.href = hasLink.href;
-                        hasLink.removeAttribute("href");
-                    }
+                    // Links keep their real href now (no href -> data-href swap on
+                    // select). The canvas click handler below prevents navigation
+                    // while editing, so a selected link stays a true <a href>.
                 }
 
                 this.interactionHandle.menu.setTitle(title);
@@ -1159,6 +1157,19 @@ export class LiveEdit {
             if (e && e.detail > 1) {
                 e.preventDefault();
             }
+            // Keep links non-navigable while editing. Links now carry their real
+            // href (the old code moved href -> data-href on select to stop
+            // navigation); instead we prevent the default navigation here so a
+            // single click in the canvas never leaves the editor. Preview mode
+            // keeps links live.
+            try {
+                if (!mw.app.isPreview()) {
+                    var _linkEl = e && e.target && e.target.closest ? e.target.closest("a[href]") : null;
+                    if (_linkEl) {
+                        e.preventDefault();
+                    }
+                }
+            } catch (err) { /* non-fatal */ }
         });
         ElementManager(this.root).on("dblclick", (e) => {
             if (mw.app.isPreview()) {
