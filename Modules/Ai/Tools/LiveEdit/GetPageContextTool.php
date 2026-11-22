@@ -67,10 +67,33 @@ class GetPageContextTool extends BaseTool
             }
 
             $ctx['active_template'] = function_exists('template_name') ? template_name() : null;
+            // Must be large enough to hold a real built-page design CSS, or replace_css
+            // (which needs the EXACT snippet copied verbatim) can't see a rule past the
+            // cutoff and keeps missing — the same failure replace_js hit with a small cap.
             try {
-                $ctx['current_custom_css'] = mb_substr(trim((string) template_user_custom_css()->getContent()), 0, 2000);
+                $customCss = trim((string) template_user_custom_css()->getContent());
+                $ctx['current_custom_css'] = mb_substr($customCss, 0, 20000);
+                if (mb_strlen($customCss) > 20000) {
+                    $ctx['current_custom_css_truncated'] = true;
+                }
             } catch (\Throwable $e) {
                 $ctx['current_custom_css'] = '';
+            }
+            // The site custom-JS layer (apply_js / replace_js target). Exposed so the
+            // agent can read the EXACT snippet to find/replace with replace_js — so it
+            // must be large enough to hold a real accumulated JS file, or a snippet
+            // past the cutoff can't be copied verbatim and replace_js keeps missing.
+            try {
+                $customJs = trim((string) \MicroweberPackages\TemplateCustomCss\Facades\TemplateCustomCss::liveEdit()
+                    ->getLiveEditJsContent($ctx['active_template'] ?? null));
+                $ctx['current_custom_js'] = mb_substr($customJs, 0, 20000);
+                if (mb_strlen($customJs) > 20000) {
+                    // Signal truncation so the model edits the TAIL (most recent
+                    // apply_js blocks) rather than copying a snippet it cannot see.
+                    $ctx['current_custom_js_truncated'] = true;
+                }
+            } catch (\Throwable $e) {
+                $ctx['current_custom_js'] = '';
             }
 
             return json_encode($ctx, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);

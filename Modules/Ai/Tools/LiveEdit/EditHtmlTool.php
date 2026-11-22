@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Ai\Tools\LiveEdit;
 
 use MicroweberPackages\AiTools\Base\BaseTool;
+use Modules\Ai\Tools\LiveEdit\Concerns\RoutesInlineJsToSiteJs;
 use NeuronAI\Tools\PropertyType;
 use NeuronAI\Tools\ToolProperty;
 
@@ -20,6 +21,8 @@ use NeuronAI\Tools\ToolProperty;
  */
 class EditHtmlTool extends BaseTool
 {
+    use RoutesInlineJsToSiteJs;
+
     protected string $domain = 'liveedit';
 
     public function __construct(protected array $dependencies = [])
@@ -71,9 +74,28 @@ class EditHtmlTool extends BaseTool
             return $this->handleError('edit_html needs a selector and the exact current "find" HTML — read it with get_dom first.');
         }
 
-        // Side-effect-free: the front-end (frontendTools.edit_html) performs the
-        // find/replace on the live canvas and registers the change for SAVE.
+        // A <script> must never be written into content HTML (it would persist in
+        // content_body and run on the published page, the leak add_section already
+        // guards against). If the replacement carries inline JS, route it to the site
+        // custom-JS layer (the apply_js file); the front-end strips the tags from the
+        // canvas edit. Mirrors AddSectionTool via the shared trait.
+        $jsRouted = false;
+        $replace = (string) ($args['replace'] ?? '');
+        if (stripos($replace, '<script') !== false) {
+            $extractedJs = '';
+            $this->stripAndCollectInlineScripts($replace, $extractedJs);
+            if ($extractedJs !== '') {
+                $jsRouted = $this->routeSectionJsToSiteJs($extractedJs);
+            }
+        }
+
+        // Side-effect-free otherwise: the front-end (frontendTools.edit_html) performs
+        // the find/replace on the live canvas and registers the change for SAVE.
+        $jsNote = $jsRouted
+            ? ' Its inline <script> was moved to the site custom JS (apply_js) and runs on the published page — do NOT put <script> in HTML; use apply_js.'
+            : '';
+
         return "OK — this HTML find/replace will be applied to {$selector} on the "
-            . "canvas (the user saves it with the Live-Edit Save button).";
+            . "canvas (the user saves it with the Live-Edit Save button).{$jsNote}";
     }
 }

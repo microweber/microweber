@@ -93,4 +93,82 @@ final class LiveEditCustomJsLayerContractTest extends TestCase
         $this->assertStringContainsString('new ApplyJsTool(', $src, 'ApplyJsTool must be registered in setupTools().');
         $this->assertStringContainsString('ADD INTERACTIVITY + MOTION WITH apply_js', $src, 'The prompt must tell the agent how/when to use apply_js.');
     }
+
+    #[Test]
+    public function replace_js_tool_is_the_surgical_js_edit_sibling_of_replace_css(): void
+    {
+        // The JS twin of replace_css: find/replace inside the persisted site JS so
+        // the agent can change/remove JS without re-sending it (apply_js only appends).
+        $src = $this->read('Modules/Ai/Tools/LiveEdit/ReplaceJsTool.php');
+        $this->assertStringContainsString("'replace_js'", $src, 'The tool must be named replace_js.');
+        $this->assertStringContainsString('getLiveEditJsContent', $src, 'replace_js must read the current site JS.');
+        $this->assertStringContainsString('saveLiveEditJsContent', $src, 'replace_js must persist via the manager (no live-canvas JS).');
+        $this->assertStringContainsString('str_replace', $src, 'replace_js must perform a find/replace.');
+        $this->assertStringContainsString('</?script', $src, 'replace_js must strip <script> wrappers from the replacement.');
+    }
+
+    #[Test]
+    public function replace_js_tool_registered_in_agent(): void
+    {
+        $src = $this->read('Modules/Ai/Agents/LiveEditAgent.php');
+        $this->assertStringContainsString('use Modules\Ai\Tools\LiveEdit\ReplaceJsTool;', $src, 'ReplaceJsTool must be imported.');
+        $this->assertStringContainsString('new ReplaceJsTool(', $src, 'ReplaceJsTool must be registered in setupTools().');
+    }
+
+    #[Test]
+    public function get_page_context_exposes_current_custom_js_for_replace_js(): void
+    {
+        // replace_js tells the model to read the snippet from get_page_context; that
+        // tool must actually return the site JS, or the find/replace has nothing to copy.
+        $src = $this->read('Modules/Ai/Tools/LiveEdit/GetPageContextTool.php');
+        $this->assertStringContainsString('current_custom_js', $src, 'get_page_context must expose the site custom JS.');
+        $this->assertStringContainsString('getLiveEditJsContent', $src, 'get_page_context must read the JS via the manager.');
+    }
+
+    #[Test]
+    public function inline_script_routing_trait_extracts_and_persists_js(): void
+    {
+        // The shared trait is the single place that extracts a <script> from
+        // model-authored HTML and persists its JS to the site custom-JS layer, so
+        // add_section and edit_html can never drift apart.
+        $src = $this->read('Modules/Ai/Tools/LiveEdit/Concerns/RoutesInlineJsToSiteJs.php');
+        $this->assertStringContainsString('preg_replace_callback', $src, 'The trait must extract <script> blocks from the HTML.');
+        $this->assertStringContainsString('saveLiveEditJsContent', $src, 'The trait must persist extracted JS to the custom-JS layer.');
+        $this->assertStringContainsString('stripAndCollectInlineScripts', $src, 'The trait must expose the strip/collect helper.');
+        $this->assertStringContainsString('routeSectionJsToSiteJs', $src, 'The trait must expose the persist helper.');
+    }
+
+    #[Test]
+    public function add_section_routes_inline_script_to_the_site_js_layer(): void
+    {
+        // An inline <script> inside a section is stripped on the canvas (lost) and a
+        // half-streamed <script> chunk corrupts the markup. add_section must use the
+        // shared routing trait to persist the JS and strip the tags from the HTML.
+        $src = $this->read('Modules/Ai/Tools/LiveEdit/AddSectionTool.php');
+        $this->assertStringContainsString('use RoutesInlineJsToSiteJs;', $src, 'add_section must use the inline-JS routing trait.');
+        $this->assertStringContainsString('stripAndCollectInlineScripts', $src, 'add_section must strip/collect inline scripts.');
+        $this->assertStringContainsString('routeSectionJsToSiteJs', $src, 'add_section must route extracted JS.');
+
+        // The frontend canvas handler must also strip <script> so a corrupt chunk
+        // cannot leak as visible text.
+        $js = $this->read('Modules/Ai/resources/assets/js/mw-ai.js');
+        $this->assertStringContainsString('<\/script\s*>/gi', $js,
+            'mw-ai.js add_section must strip <script> blocks from section HTML.');
+    }
+
+    #[Test]
+    public function edit_html_routes_inline_script_to_the_site_js_layer(): void
+    {
+        // edit_html writes into an element's innerHTML, which persists in content_body
+        // and would run a <script> on the published page — the same leak. It must share
+        // the routing trait, and the frontend handler must strip <script> from replace.
+        $src = $this->read('Modules/Ai/Tools/LiveEdit/EditHtmlTool.php');
+        $this->assertStringContainsString('use RoutesInlineJsToSiteJs;', $src, 'edit_html must use the inline-JS routing trait.');
+        $this->assertStringContainsString('routeSectionJsToSiteJs', $src, 'edit_html must route an inline <script> to the custom-JS layer.');
+
+        $js = $this->read('Modules/Ai/resources/assets/js/mw-ai.js');
+        // The edit_html frontend handler strips <script> from the replacement HTML.
+        $this->assertStringContainsString('Never write a <script> into content HTML', $js,
+            'mw-ai.js edit_html must strip <script> blocks from the replacement HTML.');
+    }
 }

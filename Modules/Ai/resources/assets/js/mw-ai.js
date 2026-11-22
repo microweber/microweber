@@ -534,6 +534,16 @@ function MwAi() {
             return { menuId: (menuModule && menuModule.id) || '', itemId: String(itemId || '') };
         },
 
+        // Strip every <script> (block, stray or unclosed) from an HTML string. A
+        // <script> never belongs in content HTML — the backend routes any inline JS
+        // to the site custom-JS layer (apply_js file); this stops a corrupt / half-
+        // streamed <script> chunk from leaking into the canvas as escaped, visible text.
+        stripScripts(html) {
+            return String(html == null ? '' : html)
+                .replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '')
+                .replace(/<\/?script[^>]*>/gi, '');
+        },
+
         // Sanitise AI-authored section HTML before it touches the canvas: no
         // scripts, styles, iframes, Microweber <module> tags, or inline event
         // handlers / javascript: URLs. Returns a safe HTML string.
@@ -1052,6 +1062,20 @@ function MwAi() {
                 return { ok: true, message: 'saved JS for THIS page only (content ' + id + '); runs on the published page' };
             },
 
+            // apply_js / replace_js do their REAL work server-side: custom JS must
+            // never run inside the editor canvas (a looping/broken script would break
+            // editing), so the backend persists it to the site custom-JS layer and
+            // LiveEditJsFooterTags serves it on the PUBLISHED page only. There is no
+            // canvas echo — acknowledge success here so the tool chip reflects that
+            // the server saved it. Without these, applyEdit reports "unknown tool"
+            // and shows a ✕ on a call that actually succeeded.
+            apply_js: function() {
+                return { ok: true, message: 'Custom JavaScript saved to the site (server-side). It runs on the PUBLISHED page, not in the editor — reload the live page to see it.' };
+            },
+            replace_js: function() {
+                return { ok: true, message: 'Custom JavaScript updated (server-side). It runs on the PUBLISHED page, not in the editor — reload the live page to see it.' };
+            },
+
             // Set (override) one or more template CSS custom properties globally,
             // e.g. retint the brand colour: {"vars": {"--mw-primary-color": "#0d6efd"}}
             // or a single {"name": "--mw-btn-background-color", "value": "#111"}.
@@ -1139,7 +1163,8 @@ function MwAi() {
             edit_html: function(args, api) {
                 const selector = (args && args.selector) ? String(args.selector) : '';
                 const find = (args && args.find) ? String(args.find) : '';
-                const replace = (args && typeof args.replace !== 'undefined') ? String(args.replace) : '';
+                // Never write a <script> into content HTML (backend routes inline JS to apply_js); strip it here.
+                const replace = api.stripScripts((args && typeof args.replace !== 'undefined') ? String(args.replace) : '');
                 if (!selector) { return { ok: false, message: 'no selector' }; }
                 if (!find) { return { ok: false, message: 'no "find" snippet — pass the exact current HTML to replace' }; }
                 const doc = api.canvasDocument();
@@ -1431,7 +1456,9 @@ function MwAi() {
             disable_font: function() { return { ok: true, message: 'font updated' }; },
 
             add_section: function(args, api) {
-                const html = (args && args.html) ? String(args.html) : '';
+                // A <script> never belongs in a content section (the backend routes any
+                // inline JS to the apply_js file); strip it on the canvas side too.
+                const html = api.stripScripts((args && args.html) ? String(args.html) : '');
                 if (!html.trim()) { return { ok: false, message: 'no html' }; }
                 const doc = api.canvasDocument();
                 const region = api.contentRegion();

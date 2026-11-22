@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Ai\Tools\LiveEdit;
 
 use MicroweberPackages\AiTools\Base\BaseTool;
+use Modules\Ai\Tools\LiveEdit\Concerns\RoutesInlineJsToSiteJs;
 use NeuronAI\Tools\PropertyType;
 use NeuronAI\Tools\ToolProperty;
 
@@ -21,6 +22,8 @@ use NeuronAI\Tools\ToolProperty;
  */
 class AddSectionTool extends BaseTool
 {
+    use RoutesInlineJsToSiteJs;
+
     protected string $domain = 'liveedit';
 
     public function __construct(protected array $dependencies = [])
@@ -80,6 +83,27 @@ class AddSectionTool extends BaseTool
             return $this->handleError('Do not include <module> tags in a section; use plain HTML.');
         }
 
+        // A <script> inside a section never belongs in the content HTML: the editor
+        // canvas strips it (so it is silently lost), and a half-escaped <script>
+        // chunk in the stream can corrupt the surrounding markup so attributes leak
+        // as visible text. Extract any inline JS the model wrote and route it to the
+        // site custom-JS layer (the apply_js file, userfiles/css/<Template>/live_edit.js)
+        // so it is persisted and runs on the PUBLISHED page — then strip the tags
+        // from the HTML the section is built from.
+        $extractedJs = '';
+        $html = trim($this->stripAndCollectInlineScripts($html, $extractedJs));
+
+        $jsRouted = false;
+        if ($extractedJs !== '') {
+            $jsRouted = $this->routeSectionJsToSiteJs($extractedJs);
+        }
+
+        if ($html === '') {
+            return $jsRouted
+                ? 'OK — the section contained only JavaScript; it was moved to the site custom JS (apply_js) and runs on the published page. Nothing was added to the page content.'
+                : $this->handleError('No section HTML was provided.');
+        }
+
         $position = strtolower(trim((string) ($args['position'] ?? 'append')));
         $where = $position === 'prepend' ? 'at the top of' : 'to';
 
@@ -99,7 +123,11 @@ class AddSectionTool extends BaseTool
             app()->instance('mw.ai.liveedit.context', $ctx);
         }
 
-        return "OK — added a new section {$where} the page (live), and it is now part "
+        $jsNote = $jsRouted
+            ? ' (its inline <script> was moved to the site custom JS and runs on the published page — do NOT inline <script> in sections; call apply_js for behaviour)'
+            : '';
+
+        return "OK — added a new section {$where} the page (live){$jsNote}, and it is now part "
             . "of the page. Do NOT add this same section again, and do NOT call get_dom "
             . "just to confirm it — get_dom already reflects the sections you have added "
             . "this turn. The user saves with the Live-Edit Save button.";
