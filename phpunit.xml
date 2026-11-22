@@ -160,6 +160,7 @@
             <directory>Modules/Testimonials/Tests</directory>
             <directory>Modules/TextType/Tests</directory>
             <directory>Modules/TweetEmbed/Tests</directory>
+            <directory>Modules/WhiteLabel/Tests</directory>
         </testsuite>
 
         <testsuite name="Modules-WordPressMigration">

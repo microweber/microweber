@@ -427,14 +427,61 @@ if(window.self !== window.top) {
             mw.top().app.canvas.dispatch('iframeKeyDown', {event})
         });
 
-/*
+        // Edit the "Powered by" / white-label footer by double-clicking it in
+        // Live Edit — parity with every other editable module. The old handler
+        // called the deprecated live_edit.module_settings iframe route with a
+        // bogus "white_label/admin" type (dead since the Filament settings
+        // migration), so clicking did nothing. Route through the SAME modern
+        // openModuleSettingsAction flow the module-settings service uses:
+        // resolve the registered white_label settings component and dispatch
+        // the event on the TOP window (this script runs in the canvas iframe),
+        // where AdminLiveEditPage mounts it as a slide-over.
+        var _openWhiteLabelSettings = function () {
+            try {
+                // The settings-component map lives on the TOP admin window
+                // (iframe-page.blade.php), not in the canvas — resolve it there.
+                var topMw = (typeof mw.top === 'function' && mw.top()) || (window.top && window.top.mw) || null;
+                var components = (topMw && topMw.settings && topMw.settings.liveEditModuleSettingsComponents) || {};
+                var component = components['white_label'];
+                if (!component) { return; }
+                var detail = {
+                    moduleType: 'white_label',
+                    moduleId: 'white_label',
+                    moduleSettingsComponent: component,
+                    params: {}
+                };
+                try {
+                    var leData = mw.top().app.canvas.getLiveEditData();
+                    if (typeof leData !== 'undefined') { detail.liveEditIframeData = leData; }
+                } catch (e) { /* non-fatal */ }
+                var topWin = window.top;
+                topWin.dispatchEvent(new topWin.CustomEvent('openModuleSettingsAction', { detail: detail }));
+            } catch (e) {
+                if (mw.log) { mw.log('powered-by settings open failed: ' + e); }
+            }
+        };
 
-        mw.$('span.mw-powered-by').on("click", function (e) {
-            mw.top().tools.open_global_module_settings_modal('white_label/admin', 'mw-powered-by');
+        // Swallow single clicks so the inner <a> never navigates mid double-click,
+        // and give an editor-only affordance (pointer cursor + hint).
+        mw.$(document).on('click', '.mw-powered-by, .mw-powered-by a', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             return false;
         });
-
-*/
+        mw.$(document).on('dblclick', '.mw-powered-by, .mw-powered-by a', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            _openWhiteLabelSettings();
+            return false;
+        });
+        mw.$(document).on('mouseenter', '.mw-powered-by', function () {
+            try {
+                this.style.cursor = 'pointer';
+                if (!this.getAttribute('title')) {
+                    this.setAttribute('title', mw.lang ? mw.lang('Double-click to edit the White Label footer') : 'Double-click to edit the White Label footer');
+                }
+            } catch (e) { /* non-fatal */ }
+        });
 
         const _handleEmptyEditFields = function () {
 
