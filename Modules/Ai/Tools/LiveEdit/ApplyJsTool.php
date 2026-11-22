@@ -48,8 +48,10 @@ class ApplyJsTool extends BaseTool
                 name: 'js',
                 type: PropertyType::STRING,
                 description: 'Complete, self-contained JavaScript to add (no <script> '
-                    . 'tags), e.g. an IIFE that sets up an IntersectionObserver adding '
-                    . 'a "is-revealed" class to sections as they enter the viewport. '
+                    . 'tags), e.g. an IIFE that adds a reveal gate class to <html>, '
+                    . 'reveals already-in-view elements, then uses an IntersectionObserver '
+                    . 'to add a reveal class as the rest enter the viewport (the hidden '
+                    . 'state must be gated so a page with no JS still shows its content). '
                     . 'Appended to the existing site custom JS and saved immediately.',
                 required: true,
             ),
