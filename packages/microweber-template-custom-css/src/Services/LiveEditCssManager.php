@@ -337,11 +337,39 @@ class LiveEditCssManager implements CssFileHandlerInterface
             'option_group' => $groupPrefix . $template,
         ]);
 
-        if (is_file($tf) && @rename($tf, $tf . '.bak')) {
-            return ['success' => 'Custom css is removed'];
+        $cssRemoved = is_file($tf) && @rename($tf, $tf . '.bak');
+
+        // A "reset to the original design" must ALSO drop the Live-Edit JS layer
+        // (AI/custom animations + interactivity), not just the CSS — otherwise the
+        // custom JavaScript keeps running on the published page after a reset.
+        $jf = PathHelper::normalize($folder . $this->getLiveEditJsFilename(), false);
+        if ($this->isMultisite()) {
+            $multiJs = PathHelper::normalize($folder . $this->getLiveEditJsFilenameMultisite(), false);
+            if (is_file($multiJs)) {
+                $jf = $multiJs;
+            }
+        }
+        $this->optionStore->save([
+            'option_value' => '',
+            'option_key' => $this->fileTypeString('live_edit_js', 'option_key', 'template_js'),
+            'option_group' => $this->fileTypeString('live_edit_js', 'option_group_prefix', 'template_') . $template,
+        ]);
+        $jsRemoved = is_file($jf) && @rename($jf, $jf . '.bak');
+
+        // Clear the remote (S3/CDN) copies too. The local rename alone leaves the
+        // mirrored files on the bucket, and on an S3-served install the published
+        // page loads straight from the bucket — so a reset must empty the remote
+        // CSS + JS or the old styles/scripts keep being served.
+        $this->mirrorToRemoteDisk($template, '');
+        $this->mirrorJsToRemoteDisk($template, '');
+
+        if ($cssRemoved || $jsRemoved) {
+            return ['success' => 'Custom styles and scripts are reset'];
         }
 
-        return ['error' => 'File could not be removed'];
+        // Nothing to remove locally (already clean, or S3-only) — options + remote
+        // copies were still cleared, so the reset is complete.
+        return ['success' => 'Custom styles and scripts are reset'];
     }
 
     /**

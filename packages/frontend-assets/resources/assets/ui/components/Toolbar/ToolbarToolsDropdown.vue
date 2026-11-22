@@ -904,7 +904,7 @@ export default {
             this.closeFilamentSlideOver();
             const template = (window.mw && mw.settings && mw.settings.current_template) || '';
             mw.confirm(
-                "Reset ALL theme styles for this website back to the template default? This clears every Live-Edit, Element-Style and AI style change. It cannot be undone.",
+                "Reset ALL theme styles and scripts for this website back to the template default? This clears every Live-Edit, Element-Style and AI change — custom CSS and custom JavaScript/animations alike. It cannot be undone.",
                 function () {
                     mw.notification.warning("Resetting theme styles...");
                     $.post(

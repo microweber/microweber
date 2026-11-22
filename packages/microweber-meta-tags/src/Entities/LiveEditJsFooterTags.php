@@ -21,9 +21,19 @@ class LiveEditJsFooterTags implements TagInterface, \Stringable
 {
     public function toHtml(): string
     {
-        // Never run custom JS inside the Live-Edit editor canvas.
+        // Suppress custom JS ONLY inside the Live-Edit editor CANVAS (loaded as an
+        // iframe) so a reveal/animation can't fight the editing surface — but DO
+        // run it on the real published page, including an admin's own top-level
+        // view of their site. The canvas is detected by the iframe request
+        // (Sec-Fetch-Dest: iframe, the same signal the frontend uses to enter edit
+        // mode), NOT the "editmode" SESSION flag, which stays set after the admin
+        // leaves the editor and otherwise wrongly hides the custom JS from every
+        // later page view in that session.
         if (function_exists('is_live_edit') && is_live_edit()) {
-            return '';
+            $dest = (function_exists('request') && request()) ? request()->header('Sec-Fetch-Dest') : null;
+            if ($dest === 'iframe' || $dest === 'frame' || $dest === 'embed') {
+                return '';
+            }
         }
 
         $url = app()->template_manager->liveEditCssAdapter->getLiveEditJsUrl();

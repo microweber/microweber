@@ -62,6 +62,11 @@ final class LiveEditCustomJsLayerContractTest extends TestCase
     {
         $src = $this->read('packages/microweber-meta-tags/src/Entities/LiveEditJsFooterTags.php');
         $this->assertMatchesRegularExpression('~is_live_edit\(\)~', $src, 'Custom JS must be gated OFF inside the Live-Edit editor (is_live_edit()).');
+        // The gate must be scoped to the ACTUAL editor canvas (an iframe request:
+        // Sec-Fetch-Dest), not the sticky editmode SESSION — otherwise an admin's
+        // own published-page view keeps suppressing the custom JS after they leave
+        // the editor.
+        $this->assertStringContainsString('Sec-Fetch-Dest', $src, 'The custom JS must be suppressed only in the iframe canvas (Sec-Fetch-Dest), not whenever the editmode session is set.');
         $this->assertStringContainsString('getLiveEditJsUrl', $src, 'The footer entity must resolve the JS URL via the manager.');
         $this->assertStringContainsString('id="mw-template-custom-js"', $src);
         $this->assertStringContainsString('defer', $src, 'The custom JS <script> must be deferred.');
