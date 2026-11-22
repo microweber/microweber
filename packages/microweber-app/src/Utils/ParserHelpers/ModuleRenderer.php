@@ -52,8 +52,12 @@ class ModuleRenderer
 
         $moduleClass = $this->moduleCssClass($moduleName);
 
-        // Build CSS classes
-        $cssClass = trim('module ' . $moduleClass . ' ' . $userClass);
+        // Build CSS classes. The saved user class often already repeats
+        // "module module-<type>" (the editor writes it onto the stored tag), so
+        // dedupe the token list — keep the first occurrence of each class, in
+        // order — to avoid a wrapper like
+        // class="module module-layouts module module-layouts module module module-layouts".
+        $cssClass = $this->dedupeClassList('module ' . $moduleClass . ' ' . $userClass);
 
         // Build the opening tag
         $html = '<' . $htmlTag . ' class="' . $cssClass . '"';
@@ -117,6 +121,22 @@ class ModuleRenderer
         }
         $v = strtolower(trim((string) $value));
         return !in_array($v, ['', '0', 'false', 'no', 'off'], true);
+    }
+
+    /**
+     * Collapse a space-separated class string to its unique classes, keeping the
+     * first occurrence of each in order.
+     */
+    private function dedupeClassList(string $classes): string
+    {
+        $seen = [];
+        foreach (preg_split('/\s+/', trim($classes)) ?: [] as $c) {
+            if ($c !== '' && !isset($seen[$c])) {
+                $seen[$c] = true;
+            }
+        }
+
+        return implode(' ', array_keys($seen));
     }
 
     /**

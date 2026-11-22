@@ -136,7 +136,9 @@ class LayoutProcessor
         ?int $contentId,
         ?callable $moduleLoader,
         ?callable $editFieldLoader,
-        int $depth
+        int $depth,
+        ?string $parentModuleId = null,
+        ?string $parentModuleName = null
     ): string {
         if ($layout === '') {
             return '';
@@ -151,7 +153,11 @@ class LayoutProcessor
         $layout = str_replace('</editable>', '</div>', $layout);
         $layout = str_replace('<microweber module=', '<module data-type=', $layout);
         $layout = str_replace('</microweber>', '', $layout);
-        $layout = str_replace('></module>', '/>', $layout);
+        // NOTE: the old `></module>` -> `/>` empty-pair normalization was removed.
+        // The TagLexer now captures a whole <module>...</module> element (nesting
+        // aware), so collapsing empty pairs is redundant — and it CORRUPTED nested
+        // modules: `</module></module>` would be rewritten to `</module/>` (the
+        // "modules in modules" bug), orphaning the outer close.
 
         // Step 2b: Load saved edit-field content from the data store,
         // replacing each .edit region's inline default with its stored value.
@@ -192,11 +198,31 @@ class LayoutProcessor
                 $scope['rel'],
                 $scope['field'],
                 $scope['contentId'],
-                $scope['scopeKey']
+                $scope['scopeKey'],
+                // A module reached by recursing into another module's render is
+                // nested; pass the containing module id so an id-less child scopes
+                // under its parent (e.g. contact_form -> custom_fields becomes
+                // "<form-id>-custom-fields"). Null at the top level.
+                $parentModuleId
             );
 
             $attrs['id'] = $moduleId;
             $attrs['data-type'] = $moduleName;
+
+            // Record the module hierarchy on the wrapper (parity with the legacy
+            // parser), so the editor can walk the tree. A module that does not
+            // already declare its parent inherits the CONTAINING module's id/type
+            // when nested; a top-level module self-parents (parent = itself),
+            // matching the legacy output.
+            if (!isset($attrs['parent-module-id'])) {
+                if ($parentModuleId !== null) {
+                    $attrs['parent-module-id'] = $parentModuleId;
+                    $attrs['parent-module'] = $parentModuleName ?? '';
+                } else {
+                    $attrs['parent-module-id'] = $moduleId;
+                    $attrs['parent-module'] = $moduleName;
+                }
+            }
 
             // Load module content. The loader (the real module renderer) may
             // return a string OR a Stringable / HtmlString / Htmlable — coerce
@@ -216,7 +242,7 @@ class LayoutProcessor
             if ($content !== '' && $depth < self::MAX_DEPTH
                 && ($this->lexer->hasModuleTags($content)
                     || ($editFieldLoader !== null && $this->editFieldExtractor->hasEditFields($content)))) {
-                $content = $this->processInner($content, $contentId, $moduleLoader, $editFieldLoader, $depth + 1);
+                $content = $this->processInner($content, $contentId, $moduleLoader, $editFieldLoader, $depth + 1, $moduleId, $moduleName);
             }
 
             // Determine rendering options

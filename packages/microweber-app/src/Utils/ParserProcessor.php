@@ -1350,6 +1350,15 @@ class ParserProcessor
         if ($this->useLegacyParser()) {
             return false;
         }
+        // Transitional force switch (goal: retire this whole method so the new
+        // pipeline is the sole parser). When on, the new pipeline owns EVERY
+        // call — nested and parent-driven sub-calls included — because
+        // processWithLayoutProcessor() is now re-entrant-safe (it only resets
+        // shared state on the outermost call). Used by the side-by-side harness
+        // to compare the new pipeline against legacy before the gate is removed.
+        if ($this->forceNewParser()) {
+            return true;
+        }
         // Re-entrancy guard: while a top-level LayoutProcessor run is active,
         // any nested process() call (e.g. triggered from inside load() when a
         // module renders its own sub-layout) must fall through to the legacy
@@ -1360,6 +1369,23 @@ class ParserProcessor
             return false;
         }
         return !$coming_from_parent && !$prevous_mod_obj && !$previous_attrs;
+    }
+
+    /**
+     * Transitional switch: force the new LayoutProcessor pipeline for every call.
+     * Enabled via the MW_FORCE_NEW_PARSER=1 env var or the
+     * microweber.force_new_parser config. Exists only while the new pipeline is
+     * being validated side-by-side against legacy ahead of removing
+     * {@see shouldUseLayoutProcessor()} entirely.
+     */
+    private function forceNewParser(): bool
+    {
+        if (config('microweber.force_new_parser', false)) {
+            return true;
+        }
+        $env = getenv('MW_FORCE_NEW_PARSER');
+
+        return $env === '1' || $env === 'true';
     }
 
     /**
@@ -1441,8 +1467,21 @@ class ParserProcessor
 
     private function processWithLayoutProcessor($layout)
     {
-        $this->_layoutProcessorActive = true;
-        $this->resetLayoutState();
+        // Re-entrant-safe: a nested processWithLayoutProcessor() call (one made
+        // while a top-level run is already active — e.g. a module that renders
+        // its own sub-layout through the parser) must NOT reset the shared
+        // id-allocator / content-protector or re-toggle the Blade module-tag
+        // compiler; it reuses the active run's state so module ids keep counting
+        // deterministically and no mid-render reset collides. Only the outermost
+        // call owns setup + teardown. (This is what lets the re-entrancy guard in
+        // shouldUseLayoutProcessor be lifted — the new pipeline can own nested
+        // calls itself instead of handing them to the legacy flow.)
+        $isNested = $this->_layoutProcessorActive;
+        if (!$isNested) {
+            $this->_layoutProcessorActive = true;
+            $this->resetLayoutState();
+            MicroweberModuleTagCompiler::disableModuleProcessing();
+        }
 
         // content_id() is 0/empty when there is no current content — treat that
         // as "no content scope" (null) so ids stay bare (module-btn, not -0).
@@ -1497,19 +1536,17 @@ class ParserProcessor
             return ($parent && (int) $parent > 0) ? (int) $parent : null;
         };
 
-        MicroweberModuleTagCompiler::disableModuleProcessing();
         try {
             $result = $this->layoutProcessor->process(
                 $layout, $contentId, $moduleLoader, $editFieldLoader, $inheritedParentResolver
             );
 
-            // Nested load() calls run the LEGACY flow (re-entrancy guard), which
-            // shields <style>/<textarea>/comments/urls behind its own
-            // placeholders and normally unwinds them at the end of its own
-            // process(). Those restores don't run on this short-circuit path, so
-            // replay them here or the placeholders leak into the page.
+            // Unwind the placeholder shields (textarea/comments/urls) only at the
+            // OUTERMOST run — a nested run returns its fragment to the parent run,
+            // which does the single final unwind, so unwinding mid-nest would
+            // restore too early (and double-restore).
             global $mw_replaced_textarea_tag;
-            if (is_string($result)) {
+            if (!$isNested && is_string($result)) {
                 if (!empty($mw_replaced_textarea_tag)) {
                     foreach ($mw_replaced_textarea_tag as $k => $v) {
                         if ($v !== '') {
@@ -1525,8 +1562,10 @@ class ParserProcessor
 
             return $result;
         } finally {
-            MicroweberModuleTagCompiler::enableModuleProcessing();
-            $this->_layoutProcessorActive = false;
+            if (!$isNested) {
+                MicroweberModuleTagCompiler::enableModuleProcessing();
+                $this->_layoutProcessorActive = false;
+            }
         }
     }
 

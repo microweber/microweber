@@ -90,9 +90,17 @@ class ModuleIdAllocator
         // Rule 2: build base ID
         $baseId = $this->moduleCssClass($moduleName);
 
-        // Rule 4: parent module field prefix
-        if ($parentModuleField !== null && $editRel === 'module') {
-            $baseId = $parentModuleField . '-' . $baseId;
+        // Rule 4: a module nested inside another module and carrying no explicit
+        // id of its own takes the PARENT module's id as its prefix (parity with
+        // the legacy parser), so it scopes under its parent and repeated
+        // instances never collide — e.g. a contact_form "zz-cf-1" containing a
+        // custom_fields module yields "zz-cf-1-custom-fields" (NOT the generic
+        // "module-custom-fields"). The generic "module-" base is dropped here
+        // because the parent id already conveys the scope. A top-level module
+        // (no parent) keeps the normal page-scoped base below.
+        if ($parentModuleField !== null && $parentModuleField !== '') {
+            $typeBase = $this->cleanModId(str_replace(['/', '\\', '_'], '-', $moduleName));
+            $baseId = $this->cleanModId($parentModuleField) . '-' . $typeBase;
         }
 
         // Clean the base ID
@@ -104,15 +112,19 @@ class ModuleIdAllocator
             $baseId = $baseId . '-' . $contentId;
         }
 
-        // Rule 5: handle duplicates within the scope
+        // Rule 5: handle duplicates within the scope. Key the counter by the
+        // final BASE id (which already carries any parent/content prefix) rather
+        // than the module TYPE, so two modules that resolve to DISTINCT bases —
+        // e.g. two forms' "cf-a-custom-fields" and "cf-b-custom-fields" — each
+        // start clean; only a genuine same-base repeat gets a "--N" suffix.
         if (!isset($this->counters[$scope])) {
             $this->counters[$scope] = [];
         }
-        if (!isset($this->counters[$scope][$moduleName])) {
-            $this->counters[$scope][$moduleName] = 0;
+        if (!isset($this->counters[$scope][$baseId])) {
+            $this->counters[$scope][$baseId] = 0;
         }
 
-        $count = $this->counters[$scope][$moduleName];
+        $count = $this->counters[$scope][$baseId];
         $modId = $count === 0 ? $baseId : $baseId . '--' . $count;
 
         // Handle collisions with database IDs or previously allocated IDs
@@ -121,7 +133,7 @@ class ModuleIdAllocator
             $modId = $baseId . '--' . $count;
         }
 
-        $this->counters[$scope][$moduleName] = $count + 1;
+        $this->counters[$scope][$baseId] = $count + 1;
         $this->registerAllocatedId($scope, $modId);
 
         return $modId;
