@@ -38,6 +38,14 @@
         border-bottom: 1px solid rgba(0, 0, 0, .08);
     }
 
+    /* Kill any top padding on the header shell so the promo bar sits flush at the
+       very top (a global #mw-header-background padding-block from saved Live-Edit
+       CSS was leaving a cream strip above the promo bar). id+class beats the
+       global id-only rule. */
+    #mw-header-background.mw-store-header {
+        padding-top: 0 !important;
+    }
+
     .mw-store-logo a {
         text-decoration: none;
         font-size: 24px;
@@ -55,13 +63,29 @@
         border: 1px solid rgba(0, 0, 0, .12);
     }
 
+    /* Chrome icons (cart) follow the header's actual text colour (--mw-body-color,
+       the token the logo + nav links render with) rather than --mw-header-link-color,
+       which a saved dark-header Live-Edit design forces to #fff — invisible on this
+       light header. SVGs use fill="currentColor", so this colours them too.
+       id-scoped + !important so it beats the saved Live-Edit header-link rules. */
+    #mw-header-background .mw-store-cart-link,
+    #mw-header-background .mw-store-cart-link svg {
+        color: var(--mw-body-color, #1f2937) !important;
+        fill: var(--mw-body-color, #1f2937) !important;
+    }
+
     .mw-store-cart-link {
         position: relative;
-        color: var(--mw-header-link-color, #1f2937);
         padding: 6px 10px;
         border-radius: 999px;
         text-decoration: none;
-        transition: background .2s ease;
+        transition: background .2s ease, color .2s ease;
+    }
+
+    #mw-header-background .mw-store-cart-link:hover,
+    #mw-header-background .mw-store-cart-link:hover svg {
+        color: var(--mw-primary-color, #1f2937) !important;
+        fill: var(--mw-primary-color, #1f2937) !important;
     }
 
     .mw-store-cart-link:hover {
@@ -119,7 +143,7 @@
             mw.MWSiteMobileMenu({
                 threshold: 1280,
                 size: '25px',
-                color: 'var(--primaryColor)',
+                color: 'var(--mw-body-color, #1f2937)',
             }, 5);
         });
     </script>
