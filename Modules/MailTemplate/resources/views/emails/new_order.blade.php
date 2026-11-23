@@ -3,7 +3,8 @@
 <p>Transaction ID: {{transaction_id}}</p>
 <p>Currency: {{currency}}</p>
 <p>Order Status: {{order_status}}</p>
-<p>Amount: {{amount}}</p>
+<p>Amount: {{amount}} {{currency}}</p>
+<p>{{payment_note}}</p>
 <p>Date: {{date}}</p>
 <p>Cart items:
     {{cart_items}}

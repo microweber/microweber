@@ -259,12 +259,25 @@ class CheckoutService
             $cart_items_info[] = $arr;
         }
 
+        // Show the currency the shopper actually saw/agreed to as the order total
+        // (the order is settled in the base currency/amount, but these are what
+        // the customer cares about). Fall back to the base for single-currency
+        // orders, so {currency}/{amount} are unchanged there.
+        $baseCurrency = $ord_data['currency'] ?? 'USD';
+        $baseAmount = (float) ($ord_data['amount'] ?? 0);
+        $displayCurrency = !empty($ord_data['payment_currency']) ? $ord_data['payment_currency'] : $baseCurrency;
+        $displayAmount = (isset($ord_data['payment_amount']) && $ord_data['payment_amount'] !== null && $ord_data['payment_amount'] !== '')
+            ? (float) $ord_data['payment_amount']
+            : $baseAmount;
+        $isConverted = !empty($ord_data['payment_currency'])
+            && strtoupper((string) $ord_data['payment_currency']) !== strtoupper((string) $baseCurrency);
+
         $variables = [
             'cart_items' => Format::array_to_table($cart_items_info),
             'date' => date('F jS, Y', strtotime($ord_data['created_at'])),
             'order_id' => $ord_data['id'],
             'transaction_id' => $ord_data['transaction_id'],
-            'currency' => $ord_data['currency'],
+            'currency' => $displayCurrency,
             'order_status' => $ord_data['order_status'],
             'first_name' => $ord_data['first_name'],
             'last_name' => $ord_data['last_name'],
@@ -275,7 +288,14 @@ class CheckoutService
             'state' => $ord_data['state'],
             'city' => $ord_data['city'],
             'country' => $ord_data['country'],
-            'amount' => number_format($ord_data['amount'], 2)
+            'amount' => number_format($displayAmount, 2),
+            // Base settlement currency, for templates that want to show both, plus
+            // a ready-made note that's only non-empty when the order was converted.
+            'base_currency' => $baseCurrency,
+            'base_amount' => number_format($baseAmount, 2),
+            'payment_note' => $isConverted
+                ? ('Charged in ' . strtoupper((string) $baseCurrency) . ' ' . number_format($baseAmount, 2))
+                : '',
         ];
 
         // Create mailable instance and send
