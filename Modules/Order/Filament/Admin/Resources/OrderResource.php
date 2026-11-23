@@ -427,9 +427,16 @@ public static function getNavigationBadgeTooltip(): ?string
 
 
                 Tables\Columns\TextColumn::make('amount')
+                    ->label('Amount')
                     ->grow(false)
                     ->sortable()
-                    ->money(fn($record) => $record->currency),
+                    ->money(fn($record) => $record->currency)
+                    // Show the currency the shopper actually saw/agreed to when it
+                    // differs from the base settlement currency (the order is
+                    // stored in the base currency, but was placed in another).
+                    ->description(fn($record) => $record->is_converted_currency
+                        ? 'Customer: ' . $record->formatted_display_total
+                        : null),
 
 
                 Tables\Columns\BooleanColumn::make('order_completed')

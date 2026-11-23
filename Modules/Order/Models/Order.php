@@ -66,6 +66,11 @@ class Order extends Model
         'amount',
         'currency',
         'currency_code',
+        // Display currency the shopper saw/agreed to at checkout (the order is
+        // stored/settled in the base `currency`/`amount`, but these record the
+        // converted value so the order shows the shopper's currency everywhere).
+        'payment_amount',
+        'payment_currency',
         'customer_id',
         'payment_provider_id',
         'payment_provider',
@@ -410,5 +415,63 @@ class Order extends Model
             ->get();
 
         return $data ? $data->toArray() : [];
+    }
+
+    /**
+     * The currency the order should be DISPLAYED in — the shopper's selected
+     * currency captured at checkout (payment_currency), falling back to the
+     * stored base currency. The order is still settled in `currency`/`amount`;
+     * these accessors drive what admins, the shopper and emails see.
+     */
+    public function getDisplayCurrencyAttribute(): string
+    {
+        $code = $this->payment_currency ?: $this->currency ?: 'USD';
+
+        return strtoupper((string) $code);
+    }
+
+    /**
+     * The order total in the display currency (the converted amount the shopper
+     * agreed to), falling back to the base amount.
+     */
+    public function getDisplayAmountAttribute(): float
+    {
+        if ($this->payment_amount !== null && $this->payment_amount !== '') {
+            return (float) $this->payment_amount;
+        }
+
+        return (float) $this->amount;
+    }
+
+    /**
+     * The display total already formatted with its currency symbol, e.g.
+     * "£ 70.31". Uses the Currency module's pure formatter (no re-conversion —
+     * display_amount is already in the display currency) when available.
+     */
+    public function getFormattedDisplayTotalAttribute(): string
+    {
+        $amount = $this->display_amount;
+        $currency = $this->display_currency;
+
+        if (function_exists('currency_manager')) {
+            try {
+                return currency_manager()->format($amount, $currency);
+            } catch (\Throwable $e) {
+                // fall through to a plain format
+            }
+        }
+
+        return $currency . ' ' . number_format($amount, 2);
+    }
+
+    /**
+     * True when the order was placed in a currency different from the base
+     * settlement currency (so UIs can show "charged in USD" alongside the
+     * shopper's total).
+     */
+    public function getIsConvertedCurrencyAttribute(): bool
+    {
+        return $this->payment_currency
+            && strtoupper((string) $this->payment_currency) !== strtoupper((string) ($this->currency ?: 'USD'));
     }
 }

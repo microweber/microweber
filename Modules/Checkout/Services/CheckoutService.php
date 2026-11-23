@@ -427,6 +427,39 @@ class CheckoutService
     /**
      * Prepare order data
      */
+    /**
+     * The currency the shopper is viewing in (their selected display currency),
+     * falling back to the site payments currency / USD.
+     */
+    protected function resolveDisplayCurrency(): string
+    {
+        if (function_exists('current_currency_code')) {
+            $code = current_currency_code();
+            if (is_string($code) && strlen(trim($code)) === 3) {
+                return strtoupper(trim($code));
+            }
+        }
+
+        return $this->app->option_manager->get('currency', 'payments') ?: 'USD';
+    }
+
+    /**
+     * Convert a base-currency amount into the shopper's display currency. A no-op
+     * (returns the amount unchanged) when multi-currency is off, there is no rate,
+     * or the Currency module isn't present.
+     */
+    protected function convertDisplayAmount(float $amount): float
+    {
+        if (!function_exists('currency_manager')) {
+            return $amount;
+        }
+        try {
+            return round(currency_manager()->convertFromBase($amount, $this->resolveDisplayCurrency()), 2);
+        } catch (\Throwable $e) {
+            return $amount;
+        }
+    }
+
     protected function prepareOrderData($data)
     {
         $order_reference_id = 'ORD-' . crc32(uniqid(time()));
@@ -449,6 +482,14 @@ class CheckoutService
             'is_paid' => 0,
             'currency' => $this->app->option_manager->get('currency', 'payments') ?: 'USD',
             'amount' => cart_total(),
+            // The order is STORED/settled in the base currency above. Also record
+            // the currency the shopper actually saw and agreed to (the selected
+            // display currency) + the converted total, so the order shows their
+            // currency in the admin, confirmation and emails regardless of the
+            // viewer's later session currency. Falls back to the base amount when
+            // multi-currency is off / no rate (convertDisplayAmount is a no-op).
+            'payment_currency' => $this->resolveDisplayCurrency(),
+            'payment_amount' => $this->convertDisplayAmount(cart_total()),
             'shipping_amount' => $this->getShippingCost($data) ?? 0,
             'discount_type' => $discount_type ?? null,
             'discount_value' => $discount_value ?? 0,
