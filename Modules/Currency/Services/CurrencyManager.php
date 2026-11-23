@@ -89,10 +89,14 @@ class CurrencyManager
             return false;
         }
 
+        // Capture the previous code BEFORE writing the new one, otherwise the
+        // event's "old" value reads back the value we just stored.
+        $previousCurrency = $this->getCurrentCurrencyCode();
+
         Session::put(self::SESSION_KEY, $currencyCode);
-        
+
         // Dispatch event for listeners
-        event(new \Modules\Currency\Events\CurrencyChanged($currencyCode, $this->getCurrentCurrencyCode()));
+        event(new \Modules\Currency\Events\CurrencyChanged($currencyCode, $previousCurrency));
 
         return true;
     }
@@ -128,12 +132,19 @@ class CurrencyManager
      */
     protected function updateCartCurrency(string $fromCurrency, string $toCurrency): void
     {
+        // The cart stores amounts in the site's BASE currency; the selected
+        // currency is applied at DISPLAY time (currency_format → convert). So a
+        // currency switch does not rewrite stored cart rows. This hook stays as a
+        // safe extension point: it only acts if the cart manager ever exposes a
+        // real updateCurrency() method, and it swallows every Throwable (an
+        // undefined-method is an \Error, not an \Exception) so a switch can never
+        // 500 the storefront.
         try {
-            $cart = app()->cart_manager->getCart();
-            if ($cart && method_exists($cart, 'updateCurrency')) {
-                $cart->updateCurrency($fromCurrency, $toCurrency);
+            $cartManager = app()->cart_manager;
+            if (is_object($cartManager) && method_exists($cartManager, 'updateCurrency')) {
+                $cartManager->updateCurrency($fromCurrency, $toCurrency);
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::warning('Failed to update cart currency: ' . $e->getMessage());
         }
     }

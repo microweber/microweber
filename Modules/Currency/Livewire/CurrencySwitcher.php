@@ -28,24 +28,48 @@ class CurrencySwitcher extends Component
     protected CurrencyManager $currencyManager;
 
     /**
-     * Mount the component.
+     * Inject the manager on EVERY request. Livewire only calls mount() on the
+     * initial render; subsequent requests (e.g. the switchCurrency action) skip
+     * mount, so injecting there left $currencyManager uninitialized and threw
+     * "Typed property … must not be accessed before initialization". boot() runs
+     * on every request (before hydrate + the action), so the service is always
+     * available.
      *
      * @param CurrencyManager $currencyManager
      */
-    public function mount(CurrencyManager $currencyManager): void
+    public function boot(CurrencyManager $currencyManager): void
     {
         $this->currencyManager = $currencyManager;
+    }
+
+    /**
+     * Mount the component.
+     *
+     * @return void
+     */
+    public function mount(): void
+    {
         $this->selectedCurrency = $this->currencyManager->getCurrentCurrencyCode();
         $this->loadCurrencies();
     }
 
     /**
-     * Load available currencies.
+     * Load the currencies offered for switching. Respects the
+     * multi_currency_enabled config: when multi-currency is off there is nothing
+     * to switch between, so the list is empty and the view's `count > 1` guard
+     * hides the widget. Queries the active currencies directly (a fresh query,
+     * not the manager's cached Eloquent collection) so the hot render path can't
+     * trip over a stale/poisoned currency cache.
      *
      * @return void
      */
     protected function loadCurrencies(): void
     {
+        if (!$this->currencyManager->isMultiCurrencyEnabled()) {
+            $this->currencies = [];
+            return;
+        }
+
         $currencies = Currency::active()
             ->orderBy('position', 'asc')
             ->orderBy('name', 'asc')
@@ -56,9 +80,9 @@ class CurrencySwitcher extends Component
                 'code' => $currency->code,
                 'name' => $currency->name,
                 'symbol' => $currency->symbol,
-                'is_default' => $currency->is_default,
+                'is_default' => (bool) $currency->is_default,
             ];
-        })->toArray();
+        })->values()->toArray();
     }
 
     /**
