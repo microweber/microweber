@@ -23,6 +23,21 @@ class PayPal extends AbstractPaymentMethod
 {
     public string $provider = 'paypal';
 
+    /**
+     * Currencies PayPal can settle in (PayPal's documented supported-currency
+     * list). An order in any other currency must be converted before checkout.
+     *
+     * @return array<int, string>
+     */
+    public function supportedCurrencies(): array
+    {
+        return [
+            'AUD', 'BRL', 'CAD', 'CNY', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS',
+            'JPY', 'MYR', 'MXN', 'TWD', 'NZD', 'NOK', 'PHP', 'PLN', 'GBP', 'RUB',
+            'SGD', 'SEK', 'CHF', 'THB', 'USD',
+        ];
+    }
+
     /** @var \Omnipay\PayPal\ExpressGateway|\Omnipay\PayPal\RestGateway */
     protected $gateway;
 

@@ -47,5 +47,31 @@ abstract class AbstractPaymentMethod
         return [];
     }
 
+    /**
+     * The ISO-4217 currency codes this provider can charge in. An empty array
+     * means "no restriction" (the provider accepts any currency — e.g. Stripe
+     * supports 135+). Drivers with a real restriction override this.
+     *
+     * @return array<int, string>
+     */
+    public function supportedCurrencies(): array
+    {
+        return [];
+    }
+
+    /**
+     * Whether this provider can charge in the given currency. True when the
+     * provider declares no restriction, or the code is in its supported list.
+     */
+    public function supportsCurrency(string $currencyCode): bool
+    {
+        $supported = $this->supportedCurrencies();
+        if (empty($supported)) {
+            return true;
+        }
+
+        return in_array(strtoupper($currencyCode), array_map('strtoupper', $supported), true);
+    }
+
 
 }

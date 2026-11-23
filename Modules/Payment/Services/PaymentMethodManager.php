@@ -130,6 +130,72 @@ class PaymentMethodManager extends Manager
         return null;
     }
 
+    /**
+     * The currencies a provider can charge in. Empty array = no restriction
+     * (any currency). Returns null when the provider/driver can't be resolved.
+     *
+     * @return array<int, string>|null
+     */
+    public function getSupportedCurrencies($providerId): array|null
+    {
+        $providerModel = $this->getProviderById($providerId);
+        if (!$providerModel) {
+            return null;
+        }
+        $providerName = $providerModel['provider'] ?? null;
+        if (!$this->driverExists($providerName)) {
+            return null;
+        }
+        /* @var AbstractPaymentMethod $driver */
+        $driver = $this->driver($providerName);
+        $driver->setModel($providerModel);
+
+        return $driver->supportedCurrencies();
+    }
+
+    /**
+     * Whether a provider can charge in the given currency.
+     */
+    public function supportsCurrency($providerId, string $currencyCode): bool
+    {
+        $providerModel = $this->getProviderById($providerId);
+        if (!$providerModel) {
+            return false;
+        }
+        $providerName = $providerModel['provider'] ?? null;
+        if (!$this->driverExists($providerName)) {
+            return false;
+        }
+        /* @var AbstractPaymentMethod $driver */
+        $driver = $this->driver($providerName);
+        $driver->setModel($providerModel);
+
+        return $driver->supportsCurrency($currencyCode);
+    }
+
+    /**
+     * The active providers that can charge in the given currency, each row the
+     * provider array plus a 'supported_currencies' key (empty = any).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getProvidersForCurrency(string $currencyCode): array
+    {
+        $out = [];
+        foreach ($this->getProviders() as $provider) {
+            $id = $provider['id'] ?? null;
+            if ($id === null) {
+                continue;
+            }
+            if ($this->supportsCurrency($id, $currencyCode)) {
+                $provider['supported_currencies'] = $this->getSupportedCurrencies($id) ?? [];
+                $out[] = $provider;
+            }
+        }
+
+        return $out;
+    }
+
     public function verifyPayment($providerId, $data): array|null
     {
         $providerModel = $this->getProviderById($providerId);

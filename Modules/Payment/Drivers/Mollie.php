@@ -9,6 +9,19 @@ use Omnipay\Omnipay;
 class Mollie extends AbstractPaymentMethod
 {
     public string $provider = 'mollie';
+
+    /**
+     * Currencies Mollie supports (its common documented set).
+     *
+     * @return array<int, string>
+     */
+    public function supportedCurrencies(): array
+    {
+        return [
+            'EUR', 'USD', 'GBP', 'AUD', 'CAD', 'CHF', 'DKK', 'NOK', 'PLN', 'SEK',
+            'HUF', 'CZK', 'BGN', 'HRK', 'RON', 'ISK', 'ILS', 'HKD', 'JPY', 'NZD',
+        ];
+    }
     protected $gateway;
 
     public function __construct()

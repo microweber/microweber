@@ -429,9 +429,18 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
 
     protected function getPaymentStepSchema(): array
     {
+        $currencyCode = $this->currentCurrencyCode();
         $options = [];
+        $unsupported = [];
         foreach ($this->paymentMethods as $method) {
-            $options[$method['id']] = $method['name'] ?? ucfirst($method['provider'] ?? 'Standard');
+            $label = $method['name'] ?? ucfirst($method['provider'] ?? 'Standard');
+            // Only offer providers that can charge in the selected currency; list
+            // the rest so the shopper understands why they're unavailable.
+            if (($method['currency_supported'] ?? true)) {
+                $options[$method['id']] = $label;
+            } else {
+                $unsupported[] = $label;
+            }
         }
 
         // task-2026-06-06-nopaymethod — graceful empty-state. With no active
@@ -466,6 +475,19 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
                     ->afterStateUpdated(function ($state) {
                         checkout_set_user_info('payment_provider_id', $state);
                     }),
+
+                // Note any provider hidden because it can't charge in the
+                // selected currency (e.g. an EUR-only wallet while paying in GBP).
+                Placeholder::make('unsupported_currency_methods')
+                    ->label('')
+                    ->content(new HtmlString(
+                        '<div class="mw-checkout-currency-note" role="note" style="padding:.6rem .8rem;border:1px solid #e0e0e0;border-radius:.5rem;background:#fafafa;font-size:.85rem;color:#555;">'
+                        . e(__('Not available for :currency', ['currency' => $currencyCode])) . ': '
+                        . e(implode(', ', $unsupported)) . '.'
+                        . '</div>'
+                    ))
+                    ->html()
+                    ->visible(!empty($unsupported)),
 
                 // Dynamic payment provider forms
                 Placeholder::make('payment_form_placeholder')
@@ -689,7 +711,39 @@ class CheckoutWizard extends Component implements \Filament\Schemas\Contracts\Ha
 
     protected function loadPaymentMethods(): void
     {
-        $this->paymentMethods = app()->payment_method_manager->getProviders() ?? [];
+        $methods = app()->payment_method_manager->getProviders() ?? [];
+
+        // Annotate each method with whether it can charge in the shopper's
+        // selected currency, so the payment step can flag/disable providers that
+        // don't support it (e.g. an EUR-only wallet when the cart is in GBP).
+        $currencyCode = $this->currentCurrencyCode();
+        $this->paymentMethods = array_map(function ($method) use ($currencyCode) {
+            $id = $method['id'] ?? null;
+            $supported = ($id !== null)
+                ? (app()->payment_method_manager->getSupportedCurrencies($id) ?? [])
+                : [];
+            $method['supported_currencies'] = $supported;
+            $method['currency_supported'] = ($id !== null)
+                ? app()->payment_method_manager->supportsCurrency($id, $currencyCode)
+                : true;
+            return $method;
+        }, $methods);
+    }
+
+    /**
+     * The shopper's currently selected currency code, falling back to the site
+     * currency when the Currency module isn't present.
+     */
+    protected function currentCurrencyCode(): string
+    {
+        if (function_exists('current_currency_code')) {
+            return current_currency_code();
+        }
+        if (function_exists('get_currency_code')) {
+            return get_currency_code();
+        }
+
+        return 'USD';
     }
 
     #[On('reload-cart')]

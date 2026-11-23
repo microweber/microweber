@@ -13,6 +13,17 @@ class MomoMtn extends AbstractPaymentMethod
 {
     public string $provider = 'momomtn';
 
+    /**
+     * MTN MoMo (collection) charges in EUR in the sandbox/here; other currencies
+     * are not accepted by this integration.
+     *
+     * @return array<int, string>
+     */
+    public function supportedCurrencies(): array
+    {
+        return ['EUR'];
+    }
+
     public function title(): string
     {
         return 'MoMo MTN Africa';
