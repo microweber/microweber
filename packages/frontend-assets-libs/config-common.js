@@ -154,6 +154,10 @@ const copy = [
     {target: `flag-icons/flags`, path: `node_modules/flag-icons/flags`},
     {target: `flag-icons/country.json`, path: `node_modules/flag-icons/country.json`},
     {target: `api/`, path: `resources/local-libs/api`},
+    // Self-hosted GSAP motion bundle: gsap + ScrollTrigger + the mw-motion kit,
+    // concatenated into mw-motion.js (see resources/local-libs/gsap/build-mw-motion.mjs).
+    // Copied whole so dist/gsap/mw-motion.js is served (replaces the old cdnjs load).
+    {target: `gsap`, path: `resources/local-libs/gsap`},
     {target: `css/`, path: `resources/local-libs/css`},
     {target: `img/`, path: `resources/local-libs/img`},
     {target: `slick/fonts`, path: `node_modules/slick-carousel/slick/fonts`},
