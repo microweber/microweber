@@ -64,7 +64,10 @@ if (!function_exists('currency_format')) {
      */
     function currency_format(float|int|string|null $amount, ?string $currencyCode = null): string
     {
-        return currency_manager()->format((float) $amount, $currencyCode);
+        // formatPrice (not format) so a STORED base-currency price is converted
+        // into the selected currency before formatting — this is what makes the
+        // storefront prices actually change when the shopper switches currency.
+        return currency_manager()->formatPrice($amount, $currencyCode);
     }
 }
 
@@ -78,7 +81,7 @@ if (!function_exists('currency_format_plain')) {
      */
     function currency_format_plain(float|int|string|null $amount, ?string $currencyCode = null): string
     {
-        return currency_manager()->formatPlain((float) $amount, $currencyCode);
+        return currency_manager()->formatPricePlain($amount, $currencyCode);
     }
 }
 

@@ -63,6 +63,35 @@ class ExchangeRate extends Model
     ];
 
     /**
+     * Keep derived fields consistent on every save, so rates created through the
+     * Filament admin (which doesn't call updateOrCreateRate) are still complete:
+     *  - currency codes are uppercased,
+     *  - inverse_rate is (re)computed from rate whenever rate changes or the
+     *    inverse is missing, so the reverse-direction conversion fallback works,
+     *  - last_updated is stamped.
+     */
+    protected static function booted(): void
+    {
+        static::saving(function (self $model): void {
+            if (!empty($model->from_currency)) {
+                $model->from_currency = strtoupper((string) $model->from_currency);
+            }
+            if (!empty($model->to_currency)) {
+                $model->to_currency = strtoupper((string) $model->to_currency);
+            }
+
+            $rate = (float) $model->rate;
+            if ($rate > 0 && ($model->isDirty('rate') || empty($model->inverse_rate))) {
+                $model->inverse_rate = 1 / $rate;
+            }
+
+            if (empty($model->last_updated)) {
+                $model->last_updated = now();
+            }
+        });
+    }
+
+    /**
      * Scope a query to only include active exchange rates.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query

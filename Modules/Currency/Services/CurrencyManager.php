@@ -198,6 +198,98 @@ class CurrencyManager
     }
 
     /**
+     * The base currency that stored prices are denominated in. Prices in the
+     * shop are entered/stored in the site's payments currency (ShopManager uses
+     * the same 'currency'/'payments' option); the Currency module's default
+     * currency normally matches it. Prefer the payments option, fall back to the
+     * default currency, then USD.
+     *
+     * @return string
+     */
+    public function getBaseCurrencyCode(): string
+    {
+        try {
+            $opt = app()->option_manager->get('currency', 'payments');
+            if (is_string($opt) && strlen(trim($opt)) === 3) {
+                return strtoupper(trim($opt));
+            }
+        } catch (\Throwable $e) {
+            // fall through
+        }
+
+        return $this->getDefaultCurrencyCode();
+    }
+
+    /**
+     * Convert a base-currency amount into the given display currency, when
+     * multi-currency is on and a rate is available. Returns the amount unchanged
+     * (so the price still renders, just in the base value with the new symbol)
+     * when multi-currency is off, the currencies match, or no rate exists.
+     *
+     * @param float $amount
+     * @param string $toCurrency
+     * @return float
+     */
+    public function convertFromBase(float $amount, string $toCurrency): float
+    {
+        if (!$this->isMultiCurrencyEnabled()) {
+            return $amount;
+        }
+
+        $base = $this->getBaseCurrencyCode();
+        if (strtoupper($base) === strtoupper($toCurrency)) {
+            return $amount;
+        }
+
+        try {
+            $conversionService = app(CurrencyConversionService::class);
+            if ($conversionService->canConvert($base, $toCurrency)) {
+                return $conversionService->convert($amount, $base, $toCurrency);
+            }
+        } catch (\Throwable $e) {
+            Log::warning("Price conversion {$base}->{$toCurrency} failed: " . $e->getMessage());
+        }
+
+        return $amount;
+    }
+
+    /**
+     * Format a STORED (base-currency) price for display: convert it into the
+     * selected currency first, then format. This is what storefront price
+     * helpers (currency_format) call, so switching currency actually changes the
+     * numbers. Distinct from format(), which is a pure formatter that assumes the
+     * amount is already in the target currency (and must stay that way, because
+     * getPriceDisplay() feeds it already-converted amounts — routing it through
+     * conversion here would double-convert).
+     *
+     * @param float|int|string|null $amount
+     * @param string|null $currencyCode
+     * @return string
+     */
+    public function formatPrice(float|int|string|null $amount, ?string $currencyCode = null): string
+    {
+        $currencyCode = $currencyCode ?? $this->getCurrentCurrencyCode();
+        $converted = $this->convertFromBase((float) $amount, $currencyCode);
+
+        return $this->format($converted, $currencyCode);
+    }
+
+    /**
+     * Like formatPrice() but without the currency symbol.
+     *
+     * @param float|int|string|null $amount
+     * @param string|null $currencyCode
+     * @return string
+     */
+    public function formatPricePlain(float|int|string|null $amount, ?string $currencyCode = null): string
+    {
+        $currencyCode = $currencyCode ?? $this->getCurrentCurrencyCode();
+        $converted = $this->convertFromBase((float) $amount, $currencyCode);
+
+        return $this->formatPlain($converted, $currencyCode);
+    }
+
+    /**
      * Format amount in current currency.
      *
      * @param float $amount
