@@ -9,11 +9,13 @@ use Modules\Ai\Facades\AiImages;
 use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Models\AgentChatMessage;
 use Modules\Ai\Services\AgentFactory;
+use Modules\Ai\Support\CssVarsHint;
 use Modules\Ai\Support\LibrariesHint;
 use NeuronAI\Chat\Messages\UserMessage;
 
 class AiController extends Controller
 {
+    use CssVarsHint;
     use LibrariesHint;
 
     public function generateImage(Request $request)
@@ -543,6 +545,15 @@ class AiController extends Controller
                     $libHint = $this->formatLibrariesHint($libraries);
                     if ($libHint !== '') {
                         $preamble .= "\n\n" . $libHint;
+                    }
+
+                    // Give the model the active template's design tokens (CSS
+                    // variables) + their computed values, so it reuses the theme
+                    // palette AND can pick legible text colours for any custom
+                    // background it adds instead of inheriting the template default.
+                    $cssVarsHint = $this->formatCssVarsHint($cssVars);
+                    if ($cssVarsHint !== '') {
+                        $preamble .= "\n\n" . $cssVarsHint;
                     }
 
                     // Reference design: the user pasted/attached screenshot(s) of a

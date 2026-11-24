@@ -58,9 +58,17 @@ final class LiveEditDesignSystemContractTest extends TestCase
                 '--mw-body-font-family',
                 'The agent must reuse the template font tokens, not force a generic font.',
             ],
-            'flat backgrounds' => [
-                'backgrounds are FLAT colours',
-                'Backgrounds must be flat (no gradients) except the allowed hero-heading text gradient.',
+            'flat by default, rich when asked' => [
+                'FLAT BY DEFAULT, RICH WHEN THE BRIEF ASKS FOR IT',
+                'Backgrounds default to flat, but gradients/shapes/glassmorphism are allowed when the brief calls for a premium/vibrant look.',
+            ],
+            'text legibility on custom background' => [
+                'TEXT LEGIBILITY ON A CUSTOM BACKGROUND',
+                'The agent must re-set legible, specific-enough text colours on any section whose background it changes, so template-default text never disappears.',
+            ],
+            'theme design tokens vocabulary' => [
+                'THEME DESIGN TOKENS (CSS VARIABLES)',
+                'The agent must be told the theme CSS-variable vocabulary (and that values are injected) so it reuses tokens and picks legible colours.',
             ],
             'motion base curve' => [
                 'cubic-bezier(0.22, 1, 0.36, 1)',

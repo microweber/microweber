@@ -12,6 +12,7 @@ use Modules\Ai\Models\AgentChat;
 use Modules\Ai\Models\AgentChatMessage;
 use Modules\Ai\Services\AgentFactory;
 use Modules\Ai\Services\SseToolEmitter;
+use Modules\Ai\Support\CssVarsHint;
 use Modules\Ai\Support\LibrariesHint;
 use NeuronAI\Chat\Messages\UserMessage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -58,6 +59,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 class SwarmController extends Controller
 {
+    use CssVarsHint;
     use LibrariesHint;
 
     /**
@@ -621,6 +623,10 @@ class SwarmController extends Controller
             if ($libHint !== '') {
                 $prompt .= "\n\n" . $libHint;
             }
+            $cssVarsHint = $this->formatCssVarsHint((array) ($ctx['css_vars'] ?? []));
+            if ($cssVarsHint !== '') {
+                $prompt .= "\n\n" . $cssVarsHint;
+            }
 
             AgentChatMessage::create([
                 'chat_id' => $qaChat->id,
@@ -800,6 +806,10 @@ class SwarmController extends Controller
             $libHint = $this->formatLibrariesHint((array) ($ctx['libraries'] ?? []));
             if ($libHint !== '') {
                 $lanePrompt .= "\n\n" . $libHint;
+            }
+            $cssVarsHint = $this->formatCssVarsHint((array) ($ctx['css_vars'] ?? []));
+            if ($cssVarsHint !== '') {
+                $lanePrompt .= "\n\n" . $cssVarsHint;
             }
             $worker->chat(new UserMessage($lanePrompt))->getMessage();
 
