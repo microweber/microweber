@@ -6,6 +6,7 @@ namespace Modules\Content\Support;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Security\XSSClean;
+use MicroweberPackages\Security\LiveEditXSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Category\Models\CategoryItem;
 use Modules\Content\Models\ContentRelated;
@@ -1042,7 +1043,11 @@ class ContentManagerHelpers extends ContentManagerCrud
                         //\Log::info($html_to_save);
 
 
-                        $xssClean = new XSSClean();
+                        // Trusted admin authoring (save_content is admin-gated a
+                        // few frames up): use the permissive Live-Edit filter so
+                        // rich pages keep their sanitized <style>/<iframe>, while
+                        // script/on*/javascript: are still stripped.
+                        $xssClean = new LiveEditXSSClean();
                         $html_to_save = $content = $xssClean->clean($html_to_save);
 
 

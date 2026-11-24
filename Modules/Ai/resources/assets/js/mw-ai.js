@@ -563,11 +563,54 @@ function MwAi() {
             return '';
         },
 
+        // Scrub a CSS string of script-executing / binding vectors while keeping
+        // ordinary styling. Mirrors the server-side LiveEditXSSClean so a rich
+        // <style> block the AI authors survives both gates identically. Carefully
+        // worded so modern props that merely contain a substring (scroll-behavior,
+        // overscroll-behavior) are NOT removed.
+        sanitizeCssText(css) {
+            let out = String(css || '');
+            // Strip comments (can hide / split payloads).
+            out = out.replace(/\/\*[\s\S]*?\*\//g, '');
+            // Drop @import (remote pull / exfil).
+            out = out.replace(/@import\b[^;]*;?/gi, '');
+            // Blank dangerous url(...) payloads, keep the property using url().
+            out = out.replace(/url\s*\(\s*["']?\s*(?:javascript|vbscript|livescript|mocha)\s*:[^)]*\)/gi, 'url()');
+            out = out.replace(/url\s*\(\s*["']?\s*data\s*:\s*text\s*\/\s*html[^)]*\)/gi, 'url()');
+            // Drop declarations whose PROPERTY is a binding/behavior/expression vector.
+            out = out.replace(/(^|[^-\w])(?:-moz-binding|behaviou?r|expression)\s*:[^;{}]*;?/gi, '$1');
+            // Drop declarations whose VALUE carries a vector.
+            out = out.replace(/[a-z-]+\s*:\s*[^;{}]*(?:expression\s*\(|(?:javascript|vbscript|mocha|livescript)\s*:|-moz-binding)[^;{}]*;?/gi, '');
+            // CSS never legitimately contains markup — strip any embedded tag
+            // (</style> breakout or a swallowed <style>/<script> opening tag, which
+            // would otherwise leave its on*= attributes as text) outright, then
+            // drop any stray '<' so nothing can reconstitute a tag.
+            out = out.replace(/<\s*\/?[a-zA-Z!][^>]*>?/g, '').replace(/</g, '');
+            return out;
+        },
+
         sanitizeSectionHtml(html) {
             const doc = this.canvasDocument();
             const tmp = doc.createElement('div');
             tmp.innerHTML = String(html || '');
-            tmp.querySelectorAll('script,style,iframe,object,embed,link,module').forEach((n) => n.remove());
+            // Tags that never belong in content HTML: scripts, plugin embeds,
+            // external resource links, and Microweber <module> tags (the backend
+            // routes inline JS via apply_js; module markup must be emitted, not
+            // injected as a string). <style> and <iframe> are kept but sanitised
+            // below so AI-authored rich/designed pages survive.
+            tmp.querySelectorAll('script,object,embed,link,module,base,meta').forEach((n) => n.remove());
+            // Sanitise <style> blocks in place (keep the CSS, scrub the vectors).
+            tmp.querySelectorAll('style').forEach((el) => {
+                el.textContent = this.sanitizeCssText(el.textContent || '');
+            });
+            // Sanitise <iframe>: drop srcdoc, validate src scheme, remove if unsafe.
+            tmp.querySelectorAll('iframe').forEach((el) => {
+                el.removeAttribute('srcdoc');
+                const src = String(el.getAttribute('src') || '');
+                if (src && this.isUnsafeIframeSrc(src)) {
+                    el.remove();
+                }
+            });
             tmp.querySelectorAll('*').forEach((el) => {
                 Array.from(el.attributes).forEach((attr) => {
                     const name = attr.name.toLowerCase();
@@ -579,6 +622,18 @@ function MwAi() {
                 });
             });
             return tmp.innerHTML;
+        },
+
+        // An <iframe> src is safe only on a scheme that can't execute script in
+        // the embedded document. Mirrors LiveEditXSSClean::isSafeIframeSrc.
+        isUnsafeIframeSrc(val) {
+            const s = String(val || '').replace(/[\u0000- ]+/g, '').toLowerCase();
+            if (s === '') { return true; }
+            if (/^(javascript|vbscript|livescript|mocha|data):/.test(s)) { return true; }
+            if (/^https?:\/\//.test(s)) { return false; }
+            if (s.indexOf('//') === 0 || s.indexOf('/') === 0 || s.indexOf('{site_url}') === 0) { return false; }
+            if (s.indexOf(':') === -1) { return false; } // scheme-less relative path
+            return true;
         },
 
         // Inject AI CSS into a single global <style> kept LAST in the canvas head

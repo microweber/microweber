@@ -24,7 +24,10 @@ class XSS
             $xssClean = new XSSClean();
             array_walk_recursive($input, function (&$input) use ($options,$xssClean) {
                 if (is_string($input)) {
-                     $input = $xssClean->clean($input);
+                     // $options carries ['admin_mode' => true] for logged-in
+                     // admins, which puts clean() on the permissive rich path
+                     // (keeps sanitized <style>/<iframe>). Non-admins stay strict.
+                     $input = $xssClean->clean($input, $options);
 
                 }
             });

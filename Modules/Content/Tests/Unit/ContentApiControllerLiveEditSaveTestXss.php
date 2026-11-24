@@ -103,12 +103,38 @@ class ContentApiControllerLiveEditSaveTestXss extends TestCase
             $this->assertNotEquals($contentFieldHtml1, $contentFieldHtml2);
 
 
+            $savedContent = (string) $findPage->content;
+
             foreach ($stringChunk as $stringItem) {
                 if (trim($stringItem) == '') {
                     continue;
                 }
-                $this->assertStringNotContainsString($stringItem, $findPage->content);
+                // The admin Live-Edit save path now uses the permissive rich
+                // filter (LiveEditXSSClean) so designed pages keep a sanitized
+                // <style> block and <iframe> embeds. Those payloads survive as
+                // INERT markup, so the verbatim-absence check no longer applies to
+                // them — the executable-vector invariants below cover their safety.
+                if (preg_match('/<\s*(style|iframe)\b/i', $stringItem)) {
+                    continue;
+                }
+                $this->assertStringNotContainsString($stringItem, $savedContent);
             }
+
+            // Security invariant for the permissive admin path: regardless of which
+            // payloads were kept, NO executable vector may survive — not a
+            // <script>, not an on* event handler (as a real attribute), not a
+            // javascript:/vbscript: URL, not a CSS expression(), not an iframe
+            // srcdoc. This holds inside the kept <style>/<iframe> too.
+            $this->assertDoesNotMatchRegularExpression('/<\s*script\b/i', $savedContent,
+                'a <script> survived the admin Live-Edit save');
+            $this->assertDoesNotMatchRegularExpression('/\son[a-z]+\s*=/i', $savedContent,
+                'an on* event handler survived the admin Live-Edit save');
+            $this->assertDoesNotMatchRegularExpression('/(?:javascript|vbscript)\s*:/i', $savedContent,
+                'a javascript:/vbscript: URL survived the admin Live-Edit save');
+            $this->assertDoesNotMatchRegularExpression('/expression\s*\(/i', $savedContent,
+                'a CSS expression() survived the admin Live-Edit save');
+            $this->assertStringNotContainsStringIgnoringCase('srcdoc', $savedContent,
+                'an iframe srcdoc survived the admin Live-Edit save');
 
 
         }
