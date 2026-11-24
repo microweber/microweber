@@ -191,6 +191,13 @@
     max-width: 520px;
 }
 
+/* The search module wraps the input in .module-search-wrapper { overflow:hidden }
+   (for its rounded corners); in the header that clips the input's :focus ring.
+   Let the ring show — every ancestor above the wrapper is already overflow:visible. */
+.mw-store-search .module-search-wrapper {
+    overflow: visible;
+}
+
 .mw-store-actions .mw-currency-switcher__toggle {
     border: 1px solid rgba(0, 0, 0, .12);
 }
