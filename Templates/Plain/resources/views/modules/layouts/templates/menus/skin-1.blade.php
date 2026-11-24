@@ -18,68 +18,26 @@
     </div>
 @endif
 
+{{-- Storefront header chrome now lives in the shared framework component
+     packages/microweber-css-framework-bootstrap/.../components/mw-header.css
+     (.mw-store-* classes), loaded in <head>. Only the few CASCADE-SENSITIVE
+     rules remain inline here: they are id-scoped + !important and MUST stay in
+     this <body> <style> so source order lets them beat saved Live-Edit CSS
+     (framework <link> in <head> would lose that battle). --}}
 <style>
-    /* Storefront chrome for the Plain template. Scoped to the header so it does
-       not leak into page content. Colours come from the --mw-* header tokens
-       (design-vars.css) with safe fallbacks. */
-    .mw-store-promobar {
-        background: var(--mw-store-promobar-bg, #111827);
-        color: var(--mw-store-promobar-color, #ffffff);
-        font-size: 13px;
-        letter-spacing: .02em;
-        padding: 8px 0;
-    }
-
-    .mw-store-header {
-        background: var(--mw-header-background-color, #ffffff);
-        position: sticky;
-        top: 0;
-        z-index: 1020;
-        border-bottom: 1px solid rgba(0, 0, 0, .08);
-    }
-
-    /* Kill any top padding on the header shell so the promo bar sits flush at the
-       very top (a global #mw-header-background padding-block from saved Live-Edit
-       CSS was leaving a cream strip above the promo bar). id+class beats the
-       global id-only rule. */
+    /* Flush the promo bar to the very top (beats a global #mw-header-background
+       padding-block from saved Live-Edit CSS; id+class beats the id-only rule). */
     #mw-header-background.mw-store-header {
         padding-top: 0 !important;
     }
 
-    .mw-store-logo a {
-        text-decoration: none;
-        font-size: 24px;
-        font-weight: 700;
-        color: var(--mw-header-link-color, #1f2937);
-        white-space: nowrap;
-    }
-
-    .mw-store-search .module-search-wrapper .input-group {
-        width: 100% !important;
-        max-width: 520px;
-    }
-
-    .mw-store-actions .mw-currency-switcher__toggle {
-        border: 1px solid rgba(0, 0, 0, .12);
-    }
-
-    /* Chrome icons (cart) follow the header's actual text colour (--mw-body-color,
-       the token the logo + nav links render with) rather than --mw-header-link-color,
-       which a saved dark-header Live-Edit design forces to #fff — invisible on this
-       light header. SVGs use fill="currentColor", so this colours them too.
-       id-scoped + !important so it beats the saved Live-Edit header-link rules. */
+    /* Cart icon follows the header's real text colour, not --mw-header-link-color
+       (which a saved dark-header Live-Edit design forces to #fff — invisible on a
+       light header). id-scoped + !important to beat those saved rules. */
     #mw-header-background .mw-store-cart-link,
     #mw-header-background .mw-store-cart-link svg {
         color: var(--mw-body-color, #1f2937) !important;
         fill: var(--mw-body-color, #1f2937) !important;
-    }
-
-    .mw-store-cart-link {
-        position: relative;
-        padding: 6px 10px;
-        border-radius: 999px;
-        text-decoration: none;
-        transition: background .2s ease, color .2s ease;
     }
 
     #mw-header-background .mw-store-cart-link:hover,
@@ -88,52 +46,15 @@
         fill: var(--mw-primary-color, #1f2937) !important;
     }
 
-    .mw-store-cart-link:hover {
-        background: rgba(0, 0, 0, .05);
-    }
-
-    .mw-store-cart-count {
-        min-width: 20px;
-        height: 20px;
-        padding: 0 6px;
-        margin-left: 6px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 1;
-        color: #fff;
-        background: var(--mw-primary-color, #1f2937);
-        border-radius: 999px;
-    }
-
-    .mw-store-cart-dropdown {
-        min-width: 320px;
-    }
-
-    .mw-store-nav {
-        border-top: 1px solid rgba(0, 0, 0, .06);
-    }
-
+    /* Nav link colour (!important to beat saved Live-Edit header-link rules); the
+       nav-link LAYOUT lives in the framework mw-header.css. */
     .mw-store-nav .nav-link,
     .mw-store-nav ul > li > a {
         color: var(--mw-header-link-color, #1f2937) !important;
-        font-weight: 500;
-        line-height: 48px;
-        padding: 0 16px;
-        display: inline-block;
-        text-decoration: none;
-        transition: color .2s ease;
     }
 
     .mw-store-nav ul > li > a:hover {
         color: var(--mw-primary-color, #1f2937) !important;
-    }
-
-    .mw-store-nav .mw-vhmbgr--navigation .navbar-nav {
-        gap: 8px;
-        justify-content: center;
     }
 </style>
 

@@ -153,3 +153,97 @@
     padding-top: 0;
     padding-bottom: 0;
 }
+/* ============================================================
+   Storefront header chrome (promo bar · logo · search · currency ·
+   cart · nav). Semantic, reusable classes shared by any template that
+   adopts the store-header markup (e.g. Plain's menus/skin-1). These are
+   the CASCADE-SAFE rules lifted out of that skin's inline <style> so the
+   skin carries markup + classes only; the few id-scoped `!important`
+   rules that must beat saved Live-Edit CSS via source order STAY inline
+   in the skin. All colours come from --mw-* tokens with safe fallbacks.
+   ============================================================ */
+.mw-store-promobar {
+    background: var(--mw-store-promobar-bg, #111827);
+    color: var(--mw-store-promobar-color, #ffffff);
+    font-size: 13px;
+    letter-spacing: .02em;
+    padding: 8px 0;
+}
+
+.mw-store-header {
+    background: var(--mw-header-background-color, #ffffff);
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    border-bottom: 1px solid rgba(0, 0, 0, .08);
+}
+
+.mw-store-logo a {
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--mw-header-link-color, #1f2937);
+    white-space: nowrap;
+}
+
+.mw-store-search .module-search-wrapper .input-group {
+    width: 100% !important;
+    max-width: 520px;
+}
+
+.mw-store-actions .mw-currency-switcher__toggle {
+    border: 1px solid rgba(0, 0, 0, .12);
+}
+
+.mw-store-cart-link {
+    position: relative;
+    padding: 6px 10px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background .2s ease, color .2s ease;
+}
+
+.mw-store-cart-link:hover {
+    background: rgba(0, 0, 0, .05);
+}
+
+.mw-store-cart-count {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    margin-left: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+    background: var(--mw-primary-color, #1f2937);
+    border-radius: 999px;
+}
+
+.mw-store-cart-dropdown {
+    min-width: 320px;
+}
+
+.mw-store-nav {
+    border-top: 1px solid rgba(0, 0, 0, .06);
+}
+
+.mw-store-nav .mw-vhmbgr--navigation .navbar-nav {
+    gap: 8px;
+    justify-content: center;
+}
+
+/* Store-nav link LAYOUT (colour stays inline in the skin with !important so it
+   beats saved Live-Edit header-link rules via source order). */
+.mw-store-nav .nav-link,
+.mw-store-nav ul > li > a {
+    font-weight: 500;
+    line-height: 48px;
+    padding: 0 16px;
+    display: inline-block;
+    text-decoration: none;
+    transition: color .2s ease;
+}
