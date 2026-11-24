@@ -1,6 +1,12 @@
 <div class="module-search-livewire">
     <div class="search-form mb-4">
-        <div class="input-group position-relative">
+        {{-- flex-nowrap: the input-group holds a single input + an absolutely
+             positioned search icon (centred to the group via top:50%). Bootstrap's
+             default flex-wrap:wrap lets the group collapse to its line-height in a
+             constrained flex context (e.g. a store header row), so the input
+             overflows it and the icon ends up above the text. Keeping the group on
+             one line sizes it to the input so the icon centres correctly. --}}
+        <div class="input-group position-relative flex-nowrap">
             <div class="position-absolute d-flex justify-content-end align-items-center ps-2 pointer-events-none"
                 @style([
                         'z-index: 20;
