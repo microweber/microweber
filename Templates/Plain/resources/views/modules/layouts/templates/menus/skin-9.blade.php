@@ -17,11 +17,7 @@
     </div>
 @endif
 
-{{-- Shared sticky underline-nav chrome now lives in the framework component
-     mw-nav.css under the dedicated .mw-menu-underline-nav class. The --thick
-     modifier gives this skin its 2px link underline (vs the 1px default on
-     skin-3/10). Kept off the generic .mw-menu-skin-com hook so the active store
-     header (skin-1) is never restyled. --}}
+{{-- Sticky underline-nav chrome lives in mw-nav.css (.mw-menu-underline-nav); --thick = 2px underline; off .mw-menu-skin-com so skin-1 is not restyled. --}}
 <section class="header-background px-0 mw-menu-skin-com mw-menu-underline-nav mw-menu-underline-nav--thick" id="mw-header-background">
     <script>
         addEventListener('DOMContentLoaded', e => {

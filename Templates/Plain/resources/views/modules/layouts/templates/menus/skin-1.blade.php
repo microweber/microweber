@@ -18,22 +18,14 @@
     </div>
 @endif
 
-{{-- Storefront header chrome now lives in the shared framework component
-     packages/microweber-css-framework-bootstrap/.../components/mw-header.css
-     (.mw-store-* classes), loaded in <head>. Only the few CASCADE-SENSITIVE
-     rules remain inline here: they are id-scoped + !important and MUST stay in
-     this <body> <style> so source order lets them beat saved Live-Edit CSS
-     (framework <link> in <head> would lose that battle). --}}
+{{-- Storefront header chrome lives in mw-header.css (.mw-store-*); only the id-scoped !important cascade-fixes below stay inline to beat saved Live-Edit CSS by source order. --}}
 <style>
-    /* Flush the promo bar to the very top (beats a global #mw-header-background
-       padding-block from saved Live-Edit CSS; id+class beats the id-only rule). */
+    /* Flush the promo bar to the top (beats a saved Live-Edit #mw-header-background padding). */
     #mw-header-background.mw-store-header {
         padding-top: 0 !important;
     }
 
-    /* Cart icon follows the header's real text colour, not --mw-header-link-color
-       (which a saved dark-header Live-Edit design forces to #fff — invisible on a
-       light header). id-scoped + !important to beat those saved rules. */
+    /* Cart icon uses the header's real text colour, not --mw-header-link-color (saved dark designs force #fff). */
     #mw-header-background .mw-store-cart-link,
     #mw-header-background .mw-store-cart-link svg {
         color: var(--mw-body-color, #1f2937) !important;
@@ -46,8 +38,7 @@
         fill: var(--mw-primary-color, #1f2937) !important;
     }
 
-    /* Nav link colour (!important to beat saved Live-Edit header-link rules); the
-       nav-link LAYOUT lives in the framework mw-header.css. */
+    /* Nav link colour (!important beats saved Live-Edit rules); the layout lives in mw-header.css. */
     .mw-store-nav .nav-link,
     .mw-store-nav ul > li > a {
         color: var(--mw-header-link-color, #1f2937) !important;

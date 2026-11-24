@@ -15,11 +15,7 @@ $layout_classes = isset($layout_classes) ? $layout_classes : '';
 $layout_classes .= ' ' . $classes['padding_top'] . ' ' . $classes['padding_bottom'] . ' ';
 @endphp
 
-{{-- task-big2-hdr8-slider-overflow — overflow-hidden on the section clips an
-     empty/unconfigured Swiper slider, whose .swiper-slide gets width ~2^25px and
-     otherwise blows the page width out to 16M+px (catastrophic horizontal scroll
-     on mobile AND desktop until slides are added). The section is a block bounded
-     to the viewport, so clipping here can't leak page scroll. --}}
+{{-- overflow-hidden clips an empty Swiper slider (its .swiper-slide can hit ~2^25px and blow out page width); safe as the section is viewport-bounded. --}}
 <section class="section py-0 d-flex align-items-center justify-content-center overflow-hidden">
     <module type="background" id="background-layout--{{ $params['id'] ?? '' }}"/>
     <div class="mw-layout-container py-4 container mw-header-section-mh-100vh d-flex align-items-center justify-content-center no-element edit " field="layout-header-skin-8-{{ $params['id'] ?? '' }}" rel="module">

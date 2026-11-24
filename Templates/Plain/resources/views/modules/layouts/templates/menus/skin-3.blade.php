@@ -17,10 +17,7 @@
     </div>
 @endif
 
-{{-- Shared sticky underline-nav chrome now lives in the framework component
-     mw-nav.css under the dedicated .mw-menu-underline-nav class (skin-3/9/10
-     reuse it). Kept out of the generic .mw-menu-skin-com hook so the active
-     store header (skin-1), which also carries that hook, is never restyled. --}}
+{{-- Sticky underline-nav chrome lives in mw-nav.css (.mw-menu-underline-nav); kept off the shared .mw-menu-skin-com hook so the active header (skin-1) is not restyled. --}}
 <section class="header-background px-0 mw-menu-skin-com mw-menu-underline-nav" id="mw-header-background">
     <script>
         addEventListener('DOMContentLoaded', e => {

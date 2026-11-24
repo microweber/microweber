@@ -188,15 +188,7 @@
                 <div class="mw-vhmbgr--navigation">
                     <module type="menu" name="header_menu" id="header_menu-header-layout12" template="navbar"/>
                 </div>
-                {{-- The mobile hamburger SVG is injected by
-                     packages/frontend-assets/resources/assets/widgets/hamburger.js
-                     (MWSiteMobileMenu — fired from the script block at the top
-                     of this file). It walks every `.mw-vhmbgr--navigation` and
-                     appends a `.mw-vhmbgr-wrapper > svg` sibling, so the
-                     hardcoded copy that used to live here was duplicating it.
-                     Removing the static HTML keeps a single icon driven by
-                     the JS (which also wires up size/color/threshold options
-                     and the open/close handler). --}}
+                {{-- Mobile hamburger SVG is injected by hamburger.js (MWSiteMobileMenu); no static copy here so the icon is not duplicated. --}}
             </div>
         </x-row>
     </div>
