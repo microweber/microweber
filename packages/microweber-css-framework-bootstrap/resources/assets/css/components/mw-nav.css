@@ -83,3 +83,68 @@
   margin-bottom: 0; }
 
 /*# sourceMappingURL=header-menus.css.map */
+
+/* Sticky underline-nav header skins (Plain menus/skin-3, skin-9, skin-10).
+   These three skins each duplicated the SAME ~54-line dropdown/underline chrome
+   inline. It is consolidated here under a DEDICATED class so it can never touch the
+   other headers that share the generic .mw-menu-skin-com markup hook (above all the
+   ACTIVE store header, menus/skin-1, which would otherwise become sticky + blurred).
+   Add .mw-menu-underline-nav to the skin root section; add the --thick modifier for a
+   2px link underline (skin-9) instead of the 1px default (skin-3 / skin-10).
+   The old inline rule .mw-vhmbgr--navigation .navbar-nav { gap: 20px } is intentionally
+   NOT carried over: it already computed to 30px in every render (outranked by the
+   navbar's own spacing), so dropping the inert rule keeps the current nav spacing. */
+.mw-menu-underline-nav {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  backdrop-filter: saturate(180%) blur(20px); }
+
+.mw-menu-underline-nav .mw-menu-skin-com-container {
+  position: relative;
+  z-index: 1; }
+
+.mw-menu-underline-nav ul:not(.ul-deep) > li > a {
+  color: #fff;
+  display: inline-block;
+  line-height: 50px;
+  position: relative;
+  transition: .3s; }
+
+.mw-menu-underline-nav .dropdown-menu {
+  min-width: 15rem !important; }
+
+.mw-menu-underline-nav ul > li {
+  position: relative; }
+
+.mw-menu-underline-nav .ul-deep {
+  text-decoration: none; }
+
+.mw-menu-underline-nav ul > li > a span:after {
+  position: absolute;
+  content: '';
+  bottom: 10px;
+  left: 0;
+  height: 1px;
+  width: 70%;
+  background-color: var(--mw-header-link-hover-color);
+  transition: .5s;
+  opacity: 0; }
+
+.mw-menu-underline-nav--thick ul > li > a span:after {
+  height: 2px; }
+
+.mw-menu-underline-nav ul > li > a:hover {
+  opacity: .8; }
+
+.mw-menu-underline-nav .dropdown menu {
+  max-width: 15rem !important; }
+
+.mw-menu-underline-nav ul > li > a:hover span:after,
+.mw-menu-underline-nav ul > li.active span:after {
+  width: 100%;
+  opacity: 1; }
+
+.mw-menu-underline-nav ul > li.depth-1 > a span:after {
+  opacity: 0 !important;
+  content: unset !important; }

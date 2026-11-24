@@ -17,75 +17,11 @@
     </div>
 @endif
 
-<style>
-    .mw-menu-skin-com-container {
-        position: relative;
-        z-index: 1;
-    }
-
-    .mw-menu-skin-com {
-        position: sticky;
-        top: 0;
-        z-index: 9;
-        backdrop-filter: saturate(180%) blur(20px);
-    }
-
-    .mw-menu-skin-com ul:not(.ul-deep) > li > a {
-        color: #fff;
-        display: inline-block;
-        line-height: 50px;
-        position: relative;
-        transition: .3s;
-    }
-
-    .mw-menu-skin-com .dropdown-menu {
-        min-width: 15rem !important;
-    }
-
-    .mw-menu-skin-com ul > li {
-        position: relative;
-    }
-
-    .mw-menu-skin-com .ul-deep {
-        text-decoration: none;
-    }
-
-    .mw-menu-skin-com ul > li > a span:after {
-        position: absolute;
-        content: '';
-        bottom: 10px;
-        left: 0;
-        height: 1px;
-        width: 70%;
-        background-color: var(--mw-header-link-hover-color);
-        transition: .5s;
-        opacity: 0;
-    }
-
-    .mw-menu-skin-com ul > li > a:hover {
-        opacity: .8;
-    }
-
-    .mw-menu-skin-com .dropdown menu {
-        max-width: 15rem !important;
-    }
-
-    .mw-menu-skin-com ul > li > a:hover span:after, .mw-menu-skin-com ul > li.active span:after {
-        width: 100%;
-        opacity: 1;
-    }
-
-    .mw-menu-skin-com ul > li.depth-1 > a span:after {
-        opacity: 0 !important;
-        content: unset !important;
-    }
-
-    .mw-vhmbgr--navigation .navbar-nav {
-        gap: 20px;
-    }
-</style>
-
-<section class="header-background m-7 rounded-lg px-0 mw-menu-skin-com" id="mw-header-background">
+{{-- Shared sticky underline-nav chrome now lives in the framework component
+     mw-nav.css under the dedicated .mw-menu-underline-nav class (skin-3/9/10
+     reuse it). Kept out of the generic .mw-menu-skin-com hook so the active
+     store header (skin-1), which also carries that hook, is never restyled. --}}
+<section class="header-background m-7 rounded-lg px-0 mw-menu-skin-com mw-menu-underline-nav" id="mw-header-background">
     <script>
         addEventListener('DOMContentLoaded', e => {
             mw.MWSiteMobileMenu({
