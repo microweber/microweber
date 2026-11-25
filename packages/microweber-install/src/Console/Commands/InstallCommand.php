@@ -135,25 +135,42 @@ class InstallCommand extends Command
         $input['subscribe_for_update_notification'] = true;
 
 
+        // Resolve the requested template folder across ALL scanned template roots:
+        // the primary Templates/ dir PLUS the extra drop-in roots (ExtraTemplates/,
+        // ExtraTemplates2/, …) declared in config('microweber.extra_templates_paths')
+        // — the same roots the site_templates() scanner reads. Template FOLDERS are
+        // case-sensitive on Linux but users/env often pass a different case
+        // ('bootstrap' -> 'Bootstrap'), so each root is matched exactly first, then
+        // case-insensitively. Without scanning the extra roots a template dropped
+        // into ExtraTemplates2/ never activates (default_template stays false and the
+        // installer silently falls back to the config default, e.g. Bootstrap).
         $templateFound = false;
-        if (is_file(templates_dir() . $input['default_template'] . DS . 'composer.json')) {
-            $templateFound = $input['default_template'];
-        }
-
-        if (!$templateFound && $input['default_template'] && is_dir(templates_dir())) {
-            // Case-insensitive fallback: template FOLDERS are case-sensitive on Linux, but
-            // users (and env defaults) commonly pass 'bootstrap' for the 'Bootstrap' folder.
-            // Resolve to the real folder name so the template actually activates on install
-            // (otherwise current_template stays empty and the frontend has no theme).
+        if ($input['default_template']) {
             $wanted = strtolower((string) $input['default_template']);
-            foreach (scandir(templates_dir()) as $templateFolderName) {
-                if ($templateFolderName === '.' || $templateFolderName === '..') {
+            $templateRoots = array_merge(
+                [templates_dir()],
+                (array) config('microweber.extra_templates_paths', [])
+            );
+            foreach ($templateRoots as $root) {
+                $root = rtrim((string) $root, '/\\') . DS;
+                if ($root === DS || !is_dir($root)) {
                     continue;
                 }
-                if (strtolower($templateFolderName) === $wanted
-                    && is_file(templates_dir() . $templateFolderName . DS . 'composer.json')) {
-                    $templateFound = $templateFolderName;
+                // exact folder match first
+                if (is_file($root . $input['default_template'] . DS . 'composer.json')) {
+                    $templateFound = $input['default_template'];
                     break;
+                }
+                // case-insensitive fallback within this root
+                foreach (scandir($root) as $templateFolderName) {
+                    if ($templateFolderName === '.' || $templateFolderName === '..') {
+                        continue;
+                    }
+                    if (strtolower($templateFolderName) === $wanted
+                        && is_file($root . $templateFolderName . DS . 'composer.json')) {
+                        $templateFound = $templateFolderName;
+                        break 2;
+                    }
                 }
             }
         }
