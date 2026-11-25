@@ -69,9 +69,10 @@
     color: var(--mw-brand-blue) !important;
 }
 
-/* --- Warmer, rounded surfaces --------------------------------------------- */
-/* Prefixed with body.fi-panel-admin to beat the theme's own equally-specific
- * dashboard-card rules (which pin var(--mw-radius-md)=4px). */
+/* --- Surfaces: match the old MW admin's subtle card look -------------------
+ * Old admin (demo.microweber.org v2, Bootstrap) cards = ~4px radius, soft
+ * shadow 0 1px 4px rgba(0,0,0,0.16), NO border. Mirror that here: a gentle
+ * radius, the same soft shadow, borderless. */
 .fi-section,
 .fi-card,
 .fi-modal-window,
@@ -79,15 +80,14 @@
 body.fi-panel-admin .mw-stats-card,
 body.fi-panel-admin .mw-quick-stat-card,
 body.fi-panel-admin .mw-quick-stat-card-content {
-    border-radius: 16px !important;
+    border-radius: 8px !important;
 }
 
 .fi-section,
 body.fi-panel-admin .mw-stats-card,
 body.fi-panel-admin .mw-quick-stat-card {
-    box-shadow: 0 1px 2px rgba(24, 36, 51, 0.04),
-                0 6px 22px rgba(24, 36, 51, 0.05) !important;
-    border-color: rgba(24, 36, 51, 0.06) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16) !important;
+    border: 0 !important;
 }
 
 /* Icon tiles a little softer */
@@ -101,13 +101,20 @@ body.fi-panel-admin .mw-quick-stat-card-icon,
  * The theme paints the active item grey with an `html body.fi-panel-admin …`
  * selector (specificity 0,4,2); we out-specify it (html + .fi-sidebar + tag a =
  * 0,5,3) so the brand-blue active state wins. */
+/* Match the old admin: active item has NO filled pill — just the label
+ * underlined (brand-blue) with a transparent background. */
 html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn,
 html body.fi-panel-admin .fi-sidebar a.fi-sidebar-item-btn[aria-current="page"] {
-    background-color: var(--mw-brand-blue-tint) !important;
+    background-color: transparent !important;
     color: var(--mw-brand-blue-ink) !important;
     font-weight: 600 !important;
-    box-shadow: inset 3px 0 0 0 var(--mw-brand-blue) !important;
-    border-radius: 10px !important;
+    box-shadow: none !important;
+}
+html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn .fi-sidebar-item-label {
+    text-decoration: underline !important;
+    text-decoration-color: var(--mw-brand-blue) !important;
+    text-decoration-thickness: 2px !important;
+    text-underline-offset: 4px !important;
 }
 html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn .fi-sidebar-item-icon,
 html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn svg {
@@ -195,7 +202,43 @@ body.fi-panel-admin .fi-sidebar-group-label {
     text-transform: uppercase !important;
     color: #94a3b8 !important;
 }
-body.fi-panel-admin .fi-sidebar-item-btn {
-    padding-top: 7px !important;
-    padding-bottom: 7px !important;
+/* === Match old MW admin — measured spacing & sizing ======================== */
+/* Sidebar nav items — old: 16px/400, ~15px vertical padding. html prefix beats
+ * the theme's own .fi-sidebar-item-btn rule (general-styles). */
+html body.fi-panel-admin .fi-sidebar-item-btn {
+    font-size: 15px !important;
+    padding-top: 11px !important;
+    padding-bottom: 11px !important;
+}
+html body.fi-panel-admin .fi-sidebar-item-label {
+    font-size: 15px !important;
+}
+
+/* Card body padding — old card-body: 16px 24px. */
+body.fi-panel-admin .fi-section-content,
+body.fi-panel-admin .fi-section-content-ctn {
+    padding: 16px 24px !important;
+}
+
+/* Dashboard stat icon tiles — old: 60×60, 5px radius. */
+body.fi-panel-admin .mw-quick-stat-card-icon {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 6px !important;
+}
+
+/* Page title — old welcome heading is big (36px/700); scale ours up. */
+html body.fi-panel-admin .fi-header-heading {
+    font-size: 1.75rem !important;      /* ~28px */
+    font-weight: 700 !important;
+}
+/* Dashboard welcome widget heading — old admin renders it at 36px/700. */
+body.fi-panel-admin .mw-welcome-widget-heading {
+    font-size: 2.1rem !important;       /* ~34px — matches the old big welcome */
+    font-weight: 700 !important;
+    margin-bottom: 10px !important;
+}
+/* Inline links read a touch larger in the old admin (16px). */
+body.fi-panel-admin .fi-link:not(.fi-btn) {
+    font-size: 15px !important;
 }

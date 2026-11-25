@@ -5,12 +5,12 @@
  * ============================================================================ */
 
 :root {
-    --mw-radius-sm: 7px;
-    --mw-radius-md: 10px;
-    --mw-radius-lg: 14px;
-    --mw-radius-xl: 20px;
+    --mw-radius-sm: 5px;
+    --mw-radius-md: 6px;
+    --mw-radius-lg: 8px;
+    --mw-radius-xl: 10px;
     --mw-radius-pill: 999px;
-    --mw-radius-tile: 12px;
+    --mw-radius-tile: 6px;
 
     --mw-space-hair: 4px;
     --mw-space-xs: 6px;

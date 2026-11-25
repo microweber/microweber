@@ -75,7 +75,7 @@ class AdminThemeTest extends DuskTestCase
                 $this->assertEquals('#f6f8fb', $r['bgPage'], '--mw-bg-page = #f6f8fb');
                 $this->assertEquals('#ffffff', $r['bgSurface'], '--mw-bg-surface = #ffffff');
                 $this->assertEquals('#182433', $r['textPrimary'], '--mw-text-primary = #182433');
-                $this->assertEquals('14px', $r['radiusLg'], '--mw-radius-lg = 14px (classic-brand warmed radius scale)');
+                $this->assertEquals('8px', $r['radiusLg'], '--mw-radius-lg = 8px (subtle radius matching the old MW admin)');
                 $passed++;
             } catch (\Exception $e) {
                 $failed['css_variables_applied'] = $e->getMessage();
