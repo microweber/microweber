@@ -42,12 +42,24 @@ class ProductResource extends ContentResource
 
     public static function form(Schema $schema): Schema
     {
-        $schema = parent::form($schema);
+        // Product-specific sections (type / booking / add-to-cart link) are injected
+        // into the shared "Product Details" tab via productDetailsSection() below, so
+        // the whole product form stays inside the tabs instead of floating beneath
+        // them.
+        return parent::form($schema);
+    }
 
-        // A "downloadable product" is a product with subtype 'downloadable_product'.
-        // The toggle is mapped to/from the subtype column in the Create/Edit pages
-        // (it is not a model attribute itself).
-        return $schema->components(array_merge($schema->getComponents(), [
+    /**
+     * Extend the shared Content "Product Details" tab with the product-specific
+     * sections: type toggles (downloadable / bookable), booking configuration and
+     * the add-to-cart share link.
+     */
+    public static function productDetailsSection()
+    {
+        return array_merge(parent::productDetailsSection(), [
+            // A "downloadable product" is a product with subtype 'downloadable_product'.
+            // The toggle is mapped to/from the subtype column in the Create/Edit pages
+            // (it is not a model attribute itself).
             Section::make(__('Product type'))
                 ->schema([
                     Toggle::make('is_downloadable')
@@ -159,7 +171,7 @@ class ProductResource extends ContentResource
                             }
                         }),
                 ]),
-        ]));
+        ]);
     }
 
     public static function table(Table $table): Table
