@@ -157,3 +157,28 @@ body.fi-panel-admin .fi-badge {
 .fi-input-wrapper:focus-within {
     --tw-ring-color: var(--mw-brand-blue) !important;
 }
+
+/* --- Stat-overview cards (orders/dashboard filters) ------------------------ */
+/* The warmed radius exposed a corner artifact where the active-filter indicator
+ * meets the rounded edge. Clip the card to its own radius + unify to 16px. */
+body.fi-panel-admin .fi-wi-stats-overview-stat {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+}
+
+/* (Table header tint/typography intentionally omitted — stock Filament sets the
+ * header background in a cascade @layer that out-ranks the theme sheet, and the
+ * existing uppercase-grey headers already read well.) */
+
+/* --- Sidebar: crisper, muted group labels + a touch more rhythm ----------- */
+body.fi-panel-admin .fi-sidebar-group-label {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    color: #94a3b8 !important;
+}
+body.fi-panel-admin .fi-sidebar-item-btn {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+}

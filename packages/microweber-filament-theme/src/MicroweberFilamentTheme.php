@@ -48,15 +48,22 @@ class MicroweberFilamentTheme implements Plugin
 
     public static function configureAssets(): void
     {
-        // Register filament assets
+        // Register filament assets. The built bundles are served at a stable,
+        // UN-versioned URL, so browsers cache them across deploys and admins see
+        // stale CSS/JS after an update. Append ?v=<filemtime> so each rebuild
+        // busts the cache (dev + prod) without changing the path.
+        $build = 'vendor/microweber-packages/microweber-filament-theme/build/';
+        $asset = static function (string $file) use ($build): string {
+            $url = public_asset($build . $file);
+            $path = public_path($build . $file);
+            return is_file($path) ? $url . '?v=' . filemtime($path) : $url;
+        };
+
         FilamentAsset::register([
-            // Theme::make('microweber-filament-theme', __DIR__ . '/../resources/dist/css/microweber-filament-theme.css'),
-            Theme::make('microweber-filament-theme', public_asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css')),
-            Js::make('microweber-filament-theme-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.js')),
-
-            Js::make('mw-media-browser-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/mw-media-browser.js')),
-            Js::make('mw-tree-component-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/mw-tree-component.js')),
-
+            Theme::make('microweber-filament-theme', $asset('microweber-filament-theme.css')),
+            Js::make('microweber-filament-theme-js', $asset('microweber-filament-theme.js')),
+            Js::make('mw-media-browser-js', $asset('mw-media-browser.js')),
+            Js::make('mw-tree-component-js', $asset('mw-tree-component.js')),
         ]);
     }
 
