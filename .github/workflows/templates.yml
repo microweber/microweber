@@ -65,7 +65,7 @@ jobs:
         php-versions: ['8.4']
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v7
     - uses: ./.github/actions/setup-php
       with:
         php_version: ${{ matrix.php-versions }}
@@ -78,7 +78,7 @@ jobs:
 #        http-port:
 #          8000
     - name: Npm install
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v7
       with:
         node-version: 16
         cache: 'npm'
@@ -117,25 +117,25 @@ jobs:
       run:  php artisan dusk --filter=BrowsePagesForBrokenTagsTest
     - name: Upload Screenshots
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: screenshots
         path: tests/Browser/screenshots
     - name: Upload Console Logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: console
         path: tests/Browser/console
     - name: Upload Laravel Storage Logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: storage-logs
         path: storage/logs
     - name: Upload Laravel config
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: config
         path:
