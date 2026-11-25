@@ -29,8 +29,10 @@
 }
 
 :root {
-    /* Jost = Microweber brand voice for headings + wordmark. Body stays Inter. */
-    --mw-font-heading: 'Jost', var(--mw-font-sans, Inter), sans-serif;
+    /* Match the old MW admin: Inter for everything, including headings (the old
+     * admin uses Inter throughout). The brand Jost font is kept only for the SVG
+     * logo wordmark, which is unaffected by this token. */
+    --mw-font-heading: var(--mw-font-sans, Inter), sans-serif;
     --mw-brand-blue: #0d6efd;
     --mw-brand-blue-ink: #0a58ca;
     --mw-brand-blue-tint: rgba(13, 110, 253, 0.10);
@@ -146,14 +148,15 @@ html body.fi-panel-admin .fi-tabs-item.fi-active svg {
 /* Prior "reskin" work hardcoded border-radius:4px !important on buttons, topbar
  * and inputs to flatten the admin. Re-round them for the warm brand look. The
  * body.fi-panel-admin prefix + !important out-ranks those single-class rules. */
+/* Old admin = Bootstrap ~4px radius on controls; use a subtle 6px so buttons,
+ * inputs and tables read like the old admin (not the warmer earlier pass). */
 body.fi-panel-admin .fi-btn,
 body.fi-panel-admin .fi-dropdown-list-item,
 body.fi-panel-admin .fi-ta-action-btn,
-/* topbar action buttons are pinned to 4px at 0,3,0 specificity — match it */
 body.fi-panel-admin .admin-toolbar-add .fi-btn,
 body.fi-panel-admin .admin-toolbar-live-edit .fi-btn,
 body.fi-panel-admin .fi-topbar .fi-btn {
-    border-radius: 10px !important;
+    border-radius: 6px !important;
 }
 body.fi-panel-admin .fi-input,
 body.fi-panel-admin .fi-select-input,
@@ -162,13 +165,13 @@ body.fi-panel-admin .fi-fo-field-wrp input:not([type="checkbox"]):not([type="rad
 body.fi-panel-admin .fi-fo-field-wrp textarea,
 body.fi-panel-admin .fi-global-search-field .fi-input-wrp,
 body.fi-panel-admin .fi-topbar input {
-    border-radius: 10px !important;
+    border-radius: 6px !important;
 }
 /* Tables & their toolbar/search chrome */
 body.fi-panel-admin .fi-ta,
 body.fi-panel-admin .fi-ta-ctn,
 body.fi-panel-admin .fi-tabs {
-    border-radius: 14px !important;
+    border-radius: 8px !important;
 }
 /* Badges stay pill-soft */
 body.fi-panel-admin .fi-badge {
