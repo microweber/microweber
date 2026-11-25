@@ -178,6 +178,12 @@ body.fi-panel-admin .fi-badge {
     border-radius: 999px !important;
 }
 
+/* Toggles/switches read brand-blue when on (were ink navy) — matches the old
+ * admin's blue switches + the brand primary. */
+html body.fi-panel-admin .fi-toggle.fi-toggle-on {
+    background-color: var(--mw-brand-blue) !important;
+}
+
 /* Focus ring = brand blue, so interactive focus reads as "Microweber" */
 .fi-input:focus,
 .fi-select-input:focus,
