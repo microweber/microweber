@@ -356,25 +356,22 @@ html.dark body.fi-panel-admin .fi-btn.fi-color-success svg {
     }
 }
 
-/* Larger, airier list rows + bigger product/record thumbnails. */
+/* Larger, airier list rows. (Content-list grid-card thumbnails + text are sized
+   at source in filament/tables/theme.css — the `.fi-ta-record .group …` block —
+   which wins on specificity; don't duplicate those here.) */
 html body.fi-panel-admin .fi-ta-record-content {
     padding-top: 15px !important;
     padding-bottom: 15px !important;
 }
-html body.fi-panel-admin .fi-ta-record img.h-12,
-html body.fi-panel-admin .fi-ta-split img.h-12,
-html body.fi-panel-admin .fi-ta-record .fi-ta-image img {
-    width: 60px !important;
-    height: 60px !important;
-    max-width: 60px !important;
-    object-fit: cover !important;
-    border-radius: 8px !important;
-}
 
-/* Larger page/list headings (old admin "Products" ≈ 28px). */
-html body.fi-panel-admin .fi-header-heading,
+/* Larger page/list headings (old admin headings are bigger than the dense 18px).
+   The page-header heading is pinned to 18px by a (0,3,1) rule
+   (body.fi-panel-admin .fi-page-header-main-ctn .fi-header-heading) — match that
+   scope + the table header heading so the increase actually wins. */
+html body.fi-panel-admin .fi-page-header-main-ctn .fi-header-heading,
+html body.fi-panel-admin .fi-header .fi-header-heading,
 html body.fi-panel-admin .fi-ta-header-heading {
-    font-size: 1.6rem !important;      /* ~26px */
+    font-size: 1.5rem !important;      /* ~24px, airier than the dense 18px */
     font-weight: 700 !important;
     line-height: 1.25 !important;
 }

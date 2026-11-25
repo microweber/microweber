@@ -218,28 +218,31 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 /* Content list grid cards — Pages/Posts/Products (MW v2 style) */
 /* ============================================================================ */
 
-/* Grid card row — clean spacing and hover state */
+/* Grid card row — airy spacing matching the old admin's generous list rows
+   (was dense hair(4); the old admin lists breathe — sm(10) vertical). */
 .fi-ta-record .group {
-  padding: var(--mw-space-hair) 0 !important;  /* dense: hair(4) — was xs(6) */
+  padding: var(--mw-space-sm) 0 !important;  /* airy: sm(10) — old-admin spacious */
   transition: background-color 0.15s ease !important;
 }
 
-/* Thumbnail in grid view — dense 28px inline media (Cloudflare-tight rows). */
+/* Thumbnail in grid view — 48px (native h-12) to match the old admin's roomier
+   product/page thumbnails; a proper ≥44px touch target too. */
 .fi-ta-record .group .h-12.w-12 {
-  width: 28px !important;
-  height: 28px !important;
-  border-radius: var(--mw-radius-sm) !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: var(--mw-radius-md) !important;
   flex-shrink: 0 !important;
   overflow: hidden !important;
+  object-fit: cover !important;
 }
 
 /* Title link styling */
 .fi-ta-record .group .font-medium a {
   color: var(--mw-text-primary) !important;
-  font-size: 13px !important;
+  font-size: 14px !important;  /* old-admin: readable 14px (was 13) */
   font-weight: 500 !important;
   text-decoration: none !important;
-  line-height: 1.3 !important;
+  line-height: 1.35 !important;
 
   &:hover {
     color: var(--mw-accent) !important;
@@ -248,9 +251,9 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 
 /* Parent breadcrumb and category text */
 .fi-ta-record .group .text-\[0\.8rem\] {
-  font-size: 12px !important;
+  font-size: 13px !important;  /* old-admin: 13px (was 12) */
   color: var(--mw-text-muted) !important;
-  line-height: 1.4 !important;
+  line-height: 1.45 !important;
 
   a {
     color: var(--mw-text-muted) !important;
@@ -266,7 +269,7 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 /* Updated/Published timestamp */
 .fi-ta-record .group .text-\[0\.6rem\],
 .fi-ta-record .group .mw-content-date {
-  font-size: 11px !important;
+  font-size: 12px !important;  /* old-admin: 12px (was 11) */
   color: var(--mw-text-faint) !important;
 }
 
