@@ -57,24 +57,26 @@
   }
 }
 
-/* Custom Filament color buttons — override oklch to MW v2 style */
+/* Custom Filament color buttons (MW filter toggle, general info) — soft-tint
+ * light-blue to match the old admin (was solid navy #182433 + white). The
+ * special Live-Edit / Save&Live-Edit info buttons keep their own rules below. */
 .fi-btn[class*="fi-color-mw"],
 .fi-btn.fi-color-info {
-  background-color: #182433 !important;
-  color: #ffffff !important;
-  border: 1px solid #1f2e41 !important;
+  background-color: #e1edf8 !important;
+  color: #182433 !important;
+  border: 1px solid #e1edf8 !important;
 
   &:not(.fi-disabled):not([disabled]):hover {
-    background-color: #1f2e41 !important;
+    background-color: #cfe0f5 !important;
     opacity: 1 !important;
   }
 
   span, .fi-btn-label {
-    color: #ffffff !important;
+    color: #182433 !important;
   }
 
   svg {
-    color: #ffffff !important;
+    color: #182433 !important;
   }
 }
 
