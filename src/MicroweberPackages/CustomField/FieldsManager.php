@@ -654,7 +654,7 @@ class FieldsManager
                 if (isset($it['values']) and is_string($it['values'])) {
                     $try = base64_decode($it['values']);
                     if ($try != false and strlen($try) > 5) {
-                        $it['values'] = unserialize($try);
+                        $it['values'] = unserialize($try, ['allowed_classes' => false]);
                     }
                     if (isset($it['values']['value'])) {
                         $temp = $it['values']['value'];
