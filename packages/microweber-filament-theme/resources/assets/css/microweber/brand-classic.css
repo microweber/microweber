@@ -103,24 +103,28 @@ body.fi-panel-admin .mw-quick-stat-card-icon,
  * The theme paints the active item grey with an `html body.fi-panel-admin …`
  * selector (specificity 0,4,2); we out-specify it (html + .fi-sidebar + tag a =
  * 0,5,3) so the brand-blue active state wins. */
-/* Match the old admin: active item has NO filled pill — just the label
- * underlined (brand-blue) with a transparent background. */
+/* Match the old admin demo: active item has NO filled pill — just the label
+ * underlined in INK with a transparent background, ink text + ink icon. (The
+ * demo colours the active nav ink #182433, not blue — blue is for links only.) */
 html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn,
 html body.fi-panel-admin .fi-sidebar a.fi-sidebar-item-btn[aria-current="page"] {
     background-color: transparent !important;
-    color: var(--mw-brand-blue-ink) !important;
+    color: #182433 !important;
     font-weight: 600 !important;
     box-shadow: none !important;
 }
 html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn .fi-sidebar-item-label {
     text-decoration: underline !important;
-    text-decoration-color: var(--mw-brand-blue) !important;
+    text-decoration-color: #182433 !important;
     text-decoration-thickness: 2px !important;
     text-underline-offset: 4px !important;
 }
+html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn .fi-sidebar-item-label {
+    color: #182433 !important;
+}
 html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn .fi-sidebar-item-icon,
 html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn svg {
-    color: var(--mw-brand-blue) !important;
+    color: #182433 !important;
 }
 
 /* Inline links use the brand blue */
@@ -128,20 +132,24 @@ html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-i
     color: var(--mw-brand-blue) !important;
 }
 
-/* --- Active tab → brand blue (consistent with active nav + links) ----------
- * NOTE: this overrides the earlier "authoring tab active = ink #182433" demo-
- * match decision, in favour of the stronger-blue brand direction. The theme
- * already draws a blue ::after bar; here we also recolour the ink border-bottom
- * + label so the whole active tab reads blue. */
+/* --- Active tab → INK #182433 (matches the real old admin demo) ------------
+ * The demo's active form tabs (Shop Details / SEO / …) are ink: ink underline +
+ * ink label. (An earlier pass had recoloured them brand-blue; that diverged from
+ * the demo, same as the soft-tint buttons did.) Recolour the border-bottom, the
+ * label/icon, AND the theme's ::after bar so the whole active tab reads ink. */
 html body.fi-panel-admin .fi-tabs-item.fi-active,
 html body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
-    border-bottom-color: var(--mw-brand-blue) !important;
-    color: var(--mw-brand-blue-ink) !important;
+    border-bottom-color: #182433 !important;
+    color: #182433 !important;
 }
 html body.fi-panel-admin .fi-tabs-item.fi-active .fi-tabs-item-label,
 html body.fi-panel-admin .fi-tabs-item.fi-active .fi-tabs-item-icon,
 html body.fi-panel-admin .fi-tabs-item.fi-active svg {
-    color: var(--mw-brand-blue-ink) !important;
+    color: #182433 !important;
+}
+html body.fi-panel-admin .fi-tabs-item.fi-active::after,
+html body.fi-panel-admin .fi-tabs-item[aria-selected="true"]::after {
+    background-color: #182433 !important;
 }
 
 /* --- Round interactive surfaces -------------------------------------------- */
