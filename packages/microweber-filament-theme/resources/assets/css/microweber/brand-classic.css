@@ -211,12 +211,14 @@ html body.fi-panel-admin .fi-btn.fi-color-success:hover {
     color: #182433 !important;
 }
 
-/* === Inputs — old admin uses white fields with a subtle border ============= */
-html body.fi-panel-admin .fi-input,
-html body.fi-panel-admin .fi-input-wrp,
-html body.fi-panel-admin .fi-fo-field-wrp input:not([type="checkbox"]):not([type="radio"]),
-html body.fi-panel-admin .fi-fo-field-wrp textarea,
-html body.fi-panel-admin .fi-select-input {
+/* === Inputs — old admin uses white fields with a subtle border =============
+ * LIGHT MODE ONLY (html:not(.dark)) — in dark mode the theme's native dark
+ * input styling applies, so we don't force white fields onto a dark panel. */
+html:not(.dark) body.fi-panel-admin .fi-input,
+html:not(.dark) body.fi-panel-admin .fi-input-wrp,
+html:not(.dark) body.fi-panel-admin .fi-fo-field-wrp input:not([type="checkbox"]):not([type="radio"]),
+html:not(.dark) body.fi-panel-admin .fi-fo-field-wrp textarea,
+html:not(.dark) body.fi-panel-admin .fi-select-input {
     background-color: #ffffff !important;
     border: 1px solid #e2e8f0 !important;
 }
@@ -287,4 +289,52 @@ body.fi-panel-admin .mw-welcome-widget-heading {
 /* Inline links read a touch larger in the old admin (16px). */
 body.fi-panel-admin .fi-link:not(.fi-btn) {
     font-size: 15px !important;
+}
+
+/* ============================================================================
+ * DARK MODE — soft-tint button consistency
+ * The light soft-tints (#e1edf8 / #e2f9e6 / white inputs) bleed into dark mode
+ * and read as bright/near-white buttons. Give dark-appropriate soft tints:
+ * the brand colour at low alpha over the dark panel + a light-tint label.
+ * Selectors mirror the light source rules + a leading `html.dark` so they win.
+ * ========================================================================== */
+
+/* Blue family — general primary, +Add/New (header & table), MW filter, info */
+html.dark body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html.dark body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html.dark body.fi-panel-admin .fi-btn[class*="fi-color-mw"],
+html.dark body.fi-panel-admin .fi-btn.fi-color-info,
+html.dark .mw-table-empty-cta {
+    background-color: rgba(96, 165, 250, 0.20) !important;
+    color: #bfdbfe !important;
+    border-color: transparent !important;
+}
+html.dark body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) span,
+html.dark body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) .fi-btn-label,
+html.dark body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) svg,
+html.dark body.fi-panel-admin .fi-btn[class*="fi-color-mw"] span,
+html.dark body.fi-panel-admin .fi-btn[class*="fi-color-mw"] svg,
+html.dark body.fi-panel-admin .fi-btn.fi-color-info span,
+html.dark body.fi-panel-admin .fi-btn.fi-color-info svg {
+    color: #bfdbfe !important;
+}
+
+/* Green family — SAVE (record-page primary) + success buttons */
+html.dark body.fi-panel-admin .fi-resource-edit-record-page .fi-header .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html.dark body.fi-panel-admin .fi-resource-create-record-page .fi-header .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html.dark body.fi-panel-admin .fi-btn.fi-color-success {
+    background-color: rgba(74, 222, 128, 0.18) !important;
+    color: #bbf7d0 !important;
+    border-color: transparent !important;
+}
+html.dark body.fi-panel-admin .fi-resource-edit-record-page .fi-header .fi-btn.fi-color-primary span,
+html.dark body.fi-panel-admin .fi-resource-edit-record-page .fi-header .fi-btn.fi-color-primary .fi-btn-label,
+html.dark body.fi-panel-admin .fi-resource-edit-record-page .fi-header .fi-btn.fi-color-primary svg,
+html.dark body.fi-panel-admin .fi-resource-create-record-page .fi-header .fi-btn.fi-color-primary span,
+html.dark body.fi-panel-admin .fi-resource-create-record-page .fi-header .fi-btn.fi-color-primary .fi-btn-label,
+html.dark body.fi-panel-admin .fi-btn.fi-color-success span,
+html.dark body.fi-panel-admin .fi-btn.fi-color-success svg {
+    color: #bbf7d0 !important;
 }
