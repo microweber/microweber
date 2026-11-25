@@ -119,16 +119,17 @@ button.fi-sidebar-collapse-btn:focus-visible {
     margin-right: var(--mw-space-sm) !important;  /* GR: sm(10) — tighter icon gutter */
   }
 
-  /* When item HAS an icon, it's a top-level item — 14px, not larger than body */
+  /* Top-level item label — 16px to match the old admin demo (its nav items are
+     16px over a 14px body; that larger nav IS the demo's hierarchy). */
   .fi-sidebar-item-icon ~ .fi-sidebar-item-label {
     color: var(--mw-text-primary) !important;  /* Top-level: dark primary color */
-    font-size: 14px !important;  /* dense: 14px (was 16 — nav must not out-size body) */
-    line-height: 20px !important;
+    font-size: 16px !important;  /* old admin demo: 16px nav */
+    line-height: 22px !important;
   }
 
   &:has(.fi-sidebar-item-icon) {
     .fi-sidebar-item-btn {
-      padding: 6px 0px !important;  /* dense: 6px (was sm/10) — top-level row ~34px */
+      padding: 10px 0px !important;  /* demo: roomier top-level rows (was dense 6px) */
     }
   }
 
