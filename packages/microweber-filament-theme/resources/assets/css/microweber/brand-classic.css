@@ -97,25 +97,42 @@ body.fi-panel-admin .mw-quick-stat-card-icon,
 }
 
 /* --- Stronger brand-blue accents (NON-button chrome) ----------------------- */
-/* Active sidebar item: brand-blue tint + text, with a brand accent bar.
- * body.fi-panel-admin prefix beats stock Filament's grey active state. */
-body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn,
-body.fi-panel-admin .fi-sidebar-item-btn[aria-current="page"] {
+/* Active sidebar item: brand-blue tint + text + accent bar.
+ * The theme paints the active item grey with an `html body.fi-panel-admin …`
+ * selector (specificity 0,4,2); we out-specify it (html + .fi-sidebar + tag a =
+ * 0,5,3) so the brand-blue active state wins. */
+html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn,
+html body.fi-panel-admin .fi-sidebar a.fi-sidebar-item-btn[aria-current="page"] {
     background-color: var(--mw-brand-blue-tint) !important;
     color: var(--mw-brand-blue-ink) !important;
     font-weight: 600 !important;
     box-shadow: inset 3px 0 0 0 var(--mw-brand-blue) !important;
     border-radius: 10px !important;
 }
-body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn .fi-icon,
-body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn svg,
-body.fi-panel-admin .fi-sidebar-item-btn[aria-current="page"] svg {
+html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn .fi-sidebar-item-icon,
+html body.fi-panel-admin .fi-sidebar .fi-sidebar-item.fi-active > a.fi-sidebar-item-btn svg {
     color: var(--mw-brand-blue) !important;
 }
 
 /* Inline links use the brand blue */
 .fi-link:not(.fi-btn) {
     color: var(--mw-brand-blue) !important;
+}
+
+/* --- Active tab → brand blue (consistent with active nav + links) ----------
+ * NOTE: this overrides the earlier "authoring tab active = ink #182433" demo-
+ * match decision, in favour of the stronger-blue brand direction. The theme
+ * already draws a blue ::after bar; here we also recolour the ink border-bottom
+ * + label so the whole active tab reads blue. */
+html body.fi-panel-admin .fi-tabs-item.fi-active,
+html body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
+    border-bottom-color: var(--mw-brand-blue) !important;
+    color: var(--mw-brand-blue-ink) !important;
+}
+html body.fi-panel-admin .fi-tabs-item.fi-active .fi-tabs-item-label,
+html body.fi-panel-admin .fi-tabs-item.fi-active .fi-tabs-item-icon,
+html body.fi-panel-admin .fi-tabs-item.fi-active svg {
+    color: var(--mw-brand-blue-ink) !important;
 }
 
 /* --- Round interactive surfaces -------------------------------------------- */
