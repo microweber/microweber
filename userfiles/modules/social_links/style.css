@@ -27,3 +27,14 @@
 .mw-social-links a span{
   font-size: 26px;
 }
+
+.mw-social-links a span.mw-icon-x::before{
+  content: none;
+}
+
+.mw-social-links a span.mw-icon-x svg{
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-top: -4px;
+}
