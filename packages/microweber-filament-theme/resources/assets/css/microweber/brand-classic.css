@@ -338,3 +338,49 @@ html.dark body.fi-panel-admin .fi-btn.fi-color-success span,
 html.dark body.fi-panel-admin .fi-btn.fi-color-success svg {
     color: #bbf7d0 !important;
 }
+
+/* ============================================================================
+ * SPACIOUS LAYOUT — match the old admin's airy feel
+ * The admin had been densified; the old admin (demo) is notably more spacious
+ * (generous content padding, tall list rows, big ~110px thumbnails, large
+ * headings). Open it up again — moderately, so the wide-viewport gutter
+ * "blow-out" the spacing tokens were reduced for does not return.
+ * ========================================================================== */
+
+/* Generous content-area padding (was tight ~10/18). */
+@media (min-width: 1024px) {
+    html body.fi-panel-admin .fi-main {
+        padding-top: 18px !important;
+        padding-bottom: 36px !important;
+        padding-inline: 30px !important;
+    }
+}
+
+/* Larger, airier list rows + bigger product/record thumbnails. */
+html body.fi-panel-admin .fi-ta-record-content {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+}
+html body.fi-panel-admin .fi-ta-record img.h-12,
+html body.fi-panel-admin .fi-ta-split img.h-12,
+html body.fi-panel-admin .fi-ta-record .fi-ta-image img {
+    width: 60px !important;
+    height: 60px !important;
+    max-width: 60px !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+}
+
+/* Larger page/list headings (old admin "Products" ≈ 28px). */
+html body.fi-panel-admin .fi-header-heading,
+html body.fi-panel-admin .fi-ta-header-heading {
+    font-size: 1.6rem !important;      /* ~26px */
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+}
+
+/* A touch more breathing room inside section/card bodies. */
+html body.fi-panel-admin .fi-section-content,
+html body.fi-panel-admin .fi-section-content-ctn {
+    padding: 20px 26px !important;
+}
