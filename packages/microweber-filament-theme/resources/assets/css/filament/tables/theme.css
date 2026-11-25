@@ -225,22 +225,22 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
   transition: background-color 0.15s ease !important;
 }
 
-/* Thumbnail in grid view — 48px (native h-12) to match the old admin's roomier
-   product/page thumbnails; a proper ≥44px touch target too. */
+/* Thumbnail in grid view — 80px to match the old admin demo's roomy product/page
+   thumbnails (measured ~104×83px there). Big, rounded, cover-fit. */
 .fi-ta-record .group .h-12.w-12 {
-  width: 48px !important;
-  height: 48px !important;
+  width: 80px !important;
+  height: 80px !important;
   border-radius: var(--mw-radius-md) !important;
   flex-shrink: 0 !important;
   overflow: hidden !important;
   object-fit: cover !important;
 }
 
-/* Title link styling */
+/* Title link styling — old admin demo: 16px/600 ink. */
 .fi-ta-record .group .font-medium a {
   color: var(--mw-text-primary) !important;
-  font-size: 14px !important;  /* old-admin: readable 14px (was 13) */
-  font-weight: 500 !important;
+  font-size: 16px !important;  /* old-admin demo: 16px/600 */
+  font-weight: 600 !important;
   text-decoration: none !important;
   line-height: 1.35 !important;
 

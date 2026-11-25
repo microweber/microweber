@@ -178,38 +178,51 @@ body.fi-panel-admin .fi-badge {
     border-radius: 999px !important;
 }
 
-/* Toggles/switches read brand-blue when on (were ink navy) — matches the old
- * admin's blue switches + the brand primary. */
+/* Toggle ON → INK #182433. The old admin demo colours checked controls ink
+ * (blue is reserved for links), so switches read ink, not brand-blue. */
 html body.fi-panel-admin .fi-toggle.fi-toggle-on {
-    background-color: var(--mw-brand-blue) !important;
+    background-color: #182433 !important;
 }
 
-/* === Soft-tint buttons — match the old MW admin's pastel buttons ============
- * Old admin: primary/add = light blue (#e1edf8), save/success = light green
- * (#e2f9e6), both with INK text (not solid navy/green/blue). The topbar Add /
- * Live-Edit already use this; extend it to all primary + header-action (New X)
- * + success buttons. Selectors mirror the theme's own (equal specificity) and
- * win by source order (brand-classic is imported last). */
-body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit),
-body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) {
-    background-color: #e1edf8 !important;
-    color: #182433 !important;
-    border-color: #e1edf8 !important;
+/* === Button palette — EXACT old admin demo (measured) ======================
+ * demo.microweber.org/v2/admin uses SOLID colours for action buttons, NOT the
+ * flat pastel an earlier pass applied:
+ *   • Create ("New X" / "+ Add page" / "Add menu item")  → SOLID navy #182433 + white
+ *   • SAVE / success                                     → SOLID green #2fb344 + white
+ *   • Topbar global "+ Add" / "Edit"                     → soft pastel (own .admin-toolbar-* rules, excluded)
+ *   • Status pills                                       → pastel (badge.css, untouched)
+ * brand-classic is imported LAST; the `html body` prefix + create-context
+ * selectors make it the authority over the earlier soft-tint rules. The
+ * record-page SAVE (.fi-resource-edit-record-page …, +1 class) still out-ranks
+ * the create-navy rule, so SAVE stays green on edit/create pages. */
+html body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    background-color: #182433 !important;
+    color: #ffffff !important;
+    border-color: #182433 !important;
 }
-body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):hover,
-body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):hover {
-    background-color: #cfe0f5 !important;
-    color: #182433 !important;
+html body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+html body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg,
+html body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+html body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg,
+html body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+html body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg {
+    color: #ffffff !important;
 }
-html body.fi-panel-admin .fi-btn.fi-color-success {
-    background-color: #e2f9e6 !important;
-    color: #182433 !important;
-    border-color: #e2f9e6 !important;
+html body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover,
+html body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover,
+html body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover {
+    background-color: #0f1a2a !important;
+    color: #ffffff !important;
+    border-color: #0f1a2a !important;
 }
-html body.fi-panel-admin .fi-btn.fi-color-success:hover {
-    background-color: #d0f2d8 !important;
-    color: #182433 !important;
-}
+/* NB: `.fi-btn.fi-color-success` is ALREADY solid green #2fb344 in
+ * filament/support/button/theme.css, and `.fi-ta-content .fi-btn.fi-color-success`
+ * (radius.css) deliberately keeps the in-table STATUS pills pastel. We must NOT
+ * add a broader solid-green success rule here — it would out-rank that pastel
+ * override and turn the "Published" status pill solid. Record-page SAVE is
+ * `.fi-color-primary` (greened by its own record-page rule), not success. */
 
 /* === Inputs — old admin uses white fields with a subtle border =============
  * LIGHT MODE ONLY (html:not(.dark)) — in dark mode the theme's native dark
@@ -254,12 +267,12 @@ body.fi-panel-admin .fi-sidebar-group-label {
 /* Sidebar nav items — old: 16px/400, ~15px vertical padding. html prefix beats
  * the theme's own .fi-sidebar-item-btn rule (general-styles). */
 html body.fi-panel-admin .fi-sidebar-item-btn {
-    font-size: 15px !important;
+    font-size: 16px !important;   /* old admin demo: nav items are 16px */
     padding-top: 11px !important;
     padding-bottom: 11px !important;
 }
 html body.fi-panel-admin .fi-sidebar-item-label {
-    font-size: 15px !important;
+    font-size: 16px !important;   /* old admin demo: 16px */
 }
 
 /* Card body padding — old card-body: 16px 24px. */
@@ -299,11 +312,25 @@ body.fi-panel-admin .fi-link:not(.fi-btn) {
  * Selectors mirror the light source rules + a leading `html.dark` so they win.
  * ========================================================================== */
 
-/* Blue family — general primary, +Add/New (header & table), MW filter, info */
-html.dark body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+/* Create buttons (header/table/menu "New X") → solid navy, lightened for dark
+ * visibility (#2d4a6e) + white text. Matches the light-mode solid navy. */
 html.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
 html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
-html.dark body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
+html.dark body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    background-color: #2d4a6e !important;
+    color: #ffffff !important;
+    border-color: #2d4a6e !important;
+}
+html.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+html.dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg,
+html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+html.dark body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg,
+html.dark body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+html.dark body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg {
+    color: #ffffff !important;
+}
+
+/* MW filter toggle / info / empty-state CTA — keep a soft blue tint in dark. */
 html.dark body.fi-panel-admin .fi-btn[class*="fi-color-mw"],
 html.dark body.fi-panel-admin .fi-btn.fi-color-info,
 html.dark .mw-table-empty-cta {
@@ -311,9 +338,6 @@ html.dark .mw-table-empty-cta {
     color: #bfdbfe !important;
     border-color: transparent !important;
 }
-html.dark body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) span,
-html.dark body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) .fi-btn-label,
-html.dark body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) svg,
 html.dark body.fi-panel-admin .fi-btn[class*="fi-color-mw"] span,
 html.dark body.fi-panel-admin .fi-btn[class*="fi-color-mw"] svg,
 html.dark body.fi-panel-admin .fi-btn.fi-color-info span,
@@ -321,22 +345,21 @@ html.dark body.fi-panel-admin .fi-btn.fi-color-info svg {
     color: #bfdbfe !important;
 }
 
-/* Green family — SAVE (record-page primary) + success buttons */
+/* Green family — record-page SAVE (.fi-color-primary) → solid green on dark.
+ * (.fi-color-success is left to its base rule + the table-content pastel
+ * override, so in-table "Published" status pills stay pastel in dark too.) */
 html.dark body.fi-panel-admin .fi-resource-edit-record-page .fi-header .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
-html.dark body.fi-panel-admin .fi-resource-create-record-page .fi-header .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
-html.dark body.fi-panel-admin .fi-btn.fi-color-success {
-    background-color: rgba(74, 222, 128, 0.18) !important;
-    color: #bbf7d0 !important;
-    border-color: transparent !important;
+html.dark body.fi-panel-admin .fi-resource-create-record-page .fi-header .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    background-color: #2fb344 !important;
+    color: #ffffff !important;
+    border-color: #2fb344 !important;
 }
 html.dark body.fi-panel-admin .fi-resource-edit-record-page .fi-header .fi-btn.fi-color-primary span,
 html.dark body.fi-panel-admin .fi-resource-edit-record-page .fi-header .fi-btn.fi-color-primary .fi-btn-label,
 html.dark body.fi-panel-admin .fi-resource-edit-record-page .fi-header .fi-btn.fi-color-primary svg,
 html.dark body.fi-panel-admin .fi-resource-create-record-page .fi-header .fi-btn.fi-color-primary span,
-html.dark body.fi-panel-admin .fi-resource-create-record-page .fi-header .fi-btn.fi-color-primary .fi-btn-label,
-html.dark body.fi-panel-admin .fi-btn.fi-color-success span,
-html.dark body.fi-panel-admin .fi-btn.fi-color-success svg {
-    color: #bbf7d0 !important;
+html.dark body.fi-panel-admin .fi-resource-create-record-page .fi-header .fi-btn.fi-color-primary .fi-btn-label {
+    color: #ffffff !important;
 }
 
 /* ============================================================================

@@ -31,8 +31,11 @@
     }
 }
 
-/* Soft-tint success button — match the old MW admin's light-green SAVE
- * (was solid #2fb344 + white text). */
+/* Legacy `.fi-btn-color-success` (hyphenated) alias — keep pastel. The real
+ * success buttons use `.fi-btn.fi-color-success` (solid green, in button/theme.css)
+ * with the table-content pastel override for status pills; the demo SAVE is a
+ * `.fi-color-primary` greened by its record-page rule. Leave this pastel so no
+ * status-pill-adjacent control flips to solid. */
 .fi-btn-color-success {
     --tw-ring-color: #86efac !important;
 

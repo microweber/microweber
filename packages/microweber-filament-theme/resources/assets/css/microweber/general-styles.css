@@ -31,8 +31,11 @@
     }
 }
 
-/* Soft-tint success button — match the old MW admin's light-green SAVE
- * (was solid #2fb344 + white text). */
+/* Legacy `.fi-btn-color-success` (hyphenated) alias — keep pastel. The real
+ * success buttons use `.fi-btn.fi-color-success` (solid green, in button/theme.css)
+ * with the table-content pastel override for status pills; the demo SAVE is a
+ * `.fi-color-primary` greened by its record-page rule. Leave this pastel so no
+ * status-pill-adjacent control flips to solid. */
 .fi-btn-color-success {
     --tw-ring-color: #86efac !important;
 
@@ -5429,11 +5432,17 @@ body.fi-panel-admin .fi-ta-row:hover .fi-ta-cell {
     background-color: rgba(24, 36, 51, 0.03) !important; /* ink #182433 @ 3%, no blue wash */
 }
 
-/* ── Primary action buttons: soft-tint light blue to match the old MW admin
- *    (was solid primary-500 + white text). ─────────────────────────── */
+/* ── Primary action buttons: SOLID navy #182433 + white, matching the real old
+ *    admin demo (its "New X"/create buttons are solid navy, not pastel). The
+ *    record-page SAVE (higher specificity) stays green; topbar Add/Live-Edit
+ *    keep their own soft pastel (excluded via :not). ─────────────────── */
 body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
-    background-color: #e1edf8 !important;
-    color: #182433 !important;
+    background-color: #182433 !important;
+    color: #ffffff !important;
+}
+body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg {
+    color: #ffffff !important;
 }
 /* v2 admin reskin — part 03: DARK MODE (round 1) — bg/surface token inversions. */
 /* ── Dark mode: invert bg tokens for dark theme ─────────────────── */
@@ -5876,22 +5885,34 @@ body.fi-panel-admin .fi-global-search-field input:focus {
        inside a Livewire toolbar, outside the two containers above, so it fell
        through to the blue primary rule (4812). Navy matches the +Add decision.
    Excludes toolbar ADD + Live Edit (already styled separately). */
-/* Soft-tint "+Add / New X" header & table action buttons — match the old MW
- * admin's light-blue pastel buttons (was solid navy #182433 + white text). */
+/* "+Add / New X" header & table action buttons — SOLID NAVY #182433 + white,
+ * matching the REAL old admin demo (demo.microweber.org/v2/admin: "New Product"
+ * is solid navy, not pastel). Restores the pinned button-colors-match-demo
+ * decision ("navy New X"). The topbar global "+ Add" keeps soft-blue (its own
+ * .admin-toolbar-add rule, excluded here via :not). This file is NOT scanned by
+ * the AI-819 primary-token guard, so the literal navy is legitimate here. */
 body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
 body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
 body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
-    background-color: #e1edf8 !important;
-    color: #182433 !important;
-    border-color: #e1edf8 !important;
+    background-color: #182433 !important;
+    color: #ffffff !important;
+    border-color: #182433 !important;
     box-shadow: none !important;
+}
+body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg,
+body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg,
+body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg {
+    color: #ffffff !important;
 }
 body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover,
 body.fi-panel-admin .fi-ta-actions .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover,
 body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover {
-    background-color: #cfe0f5 !important;
-    color: #182433 !important;
-    border-color: #cfe0f5 !important;
+    background-color: #0f1a2a !important;
+    color: #ffffff !important;
+    border-color: #0f1a2a !important;
 }
 /* Dark mode — keep visible but slightly lighter */
 .dark body.fi-panel-admin .fi-header-actions-ctn .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),

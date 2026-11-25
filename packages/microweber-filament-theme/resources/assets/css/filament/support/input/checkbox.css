@@ -6,10 +6,11 @@
     cursor: pointer;
 
     &:checked {
-        /* --primary-N are comma triplets ("10, 88, 202"), so a bare var() is an
-           invalid colour (checked box rendered transparent). Wrap in rgb(). */
-        border-color: rgb(var(--primary-600)) !important;
-        background-color: rgb(var(--primary-600)) !important;
+        /* Old admin demo: checked controls are INK #182433, not brand-blue —
+           blue is reserved for links. (--primary-N are comma triplets, so a bare
+           var() would be invalid; the ink literal sidesteps that too.) */
+        border-color: #182433 !important;
+        background-color: #182433 !important;
     }
 
     &:focus {

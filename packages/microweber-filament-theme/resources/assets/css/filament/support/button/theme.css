@@ -125,14 +125,14 @@
 /* :not() chain + body + page scope → 0,0,8,1. See memory [[general-styles-outranks-v3]]. */
 body.fi-panel-admin .fi-resource-edit-record-page .fi-header .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons),
 body.fi-panel-admin .fi-resource-create-record-page .fi-header .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
-  background-color: #e2f9e6 !important;   /* old admin: soft-green SAVE */
-  border-color: #e2f9e6 !important;
-  color: #182433 !important;              /* ink text */
-  font-weight: 600 !important;
+  background-color: #2fb344 !important;   /* old admin demo: SOLID green SAVE (measured #2fb344) */
+  border-color: #2fb344 !important;
+  color: #ffffff !important;              /* white text (no #182433 — stays clear of AI-819 guard) */
+  font-weight: 700 !important;            /* demo: bold */
   text-transform: uppercase !important;   /* keep "SAVE" */
 
-  span, .fi-btn-label, svg { color: #182433 !important; }
-  &:hover { background-color: #d0f2d8 !important; border-color: #d0f2d8 !important; }
+  span, .fi-btn-label, svg { color: #ffffff !important; }
+  &:hover { background-color: #299a3b !important; border-color: #299a3b !important; }
 }
 
 /* "Save & Live Edit" (was info-blue) → navy outline secondary (demo). */

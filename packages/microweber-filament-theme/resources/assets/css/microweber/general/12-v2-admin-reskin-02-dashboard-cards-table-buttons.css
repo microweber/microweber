@@ -66,9 +66,15 @@ body.fi-panel-admin .fi-ta-row:hover .fi-ta-cell {
     background-color: rgba(24, 36, 51, 0.03) !important; /* ink #182433 @ 3%, no blue wash */
 }
 
-/* ── Primary action buttons: soft-tint light blue to match the old MW admin
- *    (was solid primary-500 + white text). ─────────────────────────── */
+/* ── Primary action buttons: SOLID navy #182433 + white, matching the real old
+ *    admin demo (its "New X"/create buttons are solid navy, not pastel). The
+ *    record-page SAVE (higher specificity) stays green; topbar Add/Live-Edit
+ *    keep their own soft pastel (excluded via :not). ─────────────────── */
 body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
-    background-color: #e1edf8 !important;
-    color: #182433 !important;
+    background-color: #182433 !important;
+    color: #ffffff !important;
+}
+body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg {
+    color: #ffffff !important;
 }
