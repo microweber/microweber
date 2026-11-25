@@ -31,18 +31,20 @@
     }
 }
 
+/* Soft-tint success button — match the old MW admin's light-green SAVE
+ * (was solid #2fb344 + white text). */
 .fi-btn-color-success {
-    --tw-ring-color: green !important;
+    --tw-ring-color: #86efac !important;
 
-    @apply !text-white dark:!text-white;
-    background-color: #2fb344 !important;
+    @apply !text-[#182433] dark:!text-[#182433];
+    background-color: #e2f9e6 !important;
 
     &:hover {
-        background-color: #2fb344 !important;
+        background-color: #d0f2d8 !important;
     }
 
     svg {
-        @apply !text-white;
+        @apply !text-[#182433];
     }
 }
 

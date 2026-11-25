@@ -66,8 +66,9 @@ body.fi-panel-admin .fi-ta-row:hover .fi-ta-cell {
     background-color: rgba(24, 36, 51, 0.03) !important; /* ink #182433 @ 3%, no blue wash */
 }
 
-/* ── Primary action buttons: consistent with v2 blue ────────────── */
+/* ── Primary action buttons: soft-tint light blue to match the old MW admin
+ *    (was solid primary-500 + white text). ─────────────────────────── */
 body.fi-panel-admin .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
-    background-color: rgba(var(--primary-500), 1) !important;
-    color: #fff !important;
+    background-color: #e1edf8 !important;
+    color: #182433 !important;
 }
