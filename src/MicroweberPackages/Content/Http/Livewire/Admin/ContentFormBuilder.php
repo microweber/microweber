@@ -67,7 +67,6 @@ class ContentFormBuilder extends AdminComponent
                     'type' => 'textarea',
                     'label' => 'Content body',
                     'name' => 'content_body',
-                    'label' => 'content_body',
                 ]
 
             ]

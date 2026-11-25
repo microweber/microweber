@@ -29,7 +29,6 @@ class MwHtmlSanitizerReference
 
         'subtype' => true,
 
-        'field' => true,
         'field-name' => true,
         'field-value' => true,
         'data-id' => true,
