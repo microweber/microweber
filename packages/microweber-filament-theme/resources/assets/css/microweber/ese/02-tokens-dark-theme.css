@@ -49,15 +49,15 @@
     /* ── Semantic colour aliases (light) ──────────────────── */
     --ese-surface:        #ffffff;
     --ese-surface-muted:  #f7f8fa;
-    --ese-surface-hover:  rgba(24, 36, 51, 0.05);  /* ink tint (was blue) — matches --ese-accent */
+    --ese-surface-hover:  rgba(13, 110, 253, 0.05);  /* blue tint — matches --ese-accent */
     --ese-border:         rgba(15, 23, 42, 0.12);
     --ese-border-strong:  rgba(15, 23, 42, 0.20);
-    --ese-text:           #0f172a;
+    --ese-text:           #182433;
     --ese-text-muted:     #64748b;
     --ese-label:          #475569;
-    --ese-accent:         #182433;            /* MW ink — active states use ink, not blue,
-                                                 to match the admin (tabs/design system). */
-    --ese-accent-soft:    rgba(24, 36, 51, 0.10);
+    --ese-accent:         #0d6efd;            /* brand blue — active states are now blue to
+                                                 match the matched admin (active nav/tab are blue). */
+    --ese-accent-soft:    rgba(13, 110, 253, 0.10);
     --ese-danger:         #dc2626;
     --ese-track:          rgba(15, 23, 42, 0.18);
     --ese-track-fill:     var(--ese-accent);
@@ -437,7 +437,7 @@
     transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 #mw-element-style-editor-app .mw-italic-toggle:hover {
-    border-color: rgba(24, 36, 51, 0.3);
+    border-color: rgba(13, 110, 253, 0.3);
 }
 #mw-element-style-editor-app .mw-italic-toggle.active {
     background: var(--ese-accent-soft, rgba(24, 36, 51, 0.1));
