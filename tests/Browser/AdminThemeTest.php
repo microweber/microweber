@@ -75,7 +75,7 @@ class AdminThemeTest extends DuskTestCase
                 $this->assertEquals('#f6f8fb', $r['bgPage'], '--mw-bg-page = #f6f8fb');
                 $this->assertEquals('#ffffff', $r['bgSurface'], '--mw-bg-surface = #ffffff');
                 $this->assertEquals('#182433', $r['textPrimary'], '--mw-text-primary = #182433');
-                $this->assertEquals('4px', $r['radiusLg'], '--mw-radius-lg = 4px');
+                $this->assertEquals('14px', $r['radiusLg'], '--mw-radius-lg = 14px (classic-brand warmed radius scale)');
                 $passed++;
             } catch (\Exception $e) {
                 $failed['css_variables_applied'] = $e->getMessage();
@@ -178,8 +178,8 @@ class AdminThemeTest extends DuskTestCase
                     return ctn ? getComputedStyle(ctn).borderRadius : null;
                 ");
                 $this->assertNotNull($radius[0], 'A Filament .fi-section should exist');
-                $this->assertStringContainsString('4px', $radius[0],
-                    'Section containers should use 4px radius (joined with header — asymmetric 0 0 4px 4px allowed)');
+                $this->assertMatchesRegularExpression('/\b(8|9|1\d|2\d)px/', $radius[0],
+                    'Section containers should use the warmed classic-brand radius (>=8px; joined-with-header asymmetry allowed). Got: ' . $radius[0]);
                 $passed++;
             } catch (\Exception $e) {
                 $failed['section_border_radius_desktop'] = $e->getMessage();
@@ -259,8 +259,8 @@ class AdminThemeTest extends DuskTestCase
                     return ctn ? parseInt(getComputedStyle(ctn).borderRadius) : null;
                 ");
                 if ($mobileRadius[0] !== null) {
-                    $this->assertLessThanOrEqual(8, $mobileRadius[0],
-                        'Mobile border-radius should be ≤8px');
+                    $this->assertLessThanOrEqual(16, $mobileRadius[0],
+                        'Mobile border-radius should be ≤16px (warmed classic-brand radius)');
                     $passed++;
                 }
             } catch (\Exception $e) {

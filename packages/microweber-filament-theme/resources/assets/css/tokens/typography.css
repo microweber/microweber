@@ -4,18 +4,18 @@
 
 :root {
     --mw-font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --mw-font-size-body: 13px;   /* dense admin base (was 14) */
-    --mw-line-height-body: 19px;
+    --mw-font-size-body: 14px;   /* brand base (classic-brand pass; was dense 13) */
+    --mw-line-height-body: 21px;
     --mw-font-weight-normal: 400;
     --mw-font-weight-medium: 500;
     --mw-font-weight-semibold: 600;
     --mw-font-weight-bold: 700;
-    --mw-font-size-h1: 24px;
-    --mw-font-size-h2: 20px;
-    --mw-font-size-h3: 16px;
-    --mw-font-size-h4: 14px;
-    --mw-font-size-h5: 12px;
-    --mw-font-size-h6: 10px;
+    --mw-font-size-h1: 28px;
+    --mw-font-size-h2: 22px;
+    --mw-font-size-h3: 18px;
+    --mw-font-size-h4: 15px;
+    --mw-font-size-h5: 13px;
+    --mw-font-size-h6: 11px;
 }
 
 .fi-body {

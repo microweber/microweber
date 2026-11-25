@@ -16,6 +16,7 @@
 @import './microweber/index.css';
 @import './admin.css';
 @import './global.css';
+@import './microweber/brand-classic.css';
 
 @source not "**/*.less";
 @config "./../../../tailwind.config.js";

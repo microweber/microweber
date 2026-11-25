@@ -1,15 +1,16 @@
 /* ============================================================================
  * Spacing, radius, shadows — extracted from MW v2 / theme-v3 tokens.
- * Dusk AdminThemeTest pins --mw-radius-lg: 4px.
+ * Radius scale warmed up for the classic-Microweber brand look (was all 4px /
+ * 8px). Dusk AdminThemeTest pins these computed values — keep them in sync.
  * ============================================================================ */
 
 :root {
-    --mw-radius-sm: 4px;
-    --mw-radius-md: 4px;
-    --mw-radius-lg: 4px;
-    --mw-radius-xl: 8px;
+    --mw-radius-sm: 7px;
+    --mw-radius-md: 10px;
+    --mw-radius-lg: 14px;
+    --mw-radius-xl: 20px;
     --mw-radius-pill: 999px;
-    --mw-radius-tile: 8px;
+    --mw-radius-tile: 12px;
 
     --mw-space-hair: 4px;
     --mw-space-xs: 6px;

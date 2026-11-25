@@ -1,0 +1,159 @@
+/* ============================================================================
+ * Microweber "classic brand" layer
+ * ----------------------------------------------------------------------------
+ * Pushes the Filament admin away from the generic stock look toward the classic
+ * Microweber feel: Jost brand typography on headings + the logo wordmark, warmer
+ * rounded surfaces, and stronger brand-blue accents on non-button chrome (active
+ * nav, links, focus rings). Deliberately does NOT recolour action buttons — the
+ * SAVE=green / +Add=navy decisions live elsewhere and stay.
+ *
+ * Imported LAST in index.css so it wins the cascade.
+ * ========================================================================== */
+
+/* --- Jost: the Microweber brand font (self-hosted variable TTF) ----------- */
+@font-face {
+    font-family: 'Jost';
+    src: url('/fonts/jost/Jost-Variable.ttf') format('truetype-variations'),
+         url('/fonts/jost/Jost-Variable.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Jost';
+    src: url('/fonts/jost/Jost-Italic-Variable.ttf') format('truetype-variations'),
+         url('/fonts/jost/Jost-Italic-Variable.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+:root {
+    /* Jost = Microweber brand voice for headings + wordmark. Body stays Inter. */
+    --mw-font-heading: 'Jost', var(--mw-font-sans, Inter), sans-serif;
+    --mw-brand-blue: #0d6efd;
+    --mw-brand-blue-ink: #0a58ca;
+    --mw-brand-blue-tint: rgba(13, 110, 253, 0.10);
+}
+
+/* --- Brand headings: Jost, confident, a touch tighter ---------------------- */
+.fi-body :is(h1, h2, h3, h4, h5, h6),
+.fi-header-heading,
+.fi-section-header-heading,
+.fi-ta-header-heading,
+.fi-modal-heading,
+.fi-wi-stats-overview-stat-value,
+.fi-logo {
+    font-family: var(--mw-font-heading) !important;
+    letter-spacing: -0.015em;
+}
+
+/* Page title / dashboard welcome — bigger, bolder brand ink */
+.fi-header-heading {
+    font-size: 1.6rem !important;      /* ~26px — confident page title */
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    color: var(--mw-text-primary, #182433) !important;
+}
+
+/* Section / card titles in Jost semibold */
+.fi-section-header-heading,
+.mw-stats-card-title,
+.mw-quick-stat-card-label {
+    font-weight: 600 !important;
+}
+
+/* The logo wordmark — brand blue, confident weight (matches classic MW look) */
+.fi-logo {
+    font-weight: 700 !important;
+    color: var(--mw-brand-blue) !important;
+}
+
+/* --- Warmer, rounded surfaces --------------------------------------------- */
+/* Prefixed with body.fi-panel-admin to beat the theme's own equally-specific
+ * dashboard-card rules (which pin var(--mw-radius-md)=4px). */
+.fi-section,
+.fi-card,
+.fi-modal-window,
+.fi-dropdown-panel,
+body.fi-panel-admin .mw-stats-card,
+body.fi-panel-admin .mw-quick-stat-card,
+body.fi-panel-admin .mw-quick-stat-card-content {
+    border-radius: 16px !important;
+}
+
+.fi-section,
+body.fi-panel-admin .mw-stats-card,
+body.fi-panel-admin .mw-quick-stat-card {
+    box-shadow: 0 1px 2px rgba(24, 36, 51, 0.04),
+                0 6px 22px rgba(24, 36, 51, 0.05) !important;
+    border-color: rgba(24, 36, 51, 0.06) !important;
+}
+
+/* Icon tiles a little softer */
+body.fi-panel-admin .mw-quick-stat-card-icon,
+.fi-avatar {
+    border-radius: 12px !important;
+}
+
+/* --- Stronger brand-blue accents (NON-button chrome) ----------------------- */
+/* Active sidebar item: brand-blue tint + text, with a brand accent bar.
+ * body.fi-panel-admin prefix beats stock Filament's grey active state. */
+body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn,
+body.fi-panel-admin .fi-sidebar-item-btn[aria-current="page"] {
+    background-color: var(--mw-brand-blue-tint) !important;
+    color: var(--mw-brand-blue-ink) !important;
+    font-weight: 600 !important;
+    box-shadow: inset 3px 0 0 0 var(--mw-brand-blue) !important;
+    border-radius: 10px !important;
+}
+body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn .fi-icon,
+body.fi-panel-admin .fi-sidebar-item.fi-active > .fi-sidebar-item-btn svg,
+body.fi-panel-admin .fi-sidebar-item-btn[aria-current="page"] svg {
+    color: var(--mw-brand-blue) !important;
+}
+
+/* Inline links use the brand blue */
+.fi-link:not(.fi-btn) {
+    color: var(--mw-brand-blue) !important;
+}
+
+/* --- Round interactive surfaces -------------------------------------------- */
+/* Prior "reskin" work hardcoded border-radius:4px !important on buttons, topbar
+ * and inputs to flatten the admin. Re-round them for the warm brand look. The
+ * body.fi-panel-admin prefix + !important out-ranks those single-class rules. */
+body.fi-panel-admin .fi-btn,
+body.fi-panel-admin .fi-dropdown-list-item,
+body.fi-panel-admin .fi-ta-action-btn,
+/* topbar action buttons are pinned to 4px at 0,3,0 specificity — match it */
+body.fi-panel-admin .admin-toolbar-add .fi-btn,
+body.fi-panel-admin .admin-toolbar-live-edit .fi-btn,
+body.fi-panel-admin .fi-topbar .fi-btn {
+    border-radius: 10px !important;
+}
+body.fi-panel-admin .fi-input,
+body.fi-panel-admin .fi-select-input,
+body.fi-panel-admin .fi-input-wrp,
+body.fi-panel-admin .fi-fo-field-wrp input:not([type="checkbox"]):not([type="radio"]),
+body.fi-panel-admin .fi-fo-field-wrp textarea,
+body.fi-panel-admin .fi-global-search-field .fi-input-wrp,
+body.fi-panel-admin .fi-topbar input {
+    border-radius: 10px !important;
+}
+/* Tables & their toolbar/search chrome */
+body.fi-panel-admin .fi-ta,
+body.fi-panel-admin .fi-ta-ctn,
+body.fi-panel-admin .fi-tabs {
+    border-radius: 14px !important;
+}
+/* Badges stay pill-soft */
+body.fi-panel-admin .fi-badge {
+    border-radius: 999px !important;
+}
+
+/* Focus ring = brand blue, so interactive focus reads as "Microweber" */
+.fi-input:focus,
+.fi-select-input:focus,
+.fi-input-wrapper:focus-within {
+    --tw-ring-color: var(--mw-brand-blue) !important;
+}
