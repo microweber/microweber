@@ -58,12 +58,16 @@ body.fi-panel-admin .mw-mb-field-hide-label > .fi-fo-field-label-col {
     border: 0 !important;
 }
 
-/* ── Table container: white card with border and subtle shadow ───── */
+/* ── Table container: borderless white card, 4px, soft drop shadow ───
+   Matches the demo's single card treatment (4px, NO border, 0 1px 4px
+   rgba(0,0,0,0.16)) shared with .fi-section + stat cards — was a bordered 8px
+   card with a near-invisible 0.04 shadow, which read as a different, outlined
+   table card. */
 body.fi-panel-admin .fi-ta-ctn {
     background-color: #ffffff !important;
-    border: 1px solid #e8eef4 !important;
-    border-radius: var(--mw-radius-lg, 4px) !important;  /* was 12px — align with tables/theme.css pinned 4px */
-    box-shadow: 0 1px 3px rgba(24, 36, 51, 0.04) !important;
+    border: none !important;
+    border-radius: 4px !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16) !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
 }

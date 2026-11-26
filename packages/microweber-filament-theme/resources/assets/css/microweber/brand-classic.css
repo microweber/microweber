@@ -82,7 +82,7 @@
 body.fi-panel-admin .mw-stats-card,
 body.fi-panel-admin .mw-quick-stat-card,
 body.fi-panel-admin .mw-quick-stat-card-content {
-    border-radius: 8px !important;
+    border-radius: 4px !important;  /* demo cards are 4px (comment above said 4px; code drifted to 8px) */
 }
 
 .fi-section,
@@ -175,11 +175,12 @@ body.fi-panel-admin .fi-global-search-field .fi-input-wrp,
 body.fi-panel-admin .fi-topbar input {
     border-radius: 6px !important;
 }
-/* Tables & their toolbar/search chrome */
+/* Tables & their toolbar/search chrome — 4px to match the demo's single card
+   radius (was 8px, out of step with the 4px sections/stat cards). */
 body.fi-panel-admin .fi-ta,
 body.fi-panel-admin .fi-ta-ctn,
 body.fi-panel-admin .fi-tabs {
-    border-radius: 8px !important;
+    border-radius: 4px !important;
 }
 /* Badges stay pill-soft */
 body.fi-panel-admin .fi-badge {
@@ -293,7 +294,7 @@ html:not(.dark) body.fi-panel-admin .fi-select-input {
  * every surface — stat cards, .fi-section panels, content-list cards — shares
  * ONE small radius, matching the old admin's flat 4px cards (was a lone 16px). */
 body.fi-panel-admin .fi-wi-stats-overview-stat {
-    border-radius: var(--mw-radius-md) !important;
+    border-radius: 4px !important;  /* demo cards are 4px — unified across all card surfaces */
     overflow: hidden !important;
 }
 

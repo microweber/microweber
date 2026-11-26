@@ -43,12 +43,15 @@ body.fi-panel-admin .mw-welcome-widget-heading {
 body.fi-panel-admin .fi-wi-stats-overview-stat,
 body.fi-panel-admin .fi-section {
     background-color: #ffffff !important;
-    /* Was a bluish #e8eef4 border + a near-invisible 0.04 shadow → cards read flat and
-       cool-tinted. Neutral hairline border + a proper soft shadow so each section floats
-       as a clean white surface (matches the demo). */
-    border: 1px solid var(--mw-border-subtle) !important;
-    box-shadow: 0 1px 4px rgba(24, 36, 51, 0.10) !important;
-    border-radius: var(--mw-radius-md) !important;  /* 4px — match the content-list cards + table cards (was 12px, read inconsistent) */
+    /* Match the old admin's cards EXACTLY (measured live): white, 4px radius, a soft
+       drop shadow (0 1px 4px rgba(0,0,0,0.16)) and NO border — the card floats on the
+       shadow alone. We previously carried a 1px hairline border + a lighter ink-tinted
+       0.10 shadow + a 6px radius, which read as a slightly different, bordered card
+       system. Borderless + the 0.16 shadow + 4px = the demo's single card treatment,
+       shared by sections, stat cards, table cards and content-list cards. */
+    border: none !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16) !important;
+    border-radius: 4px !important;
 }
 
 /* ── Table: clean header and row styles ─────────────────────────── */

@@ -178,8 +178,13 @@ class AdminThemeTest extends DuskTestCase
                     return ctn ? getComputedStyle(ctn).borderRadius : null;
                 ");
                 $this->assertNotNull($radius[0], 'A Filament .fi-section should exist');
-                $this->assertMatchesRegularExpression('/\b(8|9|1\d|2\d)px/', $radius[0],
-                    'Section containers should use the warmed classic-brand radius (>=8px; joined-with-header asymmetry allowed). Got: ' . $radius[0]);
+                // The old admin's cards measure 4px (verified live against
+                // demo.microweber.org/v2/admin). Cards were unified to that single
+                // treatment — 4px radius, borderless, soft 0 1px 4px rgba(0,0,0,0.16)
+                // shadow — so sections, stat cards and table containers all match the
+                // demo. Accept 3–5px (joined-with-header asymmetry allowed).
+                $this->assertMatchesRegularExpression('/\b[3-5]px/', $radius[0],
+                    'Section containers should use the demo\'s 4px card radius. Got: ' . $radius[0]);
                 $passed++;
             } catch (\Exception $e) {
                 $failed['section_border_radius_desktop'] = $e->getMessage();
