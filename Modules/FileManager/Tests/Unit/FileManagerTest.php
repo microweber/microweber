@@ -10,6 +10,23 @@ use MicroweberPackages\User\Models\User;
 
 class FileManagerTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        // These tests create throwaway `mwtest<n>folder` directories through the
+        // create-folder API (named with a letter prefix so they bypass the list()
+        // filter and stay visible for the "folder appears in listing" assertions).
+        // They were never removed, so repeated runs piled up 122 empty junk folders
+        // in the real media library (the `public` disk root). Clean them up here so
+        // every run leaves the media storage as it found it.
+        $root = storage_path('app' . DIRECTORY_SEPARATOR . 'public');
+        foreach (glob($root . DIRECTORY_SEPARATOR . 'mwtest*folder') ?: [] as $dir) {
+            if (is_dir($dir)) {
+                @rmdir($dir); // empty throwaway dirs only; non-empty dirs are left untouched
+            }
+        }
+
+        parent::tearDown();
+    }
 
     #[Test]
 
