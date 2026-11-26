@@ -53,6 +53,17 @@ body.fi-panel-admin .fi-section {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16) !important;
     border-radius: 4px !important;
 }
+/* Dark mode: the light-mode drop shadow (black @ 0.16) is invisible on a dark
+   surface, and we removed the border — so give dark cards a subtle light hairline
+   ring for definition (matches the dark .fi-section treatment elsewhere). The stat
+   card also needs its dark surface restored: the base rule forces #ffffff and —
+   unlike .fi-section / .fi-ta-ctn — had no dark override, so stat cards rendered
+   glaringly WHITE on the dark dashboard. Pin the dark card surface here. */
+.dark body.fi-panel-admin .fi-wi-stats-overview-stat,
+.dark body.fi-panel-admin .fi-section {
+    background-color: #1f2937 !important;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+}
 
 /* ── Table: clean header and row styles ─────────────────────────── */
 body.fi-panel-admin .fi-ta-header-cell {

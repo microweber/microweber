@@ -71,6 +71,12 @@ body.fi-panel-admin .fi-ta-ctn {
     overflow-x: auto !important;
     overflow-y: hidden !important;
 }
+/* Dark mode: the dark theme already paints the container dark; swap the invisible
+   black drop shadow for a subtle light hairline ring so the borderless table card
+   stays defined on the dark surface (matches the dark stat/section cards). */
+.dark body.fi-panel-admin .fi-ta-ctn {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+}
 
 /* ── Table header row ───────────────────────────────────────────── */
 body.fi-panel-admin .fi-ta-header {
