@@ -310,6 +310,45 @@ html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-success:hover {
     background-color: rgba(47, 179, 68, 0.08) !important;
 }
 
+/* --- Filament ToggleButtons (single/multi select: a module's Align, style, etc.)
+ * Each option is a .fi-btn.fi-color-primary, so the solid-navy primary override
+ * fills EVERY option navy and the selected/unselected distinction disappears (you
+ * can't tell which Align is chosen). Filament marks the chosen option with
+ * aria-pressed="true", so restore the distinction the admin way: selected = solid
+ * ink #182433, unselected = white with an ink label + hairline border. Scoped to
+ * primary options so semantic (success/danger) toggle groups keep their colours. */
+html body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-primary[aria-pressed="false"] {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #182433 !important;
+}
+html body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-primary[aria-pressed="false"] span,
+html body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-primary[aria-pressed="false"] svg {
+    color: #182433 !important;
+}
+html body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-primary[aria-pressed="false"]:hover {
+    background-color: #f1f5f9 !important;
+}
+html body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-primary[aria-pressed="true"] {
+    background-color: #182433 !important;
+    color: #ffffff !important;
+    border: 1px solid #182433 !important;
+}
+html body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-primary[aria-pressed="true"] span,
+html body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-primary[aria-pressed="true"] svg {
+    color: #ffffff !important;
+}
+/* Dark mode: unselected = dark surface + light label, selected stays solid ink. */
+html.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-primary[aria-pressed="false"] {
+    background-color: #1f2937 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #e5e7eb !important;
+}
+html.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-primary[aria-pressed="false"] span,
+html.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-primary[aria-pressed="false"] svg {
+    color: #e5e7eb !important;
+}
+
 /* === Inputs — old admin uses white fields with a subtle border =============
  * LIGHT MODE ONLY (html:not(.dark)) — in dark mode the theme's native dark
  * input styling applies, so we don't force white fields onto a dark panel. */
