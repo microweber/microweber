@@ -22,7 +22,7 @@
 
 .mw-settings-hub-card {
   background: var(--mw-bg-surface);
-  border-radius: var(--mw-radius-lg);
+  border-radius: 4px;  /* demo cards are 4px — unified with every other admin card */
   box-shadow: var(--mw-shadow-card);
   padding: var(--mw-space-md) var(--mw-space-md);  /* GR: md(16) */
 }
