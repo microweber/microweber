@@ -15,6 +15,21 @@ body.fi-panel-admin .fi-tabs-item {
     background: transparent !important;
     transition: color 100ms, border-color 100ms !important;
     cursor: pointer !important;
+    /* Keep each tab at its natural (label + padding) width and let the tab row
+       SCROLL horizontally when there are too many to fit (e.g. a 7-tab edit form on
+       a phone). Filament ships flex-shrink:1, which compressed the tabs to fit the
+       viewport and clipped/overlapped the labels on mobile. */
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+}
+/* The tab strip itself scrolls horizontally without a visible scrollbar. */
+body.fi-panel-admin .fi-tabs {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    scrollbar-width: none !important;
+}
+body.fi-panel-admin .fi-tabs::-webkit-scrollbar {
+    display: none !important;
 }
 body.fi-panel-admin .fi-tabs-item:hover {
     color: #182433 !important;
