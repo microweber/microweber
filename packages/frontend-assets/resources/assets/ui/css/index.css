@@ -1781,6 +1781,16 @@ html.mw-live-edit-sidebar-start:not(.mw-live-edit-admin-open) #live-edit-frame-h
     color: #182433;
 }
 
+/* Template/Layout "choose where to edit" cards (.edit-mode-option): the active
+   card is INK #182433, matching the LE/ESE ink accent and the admin-wide "active =
+   ink, not blue" idiom. The shared segmented primitive supplies a blue active ring
+   that was overriding the panel's own (ink) intent, so pin ink here. */
+.edit-mode-option.is-active,
+.edit-mode-option.active {
+    border-color: #182433 !important;
+    box-shadow: 0 0 0 3px rgba(24, 36, 51, 0.10) !important;
+}
+
 /* Page chip ("Home ▾") — gray pill matching the old page dropdown */
 #toolbar .mw-page-chip {
     background-color: #f0f0f0 !important;
