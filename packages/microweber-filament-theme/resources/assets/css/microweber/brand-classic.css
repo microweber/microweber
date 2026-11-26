@@ -186,21 +186,31 @@ body.fi-panel-admin .fi-fo-field .fi-input,
 body.fi-panel-admin .fi-fo-field .fi-select-input,
 body.fi-panel-admin .fi-fo-field input:not([type="checkbox"]):not([type="radio"]),
 body.fi-panel-admin .fi-fo-field textarea {
-    font-size: 16px !important;
-    line-height: 1.4 !important;
+    font-size: 15px !important;
+    line-height: 1.35 !important;
 }
 body.fi-panel-admin .fi-fo-field .fi-input-wrp {
-    /* 44px (not the demo's exact 39px): keeps the ≥44px touch-target minimum while
-       reading as the demo's roomier field — the 16px text + 4px radius + 7/12
-       padding carry the visual match; the 5px is imperceptible. */
-    min-height: 44px !important;
+    /* 38px on desktop — the demo's compact field height (was 44px, which read as
+       too tall/airy on desktop). Mobile bumps back to 44px below for touch. */
+    min-height: 38px !important;
 }
 body.fi-panel-admin .fi-fo-field .fi-input,
 body.fi-panel-admin .fi-fo-field .fi-select-input {
-    padding-top: 7px !important;
-    padding-bottom: 7px !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
     padding-left: 12px !important;
     padding-right: 12px !important;
+}
+/* Mobile / touch: keep form fields at the 44px touch-target floor. */
+@media (max-width: 1023.98px) {
+    body.fi-panel-admin .fi-fo-field .fi-input-wrp {
+        min-height: 44px !important;
+    }
+    body.fi-panel-admin .fi-fo-field .fi-input,
+    body.fi-panel-admin .fi-fo-field .fi-select-input {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+    }
 }
 /* Tables & their toolbar/search chrome — 4px to match the demo's single card
    radius (was 8px, out of step with the 4px sections/stat cards). */
