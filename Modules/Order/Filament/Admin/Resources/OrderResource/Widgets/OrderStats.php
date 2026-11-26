@@ -6,10 +6,7 @@ use Filament\Support\Concerns\CanBeLazy;
 use Filament\Widgets\Concerns\InteractsWithPageTable;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Flowframe\Trend\Trend;
-use Flowframe\Trend\TrendValue;
 use Modules\Order\Filament\Admin\Resources\OrderResource\Pages\ListOrders;
-use Modules\Order\Models\Order;
 
 class OrderStats extends BaseWidget
 {
@@ -25,21 +22,14 @@ class OrderStats extends BaseWidget
 
     protected function getStats(): array
     {
-        $orderData = Trend::model(Order::class)
-            ->between(
-                start: now()->subYear(),
-                end: now(),
-            )
-            ->perMonth()
-            ->count();
-
+        // The old Microweber admin uses FLAT, uniform stat cards (no per-card
+        // trend sparkline). A lone sparkline on only the "Orders" card read as a
+        // folded-corner glitch against the three flat cards beside it, so we drop
+        // it for a uniform row that matches the old admin's look. (Trend data is
+        // still available via Flowframe\Trend if a dedicated chart widget is ever
+        // wanted.)
         return [
-            Stat::make('Orders', $this->getPageTableQuery()->count())
-                ->chart(
-                    $orderData
-                        ->map(fn (TrendValue $value) => $value->aggregate)
-                        ->toArray()
-                ),
+            Stat::make('Orders', $this->getPageTableQuery()->count()),
             Stat::make('New orders', $this->getPageTableQuery()->whereIn('order_status', ['new'])->count()),
             Stat::make('Open orders', $this->getPageTableQuery()->whereIn('order_status', ['open', 'processing'])->count()),
             Stat::make('Average price', $this->formatAveragePriceByCurrency()),

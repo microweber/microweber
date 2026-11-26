@@ -253,9 +253,12 @@ html:not(.dark) body.fi-panel-admin .fi-select-input {
 
 /* --- Stat-overview cards (orders/dashboard filters) ------------------------ */
 /* The warmed radius exposed a corner artifact where the active-filter indicator
- * meets the rounded edge. Clip the card to its own radius + unify to 16px. */
+ * (and the optional trend sparkline) meets the rounded edge, so clip the card to
+ * its own radius. Unify the radius to the shared card token (--mw-radius-md) so
+ * every surface — stat cards, .fi-section panels, content-list cards — shares
+ * ONE small radius, matching the old admin's flat 4px cards (was a lone 16px). */
 body.fi-panel-admin .fi-wi-stats-overview-stat {
-    border-radius: 16px !important;
+    border-radius: var(--mw-radius-md) !important;
     overflow: hidden !important;
 }
 
