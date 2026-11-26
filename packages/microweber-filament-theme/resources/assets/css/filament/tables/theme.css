@@ -66,7 +66,7 @@ body.fi-panel-admin .fi-ta:not(:has(.fi-ta-header-cell)) {
   /* .fi-ta-content is a CSS grid with row-gap:1px (Filament's hairline dividers). That */
   /* 1px gap made the record cards look JOINED and swallowed the record margin-bottom. */
   /* 16px row-gap → each record reads as a separate floating card, like the demo. */
-  .fi-ta-content { row-gap: 8px !important; }   /* dense: 8px inter-card (was md/16) */
+  .fi-ta-content { row-gap: var(--mw-space-md) !important; }   /* 16px inter-card — each record floats as a separate card with the demo's roomy spacing (was densified to 8px) */
   /* Filament wraps each record in .fi-ta-record-content-ctn with 10px/10px
      vertical padding — the last ~20px keeping content rows off the ~48px target. */
   .fi-ta-record-content-ctn { padding: var(--mw-space-hair) 0 !important; }  /* dense: 4px (was 10) */
