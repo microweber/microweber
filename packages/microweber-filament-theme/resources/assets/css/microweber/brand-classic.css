@@ -173,7 +173,34 @@ body.fi-panel-admin .fi-fo-field-wrp input:not([type="checkbox"]):not([type="rad
 body.fi-panel-admin .fi-fo-field-wrp textarea,
 body.fi-panel-admin .fi-global-search-field .fi-input-wrp,
 body.fi-panel-admin .fi-topbar input {
-    border-radius: 6px !important;
+    border-radius: 4px !important;  /* demo inputs are 4px — unified with the 4px cards */
+}
+
+/* Full demo match for form controls (user decision 2026-11-26): the old admin's
+   inputs/selects/textareas are roomier than our densified fields — 16px text,
+   ~39px tall, 7px/12px padding. Bring ours up to that so forms read like the demo
+   rather than a compact variant. Scoped to real form fields via .fi-fo-field
+   (Filament v5's field wrapper) so the global-search pill, topbar inputs and
+   checkboxes/radios keep their own sizing. */
+body.fi-panel-admin .fi-fo-field .fi-input,
+body.fi-panel-admin .fi-fo-field .fi-select-input,
+body.fi-panel-admin .fi-fo-field input:not([type="checkbox"]):not([type="radio"]),
+body.fi-panel-admin .fi-fo-field textarea {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+}
+body.fi-panel-admin .fi-fo-field .fi-input-wrp {
+    /* 44px (not the demo's exact 39px): keeps the ≥44px touch-target minimum while
+       reading as the demo's roomier field — the 16px text + 4px radius + 7/12
+       padding carry the visual match; the 5px is imperceptible. */
+    min-height: 44px !important;
+}
+body.fi-panel-admin .fi-fo-field .fi-input,
+body.fi-panel-admin .fi-fo-field .fi-select-input {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
 }
 /* Tables & their toolbar/search chrome — 4px to match the demo's single card
    radius (was 8px, out of step with the 4px sections/stat cards). */
