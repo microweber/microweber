@@ -352,13 +352,28 @@ html.dark body.fi-panel-admin .fi-fo-toggle-buttons .fi-btn.fi-color.fi-color-pr
 /* === Inputs — old admin uses white fields with a subtle border =============
  * LIGHT MODE ONLY (html:not(.dark)) — in dark mode the theme's native dark
  * input styling applies, so we don't force white fields onto a dark panel. */
+/* White fill for every field element. */
 html:not(.dark) body.fi-panel-admin .fi-input,
 html:not(.dark) body.fi-panel-admin .fi-input-wrp,
 html:not(.dark) body.fi-panel-admin .fi-fo-field-wrp input:not([type="checkbox"]):not([type="radio"]),
 html:not(.dark) body.fi-panel-admin .fi-fo-field-wrp textarea,
 html:not(.dark) body.fi-panel-admin .fi-select-input {
     background-color: #ffffff !important;
+}
+/* The hairline border belongs on the WRAPPER only. Filament nests the <input> /
+   <select> / <textarea> inside .fi-input-wrp, which already carries the border —
+   applying it to the inner element too produced a DOUBLE border, and on
+   overflow:hidden wrappers (global + table search) the inner border was CLIPPED to
+   a thin cut line. Border on the wrapper; inner field elements are borderless. */
+html:not(.dark) body.fi-panel-admin .fi-input-wrp {
     border: 1px solid #e2e8f0 !important;
+}
+html:not(.dark) body.fi-panel-admin .fi-input-wrp .fi-input,
+html:not(.dark) body.fi-panel-admin .fi-input-wrp .fi-select-input,
+html:not(.dark) body.fi-panel-admin .fi-input-wrp input:not([type="checkbox"]):not([type="radio"]),
+html:not(.dark) body.fi-panel-admin .fi-input-wrp textarea {
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* Focus ring = brand blue, so interactive focus reads as "Microweber" */
