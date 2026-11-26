@@ -80,6 +80,13 @@
   border-radius: 10px;
   transition: background-color 0.15s ease;
 }
+/* Dark mode: the soft-blue #e1edf8 tile is a light-mode value — on a dark card it
+   reads as a bright blue chip. Hardcoding the light colour removed the old
+   var(--mw-accent-light) that flipped to a subtle tint in dark, so restore a
+   subtle light-on-dark tile here (flat rule + !important so it reliably wins). */
+.dark .mw-settings-hub-item-icon {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
 
 .mw-settings-hub-item-content {
   display: flex;
