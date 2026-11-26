@@ -3,7 +3,24 @@
    the admin panel; the Live Edit settings panel overrides this to 12px with higher
    specificity (body.fi-panel-admin .mw-live-edit-page-wrapper …). */
 body.fi-panel-admin .fi-section-content {
-    padding: 12px var(--mw-space-md) !important;
+    padding: 10px var(--mw-space-md) !important;
+}
+/* Tighter form sections — the admin had drifted into a lot of vertical air per
+   section (header band + content padding stacking across many section cards made
+   long forms feel sparse / "huge spacing"). Trim the section header band and the
+   gap between stacked section cards so forms read denser while fields keep their
+   demo sizing. */
+body.fi-panel-admin .fi-section-header {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+body.fi-panel-admin .fi-sc-section + .fi-sc-section,
+body.fi-panel-admin .fi-fo-component-ctn > .fi-sc-section {
+    margin-top: 0 !important;
+}
+body.fi-panel-admin .fi-fo-component-ctn,
+body.fi-panel-admin .fi-sc-section-ctn {
+    gap: 8px !important;
 }
 
 .fi-section-header {
