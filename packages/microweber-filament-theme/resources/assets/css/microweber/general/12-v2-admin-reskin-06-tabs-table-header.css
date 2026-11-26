@@ -5,7 +5,10 @@
 body.fi-panel-admin .fi-tabs-item {
     font-size: 13px !important;
     font-weight: 500 !important;
-    color: #6b7280 !important;
+    /* Inactive tabs are INK #182433 (not muted grey) — the old admin keeps every
+       tab label ink and distinguishes the active one by weight (600 vs 500) + the
+       ink underline, NOT by greying the inactive labels. Matches the demo exactly. */
+    color: #182433 !important;
     padding: 8px 16px !important;
     border-bottom: 2px solid transparent !important;
     border-radius: 0 !important;
@@ -15,6 +18,9 @@ body.fi-panel-admin .fi-tabs-item {
 }
 body.fi-panel-admin .fi-tabs-item:hover {
     color: #182433 !important;
+    /* Inactive labels are already ink, so give hover its own affordance: a faint
+       ink underline (the active tab keeps the full-strength one). */
+    border-bottom-color: rgba(24, 36, 51, 0.28) !important;
 }
 body.fi-panel-admin .fi-tabs-item.fi-active,
 body.fi-panel-admin .fi-tabs-item[aria-selected="true"] {
