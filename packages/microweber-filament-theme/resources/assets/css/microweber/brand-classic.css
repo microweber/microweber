@@ -232,6 +232,41 @@ html body.fi-panel-admin .mw-menu-editor .fi-btn.fi-color-primary:not(.admin-too
  * override and turn the "Published" status pill solid. Record-page SAVE is
  * `.fi-color-primary` (greened by its own record-page rule), not success. */
 
+/* --- OUTLINED button variants (.fi-outlined) ------------------------------
+ * An outlined button must actually read as outlined: transparent fill, a
+ * coloured border and matching text. Our solid-navy primary override (reskin-02)
+ * and the solid-green `.fi-color-success` base were also catching `.fi-outlined`
+ * primary/success, painting them solid (visible on the Kitchen Sink gallery and
+ * any outlined CTA). Scope these to `.fi-outlined` so solid buttons and the
+ * pastel in-table STATUS pills (never `.fi-outlined`) are untouched. Navy outline
+ * matches the pinned "navy-outline Save & Live Edit" decision; green outline
+ * mirrors the solid-green SAVE in its outlined form. */
+html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    background-color: transparent !important;
+    border-color: #182433 !important;
+    color: #182433 !important;
+}
+html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg {
+    color: #182433 !important;
+}
+html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover {
+    background-color: rgba(24, 36, 51, 0.06) !important;
+    border-color: #0f1a2a !important;
+}
+html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-success {
+    background-color: transparent !important;
+    border-color: #2fb344 !important;
+    color: #2fb344 !important;
+}
+html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-success span,
+html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-success svg {
+    color: #2fb344 !important;
+}
+html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-success:hover {
+    background-color: rgba(47, 179, 68, 0.08) !important;
+}
+
 /* === Inputs — old admin uses white fields with a subtle border =============
  * LIGHT MODE ONLY (html:not(.dark)) — in dark mode the theme's native dark
  * input styling applies, so we don't force white fields onto a dark panel. */
