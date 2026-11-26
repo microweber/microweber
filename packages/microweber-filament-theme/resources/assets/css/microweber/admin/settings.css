@@ -67,11 +67,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--mw-space-xl);  /* GR: xl(42) */
-  height: var(--mw-space-xl);
-  min-width: var(--mw-space-xl);
-  background: var(--mw-accent-light);
-  border-radius: 12px;
+  /* Match the old admin's settings icon tiles: ~48px soft-blue rounded squares
+     (.icon-holder = #e1edf8, 10px radius) — the same soft-blue family as the
+     topbar "+Add" button. The generic --mw-space-xl (26px) / --mw-accent-light
+     (pale ink grey) tokens read as small grey circles, which drifted from the
+     demo's roomy blue tiles. These are decorative category icons (not controls
+     or links), so the soft-blue matches without touching the ink-controls rule. */
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  background: #e1edf8;
+  border-radius: 10px;
   transition: background-color 0.15s ease;
 }
 
