@@ -25,18 +25,30 @@
         if (isset($singleSelect) && $singleSelect) {
             $options['singleSelect'] = true;
         }
+        // Resolve human titles for the pre-selected nodes. The tree lazy-loads its
+        // node list (empty until the user searches), so the preselected tags have
+        // no node to read a title from and render the literal string "undefined".
+        // Passing the title in selectedData lets the tag component (tags.js
+        // dataTitle -> data[map.title]) show the real page/category name up-front.
         if (isset($selectedPage) && $selectedPage) {
+            $pageTitle = \Modules\Content\Models\Content::query()
+                ->whereKey($selectedPage)->value('title');
             $options['selectedData'][] = [
                 'id' => $selectedPage,
                 'type' => 'page',
+                'title' => $pageTitle ?: ('#' . $selectedPage),
             ];
         }
 
         if (isset($selectedCategories) && is_array($selectedCategories) && !empty($selectedCategories)) {
+            $categoryTitles = \Modules\Category\Models\Category::query()
+                ->whereIn('id', $selectedCategories)
+                ->pluck('title', 'id');
             foreach ($selectedCategories as $categoryId) {
                 $options['selectedData'][] = [
                     'id' => $categoryId,
                     'type' => 'category',
+                    'title' => $categoryTitles[$categoryId] ?? ('#' . $categoryId),
                 ];
             }
         }
