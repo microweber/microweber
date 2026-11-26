@@ -121,6 +121,22 @@
     body.fi-panel-admin .fi-ta-row > .fi-ta-cell.fi-ta-selection-cell > .fi-ta-cell-label {
         display: none !important;
     }
+    /* Row-select checkbox placement. Filament renders .fi-ta-selection-cell with
+       position:absolute, which in card mode floats the (test-pinned 44px) checkbox
+       detached in the top-right corner — it reads as a big empty box stuck to the
+       card. Pull it back into the card's flex flow as the FIRST element (top-left),
+       sized to the checkbox (not full width) and with no data-row divider, so the
+       44px touch target reads as a clear "select this row" control. */
+    body.fi-panel-admin .fi-ta-row > .fi-ta-cell.fi-ta-selection-cell {
+        position: static !important;
+        order: -1;
+        width: auto !important;
+        flex: 0 0 auto !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+        padding: 0 !important;
+        border-bottom: none !important;
+    }
 }
 
 /* task-2026-06-15-ftcelldesktop — In normal (desktop, >=1024px) table layout
