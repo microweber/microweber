@@ -58,24 +58,33 @@ function rewritePanelToken(member, panelClass) {
  */
 function broadenPanelScope(cssText) {
     const root = postcss.parse(cssText);
-    const PANELS = ['fi-panel-profile', 'fi-panel-vendor'];
+    const PANELS = ['fi-panel-profile', 'fi-panel-vendor', 'fi-panel-admin-newsletter'];
     let cloned = 0;
 
     root.walkRules((rule) => {
         // Skip @keyframes steps (their "selectors" are 0%/100%, never panels).
         if (rule.parent && rule.parent.type === 'atrule' && /keyframes/i.test(rule.parent.name)) return;
-        if (!rule.selector || !rule.selector.includes('fi-panel-admin')) return;
+        // Match the BARE `fi-panel-admin` token only (word boundary). Without this,
+        // a clone we emit for the `fi-panel-admin-newsletter` sub-panel contains the
+        // substring `fi-panel-admin`, so walkRules would re-visit it and clone it
+        // again — an infinite loop. The negative lookahead `(?![-\w])` skips
+        // `fi-panel-admin-newsletter` / `fi-panel-admin-xxx` targets.
+        const BARE_ADMIN = /fi-panel-admin(?![-\w])/;
+        if (!rule.selector || !BARE_ADMIN.test(rule.selector)) return;
 
         const members = splitSelectorList(rule.selector);
-        const adminMembers = members.filter((m) => m.includes('fi-panel-admin'));
+        const adminMembers = members.filter((m) => BARE_ADMIN.test(m));
         if (!adminMembers.length) return;
 
         for (const panel of PANELS) {
             const rewritten = adminMembers
                 .map((m) => rewritePanelToken(m.trim(), panel))
                 // Drop any member we could not fully rewrite — never emit a bare
-                // admin selector under a different panel's banner.
-                .filter((m) => m && !m.includes('fi-panel-admin'));
+                // admin selector under a different panel's banner. Match the BARE
+                // `fi-panel-admin` token only (word boundary), so a legitimately
+                // rewritten sub-panel target like `fi-panel-admin-newsletter` (which
+                // contains the substring) is NOT dropped.
+                .filter((m) => m && !/fi-panel-admin(?![-\w])/.test(m));
             if (!rewritten.length) continue;
             const clone = rule.clone({ selector: rewritten.join(',\n') });
             rule.after(clone);
@@ -83,7 +92,7 @@ function broadenPanelScope(cssText) {
         }
     });
 
-    console.log('broadenPanelScope: shared', cloned, 'admin rule-clones with profile + vendor.');
+    console.log('broadenPanelScope: shared', cloned, 'admin rule-clones with profile + vendor + newsletter.');
     return root.toString();
 }
 
