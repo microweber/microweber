@@ -541,6 +541,26 @@ html.dark .mw-file-manager-top-bar-actions-content {
     z-index: 22;
 }
 
+/* The "+" add/upload button carries Bootstrap's .btn-success (green). The admin
+   convention is NAVY #182433 for add/create actions — green is reserved for
+   post-submit success — so repaint this create button navy to match every other
+   "New X / + Add" button in the admin. */
+.mw-file-manager-create-methods-dropdown-add.btn-success,
+.mw-file-manager-create-methods-dropdown-add.btn.btn-success {
+    background-color: #182433 !important;
+    border-color: #182433 !important;
+    color: #ffffff !important;
+}
+.mw-file-manager-create-methods-dropdown-add.btn-success:hover,
+.mw-file-manager-create-methods-dropdown-add.btn.btn-success:hover {
+    background-color: #0f1a2a !important;
+    border-color: #0f1a2a !important;
+}
+.mw-file-manager-create-methods-dropdown-add.btn-success svg,
+.mw-file-manager-create-methods-dropdown-add.btn-success i {
+    color: #ffffff !important;
+}
+
 .mw-file-manager-progress {
     height: 0;
     position: sticky;
