@@ -28,8 +28,14 @@
                     <a href="{{ $link['url'] }}"
                        aria-label="{{ $link['title'] }}: {{ $link['description'] }}"
                        class="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 rounded-md">
-                        <div class="flex gap-6 p-4 group hover:scale-105 transition duration-150 hover:bg-blue-500/10 dark:hover:bg-blue-500/15 rounded-md w-full">
-                            <div class="flex items-center justify-center w-20 h-20 bg-blue-500/5 dark:bg-blue-500/10 transition duration-150 group-hover:bg-white dark:group-hover:bg-gray-700 shadow-md rounded p-4">
+                        {{-- Hover is a QUIET tint, not a jarring blue flash + zoom. The old
+                             hover:scale-105 (grow) plus hover:bg-blue-500/10 plus the icon tile
+                             flipping to white read as the whole row "changing colour and size" on
+                             hover/click. Drop the scale and the white flip, and keep only a very
+                             soft blue wash (blue-500/5, same soft-blue family as the tile). Uses
+                             only utilities already present in the compiled CSS — no rebuild needed. --}}
+                        <div class="flex gap-6 p-4 group transition-colors duration-150 hover:bg-blue-500/10 dark:hover:bg-blue-500/15 rounded-md w-full">
+                            <div class="flex items-center justify-center w-20 h-20 bg-blue-500/5 dark:bg-blue-500/10 shadow-md rounded p-4">
                                 @svg($link['icon'], "h-10 w-10 text-black/80 dark:text-gray-200")
                             </div>
                             <div class="flex flex-col gap-2 w-full">
