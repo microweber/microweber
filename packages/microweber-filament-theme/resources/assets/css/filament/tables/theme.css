@@ -226,14 +226,22 @@ body.fi-panel-admin .fi-ta:has(.fi-ta-header-cell) {
 }
 
 /* Thumbnail in grid view — 80px to match the old admin demo's roomy product/page
-   thumbnails (measured ~104×83px there). Big, rounded, cover-fit. */
+   thumbnails (measured ~104×83px there). Big, rounded, cover-fit.
+   max-width:none defeats the Bootstrap `img{max-width:100%}` reset, which was
+   clamping the thumbnail to its shrink-wrapped <a> parent (~68px) and leaving the
+   column visibly narrower than the forced 80px. The light grey backing tile keeps
+   the thumbnail reading as a filled box even for product photos shot on white
+   backgrounds (which otherwise vanish against the white card) — the old admin uses
+   a grey placeholder tile for exactly this reason. */
 .fi-ta-record .group .h-12.w-12 {
   width: 80px !important;
   height: 80px !important;
+  max-width: none !important;
   border-radius: var(--mw-radius-md) !important;
   flex-shrink: 0 !important;
   overflow: hidden !important;
   object-fit: cover !important;
+  background-color: #f1f3f5 !important;
 }
 
 /* Title link styling — old admin demo: 16px/600 ink. */
