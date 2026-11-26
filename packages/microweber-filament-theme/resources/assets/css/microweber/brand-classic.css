@@ -385,6 +385,23 @@ html:not(.dark) body.fi-panel-admin .fi-input-wrp textarea {
     border: none !important;
     box-shadow: none !important;
 }
+/* Dark mode: some input wrappers (table search, filter, global search) rendered a
+   WHITE fill on the dark panel — a glaring light box on a dark surface. Give every
+   input wrapper the dark input surface + a subtle light hairline, and the inner
+   field a dark fill with light text. (Single border — wrapper only — like light.) */
+html.dark body.fi-panel-admin .fi-input-wrp {
+    background-color: #1f2937 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+html.dark body.fi-panel-admin .fi-input-wrp .fi-input,
+html.dark body.fi-panel-admin .fi-input-wrp .fi-select-input,
+html.dark body.fi-panel-admin .fi-input-wrp input:not([type="checkbox"]):not([type="radio"]),
+html.dark body.fi-panel-admin .fi-input-wrp textarea {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #e5e7eb !important;
+}
 
 /* Focus ring = brand blue, so interactive focus reads as "Microweber" */
 .fi-input:focus,
