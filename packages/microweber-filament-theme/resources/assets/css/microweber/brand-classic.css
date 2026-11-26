@@ -282,6 +282,21 @@ html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-primary:not(.admin-toolbar
     background-color: rgba(24, 36, 51, 0.06) !important;
     border-color: #0f1a2a !important;
 }
+/* Dark mode: navy #182433 border+text is nearly invisible on the dark surface, so
+   use a light slate outline/label (the outlined-success green stays readable on
+   dark and needs no override). */
+html.dark body.fi-panel-admin .fi-btn.fi-outlined.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) {
+    border-color: #cbd5e1 !important;
+    color: #e5e7eb !important;
+}
+html.dark body.fi-panel-admin .fi-btn.fi-outlined.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) span,
+html.dark body.fi-panel-admin .fi-btn.fi-outlined.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons) svg {
+    color: #e5e7eb !important;
+}
+html.dark body.fi-panel-admin .fi-btn.fi-outlined.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit):not(.admin-toolbar-buttons):hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border-color: #e5e7eb !important;
+}
 html body.fi-panel-admin .fi-btn.fi-outlined.fi-color-success {
     background-color: transparent !important;
     border-color: #2fb344 !important;
